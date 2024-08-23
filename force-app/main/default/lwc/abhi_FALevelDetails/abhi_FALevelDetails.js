@@ -111,8 +111,10 @@ export default class Abhil_FALevelDetails extends LightningElement {
             .catch(error => {
                 this.isLoading = false;
                 this.showDataTable = false;
-                //let errorDisplay = 'Error: ' + error.message;
-                //this.errorMessages = (error.body.message);
+                let errorDisplay = 'Error: ' + error.message;
+                this.errorMessages = (error.body.message);
+                this.errorMessages = this.result.StatusCode;
+                console.error('Error object:', error);
                 this.displayError = true;
                 if (error.body!= null) {
                     this.errorMessages = error.body.message;
@@ -166,6 +168,15 @@ validateDates() {
         const start = new Date(this.startDate);
         const end = new Date(this.endDate);
 
+// get isEndDateDisabled() {
+//     return !this.startDate;
+// }
+
+validateDates() {
+    if (this.startDate && this.endDate) {
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+
         if (end < start) {
             this.displayErrorSearch = true;
             this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
@@ -175,24 +186,6 @@ validateDates() {
     } else {
         this.displayErrorSearch = false; // Hide error if one of the dates is missing
     }
-}
-renderedCallback(){
-    Promise.all([
-        loadStyle(this, styles) //specified filename
-    ]).then(() => {
-        console.log('Files loaded.');
-    }).catch(error => {
-       console.log("Error " + error.body.message);
-    });
-}
-renderedCallback(){
-    Promise.all([
-        loadStyle(this, styles) //specified filename
-    ]).then(() => {
-        console.log('Files loaded.');
-    }).catch(error => {
-       console.log("Error " + error.body.message);
-    });
 }
 
 }
