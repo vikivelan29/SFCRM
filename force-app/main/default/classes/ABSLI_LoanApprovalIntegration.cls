@@ -200,13 +200,14 @@ public with sharing class ABSLI_LoanApprovalIntegration implements ASF_Integrati
 					Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 				}
 			}
-            if(caseInteg.Status__c == ABSLI_Constants.FAILURE){
-                caseDetail.Status_Valid_For_STP__c = False;
-                Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
+            // if(caseInteg.Status__c == ABSLI_Constants.FAILURE){
+            //     caseDetail.Status_Valid_For_STP__c = false;
+            //     Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 
-                caseRecord.MoveToNext__c = true;
-				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
-            }
+            //     caseRecord.MoveToNext__c = true;
+            //     caseRecord.Is_STP__c = false;
+			// 	Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+            // }
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
 			ABCL_Logger.enableExceptionLogging();
