@@ -46,12 +46,14 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     handleStartDateChange(event) {
         this.startDate = event.target.value;
         console.log('startdate ',this.startDate);
+        this.validateDates();
     }
 
     // Event handler for the end date change
     handleEndDateChange(event) {
         this.endDate = event.target.value;
         console.log('startdate ',this.endDate);
+        this.validateDates();
 
     }
 
@@ -221,6 +223,21 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
 
     get pageNumber() {
         return this.currentPage;
+    }
+    validateDates() {
+        if (this.startDate && this.endDate) {
+            const start = new Date(this.startDate);
+            const end = new Date(this.endDate);
+
+            if (end < start) {
+                this.displayError = true;
+                this.errorMessage= 'End Date cannot be earlier than Start Date.';
+            } else {
+                this.displayError = false;
+            }
+        } else {
+            this.displayError = false; // Hide error if one of the dates is missing
+        }
     }
 
 }
