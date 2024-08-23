@@ -23,18 +23,34 @@ public with sharing class ABHI_DeviceDetailsController {
             Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
             String detailPayload =  JSON.serialize(new DeviceDetailsRequest(acc.Client_Code__c , '', ''));
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,detailPayload,null);
-            deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(ABHI_Encryption.decrypt(integrationResponse.responseBody, integrationName), deserilaizedResponse.class);
-            if(integrationResponse.StatusCode == 200){
-                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(deserializedIntResponse.StatusCode), deserializedIntResponse.Message, deserializedIntResponse.data.devices);
+            EncryptedResponseWrapper encryptedResponse = (EncryptedResponseWrapper) JSON.deserialize(integrationResponse.responseBody, EncryptedResponseWrapper.class);
+            String decryptedResponse = ABHI_Encryption.decrypt(encryptedResponse.Content, integrationName);
+            if(integrationResponse.StatusCode == 200 && encryptedResponse.StatusCode == '1000'){
+                String responseDecryptedBody = (String) JSON.deserializeUntyped(decryptedResponse);
+                deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(responseDecryptedBody, deserilaizedResponse.class);
+                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), encryptedResponse.Message, deserializedIntResponse.data.devices);
                 return returnResponse;
             }
             else{
-                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(deserializedIntResponse.StatusCode), Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
+                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), encryptedResponse.Message);
                 return returnResponse;
             }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+    }
+
+    /*********************************************************
+    *Class        :  EncryptedResponseWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  23/08/2024
+    *Last Modified:  23/08/2024
+    *@description  :  EncryptedResponseWrapper is wrapper class to hold encrypted response
+    *********************************************************/
+    public class EncryptedResponseWrapper{
+        public String Content;
+        public String StatusCode;
+        public String Message;
     }
 
     /*********************************************************

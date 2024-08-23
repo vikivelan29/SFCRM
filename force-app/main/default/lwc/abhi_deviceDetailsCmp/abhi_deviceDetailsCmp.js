@@ -48,6 +48,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
         getDetails({customerId: this.recordId})
         .then(result => {
             let returnedData=result;
+            
             if(result.statusCode==1000){
                 this.isLoading=false;
                 this.displayError=false;
@@ -85,8 +86,9 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     }
 
     handleRefresh(){
-        this.showOtherRecords=false;
-        this.showRecommendedRecords=false;
+        this.isLoading=true;
+        // this.showOtherRecords=false;
+        // this.showRecommendedRecords=false;
         this.getData();
     }
 }
