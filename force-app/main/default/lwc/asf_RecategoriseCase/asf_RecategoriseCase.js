@@ -247,6 +247,15 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.getCurrentCaseRecordDetails();
     }
 
+    resetToBlank(event){
+        let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
+        let fields = formEl.querySelectorAll('lightning-input-field');
+            for (let field of fields) {
+                if (field.getAttribute('data-id') != 'bizUnit') {
+                field.value = '';
+                }
+            }
+    }
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         clearTimeout(this.typingTimer);
