@@ -263,7 +263,7 @@
         <field>ABSLI_Case_Detail__c.Before_3_PM__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+	  <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Minimum_Withdrawal_Amount__c</field>
         <readable>true</readable>

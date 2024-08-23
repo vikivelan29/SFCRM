@@ -11,22 +11,14 @@ export default class Abfl_DataTableWithPagination extends LightningElement {
     recordsToDisplay = []; //Records to be displayed on the page
 
     totalNoOfRecordsInDatatable = 0;
-    emptyTable = false;
     totalPages; //Total no.of pages
     pageNumber = 1; //Page number
 
     connectedCallback() {
         this.totalNoOfRecordsInDatatable = this.tableData?.length;
-        if(this.totalNoOfRecordsInDatatable==0){
-            this.emptyTable=true;
-        }
         if (this.totalNoOfRecordsInDatatable) {
             this.paginationHelper();
         }
-    }
-
-    get notEmptyTable(){
-        return !this.emptyTable;
     }
 
     get bDisableFirst() {
