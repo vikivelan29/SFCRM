@@ -67,7 +67,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     loaded = false;
     caseRelObjName;
     caseExtensionRecordId;
-    //TBD . load this
+    //TBD . load this 
     caseRecordId;
 
     //tst strt
@@ -204,8 +204,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
-            if(BU_TO_HIDE_EBOT_FEEDBACK.includes(case_Bu) ){
             //if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU || getFieldValue(data, CASE_BU_FIELD) == ABSLAMC_BU){
+            if(BU_TO_HIDE_EBOT_FEEDBACK.includes(case_Bu) ){
                 this.showBotFeedbackDropdown = false;
             }
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);
@@ -251,6 +251,15 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.getCurrentCaseRecordDetails();
     }
 
+    resetToBlank(event){
+        let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
+        let fields = formEl.querySelectorAll('lightning-input-field');
+            for (let field of fields) {
+                if (field.getAttribute('data-id') != 'bizUnit') {
+                field.value = '';
+                }
+            }
+    }
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         clearTimeout(this.typingTimer);
@@ -285,7 +294,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
-                    console.log('result--'+JSON.stringify(result.lstCCCrecords));
                     this.accounts = result.lstCCCrecords;
                     //this.strSource = result.strSource;
                     //this.strSource = JSON.parse(result.caseDetails).Source__c //JSON.parse(this.oldCaseDetails.caseDetails).Source__c;
@@ -455,7 +463,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 }
             }
         }
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -623,7 +631,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     
     async updateCaseHandler() {
-        console.log('inside updateCaseHandler: ' + this.isInputValid);
         const issueType = this.template.querySelector('[data-id="issueType"]');
         if(issueType){
             issueType.setCustomValidity("");
