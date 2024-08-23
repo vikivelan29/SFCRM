@@ -9373,4 +9373,8 @@
         <enabled>true</enabled>
         <name>ViewSetup</name>
     </userPermissions>
+    <tabSettings>
+        <tab>Customer_Member_Mapping__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
