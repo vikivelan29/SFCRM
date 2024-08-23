@@ -1088,4 +1088,11 @@
         <shortDescription>HAPP</shortDescription>
         <value>Health Return App Reg</value>
     </labels>
+    <labels>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG</value>
+    </labels>
 </CustomLabels>
