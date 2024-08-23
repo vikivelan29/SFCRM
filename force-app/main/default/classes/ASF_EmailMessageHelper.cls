@@ -152,6 +152,14 @@ public without sharing class ASF_EmailMessageHelper {
                        }else {
                            // else create new case and reparent EMailMessage
                            Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
+                           String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
+                           newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
+                           if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
+                               ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
+                               //newCase.Sent_to_EBOT__c = onEmailMdt.Send_to_EBOT__c;
+                           	   newCase.Origin = onEmailMdt.Case_Origin__c ;
+                           }
+                           
                            oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
                            //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                            // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
