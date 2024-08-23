@@ -80,6 +80,9 @@ public without sharing class ASF_CaseFrameworkHelper {
                                 checklistRecord.Stage_Name__c = caseRec.Stage__c;
                                 checklistRecord.Business_Unit__c = caseRec.Business_Unit__c;
                                 checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
+                                // VIRENDRA - 13 June 2024 - Added Picklist Option field on ASF_Checklist.
+                                checklistRecord.Status_Picklist_Options__c = chklistMaster.Picklist_Options__c;
+                                // VIRENDRA - 13 June 2024 - ENDS HERE.
                                 checklistList.add(checklistRecord);
                             }
                             break;
@@ -342,7 +345,7 @@ public without sharing class ASF_CaseFrameworkHelper {
 		for (Case caseRec : caseList){
             if(allIntegrations.get(caseRec.Id)!=null){
                 for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
-                    if(integ.Auto_Run_on_Load__c){
+                    if(integ.Auto_Run_on_Load__c && (!(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false) || (runIntegrationFromLwc.containsKey(caseRec.Id) && runIntegrationFromLwc.get(caseRec.Id) == true))){
                         if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
                             eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
                             applicableCases.add(caseRec);
@@ -350,9 +353,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                         eligibleIntegrationsMap.get(caseRec.Id).add(integ);
                     }
                 }
-            }
-                
-            
+                runIntegrationFromLwc.put(caseRec.Id, false);
+            }     
         }
 
         if(!applicableCases.isEmpty()){
@@ -413,5 +415,4 @@ public without sharing class ASF_CaseFrameworkHelper {
         public string status; 
         public string errorMessage;
     }
-
 }
