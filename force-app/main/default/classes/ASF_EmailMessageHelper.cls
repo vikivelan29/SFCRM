@@ -157,6 +157,7 @@ public without sharing class ASF_EmailMessageHelper {
                            // else create new case and reparent EMailMessage
                            Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
                            String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
+                           newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
                            if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
                                ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
                                //newCase.Sent_to_EBOT__c = onEmailMdt.Send_to_EBOT__c;
