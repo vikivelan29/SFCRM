@@ -262,23 +262,14 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             const end = new Date(this.endDate);
 
             if (end < start) {
-                this.displayErrorSearch = true;
-                this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
+                this.displayError = true;
+                this.errorMessage= 'End Date cannot be earlier than Start Date.';
             } else {
-                this.displayErrorSearch = false;
+                this.displayError = false;
             }
         } else {
-            this.displayErrorSearch = false; // Hide error if one of the dates is missing
+            this.displayError = false; // Hide error if one of the dates is missing
         }
-    }
-    renderedCallback(){
-        Promise.all([
-            loadStyle(this, styles) //specified filename
-        ]).then(() => {
-            console.log('Files loaded.');
-        }).catch(error => {
-           console.log("Error " + error.body.message);
-        });
     }
 
 }
