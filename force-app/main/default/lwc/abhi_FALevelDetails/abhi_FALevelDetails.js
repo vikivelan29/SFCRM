@@ -75,6 +75,12 @@ console.log('result' ,result);
                 
                 //this.showNotification('Success', result.Message, 'success');
                 console.log('this.date', JSON.stringify(this.data));
+            }else if (this.statusCode === 204) {
+                // Handle 204 No Content
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = 'No content available';
+                this.displayError = true;
             }
             else {
 
@@ -91,9 +97,9 @@ console.log('result' ,result);
             .catch(error => {
                 this.isLoading = false;
                 this.showDataTable = false;
-                this.errorDisplay = 'Error: ' + error.body.message;
-                this.showDataTable = false;
-                this.errorMessages =   error.body.message;
+                let errorDisplay = 'Error: ' + error.message;
+                this.errorMessages = (error.body.message);
+                console.error('Error object:', error);
                 this.displayError = true;
                console.log('Error----> ' + JSON.stringify(error));
                
