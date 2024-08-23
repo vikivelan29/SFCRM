@@ -65,7 +65,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     loaded = false;
     caseRelObjName;
     caseExtensionRecordId;
-    //TBD . load this
+    //TBD . load this 
     caseRecordId;
 
     //tst strt
@@ -218,7 +218,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         } else if (error) {
             console.error('Error loading record', error);
         }
-    } 
+    }
 
     /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
     */
@@ -247,6 +247,15 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.getCurrentCaseRecordDetails();
     }
 
+    resetToBlank(event){
+        let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
+        let fields = formEl.querySelectorAll('lightning-input-field');
+            for (let field of fields) {
+                if (field.getAttribute('data-id') != 'bizUnit') {
+                field.value = '';
+                }
+            }
+    }
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         clearTimeout(this.typingTimer);
@@ -281,7 +290,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
-                    console.log('result--'+JSON.stringify(result.lstCCCrecords));
                     this.accounts = result.lstCCCrecords;
                     //this.strSource = result.strSource;
                     //this.strSource = JSON.parse(result.caseDetails).Source__c //JSON.parse(this.oldCaseDetails.caseDetails).Source__c;
