@@ -5,7 +5,7 @@ import recDevices from '@salesforce/label/c.ABHI_RecommendedDevice';
 import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
 import deviceDetail from '@salesforce/label/c.ABHI_Devices';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
-import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
+import { getRecord } from 'lightning/uiRecordApi';
 
 export default class Abhi_deviceDetailsCmp extends LightningElement {
     @api recordId;
@@ -22,6 +22,16 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     displayError=false;
     accountRecord;
     isLoading = false;
+    fields = ['ACCOUNT.Client_Code__c'];
+
+    @wire(getRecord, { recordId: '$recordId', fields: '$fields'})
+    wiredRecord({ error, data }) {
+        if (error) {
+            console.error('Error getting RecordData', error);    
+        } else if (data) {
+          this.accountRecord = data;
+        }
+      }
 
     connectedCallback(){
         this.displayMessage = this.label.errorMessage;
@@ -40,18 +50,20 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
             })
         .catch(error => {
                 // todo: remove hardcoding
-                this.isLoading=false;
-                this.displayError=true;
-                this.showRecommendedRecords=false;
-                this.showOtherRecords=false;
                 console.error('Error in getColumns>>>', JSON.stringify(error));
             });
         
     }
 
     getData(){
+        let requestData = {
+            MemberID: this.accountRecord.fields.Client_Code__c.value,
+            OS: 'android',
+            PolicyStartDate: '2000-12-09',
+            WellnessID: ''
+        };
         
-        getDetails({customerId: this.recordId})
+        getDetails({customerId: this.recordId, requestPayload: JSON.stringify(requestData)})
         .then(result => {
             let returnedData=result;
             if(result.statusCode==1000){

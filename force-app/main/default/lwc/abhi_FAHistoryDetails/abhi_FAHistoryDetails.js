@@ -76,6 +76,7 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
             }
         })
         .catch(error => {
+            this.message = this.message + error.body.message;
             this.isLoading=false;
             this.displayError=true;
             this.showRecords=false;
