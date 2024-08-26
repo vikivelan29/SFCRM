@@ -1,4 +1,4 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import getDetails from '@salesforce/apex/ABHI_DeviceDetailsController.getDeviceDetails';
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
@@ -6,6 +6,7 @@ import recDevices from '@salesforce/label/c.ABHI_RecommendedDevice';
 import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
 import deviceDetail from '@salesforce/label/c.ABHI_DeviceDetails';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
+import { getRecord } from 'lightning/uiRecordApi';
 
 export default class Abhi_deviceDetailsCmp extends LightningElement {
     @api recordId;
@@ -20,7 +21,18 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
         deviceDetail
     };
     displayError=false;
+    accountRecord;
     isLoading = false;
+    fields = ['ACCOUNT.Client_Code__c'];
+
+    @wire(getRecord, { recordId: '$recordId', fields: '$fields'})
+    wiredRecord({ error, data }) {
+        if (error) {
+            console.error('Error getting RecordData', error);    
+        } else if (data) {
+          this.accountRecord = data;
+        }
+      }
 
     connectedCallback(){
         this.displayMessage = this.label.errorMessage;
@@ -39,16 +51,22 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
             })
         .catch(error => {
                 // todo: remove hardcoding
-                console.error('Error in getColumns>>>', error);
+                console.error('Error in getColumns>>>', JSON.stringify(error));
             });
         
     }
 
     getData(){
-        getDetails({customerId: this.recordId})
+        let requestData = {
+            MemberID: this.accountRecord.fields.Client_Code__c.value,
+            OS: 'android',
+            PolicyStartDate: '2000-12-09',
+            WellnessID: ''
+        };
+        
+        getDetails({customerId: this.recordId, requestPayload: JSON.stringify(requestData)})
         .then(result => {
             let returnedData=result;
-            
             if(result.statusCode==1000){
                 this.isLoading=false;
                 this.displayError=false;
