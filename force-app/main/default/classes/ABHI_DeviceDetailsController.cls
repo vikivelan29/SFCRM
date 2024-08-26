@@ -11,27 +11,35 @@ public with sharing class ABHI_DeviceDetailsController {
 
     /****************************************************************************************************************
     * @Function - getDeviceDetails
-    * @param customerId - Customer Id for which the Device details has to be searched
+    * @param requestPayload - Payload to be passed for requesting the data
     * @return - ResponseWrapper - Wrapper including the needed device details
     * @description - This method is used to get the Device details for the customer id passed.
     *****************************************************************************************************************/
     @AuraEnabled
-    public static ResponseWrapper getDeviceDetails(String customerId){
+    public static ResponseWrapper getDeviceDetails(String customerId, String requestPayload){
         try {
             String integrationName = 'ABHI_DeviceDetails';
             ABCL_IntegrationCallout.accountId = customerId;
-            Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
-            String detailPayload =  JSON.serialize(new DeviceDetailsRequest(acc.Client_Code__c , '', ''));
-            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,detailPayload,null);
-            deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(ABHI_Encryption.decrypt(integrationResponse.responseBody, integrationName), deserilaizedResponse.class);
-            if(integrationResponse.StatusCode == 200){
-                ResponseWrapper returnResponse = new ResponseWrapper(integrationResponse.StatusCode, deserializedIntResponse.Message, deserializedIntResponse.data.devices);
-                return returnResponse;
+            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,requestPayload,null);
+            if(integrationResponse.responseBody != ''){
+                EncryptedResponseWrapper encryptedResponse = (EncryptedResponseWrapper) JSON.deserialize(integrationResponse.responseBody, EncryptedResponseWrapper.class);
+                String decryptedResponse = ABHI_Encryption.decrypt(encryptedResponse.Content, integrationName);
+                if(integrationResponse.StatusCode == 200 && encryptedResponse.StatusCode == '1000'){
+                    String responseDecryptedBody = (String) JSON.deserializeUntyped(decryptedResponse);
+                    deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(responseDecryptedBody, deserilaizedResponse.class);
+                    ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), encryptedResponse.Message, deserializedIntResponse.data.devices);
+                    return returnResponse;
+                }
+                else{
+                    ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), encryptedResponse.Message);
+                    return returnResponse;
+                }
             }
             else{
-                ResponseWrapper returnResponse = new ResponseWrapper(integrationResponse.StatusCode, Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
+                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(integrationResponse.StatusCode), Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
                 return returnResponse;
             }
+            
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -134,26 +142,6 @@ public with sharing class ABHI_DeviceDetailsController {
         public ResponseWrapper(Integer code, String Message){
             this.statusCode = code;
             this.Message = Message;
-        }
-    }
-
-    /*********************************************************
-    *Class        :  DeviceDetailsRequest
-    *Author       :  Amrit Preet Singh
-    *Created Date :  05/08/2024
-    *Last Modified:  05/08/2024
-    *@description  :  DeviceDetailsRequest is a wrapper class to hold the payload for request
-    *********************************************************/
-    public class DeviceDetailsRequest{
-        String MemberID;
-        String OS;
-        String PolicyStartDate;
-        String WellnessID;
-        public DeviceDetailsRequest(String MemberID, String OS, String PolicyStartDate){
-            this.MemberID = MemberID;
-            this.OS = OS;
-            this.PolicyStartDate = PolicyStartDate;
-            this.WellnessID = '';
         }
     }
 
