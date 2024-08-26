@@ -895,9 +895,6 @@
                         <valueListItems>
                             <value>CASES.STATUS|EQUALS|[&quot;Resolved&quot;,&quot;Closed&quot;,&quot;Unresolved&quot;,&quot;Merged&quot;,&quot;Closed Duplicate&quot;]</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c|EQUALS|[&quot;Request&quot;,&quot;Complaint&quot;]</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1526,6 +1523,11 @@
         </itemInstances>
         <mode>Replace</mode>
         <name>main</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <mode>Replace</mode>
+        <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>ABHI Customer Page</masterLabel>
