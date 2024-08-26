@@ -118,7 +118,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL Integration UserName</shortDescription>
-        <value>ABCL AWS API User</value>
+        <value>ABFSGSFDC User</value>
     </labels>
     <labels>
         <fullName>ABCL_Integration_User_Nickname</fullName>
@@ -989,7 +989,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Abhi_Device</shortDescription>
-        <value>ABHI_Devices</value>
+        <value>Devices</value>
     </labels>
     <labels>
         <fullName>ABHI_Fitness_Appointment</fullName>
@@ -1087,5 +1087,12 @@
         <protected>false</protected>
         <shortDescription>HAPP</shortDescription>
         <value>Health Return App Reg</value>
+    </labels>
+    <labels>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG</value>
     </labels>
 </CustomLabels>
