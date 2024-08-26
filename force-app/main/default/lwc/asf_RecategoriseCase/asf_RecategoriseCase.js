@@ -22,8 +22,9 @@ import CASE_ASSET_POLICY_NUMBER from '@salesforce/schema/Case.Asset.Policy_No__c
 import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
-import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
-import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat'
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
+
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 import Recat_Approval_Required_BU_label from '@salesforce/label/c.ASF_Recat_Approval_Required_BU';
@@ -194,7 +195,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD,CCC_FIELD,CASE_ASSET_LAN_NUMBER,BSLI_ISSUE_TYPE,CASE_ASSET_POLICY_NUMBER] })
     wiredRecord({ error, data }) {
         if (data) {
-            const Case_Bu = getFieldValue(data,CASE_BU_FIELD);
+            const case_Bu = getFieldValue(data, CASE_BU_FIELD);
             //Show Bot Feedback checkbox if Case source is Email and for specific BU
             const email_Bot_BU = Email_Bot_BU_label.includes(';') ? Email_Bot_BU_label.split(';') : [Email_Bot_BU_label];
             if(getFieldValue(data, SENTTOBOT_FIELD) === true && email_Bot_BU.includes(getFieldValue(data, CASE_BU_FIELD))){
@@ -203,8 +204,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
-            //if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU){ 
-              if(BU_TO_HIDE_EBOT_FEEDBACK.includes(Case_Bu)){
+            //if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU || getFieldValue(data, CASE_BU_FIELD) == ABSLAMC_BU){
+            if(BU_TO_HIDE_EBOT_FEEDBACK.includes(case_Bu) ){
                 this.showBotFeedbackDropdown = false;
             }
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);
@@ -326,6 +327,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.loaded = true;
             })
             .catch(error => {
+                console.log('ERR: ', error);
                 this.accounts = null;
                 this.isNotSelected = true;
                 this.loaded = true;
@@ -1194,3 +1196,155 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
 
 }
+
+
+
+
+
+
+
+
+
+HTML>>
+
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 04-24-2024
+  @last modified by  : rsinghnagar@salesforce.com 
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+-->
+<template>
+    <lightning-quick-action-panel header="Case Type Recategorize" class="slds-is-relative">
+        <div style="min-height:300px; height:auto">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
+            </template>
+            <template if:true={recategorizeEnabled}>
+                <template if:true={loaded}>
+                    <lightning-layout multiple-rows="true" vertical-align="end">
+                        <lightning-layout-item size="8" padding="around-small">
+                            <lightning-input type="search" label="" value={searchKey} onchange={handelSearchKey}>
+                            </lightning-input>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="4" padding="around-small">
+                            <lightning-button label="Search" variant="brand" onclick={searchTypeSubtypeHandler}>
+                            </lightning-button>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" padding="around-small" style="position: relative;">
+                            <template if:true={boolShowNoData}>
+                                <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
+                            </template>
+
+                            <template if:false={boolShowNoData}>
+                                <lightning-datatable key-field="id" data={accounts} columns={cols} max-row-selection="1"
+                                    onrowselection={getSelectedName} class="slds-max-medium-table_stacked">
+                                </lightning-datatable>
+                            </template>
+
+                            <br>
+                            <template if:true={createCaseWithAll}>
+                                <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark"
+                                    role="status">
+                                    <div class="slds-media__figure">
+                                        <span class="slds-icon_container slds-icon-utility-info" title="information">
+                                            <lightning-icon icon-name="utility:info" alternative-text="Update Case"
+                                                title="Update Case" size="small" variant="inverse"></lightning-icon>
+                                            <span class="slds-assistive-text">information</span>
+                                        </span>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <p>Please select the following values to recategorize a service request</p>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <!-- When there is ALL values , user needs to select Source .
+                            if there is default value , then just ignore. This will not come 
+                        -->
+                                <lightning-record-edit-form object-api-name="Case" record-id={recordId}>
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-input-field field-name="Recategorisation_Reason__c"
+                                        data-id="rejectReason" required=true value={rejectionReasonVal}>
+                                    </lightning-input-field>
+                                    <lightning-input-field field-name="Business_Unit__c" data-id="bizUnit"
+                                        value={caseBUVal} class="slds-hide">
+                                    </lightning-input-field>
+                                    <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback"
+                                        required=true value={botFeedbackVal}>
+                                    </lightning-input-field>
+                                    <template if:true={isAllNature}>
+                                        <lightning-input-field field-name="Nature__c" data-id="natureField"
+                                            required=true onchange={handleNatureVal} value={natureVal}>
+                                        </lightning-input-field>
+                                    </template>
+                                    <template if:true={isAllProduct}>
+                                        <lightning-input-field field-name="Product__c" data-id="productField"
+                                            required=true onchange={handleProductVal} value={productVal}>
+                                        </lightning-input-field>
+                                    </template>
+                                </lightning-record-edit-form>
+
+                                <template if:true={isRequestAndQuery}>
+                                    <lightning-combobox value={natureVal} label="Nature" options={natureValues}
+                                        onchange={handleChangeNature} required>
+                                    </lightning-combobox>
+                                </template>
+
+                                <!--<template if:true={boolAllSourceVisible}>
+                                <lightning-combobox value="" label="Source" options="" onchange={handleSource}
+                                    placeholder={strSource} read-only required>
+                                </lightning-combobox>
+                            </template>
+
+                            <template if:true={boolAllChannelVisible}>
+                                <lightning-combobox value={strChannelValue} label="Channel"
+                                    options={lstChannelValues} onchange={handleChangeChannel}
+                                    placeholder={strDefaultChannel} required>
+                                </lightning-combobox>
+                            </template>-->
+
+                                <template if:true={showBotFeedback}>
+                                    <lightning-layout-item size="8" padding="around-small">
+                                        <lightning-input type="checkbox" label="Send Bot Feedback"
+                                            value={sendBotFeedback} onchange={handleBotFeedback} checked>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+                                </template>
+                            </template>
+
+                            <template if:true={complaintLevelVisible}>
+                                <lightning-record-edit-form object-api-name="Case">
+                                    <lightning-input-field class="slds-hide" variant="label-stacked"
+                                        field-name="Complaint_Level__c" value={caseComplaintLevel} data-id="Source">
+                                    </lightning-input-field>
+                                    <lightning-input-field style="margin-left: -3px;" variant="label-stacked"
+                                        field-name="Sub_source__c" data-id="SubSource" required=true
+                                        onchange={handleSubSource} value={subsourceSelected}>
+                                    </lightning-input-field>
+                                </lightning-record-edit-form>
+                                <lightning-input type="text" disabled value={selectedSRCategory} label="SR Category">
+                                </lightning-input>
+                            </template>
+
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </template>
+            <template if:false={recategorizeEnabled}>
+                Case is not eligible for Recategorization
+            </template>
+            <div slot="footer">
+                <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button> &nbsp;
+                <lightning-button label="Update Case" variant="brand" disabled={isNotSelected}
+                    onclick={updateCaseHandler}></lightning-button>
+            </div>
+        </div>
+    </lightning-quick-action-panel>
+</template>
