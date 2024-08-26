@@ -5,8 +5,1096 @@
         <categories>ABFL DMS</categories>
         <language>en_US</language>
         <protected>false</protected>
+        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
+        <value>5</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Update_CCC_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Update CCC ID</shortDescription>
+        <value>EC0001,EC0002,EC0003</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Recat_Approval_Required_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Recat Approval Required BU</shortDescription>
+        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Track_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Track_Sources</shortDescription>
+        <value>Inbound CNX,Inbound ConnectQ,Outbound CNX,Outbound ConnectQ</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
+        <value>1214</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Documents_Of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
+        <value>1202</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Masking_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
+        <value>1215</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
+        <value>1205</value>
+    </labels>
+    <labels>
+        <fullName>No_DMS_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No DMS File</shortDescription>
+        <value>No file available for syncing.</value>
+    </labels>
+    <labels>
+        <fullName>DMS_File_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DMS_File_Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
+        <fullName>Manual_Synching</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manual_Synching</shortDescription>
+        <value>Manual Synching</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Canceled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sync_Canceled</shortDescription>
+        <value>Sync Canceled</value>
+    </labels>
+    <labels>
+        <fullName>Sync_Manually</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sync_Manually</shortDescription>
+        <value>Sync Manually</value>
+    </labels>
+    <labels>
+        <fullName>Synched_Already</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Synched Already</shortDescription>
+        <value>Synched already</value>
+    </labels>
+    <labels>
+        <fullName>Synching_initiated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Synching_initiated</shortDescription>
+        <value>Synching initiated</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Business_Unit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Business_Unit</shortDescription>
+        <value>ABHFL,ABFL,Payments,ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Integration_UserName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL Integration UserName</shortDescription>
+        <value>ABFSGSFDC User</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Integration_User_Nickname</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL Integration User Nickname</shortDescription>
+        <value>ABFSGSFDC User</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_CRMUAT_EMAIL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL CRM UAT EMAI</shortDescription>
+        <value>abfl.crmuat01@adityabirlacapital.com</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMSPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMSPageSize</shortDescription>
+        <value>5</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMSPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMSPageSize</shortDescription>
+        <value>5</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_Manual_Sync_Threshold</fullName>
+        <categories>ABFL DMS</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
+        <value>5</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_RESOLVED_STP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL RESOLVED STP</shortDescription>
+        <value>Resolved By STP</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_RESOLVED_UTR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL RESOLVED UTR</shortDescription>
+        <value>Resolved By UTR</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_Reassign_Case_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>describe the time frame for orphan case reparenting tasks</shortDescription>
+        <value>360</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_Retail_Int_Failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_Retail_Int_Failed</shortDescription>
+        <value>Real Time Integration has failed. Please check with admin.</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_UTR_Auto_Close_Case_User</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL UTR Auto Close Case User</shortDescription>
+        <value>abcl.aws.apiuser@adityabirlacapital.com.abcl.abcluat</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Base_URL_For_Bitly</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Base URL For Bitly</shortDescription>
+        <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_Retail_Int_Failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Complaint_Investigation_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Complaint Investigation Details</shortDescription>
+        <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority,All LANs:All LANs,Applicant Type(COAPPL):Applicant Type(COAPPL),Applicant Type(PRAPPL):Applicant Type(PRAPPL)</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Data_Service_Sections</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Data Service Sections</shortDescription>
+        <value>Disbursement_History</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_LOD_Calendar_Year</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
+        <value>200</value>
+    </labels>
+    <labels>
+        <fullName>ASF_BulkDownloadLimit_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkDownloadLimit_Msg</shortDescription>
+        <value>Maximum record limit is 50,000. If you have selected more than 50,000 records to download, The first 50,000 records will only be downloaded.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_BulkProcessorBatchSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
+        <value>200</value>
+    </labels>
+    <labels>
+        <fullName>ASF_BulkThresholdForQueueable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_BulkThresholdForQueueable</shortDescription>
+        <value>9000</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Bulk_Chunk_Size</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Bulk_Chunk_Size</shortDescription>
+        <value>5000</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Bulk_Restricted_File_Ext</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Bulk_Restricted_File_Ext</shortDescription>
+        <value>script,htm,exe,dmg,apk,bat,bin,cgi,com,pl,gadget,jar,msi,py,wsf,js,flash,php,CMD,CPL,INF1,INS,INX,ISU,JOB,JSE,LNK,MSC,MSP,MST,PAF,PIF,PS1,REG,RGS,SCR,SCT,SHB,SHS,U3P,VB,WS,swf,dll,asp,aspx,vbs</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CRN_Basis_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CRN_Basis_Case</shortDescription>
+        <value>Case will be created on Customer Basis</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseBrowserSubscriber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseBrowserSubscriber</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_Delete_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseComment_Delete_Msg</shortDescription>
+        <value>You cannot modify the comment of a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseEndStatuses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CaseEndStatuses</shortDescription>
+        <value>Closed,Resolved,Rejected</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
+        <value>1214</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Documents_Of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
+        <value>1202</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Masking_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
+        <value>1215</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
+        <value>1205</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Case_In_Queue_Long</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Case_In_Queue_Long</shortDescription>
+        <value>60</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Case_NoRecordMessage</fullName>
+        <categories>Contains No records message displayed in UI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Case_NoRecordMessage</shortDescription>
+        <value>No Records found for the selected search.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Case_Owner_Queue_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Case Owner Queue Val Msg</shortDescription>
+        <value>You cannot assign to a Queue that is not of your BU</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CloseCaseWithoutCustomer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CloseCaseWithoutCustomer</shortDescription>
+        <value>Close Case without Customer</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CreateCaseWithProspect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CreateCaseWithProspect</shortDescription>
+        <value>Create Case with Prospect</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CreateSRwithFA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CreateSRwithFA</shortDescription>
+        <value>Create Case with LAN</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CreateSRwithoutFA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_CreateSRwithoutFA</shortDescription>
+        <value>Create Case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Customer_Mandatory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Customer_Mandatory</shortDescription>
+        <value>Please select Customer to process Case type search.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Default_Reopen_Reason</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Default Reopen Reason for Email2Case</shortDescription>
+        <value>Customer Email</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Email_Bot_Feedback_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Email Bot Feedback BU</shortDescription>
+        <value>ABHFL;ABFL;ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ASF_ErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMessage</shortDescription>
+        <value>An unexpected error occurred. Please contact system admin.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_ErrorMsgForWrongIssueCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_ErrorMsgForWrongIssueCode</shortDescription>
+        <value>Invalid Issue Code, please provide a valid Issue Code</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Error_Case_Merge</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Error_Case_Merge</shortDescription>
+        <value>Please try after some time, If you are still getting this error please contact you system administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_FA_Mandatory_preframework</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_FA_Mandatory_preframework</shortDescription>
+        <value>Please tag LAN to customer to process Case Type Search</value>
+    </labels>
+    <labels>
+        <fullName>ASF_FA_Validation_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_FA_Validation_Message</shortDescription>
+        <value>Please select Loan Account Number to process Case type search</value>
+    </labels>
+    <labels>
+        <fullName>ASF_File_Update_Val_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_File_Update_Val_Message</shortDescription>
+        <value>You do not have access edit / delete this file</value>
+    </labels>
+    <labels>
+        <fullName>ASF_File_Update_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_File Update Validation</shortDescription>
+        <value>Cannot Update/Delete the files linked to a closed case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_HiddenComps</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_HiddenComps</shortDescription>
+        <value>NA</value>
+    </labels>
+    <labels>
+        <fullName>ASF_JWTAuthAudience</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_JWTAuthAudience</shortDescription>
+        <value>api.abcl.com</value>
+    </labels>
+    <labels>
+        <fullName>ASF_JWTAuthSubscriber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_JWTAuthSubscriber</shortDescription>
+        <value>mulesoft@abcl.dev</value>
+    </labels>
+    <labels>
+        <fullName>ASF_No_DML_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_No_DML_Access</shortDescription>
+        <value>Looks like, You don&apos;t have access to make changes.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_No_Merge_Duplicates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_No_Merge_Duplicates</shortDescription>
+        <value>No duplicate Cases found.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_No_Record_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_No_Record_Selected</shortDescription>
+        <value>Please select at least one record to proceed.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_No_SMSemplate_On_CCC</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_No_SMSemplate_On_CCC</shortDescription>
+        <value>No template available on this record. Please contact the administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Omnichannel_ActionedBy_Username</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Omnichannel_ActionedBy_Username</shortDescription>
+        <value>Omni-Channel</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Owner_Change_Access_Val_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Owner_Change_Access_Val_Msg</shortDescription>
+        <value>You do not have access to change the Owner for this case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Preframework_sla_timer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Preframework sla timer</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Recat_Approval_Required_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Recat Approval Required BU</shortDescription>
+        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SLA_NoReplyAdress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SLA_NoReplyAdress</shortDescription>
+        <value>virendra.patil@salesforce.com</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SMS_Delivered_Failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SMS_Delivered_Failed</shortDescription>
+        <value>Message couldn&apos;t be delivered. Please contact the administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SMS_Delivered_Sucess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SMS_Delivered_Sucess</shortDescription>
+        <value>Message delivered successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SRButtonName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SRButtonName</shortDescription>
+        <value>Create Case</value>
+    </labels>
+    <labels>
+        <fullName>ASF_SearchAPI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SearchAPI</shortDescription>
+        <value>[{&quot;id&quot;:&quot;AccountSearch_API&quot;,&quot;value&quot;:&quot;Account Search&quot;,&quot;label&quot;:&quot;Recent Accounts&quot;},{&quot;id&quot;:&quot;CreditCardsSearch_API&quot;,&quot;value&quot;:&quot;Credit Card Search&quot;,&quot;label&quot;:&quot;Recent Credit Cards&quot;},{&quot;id&quot;:&quot;DebitCardsSearch_API&quot;,&quot;value&quot;:&quot;Debit Card Search&quot;,&quot;label&quot;:&quot;Recent Debit Cards&quot;},{&quot;id&quot;:&quot;ForexCardSearch_API&quot;,&quot;value&quot;:&quot;Forex Card Search&quot;,&quot;label&quot;:&quot;Recent Forex Cards&quot;},{&quot;id&quot;:&quot;LoanSearch_API&quot;,&quot;value&quot;:&quot;Loan Search&quot;,&quot;label&quot;:&quot;Recent Loans&quot;}]</value>
+    </labels>
+    <labels>
+        <fullName>ASF_StringBlank</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_StringBlank</shortDescription>
+        <value>--</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Success_Case_Merge</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Success_Case_Merge</shortDescription>
+        <value>Case has been merged successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_1_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 1 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Temp_Consolidated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Consolidated Email Template DeveloperName</shortDescription>
+        <value>SLA_Breach_Email_Consolidated</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_2_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 2 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Temp_Consolidated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Consolidated Email Template DeveloperName</shortDescription>
+        <value>SLA_Breach_Email_Consolidated</value>
+    </labels>
+    <labels>
+        <fullName>ASF_TAT_3_Breach_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TAT 3 Breach Email Template DeveloperName</shortDescription>
+        <value>Case_Owner_s_Manager_Email_when_the_SLA_is_breached</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Whatsapp_No_Contacts_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_Whatsapp_No_Contacts_Available</shortDescription>
+        <value>No contacts are associated with this Case. Please contact the administrator.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_default_no_reply_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_default_no_reply_email</shortDescription>
+        <value>ABFSSL CRMAPPQKM06</value>
+    </labels>
+    <labels>
+        <fullName>DMS_File_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DMS_File_Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
+        <fullName>EmailRelayThreshold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Base URL For Bitly</shortDescription>
+        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+    </labels>
+    <labels>
+        <fullName>Case_Closed_Validation_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Case Closed Error Message</shortDescription>
+        <value>You are not allowed to edit a Closed Case.</value>
+    </labels>
+    <labels>
+        <fullName>Change_Owner_V2_User_to_user_vaiidation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change Owner V2 User to user vaiidation</shortDescription>
+        <value>! Can not assign Owner, since the selected records are already owned by as user.</value>
+    </labels>
+    <labels>
+        <fullName>Change_Owner_V2_current_user_not_part_of_queue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change Owner V2 current user not part of queue</shortDescription>
+        <value>You are not part of the Queue</value>
+    </labels>
+    <labels>
+        <fullName>Change_Owner_v2_different_owners_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change Owner v2 different owners error</shortDescription>
+        <value>Selected records belongs to more than one different owners</value>
+    </labels>
+    <labels>
+        <fullName>Change_owner_v2_no_access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change owner v2 no access</shortDescription>
+        <value>You don&apos;t have access to change the Owner</value>
+    </labels>
+    <labels>
+        <fullName>Change_owner_v2_target_user_not_part_of_queue</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change owner v2 target user not part of queue</shortDescription>
+        <value>Selected user is not part of the Queue</value>
+    </labels>
+    <labels>
+        <fullName>Complaint_Investigation_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Complaint Investigation Fields</shortDescription>
+        <value>Deal No:Deal_No,Loan Account No:Loan_Account_No,Branch/Location:Branchcode,Customer Name:Full_Name__pc,PAN No:PAN__c,DOB:PersonBirthdate,Login Date:Login_Date,Disburse Date:Last_Disbursement_Date,Sanction Amount:deal_sanction_amount,Total disburse Amount:Total_disbursed_amount,Type of transaction:Type of transaction,Current POS:Current_POS,DPD:DPD,Product and Segment:Product and Segment,Credit Eligibility program:Credit_Eligibility_program,Old cibil score:Old_cibil_score,Residence address:BillingAddress,Employer/Business Name:COMPANY_NAME,Office address:comp_address,Property Details:PROPERTY_ADDRESS,Valuation as per system:Valuation_as_per_system,SM Name:SM_Name,SO Name:SO_Name,DSA / Referral partner:DSA_Referral_partner,Credit authority:Credit authority</value>
+    </labels>
+    <labels>
+        <fullName>DMS_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DMS URL</shortDescription>
+        <value>https://uatbpmdms.adityabirlafinance.com/IntegrationDMS/odencrequestDecrypt.jsp?Application=DOC_VIEW&amp;cabinetName=abfl&amp;sessionIndexSet=false&amp;</value>
+    </labels>
+    <labels>
+        <fullName>EmailRelayThreshold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
+    </labels>
+    <labels>
+        <fullName>EndUserProfiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EndUserProfiles</shortDescription>
+        <value>Base Profile</value>
+    </labels>
+    <labels>
+        <fullName>Error_From_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error From Address</shortDescription>
+        <value>Please select different sender id which is allowed to be used by your team</value>
+    </labels>
+    <labels>
+        <fullName>Error_Restricted_Domain</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error_Restricted_Domain</shortDescription>
+        <value>You are not allowed to send email to external user for this from address-</value>
+    </labels>
+    <labels>
+        <fullName>Error_Team_Not_Found</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error Team Not Found</shortDescription>
+        <value>You are not allowed to send email as you are not part of any team.</value>
+    </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+    </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
+    </labels>
+    <labels>
+        <fullName>Incomplete_Checklist_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Incomplete Checklist Error Message</shortDescription>
+        <value>Incomplete Checklists found for the Case.</value>
+    </labels>
+    <labels>
+        <fullName>Incomplete_Tasks_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Incomplete Tasks Error Message</shortDescription>
+        <value>Tasks not complete for the Case.</value>
+    </labels>
+    <labels>
+        <fullName>LOB_for_masked_fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LOB for masked fields</shortDescription>
+        <value>ABHFL</value>
+    </labels>
+    <labels>
+        <fullName>Maker_Owner_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Maker_Owner_Error_Message</shortDescription>
+        <value>This user cannot be assigned as the user has worked on the Case in the Maker stage.</value>
+    </labels>
+    <labels>
+        <fullName>Manual_Synching</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manual_Synching</shortDescription>
+        <value>Manual Synching</value>
+    </labels>
+    <labels>
+        <fullName>No_DMS_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No DMS File</shortDescription>
+        <value>No file available for syncing.</value>
+    </labels>
+    <labels>
+        <fullName>Owner_Change_Validation_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Owner Change Validation Message</shortDescription>
+        <value>Selected user is not part of queue.</value>
+    </labels>
+    <labels>
+        <fullName>Ownership_Change_Validation_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Ownership Change Validation Message</shortDescription>
+        <value>You can not change owner as you are not part of the queue.</value>
+    </labels>
+    <labels>
+        <fullName>Re_Kyc_Month</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Re Kyc Month</shortDescription>
+        <value>3</value>
+    </labels>
+    <labels>
+        <fullName>RecategorizationError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RecategorizationError</shortDescription>
+        <value>The Case does not match the CTST configuration, please recategorize the case</value>
+    </labels>
+    <labels>
+        <fullName>Repeated_Indicator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Repeated Indicator</shortDescription>
+        <value>30</value>
+    </labels>
+    <labels>
+        <fullName>Restrict_Email_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Restrict Email Address</shortDescription>
+        <value>ABFSSL.Uatcarefinance@adityabirlacapital.com</value>
+    </labels>
+    <labels>
+        <fullName>STP_Flows</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>STP Flows</shortDescription>
+        <value>Interest Schedule,Provisional Interest Certificate</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Policy_Search_Columns</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Policy Search Column</shortDescription>
+        <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_STATICURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_STATICURL</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/customer-login/</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_key</shortDescription>
+        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ivkey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ivkey</shortDescription>
+        <value>8149208531345452</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
+        <value>4170703839</value>
+    </labels>
+    <labels>
+        <fullName>Prevent_deletion_post</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Prevent_deletion_post</shortDescription>
+        <value>You don&apos;t have an access to delete post</value>
+    </labels>
+    <labels>
+        <fullName>CCC_External_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CCC External Id</shortDescription>
+        <value>hfl060</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
+        <value>No Canned Response Available.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
+        <value>Canned Response send successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_Acknowledgement_Email</fullName>
+        <categories>ABSLIG</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG Acknowledgement Email</shortDescription>
+        <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_BU_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
+        <value>ABFL,ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
+        <value>EBOT has generated an email. Kindly have a look!</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
+    </labels>
+    <labels>
+        <fullName>ABSLIG_E2C</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG E2C</shortDescription>
+        <value>absli.uatsfbsliggrouphelpline@adityabirlacapital.com:ABSLIG_Group_Helpline_Acknowledgement_Email_1721731333006,absli.uatsfbsliggroupuw@adityabirlacapital.com:ABSLIG_Group_UW_Acknowledgement_Email_1721731484873</value>
+    </labels>
+    <labels>
+        <fullName>Business_Unit_Check_For_SLA_Override</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Business Unit Check For SLA Override</shortDescription>
+        <value>ABSLIG</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Active_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Active Days</shortDescription>
+        <value>Active Days</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Devices</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Abhi_Device</shortDescription>
+        <value>Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Fitness_Appointment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Fitness_Appointment</shortDescription>
+        <value>Fitness Appointment</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Fitness_Level</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Fitness_Level</shortDescription>
+        <value>Fitness Level</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_KEY</fullName>
+        <categories>ux8634W2FczDqtFDscbDdFxroSbukNmm</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
+        <value>8080808080808080</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_VALUE</fullName>
+        <categories>uQB5hR_562PPG5Nn</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
+        <value>8080808080808080</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_URL</fullName>
+        <categories>https://servace.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_URL</shortDescription>
+        <value>https://ikshauat.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Communication_Link</fullName>
+        <categories>http://10.155.1.214/DTS/ViewPolicyReport.aspx</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Communication_Link</shortDescription>
+        <value>http://10.155.1.214/DTS/ViewPolicyReport.aspx</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_HHS_Active_Age</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_HHS_Active_Age</shortDescription>
+        <value>HHS &amp; Active Age</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_App_Reg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPP</shortDescription>
+        <value>ABHI Health Return App Reg</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OtherDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OtherDevice</shortDescription>
+        <value>Other Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_RecommendedDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_RecommendedDevice</shortDescription>
+        <value>Recommended Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_DeviceDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_DeviceDetails</shortDescription>
+        <value>Device Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_App_Reg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPP</shortDescription>
+        <value>Health Return App Reg</value>
+    </labels>
+    <labels>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payment</value>
+        <value>ABSLAMC;ABSLIG</value>
+        <value>ABSLAMC;ABSLIG;Payments</value>
     </labels>
     <labels>
         <fullName>ASF_Recat_Approval_Required_BU</fullName>
