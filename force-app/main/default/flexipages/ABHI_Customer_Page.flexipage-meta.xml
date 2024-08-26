@@ -859,7 +859,7 @@
                             <value>CREATEDBY_USER.ALIAS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Resolution_Comments__c</value>
+                            <value>CASES.REASON</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -941,7 +941,7 @@
                             <value>CREATEDBY_USER.ALIAS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Resolution_Comments__c</value>
+                            <value>CASES.REASON</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1026,7 +1026,7 @@
                             <value>CREATEDBY_USER.ALIAS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Resolution_Comments__c</value>
+                            <value>CASES.REASON</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1103,7 +1103,7 @@
                             <value>CREATEDBY_USER.ALIAS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Resolution_Comments__c</value>
+                            <value>CASES.REASON</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
