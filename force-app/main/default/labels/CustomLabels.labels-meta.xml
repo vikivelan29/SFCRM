@@ -5,8 +5,8 @@
         <categories>ABFL DMS</categories>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
-        <value>5</value>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG;Payment</value>
     </labels>
     <labels>
         <fullName>ASF_Recat_Approval_Required_BU</fullName>
