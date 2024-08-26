@@ -767,7 +767,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                         .then(result => {
                             console.log('Record Rejected Successfully:  ' + JSON.stringify(result));
                             this.openClosurePopUp = false;
-                            this.showSuccessMessage('success', "Success", "SR is Rejected");
+                            this.showSuccessMessage('success', "Success", "Case is Rejected");
                             this.handlePublishEvent();
                             this.loading = false;
                             this.loadReady = false;
