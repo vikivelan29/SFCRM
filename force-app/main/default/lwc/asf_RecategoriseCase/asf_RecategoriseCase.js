@@ -218,9 +218,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.noneligibleWithNewCustomerCSTMsg = lanLabels[this.businessUnit].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG != null? lanLabels[this.businessUnit].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : lanLabels["DEFAULT"].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
             this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
             
-        } else if (error) {
+        } /* else if (error) {
             console.error('Error loading record', error);
-        }
+        } */
     }
 
     /* LOAD THE STYLE SHEET. NO NEED FOR THIS ANY MORE. ASK RAJENDER KUMAR TO REMOVE THIS.
