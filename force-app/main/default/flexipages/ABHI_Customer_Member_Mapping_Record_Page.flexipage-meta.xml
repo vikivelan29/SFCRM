@@ -209,6 +209,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Is_Chronic__c</fieldItem>
+                <identifier>RecordIs_Chronic_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Riders_Opted__c</fieldItem>
                 <identifier>RecordRiders_Opted_cField</identifier>
             </fieldInstance>
