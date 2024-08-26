@@ -27,11 +27,11 @@
                 <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
             </template>
             <template if:true={apiErrorMessage}>
-                <div>
-                    <lightning-formatted-text class="slds-text-color_error"
-                        value={apiErrorMessage}></lightning-formatted-text>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    {apiErrorMessage}
                 </div>
-            </template>
+            </template>  
             <template if:true={policyData}>
                 <div class="slds-form-element slds-form-element_readonly">
                     <span class="slds-form-element__label">Is Registered</span>
