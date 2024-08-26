@@ -9211,6 +9211,10 @@
         <tab>standard-report</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Customer_Member_Mapping__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
         <name>AssignTopics</name>
@@ -9383,8 +9387,4 @@
         <enabled>true</enabled>
         <name>ViewSetup</name>
     </userPermissions>
-    <tabSettings>
-        <tab>Customer_Member_Mapping__c</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
 </PermissionSet>
