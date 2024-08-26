@@ -1,0 +1,64 @@
+<template>
+    <lightning-card>
+        <div slot="title">
+            <lightning-button-icon slot="actions" icon-name="action:new_case" size="small" class="slds-m-right_x-small" variant="brand"></lightning-button-icon>
+            Search old Cases
+        </div>
+
+        <div class="slds-m-around_medium">
+            <template if:true={isLoading}>
+                <div class="slds-backdrop" role="presentation"></div>
+
+                <div class="slds-fade-in-open  slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+            </template>
+            <lightning-layout class="slds-m-bottom_large">
+                <lightning-layout-item size="3" class="slds-m-right_x-small">
+                    <div class="slds-m-bottom_small">
+                        <lightning-input type="text" label="Case Number" placeholder="Enter MSD-CRM Case Number" value={msdCaseNumber} class="inpFieldCheckValidity" onchange={handleCaseInput}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-m-right_x-small">
+                    <div class="slds-m-bottom_small">
+                        <lightning-combobox name="Select Policy" label="Select Policy" value={selectedAsset} placeholder="Select Policy"
+                            options={options} onchange={handleChange} disabled={disabled}>
+                        </lightning-combobox>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-m-right_x-small">
+                    <lightning-input type="date" name="Startdate" value={startDate} onchange={startDateChange}
+                        label="Start Date" class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled}>
+                    </lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="3" class="slds-m-right_x-small">
+                    <lightning-input type="date" name="Enddate" value={endDate} onchange={endDateChange} min={startDate}
+                        label="End Date" message-when-range-underflow="Please Choose a date more than start date" 
+                        class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled}>
+                    </lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <lightning-button label="Search" title="Search" onclick={fetchLegacyCases} variant = "brand"
+                class="slds-m-top_x-small" disabled = {disabled}>
+            </lightning-button>
+        </div>
+
+        <div lwc:if={displayTable}>
+            <div class="slds-p-vertical_medium slds-text-heading_medium">
+                Case List
+            </div>
+
+            <c-abfl_-data-table-with-pagination columns={columns} table-data={data} page-size={label.pageSize}
+                onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+        </div>
+        <div lwc:if={displayError}>
+            {errorMessage}
+        </div>
+
+
+        <template lwc:if={showChildTable}>
+            <c-abfl_base_view_screen api_id = {apiName} payload-info = {payloadInfo}></c-abfl_base_view_screen>
+        </template>
+    </lightning-card>
+</template>

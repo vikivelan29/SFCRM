@@ -15,12 +15,21 @@
                         <span>Health Returns and App Registration</span>
                     </h2>
                 </div>
+                <div>
+                    <lightning-button-icon onclick={refreshData} icon-name="utility:refresh" size="medium"
+                        alternative-text="Refresh"
+                        class="slds-float_right slds-m-top_xx-small slds-m-right_xx-small"></lightning-button-icon>
+                </div>
             </header>
         </div>
         <div class="slds-card__body slds-card__body_inner">
+            <template if:true={isLoadingData}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
             <template if:true={apiErrorMessage}>
                 <div>
-                    <lightning-formatted-text class="slds-text-color_error" value={apiErrorMessage}></lightning-formatted-text>
+                    <lightning-formatted-text class="slds-text-color_error"
+                        value={apiErrorMessage}></lightning-formatted-text>
                 </div>
             </template>
             <template if:true={policyData}>
