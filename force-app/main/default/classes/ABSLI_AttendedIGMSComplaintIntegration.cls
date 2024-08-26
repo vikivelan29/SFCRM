@@ -244,7 +244,7 @@ public with sharing class ABSLI_AttendedIGMSComplaintIntegration implements ASF_
                         caseExt.Resolved_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
-                        caseRecord.MoveToNext__c = true;
+                        caseRecord.Stage__c = 'Resolved';
                         dmlRecords.add(caseRecord);
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
