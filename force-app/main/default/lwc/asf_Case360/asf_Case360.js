@@ -54,9 +54,9 @@ import { registerRefreshContainer, unregisterRefreshContainer, REFRESH_COMPLETE,
 //Virendra : Start Here : created separate js and exported functions and using here for searchable Picklist and Multi-select Searchable Picklist.
 import { setPicklistFieldValue, conditionalRenderingPicklist, renderingPicklistOnStageAdjustment, hideReadOnlyFields } from './searchPicklistController';
 //Virendra : Ends Here.
+
 import {BUSpecificCloseCasePopupHandler} from 'c/asf_Case360JSUtility';
-//Label added for PR1030924-43
-import UnresolvedCommentsNotReqBUs from '@salesforce/label/c.ABAMC_NonMandatoryUnresCommentsBUs';
+
 
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -255,20 +255,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         ];
     }
 
-    UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
-        
-
     get eligibleForBU(){
         return !(this.caseBusinessUnit == 'ABSLI');
-    }
-
-    //added for PR1030924-43, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
-    get eligibleForAMSLAMC(){
-        const listOfBUs = this.UnresolvedCommentsNotReqBUs.split(',');
-        if(listOfBUs.includes(this.caseBusinessUnit)){
-    return false;
-        } else return true;
-        
     }
     get showRejectPanel() {
         return this.closureTypeSelected == 'unresolved';
@@ -767,7 +755,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                         .then(result => {
                             console.log('Record Rejected Successfully:  ' + JSON.stringify(result));
                             this.openClosurePopUp = false;
-                            this.showSuccessMessage('success', "Success", "SR is Rejected");
+                            this.showSuccessMessage('success', "Success", "Case is Rejected");
                             this.handlePublishEvent();
                             this.loading = false;
                             this.loadReady = false;
