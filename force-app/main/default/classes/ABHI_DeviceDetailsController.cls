@@ -12,6 +12,7 @@ public with sharing class ABHI_DeviceDetailsController {
     /****************************************************************************************************************
     * @Function - getDeviceDetails
     * @param requestPayload - Payload to be passed for requesting the data
+    * @param customerId - Id of the customer record
     * @return - ResponseWrapper - Wrapper including the needed device details
     * @description - This method is used to get the Device details for the customer id passed.
     *****************************************************************************************************************/

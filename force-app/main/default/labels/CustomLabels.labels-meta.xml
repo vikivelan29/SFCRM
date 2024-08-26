@@ -989,7 +989,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Abhi_Device</shortDescription>
-        <value>ABHI_Devices</value>
+        <value>Devices</value>
     </labels>
     <labels>
         <fullName>ABHI_Fitness_Appointment</fullName>
