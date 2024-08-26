@@ -3,6 +3,7 @@
     <fullName>IO_Comments__c</fullName>
     <externalId>false</externalId>
     <label>IO Comments</label>
+    <required>false</required>
     <length>131072</length>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
