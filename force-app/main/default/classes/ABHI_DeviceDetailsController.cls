@@ -32,7 +32,8 @@ public with sharing class ABHI_DeviceDetailsController {
                     return returnResponse;
                 }
                 else{
-                    ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), encryptedResponse.Message);
+                    String returnMessage = decryptedResponse != '' ? decryptedResponse : encryptedResponse.Message;
+                    ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), returnMessage);
                     return returnResponse;
                 }
             }
