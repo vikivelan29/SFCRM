@@ -178,7 +178,7 @@ public class ABSLI_ModeChangeIntegration implements ASF_IntegrationInvocable{
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(caseInteg.Response__c);
             if(String.valueOf(jsonMap.get('RESPONSE'))=='00'){
                 integrationFailure = false;
-                if(caseRec.Technical_Source__c=='API' && !Test.IsRunningTest() && Schema.sObjectType.Case.isUpdateable())
+                if(!Test.IsRunningTest() && Schema.sObjectType.Case.isUpdateable())
                 {
                 	caseRec.MoveToNext__c = true;    
                     update caseRec;

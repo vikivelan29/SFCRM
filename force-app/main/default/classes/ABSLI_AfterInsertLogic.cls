@@ -104,7 +104,7 @@ public with sharing class ABSLI_AfterInsertLogic {
             }
         }
         Map<Id, ABSLI_Case_Detail__c> caseDetailMap = new Map<Id, ABSLI_Case_Detail__c>();
-        for (ABSLI_Case_Detail__c detail : [SELECT Id, PAN__c, TDS_Indicator__c FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
+        for (ABSLI_Case_Detail__c detail : [SELECT Id, PAN__c, TDS_Indicator__c,Policy_Identification__c FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
             caseDetailMap.put(detail.Id, detail);
         }
         Map<Id, Asset> casePolicyMap = new Map<Id, Asset>();
@@ -112,7 +112,7 @@ public with sharing class ABSLI_AfterInsertLogic {
             casePolicyMap.put(policy.Id, policy);
         }
         Map<Id, Account> caseAccountMap = new Map<Id, Account>();
-        for (Account customer : [SELECT Id,PAN__c FROM Account WHERE Id IN :accIds]) {
+        for (Account customer : [SELECT Id,PAN__c,Customer_Segment__c FROM Account WHERE Id IN :accIds]) {
             caseAccountMap.put(customer.Id, customer);
         }
         List<ABSLI_Case_Detail__c> caseDetailsToUpdate = new List<ABSLI_Case_Detail__c>();
@@ -123,6 +123,7 @@ public with sharing class ABSLI_AfterInsertLogic {
             if (caseDetail != null && customer != null && policy != null) {
                 caseDetail.PAN__c = customer.PAN__c;
                 caseDetail.TDS_Indicator__c = policy.TDS_Indicator__c;
+                caseDetail.Policy_Identification__c = customer.Customer_Segment__c;
                 caseDetailsToUpdate.add(caseDetail);
             }
         }

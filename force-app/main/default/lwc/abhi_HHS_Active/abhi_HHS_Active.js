@@ -20,6 +20,8 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     @track totalRecords = 0;
     @track totalPages = 0;
     @track scoresList = [];
+    @track showTable = false; 
+    @track tableData = [];
 
     customerId;
 
@@ -30,7 +32,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     account;
 
     connectedCallback() {
-        console.log('callBack called' );
+
         this.loadData();
     }
 
@@ -40,14 +42,12 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         // const clientCode = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
         // this.customerID = clientCode ? clientCode : null;
         let customerId = this.recordId;
-        console.log('recordId', this.recordId);
 
         getHhsActiveAge({customerId:customerId})
         .then(result => {
             console.log('result---->', result);
             this.isLoading = false;
             this.showDataTable = true;
-            //result.serviceMessages[0].businessDesc === 'Result found'
 
             if(result.StatusCode == 1000) {
                 this.setupColumns(result);
@@ -66,25 +66,23 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     }
 
     setupColumns(apiResponse) {
-        // Setup columns for the first data table
-        getColumns({ configName: 'ABHI_HHS_ActiveAgeDetails' })
-        .then(result => {
-            console.log('result---->', result);
-            this.columns = result.map(column => ({
-                label: column.MasterLabel,
-                fieldName: column.Api_Name__c,
-                type: column.Data_Type__c,
-                cellAttributes: { alignment: 'left' }
-            }));
-        })
-        .catch(error => console.error('Error fetching columns:', error));
+        // // Setup columns for the first data table
+        // getColumns({ configName: 'ABHI_HHS_ActiveAgeDetails' })
+        // .then(result => {
+        //     console.log('result---->', result);
+        //     this.columns = result.map(column => ({
+        //         label: column.MasterLabel,
+        //         fieldName: column.Api_Name__c,
+        //         type: column.Data_Type__c,
+        //         cellAttributes: { alignment: 'left' }
+        //     }));
+        // })
+        //.catch(error => console.error('Error fetching columns:', error));
 
         // Setup columns for the second data table
         getColumns({ configName: 'ABHI_ActiveAgeDetails' })
         .then(result => {
             console.log('result---->', result);
-            console.log('result---->', result);
-
             this.columns2 = result.map(column => ({
                 label: column.MasterLabel,
                 fieldName: column.Api_Name__c,
@@ -96,6 +94,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     }
 
     processResponse(response) {
+        console.log('API Response:', response);
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
@@ -112,47 +111,37 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 HeartAge: activeAge.HeartAge,
                 CalculationDate: activeAge.CalculationDate
             }];
-            //this.recordTable = [];
             this.recordTable2 = tableData;  // Ensure this is populated as needed
         this.showDataTable = true;
         this.displayError = false;
             
             const resultsList = response.HHSDetails.responseMap.resultsList;
-            const tableDate1 = [{
-                tierLevelName:resultsList.tierLevelName
-            }];
-            this.recordTable = tableDate1;
+            const activities = resultsList.activities;
+            console.log('activities-->',activities);
 
-        
-            console.log('resultsList', resultsList);
-
-            /*const activities = (resultsList.activities || []).map(activity => {
-                console.log('activities', activities);
-                // Process activity attributes into a key-value map
-                const attributes = (activity.attributes || []).reduce((acc, attr) => {
-                    console.log('attributes', attributes);
-                    if (attr && attr.attributeCode && attr.attributeValue) {
-                        acc[attr.attributeCode] = attr.attributeValue;
+            let table = [];
+            if (activities && activities.length > 0) {
+                activities.forEach(activity => {
+                    if (activity.attributes && activity.attributes.length > 0) { 
+                        activity.attributes.forEach(attr => {
+                            table.push({
+                                name: attr.attributeCode,
+                                value: attr.attributeValue
+                            });
+                        });
                     }
-                    //acc[attr.attributeCode] = attr.attributeValue;
-                    return acc;
-                }, {});
+                });
+            }
+            console.log('Processed Table Data:', tableData);
+        this.table = table;
+        console.log('this.table', this.table);
+        this.showTable = true;
+        this.displayError = false;
+        
 
-                return {
-                    Name: activity.name || '',
-                    Code: activity.code || '',
-                    Value: activity.value || '',
-                    Score: activity.score || '',
-                    EffFromDate: activity.effFromDate || '',
-                    EffToDate: activity.effToDate || '',
-                    ...attributes // Merge attributes into the activity object
-                };
-            });*/
-            
-            // Set the processed data for the second table
-            //this.recordTable = activities;
-            //this.showDataTable = true;
-            //this.displayError = false;
+        // Add tierLevelName and attributes to recordTable
+        //this.recordTable = [attributeData]; 
+             
         }else {
             //this.errorMessages = 'No valid response from API';
             this.errorMessages = response.Message || 'No valid response from API';
