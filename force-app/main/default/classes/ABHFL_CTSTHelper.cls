@@ -345,6 +345,7 @@ public without sharing class ABHFL_CTSTHelper {
 
     //Dhinesh - Stop at banking stage on forward movement after a backward movement.
     public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
+      /*  Logic commented of this Method by Nikhil EY - PR970457-2176
         // List of valid subTypes
     	List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
         
@@ -364,7 +365,7 @@ public without sharing class ABHFL_CTSTHelper {
                 ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped = true;
         	}
             
-    	}
+    	} */
 	}
     
     public static void changeStagetoCPUBanking(Case caseRecord) {
