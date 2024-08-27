@@ -111,6 +111,7 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
+            recordsToUpdate.addAll(recordmap.values());
         }
         
         if(!recordsToUpdate.isEmpty()){
