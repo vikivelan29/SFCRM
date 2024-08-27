@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import getDetails from '@salesforce/apex/ABHI_DeviceDetailsController.getDeviceDetails';
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
-import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import recDevices from '@salesforce/label/c.ABHI_RecommendedDevice';
 import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
 import deviceDetail from '@salesforce/label/c.ABHI_DeviceDetails';
@@ -13,7 +12,6 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     showRecommendedRecords=false;
     displayMessage='';
     label = {
-        errorMessage,
         pageSize,
         recDevices,
         otherDevices,
@@ -23,7 +21,6 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     isLoading = false;
 
     connectedCallback(){
-        this.displayMessage = this.label.errorMessage;
         this.isLoading=true;
         getColumns({configName:'ABHI_DeviceDetails'})
         .then(result => {
@@ -75,7 +72,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
             }
         })
         .catch(error => {
-            this.displayMessage=this.displayMessage+': '+error.body.message;
+            this.displayMessage=error.body.message;
             this.isLoading=false;
             this.displayError=true;
             this.showRecommendedRecords=false;
