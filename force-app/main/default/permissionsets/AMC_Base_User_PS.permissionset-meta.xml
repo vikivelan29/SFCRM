@@ -73,10 +73,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABSLI_FetchAssetController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ASF_AccountCommPETriggerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -344,10 +340,6 @@
         <apexClass>Asf_NpsIndicatiorController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <customMetadataTypeAccesses>
-        <enabled>true</enabled>
-        <name>ASF_Asset_Metadata__mdt</name>
-    </customMetadataTypeAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLAMC_Case_Detail__c.Action__c</field>
