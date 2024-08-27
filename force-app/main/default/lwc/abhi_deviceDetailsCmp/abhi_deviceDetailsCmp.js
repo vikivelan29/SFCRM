@@ -13,7 +13,6 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     showRecommendedRecords=false;
     displayMessage='';
     label = {
-        errorMessage,
         pageSize,
         recDevices,
         otherDevices,
@@ -24,7 +23,6 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     isLoading = false;
 
     connectedCallback(){
-        this.displayMessage = this.label.errorMessage;
         this.isLoading=true;
         getColumns({configName:'ABHI_DeviceDetails'})
         .then(result => {
@@ -81,6 +79,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
             }
         })
         .catch(error => {
+            this.displayMessage=error.body.message;
             this.isLoading=false;
             this.displayError=true;
             this.showRecommendedRecords=false;
