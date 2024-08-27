@@ -102,6 +102,7 @@ public with sharing class ABCL_CommonCLass {
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
 
         List<SObject> recordsToUpdate = new List<SObject>();
+        Map<Id,SObject> recordmap = new Map<Id,SObject>();
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
                 if(caseRec.ABFL_Case_Detail__c != null){
