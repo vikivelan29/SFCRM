@@ -125,9 +125,51 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             }
         }
         
-        // Updating the ABSLAMC_Case_Detail__c records
-        if (!caseDetailToUpdate.isEmpty()) {
-            update caseDetailToUpdate;
+        if(!amcSpecificCases.isEmpty()){
+            // Querying the ABSLAMC_Case_Detail__c records and initializing them as a map
+            if(!caseDetailIds.isEmpty()){
+                caseDetailMap = new Map<Id, ABSLAMC_Case_Detail__c>([
+                    SELECT Id, Date_of_App_Support_Response__c, Date_of_Reply_back_to_App_Support__c, No_of_iterations__c
+                    FROM ABSLAMC_Case_Detail__c
+                    WHERE Id IN :caseDetailIds
+                ]);
+            }
+            
+            // Mapping Case Id to Case Detail using Ids
+            if(!caseDetailMap.isEmpty()){
+                for (Id caseId : amcSpecificCases.keySet()) {
+                    Case caseRec = amcSpecificCases.get(caseId);
+                    if (caseRec.ABSLAMC_Case_Detail__c != null && caseDetailMap.containsKey(caseRec.ABSLAMC_Case_Detail__c)) {
+                        caseToCaseDetailMap.put(caseId, caseDetailMap.get(caseRec.ABSLAMC_Case_Detail__c));
+                    }
+                }
+            }
+            
+            // Looping over the caseToCaseDetailMap and checking conditions
+            if(!caseToCaseDetailMap.isEmpty()){
+                for (Id caseId : caseToCaseDetailMap.keySet()) {
+                    Case caseRec = amcSpecificCases.get(caseId);
+                    ABSLAMC_Case_Detail__c caseDetailRec = caseToCaseDetailMap.get(caseId);
+                    //check if moved backward/forward from Stage 2;
+                    if((caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT || caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE) && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT){
+                        caseDetailRec.Date_of_App_Support_Response__c = DateTime.now();
+                        caseDetailToUpdate.add(caseDetailRec);
+                    } 
+                    // Checking if the current stage is 1 and the previous stage is 2
+                    if (caseRec.Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT && oldMapCase.containsKey(caseRec.Id) && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT) {
+                        caseDetailRec.Date_of_Reply_back_to_App_Support__c = DateTime.Now();
+                        caseDetailToUpdate.add(caseDetailRec);
+                    }
+                    // Checking if the current stage is 3 and the previous stage is 2
+                    if(caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT){
+                        caseDetailRec.No_of_iterations__c = (caseDetailRec.No_of_iterations__c != null) ? caseDetailRec.No_of_iterations__c + 1 : 1;
+                    }
+                }
+            }
+            if (!caseDetailToUpdate.isEmpty()) {
+                update caseDetailToUpdate;
+            }
+            
         }
         
     }
