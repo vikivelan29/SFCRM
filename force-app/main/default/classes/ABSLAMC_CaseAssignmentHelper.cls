@@ -120,16 +120,18 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                     Case caseRec = amcSpecificCases.get(caseId);
                     ABSLAMC_Case_Detail__c caseDetailRec = caseToCaseDetailMap.get(caseId);
                     //check if moved backward/forward from Stage 2;
-                    if(caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT || caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE){
-                        
+                    if((caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT || caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE) && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT){
                         caseDetailRec.Date_of_App_Support_Response__c = DateTime.now();
-                        caseDetailRec.No_of_iterations__c = (caseDetailRec.No_of_iterations__c != null) ? caseDetailRec.No_of_iterations__c + 1 : 1;
                         caseDetailToUpdate.add(caseDetailRec);
                     } 
                     // Checking if the current stage is 1 and the previous stage is 2
                     if (caseRec.Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT && oldMapCase.containsKey(caseRec.Id) && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT) {
                         caseDetailRec.Date_of_Reply_back_to_App_Support__c = DateTime.Now();
                         caseDetailToUpdate.add(caseDetailRec);
+                    }
+                    // Checking if the current stage is 3 and the previous stage is 2
+                    if(caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT){
+                        caseDetailRec.No_of_iterations__c = (caseDetailRec.No_of_iterations__c != null) ? caseDetailRec.No_of_iterations__c + 1 : 1;
                     }
                 }
             }
@@ -139,4 +141,5 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             
         }
     }
- }
+    
+}
