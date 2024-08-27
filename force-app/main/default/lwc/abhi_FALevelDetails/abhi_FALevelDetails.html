@@ -15,7 +15,7 @@
                     </lightning-input>
                 </lightning-layout-item>
                                 <lightning-layout-item size="4" class="slds-m-right_small">
-                    <lightning-input type="date" name="Enddate" value={endDate} onchange={handleEndDateChange} min={startDate}
+                    <lightning-input type="date" name="Enddate" value={endDate} onchange={handleEndDateChange}
                         label="End Date"  class="inpFieldCheckValidity" format='YYYY-MM-dd'>
                     </lightning-input>
                 </lightning-layout-item>
@@ -26,9 +26,9 @@
             <template if:true={displayErrorSearch}>
                 <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
                     <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
-                    {errorMessageSearch}
+                    <span style="font-size: 0.90rem;">{errorMessageSearch}</span> 
                 </div>
-            </template> 
+            </template>  
         </div>
 
         <div lwc:if = {displayTable}>
@@ -53,9 +53,9 @@
         <template if:true={displayError}>
             <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
                 <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
-                {errorMessages}
+                <span style="font-size: 0.90rem;">{errorMessages}</span> 
             </div>
-        </template> 
+        </template>
         
     
    </lightning-card>
