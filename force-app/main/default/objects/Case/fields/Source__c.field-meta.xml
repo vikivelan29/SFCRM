@@ -593,6 +593,11 @@
                 <label>Internal Request</label>
             </value>
             <value>
+                <fullName>ABCD App</fullName>
+                <default>false</default>
+                <label>ABCD App</label>
+            </value>
+            <value>
                 <fullName>IVR-Bot</fullName>
                 <default>false</default>
                 <label>IVR-Bot</label>
