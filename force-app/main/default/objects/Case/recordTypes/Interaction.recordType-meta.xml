@@ -1072,6 +1072,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>IVR-Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>IVR-No Email</fullName>
             <default>false</default>
         </values>
