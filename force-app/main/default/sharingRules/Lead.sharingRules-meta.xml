@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>ABFL_Prospect_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Lead with Business Unit with ABFL value to ABFL Role Hierarchy</description>
+        <label>ABFL Prospect Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHFL_Prospect_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Lead with Business Unit ABHFL to ABHFL Role Hierarchy</description>
+        <label>ABHFL Prospect Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ABHI_Prospect_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Lead with Business Unit with ABHI value to ABHI Role Hierarchy</description>
@@ -16,46 +46,17 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABSLI_Prospect_Sharing</fullName>
+        <fullName>ABSLIG</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Lead with Business Unit ABSLI to ABSLI Role Hierarchy</description>
-        <label>ABSLI Prospect Sharing</label>
+        <description>Sharing rule for ABSLIG BU</description>
+        <label>ABSLIG</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Wellness_Prospect_Sharing</fullName>
-        <accessLevel>Edit</accessLevel>
-        <description>Share Lead with Business Unit with Wellness value to Wellness</description>
-        <label>Wellness Prospect Sharing</label>
-        <sharedTo>
-            <role>Wellness_Service_Agent</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Wellness</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABCD_Lead_Sharing_Rule</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>ABCD Lead Sharing Rule</label>
-        <sharedTo>
-            <roleAndSubordinates>ABCD_Lead</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABCD</value>
+            <value>ABSLIG</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
