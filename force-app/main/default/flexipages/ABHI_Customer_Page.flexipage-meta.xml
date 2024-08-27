@@ -5,6 +5,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Account.PSS_Communication</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -841,13 +846,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
@@ -856,10 +861,10 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATEDBY_USER.ALIAS</value>
+                            <value>Resolution_Comments__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.REASON</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -895,6 +900,9 @@
                         <valueListItems>
                             <value>CASES.STATUS|EQUALS|[&quot;Resolved&quot;,&quot;Closed&quot;,&quot;Unresolved&quot;,&quot;Merged&quot;,&quot;Closed Duplicate&quot;]</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Nature__c|EQUALS|[&quot;Request&quot;,&quot;Complaint&quot;]</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -923,13 +931,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
@@ -938,10 +946,10 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATEDBY_USER.ALIAS</value>
+                            <value>Resolution_Comments__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.REASON</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1005,6 +1013,9 @@
                             <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
@@ -1014,19 +1025,16 @@
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Nature__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATEDBY_USER.ALIAS</value>
+                            <value>Resolution_Comments__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.REASON</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1085,13 +1093,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
@@ -1100,10 +1108,10 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATEDBY_USER.ALIAS</value>
+                            <value>Resolution_Comments__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.REASON</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1526,6 +1534,70 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>5</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Account.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Survey_Responses__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Primary_Comment__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CREATED_DATE</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Survey Responses</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList7</identifier>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>sidebar</name>
         <type>Region</type>

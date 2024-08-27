@@ -7,22 +7,6 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>Case.Customer_Tagging</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Stage__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Open</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>ABHI</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.Manual_Approval</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2</booleanFilter>
@@ -191,7 +175,7 @@
                 <componentName>asf_IntegrationsPanel</componentName>
                 <identifier>c_asf_IntegrationsPanel</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 AND 2) OR 3 OR  (1 AND 4)</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR 3 OR (1 AND 4)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.AmIOwner__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -225,6 +209,110 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.IRDAI_Token_Number__c</fieldItem>
+                <identifier>RecordIRDAI_Token_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABHI_Case_Detail__r.IGMS_Complaint_Status__c</fieldItem>
+                <identifier>RecordABHI_Case_Detail_rIGMS_Complaint_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-53688acd-3858-48b0-9b4a-58233a981a02</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Entity_Reference_No__c</fieldItem>
+                <identifier>RecordEntity_Reference_No_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABHI_Case_Detail__r.IGMS_Source_of_Complaint__c</fieldItem>
+                <identifier>RecordABHI_Case_Detail_rIGMS_Source_of_Complaint_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-cae49bf7-424f-4a44-ba81-395f6e8d5960</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-53688acd-3858-48b0-9b4a-58233a981a02</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-cae49bf7-424f-4a44-ba81-395f6e8d5960</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-36fff12b-7ff9-44d6-91f5-38387ada1613</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-36fff12b-7ff9-44d6-91f5-38387ada1613</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>IGMS HISTORY</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-c83d5f03-a58c-4287-b662-1d3eedad8dd6</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_IgmsUploadAttachment</componentName>
+                <identifier>c_abhi_IgmsUploadAttachment</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABHI</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -468,7 +556,7 @@
                 <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-f2b3bba9-1a03-40d9-b26c-ef8a17b47364</name>
+        <name>Facet-07b799fe-534f-496e-aa77-1edf18f038fd</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -479,16 +567,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-5da13f5c-be3d-4cca-bff7-a65600190b93</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>aSF_CaseApprovalRecords</componentName>
-                <identifier>c_aSF_CaseApprovalRecords</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-961a0634-2898-4b2d-ab5f-7f441bdb5af9</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -599,6 +677,32 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-c83d5f03-a58c-4287-b662-1d3eedad8dd6</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>IGMS</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Nature__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Complaint</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>false</value>
                 </componentInstanceProperties>
@@ -618,14 +722,14 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-f2b3bba9-1a03-40d9-b26c-ef8a17b47364</value>
+                    <value>Facet-07b799fe-534f-496e-aa77-1edf18f038fd</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Feed</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab7</identifier>
+                <identifier>flexipage_tab9</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -640,20 +744,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-961a0634-2898-4b2d-ab5f-7f441bdb5af9</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Approvals</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -823,11 +913,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
-                    <value>SR Snapshot</value>
+                    <value>Case Snapshot</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
-                    <value>Case.Framework_Snapshot</value>
+                    <value>Case.ABHI_Framework_Snapshot</value>
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord2</identifier>
@@ -882,7 +972,7 @@
         </properties>
         <properties>
             <name>saveOptions</name>
-            <value>[{&quot;name&quot;:&quot;UseDefaultAssignmentRule&quot;,&quot;value&quot;:&quot;NONE&quot;},{&quot;name&quot;:&quot;triggerOtherEmail&quot;,&quot;value&quot;:&quot;NONE&quot;}]</value>
+            <value>[{&quot;name&quot;:&quot;UseDefaultAssignmentRule&quot;,&quot;value&quot;:&quot;NONE&quot;},{&quot;name&quot;:&quot;triggerOtherEmail&quot;,&quot;value&quot;:&quot;SHOW_CHECKBOX_WITH_DEFAULT_OFF&quot;}]</value>
         </properties>
     </template>
     <type>RecordPage</type>
