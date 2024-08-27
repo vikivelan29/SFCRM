@@ -56,7 +56,6 @@ public with sharing class ABHFL_MultipleLANController {
                 lanWrapper.displayMultipleLan = true;
                 lanWrapper.columnData = getColumnData(lanMetadata,false);
                 lanWrapper.additionalColumnData = getAdditionalColumnData(lanMetadata,false);
-                system.debug('lanWrapper.additionalColumnData-->'+lanWrapper.additionalColumnData);
                 if(validLoggedInUser){
                     if(String.isNotBlank(lanMetadata.Stages_Allowing_Field_Edit__c)){
                         List<String> stagesAllowed = lanMetadata.Stages_Allowing_Field_Edit__c.split(',');
@@ -112,11 +111,9 @@ public with sharing class ABHFL_MultipleLANController {
                     lanWrapper.childColumnData = getColumnData(childLanMetadata,true);
                 }
                 lanWrapper.assetDetailRecords = getAssetDetailRecords(lanMetadata,childLanMetadata,recId);
-                system.debug('lanWrapper.assetDetailRecords-->'+lanWrapper.assetDetailRecords);
             }
             return lanWrapper;
         } catch (Exception e) {
-            system.debug('exception in calling method-->'+e);
             throw e;//throw new AuraHandledException(e.getMessage());
         }
     }
@@ -303,7 +300,6 @@ public with sharing class ABHFL_MultipleLANController {
             }
             assetDetailWrap.asset = rec;
             assetDetailRecords.add(assetDetailWrap);
-            system.debug('assetDetailRecords--->'+assetDetailRecords);
         }
         return assetDetailRecords;
     }
