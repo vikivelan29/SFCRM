@@ -5,10 +5,12 @@ public class ABHI_HhsActiveAgeDetails_Controller {
     public static IntegrationResponseWrapper GetHhsActiveAge(string customerId) {
     try{
         String integrationName = 'ABHI_HHS_ActiveAge_Details';
+        String activAge = '1187714';
         ABCL_IntegrationCallout.accountId = customerId;
         Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
         Map<String, String> urlParams = new Map<String, String>();
         urlParams.put('customerId', acc.Client_Code__c);
+        urlParams.put('activAge',activAge);
         system.debug('customerId' +acc.Client_Code__c);
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
         system.debug('IntegrationResp Code' +integrationResp.statuscode);

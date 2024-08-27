@@ -18,10 +18,12 @@ public with sharing class ABHI_FALevelDetails_Controller {
         
         
         Map<String,String> urlParameters = new Map<String,String>();
-        urlParameters.put('startDate',fromDate);
-        urlParameters.put('endDate',toDate);
-        urlParameters.put('customerId', acc.Client_Code__c);
-        //urlParameters.put('customerNumber', '12345');
+        urlParameters.put('eventDateFrom',fromDate);
+        urlParameters.put('eventDateTo',toDate);
+        urlParameters.put('customerNumber', acc.Client_Code__c);
+        urlParameters.put('eventCode', eventCode);
+        urlParameters.put('scoreType', scoreType);
+            system.debug(urlParameters);
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
         system.debug('integrationResp>>' +integrationResp.statusCode);
