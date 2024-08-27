@@ -121,8 +121,7 @@ export default class Abhi_HHS_Active extends LightningElement {
             let table = [];
             if (activities && activities.length > 0) {
                 activities.forEach(activity => {
-                    if (activity.attributes && activity.attributes.length > 0) {
-                        let row = { tierLevelName: resultsList.tierLevelName }; 
+                    if (activity.attributes && activity.attributes.length > 0) { 
                         activity.attributes.forEach(attr => {
                             table.push({
                                 name: attr.attributeCode,
