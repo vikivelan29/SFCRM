@@ -48,9 +48,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     @track scoresList = [];
     @track showTable = false; 
     @track tableData = [];
-    @track noResultsMessage = false;
-    resultMessageValue;
-    @track ApiFailure = '';
 
     customerId;
 
@@ -87,7 +84,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         .then(result => {
             this.isLoading = false;
             this.showDataTable = true;
-            this.ApiFailure = result.Message;
 
             if(result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length > 0) {
                 this.setupColumns(result);
@@ -133,9 +129,23 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     }
 
     setupColumns(apiResponse) {
-        
+        // // Setup columns for the first data table
+        // getColumns({ configName: 'ABHI_HHS_ActiveAgeDetails' })
+        // .then(result => {
+        //     console.log('result---->', result);
+        //     this.columns = result.map(column => ({
+        //         label: column.MasterLabel,
+        //         fieldName: column.Api_Name__c,
+        //         type: column.Data_Type__c,
+        //         cellAttributes: { alignment: 'left' }
+        //     }));
+        // })
+        //.catch(error => console.error('Error fetching columns:', error));
+
+        // Setup columns for the second data table
         getColumns({ configName: 'ABHI_ActiveAgeDetails' })
         .then(result => {
+            console.log('result---->', result);
             this.columns2 = result.map(column => ({
                 label: column.MasterLabel,
                 fieldName: column.Api_Name__c,
@@ -147,7 +157,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     }
 
     processResponse(response) {
-        this.initializeTable(); // Initialize with default values
+        console.log('API Response:', response);
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
@@ -185,80 +195,35 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 msg.businessDesc === "Result found" || msg.businessDesc === "No Result found"
             );
             
-            if (resultMessage) {
-                if (resultMessage.businessDesc === "Result found" && response.HHSDetails.responseMap && Object.keys(response.HHSDetails.responseMap).length > 0) {
-                
-                        const resultsList = response.HHSDetails.responseMap.resultsList;
-                        const tierLevelName = resultsList.tierLevelName;
-                        const activities = resultsList.activities;
-                            //console.log('Activities:', JSON.stringify(activities, null, 2));
+            const resultsList = response.HHSDetails.responseMap.resultsList;
+            const activities = resultsList.activities;
+            console.log('activities-->',activities);
 
-                            //let table = [...this.table];
-                            let table = Object.keys(DEFAULT_VALUES).map(label => ({
-                                attributeCode: label,
-                                attributeValue: DEFAULT_VALUES[label]
-                            }));
-
-                            if (response.HHSDetails.operationStatus === 'SUCCESS') {
-                                if (tierLevelName) {
-                                    table = table.map(row =>
-                                        row.attributeCode === 'Current Score'
-                                            ? { attributeCode: 'Current Score', attributeValue: tierLevelName }
-                                            : row
-                                    );
-                                   
-                                }
-
-                                activities.forEach(activity => {
-                                    const label = ATTRIBUTE_CODE_LABELS[activity.code] || activity.name;
-                                        // Push the activity value
-                                   
-                                    table = table.map(row =>
-                                        row.attributeCode === label
-                                            ? { attributeCode: label, attributeValue: activity.value || DEFAULT_VALUES[label] }
-                                            : row
-                                    );
-
-                                    if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
-                                        activity.attributes.forEach(attr => {
-                                            const label = ATTRIBUTE_CODE_LABELS[attr.attributeCode] || attr.attributeCode;
-                                            if (ALLOWED_ATTRIBUTES.includes(label)) {
-                                                
-                                                table = table.map(row =>
-                                                    row.attributeCode === label
-                                                        ? { attributeCode: label, attributeValue: attr.attributeValue || DEFAULT_VALUES[label] }
-                                                        : row
-                                                );
-                                            }
-                                        });
-                                    }
-                                });
-
-                                this.table = table;
-                                console.log('Table Data:', JSON.stringify(this.table, null, 2));
-                                this.showTable = true;
-                                hasData = true;
-                                this.totalRecords = this.table.length;
-            this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
-            this.updateTableData();
-                            } else {
-                                this.table = [];
-                                this.noResultsMessage = true;
-                                //this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
-                            }
-                   
-                } else if (resultMessage.businessDesc === "No Result found") {
-                    //console.log('resultMessage.businessDesc', resultMessage.businessDesc);
-                    // Handle case where "No Result found" is present
-                    this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
-                }
-            } else {
-                this.noResultsMessage = resultMessage.businessDesc;
+            let table = [];
+            if (activities && activities.length > 0) {
+                activities.forEach(activity => {
+                    if (activity.attributes && activity.attributes.length > 0) {
+                        let row = { tierLevelName: resultsList.tierLevelName }; 
+                        activity.attributes.forEach(attr => {
+                            table.push({
+                                name: attr.attributeCode,
+                                value: attr.attributeValue
+                            });
+                        });
+                    }
+                });
             }
-        } else {
-            this.noResultsMessage = true;
-        }
-        } else {
+            console.log('Processed Table Data:', tableData);
+        this.table = table;
+        console.log('this.table', this.table);
+        this.showTable = true;
+        this.displayError = false;
+        
+
+        // Add tierLevelName and attributes to recordTable
+        //this.recordTable = [attributeData]; 
+             
+        }else {
             //this.errorMessages = 'No valid response from API';
             this.errorMessages = response.Message;
             this.displayError = true;
