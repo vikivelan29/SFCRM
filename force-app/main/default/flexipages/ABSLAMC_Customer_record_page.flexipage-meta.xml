@@ -583,6 +583,16 @@
                 <identifier>RecordUBO_Flag_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NPO_Flag__c</fieldItem>
+                <identifier>RecordNPO_Flag_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b0f0b316-1fd3-472e-ae1d-b4e794cf704d</name>
         <type>Facet</type>
     </flexiPageRegions>
