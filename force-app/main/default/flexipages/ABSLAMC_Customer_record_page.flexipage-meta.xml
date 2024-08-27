@@ -424,6 +424,23 @@
                 <identifier>RecordService_2_Sales_CRE_Email_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Last_Update_Date_Time__c</fieldItem>
+                <identifier>RecordLast_Update_Date_Time__cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>MF</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-5b364407-cf0c-4fd9-a855-18faa34dfc8e</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -594,16 +611,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.UBO_Flag__c</fieldItem>
                 <identifier>RecordUBO_Flag_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.NBO_Flag__c</fieldItem>
-                <identifier>RecordNBO_Flag_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b0f0b316-1fd3-472e-ae1d-b4e794cf704d</name>
