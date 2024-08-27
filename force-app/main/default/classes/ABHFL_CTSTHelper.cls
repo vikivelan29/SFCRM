@@ -362,8 +362,9 @@ public without sharing class ABHFL_CTSTHelper {
 	}
 
     //Dhinesh - Stop at banking stage on forward movement after a backward movement.
-    public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
-        // List of valid subTypes
+     public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
+      /*  Logic commented of this Method by Nikhil EY - PR970457-2176
+      // List of valid subTypes
     	List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
         
     	for (Case caseRecord : caseList) {
@@ -382,8 +383,8 @@ public without sharing class ABHFL_CTSTHelper {
                 ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped = true;
         	}
             
-    	}
-	}
+    	} */
+	} 
     
     public static void changeStagetoCPUBanking(Case caseRecord) {
         Group CPUQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_CPU_Banking_Team' WITH SECURITY_ENFORCED LIMIT 1];
@@ -405,7 +406,7 @@ public without sharing class ABHFL_CTSTHelper {
         return updatedCasesMap;
     }
     //Dhinesh
-   public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
+    public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
         //Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
 
@@ -414,31 +415,22 @@ public without sharing class ABHFL_CTSTHelper {
         for(Case caseRec : caseRecords){
             eligibleCases.add(caseRec);
             uniqueKeyToCaseId.put(caseRec.ABHFL_Case_Detail__r.Preferred_Branch__c, caseRec.Id);
+            
         }
         Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
         List<ABHFL_Case_Detail__c> caseDetailsToUpdate = new List<ABHFL_Case_Detail__c>();
-        Set<ID>activeuserlst=new set<ID>(); 
-        for(User u: [Select Id from user where Isactive=true]){
-            activeuserlst.add(u.Id);
-        }
-        Id queuewhennospoc=[Select Id,Name from Group where type='Queue' AND Name='Unassigned Queue'].Id;
         if(!eligibleCases.isEmpty()){
             Map<Id, Branch_Master__c> caseIdToBranchMap = new Map<Id, Branch_Master__c>();
-            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c,Address__c, UniqueKey__c,CRM_SPOC__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
+            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c,Address__c, UniqueKey__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
             {
                 caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.UniqueKey__c), branch);
             }
             for(Case caseRec : eligibleCases){
-               Case blankCase = new Case(Id = caseRec.Id);
-                
-                if(caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c != null && activeuserlst.contains(caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c)){
-                        blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c;
-                    }
-                    else
-                    {
-                    blankCase.OwnerId=queuewhennospoc;    
-                    }
+                if(caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c != null){
+                    Case blankCase = new Case(Id = caseRec.Id);
+                    blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c;
                     updatedCasesMap.put(blankCase.Id, blankCase);
+                }
                 ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
                 caseDetail.Address__c = caseIdToBranchMap.get(caseRec.Id).Address__c;
                 caseDetailsToUpdate.add(caseDetail);
