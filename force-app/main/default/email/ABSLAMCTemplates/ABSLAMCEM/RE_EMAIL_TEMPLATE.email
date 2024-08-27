@@ -3,22 +3,59 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">
-<p>Dear Investor,<br />
-<br />
-Greetings for the day!</p>
-
-<p>Thank you for writing to Aditya Birla Sunlife Real Estate !<br />
-<br />
-We have received your email, and our team will respond to your service requirement as soon as possible. We appreciate your cooperation and patience during this time.<br />
-<br />
-The reference id for this interaction is {{{Case.CaseNumber}}}. Please use this reference number for any future correspondence related to this concern.</p>
-
-<p>In case of urgent assistance, please call our toll-free numbers at 1-800-270-7000 within India and at 080-45860777 outside India.</p>
-
-<p>Our service hours are Monday to Sunday, 10 am to 7 pm (IST). Assuring you best of our services.</p>
-
-<p>Regards,<br />
-Client Relations<br />
-Aditya Birla Sun Life&nbsp;Real Estate</p>
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="border:1px solid #000000;" width="620">
+	<tbody>
+		<tr>
+			<td style="padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px;">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tbody>
+					<tr>
+						<td style="padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px;">
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>
+								<tr>
+									<td align="left" valign="top" width="50">&nbsp;</td>
+									<td align="left" valign="top" width="520">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 25px;font-style:normal;" valign="bottom">Dear Investor,<br />
+												&nbsp;</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Greetings from Aditya Birla Sun Life AMC Ltd - Real Estate Investment Team!</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Thank you for writing to Aditya Birla Real Estate Fund - 1/Aditya Birla Credit opportunities Fund / Aditya Birla Credit Opportunities Fund -2 / Aditya Birla Special Opportunities Fund.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We wish to inform you that your concern registered under service request number <span style="font-weight:normal;">{{{Case.CaseNumber}}}</span> has been resolved.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">If you need any further assistance, please do not hesitate to contact us at care.realestate@adityabirlacapital.com.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">&nbsp;</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#202020; padding-top:20px; padding-right:0px; padding-bottom:10px; padding-left:0px; text-align:left; line-height: 25px;font-style:normal;" valign="bottom">Best Regards,<br />
+												Real Estate Investment Service Team<br />
+												Aditya Birla Sun Life AMC Ltd &ndash; Real Estate Investment Team</td>
+											</tr>
+										</tbody>
+									</table>
+									</td>
+									<td align="left" valign="top" width="50">&nbsp;</td>
+								</tr>
+							</tbody>
+						</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
 </body>
 </html>
