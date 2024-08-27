@@ -68,6 +68,12 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
                 }
+               else if(bussHrName.containsIgnoreCase('ABSLI')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ABSLAMC')){
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLAMC', bh);
+                }
             }
         
             for(Case csRec : newCaseLst) {  
@@ -167,7 +173,7 @@ public with sharing class ABCL_CommonCLass {
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         
         String slaOverwriteIdentifier = '';
-        if(calculateMinutes <= 900) {
+       if(calculateMinutes > 0 && calculateMinutes <= 900) {
             slaOverwriteIdentifier = '1';
         }
         else if(calculateMinutes > 900 && calculateMinutes <= 960) {
@@ -191,9 +197,7 @@ public with sharing class ABCL_CommonCLass {
         else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
             slaOverwriteIdentifier = '8';
         }
-        else if(calculateMinutes > 1320 && calculateMinutes <= 1440) {
-            slaOverwriteIdentifier = '1';
-        }
+        
         return slaOverwriteIdentifier;
     }
 }
