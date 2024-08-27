@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Insurance Status 1</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -29,6 +30,11 @@
                 <fullName>Lock-in</fullName>
                 <default>false</default>
                 <label>Lock-in</label>
+            </value>
+            <value>
+                <fullName>Discrepancy</fullName>
+                <default>false</default>
+                <label>Discrepancy</label>
             </value>
         </valueSetDefinition>
     </valueSet>
