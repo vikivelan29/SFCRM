@@ -24,6 +24,7 @@ public with sharing class ABHI_FALevelDetails_Controller {
         urlParameters.put('customerNumber', acc.Client_Code__c);
         urlParameters.put('eventCode', eventCode);
         urlParameters.put('scoreType', scoreType);
+            system.debug(urlParameters);
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
         system.debug('integrationResp>>' +integrationResp);
