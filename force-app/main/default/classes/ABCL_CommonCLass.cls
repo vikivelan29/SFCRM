@@ -68,7 +68,7 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
                 }
-                else if(bussHrName.containsIgnoreCase('ABSLI')) {
+               else if(bussHrName.containsIgnoreCase('ABSLI')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
                 }
                 else if(bussHrName.containsIgnoreCase('ABSLAMC')){
@@ -118,7 +118,7 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
-            recordsToUpdate.add(recordmap.values());
+            recordsToUpdate.addAll(recordmap.values());
         }
         
         if(!recordsToUpdate.isEmpty()){
