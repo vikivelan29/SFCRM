@@ -70,6 +70,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
@@ -85,12 +89,55 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Feature_Skipper_Flag__c</picklist>
         <values>
-            <fullName>ABHI</fullName>
+            <fullName>SKIP_APPROVAL_CHECKS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLAMC</fullName>
+            <fullName>SKIP_ASSIGNMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_CLOSE_CASE_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_INTEGRATION_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_OWNER_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_PERI_GENERATE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_ENTRY_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_EXIT_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_CHECKLISTS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_RECAT_PARAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_TASKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATION_CHECKS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -657,6 +704,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Stale cheque</fullName>
             <default>false</default>
         </values>
@@ -837,7 +888,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>No_Auto_Communication__c</picklist> 
+        <picklist>No_Auto_Communication__c</picklist>
         <values>
             <fullName>Email</fullName>
             <default>false</default>
@@ -847,7 +898,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>WhatsApp</fullName> 
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1105,6 +1156,10 @@
         </values>
         <values>
             <fullName>IVR Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR-Bot</fullName>
             <default>false</default>
         </values>
         <values>
