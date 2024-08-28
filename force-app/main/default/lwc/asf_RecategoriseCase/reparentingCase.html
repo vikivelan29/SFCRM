@@ -1,3 +1,4 @@
+<!-- sldsValidatorIgnore -->
 <template>
     <lightning-quick-action-panel header="Case Type Recategorize" class="slds-is-relative">
         <template if:false={loaded}>
@@ -30,7 +31,7 @@
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
                         <lightning-input type="text" onchange={valChange} label="Customer Search"
-                            placeholder="Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#"></lightning-input>
+                            placeholder={assetSearchPlaceholder}></lightning-input>
                     </div>
                 </div>
                 <div class="slds-grid slds-gutters slds-m-left_medium">
@@ -54,7 +55,7 @@
                             <br /><br />
                             <lightning-layout>
                                 <lightning-layout-item class="slds-p-top_small">
-                                    <strong>Select LAN </strong> &nbsp;
+                                    <strong> {selectLan} </strong> &nbsp;
                                 </lightning-layout-item>
                                 <lightning-layout-item class="">
                                     <lightning-input type="search" variant="label-hidden"
@@ -65,7 +66,7 @@
                             <div style="overflow-x: auto;">
                                 <lightning-datatable key-field="Id" data-id="asstTable" max-row-selection="1"
                                     data={currentCustomersAssets} class="colorWhite" columns={asstCols}
-                                    selected-rows={preSelectedAsset} onrowselection={handleAsstAction}>
+                                    onrowselection={handleAsstAction}>
                                 </lightning-datatable>
                             </div>
                         </div>
@@ -193,9 +194,11 @@
                                 <lightning-input-field field-name="Business_Unit__c" data-id="bizUnit" value={caseBUVal}
                                     class="slds-hide">
                                 </lightning-input-field>
-                                <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback" required=true
-                                    value={botFeedbackVal}>
-                                </lightning-input-field>
+                                <template if:true={showBotFeedbackDropdown}>
+                                    <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback" required=true
+                                        value={botFeedbackVal} onchange={handleBotDropdown}>
+                                    </lightning-input-field>
+                                </template>
                                 <template if:true={isAllNature}>
                                     <lightning-input-field field-name="Nature__c" data-id="natureField" required=true
                                         onchange={handleNatureVal} value={natureVal}>
@@ -213,18 +216,12 @@
                                     onchange={handleChangeNature} required>
                                 </lightning-combobox>
                             </template>
-
-                            <!--<template if:true={boolAllSourceVisible}>
-                                <lightning-combobox value="" label="Source" options="" onchange={handleSource}
-                                    placeholder={strSource} read-only required>
-                                </lightning-combobox>
+                            <template if:true={showIssueType}>
+                                <div class="slds-form_horizontal slds-form slds-grid slds-wrap">
+                                    <lightning-combobox class="validate slds-size_1-of-1" name="issueType" label="Issue Type" data-id="issueType"
+                                    value={issueTypeVal} onchange={handleIssueTypeChange} options={issueTypeOptions} required ></lightning-combobox>
+                                </div>
                             </template>
-
-                            <template if:true={boolAllChannelVisible}>
-                                <lightning-combobox value={strChannelValue} label="Channel" options={lstChannelValues}
-                                    onchange={handleChangeChannel} placeholder={strDefaultChannel} required>
-                                </lightning-combobox>
-                            </template> -->
 
                             <template if:true={showBotFeedback}>
                                 <lightning-layout-item size="8" padding="around-small">
