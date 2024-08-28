@@ -22,7 +22,15 @@ public with sharing class ABHI_FAHistoryDetailsController {
             ABCL_IntegrationCallout.accountId = customerId;
             Account acc = [SELECT Client_Code__c from Account where Id =: customerId];
             Map<String, String> urlParams = new Map<String, String>();
-            urlParams.put('customerId', acc.Client_Code__c);
+            String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
+            if(code == '0'){
+                return new IntegrationResponseWrapper(
+                    400,
+                    Custom_Messages__mdt.getInstance('ABHI_Customer_Id_Mandatory').Message__c
+                );
+            }
+
+            urlParams.put('customerId', code);
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
             
             if(integrationResponse.StatusCode == 1000 || integrationResponse.StatusCode == 1001) {
