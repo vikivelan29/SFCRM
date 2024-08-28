@@ -48,8 +48,6 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
     }
 
     refreshData() {
-        this.policyData = null;
-        this.apiErrorMessage = null;
         this.isLoadingData = true;
         this.fetchViewInformationPolicy_Data();
     }
