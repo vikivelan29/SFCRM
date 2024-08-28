@@ -2,8 +2,8 @@
 * @description       : ABSLI CTST Helper
 * @author            : dhinesh.t@salesforce.com
 * @group             : 
-* @last modified on  : 06-03-2024
-* @last modified by  : dhinesh.t@salesforce.com
+* @last modified on  : 08-28-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   06-05-2024   dhinesh.t@salesforce.com   Initial Version
@@ -39,7 +39,7 @@ public with sharing class ABSLI_CTSTHelper {
             validation.result = false;
             validation.blankFields = new Set<String>();
             resultsMap.put(caseRec.Id, validation);
-            if(caseRec.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false && caseRec.CCC_External_Id__c == ABSLI_Constants.SURVIVALCTST){
+            if(caseRec.CCC_External_Id__c == ABSLI_Constants.SURVIVALCTST){
             	survialCases.add(caseRec);                
             }
             if(ABSLI_Constants.SURRENDER_WITHDRAWAL_CCC_IDs.contains(caseRec.CCC_External_Id__c)){
