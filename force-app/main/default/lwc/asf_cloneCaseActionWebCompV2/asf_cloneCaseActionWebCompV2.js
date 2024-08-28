@@ -166,6 +166,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                 && specificFields.fieldList.length > 0) {
                 fieldsToCopy = [...fieldsToCopy, ...specificFields.fieldList];
             }
+            //checks whether folio is mandatory on CCC, throws error when user proceeds to cloning the case without selecting folio
             isFAMandatory = specificFields.isFAMandatory;
             if(isFAMandatory && (this.newAssetSelected == 'NA' || !this.newAssetSelected)){
                let recpicker = this.template.querySelector("lightning-record-picker");
