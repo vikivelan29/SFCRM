@@ -42,11 +42,7 @@ public with sharing class ABHI_FAHistoryDetailsController {
                 );
             }
         } catch (Exception e) {
-            return new IntegrationResponseWrapper(
-                    400,
-                    Custom_Messages__mdt.getInstance('ABHI_UnexpectedError').Message__c,
-                    e.getMessage()
-                );
+            throw new AuraHandledException(e.getMessage());
         }
     }
 
@@ -80,15 +76,9 @@ public with sharing class ABHI_FAHistoryDetailsController {
         @AuraEnabled public List<CustomerAppointmentsWrapper> customerAppointments;
         @AuraEnabled public Integer StatusCode;	
 	    @AuraEnabled public String Message;	
-	    @AuraEnabled public String error;	
         public IntegrationResponseWrapper(Integer statusCode, String responseBody){
             this.StatusCode = statusCode;
             this.Message = responseBody;
-        }
-        public IntegrationResponseWrapper(Integer statusCode, String message, String errorMessage){
-            this.StatusCode = statusCode;
-            this.Message = message;
-            this.error = errorMessage;
         }
     }
 
