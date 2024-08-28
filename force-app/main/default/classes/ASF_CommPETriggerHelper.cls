@@ -148,7 +148,7 @@ public without sharing class ASF_CommPETriggerHelper {
             if(log.Id != null){
                 // Do some data setup here and then update.
                 log.Status__c = 'In Progress';
-                log.WhatsApp_Delivery_Status__c = 'In Progress';
+                log.WhatsApp_Delivery_Status__c = 'In Progress'; 
                 updLogs.add(log);
             }
         }
