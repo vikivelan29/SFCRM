@@ -21,7 +21,6 @@ export default class Abhil_FALevelDetails extends LightningElement {
     @track errorMessages = '';
     @track displayError = false;
     @track errorMessageSearch ='';
-    @track ApiFailure = '';
     
     
 
@@ -53,9 +52,20 @@ export default class Abhil_FALevelDetails extends LightningElement {
         this.validateDates();
     }
     handleRefresh(){
-        this.handleSearchClick();
+        this.startDate = '';
+        this.endDate = '';
+        this.records = [];
+        this.columns = [];
+        this.data = [];
+        this.displayTable = false;
+        this.displayError = false;
+        this.displayErrorSearch = false;
+        this.fetchColumns();
     }
-
+    loadData(){
+        this.handleSearchClick;
+        
+    }
 
     handleSearchClick() {
         
