@@ -95,7 +95,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if(externalIdStageNameCaseStageConfigMap != null)
-                    	sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
+                      sla1Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_1__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA2Override') != null){
@@ -103,7 +103,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else {
                     if (externalIdStageNameCaseStageConfigMap != null)
-                    	sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
+                      sla2Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_2__c) * slaIdentifier : null;
                 } 
                 //Stage SLA 2 overirde
                 if(slaValues.get('stageSLA3Override') != null){
@@ -111,7 +111,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 else { 
                     if (externalIdStageNameCaseStageConfigMap != null)  
-                    	sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
+                      sla3Sec =  s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c != null ? Integer.valueOf(s.externalIdStageNameCaseStageConfigMap.get(mapKey).Stage_SLA_3__c) * slaIdentifier : null;
                 } 
 
             }
@@ -193,7 +193,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     closeSlaSec = slaMap.get('caseClosureSLA');
                     
                     updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, system.now(), closeSlaSec);
-                    
+
                     /*
                     Percentage is to calculate fields which is available in List view.
                     Example if Over all Case closure is 31-Dec , then we get calculate what s
@@ -203,7 +203,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     More of proactove way of selecting cases to work on and avoiding SLA breach
 
                     */
-                    percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,system.now(),updatedCase);
+                        percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,system.now(),updatedCase);
                     
                     if(sla1Sec != null){
                         updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, system.now(), sla1Sec);
@@ -847,6 +847,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     //when external id is changed , case can get changed after 2 days , so take 
                     //created date,.
                     updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
+                    if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
+                        updatedCase.SLA_Broken__c = true;
+                        updatedCase.SLA_Broken_DateTime__c = System.now();
+                    }
                 }
 
                 // updatedCase.Stage_SLA_1__c = null; 
@@ -890,6 +894,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         }
                         if(closeSlaSec != null){
                             updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec - overallTimeSpent);
+                            if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
+                                updatedCase.SLA_Broken__c = true;
+                                updatedCase.SLA_Broken_DateTime__c = System.now();
+                            }
                             percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
                         }
                         updatedCase.Stage_SLA_1__c = null;
