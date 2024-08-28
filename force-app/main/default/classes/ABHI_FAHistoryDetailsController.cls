@@ -22,7 +22,7 @@ public with sharing class ABHI_FAHistoryDetailsController {
             ABCL_IntegrationCallout.accountId = customerId;
             List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId];
             Map<String, String> urlParams = new Map<String, String>();
-            String code = acc[0].Client_Code__c != null ? acc[0].Client_Code__c : '0';
+            String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
             if(code == '0'){
                 return new IntegrationResponseWrapper(
                     400,
