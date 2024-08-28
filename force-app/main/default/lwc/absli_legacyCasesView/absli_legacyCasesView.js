@@ -173,6 +173,16 @@ export default class Absli_legacyCasesView extends LightningElement {
         }
         console.log('this.v' + JSON.stringify(event.detail));
     }
+
+    clearSelection(event){
+        this.msdCaseNumber = '';
+        this.selectedAsset = '';
+        this.startDate='';
+        this.endDate='';
+        this.startDateRequired = false;
+        this.endDateRequired = false;
+    }
+
     callRowAction(event) {
         debugger;
         //this.showChildTable = false;
