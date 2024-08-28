@@ -22,6 +22,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     @track scoresList = [];
     @track showTable = false; 
     @track tableData = [];
+    @track noResultsMessage = false;
 
     customerId;
 
@@ -115,36 +116,74 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         this.showDataTable = true;
         this.displayError = false;
             
-            const resultsList = response.HHSDetails.responseMap.resultsList;
-            const activities = resultsList.activities;
-            console.log('activities-->',activities);
+           // Check if HHSDetails and serviceMessages exist
+        if (response.HHSDetails && Array.isArray(response.HHSDetails.serviceMessages)) {
+            const serviceMessages = response.HHSDetails.serviceMessages;
 
-            let table = [];
-            if (activities && activities.length > 0) {
-                activities.forEach(activity => {
-                    if (activity.attributes && activity.attributes.length > 0) { 
-                        activity.attributes.forEach(attr => {
-                            table.push({
-                                name: attr.attributeCode,
-                                value: attr.attributeValue
-                            });
-                        });
+            // Find if there is a message with "Result found" or "No Result found"
+            const resultMessage = serviceMessages.find(msg =>
+                msg.businessDesc === "Result found" || msg.businessDesc === "No Result found"
+            );
+            
+            if (resultMessage) {
+                if (resultMessage.businessDesc === "Result found") {
+                    // Check if responseMap and resultsList exist
+                    if (response.HHSDetails.responseMap && response.HHSDetails.responseMap.resultsList) {
+                        const resultsList = response.HHSDetails.responseMap.resultsList;
+                        const tierLevelName = resultsList.tierLevelName;
+
+                        // Ensure resultsList has activities
+                        if (resultsList.activities && Array.isArray(resultsList.activities)) {
+                            const activities = resultsList.activities;
+                            console.log('activities-->', activities);
+
+                            let table = [];
+                            if (response.HHSDetails.operationStatus === 'SUCCESS') {
+                                table.push({
+                                    attributeCode: 'Current Score',
+                                    attributeValue: tierLevelName
+                                });
+                                resultsList.activities.forEach(activity => {
+                                    if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
+                                        activity.attributes.forEach(attr => {
+                                            table.push({
+                                                attributeCode: attr.attributeCode,
+                                                attributeValue: attr.attributeValue
+                                            });
+                                        });
+                                    }
+                                });
+                                this.table = table;
+                                this.showTable = true;
+                            } else {
+                                this.table = [];
+                                this.noResultsMessage = true;
+                            }
+                        } else {
+                            // Handle case where activities are not present or not an array
+                            this.table = [];
+                            this.noResultsMessage = true;
+                        }
+                    } else {
+                        this.noResultsMessage = true;
                     }
-                });
+                } else if (resultMessage.businessDesc === "No Result found") {
+                    // Handle case where "No Result found" is present
+                    this.noResultsMessage = true;
+                }
+            } else {
+                this.noResultsMessage = true;
             }
-            console.log('Processed Table Data:', tableData);
-        this.table = table;
-        console.log('this.table', this.table);
-        this.showTable = true;
-        this.displayError = false;
-        
-
+        } else {
+            this.noResultsMessage = true;
+        }
+        }
         // Add tierLevelName and attributes to recordTable
         //this.recordTable = [attributeData]; 
              
-        }else {
+        else {
             //this.errorMessages = 'No valid response from API';
-            this.errorMessages = response.Message || 'No valid response from API';
+            this.errorMessages = response.Message || 'No valid response recieved';
             this.displayError = true;
         }
     }

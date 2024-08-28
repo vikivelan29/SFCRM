@@ -1,5 +1,5 @@
 <template>
-    <lightning-card title="HHS Active Age Details">
+    <lightning-card>
         <div class="slds-m-around_medium">
             <!-- Loading Spinner -->
             <template if:true={isLoading}>
@@ -13,10 +13,10 @@
                 <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" title="Refresh" size="medium" onclick={handleRefresh}></lightning-button-icon>
             </div>
         </div>
+    <lightning-card title="Healthy Heart Score">
+        
         <br/>
         <!-- Data Tables -->
-
-
         <template if:true={showTable}>
             <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout">
                 <thead>
@@ -27,19 +27,28 @@
                 </thead>
                 <tbody>
                     <template for:each={table} for:item="item">
-                        <tr key={item.name}>
-                            <td>{item.name}</td>
-                            <td>{item.value}</td>
+                        <tr key={item.attributeCode}>
+                            <td>{item.attributeCode}</td>
+                            <td>{item.attributeValue}</td>
                         </tr>
                     </template>
                 </tbody>
             </table>
         </template>
-<br/>
-<br/>
-        <template if:true={showDataTable}> 
 
-            <lightning-datatable
+        <template if:true={noResultsMessage}>
+            <div class="slds-text-color_weak slds-m-top_medium">
+                No Result found
+            </div>
+        </template>
+    </lightning-card>
+
+<br/>
+<br/>
+<lightning-card title="Active Age Details">
+    <template if:true={showDataTable}> 
+
+            <lightning-datatable 
                 key-field="name"
                 data={recordTable2}
                 columns={columns2}
@@ -87,6 +96,7 @@
                 </lightning-button>
             </div>
         </template>
+    </lightning-card>
 
         <!-- Error Display -->
         <template if:true={displayError}>
