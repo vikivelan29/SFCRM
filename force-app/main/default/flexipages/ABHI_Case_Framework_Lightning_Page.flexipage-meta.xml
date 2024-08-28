@@ -758,16 +758,6 @@
                 <identifier>RecordRejected_Reason_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABHI_Case_Detail__c</fieldItem>
-                <identifier>RecordABHIL_Case_Detail__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-66a11bdf-5fb7-4e4f-b4c9-e16e5afd91b3</name>
         <type>Facet</type>
     </flexiPageRegions>
