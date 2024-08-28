@@ -29,6 +29,8 @@ public with sharing class ABHI_FAHistoryDetailsController {
                     Custom_Messages__mdt.getInstance('ABHI_Customer_Id_Mandatory').Message__c
                 );
             }
+
+            urlParams.put('customerId', code);
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
             
             if(integrationResponse.StatusCode == 200) {
