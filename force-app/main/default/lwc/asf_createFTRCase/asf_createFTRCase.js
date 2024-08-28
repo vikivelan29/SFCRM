@@ -220,6 +220,7 @@ export default class Asf_createFTRCase extends NavigationMixin(LightningElement)
             caseFields['AccountId'] = this.recordId;
             caseFields["OnCreateCloseSR__c"] = true;
             caseFields["No_Auto_Communication__c"] = 'Email;SMS;WhatsApp';
+            caseFields["Business_Unit__c"] = this.accountData.fields.Business_Unit__c.value;
             //add source from user record
 
             const caseRecord = { apiName: 'Case', fields: caseFields };
