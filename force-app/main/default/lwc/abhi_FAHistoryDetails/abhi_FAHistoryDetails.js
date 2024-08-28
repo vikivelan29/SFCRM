@@ -38,7 +38,10 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
             })
         .catch(error => {
                 // todo: remove hardcoding
-                console.error('error in COlumn fetch>>>', error);
+                this.isLoading=false;
+                this.displayError=true;
+                this.showRecords=false;
+                console.error('error in Column fetch>>>', error);
             });
         
     }
@@ -66,13 +69,13 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
                 this.showRecords=false;
             }
             else{
+                this.message = result.Message;
                 this.isLoading=false;
                 this.displayError=true;
                 this.showRecords=false;
             }
         })
         .catch(error => {
-            this.message = error.body.message;
             this.isLoading=false;
             this.displayError=true;
             this.showRecords=false;

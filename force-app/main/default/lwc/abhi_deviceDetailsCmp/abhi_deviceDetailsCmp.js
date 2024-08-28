@@ -5,6 +5,7 @@ import recDevices from '@salesforce/label/c.ABHI_RecommendedDevice';
 import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
 import deviceDetail from '@salesforce/label/c.ABHI_DeviceDetails';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
+import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import { getRecord } from 'lightning/uiRecordApi';
 
 export default class Abhi_deviceDetailsCmp extends LightningElement {
@@ -33,6 +34,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
       }
 
     connectedCallback(){
+        this.displayMessage = this.label.errorMessage;
         this.isLoading=true;
         getColumns({configName:'ABHI_DeviceDetails'})
         .then(result => {
@@ -48,6 +50,10 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
             })
         .catch(error => {
                 // todo: remove hardcoding
+                this.isLoading=false;
+                this.displayError=true;
+                this.showRecommendedRecords=false;
+                this.showOtherRecords=false;
                 console.error('Error in getColumns>>>', JSON.stringify(error));
             });
         
@@ -91,7 +97,6 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
             }
         })
         .catch(error => {
-            this.displayMessage=error.body.message;
             this.isLoading=false;
             this.displayError=true;
             this.showRecommendedRecords=false;
