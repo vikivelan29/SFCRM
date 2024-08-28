@@ -18,6 +18,8 @@ export default class Abhil_FALevelDetails extends LightningElement {
     @track isLoading = false;
     @track errorMessages = '';
     @track displayError = false;
+    @track errorMessageSearch ='';
+    
     
 
 
@@ -46,6 +48,21 @@ export default class Abhil_FALevelDetails extends LightningElement {
     handleEndDateChange(event) {
         this.endDate = event.target.value;
         this.validateDates();
+    }
+    handleRefresh(){
+        this.startDate = '';
+        this.endDate = '';
+        this.records = [];
+        this.columns = [];
+        this.data = [];
+        this.displayTable = false;
+        this.displayError = false;
+        this.displayErrorSearch = false;
+        this.fetchColumns();
+    }
+    loadData(){
+        this.handleSearchClick;
+        
     }
 
     handleSearchClick() {
