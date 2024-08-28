@@ -21,17 +21,15 @@ public with sharing class ABHI_FAHistoryDetailsController {
         try {
             String integrationName = 'ABHI_FAHistoryDetails';
             ABCL_IntegrationCallout.accountId = customerId;
-            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId WITH SYSTEM_MODE];
+            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId];
             Map<String, String> urlParams = new Map<String, String>();
-            String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
+            String code = acc[0].Client_Code__c != null ? acc[0].Client_Code__c : '0';
             if(code == '0'){
                 return new IntegrationResponseWrapper(
                     400,
                     Custom_Messages__mdt.getInstance('ABHI_Customer_Id_Mandatory').Message__c
                 );
             }
-
-            urlParams.put('customerId', code);
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
             
             if(integrationResponse.StatusCode == 200) {
@@ -52,7 +50,11 @@ public with sharing class ABHI_FAHistoryDetailsController {
                 
             }
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            return new IntegrationResponseWrapper(
+                    400,
+                    Custom_Messages__mdt.getInstance('ABHI_UnexpectedError').Message__c,
+                    e.getMessage()
+                );
         }
     }
 
@@ -86,14 +88,15 @@ public with sharing class ABHI_FAHistoryDetailsController {
         @AuraEnabled public List<CustomerAppointmentsWrapper> customerAppointments;
         @AuraEnabled public Integer StatusCode;	
 	    @AuraEnabled public String Message;	
-        /**
-         * @description parameterized constructor
-         * @param statusCode - status code to be passed
-         * @param responseBody  - response body to be passed
-         */
+	    @AuraEnabled public String error;	
         public IntegrationResponseWrapper(Integer statusCode, String responseBody){
             this.StatusCode = statusCode;
             this.Message = responseBody;
+        }
+        public IntegrationResponseWrapper(Integer statusCode, String message, String errorMessage){
+            this.StatusCode = statusCode;
+            this.Message = message;
+            this.error = errorMessage;
         }
     }
 
