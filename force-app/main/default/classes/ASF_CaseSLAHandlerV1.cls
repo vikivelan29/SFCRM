@@ -740,7 +740,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         List<Case> changedCaseList = new List<Case>();
         Map<Id, Case> casesToUpdate = new Map<Id, Case>();
         ASF_CaseHistoryPercentageCalc percntCls = new ASF_CaseHistoryPercentageCalc();
-        
+
         Boolean anyOwnerUpdate = false;
         Boolean anyStageUpdate = false;
         for(Id i: newCases.keyset()){
@@ -761,8 +761,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 if(newCases.get(i).OwnerId != oldCases.get(i).OwnerId){anyOwnerUpdate=true;}
                 if(newCases.get(i).CCC_External_Id__c != oldCases.get(i).CCC_External_Id__c){anyStageUpdate=true;anyOwnerUpdate=true;}
             }
-        }
-        
+        }    
+            
         if(!changedCaseList.isEmpty()){
             map<Integer,ASF_SLABusinessHoursWrapper> resultMap;
             if(anyOwnerUpdate){
@@ -847,6 +847,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     //when external id is changed , case can get changed after 2 days , so take 
                     //created date,.
                     updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
+                    if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
+                        updatedCase.SLA_Broken__c = true;
+                        updatedCase.SLA_Broken_DateTime__c = System.now();
+                    }
                 }
 
                 // updatedCase.Stage_SLA_1__c = null; 
@@ -890,6 +894,10 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         }
                         if(closeSlaSec != null){
                             updatedCase.Overall_Case_Closure_SLA__c = BusinessHours.add(updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c, closeSlaSec - overallTimeSpent);
+                            if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
+                                updatedCase.SLA_Broken__c = true;
+                                updatedCase.SLA_Broken_DateTime__c = System.now();
+                            }
                             percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
                         }
                         updatedCase.Stage_SLA_1__c = null;
