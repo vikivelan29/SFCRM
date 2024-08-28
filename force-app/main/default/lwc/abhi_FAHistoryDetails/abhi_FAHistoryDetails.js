@@ -63,7 +63,7 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
                 this.showRecords=true;
             }
             else if(result.StatusCode == 1001){
-                this.message = result.info.messageDesc;
+                this.message = result.info && result.info.messageDesc ? result.info.messageDesc : result.Message;
                 this.isLoading=false;
                 this.displayError=true;
                 this.showRecords=false;
