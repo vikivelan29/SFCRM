@@ -20,7 +20,7 @@
         <template if:true={showTable}>
             <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout">
                 <thead>
-                    <tr class="slds-text-title_caps">
+                    <tr >
                         <th>Healthy Heart</th>
                         <th>Score</th>
                     </tr>
@@ -36,9 +36,9 @@
             </table>
         </template>
 
-        <template if:true={noResultsMessage}>
+        <template if:true={resultMessageValue}>
             <div class="slds-text-color_weak slds-m-top_medium">
-                No Result found
+                <span style="font-size: 0.90rem;">{resultMessageValue}</span>
             </div>
         </template>
     </lightning-card>
