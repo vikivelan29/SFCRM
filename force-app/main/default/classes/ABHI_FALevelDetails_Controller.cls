@@ -29,6 +29,7 @@ public with sharing class ABHI_FALevelDetails_Controller {
         urlParameters.put('scoreType', scoreType);
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
+        system.debug('integrationResp>>' +integrationResp);
                  IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
                  return deserializedIntResponse;
         
