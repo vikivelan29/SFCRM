@@ -84,13 +84,11 @@ export default class Abhil_FALevelDetails extends LightningElement {
                 let data = [];
                 data.push(result);
                 this.data= data;
-                this.errorMessages = '';
-                this.displayError = false;
             }else if (this.statusCode === 1001) {
                 // Handle 1001 Status Code
                 this.displayTable = false;
                 this.showRecords = false;
-                this.errorMessages = result.Message;
+                this.errorMessages = this.result.Message;
                 this.displayError = true;
             }else if (this.statusCode === 204) {
                 // Handle 204 No Content
@@ -114,14 +112,6 @@ export default class Abhil_FALevelDetails extends LightningElement {
                 //let errorDisplay = 'Error: ' + error.message;
                 //this.errorMessages = (error.body.message);
                 this.displayError = true;
-                if (error.body!= null) {
-                    this.errorMessages = error.body.message;
-                } else if(this.ApiFailure){
-                    this.errorMessages = this.ApiFailure;
-                }
-                else{
-                    this.errorMessages = 'An unknown error occured, please contact your system admin'
-                }
             });         
 
 }
@@ -153,14 +143,14 @@ fetchColumns() {
 }
 
 // Method to show notifications
-// showNotification(title, message, variant) {
-//     const event = new ShowToastEvent({
-//         title: title,
-//         message: message,
-//         variant: variant,
-//     });
-//     this.dispatchEvent(event);
-// }
+showNotification(title, message, variant) {
+    const event = new ShowToastEvent({
+        title: title,
+        message: message,
+        variant: variant,
+    });
+    this.dispatchEvent(event);
+}
 validateDates() {
     if (this.startDate && this.endDate) {
         const start = new Date(this.startDate);
