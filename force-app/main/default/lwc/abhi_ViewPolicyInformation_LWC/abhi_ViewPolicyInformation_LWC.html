@@ -31,40 +31,10 @@
                     <lightning-layout class="slds-gutters_small">
                         <lightning-layout-item flexibility="auto">
                             <div class="subHeading">App Registration</div>
-                            <template if:true={isAppRegistration}>
-                                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-var-m-top_x-small"
-                                    style="font-size: 1.25rem; max-width: 80%; text-align: center;">
-                                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small"
-                                        class="slds-var-m-right_small"></lightning-icon>
-                                    <span style="font-size: 0.90rem;">{healthAndAppRegError}</span>
-                                </div>
-                            </template>
-                            <template if:false={isAppRegistration}>
-                                <div class="slds-p-top_xxx-small slds-border_bottom">
-                                    <span class="slds-form-element__label">Is Registered</span>
-                                    <div class="slds-form-element__static">{policyData.AppRegDetails.IsRegistered}</div>
-                                </div>
-                                <div class="slds-p-top_xxx-small slds-border_bottom">
-                                    <span class="slds-form-element__label">App Download/Usage Date</span>
-                                    <div class="slds-form-element__static">{policyData.AppRegDetails.appDownloadDate}
-                                    </div>
-                                </div>
-                                <div class="slds-p-top_xxx-small slds-border_bottom">
-                                    <span class="slds-form-element__label">App Login</span>
-                                    <div class="slds-form-element__static">{policyData.AppRegDetails.isAppRegistered}
-                                    </div>
-                                </div>
-                                <div class="slds-p-top_xxx-small slds-border_bottom">
-                                    <span class="slds-form-element__label">App First login date</span>
-                                    <div class="slds-form-element__static">{policyData.AppRegDetails.appRegiterDate}
-                                    </div>
-                                </div>
-                                <div class="slds-p-top_xxx-small slds-border_bottom">
-                                    <span class="slds-form-element__label">App Last login date</span>
-                                    <div class="slds-form-element__static">{policyData.AppRegDetails.lastAccessDate}
-                                    </div>
-                                </div>
-                            </template>
+                            <div class="slds-p-top_xxx-small slds-border_bottom">
+                                <span class="slds-form-element__label">Is Registered</span>
+                                <div class="slds-form-element__static">{policyData.AppRegDetails.IsRegistered}</div>
+                            </div>
                         </lightning-layout-item>
                         <lightning-layout-item flexibility="auto">
                             <div class="subHeading">Health Returns</div>
