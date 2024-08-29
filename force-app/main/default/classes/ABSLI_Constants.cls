@@ -43,7 +43,6 @@ public class ABSLI_Constants {
      };
      
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
-     public static final String CUSTOMER_PORTAL = 'Customer Portal';
 
     /* Bitly Link REAL TIME API
      */
