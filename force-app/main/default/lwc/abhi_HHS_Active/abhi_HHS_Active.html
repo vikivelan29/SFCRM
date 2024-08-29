@@ -14,13 +14,30 @@
             </div>
         </template>
         
-        <!--<div class="slds-m-around_medium">-->
-            <!-- First Component -->
-            <div class="slds-m-bottom_medium">
-                <!-- <lightning-card title="Healthy Heart Score"></lightning-card> -->
-                <c-abhi_-hhs-active-age-details record-id={recordId} onuploadstart={handleUploadStart} onuploadend={handleUploadEnd} onerror={handleError}></c-abhi_-hhs-active-age-details>
-                <!-- <lightning-card title="Active Age"></lightning-card> -->
-                <c-abhi_-active-age record-id={recordId} onuploadstart={handleUploadStart} onuploadend={handleUploadEnd}></c-abhi_-active-age>
+        <br/>
+        <!-- Data Tables -->
+        <template if:true={showTable}>
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout">
+                <thead>
+                    <tr >
+                        <th>Healthy Heart</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={table} for:item="item">
+                        <tr key={item.attributeCode}>
+                            <td>{item.attributeCode}</td>
+                            <td>{item.attributeValue}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+
+        <template if:true={resultMessageValue}>
+            <div class="slds-text-color_weak slds-m-top_medium">
+                <span style="font-size: 0.90rem;">{resultMessageValue}</span>
             </div>
 
             <template if:true={displayError}>
