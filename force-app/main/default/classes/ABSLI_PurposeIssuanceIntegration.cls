@@ -87,10 +87,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 				(caseRecord.ABSLI_Case_Detail__r?.POI_Option_3__c != null
 					? '-' + caseRecord.ABSLI_Case_Detail__r?.POI_Option_3__c
 					: '');
-            System.debug('purpose_of_ins --> '+caseRecord.ABSLI_Case_Detail__r?.POI_Option_1__c);
-            System.debug('purpose_of_ins --> '+caseRecord.ABSLI_Case_Detail__r?.POI_Option_2__c);
-            System.debug('purpose_of_ins --> '+caseRecord.ABSLI_Case_Detail__r?.POI_Option_3__c);            
-			
+
 			string requestBody = JSON.serialize(
 				new POIRequestWrapper(caseRecord.CaseNumber, policyNumber, purpose_of_ins)
 			);
@@ -214,6 +211,9 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 				);
 
 				if (jsonMap.MESSAGE == ABSLI_Constants.PURPOSEISSUANCE_SUCCESS_RESPONSE) {
+					//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+					sendoutEmailSMSNotification(caseRecord);
+
 					caseRecord.MoveToNext__c = true;
 					Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 				}
@@ -225,6 +225,31 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
+	}
+
+	/**
+	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
+	 *
+	 * @param caseRecord - Case record from the framework
+	 */
+	public void sendoutEmailSMSNotification(Case caseRecord) {
+		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
+			caseRecord.CCC_External_Id__c
+		);
+
+		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
+			cccRecord[0].Additional_Email_Templates__c
+		);
+		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
+			cccRecord[0].Additional_SMS_Metadata__c
+		);
+
+		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
+			caseRecord,
+			emailTemplateMap.get('Resolved'),
+			smsMetadataMap.get('Resolved'),
+			true
+		);
 	}
 
 	/**
@@ -271,7 +296,6 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 			this.TRANS_NO = caseNumber;
 			this.policyNumber = policyNumber;
 			this.purpose_of_ins = purpose_of_ins;
-            System.debug('purpose_of_ins --> '+purpose_of_ins);
 		}
 	}
 
