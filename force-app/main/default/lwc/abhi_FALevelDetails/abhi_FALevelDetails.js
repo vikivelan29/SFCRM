@@ -41,7 +41,12 @@ export default class Abhil_FALevelDetails extends LightningElement {
 
     handleEndDateChange(event) {
         this.endDate = event.target.value;
+        this.validateDates();
     }
+    handleRefresh(){
+        this.handleSearchClick();
+    }
+
 
     handleSearchClick() {
         
@@ -67,22 +72,29 @@ console.log('result' ,result);
             if(StatusCode == 1000) {
                 this.displayTable=true;
                 this.showRecords=true;
-                
                 let data = [];
                 data.push(result);
-                //this.integrationResp = result;
                 this.data= data;
-                
-                //this.showNotification('Success', result.Message, 'success');
-                console.log('this.date', JSON.stringify(this.data));
+            }else if (this.statusCode === 1001) {
+                // Handle 1001 Status Code
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = this.result.Message;
+                this.displayError = true;
+            }else if (this.statusCode === 204) {
+                // Handle 204 No Content
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = 'No content available';
+                this.displayError = true;
             }
             else {
 
                 this.showDataTable = false;
                 this.errorMessage = this.integrationResp.Message;
                 this.displayError = true;
-                //this.apiErrorMessage = this.integrationResp.Message;
-                //this.showNotification('Error', result.Message, 'error');
+                console.log('errorMessages>>' ,this.result.Message);
+               
             }
                 console.log('respBody>>',JSON.parse(respBody));
                 //console.log(JSON.parse(JSON.stringify(this.result)));
@@ -95,9 +107,7 @@ console.log('result' ,result);
                 this.showDataTable = false;
                 this.errorMessages =   error.body.message;
                 this.displayError = true;
-               console.log('Error----> ' + JSON.stringify(error));
-               
-            });
+            });         
 
 }
 
@@ -120,13 +130,8 @@ fetchColumns() {
                 })),
             ];
             console.log('coloumns', JSON.stringify(this.columns));
-            //this.GetFALevelDetails();
         })
     .catch(error => {
-
-            
-            this.showNotification('Error','Error fetching data.','Error');
-            //this.showNotification('Error', 'Error fetching columns: ' + (error.body.message || error.message), 'error');
             console.log('Error fetching columns:', JSON.stringify(error));
 
         });
@@ -141,6 +146,21 @@ showNotification(title, message, variant) {
         variant: variant,
     });
     this.dispatchEvent(event);
+}
+validateDates() {
+    if (this.startDate && this.endDate) {
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+
+        if (end < start) {
+            this.displayErrorSearch = true;
+            this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
+        } else {
+            this.displayErrorSearch = false;
+        }
+    } else {
+        this.displayErrorSearch = false; // Hide error if one of the dates is missing
+    }
 }
 
 }
