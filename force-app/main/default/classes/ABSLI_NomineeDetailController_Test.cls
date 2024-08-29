@@ -30,6 +30,7 @@ public class ABSLI_NomineeDetailController_Test {
         mock.setStatusCode(200);
         mock.setHeader('Content-Type', 'application/json');
         Test.setMock(HttpCalloutMock.class, mock);*/
+        Test.setMock(HttpCalloutMock.class, new ABSLI_NomineeDetailResponseGenerator());
         Test.startTest();
         ABSLI_NomineeDetailController.ObjRequest objreq = new ABSLI_NomineeDetailController.ObjRequest(assetRec.Policy_No__c);
         objreq.POLICY_NO= '';
@@ -41,7 +42,23 @@ public class ABSLI_NomineeDetailController_Test {
         Test.stopTest();
         // Verify the response
         System.assert(response.bSuccess);
-        System.assertEquals(10, response.nominees.size());
-        System.assertEquals('Anisha Jayaraman', response.nominees[0].name);
+        System.assertEquals(1, response.nominees.size());
+        System.assertEquals('Test Nominee', response.nominees[0].name);
+    }
+    
+    public class ABSLI_NomineeDetailResponseGenerator implements HttpCalloutMock {
+        /**
+            * @description  Mocking failure response
+            * @param req
+            ** @return HTTPResponse
+        */ 
+        public HTTPResponse respond(HTTPRequest req) {
+            HttpResponse res = new HttpResponse();
+            res.setHeader('Content-Type', 'application/json');
+            String s = '{\"ReturnCode\":\"0\",\"ReturnMessage\":\"\",\"lstDetails\":[{\"POLICY_NO\":\"1234\",\"NOMINEE_NAME\":\"Test Nominee\",\"APPOINTEE\":\"\",\"DOB_OF_NOMINEE\":\"\",\"RELATIONSHIP\":\"\",\"ALLOCATION\":\"100\",\"SEQUENCENO\":\"1\"}]}';
+            res.setBody(s);
+            res.setStatusCode(200);
+            return res;
+        }
     }
 }
