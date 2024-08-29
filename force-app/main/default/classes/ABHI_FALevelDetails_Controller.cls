@@ -23,11 +23,14 @@ public with sharing class ABHI_FALevelDetails_Controller {
         urlParameters.put('customerId', acc.Client_Code__c);
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
-        system.debug('integrationResp>>' +integrationResp.statusCode);
-        IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
-
-        system.debug('deserialized resp' +deserializedIntResponse);
-        return deserializedIntResponse;
+        system.debug('integrationResp>>' +integrationResp);
+                 IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
+                system.debug('deserialized resp' +deserializedIntResponse);
+                 return deserializedIntResponse;
+        
+        }catch(Exception e){
+         throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
+        }
             
     }
         

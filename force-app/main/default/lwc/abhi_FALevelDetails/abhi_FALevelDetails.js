@@ -72,14 +72,23 @@ console.log('result' ,result);
                 data.push(result);
                 //this.integrationResp = result;
                 this.data= data;
-                
-                //this.showNotification('Success', result.Message, 'success');
-                console.log('this.date', JSON.stringify(this.data));
+            }else if (this.statusCode === 1001) {
+                // Handle 1001 Status Code
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = result.Message;
+                this.displayError = true;
+            }else if (this.statusCode === 204) {
+                // Handle 204 No Content
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = 'No content available';
+                this.displayError = true;
             }
             else {
 
                 this.showDataTable = false;
-                this.errorMessage = this.integrationResp.Message;
+                this.errorMessages = result.Message;
                 this.displayError = true;
                 //this.apiErrorMessage = this.integrationResp.Message;
                 //this.showNotification('Error', result.Message, 'error');
