@@ -35,25 +35,30 @@ public with sharing class ABSLI_ContactDetailUpdateIntegration implements ASF_In
 			ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
 
 			result.status = ABSLI_Constants.ERROR;
-			String evaluationErrorMetadataName = '';
-			if (ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.containsKey(caseRecord.CCC_External_Id__c)) {
-				evaluationErrorMetadataName = ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.get(
-					caseRecord.CCC_External_Id__c
-				);
-			}
-			result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
-
-			if (
-				(caseRecord.Technical_Source__c == 'API' && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c) ||
-				(caseRecord.Technical_Source__c == 'LWC' &&
-				caseRecord.ABSLI_Case_Detail__r.Source_Request_submitted_by__c == 'Customer' &&
-				caseRecord.ABSLI_Case_Detail__r.Country_Code__c == '91' &&
-				!skipcaseIds.contains(caseRecord.Id))
-			) {
-				result.status = ABSLI_Constants.SUCCESS;
-				result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-			}
-
+            //Customer Portal and Status_Valid_For_STP__c is false 
+            if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+                String evaluationErrorMetadataName = '';
+                if (ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.containsKey(caseRecord.CCC_External_Id__c)) {
+                    evaluationErrorMetadataName = ABSLI_Constants.CONTACTUPDATE_EVALUATE_ERROR.get(
+                        caseRecord.CCC_External_Id__c
+                    );
+                }
+                result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
+    
+                if (
+                    (caseRecord.Technical_Source__c == 'API' && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c) ||
+                    (caseRecord.Technical_Source__c == 'LWC' &&
+                    caseRecord.ABSLI_Case_Detail__r.Source_Request_submitted_by__c == 'Customer' &&
+                    caseRecord.ABSLI_Case_Detail__r.Country_Code__c == '91' &&
+                    !skipcaseIds.contains(caseRecord.Id))
+                ) {
+                    result.status = ABSLI_Constants.SUCCESS;
+                    result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+                }
+            }
 			resultMap.put(caseRecord.Id, result);
 		}
 
