@@ -77,6 +77,8 @@ console.log('result' ,result);
                 let data = [];
                 data.push(result);
                 this.data= data;
+                this.errorMessages = '';
+                this.displayError = false;
             }else if (this.statusCode === 1001) {
                 // Handle 1001 Status Code
                 this.displayTable = false;
