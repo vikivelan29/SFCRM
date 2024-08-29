@@ -7,29 +7,20 @@ const fields = [CLIENT_CODE_FIELD];
 const ATTRIBUTE_CODE_LABELS = {
     'DIABTS': 'Fasting Blood Sugar (mg/dl)',
     'TOTCHL': 'Total Cholesterol',
-    'SMOKER': 'Smoking Status',
+    'SMOKING STATUS': 'Smoking Status',
     'DIASTOLIC': 'Diastolic',
-    'BPMDIA': 'Diastolic',
-    'BPMSYS': 'Systolic',
-    'BPMSYS': 'Systolic',
-    'tierLevelName': 'Current Score',
+    'SYSTOLIC': 'Systolic',
     'AGE': 'Age'
 };
 const ALLOWED_ATTRIBUTES = [
+    'Current Score',
+    'Fasting Blood Sugar mgdl',
+    'Total Cholesterol',
     'Smoking Status',
     'Diastolic',
     'Systolic',
-    //'Age'
+    'Age'
 ];
-const DEFAULT_VALUES = {
-    'Fasting Blood Sugar (mg/dl)': '0',
-    'Total Cholesterol': '0',
-    'Smoking Status': '0',
-    'Diastolic': '0',
-    'Systolic': '0',
-    'Current Score': '0',
-    'Age': '0'
-};
 
 export default class AbhiActiveAgeDetails extends LightningElement {
     @api recordId;
@@ -50,7 +41,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     @track tableData = [];
     @track noResultsMessage = false;
     resultMessageValue;
-    @track ApiFailure = '';
 
     customerId;
 
@@ -89,20 +79,19 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             this.showDataTable = true;
             this.ApiFailure = result.Message;
 
-            if(result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length > 0) {
+            if(result.StatusCode == 1000 && result.HHSDetails.serviceMessages[0].businessDesc==="Result found") {
                 this.setupColumns(result);
                 this.processResponse(result);
-            } else if (result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length ===0){
+            } else if (result.StatusCode == 1000 && result.HHSDetails.serviceMessages[0].businessDesc==="No Result found"){
                 this.setupColumns(result);
                 this.processResponse(result);
                 this.resultMessageValue = result.HHSDetails.serviceMessages[0].businessDesc;
 
-            } else if (result.StatusCode == 1002 && Object.keys(result.HHSDetails.responseMap).length > 0){
+            } else if (result.StatusCode == 1002 && result.HHSDetails.serviceMessages[0].businessDesc==="Result found"){
                 this.showDataTable = false;
                 this.errorMessages = result.Message;
+                this.resultMessageValue = "No Result found";
                 this.displayError = true;
-                this.showTable = true;
-                this.processResponse(result);
 
             }
             else {
@@ -151,13 +140,14 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
-        let hasData = false;
         
-        if (response && response.StatusCode === '1000'|| response.StatusCode === '1002') {
-            //console.log('response code', response.StatusCode);
+        if (response && response.StatusCode === '1000') {
           
-            if(response.activeAge!=null){
+
+            // console.log('response.operationStatus', response.operationStatus);
+            ///const resultsList = response.activeAge;
                 const activeAge = response.activeAge;
+            console.log('activeAge-->',activeAge);
 
             const tableData = [{
                 CustomerNo: activeAge.CustomerNo,
@@ -167,15 +157,10 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 CalculationDate: activeAge.CalculationDate
             }];
             this.recordTable2 = tableData;  // Ensure this is populated as needed
-            this.showDataTable = true;
-            this.displayError = false;
-            hasData = true;
-        }
-        else{
-            this.showDataTable = false;
-            this.displayError = true;
-            this.errorMessages = response.Message;
-        }
+        this.showDataTable = true;
+        this.displayError = false;
+        
+            
            // Check if HHSDetails and serviceMessages exist
         if (response.HHSDetails && Array.isArray(response.HHSDetails.serviceMessages)) {
             const serviceMessages = response.HHSDetails.serviceMessages;
@@ -185,55 +170,62 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 msg.businessDesc === "Result found" || msg.businessDesc === "No Result found"
             );
             
+
+            
             if (resultMessage) {
                 if (resultMessage.businessDesc === "Result found" && response.HHSDetails.responseMap && Object.keys(response.HHSDetails.responseMap).length > 0) {
                 
                         const resultsList = response.HHSDetails.responseMap.resultsList;
                         const tierLevelName = resultsList.tierLevelName;
                         const activities = resultsList.activities;
-                            //console.log('Activities:', JSON.stringify(activities, null, 2));
+                        
+                        console.log('valuss---', ATTRIBUTE_CODE_LABELS);
 
-                            //let table = [...this.table];
-                            let table = Object.keys(DEFAULT_VALUES).map(label => ({
-                                attributeCode: label,
-                                attributeValue: DEFAULT_VALUES[label]
-                            }));
+                            console.log('activities-->', activities);
+                            console.log('Activities:', JSON.stringify(activities, null, 2));
 
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
-                                if (tierLevelName) {
-                                    table = table.map(row =>
-                                        row.attributeCode === 'Current Score'
-                                            ? { attributeCode: 'Current Score', attributeValue: tierLevelName }
-                                            : row
-                                    );
-                                   
-                                }
+                                table.push({
+                                    attributeCode: 'Current Score',
+                                    attributeValue: tierLevelName || ''
+                                });
+
+
+                                let attributeValues = {
+                                    'Total Cholesterol': '',
+                                    'Fasting Blood Sugar (mg/dl)': ''
+                                };
+
+                                // let totalCholesterolFound = false;
+                                // let fastingBloodSugarFound = false;
 
                                 activities.forEach(activity => {
-                                    const label = ATTRIBUTE_CODE_LABELS[activity.code] || activity.name;
-                                        // Push the activity value
-                                   
-                                    table = table.map(row =>
-                                        row.attributeCode === label
-                                            ? { attributeCode: label, attributeValue: activity.value || DEFAULT_VALUES[label] }
-                                            : row
-                                    );
-
+                                    if (activity.name === "Total cholesterol") {
+                                        attributeValues['Total Cholesterol'] = activity.value || '';
+                                    } else if (activity.name === "Fasting Blood Sugar (mg/dl)") {
+                                        attributeValues['Fasting Blood Sugar (mg/dl)'] = activity.value || '';
+                                    }
                                     if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
                                         activity.attributes.forEach(attr => {
                                             const label = ATTRIBUTE_CODE_LABELS[attr.attributeCode] || attr.attributeCode;
                                             if (ALLOWED_ATTRIBUTES.includes(label)) {
-                                                
-                                                table = table.map(row =>
-                                                    row.attributeCode === label
-                                                        ? { attributeCode: label, attributeValue: attr.attributeValue || DEFAULT_VALUES[label] }
-                                                        : row
-                                                );
+                                                table.push({
+                                                    attributeCode: label,
+                                                    attributeValue: attr.attributeValue || ''
+                                                });
                                             }
                                         });
                                     }
                                 });
-
+        
+                                // Add specific attributes to the table
+                                Object.keys(attributeValues).forEach(key => {
+                                    table.push({
+                                        attributeCode: key,
+                                        attributeValue: attributeValues[key]
+                                    });
+                                });
+        
                                 this.table = table;
                                 console.log('Table Data:', JSON.stringify(this.table, null, 2));
                                 this.showTable = true;
@@ -250,7 +242,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 } else if (resultMessage.businessDesc === "No Result found") {
                     //console.log('resultMessage.businessDesc', resultMessage.businessDesc);
                     // Handle case where "No Result found" is present
-                    this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
+                    this.noResultsMessage = resultMessage.businessDesc;
                 }
             } else {
                 this.noResultsMessage = resultMessage.businessDesc;
