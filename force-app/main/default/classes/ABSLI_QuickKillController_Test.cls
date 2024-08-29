@@ -25,7 +25,8 @@ public class ABSLI_QuickKillController_Test {
                 Phone__c = '123-456-7890',
                 City__c = 'Test City',
                 State__c = 'Test State',
-                Pincode__c = '123456'
+                Pincode__c = '123456',
+                UniqueKey__c = '234234'
             );
             insert testBranch;
             // Insert Account
@@ -68,6 +69,7 @@ public class ABSLI_QuickKillController_Test {
             cLog.Loan_Type__c = asset1.Loan_Type__c;
             cLog.Policy_No__c = asset1.Name;
             cLog.LOB__c = 'ABSLI';
+            cLog.Encrypted_URL__c = 'http://bit.ly/mockurl';
             insert cLog;
             System.debug('record Inserted...'+cLog.Id);
 		}
@@ -95,13 +97,12 @@ public class ABSLI_QuickKillController_Test {
         ASF_Communication_Log__c log = logs[0];
         System.assertEquals(testAccount.Id, log.Account__c, 'Account ID should match.');
         System.assertEquals(testContact.Id, log.Contact__c, 'Contact ID should match.');
-        
+        Test.setMock(HttpCalloutMock.class, new BitlyApiMock());
         // Call the method and verify the results
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new BitlyApiMock());
+        ABSLI_QuickKillController.generateBitlyLink(log.Id,'ADDRU');
         ABSLI_QuickKillController.generateLink('ADDRU',testAccount.Id,testAsset.Id);
         ABSLI_QuickKillController.sendCommunication(log.Id,'text','123456');
-        ABSLI_QuickKillController.generateBitlyLink(log.Id,'ADDRU');
         ABSLI_QuickKillController.deleteDraftLogs(log.Id);
         ABSLI_QuickKillController.getPolicyColumns();
         ABSLI_QuickKillController.getAllRelatedAssets(testAccount.Id);
@@ -115,7 +116,7 @@ public class ABSLI_QuickKillController_Test {
         // Create a fake response
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');
-        res.setBody('{"URLReturned": "http://bit.ly/mockurl"}');
+        res.setBody('{\"URLReturned\": \"http://bit.ly/mockurl\"}');
         res.setStatusCode(200);
         return res;
     }
