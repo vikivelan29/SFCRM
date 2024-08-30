@@ -32,7 +32,7 @@ public with sharing class ABHI_DeviceDetailsController {
                     return returnResponse;
                 }
                 else{
-                    String returnMessage = decryptedResponse != '' ? decryptedResponse : encryptedResponse.Message;
+                    String returnMessage = decryptedResponse != '' ? (String) JSON.deserializeUntyped(decryptedResponse) : encryptedResponse.Message;
                     ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), returnMessage);
                     return returnResponse;
                 }
