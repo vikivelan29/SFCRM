@@ -5,8 +5,9 @@
 *Last Modified:  15/08/2024
 *@description  :  This class is used as controller for the abhi_HHS_Active Component and for calling ActiveHealthdetails API
 ***************/
-@SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions,PMD.ExcessivePublicCount')
-public with sharing class ABHI_HhsActiveAgeDetails_Controller {
+
+public class ABHI_HhsActiveAgeDetails_Controller {
+    
     
      /**********
      @Method Name - GetHhsActiveAge
@@ -22,7 +23,8 @@ public with sharing class ABHI_HhsActiveAgeDetails_Controller {
         Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId WITH SYSTEM_MODE];
         Map<String, String> urlParams = new Map<String, String>();
         urlParams.put('customerId', acc.Client_Code__c);
-        
+        //urlParams.put('activAge',activAge);
+        system.debug('customerId' +acc.Client_Code__c);
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
         IntegrationResponseWrapper deserializedIntResp = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
         return deserializedIntResp;
@@ -33,7 +35,6 @@ public with sharing class ABHI_HhsActiveAgeDetails_Controller {
     }
     
     // wrapper class for Integration Response
-    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class IntegrationResponseWrapper {
         
        @AuraEnabled public HHSDetailsWrapper HHSDetails;     

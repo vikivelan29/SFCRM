@@ -154,7 +154,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         let hasData = false;
         
         if (response && response.StatusCode === '1000'|| response.StatusCode === '1002') {
-            //console.log('response code', response.StatusCode);
+            console.log('response code', response.StatusCode);
           
             if(response.activeAge!=null){
                 const activeAge = response.activeAge;
@@ -169,7 +169,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             this.recordTable2 = tableData;  // Ensure this is populated as needed
             this.showDataTable = true;
             this.displayError = false;
-            hasData = true;
         }
         else{
             this.showDataTable = false;
@@ -193,21 +192,17 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                         const activities = resultsList.activities;
                             //console.log('Activities:', JSON.stringify(activities, null, 2));
 
-                            //let table = [...this.table];
-                            let table = Object.keys(DEFAULT_VALUES).map(label => ({
-                                attributeCode: label,
-                                attributeValue: DEFAULT_VALUES[label]
-                            }));
-
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
-                                if (tierLevelName) {
-                                    table = table.map(row =>
-                                        row.attributeCode === 'Current Score'
-                                            ? { attributeCode: 'Current Score', attributeValue: tierLevelName }
-                                            : row
-                                    );
-                                   
-                                }
+                                table.push({
+                                    attributeCode: 'Current Score',
+                                    attributeValue: tierLevelName || ''
+                                });
+
+
+                                let attributeValues = {
+                                    'Total Cholesterol': '',
+                                    'Fasting Blood Sugar (mg/dl)': ''
+                                };
 
                                 activities.forEach(activity => {
                                     const label = ATTRIBUTE_CODE_LABELS[activity.code] || activity.name;
@@ -248,7 +243,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                             }
                    
                 } else if (resultMessage.businessDesc === "No Result found") {
-                    //console.log('resultMessage.businessDesc', resultMessage.businessDesc);
+                    console.log('resultMessage.businessDesc', resultMessage.businessDesc);
                     // Handle case where "No Result found" is present
                     this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
                 }
