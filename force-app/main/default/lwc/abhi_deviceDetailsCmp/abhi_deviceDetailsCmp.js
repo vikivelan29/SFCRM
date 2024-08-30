@@ -3,7 +3,7 @@ import getDetails from '@salesforce/apex/ABHI_DeviceDetailsController.getDeviceD
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import recDevices from '@salesforce/label/c.ABHI_RecommendedDevice';
 import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
-import deviceDetail from '@salesforce/label/c.ABHI_DeviceDetails';
+import deviceDetail from '@salesforce/label/c.ABHI_Devices';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import { getRecord } from 'lightning/uiRecordApi';
