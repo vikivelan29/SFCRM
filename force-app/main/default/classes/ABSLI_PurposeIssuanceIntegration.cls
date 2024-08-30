@@ -31,11 +31,16 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 				.Message__c;
 
 			//TODO: Add Condition Check if Criteria Condition is Matched
-
-			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'LWC') {
-				result.status = ABSLI_Constants.SUCCESS;
-			}
-
+			//Customer Portal and Status_Valid_For_STP__c is false 
+            if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+				if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'LWC') {
+                    result.status = ABSLI_Constants.SUCCESS;
+                }
+            }
+			
 			resultMap.put(caseRecord.Id, result);
 		}
 

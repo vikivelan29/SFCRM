@@ -50,20 +50,9 @@ export default class Abhil_FALevelDetails extends LightningElement {
         this.validateDates();
     }
     handleRefresh(){
-        this.startDate = '';
-        this.endDate = '';
-        this.records = [];
-        this.columns = [];
-        this.data = [];
-        this.displayTable = false;
-        this.displayError = false;
-        this.displayErrorSearch = false;
-        this.fetchColumns();
+        this.handleSearchClick();
     }
-    loadData(){
-        this.handleSearchClick;
-        
-    }
+
 
     handleSearchClick() {
         
@@ -85,14 +74,15 @@ console.log('result' ,result);
             if(StatusCode == 1000) {
                 this.displayTable=true;
                 this.showRecords=true;
-                
                 let data = [];
                 data.push(result);
-                //this.integrationResp = result;
                 this.data= data;
-                
-                //this.showNotification('Success', result.Message, 'success');
-                console.log('this.date', JSON.stringify(this.data));
+            }else if (this.statusCode === 1001) {
+                // Handle 1001 Status Code
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = result.Message;
+                this.displayError = true;
             }else if (this.statusCode === 204) {
                 // Handle 204 No Content
                 this.displayTable = false;
@@ -102,9 +92,8 @@ console.log('result' ,result);
             }
             else {
                 this.showDataTable = false;
-                this.errorMessages = this.result.Message;
+                this.errorMessages = result.Message;
                 this.displayError = true;
-                console.log('failure result>>', this.result);
                 console.log('errorMessages>>' ,this.result.Message);
                
             }
@@ -117,9 +106,7 @@ console.log('result' ,result);
                 this.errorMessages = (error.body.message);
                 console.error('Error object:', error);
                 this.displayError = true;
-              
-               
-            });
+            });         
 
 }
 
@@ -141,13 +128,8 @@ fetchColumns() {
                 })),
             ];
             console.log('coloumns', JSON.stringify(this.columns));
-            //this.GetFALevelDetails();
         })
     .catch(error => {
-
-            
-            //this.showNotification('Error','Error fetching data.','Error');
-            //this.showNotification('Error', 'Error fetching columns: ' + (error.body.message || error.message), 'error');
             console.log('Error fetching columns:', JSON.stringify(error));
 
         });
@@ -163,11 +145,6 @@ showNotification(title, message, variant) {
     });
     this.dispatchEvent(event);
 }
-
-// get isEndDateDisabled() {
-//     return !this.startDate;
-// }
-
 validateDates() {
     if (this.startDate && this.endDate) {
         const start = new Date(this.startDate);

@@ -79,7 +79,7 @@ public class ABSLI_CaseIntegrationHelper_Test {
         ebotResponse.CaseSubSubType = 'CCC-CC-CCLTD-01';
         ebotResponse.Comments = 'Test Comments';
         ebotResponse.Issue_Type = 'Policy Details';
-        ebotResponse.FTR = 'false';
+        ebotResponse.FTR = false;
         ebotResponse.ClientId = 'TestClientId';
         ebotResponse.PolicyNo = 'TestPolicyNo';
         ebotResponse.FromDate = '2023-01-01';
@@ -89,8 +89,8 @@ public class ABSLI_CaseIntegrationHelper_Test {
         ABSLI_EbotWrapper.EmailDetailsWrapper emailDetails = new ABSLI_EbotWrapper.EmailDetailsWrapper();
         emailDetails.EmailTo = 'test@example.com';
         emailDetails.EmailSubject = 'Test Subject';
-        emailDetails.EmailCustomerFlag = 'Y';
-        emailDetails.Is_Register_Customer = 'Y';
+        emailDetails.EmailCustomerFlag = true;
+        emailDetails.Is_Register_Customer = true;
         emailDetails.Static_Attachment = new List<ABSLI_EbotWrapper.StaticAttachmentWrapper>();
 
         ABSLI_EbotWrapper.StaticAttachmentWrapper staticAttachment = new ABSLI_EbotWrapper.StaticAttachmentWrapper();
@@ -138,8 +138,8 @@ public class ABSLI_CaseIntegrationHelper_Test {
         ABSLI_EbotWrapper.EmailDetailsWrapper emailDetails = new ABSLI_EbotWrapper.EmailDetailsWrapper();
         emailDetails.EmailTo = 'test@example.com';
         emailDetails.EmailSubject = 'Test Subject';
-        emailDetails.EmailCustomerFlag = 'N';
-        emailDetails.Is_Register_Customer = 'N';
+        emailDetails.EmailCustomerFlag = false;
+        emailDetails.Is_Register_Customer = false;
         emailDetails.Static_Attachment = new List<ABSLI_EbotWrapper.StaticAttachmentWrapper>();
 
         ABSLI_EbotWrapper.StaticAttachmentWrapper staticAttachment = new ABSLI_EbotWrapper.StaticAttachmentWrapper();
@@ -198,7 +198,7 @@ public class ABSLI_CaseIntegrationHelper_Test {
         ebotResponse.CaseSubSubType = 'CCC-CC-CCLTD-01';
         ebotResponse.Comments = 'Test Comments';
         ebotResponse.Issue_Type = 'Maturity Related	';
-        ebotResponse.FTR = 'false';
+        ebotResponse.FTR = false;
         ebotResponse.ClientId = 'ABSLI0010';
 
         // Call the method

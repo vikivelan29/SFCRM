@@ -4,6 +4,23 @@ import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColum
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
 const fields = [CLIENT_CODE_FIELD];
+const ATTRIBUTE_CODE_LABELS = {
+    'DIABTS': 'Fasting Blood Sugar (mg/dl)',
+    'TOTCHL': 'Total Cholesterol',
+    'SMOKING STATUS': 'Smoking Status',
+    'DIASTOLIC': 'Diastolic',
+    'SYSTOLIC': 'Systolic',
+    'AGE': 'Age'
+};
+const ALLOWED_ATTRIBUTES = [
+    'Current Score',
+    'Fasting Blood Sugar mgdl',
+    'Total Cholesterol',
+    'Smoking Status',
+    'Diastolic',
+    'Systolic',
+    'Age'
+];
 
 export default class AbhiActiveAgeDetails extends LightningElement {
     @api recordId;
@@ -23,6 +40,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     @track showTable = false; 
     @track tableData = [];
     @track noResultsMessage = false;
+    resultMessageValue;
 
     customerId;
 
@@ -40,8 +58,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     loadData() {
         this.isLoading = true;
         this.displayError = false;
-        // const clientCode = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
-        // this.customerID = clientCode ? clientCode : null;
         let customerId = this.recordId;
 
         getHhsActiveAge({customerId:customerId})
@@ -50,14 +66,30 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             this.isLoading = false;
             this.showDataTable = true;
 
-            if(result.StatusCode == 1000) {
+            if(result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length > 0) {
                 this.setupColumns(result);
                 this.processResponse(result);
-            } else {
+            } else if (result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length ===0){
+                this.setupColumns(result);
+                this.processResponse(result);
+                this.resultMessageValue = result.HHSDetails.serviceMessages[0].businessDesc;
+
+            } else if (result.StatusCode == 1002 && Object.keys(result.HHSDetails.responseMap).length > 0){
                 this.showDataTable = false;
                 this.errorMessages = result.Message;
                 this.displayError = true;
+                this.showTable = true;
+                this.processResponse(result);
+
             }
+            else {
+                this.showDataTable = false;
+                this.errorMessages = result.Message;
+                this.resultMessageValue = result.HHSDetails.serviceMessages[0].businessDesc;
+                this.displayError = true;
+            
+            }
+            
         })
         .catch(error => {
             this.isLoading = false;
@@ -67,20 +99,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     }
 
     setupColumns(apiResponse) {
-        // // Setup columns for the first data table
-        // getColumns({ configName: 'ABHI_HHS_ActiveAgeDetails' })
-        // .then(result => {
-        //     console.log('result---->', result);
-        //     this.columns = result.map(column => ({
-        //         label: column.MasterLabel,
-        //         fieldName: column.Api_Name__c,
-        //         type: column.Data_Type__c,
-        //         cellAttributes: { alignment: 'left' }
-        //     }));
-        // })
-        //.catch(error => console.error('Error fetching columns:', error));
-
-        // Setup columns for the second data table
+        
         getColumns({ configName: 'ABHI_ActiveAgeDetails' })
         .then(result => {
             console.log('result---->', result);
@@ -99,10 +118,12 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
-        if (response && response.StatusCode === '1000') {
-            // console.log('response.operationStatus', response.operationStatus);
-            ///const resultsList = response.activeAge;
-            const activeAge = response.activeAge;
+        
+        if (response && response.StatusCode === '1000'|| response.StatusCode === '1002') {
+            console.log('response code', response.StatusCode);
+          
+            if(response.activeAge!=null){
+                const activeAge = response.activeAge;
             console.log('activeAge-->',activeAge);
 
             const tableData = [{
@@ -113,9 +134,14 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 CalculationDate: activeAge.CalculationDate
             }];
             this.recordTable2 = tableData;  // Ensure this is populated as needed
-        this.showDataTable = true;
-        this.displayError = false;
-            
+            this.showDataTable = true;
+            this.displayError = false;
+        }
+        else{
+            this.showDataTable = false;
+            this.displayError = true;
+            this.errorMessages = response.Message;
+        }
            // Check if HHSDetails and serviceMessages exist
         if (response.HHSDetails && Array.isArray(response.HHSDetails.serviceMessages)) {
             const serviceMessages = response.HHSDetails.serviceMessages;
@@ -126,64 +152,76 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             );
             
             if (resultMessage) {
-                if (resultMessage.businessDesc === "Result found") {
-                    // Check if responseMap and resultsList exist
-                    if (response.HHSDetails.responseMap && response.HHSDetails.responseMap.resultsList) {
+                if (resultMessage.businessDesc === "Result found" && response.HHSDetails.responseMap && Object.keys(response.HHSDetails.responseMap).length > 0) {
+                
                         const resultsList = response.HHSDetails.responseMap.resultsList;
                         const tierLevelName = resultsList.tierLevelName;
-
-                        // Ensure resultsList has activities
-                        if (resultsList.activities && Array.isArray(resultsList.activities)) {
-                            const activities = resultsList.activities;
-                            console.log('activities-->', activities);
+                        const activities = resultsList.activities;
+                            //console.log('Activities:', JSON.stringify(activities, null, 2));
 
                             let table = [];
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
                                 table.push({
                                     attributeCode: 'Current Score',
-                                    attributeValue: tierLevelName
+                                    attributeValue: tierLevelName || ''
                                 });
-                                resultsList.activities.forEach(activity => {
+
+
+                                let attributeValues = {
+                                    'Total Cholesterol': '',
+                                    'Fasting Blood Sugar (mg/dl)': ''
+                                };
+
+                                activities.forEach(activity => {
+                                    if (activity.name === "Total cholesterol") {
+                                        attributeValues['Total Cholesterol'] = activity.value || '';
+                                    } else if (activity.name === "Fasting Blood Sugar (mg/dl)") {
+                                        attributeValues['Fasting Blood Sugar (mg/dl)'] = activity.value || '';
+                                    }
                                     if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
                                         activity.attributes.forEach(attr => {
-                                            table.push({
-                                                attributeCode: attr.attributeCode,
-                                                attributeValue: attr.attributeValue
-                                            });
+                                            const label = ATTRIBUTE_CODE_LABELS[attr.attributeCode] || attr.attributeCode;
+                                            if (ALLOWED_ATTRIBUTES.includes(label)) {
+                                                table.push({
+                                                    attributeCode: label,
+                                                    attributeValue: attr.attributeValue || ''
+                                                });
+                                            }
                                         });
                                     }
                                 });
+        
+                                // Add specific attributes to the table
+                                Object.keys(attributeValues).forEach(key => {
+                                    table.push({
+                                        attributeCode: key,
+                                        attributeValue: attributeValues[key]
+                                    });
+                                });
+        
                                 this.table = table;
+                                console.log('Table Data:', JSON.stringify(this.table, null, 2));
                                 this.showTable = true;
                             } else {
                                 this.table = [];
                                 this.noResultsMessage = true;
+                                //this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
                             }
-                        } else {
-                            // Handle case where activities are not present or not an array
-                            this.table = [];
-                            this.noResultsMessage = true;
-                        }
-                    } else {
-                        this.noResultsMessage = true;
-                    }
+                   
                 } else if (resultMessage.businessDesc === "No Result found") {
+                    console.log('resultMessage.businessDesc', resultMessage.businessDesc);
                     // Handle case where "No Result found" is present
-                    this.noResultsMessage = true;
+                    this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
                 }
             } else {
-                this.noResultsMessage = true;
+                this.noResultsMessage = resultMessage.businessDesc;
             }
         } else {
             this.noResultsMessage = true;
         }
-        }
-        // Add tierLevelName and attributes to recordTable
-        //this.recordTable = [attributeData]; 
-             
-        else {
+        } else {
             //this.errorMessages = 'No valid response from API';
-            this.errorMessages = response.Message || 'No valid response recieved';
+            this.errorMessages = response.Message;
             this.displayError = true;
         }
     }
@@ -195,7 +233,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     updateTableData() {
         const startIndex = (this.currentPage - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
-        //this.recordTable2 = this.scoresList.slice(startIndex, endIndex);
+        
     }
 
     handleRefresh() {
