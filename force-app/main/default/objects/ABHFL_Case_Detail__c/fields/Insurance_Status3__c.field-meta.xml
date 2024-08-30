@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Lock-in</label>
             </value>
+            <value>
+                <fullName>Discrepancy</fullName>
+                <default>false</default>
+                <label>Discrepancy</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
