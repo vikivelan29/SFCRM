@@ -101,7 +101,7 @@ public with sharing class ABHI_CreatePolicyWrapper {
         //External id field : name would be modified later
         public String ExternalId;
 		public String MemberSubStatus;
-		public String PreExistingDiseaseWaitingPeriod;
+		//public String PreExistingDiseaseWaitingPeriod;
 		public String TotalNCB;
 		public String RidersOpted;
 		public String appdownloadstatus;
@@ -140,8 +140,13 @@ public with sharing class ABHI_CreatePolicyWrapper {
 		public String PanNo;
 		public String ParentCode;
 		public String WhatsappNumber;
-		public List<CustomerSegments> CustomerSegments;
-		public List<CustomerRoles> CustomerRoles;
+        public String HNICustomer;
+        public String CEOClubAdvisor;
+        public String PriorityCustomer;
+        public String SensitiveCustomer;
+        public String CustomerRoleType;
+		/*public List<CustomerSegments> CustomerSegments;
+		public List<CustomerRoles> CustomerRoles;*/
 		public String EffectiveDate;
 		public String InternationalNumber;
 		public String MMICustomerID;
