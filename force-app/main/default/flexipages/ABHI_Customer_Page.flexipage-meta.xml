@@ -832,10 +832,7 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Source__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
+                            <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Nature__c</value>
@@ -847,16 +844,19 @@
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.CASE_NUMBER</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.STATUS</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Resolution_Comments__c</value>
+                            <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Created_By_User_formula__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CREATED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Assigned_Team__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.STATUS</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -866,7 +866,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
@@ -917,10 +917,7 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Source__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
+                            <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Nature__c</value>
@@ -932,16 +929,19 @@
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.CASE_NUMBER</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.STATUS</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Resolution_Comments__c</value>
+                            <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Created_By_User_formula__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CREATED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Assigned_Team__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.STATUS</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1002,13 +1002,10 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Source__c</value>
+                            <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Nature__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Type_Text__c</value>
@@ -1017,16 +1014,19 @@
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.CASE_NUMBER</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.STATUS</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Resolution_Comments__c</value>
+                            <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Created_By_User_formula__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CREATED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Assigned_Team__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.STATUS</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1079,10 +1079,7 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Source__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
+                            <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Nature__c</value>
@@ -1094,16 +1091,19 @@
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.CASE_NUMBER</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.STATUS</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Resolution_Comments__c</value>
+                            <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Created_By_User_formula__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CREATED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Assigned_Team__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.STATUS</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1113,7 +1113,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
