@@ -26,7 +26,7 @@ public with sharing class ABHI_Constants {
     public static final String OPEN = 'Open';
     public static final String NEW_STATUS = 'New';
     public static final String ABHI = 'ABHI';
-    public static final String ABHI_LOB = 'ABHI_';
+    public static final String JARVIS = 'JARVIS';
     public static final String PERMANENT = 'Permanent';
     public static final String INDIVIDUAL = 'Individual';
     public static final String NON_INDIVIDUAL = 'Non-Individual';
