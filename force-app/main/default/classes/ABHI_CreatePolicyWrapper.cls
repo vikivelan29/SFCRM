@@ -100,9 +100,11 @@ public with sharing class ABHI_CreatePolicyWrapper {
         //public String ExternalId;
 		public String MemberSubStatus;
 		//public String PreExistingDiseaseWaitingPeriod;
-		public String member_first_inception_date;
-		public String cumulativeBonus;
-		public String super_ncb_amount;
+		public String TotalNCB;
+		public String RidersOpted;
+		public String appdownloadstatus;
+		public String SumInsured;
+		public String UpfrontDiscount;
 	}
 
     public class PreviousPolicyDetails {
@@ -162,13 +164,13 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String HNICustomer;
         public String CEOClubAdvisor;
         public String PriorityCustomer;
-        public String sensitive_customer;
+        public String SensitiveCustomer;
         public String CustomerRoleType;
 		/*public List<CustomerSegments> CustomerSegments;
 		public List<CustomerRoles> CustomerRoles;*/
-		//public String EffectiveDate;
-		//public String InternationalNumber;
-		public String NatureDescriptionOfTheBusiness;
+		public String EffectiveDate;
+		public String InternationalNumber;
+		public String MMICustomerID;
 		public String Relation;
         public String ContactPersonofEmployer;
         public String RegistrationNumber;

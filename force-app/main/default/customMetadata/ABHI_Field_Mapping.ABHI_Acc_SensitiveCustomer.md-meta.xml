@@ -8,11 +8,11 @@
     </values>
     <values>
         <field>ABHI_Field_Type__c</field>
-        <value xsi:type="xsd:string">Boolean</value>
+        <value xsi:type="xsd:string">String</value>
     </values>
     <values>
         <field>ABHI_JSON_Field_Name__c</field>
-        <value xsi:type="xsd:string">sensitive_customer</value>
+        <value xsi:type="xsd:string">SensitiveCustomer</value>
     </values>
     <values>
         <field>ABHI_Object_Mapping__c</field>
