@@ -85,12 +85,18 @@
                 <identifier>RecordRequestor_Comments_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-829cd35a-9968-4f26-bb32-e5818540dbd2</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Approval_Status__c</fieldItem>
+                <identifier>RecordApproval_Status_cField</identifier>
                 <fieldItem>Record.Requested_CCC_Details__c</fieldItem>
                 <identifier>RecordRequested_CCC_Details_cField</identifier>
                 <visibilityRule>
@@ -113,7 +119,7 @@
                 </visibilityRule>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-829cd35a-9968-4f26-bb32-e5818540dbd2</name>
+        <name>Facet-830aaa22-1120-4095-8af6-2934fd8afb13</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -125,6 +131,16 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
                 <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-830aaa22-1120-4095-8af6-2934fd8afb13</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-b4b380f5-a97c-41f9-b93c-bcfe54f5c8fc</name>
