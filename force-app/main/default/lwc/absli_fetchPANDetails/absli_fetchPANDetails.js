@@ -117,8 +117,8 @@ export default class Absli_fetchPANDetails extends LightningElement {
                     this.nsdlResponse = JSON.parse(result.responseStr).outputData[0];
                     this.showFetchResponse = true;
                     this.CancelBtnLbl = 'Deny';
-                    if(this.nsdlResponse && this.nsdlResponse.name == "N" && this.nsdlResponse.dob == "N" 
-                        && this.nsdlResponse.pan_status == "E" && this.nsdlResponse.seeding_status == "Y"){
+                    if(this.nsdlResponse && this.nsdlResponse.name == "Y" && this.nsdlResponse.dob == "Y" 
+                        && this.nsdlResponse.pan_status == "E"){
                     this.isVerificationSuccessful = true;
                     }
                     debugger;

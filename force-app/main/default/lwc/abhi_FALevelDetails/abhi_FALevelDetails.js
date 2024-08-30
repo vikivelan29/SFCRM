@@ -81,7 +81,7 @@ console.log('result' ,result);
                 // Handle 1001 Status Code
                 this.displayTable = false;
                 this.showRecords = false;
-                this.errorMessages = this.result.Message;
+                this.errorMessages = result.Message;
                 this.displayError = true;
             }else if (this.statusCode === 204) {
                 // Handle 204 No Content
@@ -92,7 +92,7 @@ console.log('result' ,result);
             }
             else {
                 this.showDataTable = false;
-                this.errorMessages = this.result.Message;
+                this.errorMessages = result.Message;
                 this.displayError = true;
                 console.log('errorMessages>>' ,this.result.Message);
                
