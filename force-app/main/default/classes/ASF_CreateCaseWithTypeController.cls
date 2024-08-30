@@ -192,6 +192,11 @@ public with sharing class ASF_CreateCaseWithTypeController {
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
                 '(Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR ' +
                 'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')'+' AND LOB__c =\''+ String.escapeSingleQuotes(assetLob)+'\'';
+        }//PR1030924-55 Added new condition to show CTSTs where folio is not mandatory in case of asset auto-select scenario
+        else if(isasset == 'false' && System.Label.ASF_List_of_BUs_To_AutoSelect_Single_Asset.split(',').contains(userBu)) {
+            dynamicQuery += ' is_FA_Mandatory__c = false AND Only_CRN_Mandatory__c = true AND '+
+                '(Sub_Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR Type__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\' OR ' +
+                'Type_Synonyms__c LIKE \'' + String.escapeSingleQuotes(searchKeyword) + '\')';
         }
         else{
             dynamicQuery += ' is_FA_Mandatory__c = true AND '+
