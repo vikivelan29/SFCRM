@@ -95,9 +95,9 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Approval_Status__c</fieldItem>
-                <identifier>RecordApproval_Status_cField</identifier>
-                <fieldItem>Record.Requested_CCC_Details__c</fieldItem>
+                <!-- <fieldItem>Record.Approval_Status__c</fieldItem>
+                <identifier>RecordApproval_Status_cField</identifier> -->
+                <fieldItem>Record.Requested_CCC_Details__c</fieldItem> 
                 <identifier>RecordRequested_CCC_Details_cField</identifier>
                 <visibilityRule>
                     <booleanFilter>(1 AND 2) OR 3</booleanFilter>
