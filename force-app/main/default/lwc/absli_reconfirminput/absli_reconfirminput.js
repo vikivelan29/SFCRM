@@ -6,6 +6,7 @@ export default class absli_reconfirminput extends LightningElement {
     @track originalTextValue = '';
     @track confirmTextValue = '';
     @track bConfirmationTextNotMatching = true;
+    @track showConfirmationError = false;
     @api fieldNameToSearch = '';
     @track MICR_CODE = '000000000';
     @api recordId;
@@ -152,13 +153,16 @@ export default class absli_reconfirminput extends LightningElement {
     confirmationCheck() {
         if ((this.originalTextValue == this.confirmTextValue) && !this.isMobileNumberError && this.selectedCountryCode != null && !this.isInvalidMobileNumberError) {
             this.bConfirmationTextNotMatching = false;
+            this.showConfirmationError = false;
             this.iconClass = 'successBtn';
         }else if ((this.originalTextValue == this.confirmTextValue)){
             this.bConfirmationTextNotMatching = false;
+            this.showConfirmationError = false;
             this.iconClass = 'successBtn';
         }
         else {
             this.bConfirmationTextNotMatching = true;
+            this.showConfirmationError = true;
         }
     }
     cancelConfirmFieldPopup(event) {
