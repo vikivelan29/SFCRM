@@ -4,7 +4,7 @@ import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColum
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import recDevices from '@salesforce/label/c.ABHI_RecommendedDevice';
 import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
-import deviceDetail from '@salesforce/label/c.ABHI_DeviceDetails';
+import deviceDetail from '@salesforce/label/c.ABHI_Devices';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 
 export default class Abhi_deviceDetailsCmp extends LightningElement {
