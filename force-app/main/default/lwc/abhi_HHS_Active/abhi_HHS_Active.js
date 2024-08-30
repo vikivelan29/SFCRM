@@ -66,19 +66,20 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             this.isLoading = false;
             this.showDataTable = true;
 
-            if(result.StatusCode == 1000 && result.HHSDetails.serviceMessages[0].businessDesc==="Result found") {
+            if(result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length > 0) {
                 this.setupColumns(result);
                 this.processResponse(result);
-            } else if (result.StatusCode == 1000 && result.HHSDetails.serviceMessages[0].businessDesc==="No Result found"){
+            } else if (result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length ===0){
                 this.setupColumns(result);
                 this.processResponse(result);
                 this.resultMessageValue = result.HHSDetails.serviceMessages[0].businessDesc;
 
-            } else if (result.StatusCode == 1002 && result.HHSDetails.serviceMessages[0].businessDesc==="Result found"){
+            } else if (result.StatusCode == 1002 && Object.keys(result.HHSDetails.responseMap).length > 0){
                 this.showDataTable = false;
                 this.errorMessages = result.Message;
-                this.resultMessageValue = "No Result found";
                 this.displayError = true;
+                this.showTable = true;
+                this.processResponse(result);
 
             }
             else {
@@ -118,11 +119,10 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         this.recordTable2 = [];
         this.currentPage = 1;
         
-        if (response && response.StatusCode === '1000') {
+        if (response && response.StatusCode === '1000'|| response.StatusCode === '1002') {
+            console.log('response code', response.StatusCode);
           
-
-            // console.log('response.operationStatus', response.operationStatus);
-            ///const resultsList = response.activeAge;
+            if(response.activeAge!=null){
                 const activeAge = response.activeAge;
             console.log('activeAge-->',activeAge);
 
@@ -134,10 +134,14 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 CalculationDate: activeAge.CalculationDate
             }];
             this.recordTable2 = tableData;  // Ensure this is populated as needed
-        this.showDataTable = true;
-        this.displayError = false;
-        
-            
+            this.showDataTable = true;
+            this.displayError = false;
+        }
+        else{
+            this.showDataTable = false;
+            this.displayError = true;
+            this.errorMessages = response.Message;
+        }
            // Check if HHSDetails and serviceMessages exist
         if (response.HHSDetails && Array.isArray(response.HHSDetails.serviceMessages)) {
             const serviceMessages = response.HHSDetails.serviceMessages;
@@ -147,19 +151,13 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 msg.businessDesc === "Result found" || msg.businessDesc === "No Result found"
             );
             
-
-            
             if (resultMessage) {
                 if (resultMessage.businessDesc === "Result found" && response.HHSDetails.responseMap && Object.keys(response.HHSDetails.responseMap).length > 0) {
                 
                         const resultsList = response.HHSDetails.responseMap.resultsList;
                         const tierLevelName = resultsList.tierLevelName;
                         const activities = resultsList.activities;
-                        
-                        console.log('valuss---', ATTRIBUTE_CODE_LABELS);
-
-                            console.log('activities-->', activities);
-                            console.log('Activities:', JSON.stringify(activities, null, 2));
+                            //console.log('Activities:', JSON.stringify(activities, null, 2));
 
                             let table = [];
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
@@ -173,9 +171,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                                     'Total Cholesterol': '',
                                     'Fasting Blood Sugar (mg/dl)': ''
                                 };
-
-                                // let totalCholesterolFound = false;
-                                // let fastingBloodSugarFound = false;
 
                                 activities.forEach(activity => {
                                     if (activity.name === "Total cholesterol") {
@@ -210,11 +205,13 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                             } else {
                                 this.table = [];
                                 this.noResultsMessage = true;
+                                //this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
                             }
                    
                 } else if (resultMessage.businessDesc === "No Result found") {
+                    console.log('resultMessage.businessDesc', resultMessage.businessDesc);
                     // Handle case where "No Result found" is present
-                    this.noResultsMessage = resultMessage.businessDesc;
+                    this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
                 }
             } else {
                 this.noResultsMessage = resultMessage.businessDesc;

@@ -996,7 +996,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_Fitness_Appointment</shortDescription>
-        <value>Fitness Appointment</value>
+        <value>FA Appointment</value>
     </labels>
     <labels>
         <fullName>ABHI_Fitness_Level</fullName>
@@ -1045,13 +1045,6 @@
         <value>HHS &amp; Active Age</value>
     </labels>
     <labels>
-        <fullName>Health_Return_App_Reg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HAPP</shortDescription>
-        <value>Health Return & App Reg</value>
-    </labels>
-    <labels>
         <fullName>ABHI_OtherDevice</fullName>
         <categories>ABHI</categories>
         <language>en_US</language>
@@ -1068,25 +1061,18 @@
         <value>Recommended Devices</value>
     </labels>
     <labels>
-        <fullName>ABHI_DeviceDetails</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI_DeviceDetails</shortDescription>
-        <value>Device Details</value>
-    </labels>
-    <labels>
         <fullName>ABHI_FitnessAppDetails</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_FitnessAppDetails</shortDescription>
-        <value>Fitness Appointment Details</value>
+        <value>Fitness Assessment Appointment History</value>
     </labels>
     <labels>
         <fullName>ABHI_Health_Return_App_Reg</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HAPP</shortDescription>
-        <value>Health Return App Reg</value>
+        <value>Health Return &amp; App Reg</value>
     </labels>
     <labels>
         <fullName>BUsToHideEbotFeedbackInRecat</fullName>

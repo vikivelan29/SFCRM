@@ -37,7 +37,8 @@
         </template>
 
         <template if:true={resultMessageValue}>
-            <div class="slds-text-color_weak slds-m-top_medium">
+            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
                 <span style="font-size: 0.90rem;">{resultMessageValue}</span>
             </div>
         </template>
