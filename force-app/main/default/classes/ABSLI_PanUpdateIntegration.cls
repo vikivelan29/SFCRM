@@ -42,7 +42,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
                    && caseIdVsCheckListMap.get(caseRecord.Id).size()>0)
                 {
                     for(ASF_Checklist__c cList : caseIdVsCheckListMap.get(caseRecord.Id)){
-                        if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(cList.Status__c)){
+                        if(String.isNotBlank(cList.Status__c) && !ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(cList.Status__c)){
                             result.response = Custom_Messages__mdt.getInstance('ABSLI_PanUpdateIntegration_ERR2').Message__c;
                             break;
                         }else{
