@@ -327,6 +327,9 @@
     <enableFeeds>true</enableFeeds>
     <enableHistory>false</enableHistory>
     <externalSharingModel>ControlledByParent</externalSharingModel>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>CONTACT.PHONE3</fields>
+    </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>FULL_NAME</fields>
         <fields>ACCOUNT.NAME</fields>
