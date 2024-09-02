@@ -1088,4 +1088,11 @@
         <shortDescription>ABSLAMC Back Stage Movement Error</shortDescription>
         <value>You Can not go directly to the &quot;Open&quot; Stage.</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_Forward_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
+        <value>Movement to this stage can only be done through CAMS</value>
+    </labels>
 </CustomLabels>
