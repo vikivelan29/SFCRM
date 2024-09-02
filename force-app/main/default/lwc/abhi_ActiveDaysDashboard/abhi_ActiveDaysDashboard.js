@@ -169,7 +169,7 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
                 totalScoreForPeriod: resultsList.totalScoreForPeriod,
             }];
             let scoresList = resultsList.scores;
-            scoresList = scoresList.sort((a, b) => this.parseDate(a.activeDate) - this.parseDate(b.activeDate)); //PR1030924-595
+            scoresList = scoresList.sort((a, b) => new Date(a.activeDate) - new Date(b.activeDate));
 
             this.scoresList = scoresList.flatMap(score => 
                 score.activities.map(activity => ({
