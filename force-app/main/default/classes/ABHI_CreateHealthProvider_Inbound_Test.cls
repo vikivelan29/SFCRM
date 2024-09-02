@@ -14,21 +14,23 @@ private class ABHI_CreateHealthProvider_Inbound_Test {
     @isTest 
     static void testCreateRecordsFailure(){
         Test.startTest();
-        String jsonMsg = '"{\"HealthProvider\":[{\"abc\":\"CustomerPortal\"}]}"';
-        createRequest(jsonMsg);
+        String JSONMsg = '"{\"HealthProvider\":[{\"abc\":\"CustomerPortal\"}]}"';
+        createRequest(JSONMsg);
         String response = ABHI_CreateHealthProvider_Inbound.createRecords();
         Test.stopTest();
         ABHI_ResponseWrapper responseBody = (ABHI_ResponseWrapper) JSON.deserialize(response.toString(), ABHI_ResponseWrapper.class);
-        System.assertEquals('100', responseBody.StatusCode, 'Incorrect Code');
-        System.assertEquals('Failure', responseBody.StatusMessage, 'incorrect Msg');
+        System.assertEquals('100', responseBody.StatusCode);
+        System.assertEquals('Failure', responseBody.StatusMessage);
     }
 
     @isTest 
     static void testCreateRecordsSuccess(){
         List<Health_Provider__c> hpList = new List<Health_Provider__c>();
         Health_Provider__c hp = new Health_Provider__c(
+            Source__c = 'CustomerPortal',
             Provider_Code__c = '12345');
         Health_Provider__c hp1 = new Health_Provider__c(
+            Source__c = 'CustomerPortal',
             Provider_Code__c = '12367');
         hpList.add(hp);
         hpList.add(hp1);
@@ -39,8 +41,8 @@ private class ABHI_CreateHealthProvider_Inbound_Test {
         String response = ABHI_CreateHealthProvider_Inbound.createRecords();
         Test.stopTest();
         ABHI_ResponseWrapper responseBody = (ABHI_ResponseWrapper) JSON.deserialize(response.toString(), ABHI_ResponseWrapper.class);
-        System.assertEquals('200', responseBody.StatusCode, 'Incorrect Code');
-        System.assertEquals('Success', responseBody.StatusMessage, 'incorrect Msg');
+        System.assertEquals('200', responseBody.StatusCode);
+        System.assertEquals('Success', responseBody.StatusMessage);
     }
 
     @isTest 
@@ -55,8 +57,8 @@ private class ABHI_CreateHealthProvider_Inbound_Test {
         String response = ABHI_CreateHealthProvider_Inbound.createRecords();
         Test.stopTest();
         ABHI_ResponseWrapper responseBody = (ABHI_ResponseWrapper) JSON.deserialize(response.toString(), ABHI_ResponseWrapper.class);
-        System.assertEquals('100', responseBody.StatusCode, 'Incorrect Code');
-        System.assertEquals('Failure', responseBody.StatusMessage, 'incorrect Msg');
+        System.assertEquals('100', responseBody.StatusCode);
+        System.assertEquals('Failure', responseBody.StatusMessage);
     }
 
     /****************************************************************************************************
