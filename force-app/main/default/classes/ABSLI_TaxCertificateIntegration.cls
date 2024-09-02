@@ -36,7 +36,7 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
             }else{
                 if (
                     (caseRecord.Technical_Source__c == 'API' && caseRecord.FTR__c) ||
-                    caseRecord.Technical_Source__c == 'LWC'
+                    caseRecord.Technical_Source__c == 'LWC' || caseRecord.Technical_Source__c == 'Email'
                 ) {
                     result.status = ABSLI_Constants.SUCCESS;
                     result.response = ABSLI_Constants.EVALUATION_SUCCESS;

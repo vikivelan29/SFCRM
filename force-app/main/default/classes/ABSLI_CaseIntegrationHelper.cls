@@ -7,6 +7,7 @@
 *History        :
 *********************************************************/
 public class ABSLI_CaseIntegrationHelper {
+    public static Set<String> requestsForStageMovement = new Set<String>{'PEMT042','PEMT024'};
     /****************************************************************************************************************
     * @LOB - ABSLI
     * @Function - eBotHandler
@@ -253,11 +254,18 @@ public class ABSLI_CaseIntegrationHelper {
             update caseRecord;
         }
 
-      if(caseRecord.FTR__c){
+        if(caseRecord.FTR__c){
             caseRecord.MoveToNext__c = true;  
             if(Schema.sObjectType.Case.isUpdateable()){
                 update caseRecord;
             }
+        }
+
+        if(requestsForStageMovement.contains(caseRecord.CCC_External_Id__c)){
+            caseRecord.MoveToNext__c = true;  
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }         
         }
 
         return caseRecord;
