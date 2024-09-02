@@ -28,6 +28,7 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track scoresList = []; // Store the 
     customerID;
     @api recordId;
+    @track apiFailure ='';
 
     @wire(getRecord, {
         recordId: "$recordId",
@@ -72,6 +73,10 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             toDate: this.endDate 
         })
         .then((result) => {
+            console.log('result----> ' + JSON.stringify(result));
+            if(result.message){
+                this.apiFailure=result.message;
+            }
             this.isLoading = false;
             this.showDataTable = true;
             if(result.serviceMessages[0].businessDesc==='Has active dayz'){
@@ -95,13 +100,18 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             //this.endDate = '';     
            })
         .catch((error) => {
+            console.log('Error----> ',JSON.stringify(error));
             this.isLoading = false;
             this.showDataTable = false;
-            this.errorDisplay = 'Error: ' + error.body.message;
-            this.showDataTable = false;
-            this.errorMessage =   error.body.message;
             this.displayError = true;
-           console.log('Error----> ' + JSON.stringify(error));
+            if ( error.body != null) {
+                this.errorMessage =   error.body.message;
+            } else if(this.apiFailure){
+                this.errorMessage = this.apiFailure;
+            }
+            else{
+                this.errorMessage = 'An unknown error occured, please contact your admin'
+            }
 
         });
     }
@@ -151,7 +161,8 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
                 totalScoreForSteps: resultsList.totalScoreForSteps,
                 totalScoreForPeriod: resultsList.totalScoreForPeriod,
             }];
-            const scoresList = resultsList.scores;
+            let scoresList = resultsList.scores;
+            scoresList = scoresList.sort((a, b) => new Date(a.activeDate) - new Date(b.activeDate));
 
             this.scoresList = scoresList.flatMap(score => 
                 score.activities.map(activity => ({
