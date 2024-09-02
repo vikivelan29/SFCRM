@@ -71,7 +71,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
     * 							recIdToSkipperFlag key is the caseDetail Id
     * This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
     */
-    public static void setManualSkipperFlags(Map<Id, Set<String>> recIdToSkipperFlag) {
+    public static void setManualSkipperFlags(Map<Id, Set<String>> recIdToSkipperFlag, String caseDetRecName) {
+        relObjName = caseDetRecName != null ? caseDetRecName : '';
         for(Id recId : recIdToSkipperFlag.keySet()){
             if(!skipperFlagMap.containsKey(recId)){
                 skipperFlagMap.put(recId, recIdToSkipperFlag.get(recId));

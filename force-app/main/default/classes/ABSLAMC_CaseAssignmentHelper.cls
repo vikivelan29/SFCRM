@@ -74,7 +74,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             }
 
             if(!caseIdToSkipperFlag.isEmpty()){
-                ASF_CaseTriggerModularHelper.setManualSkipperFlags(caseIdToSkipperFlag);
+                ASF_CaseTriggerModularHelper.setManualSkipperFlags(caseIdToSkipperFlag, null);
             }
         }
         
