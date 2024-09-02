@@ -212,6 +212,15 @@
         <fields>CASES.STATUS</fields>
         <fields>CASES.CREATED_DATE</fields>
         <fields>CORE.USERS.ALIAS</fields>
+        <fields>LOB__c</fields>
+        <profileName>ABSLAMC Base User</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>CASES.CASE_NUMBER</fields>
+        <fields>CASES.SUBJECT</fields>
+        <fields>CASES.STATUS</fields>
+        <fields>CASES.CREATED_DATE</fields>
+        <fields>CORE.USERS.ALIAS</fields>
         <profileName>ABFL Base Profile</profileName>
     </profileSearchLayouts>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>

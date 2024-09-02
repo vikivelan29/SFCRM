@@ -327,6 +327,15 @@
     <enableFeeds>true</enableFeeds>
     <enableHistory>false</enableHistory>
     <externalSharingModel>ControlledByParent</externalSharingModel>
+    <profileSearchLayouts>
+        <fields>FULL_NAME</fields>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>CONTACT.PHONE1</fields>
+        <fields>CONTACT.EMAIL</fields>
+        <fields>CORE.USERS.ALIAS</fields>
+        <fields>Line_of_Business__c</fields>
+        <profileName>ABSLAMC Base User</profileName>
+    </profileSearchLayouts>
     <searchLayouts>
         <customTabListAdditionalFields>FULL_NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
