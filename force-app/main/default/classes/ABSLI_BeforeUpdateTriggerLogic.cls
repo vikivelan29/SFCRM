@@ -1,17 +1,17 @@
 /**
- * @description       : BSLI BeforeUpdateTrigger Logic Before ASF Code
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 08-21-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @description       : BSLI BeforeUpdateTrigger Logic Before ASF Code
+* @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+* @group             : 
+* @last modified on  : 09-02-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateTriggerLogic {
     /**
-     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-     * updated. This is the parent method
-     * @param newMap
-     * @param oldMap
-     */
+* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+* updated. This is the parent method
+* @param newMap
+* @param oldMap
+*/
     public Static Map<Id, Case> absliCasesAdditionalFields;
     public static void executeBeforeLogic(Map<Id, Case> newMap, Map<Id, Case> oldMap){
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
@@ -21,17 +21,17 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             Map<Id,Case> frameworkCases = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             for(Case caseRec : frameworkCases.values()){
                 if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU){
-                    mAbsliCases.put(caseRec.Id,caseRec);
+                        mAbsliCases.put(caseRec.Id,caseRec);
                 }
             }
         }
         
         if(!mAbsliCases.isEmpty()){
             absliCasesAdditionalFields = new Map<Id, Case>([SELECT Id,Asset.Issue_Date__c,ABSLI_Case_Detail__c,CCC_External_Id__c, 
-                                       ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
-                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c,IGMS_Complaint_Type_Code__c ,FTR__c, ABSLI_Case_Detail__r.IGMS_type_of_policy__c
-                                       FROM Case 
-                                       WHERE Id IN :mAbsliCases.keySet()]);
+                                                            ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
+                                                            ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c,IGMS_Complaint_Type_Code__c ,FTR__c,ABSLI_Case_Detail__r.IGMS_type_of_policy__c,ABSLI_Case_Detail__r.Before_3_PM__c,ABSLI_Case_Detail__r.Branch_Receive_Date__c
+                                                            FROM Case 
+                                                            WHERE Id IN :mAbsliCases.keySet()]);
             System.debug('Inside ABSLI before Update Trigger logic');
             System.debug(absliCasesAdditionalFields);
             //ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases(mAbsliCases.values(), oldMap);
@@ -42,45 +42,45 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         }  
     }
     /**
-     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-     * updated. If the case is marked as FTR, the case status is updated to 'Resolved'
-     * @param absliCases
-     * @param oldMap
-     
-    public static void autoResolveFtrCases(List<Case> absliCases, Map<Id, Case> oldMap){
-        if(!absliCases.isEmpty()){
-            for(Case caseRec : absliCases){
-                if(caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c 
-                   && caseRec.MoveToNext__c == true && caseRec.FTR__c == true){
-                       caseRec.MoveToNext__c = false;
-                       caseRec.Status = ASF_Constants.ONCREATECLOSESTATUS;
-                       caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
-                   }
-            }
-        }   
-    }*/
+* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+* updated. If the case is marked as FTR, the case status is updated to 'Resolved'
+* @param absliCases
+* @param oldMap
+
+public static void autoResolveFtrCases(List<Case> absliCases, Map<Id, Case> oldMap){
+if(!absliCases.isEmpty()){
+for(Case caseRec : absliCases){
+if(caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c 
+&& caseRec.MoveToNext__c == true && caseRec.FTR__c == true){
+caseRec.MoveToNext__c = false;
+caseRec.Status = ASF_Constants.ONCREATECLOSESTATUS;
+caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
+}
+}
+}   
+}*/
     
     /**
-     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-     * moved to next stage. It validates if any open checklist is pending and throws validation error
-     * @param newMap
-     * @param oldMap
-     */
+* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+* moved to next stage and skip to stage. It validates if any open checklist is pending and throws validation error
+* @param newMap
+* @param oldMap
+*/
     public static void validateTasks(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
         Map<Id, Case> eligibleCases = new Map<Id, Case>();
         if(!absliCases.isEmpty()){
             for(Case caseRec : absliCases){
                 if((caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c && caseRec.MoveToNext__c == true) 
                    || (caseRec.MoveToNext__c == oldMap.get(caseRec.Id).MoveToNext__c && caseRec.MoveToNext__c == false
-                      && caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c
-                      && caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c
-                      && caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c
-                      && caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c
-                      && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c
-                      && caseRec.pending_clarification__c == false)){
-                       
-                       eligibleCases.put(caseRec.Id, caseRec);
-                }
+                       && caseRec.CCC_External_Id__c == oldMap.get(caseRec.Id).CCC_External_Id__c
+                       && caseRec.Reopened_DateTime__c == oldMap.get(caseRec.Id).Reopened_DateTime__c
+                       && caseRec.Reject_Case__c == oldMap.get(caseRec.Id).Reject_Case__c
+                       && caseRec.Is_Duplicate__c == oldMap.get(caseRec.Id).Is_Duplicate__c
+                       && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c
+                       && caseRec.pending_clarification__c == false)){
+                           
+                           eligibleCases.put(caseRec.Id, caseRec);
+                       }
             }
             Map<Id,AggregateResult> mCountOfNotCompletedTaskOnCase = new Map<Id,AggregateResult>(
                 [SELECT WhatId Id, COUNT(ID) FROM Task 
@@ -93,56 +93,82 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                 Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
                 if(mCountOfNotCompletedTaskOnCase.containsKey(caseRec.Id) && 
                    !(skipperFlagMap.containsKey(caseRec.Id) && skipperFlagMap.get(caseRec.Id).contains(ASF_Constants.SKIP_VALIDATE_TASKS))){
-                    Case caseError = newMap.get(caseRec.Id);
-                    caseError.addError(System.Label.Incomplete_Tasks_Error_Message);
-                    newMap.put(caseRec.Id,caseError);
-                }
+                       Case caseError = newMap.get(caseRec.Id);
+                       caseError.addError(System.Label.Incomplete_Tasks_Error_Message);
+                       newMap.put(caseRec.Id,caseError);
+                   }
             }
         }   
     }
     
     /**
-     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-     * updated. From Date and To Date Validation.
-     * @param absliCases
-     * @param oldMap
-     */
+* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+* updated. From Date and To Date Validation.
+* @param absliCases
+* @param oldMap
+*/
     public static void validateFromDateToDate(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
         List<String> validSubTypes = new List<String>{'PEMT042', 'PEMT024'};
-            if(!absliCases.isEmpty()){
-                for (Case caseRec : absliCasesAdditionalFields.values()) {
-                    System.debug(caseRec.ABSLI_Case_Detail__r.To_date__c);
-                    System.debug(caseRec.ABSLI_Case_Detail__r.From_date__c);
-                    // Check if the Case record is related to ABSLI business unit
-                    if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c)) {
-                        System.debug('Inside validate date: ' + caseRec.Asset.Issue_Date__c);
-                        Date issueDate = caseRec.Asset.Issue_Date__c;
-                        Date toDate = caseRec.ABSLI_Case_Detail__r.To_date__c;
-                        Date fromDate = caseRec.ABSLI_Case_Detail__r.From_date__c;
-                        
-                        // Validate dates
-                        if (toDate < issueDate || fromDate < issueDate) {
-                            // Add an error message to the Case record
-							Case caseError = newMap.get(caseRec.Id);
-							caseError.addError('To Date/From Date should be greater than or equal to the Policy Issued Date');
-							newMap.put(caseRec.Id,caseError);
+        List<String> validSubTypesBefore3PM = new List<String>{'PNFT042','PPAY001','PPAY008'};
+                if(!absliCases.isEmpty()){
+                    for (Case caseRec : absliCasesAdditionalFields.values()) {
+                        System.debug(caseRec.ABSLI_Case_Detail__r.To_date__c);
+                        System.debug(caseRec.ABSLI_Case_Detail__r.From_date__c);
+                        // Check if the Case record is related to ABSLI business unit
+                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c)) {
+                            System.debug('Inside validate date: ' + caseRec.Asset.Issue_Date__c);
+                            Date issueDate = caseRec.Asset.Issue_Date__c;
+                            Date toDate = caseRec.ABSLI_Case_Detail__r.To_date__c;
+                            Date fromDate = caseRec.ABSLI_Case_Detail__r.From_date__c;
+                            
+                            // Validate dates
+                            if (toDate < issueDate || fromDate < issueDate) {
+                                // Add an error message to the Case record
+                                Case caseError = newMap.get(caseRec.Id);
+                                caseError.addError('To Date/From Date should be greater than or equal to the Policy Issued Date');
+                                newMap.put(caseRec.Id,caseError);
+                            }
+                            if (fromDate > toDate) {
+                                // Add an error message to the Case record
+                                Case caseError = newMap.get(caseRec.Id);
+                                caseError.addError('From Date should not be greater than To Date');
+                                newMap.put(caseRec.Id,caseError);
+                            }
                         }
-                        if (fromDate > toDate) {
-                            // Add an error message to the Case record
-							Case caseError = newMap.get(caseRec.Id);
-							caseError.addError('From Date should not be greater than To Date');
-							newMap.put(caseRec.Id,caseError);
+                        //Validate before3PM scenario
+                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypesBefore3PM.contains(caseRec.CCC_External_Id__c) && caseRec.Stage__c == 'Open') {
+                            Date today = Date.today();
+                            String before3PM = caseRec.ABSLI_Case_Detail__r.Before_3_PM__c;
+                            Date branchReceiveDate = caseRec.ABSLI_Case_Detail__r.Branch_Receive_Date__c;
+                            Case caseError = newMap.get(caseRec.Id);
+                            if(before3PM != null && branchReceiveDate != null){
+                                switch on before3PM {
+                                    when 'No' {
+                                        Date expectedDate = today.addDays(1);
+                                        if (branchReceiveDate != expectedDate) {
+                                            caseError.addError('Branch received Date should be next day, if before 3PM');
+                                        }
+                                    }
+                                    when 'Yes' {
+                                        if (branchReceiveDate != today) {
+                                            caseError.addError('Branch received Date should be Today, if before 3PM');
+                                        }
+                                    }
+                                    when else {
+                                        caseError.addError('Invalid value for Before 3 PM');
+                                    }
+                                }  
+                            }
                         }
                     }
                 }
-            }
-	}
+    }
     /**
-     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-     * updated. This marks case as Unresolved based on the checklist value for certain "Request" cases
-     * @param mAbsliCases
-     * @param oldMap
-     */
+* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+* updated. This marks case as Unresolved based on the checklist value for certain "Request" cases
+* @param mAbsliCases
+* @param oldMap
+*/
     public static void checkIfMandatoryChecklistNotCompleted(Map<Id, Case> mAbsliCases, Map<Id, Case> oldMap){
         Map<Id, Case> eligibleCases = new Map<Id, Case>();
         if(mAbsliCases.keyset().size()>0){
@@ -171,15 +197,16 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         c.MoveToNext__c = false;
                 }
             }
+            
         }              
     }
     
     /**
-     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-     * updated. To Restrict Complaint Category Type for Non-IGMS Complaints.
-     * @param absliCases
-     * @param oldMap
-     */
+* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+* updated. To Restrict Complaint Category Type for Non-IGMS Complaints.
+* @param absliCases
+* @param oldMap
+*/
     public static void checkComplaintApplicability(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap) {
         Set<String> externalIds = new Set<String>();
         for (Case caseRec : absliCasesAdditionalFields.values()) {
@@ -187,9 +214,9 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                 externalIds.add(caseRec.CCC_External_Id__c);
             }
         }
-
+        
         // Query ASF_Case_Category_Config__c using the external IDs
-         Map<String, ASF_Case_Category_Config__c> configMap = new Map<String, ASF_Case_Category_Config__c>();
+        Map<String, ASF_Case_Category_Config__c> configMap = new Map<String, ASF_Case_Category_Config__c>();
         for (ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c, IGMS_Code__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :externalIds]) {
             configMap.put(config.CCC_External_Id__c, config);
         }
@@ -197,7 +224,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         for (Case caseRec : absliCasesAdditionalFields.values()) {
             if (caseRec.CCC_External_Id__c != null && configMap.containsKey(caseRec.CCC_External_Id__c)) {
                 ASF_Case_Category_Config__c config = configMap.get(caseRec.CCC_External_Id__c);
-				System.debug(config.IGMS_Code__c);
+                System.debug(config.IGMS_Code__c);
                 System.debug(caseRec.ABSLI_Case_Detail__r.Resolve_case__c);
                 System.debug(caseRec.ABSLI_Case_Detail__r.Complaint_Category__c);
                 if (config.IGMS_Code__c == '#N/A' &&
@@ -207,7 +234,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         Case caseError = newMap.get(caseRec.Id);
                         caseError.addError('Category Type of "Complaint" is not applicable for Non-IGMS cases');
                         newMap.put(caseRec.Id,caseError);
-                }
+                    }
                 if (config.IGMS_Code__c != '#N/A' &&
                     caseRec.ABSLI_Case_Detail__r.Complaint_Category__c != 'Complaint' &&
                     caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != null &&
@@ -216,19 +243,19 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         Case caseError = newMap.get(caseRec.Id);
                         caseError.addError('Category type cannot be changed for IGMS Synced cases');
                         newMap.put(caseRec.Id,caseError);
-                }
+                    }
                 if(caseRec.IGMS_Complaint_Type_Code__c != null &&
-                  	caseRec.Nature__c == 'Complaint' && 
+                   caseRec.Nature__c == 'Complaint' && 
                     caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c != null && 
-                    caseRec.Technical_Source__c != 'API'){
+                   caseRec.Technical_Source__c != 'API'){
                 	ABSLI_IGMSClassificationUtility.validationWrapper returnWrapper= ABSLI_IGMSClassificationUtility.validateCurrentSelection(mClassificationIGMS, caseRec);
                 	if(returnWrapper.bErrorOccured){
-                        Case caseError = newMap.get(caseRec.Id);
+                           Case caseError = newMap.get(caseRec.Id);
                     	String errorMessage = returnWrapper.errorMessage;
                     	caseError.addError(errorMessage);
-                	}
-                
-            	}
+                       }
+                       
+                   }
             }
         }
     }
@@ -242,11 +269,11 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
         for(Case c: absliCases){
             if(c.Business_Unit__c=='ABSLI' && c.Technical_Source__c=='LWC' && c.RecordTypeId==frameworkRecordTypeId && 
-              	oldMap.get(c.Id).RecordTypeId == interactionRecTypeId && c.Preframework_to_Framework_FromUI__c == true){
-            	issueCodes.add(c.CCC_External_Id__c);
-                validCases.add(c);
-                policyIds.add(c.AssetId);
-            }
+               oldMap.get(c.Id).RecordTypeId == interactionRecTypeId && c.Preframework_to_Framework_FromUI__c == true){
+                   issueCodes.add(c.CCC_External_Id__c);
+                   validCases.add(c);
+                   policyIds.add(c.AssetId);
+               }
         }
         Map<Id, Asset> policyMap = new Map<Id, Asset>([SELECT Id, Status FROM Asset WHERE Id IN :policyIds]);
         for(Case c: validCases){
@@ -257,19 +284,19 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         if(issueCodes.size()>0 && !caseIdVsPolicy.isEmpty()){
             Map<String, ABSLI_Create_Case_Validations__mdt> issueCodeVsMdt = new Map<String, ABSLI_Create_Case_Validations__mdt>();
             List<ABSLI_Create_Case_Validations__mdt> validationMdtList = [SELECT Label,Business_Unit__c,Issue_Code__c,
-                                             							   Operator__c,Asset_Values__c,Error_Message__c
-                                                                         FROM ABSLI_Create_Case_Validations__mdt
-                                                                         WHERE Business_Unit__c ='ABSLI'
-                                                                         AND Issue_Code__c IN :issueCodes];
+                                                                          Operator__c,Asset_Values__c,Error_Message__c
+                                                                          FROM ABSLI_Create_Case_Validations__mdt
+                                                                          WHERE Business_Unit__c ='ABSLI'
+                                                                          AND Issue_Code__c IN :issueCodes];
             for (ABSLI_Create_Case_Validations__mdt record : validationMdtList) {
                 issueCodeVsMdt.put(record.Issue_Code__c, record);
             }
-
+            
             for(Case cs: validCases){
                 if(issueCodeVsMdt.containsKey(cs.CCC_External_Id__c) &&
                    issueCodeVsMdt.get(cs.CCC_External_Id__c).Business_Unit__c=='ABSLI')
                 {
-                	List<String> policyStatuses = issueCodeVsMdt.get(cs.CCC_External_Id__c).Asset_Values__c.split(':');
+                    List<String> policyStatuses = issueCodeVsMdt.get(cs.CCC_External_Id__c).Asset_Values__c.split(':');
                     String oprtr = issueCodeVsMdt.get(cs.CCC_External_Id__c).Operator__c;
                     switch on oprtr{
                         when 'IN'{
@@ -285,9 +312,10 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                     }
                 }
             }
-
+            
         }
     }
+    
     //custom exception class
-	public class MyCustomException extends Exception {}
+    public class MyCustomException extends Exception {}
 }
