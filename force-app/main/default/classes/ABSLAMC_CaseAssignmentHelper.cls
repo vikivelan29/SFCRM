@@ -52,12 +52,13 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             
             for (Case caseRec : amcSpecificCases.values()) {
                 if (caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU 
-                    && caseRec.Stage__c != oldMapCase.get(caseRec.Id).Stage__c 
-                    && caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT 
+                    && caseRec.Stage__c != oldMapCase.get(caseRec.Id).Stage__c
+                    && caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE             
                    ) {
                        if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
                            && caseSources.contains(caseRec.Source__c)) {
                                caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
+                               caseRec.Feature_Skipper_Flag__c = ASF_Constants.SKIP_ASSIGNMENT;
                                
                            } else if (caseSlaHistoryMap.containsKey(caseRec.Id)) {
                                // Assign to last owner of open stage
@@ -141,5 +142,4 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             
         }
     }
-    
 }
