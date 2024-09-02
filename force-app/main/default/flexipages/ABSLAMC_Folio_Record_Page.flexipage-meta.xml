@@ -378,7 +378,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Profile_Completion_Percentage_at_folio_l__c</fieldItem>
+                <fieldItem>Record.Profile_Completion_Percentage_at_folio__c</fieldItem>
                 <identifier>RecordProfile_Completion_Percentage_at_folio_l_cField</identifier>
             </fieldInstance>
         </itemInstances>

@@ -28,17 +28,9 @@ public with sharing class ABHI_FALevelDetails_Controller {
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
         system.debug('integrationResp>>' +integrationResp);
-            if(integrationResp.statusCode ==200){
                  IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
                 system.debug('deserialized resp' +deserializedIntResponse);
                  return deserializedIntResponse;
-            } else if(integrationResp.statusCode ==204){
-                return new IntegrationResponseWrapper(integrationResp.statusCode, Custom_Messages__mdt.getInstance('ABHI_FALevelDetailsNotFound').Message__c);
-            }
-            else {
-                // Handle other HTTP status codes if needed
-                return new IntegrationResponseWrapper(integrationResp.statusCode, 'Unexpected response status: ' + integrationResp.statusCode);
-            }
         
         }catch(Exception e){
          throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());

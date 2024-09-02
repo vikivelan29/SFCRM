@@ -18,7 +18,7 @@ public without sharing class ABAMC_DisplayDigitalErrorsController {
         Account custAcc = [Select Id, PAN__c from Account where Id = :input and Business_Unit__c = 'ABSLAMC' LIMIT 1];
 
         //Build the payload
-        String payload = '{"pan":"'+custAcc.PAN__c+'","channelId":"CHA1007"}';
+        String payload = '{"panValue":"'+custAcc.PAN__c+'","channelId":"CHA1005"}';
         
         //use ABCL_IntegrationUtility class to invoke the api
         ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('ABAMC_Get_DIgital_Asset_Errors', payload, null);
