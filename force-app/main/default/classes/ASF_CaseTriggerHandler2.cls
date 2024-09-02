@@ -97,7 +97,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
                 ASF_CaseTriggerModularHelper.validateCCCOnUpdate((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
                 // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
                 buSpecificCls.executeAfterASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
-            	ASF_CaseTriggerModularHelper.setSkipperFlags(newCaseMap.values(), (Map<Id, Case>)oldItems); 
+            	//ASF_CaseTriggerModularHelper.setSkipperFlags(newCaseMap.values(), (Map<Id, Case>)oldItems); 
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(interactionRTId));
