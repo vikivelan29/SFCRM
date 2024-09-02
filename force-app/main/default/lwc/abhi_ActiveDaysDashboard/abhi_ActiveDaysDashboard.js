@@ -155,8 +155,8 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
 
             this.scoresList = scoresList.flatMap(score => 
                 score.activities.map(activity => ({
-                    //eventDate: score.activeDate,
-                    eventDate: new Date(score.activeDate).toISOString().split('T')[0],
+                    eventDate: score.activeDate,
+                    //eventDate: new Date(score.activeDate).toISOString().split('T')[0],
                     isScored: score.isScored === 'true' ? "True" : "False",
                     caloriesActivity: activity.name === "Calories Activity" ? this.formatNumber(activity.value || 0) : '',
                     Steps_Activity: activity.name === "Step Activity" ? this.formatNumber(activity.value || 0) : '',
