@@ -178,7 +178,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                             if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)){
                                 caseExt.Cash_Surrender_Value__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE);
                             }else{
-                                return 'Case Surrender Value should be more than 0.';
+                                return 'Cash Surrender Value should be more than 0.';
                             }
                         }
                         else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='NNOP004'){
