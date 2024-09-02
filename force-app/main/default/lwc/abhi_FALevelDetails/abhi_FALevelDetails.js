@@ -54,6 +54,9 @@ export default class Abhil_FALevelDetails extends LightningElement {
             return; // Prevent search if invalid
         }
         this.isLoading = true;
+        this.displayError = false; 
+        this.errorMessages = '';
+    
 
         GetFALevelDetails({ customerId: this.recordId, fromDate: this.startDate, toDate: this.endDate })
             .then(result => {
@@ -72,9 +75,20 @@ console.log('result' ,result);
                 data.push(result);
                 //this.integrationResp = result;
                 this.data= data;
-                
-                //this.showNotification('Success', result.Message, 'success');
-                console.log('this.date', JSON.stringify(this.data));
+                this.errorMessages = '';
+                this.displayError = false;
+            }else if (this.statusCode === 1001) {
+                // Handle 1001 Status Code
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = result.Message;
+                this.displayError = true;
+            }else if (this.statusCode === 204) {
+                // Handle 204 No Content
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = 'No content available';
+                this.displayError = true;
             }
             else {
 
