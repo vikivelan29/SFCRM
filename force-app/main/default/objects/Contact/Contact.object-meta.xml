@@ -327,6 +327,7 @@
     <enableFeeds>true</enableFeeds>
     <enableHistory>false</enableHistory>
     <externalSharingModel>ControlledByParent</externalSharingModel>
+<<<<<<< HEAD
         <fields>ACCOUNT.NAME</fields>
         <fields>CONTACT.PHONE3</fields>
     </profileSearchLayouts>
@@ -339,6 +340,8 @@
         <fields>Line_of_Business__c</fields>
         <profileName>ABSLAMC Base User</profileName>
     </profileSearchLayouts>
+=======
+>>>>>>> parent of 046ede046 (Adding lob to search layouts for Case,Contacts)
     <searchLayouts>
         <customTabListAdditionalFields>FULL_NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
