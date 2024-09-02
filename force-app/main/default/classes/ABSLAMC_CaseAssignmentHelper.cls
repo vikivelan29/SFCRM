@@ -19,6 +19,9 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         // Retrieve queue names and source values from custom labels
         List<String> queueNames = new List<String>(Label.ABSLAMC_CaseAssignmentQueueNames.split(','));
         List<String> caseSources = new List<String>(Label.ABSLAMC_CaseSourcesforAssignment.split(','));
+        Map<String, Id> queueMap = new Map<String, Id>(); 
+        List<ASF_Case_SLA_History__c> caseSLAHistories = new List<ASF_Case_SLA_History__c>();
+        Map<Id, Set<String>> caseIdToSkipperFlag = new Map<Id, Set<String>>();
         
         
         // Fetching Queue to be assigned to the case
@@ -27,42 +30,50 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             queueMap.put(queue.Name, queue.Id);
         }
         
-        //List<Case> caseToUpdate = new List<Case>();
-        //Use constants class
-        for (Case caseRec : newMapCase.values()) {
-            if (caseRec.Business_Unit__c == 'ABSLAMC' 
-                && caseRec.Stage__c != oldMapCase.get(caseRec.Id).Stage__c 
-                && caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT 
-               ) {
-                   System.debug('Inside condition:');
-                   if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
-                       && caseSources.contains(caseRec.Source__c)) {//check for configurability in constants
-                           caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
-                           
-                       } //else assign to last owner of open stage
-                   else {
-                       Map<Id, List<ASF_Case_SLA_History__c>> caseSlaHistoryMap = new Map<Id, List<ASF_Case_SLA_History__c>>();
-                       List<ASF_Case_SLA_History__c> caseSLAHistories = [SELECT Id, Case__c, Current_Owner_Id__c, Current_Owner__c,  
-                                                                         Stage__c, Status__c, is_Running_Record__c 
-                                                                         FROM ASF_Case_SLA_History__c
-                                                                         WHERE Case__c =: caseRec.Id WITH SYSTEM_MODE order by Stage_End_Date__c DESC
-                                                                        ];
-                       
-                       for(ASF_Case_SLA_History__c history : caseSLAHistories){
-                           if(!caseSlaHistoryMap.containsKey(history.Case__c))
-                               caseSlaHistoryMap.put(history.Case__c,new List<ASF_Case_SLA_History__c>());
-                           caseSlaHistoryMap.get(history.Case__c).add(history);
-                       }
-                       
-                       Map<Id,Id> lastActionedUserIdMap = new Map<Id,Id>();
-                       for(ASF_Case_SLA_History__c history : caseSLAHistories){
-                           if(history.Stage__c == 'Open'){
-                               caseRec.OwnerId = history.Current_Owner_Id__c;
-                               break;
+        // Populate the caseSlaHistoryMap
+        for (ASF_Case_SLA_History__c history : caseSLAHistories) {
+            if (!caseSlaHistoryMap.containsKey(history.Case__c)) {
+                caseSlaHistoryMap.put(history.Case__c, new List<ASF_Case_SLA_History__c>());
+            }
+            caseSlaHistoryMap.get(history.Case__c).add(history);
+        }
+        
+        if(!amcSpecificCases.isEmpty()){ 
+            // Fetching Queue to be assigned to the case    
+            for (Group queue : [SELECT Id, Name FROM Group WHERE Type = 'Queue' AND Name IN :queueNames]) {
+                queueMap.put(queue.Name, queue.Id);
+            }
+            
+            for (Case caseRec : amcSpecificCases.values()) {
+                if (caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU 
+                               // Assign to last owner of open stage
+                                       caseRec.OwnerId = history.Current_Owner_Id__c;
+                                       break;
+                                   }
                            }
                        }
                    }
-               } 
+                {
+                    if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
+                        && caseSources.contains(caseRec.Source__c)) {
+                            caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
+                            caseIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_ASSIGNMENT});
+                    }
+                    else if(caseSlaHistoryMap.containsKey(caseRec.Id)) {
+                        // Assign to last owner of open stage
+                        for (ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseRec.Id)) {
+                            if (history.Stage__c == ABSLAMC_Constants.OPEN_STAGE) {
+                                caseRec.OwnerId = history.Current_Owner_Id__c;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(!caseIdToSkipperFlag.isEmpty()){
+                ASF_CaseTriggerModularHelper.setManualSkipperFlags(caseIdToSkipperFlag, null);
+            }
         }
         
     }
