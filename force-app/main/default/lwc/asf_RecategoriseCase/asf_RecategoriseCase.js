@@ -205,7 +205,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
             //if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU || getFieldValue(data, CASE_BU_FIELD) == ABSLAMC_BU){
-            if(BU_TO_HIDE_EBOT_FEEDBACK.split(';').some(str => str === case_Bu) ){
+            if(BU_TO_HIDE_EBOT_FEEDBACK.split(';').includes(case_Bu)){
                 this.showBotFeedbackDropdown = false;
             }
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);
