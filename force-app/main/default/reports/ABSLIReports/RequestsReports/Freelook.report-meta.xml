@@ -13,6 +13,12 @@
         <field>Case$Stage__c</field>
     </columns>
     <columns>
+        <field>Case$Account.Owner.FederationIdentifier</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.Resolution__c</field>
     </columns>
     <columns>
@@ -31,40 +37,31 @@
         <field>Case$LastModifiedDate</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
+        <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
-        <field>Case$CreatedBy.EmployeeNumber</field>
-    </columns>
-    <columns>
-        <field>Case$CreatedBy</field>
+        <field>Case$Asset.Advisor__c.Advisor_Code__c</field>
     </columns>
     <columns>
         <field>Case$CreatedBy.Manager</field>
     </columns>
     <columns>
-        <field>Case$LastModifiedBy</field>
+        <field>Case$Channel__c</field>
     </columns>
     <columns>
-        <field>Case$LastModifiedBy.Manager</field>
-    </columns>
-    <columns>
-        <field>Case$LastModifiedBy.Department</field>
-    </columns>
-    <columns>
-        <field>Case$Source__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
     </columns>
     <filter>
         <criteriaItems>
-            <column>Case$Source__c</column>
+            <column>Case$CCC_External_Id__c</column>
             <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Anywhere Service</value>
+            <isUnlocked>false</isUnlocked>
+            <operator>contains</operator>
+            <value>BFL001,NBPC012,PPAY001</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>Anywhere service</name>
+    <name>Freelook</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -75,8 +72,8 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Case$CreatedDate</dateColumn>
-        <endDate>2024-10-31</endDate>
+        <dateColumn>Case$ClosedDate</dateColumn>
+        <endDate>2024-08-31</endDate>
         <interval>INTERVAL_CUSTOM</interval>
         <startDate>2024-07-01</startDate>
     </timeFrameFilter>
