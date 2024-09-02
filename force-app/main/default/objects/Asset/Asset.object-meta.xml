@@ -111,6 +111,16 @@
         <fields>Segment__c</fields>
         <fields>Sanction_Amount__c</fields>
         <fields>ASSET.STATUS</fields>
+        <fields>LOB__c</fields>
+        <profileName>ABSLAMC Base User</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>ASSET.NAME</fields>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>PRODUCT2.NAME</fields>
+        <fields>Segment__c</fields>
+        <fields>Sanction_Amount__c</fields>
+        <fields>ASSET.STATUS</fields>
         <profileName>ABHFL Base Profile</profileName>
     </profileSearchLayouts>
     <searchLayouts>
