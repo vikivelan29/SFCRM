@@ -31,6 +31,7 @@ export default class Absli_fetchPANDetails extends LightningElement {
     @track record;
     @track error;
     @track bConfirmationTextNotMatching = true;
+    @track showConfirmationError = false;
     @track nsdlResponse = undefined;
     @track CancelBtnLbl = 'Cancel';
     @track PAN_Number = '';
@@ -183,10 +184,12 @@ export default class Absli_fetchPANDetails extends LightningElement {
     confirmationCheck() {
         if (this.originalTextValue == this.confirmTextValue && this.confirmTextValue != '') {
             this.bConfirmationTextNotMatching = false;
+            this.showConfirmationError = false;
             this.iconClass = 'successBtn';
         }
         else {
             this.bConfirmationTextNotMatching = true;
+            this.showConfirmationError = true;
         }
     }
     handleOriginalTextChange(event) {
