@@ -2,8 +2,8 @@
  * @description       : Constant class to store all the resable variables at one place
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 08-16-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 09-03-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
@@ -118,7 +118,7 @@ public with sharing class ASF_Constants {
     /* Added For Loans Search API BU Logic */
     public static final String STRING_IS_API_LOAD = 'API_LOANS';
     
-    
+    public static final List<String> BU_SHOWCHECKLISTS_ONREJECTION = new List<String>{'ABSLI'};
     public static final String REJECTIONSTATUS = 'Unresolved';
     public static final String DUPLICATESTATUS = 'Closed Duplicate';
     public static final String DUPLICATESTAGE = 'Duplicate';

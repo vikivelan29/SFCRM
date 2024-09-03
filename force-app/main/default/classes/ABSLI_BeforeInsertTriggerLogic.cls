@@ -171,12 +171,16 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                         when 'IN'{
                             if((caseVsAsset.get(cs).Status!=null) && (!policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
+                            }else if(String.isBlank(caseVsAsset.get(cs).Status)){
+                                cs.addError('Policy is not eligible.');
                             }
                         }
                         when 'NOT IN'{
                             if((caseVsAsset.get(cs).Status!=null) && (policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
-                            }
+                            }else if(String.isBlank(caseVsAsset.get(cs).Status)){
+                                cs.addError('Policy is not eligible.');
+                            } 
                         }
                     }
                 }
