@@ -119,15 +119,11 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             this.displayError = true;
             if (error.body!= null) {
                 this.errorMessages = error.body.message;
-                this.resultMessageValue = error.body.message;
             } else if(this.ApiFailure){
                 this.errorMessages = this.ApiFailure;
-                this.resultMessageValue = this.ApiFailure;
-                
             }
             else{
                 this.errorMessages = 'An unknown error occured, please contact your system admin'
-                this.resultMessageValue = this.errorMessages;
             }
         });
     }
@@ -191,7 +187,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                         const resultsList = response.HHSDetails.responseMap.resultsList;
                         const tierLevelName = resultsList.tierLevelName;
                         const activities = resultsList.activities;
-                            //console.log('Activities:', JSON.stringify(activities, null, 2));
+                            console.log('Activities:', JSON.stringify(activities, null, 2));
 
                             //let table = [...this.table];
                             let table = Object.keys(DEFAULT_VALUES).map(label => ({
@@ -201,34 +197,29 @@ export default class AbhiActiveAgeDetails extends LightningElement {
 
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
                                 if (tierLevelName) {
-                                    table = table.map(row =>
-                                        row.attributeCode === 'Current Score'
-                                            ? { attributeCode: 'Current Score', attributeValue: tierLevelName }
-                                            : row
-                                    );
-                                   
+                                    table.push({
+                                        attributeCode: 'Current Score', // Custom label for Current Score
+                                        attributeValue: tierLevelName || '' // Value from response
+                                    });
                                 }
 
                                 activities.forEach(activity => {
                                     const label = ATTRIBUTE_CODE_LABELS[activity.code] || activity.name;
                                         // Push the activity value
-                                   
-                                    table = table.map(row =>
-                                        row.attributeCode === label
-                                            ? { attributeCode: label, attributeValue: activity.value || DEFAULT_VALUES[label] }
-                                            : row
-                                    );
+                                    table.push({
+                                        //attributeCode: `${activity.name}`,
+                                        attributeCode: label,
+                                        attributeValue: activity.value || ''
+                                    });
 
                                     if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
                                         activity.attributes.forEach(attr => {
                                             const label = ATTRIBUTE_CODE_LABELS[attr.attributeCode] || attr.attributeCode;
                                             if (ALLOWED_ATTRIBUTES.includes(label)) {
-                                                
-                                                table = table.map(row =>
-                                                    row.attributeCode === label
-                                                        ? { attributeCode: label, attributeValue: attr.attributeValue || DEFAULT_VALUES[label] }
-                                                        : row
-                                                );
+                                                table.push({
+                                                    attributeCode: `${label}`,
+                                                    attributeValue: attr.attributeValue || ''
+                                                });
                                             }
                                         });
                                     }
