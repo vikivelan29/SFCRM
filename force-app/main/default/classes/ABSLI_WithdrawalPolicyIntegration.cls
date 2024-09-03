@@ -106,7 +106,7 @@ public with sharing class ABSLI_WithdrawalPolicyIntegration implements ASF_Integ
             requestJSON.action = ABSLI_Constants.ACTION_WITHDRAWAL;
             requestJSON.FT_Amount_BR = '0';
             requestJSON.TDS_Ind = caseRecord.ABSLI_Case_Detail__r.TDS_Indicator__c == 'Y'?'true':'false';
-            requestJSON.surrenderamount = '90000'; 
+            requestJSON.surrenderamount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c);
 
             string requestBody = JSON.serialize(requestJSON);
             for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
