@@ -74,7 +74,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             attributeCode: label,
             attributeValue: DEFAULT_VALUES[label]
         }));
-        //console.log('Initialized Table with Defaults:', JSON.stringify(this.table, null, 2));
+        console.log('Initialized Table with Defaults:', JSON.stringify(this.table, null, 2));
 
     }
 
@@ -147,7 +147,9 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     }
 
     processResponse(response) {
+        console.log('API Response:', response);
         this.initializeTable(); // Initialize with default values
+        console.log('Initialized Table with Defaults:', this.table);
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
@@ -199,6 +201,12 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                                 attributeValue: DEFAULT_VALUES[label]
                             }));
 
+                            //let table = [...this.table];
+                            let table = Object.keys(DEFAULT_VALUES).map(label => ({
+                                attributeCode: label,
+                                attributeValue: DEFAULT_VALUES[label]
+                            }));
+
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
                                 if (tierLevelName) {
                                     table = table.map(row =>
@@ -238,9 +246,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                                 console.log('Table Data:', JSON.stringify(this.table, null, 2));
                                 this.showTable = true;
                                 hasData = true;
-                                this.totalRecords = this.table.length;
-            this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
-            this.updateTableData();
+                                console.log('hasData', hasData);
                             } else {
                                 this.table = [];
                                 this.noResultsMessage = true;
