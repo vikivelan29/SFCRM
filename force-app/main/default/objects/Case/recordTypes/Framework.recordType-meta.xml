@@ -78,24 +78,71 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABHI</fullName>
+            <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Feature_Skipper_Flag__c</picklist>
+        <values>
+            <fullName>SKIP_APPROVAL_CHECKS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLAMC</fullName>
+            <fullName>SKIP_ASSIGNMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_CLOSE_CASE_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_INTEGRATION_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_OWNER_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_PERI_GENERATE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_ENTRY_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_EXIT_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_CHECKLISTS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_RECAT_PARAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_TASKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATION_CHECKS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
+        <values>
+            <fullName>AML queries</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>AWB number capture</fullName>
             <default>false</default>
@@ -109,6 +156,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Additional information provided after issuance</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Address related</fullName>
             <default>false</default>
         </values>
@@ -118,6 +169,10 @@
         </values>
         <values>
             <fullName>Advisor Query</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Alternate Test or Medial Waiver</fullName>
             <default>false</default>
         </values>
         <values>
@@ -146,6 +201,14 @@
         </values>
         <values>
             <fullName>Bonus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bonus Statement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Capital %2F Gain statement</fullName>
             <default>false</default>
         </values>
         <values>
@@ -210,6 +273,10 @@
         </values>
         <values>
             <fullName>DOB change related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined%2FPostponed</fullName>
             <default>false</default>
         </values>
         <values>
@@ -278,6 +345,10 @@
         </values>
         <values>
             <fullName>Fund Value%2FNAV related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GST invoice</fullName>
             <default>false</default>
         </values>
         <values>
@@ -361,6 +432,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Medical Test Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Miscellaneous</fullName>
             <default>false</default>
         </values>
@@ -398,6 +473,14 @@
         </values>
         <values>
             <fullName>NRI query</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NRI- Residency opinion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NRI-Overseas Medicals Approval</fullName>
             <default>false</default>
         </values>
         <values>
@@ -445,6 +528,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Ops Certification Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Others</fullName>
             <default>false</default>
         </values>
@@ -477,6 +564,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Pilot-Financial or Medical Opinion</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Policy Benefit %26 Features</fullName>
             <default>false</default>
         </values>
@@ -486,6 +577,14 @@
         </values>
         <values>
             <fullName>Policy Dispatch %2F Delivery Details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy Reversal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy account statement</fullName>
             <default>false</default>
         </values>
         <values>
@@ -518,6 +617,10 @@
         </values>
         <values>
             <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rate Up</fullName>
             <default>false</default>
         </values>
         <values>
@@ -601,6 +704,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Reject</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Rejection not communicated</fullName>
             <default>false</default>
         </values>
@@ -665,6 +772,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Restricted SA</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Rider added%2Fdeleted without consent</fullName>
             <default>false</default>
         </values>
@@ -725,6 +836,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Surrender certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
             <default>false</default>
         </values>
@@ -769,11 +884,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Tagging of Non-medical requirement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tagging of Underwriter</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Tampered%2FForged%2FFake Documents</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Tax Invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax certificate</fullName>
             <default>false</default>
         </values>
         <values>
@@ -813,7 +940,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>UW decision follow-up</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>User ID Creation Process%2FForgot password</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Video FMR Eligibility</fullName>
             <default>false</default>
         </values>
         <values>
@@ -861,17 +996,13 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>No_Auto_Communication__c</picklist> 
+        <picklist>No_Auto_Communication__c</picklist>
         <values>
             <fullName>Email</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>SMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName> 
             <default>false</default>
         </values>
     </picklistValues>
@@ -887,10 +1018,6 @@
         </values>
         <values>
             <fullName>ABSLI Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -965,17 +1092,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Recat_Approval__c</picklist>
-        <values>
-            <fullName>Approved</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>Rejected</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
             <fullName>Cancelled</fullName>
@@ -1040,7 +1156,11 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
-            <fullName>AMFI</fullName>
+            <fullName>ABCD App</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABC_Servicing_App</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1057,10 +1177,6 @@
         </values>
         <values>
             <fullName>Branch %28walk-in %2F phone%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Branch Walk-In</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1108,14 +1224,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Email - Branch</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Email - Call Centre</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Fax</fullName>
             <default>false</default>
         </values>
@@ -1133,10 +1241,6 @@
         </values>
         <values>
             <fullName>IVR Inbound</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>IVR-Bot</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1176,19 +1280,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Internal Request</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Internal Usage</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Legal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Letter</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1212,10 +1308,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Online Dispute Resolution %28ODR%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Outbound Altruist</fullName>
             <default>false</default>
         </values>
@@ -1233,14 +1325,6 @@
         </values>
         <values>
             <fullName>Payment Link</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Phone - Branch</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Phone - Call Centre</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1268,15 +1352,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>SEBI</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>SMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service2Sales</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1289,10 +1365,6 @@
         </values>
         <values>
             <fullName>Telephone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Transaction Remediation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1320,15 +1392,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABCD App</fullName>
-	          <default>false</default>
-        </values>
-        <values>
             <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABC_Servicing_App</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1340,6 +1404,10 @@
         </values>
         <values>
             <fullName>Open</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Soft Resolve</fullName>
             <default>false</default>
         </values>
     </picklistValues>
