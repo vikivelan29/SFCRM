@@ -85,8 +85,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     }
 
     handleRefresh(){
-        this.showOtherRecords=false;
-        this.showRecommendedRecords=false;
+        this.isLoading=true;
         this.getData();
     }
 }
