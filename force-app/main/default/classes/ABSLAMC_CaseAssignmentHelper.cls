@@ -21,7 +21,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         Map<String, Id> queueMap = new Map<String, Id>(); 
         List<ASF_Case_SLA_History__c> caseSLAHistories = new List<ASF_Case_SLA_History__c>();
         Map<Id, Set<String>> caseIdToSkipperFlag = new Map<Id, Set<String>>();
-        
+
         for(Case caseRec : newMapCase.values()){
             if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
                 amcSpecificCases.put(caseRec.Id,caseRec);
@@ -53,19 +53,15 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             
             for (Case caseRec : amcSpecificCases.values()) {
                 if (caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU 
-                               // Assign to last owner of open stage
-                                       caseRec.OwnerId = history.Current_Owner_Id__c;
-                                       break;
-                                   }
-                           }
-                   }
+                    && caseRec.Stage__c != oldMapCase.get(caseRec.Id).Stage__c 
+                    && caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE) 
                 {
                     if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
                         && caseSources.contains(caseRec.Source__c)) {
                             caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
                             caseIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_ASSIGNMENT});
-                    }
-                    else if(caseSlaHistoryMap.containsKey(caseRec.Id)) {
+                        }
+                        else if (caseSlaHistoryMap.containsKey(caseRec.Id)) {
                         // Assign to last owner of open stage
                         for (ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseRec.Id)) {
                             if (history.Stage__c == ABSLAMC_Constants.OPEN_STAGE) {
