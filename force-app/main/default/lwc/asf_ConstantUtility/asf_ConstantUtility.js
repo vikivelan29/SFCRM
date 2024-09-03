@@ -94,18 +94,18 @@ export const lanLabels = {
             initialWidth: 180
         }
         ],
-    CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/Product Tagging",
-    CTST_COLS: [
-        { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-        { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
-        { label: 'Type', fieldName: 'Type__c', type: 'text' },
-        { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
-    ],
-    RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same Product as current case",
-    CREATE_SR_WITH_FA: "Create Case with Product",
-    FA_VALIDATION_MESSAGE: "Please select Product Number to process Case type search",
-    FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
-    CREATE_CASE_WITH_FA: "Create Case with Product",
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/Product Tagging",
+        CTST_COLS: [
+            { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+            { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+        ],
+        RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same Product as current case",
+        CREATE_SR_WITH_FA: "Create Case with Product",
+        FA_VALIDATION_MESSAGE: "Please select Product Number to process Case type search",
+        FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
+        CREATE_CASE_WITH_FA: "Create Case with Product",
         AUTO_COMM_BU_LIST: ['ABFL','ABHFL','ABWM','Payments'],
         CREATE_CASE_WITH_NEW_PROSPECT: 'Create Case with new Prospect',
         CREATE_SALES_PROSPECT: 'Create Sales Prospect',
@@ -385,5 +385,6 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Policy to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag Policy to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with Policy"
-    }
+    } 
+     
   };
