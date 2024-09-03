@@ -24,6 +24,10 @@ public with sharing class ABHI_DeviceDetailsController {
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,requestPayload,null);
             if(integrationResponse.responseBody != ''){
                 EncryptedResponseWrapper encryptedResponse = (EncryptedResponseWrapper) JSON.deserialize(integrationResponse.responseBody, EncryptedResponseWrapper.class);
+                if(encryptedResponse.Content == null || encryptedResponse.Content == ''){
+                    String returnMessage = encryptedResponse.Message != null ? encryptedResponse.Message : Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c;
+                    return new ResponseWrapper(Integer.valueOf(integrationResponse.StatusCode), returnMessage);
+                }
                 String decryptedResponse = ABHI_Encryption.decrypt(encryptedResponse.Content, integrationName);
                 if(integrationResponse.StatusCode == 200 && encryptedResponse.StatusCode == '1000'){
                     String responseDecryptedBody = (String) JSON.deserializeUntyped(decryptedResponse);
