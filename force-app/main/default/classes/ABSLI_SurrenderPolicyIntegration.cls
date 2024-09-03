@@ -90,7 +90,7 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
             SurrenderPolicyRequestBody requestJSON = new SurrenderPolicyRequestBody();
             requestJSON.TransNo = caseRecord.caseNumber;
             requestJSON.PolicyID = caseRecord.Asset.Policy_No__c;
-            requestJSON.EffectiveDt = String.valueOf(ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY'));
+            requestJSON.EffectiveDt = String.valueOf(SYSTEM.TODAY());
             requestJSON.IFSC_Code = caseRecord.ABSLI_Case_Detail__r.IFSC_Code__c;
             requestJSON.MICR_Code = ABSLI_Constants.BANKACCOUNTUPDATE_MICR_CODE;
             requestJSON.BankAccountNo = caseRecord.ABSLI_Case_Detail__r.Account_Number__c;
@@ -106,7 +106,7 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
             requestJSON.action = ABSLI_Constants.ACTION_SURRENDER;
             requestJSON.FT_Amount_BR = '0';
             requestJSON.TDS_Ind = caseRecord.ABSLI_Case_Detail__r.TDS_Indicator__c == 'Y'?'true':'false';
-            requestJSON.surrenderamount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c);
+            requestJSON.surrenderamount = '9000';
 
             string requestBody = JSON.serialize(requestJSON);
             for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
