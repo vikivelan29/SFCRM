@@ -14,6 +14,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     showRecommendedRecords=false;
     displayMessage='';
     label = {
+        errorMessage,
         pageSize,
         recDevices,
         otherDevices,
@@ -107,8 +108,6 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
 
     handleRefresh(){
         this.isLoading=true;
-        // this.showOtherRecords=false;
-        // this.showRecommendedRecords=false;
         this.getData();
     }
 }
