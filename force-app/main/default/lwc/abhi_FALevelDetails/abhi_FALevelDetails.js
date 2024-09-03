@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import GetFALevelDetails from '@salesforce/apex/ABHI_FALevelDetails_Controller.GetFALevelDetails';
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+//import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Abhil_FALevelDetails extends LightningElement {
 
@@ -19,6 +19,7 @@ export default class Abhil_FALevelDetails extends LightningElement {
     @track errorMessages = '';
     @track displayError = false;
     @track errorMessageSearch ='';
+    @track ApiFailure = '';
     
     
 
@@ -61,15 +62,19 @@ export default class Abhil_FALevelDetails extends LightningElement {
             return; // Prevent search if invalid
         }
         this.isLoading = true;
+        this.displayError = false; 
+        this.errorMessages = '';
+    
 
         GetFALevelDetails({ customerId: this.recordId, fromDate: this.startDate, toDate: this.endDate })
             .then(result => {
                 this.isLoading = false;
-               this.displayTable=false;
+                this.displayTable=false;
                 this.result = result;
-console.log('result' ,result);
+            console.log('result' ,result);
             let StatusCode = result.StatusCode;
             console.log('StatusCode', result.StatusCode);
+            this.ApiFailure = result.Message;
 
             if(StatusCode == 1000) {
                 this.displayTable=true;
@@ -77,6 +82,8 @@ console.log('result' ,result);
                 let data = [];
                 data.push(result);
                 this.data= data;
+                this.errorMessages = '';
+                this.displayError = false;
             }else if (this.statusCode === 1001) {
                 // Handle 1001 Status Code
                 this.displayTable = false;
@@ -102,10 +109,17 @@ console.log('result' ,result);
             .catch(error => {
                 this.isLoading = false;
                 this.showDataTable = false;
-                let errorDisplay = 'Error: ' + error.message;
-                this.errorMessages = (error.body.message);
-                console.error('Error object:', error);
+                //let errorDisplay = 'Error: ' + error.message;
+                //this.errorMessages = (error.body.message);
                 this.displayError = true;
+                if (error.body!= null) {
+                    this.errorMessages = error.body.message;
+                } else if(this.ApiFailure){
+                    this.errorMessages = this.ApiFailure;
+                }
+                else{
+                    this.errorMessages = 'An unknown error occured, please contact your system admin'
+                }
             });         
 
 }
@@ -137,14 +151,14 @@ fetchColumns() {
 }
 
 // Method to show notifications
-showNotification(title, message, variant) {
-    const event = new ShowToastEvent({
-        title: title,
-        message: message,
-        variant: variant,
-    });
-    this.dispatchEvent(event);
-}
+// showNotification(title, message, variant) {
+//     const event = new ShowToastEvent({
+//         title: title,
+//         message: message,
+//         variant: variant,
+//     });
+//     this.dispatchEvent(event);
+// }
 validateDates() {
     if (this.startDate && this.endDate) {
         const start = new Date(this.startDate);
