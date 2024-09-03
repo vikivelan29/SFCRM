@@ -30,8 +30,7 @@ public with sharing class ABHI_Constants {
     public static final String PERMANENT = 'Permanent';
     public static final String INDIVIDUAL = 'Individual';
     public static final String NON_INDIVIDUAL = 'Non-Individual';
-    
-    
+    public static final String POLICY_IS_MANDATORY_ON_Customer = 'Policy is mandatory on customer.';
     public static final String BUSINESS_UNIT_API = 'Business_Unit__c';
     
     public static final List<String> POLICY_ALL_OBJECT = new List<String>{'Account','Asset','Customer_Member_Mapping', 'Nominee'};

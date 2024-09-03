@@ -16,7 +16,8 @@ public with sharing class ABCL_IntegrationCallout {
     * payload - request body, urlParameters - Map of URL parameters
     * @return - IntegrationResponseWrapper
     * @Description - Makes the callout and logs the response in ASF_Case_Integration__c
-    *****************************************************************************************************************/       
+    *****************************************************************************************************************/
+    @AuraEnabled       
     public static IntegrationResponseWrapper executeCallout( String integrationName, 
                                                           string payload, 
                                                           Map<String,String> urlParameters){

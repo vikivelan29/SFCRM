@@ -47,6 +47,11 @@
                 <label>Payment</label>
             </value>
             <value>
+                <fullName>NPSFEEDBACK</fullName>
+                <default>false</default>
+                <label>NPSFEEDBACK</label>
+            </value>
+            <value>
                 <fullName>eBOT Feedback</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
