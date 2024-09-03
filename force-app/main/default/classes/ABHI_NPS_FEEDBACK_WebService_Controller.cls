@@ -72,8 +72,8 @@ global with sharing class ABHI_NPS_FEEDBACK_WebService_Controller {
     public NPS_FEEDBACK_RESPONSE_WRAPPER createSurveyResponse(NPS_FEEDBACK_REQUEST_WRAPPER npsReqWrapper) {
 
         NPS_FEEDBACK_RESPONSE_WRAPPER respWrapperObj = new NPS_FEEDBACK_RESPONSE_WRAPPER();
-        String lobClientCode = 'ABHI_' + npsReqWrapper?.tag_private_customer_id;
-        Account acc = new Account(LOB_Client_Code__c = lobClientCode);
+
+        Account acc = new Account(LOB_Client_Code__c = npsReqWrapper?.tag_private_customer_id);
 
         Survey_Response__c createSurveyResponse   = new Survey_Response__c();
         createSurveyResponse.Business_Unit__c     = ABHI_Constants.ABHI;
@@ -82,8 +82,8 @@ global with sharing class ABHI_NPS_FEEDBACK_WebService_Controller {
         createSurveyResponse.Date_of_Feedback__c  = Datetime.valueOf(npsReqWrapper?.responded_date);
         createSurveyResponse.Trigger_Name__c      = npsReqWrapper?.project_name ?? '';
 
-        Map<String,String> ratings                   = logicToPopulateRating(npsReqWrapper);
-        createSurveyResponse.Primary_Question_NPS__c = ratings.containsKey('actualRating') ? Integer.valueOf(ratings.get('actualRating')) : null;
+        Map<String,Integer> ratings                  = logicToPopulateRating(npsReqWrapper);
+        createSurveyResponse.Primary_Question_NPS__c = ratings?.get('actualRating');
         createSurveyResponse.L1_Driver__c            = ratings?.get('L1 Drivers');
         createSurveyResponse.L2_Driver__c            = ratings?.get('L2 Drivers');
         createSurveyResponse.L3_Driver__c            = ratings?.get('L3 Drivers');
@@ -99,9 +99,9 @@ global with sharing class ABHI_NPS_FEEDBACK_WebService_Controller {
     * @return      - String 
     * @description - This method calculates the logic for population of the field value in Survey_Response__c Record.
     */
-    public  Map<String,String> logicToPopulateRating(NPS_FEEDBACK_REQUEST_WRAPPER npsReqWrapper) {
+    public  Map<String,Integer> logicToPopulateRating(NPS_FEEDBACK_REQUEST_WRAPPER npsReqWrapper) {
         
-        Map<String,String> mapOfFldToRating = new Map<String, String>();
+        Map<String,Integer> mapOfFldToRating = new Map<String, Integer>();
         List<ratings> ratingList = npsReqWrapper?.ratings;
 
         if(ratingList.size() > 0) {
@@ -110,12 +110,12 @@ global with sharing class ABHI_NPS_FEEDBACK_WebService_Controller {
                     mapOfFldToRating.put('actualRating', rt.actual_rating);
                 }
                 if(rt.question == 'L1 Drivers' || rt.question == 'L2 Drivers' || rt.question == 'L3 Drivers') {
-                    mapOfFldToRating.put(rt.question, rt.rating);
+                    mapOfFldToRating.put(rt.question, rt.actual_rating);
                 }
             }
         }
         else {
-            mapOfFldToRating.put('actualRating', npsReqWrapper?.primary_rating);
+            mapOfFldToRating.put('actualRating', Integer.valueOf(npsReqWrapper?.primary_rating));
         }
         return mapOfFldToRating;
     }
@@ -141,7 +141,7 @@ global with sharing class ABHI_NPS_FEEDBACK_WebService_Controller {
         public String rating{get;set;}
         public String field_id{get;set;}
         public Integer seq_no{get;set;}
-        public String actual_rating{get;set;}
+        public Integer actual_rating{get;set;}
     }
 
     @SuppressWarnings('PMD.PropertyNamingConventions,PMD.ClassNamingConventions')

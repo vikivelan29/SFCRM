@@ -82,77 +82,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Wellness</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ONEABC</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Calling_Source__c</picklist>
-        <values>
-            <fullName>ATS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CRM %28In-House%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ubona BOT</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Feature_Skipper_Flag__c</picklist>
-        <values>
-            <fullName>SKIP_APPROVAL_CHECKS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_ASSIGNMENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_CLOSE_CASE_CHECK</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_INTEGRATION_CHECKS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_OWNER_CHECK</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_PERI_GENERATE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_STAGE_ENTRY_CHECKS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_STAGE_EXIT_CHECKS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_VALIDATE_CHECKLISTS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_VALIDATE_RECAT_PARAM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_VALIDATE_TASKS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SKIP_VALIDATION_CHECKS</fullName>
+            <fullName>ABHI</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1299,7 +1229,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Wellness Email</fullName>
+            <fullName>ABHI Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
