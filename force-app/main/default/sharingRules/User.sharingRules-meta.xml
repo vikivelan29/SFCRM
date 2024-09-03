@@ -101,4 +101,15 @@
             <roleAndSubordinates>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Share_ABHI_User_with_ABHI_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Share ABHI User with ABHI Users</label>
+        <sharedTo>
+            <group>ABHI_Users</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABHI_Users</group>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>
