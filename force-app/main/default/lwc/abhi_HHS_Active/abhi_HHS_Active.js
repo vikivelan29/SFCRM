@@ -7,19 +7,19 @@ const fields = [CLIENT_CODE_FIELD];
 const ATTRIBUTE_CODE_LABELS = {
     'DIABTS': 'Fasting Blood Sugar (mg/dl)',
     'TOTCHL': 'Total Cholesterol',
-    'SMOKING STATUS': 'Smoking Status',
+    'SMOKER': 'Smoking Status',
     'DIASTOLIC': 'Diastolic',
-    'SYSTOLIC': 'Systolic',
+    'BPMDIA': 'Diastolic',
+    'BPMSYS': 'Systolic',
+    'BPMSYS': 'Systolic',
+    'tierLevelName': 'Current Score',
     'AGE': 'Age'
 };
 const ALLOWED_ATTRIBUTES = [
-    'Current Score',
-    'Fasting Blood Sugar mgdl',
-    'Total Cholesterol',
     'Smoking Status',
     'Diastolic',
     'Systolic',
-    'Age'
+    //'Age'
 ];
 
 export default class AbhiActiveAgeDetails extends LightningElement {
@@ -41,8 +41,13 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     @track tableData = [];
     @track noResultsMessage = false;
     resultMessageValue;
+    @track ApiFailure = '';
 
     customerId;
+
+    get showResultMessage() {
+        return this.resultMessageValue && !this.displayError;
+    }
 
     @wire(getRecord, {
         recordId: "$recordId",
@@ -65,6 +70,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             console.log('result---->', result);
             this.isLoading = false;
             this.showDataTable = true;
+            this.ApiFailure = result.Message;
 
             if(result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length > 0) {
                 this.setupColumns(result);
@@ -94,7 +100,14 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         .catch(error => {
             this.isLoading = false;
             this.displayError = true;
-            this.errorMessages = error.body.message;
+            if (error.body!= null) {
+                this.errorMessages = error.body.message;
+            } else if(this.ApiFailure){
+                this.errorMessages = this.ApiFailure;
+            }
+            else{
+                this.errorMessages = 'An unknown error occured, please contact your system admin'
+            }
         });
     }
 
@@ -157,48 +170,39 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                         const resultsList = response.HHSDetails.responseMap.resultsList;
                         const tierLevelName = resultsList.tierLevelName;
                         const activities = resultsList.activities;
-                            //console.log('Activities:', JSON.stringify(activities, null, 2));
+                            console.log('Activities:', JSON.stringify(activities, null, 2));
 
                             let table = [];
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
-                                table.push({
-                                    attributeCode: 'Current Score',
-                                    attributeValue: tierLevelName || ''
-                                });
-
-
-                                let attributeValues = {
-                                    'Total Cholesterol': '',
-                                    'Fasting Blood Sugar (mg/dl)': ''
-                                };
+                                if (tierLevelName) {
+                                    table.push({
+                                        attributeCode: 'Current Score', // Custom label for Current Score
+                                        attributeValue: tierLevelName || '' // Value from response
+                                    });
+                                }
 
                                 activities.forEach(activity => {
-                                    if (activity.name === "Total cholesterol") {
-                                        attributeValues['Total Cholesterol'] = activity.value || '';
-                                    } else if (activity.name === "Fasting Blood Sugar (mg/dl)") {
-                                        attributeValues['Fasting Blood Sugar (mg/dl)'] = activity.value || '';
-                                    }
+                                    const label = ATTRIBUTE_CODE_LABELS[activity.code] || activity.name;
+                                        // Push the activity value
+                                    table.push({
+                                        //attributeCode: `${activity.name}`,
+                                        attributeCode: label,
+                                        attributeValue: activity.value || ''
+                                    });
+
                                     if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
                                         activity.attributes.forEach(attr => {
                                             const label = ATTRIBUTE_CODE_LABELS[attr.attributeCode] || attr.attributeCode;
                                             if (ALLOWED_ATTRIBUTES.includes(label)) {
                                                 table.push({
-                                                    attributeCode: label,
+                                                    attributeCode: `${label}`,
                                                     attributeValue: attr.attributeValue || ''
                                                 });
                                             }
                                         });
                                     }
                                 });
-        
-                                // Add specific attributes to the table
-                                Object.keys(attributeValues).forEach(key => {
-                                    table.push({
-                                        attributeCode: key,
-                                        attributeValue: attributeValues[key]
-                                    });
-                                });
-        
+
                                 this.table = table;
                                 console.log('Table Data:', JSON.stringify(this.table, null, 2));
                                 this.showTable = true;
