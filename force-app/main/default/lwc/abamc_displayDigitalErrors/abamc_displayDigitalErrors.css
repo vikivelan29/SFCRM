@@ -2,4 +2,15 @@
     display: block;
     margin-left: auto;
     margin-right: 0;
+    margin-bottom: 8px;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.pagination-controls lightning-button {
+    margin: 0 5px;
 }
