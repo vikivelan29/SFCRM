@@ -21,7 +21,7 @@ public with sharing class ABHI_DeviceDetailsController {
         try {
             String integrationName = 'ABHI_DeviceDetails';
             ABCL_IntegrationCallout.accountId = customerId;
-            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId WITH SYSTEM_MODE];
+            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId];
             String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
             if(code == '0'){
                 return new ResponseWrapper(
@@ -72,14 +72,6 @@ public with sharing class ABHI_DeviceDetailsController {
         public String OS;
         public String PolicyStartDate;
         public String WellnessID;
-        /**
-         * @description parameterized constructor
-         * @param memberId - MemberId to be passed
-         * @param OS  - OS to be passed
-         * @param policyDate  - policyDate to be passed
-         * @param wellnessId  - wellnessId to be passed
-         */
-        @SuppressWarnings('PMD.ExcessiveParameterList')
         public RequestWrapper(String memberId, String OS, String policyDate, String wellnessId){
             this.MemberID = memberId;
             this.OS = OS;
