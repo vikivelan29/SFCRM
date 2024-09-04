@@ -262,7 +262,7 @@ public with sharing class  ASF_CaseUIController {
     public static Id createCaseExtension(SObject record, SObject cccRec, Id caseId, String extnFieldName){
         try{
             if(extnFieldName != null){
-                String query = String.escapeSingleQuotes('Select Id,Technical_Source__c, '+extnFieldName+' from Case where Id = :caseId');
+                String query = String.escapeSingleQuotes('Select Id,Origin, '+extnFieldName+' from Case where Id = :caseId');
                 Case caseRec = (Case)Database.query(query);
                 caseRecord = caseRec;
                 record.put('Id', caseRec.get(extnFieldName));
