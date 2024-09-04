@@ -50,7 +50,7 @@ public class ABHI_DeviceDetailsController_Test {
         Test.setMock(HttpCalloutMock.class, new ABHI_DeviceDetailsMockHttpResponse());
         System.runAs(testUser){
             Test.startTest();
-            ABHI_DeviceDetailsController.ResponseWrapper res= ABHI_DeviceDetailsController.getDeviceDetails(acc.Id, mockRequest);
+            ABHI_DeviceDetailsController.ResponseWrapper res= ABHI_DeviceDetailsController.getDeviceDetails(acc.Id);
             Test.stopTest();
             System.assertEquals(1000, res.StatusCode, 'code');
             System.assertEquals('Success', res.Message, 'Message');
@@ -66,7 +66,7 @@ public class ABHI_DeviceDetailsController_Test {
         Test.setMock(HttpCalloutMock.class, new ABHI_DeviceDetailsFailureResponseGenerator());
         System.runAs(testUser){
             Test.startTest();
-            ABHI_DeviceDetailsController.ResponseWrapper res= ABHI_DeviceDetailsController.getDeviceDetails(acc.Id, mockRequest);
+            ABHI_DeviceDetailsController.ResponseWrapper res= ABHI_DeviceDetailsController.getDeviceDetails(acc.Id);
             Test.stopTest();
             System.assertEquals(1001, res.StatusCode, 'code');
         }
