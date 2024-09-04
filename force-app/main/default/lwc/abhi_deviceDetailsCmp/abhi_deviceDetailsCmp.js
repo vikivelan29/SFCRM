@@ -45,6 +45,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     }
 
     getData(){
+        
         getDetails({customerId: this.recordId})
         .then(result => {
             let returnedData=result;
