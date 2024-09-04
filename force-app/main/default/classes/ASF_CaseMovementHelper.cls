@@ -1089,6 +1089,15 @@ public class ASF_CaseMovementHelper {
                 Boolean afterPreviousStage = false;
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
                     if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
+                        //Added by Nikhil EY- PR970457-2176 (Not to go back to previous stage if user done backword movement of stage and again try to forward the stage)
+                        boolean isStageSkip = config.Case_Category_Config__r.isStageSkip__c;
+                        if(isStageSkip){
+                            caseRec.Previous_Stage__c = config.StageName__c;
+                        }
+						// End
+                        system.debug('Gateway_Stage__c ==>'+config.Gateway_Stage__c);
+                        system.debug('afterPreviousStage ==>'+afterPreviousStage);
+                        
                         if(afterPreviousStage){
                             // If Not Optional, Allot to Next Stage and Break
                             if(config.Optional_Stage__c){
@@ -1117,7 +1126,8 @@ public class ASF_CaseMovementHelper {
                         if(config.Gateway_Stage__c){
                             caseIdToNextStageConfigMap.put(caseRec.Id, config);
                         }
-                        else if(config.StageName__c == caseRec.Previous_Stage__c) {
+                       else if(config.StageName__c == caseRec.Previous_Stage__c) {                            
+                            //if(config.Case_Category_Config__r.isStageSkip__c != true){                           
                             afterPreviousStage = true;
                             if(config.Optional_Stage__c){
                                 // Run Stage Movement Rules to check if this is the Next Stage
@@ -1141,14 +1151,15 @@ public class ASF_CaseMovementHelper {
                                 caseIdToIsPreviousStageMap.put(caseRec.Id, true);
                                 System.debug('***nextStageConfig:'+config);
                             }
-                        }
 
                         // If Previously Assigned Stage, Find Previously Assigned Owner
                         // If the Stage Config dictates to assign to an owner who 
                         // was the last actioned user of another stage, then find that
+                          
                         if(caseIdToIsPreviousStageMap.get(caseRec.Id) || config.Assign_To_Last_Actioned_Stage__c != null){
                             String stageName = config.StageName__c;
                             if(config.Assign_To_Last_Actioned_Stage__c != null){
+                                
                                 stageName = config.Assign_To_Last_Actioned_Stage__c;
                             }
                             caseIdToAssignmentStageMap.put(caseRec.Id, stageName);
@@ -1156,6 +1167,8 @@ public class ASF_CaseMovementHelper {
                         if(caseIdToNextStageConfigMap.containsKey(caseRec.Id)){
                             break;
                         }
+                   
+                   }
                     }
                 }
             }
