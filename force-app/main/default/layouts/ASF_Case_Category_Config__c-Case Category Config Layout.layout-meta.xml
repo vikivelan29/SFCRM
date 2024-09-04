@@ -107,10 +107,6 @@
                 <behavior>Edit</behavior>
                 <field>isStageSkip__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>isStageSkip__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
