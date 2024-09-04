@@ -2,6 +2,8 @@ import { LightningElement, api, track } from 'lwc';
 import GetFALevelDetails from '@salesforce/apex/ABHI_FALevelDetails_Controller.GetFALevelDetails';
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 //import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import styles from '@salesforce/resourceUrl/ASF_RemoveDateFormatStyle';
 
 export default class Abhil_FALevelDetails extends LightningElement {
 
@@ -173,6 +175,15 @@ validateDates() {
     } else {
         this.displayErrorSearch = false; // Hide error if one of the dates is missing
     }
+}
+renderedCallback(){
+    Promise.all([
+        loadStyle(this, styles) //specified filename
+    ]).then(() => {
+        console.log('Files loaded.');
+    }).catch(error => {
+       console.log("Error " + error.body.message);
+    });
 }
 
 }

@@ -44,7 +44,7 @@ public class ABSLI_Constants {
      public static final List<String> SURRENDER_WITHDRAWAL_CCC_IDs = new List<String>{'PPAY008', 'PPAY001'};
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
 
-     public static final String CUSTOMER_PORTAL = 'Customer Portal';
+     public static final List<String> STP_SOURCES = new List<String>{'Customer Portal','ABC_Servicing_App'};
 
     /* Bitly Link REAL TIME API
      */

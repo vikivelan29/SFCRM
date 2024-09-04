@@ -22,6 +22,6 @@
     </filters>
     <label>Sales Leads</label>
     <sharedTo>
-        <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>
