@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Type__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Lead Type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>MF Transaction Related Outcall</fullName>
+                <default>true</default>
+                <label>MF Transaction Related Outcall</label>
+            </value>
+            <value>
+                <fullName>PMS Distributor Leads</fullName>
+                <default>false</default>
+                <label>PMS Distributor Leads</label>
+            </value>
+            <value>
+                <fullName>PMS Client Leads</fullName>
+                <default>false</default>
+                <label>PMS Client Leads</label>
+            </value>
+            <value>
+                <fullName>MF Service To Sales</fullName>
+                <default>false</default>
+                <label>MF Service To Sales</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
