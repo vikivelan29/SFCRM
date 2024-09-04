@@ -6,6 +6,7 @@ import recDevices from '@salesforce/label/c.ABHI_RecommendedDevice';
 import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
 import deviceDetail from '@salesforce/label/c.ABHI_DeviceDetails';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
+import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 
 export default class Abhi_deviceDetailsCmp extends LightningElement {
     @api recordId;
