@@ -157,4 +157,8 @@ public with sharing class ASF_Constants {
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
 
     public static final string CASE_ORIGIN = 'ABSLIG Email';
+    
+    public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
+    public static final String SOURCE_EMAIL = 'Email';
+
 }
