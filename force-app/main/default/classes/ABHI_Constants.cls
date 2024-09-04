@@ -1,9 +1,9 @@
 /*********************************************************
-*Class        :  ABHI_Constants
+*Class        :  ABHIL_Constants
 *Author       :  Anirudh Raturi
 *Created Date :  31/07/2023
 *Last Modified:  31/07/2023
-*@description  :  Class for ABHI Constants
+*@description  :  Class for ABHIL Constants
 *********************************************************/
 
 @SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
@@ -34,23 +34,19 @@ public with sharing class ABHI_Constants {
     public static final String NON_INDIVIDUAL = 'Non-Individual';
     public static final String POLICY_IS_MANDATORY_ON_Customer = 'Policy is mandatory on customer.';
     public static final String BUSINESS_UNIT_API = 'Business_Unit__c';
-    public static final List<String> POLICY_ALL_OBJECT = new List<String>{'Account','Asset','Customer_Member_Mapping', 'Nominee', 'Previous_Policy_Details'};
-    public static final List<String> CASES_RESOLVED_LIST = new List<String>{'Resolved'};
-    public static final List<String> CASES_UNRESOLVED_LIST = new List<String>{'Unresolved'};
+    public static final List<String> POLICY_ALL_OBJECT = new List<String>{'Account','Asset','Customer_Member_Mapping', 'Nominee'};
 
     //omnidocs
     public static final String EMAIL_TEMPLATE_DEVELOPER_NAME = 'OMNI_DOC_SEND_EMAIL_1724913452870';
-    public static final String EMAIL_TEMPLATE_DEVELOPER_NAME_CASE = 'OMNI_DOC_SEND_EMAIL_CASE_1731056543731';
     public static final String OMNI_INT_TYPE = 'OmniDoc';
     public static final String TASK_ID = 'Attachments';
     public static final String LOGICAL_ID = 'SFCRM';
     public static final String SEARCH_OPERATOR = 'OR';
     public static final String PARAM_ID = '2';
-    public static final String CASE_PARAM_ID = '17';
     public static final String CATEGORY_ID = '1009';
     public static final String OMNIDOC_INTEGRATION_NAME = 'ABHI_OmniDocSearchRequest';
     public static final Integer STATUS_OK = 200;
-    public static final String FROM_ADDRESS_DISPLAY_NAME = 'abcl.co.in';
+    public static final String FROM_ADDRESS_DISPLAY_NAME = 'Abctsl Crmteam-noreply';
     public static final String DT_LABEL = 'label';
     public static final String DT_FIELDNAME = 'fieldName';
     public static final String DT_TYPE = 'type';
@@ -61,7 +57,6 @@ public with sharing class ABHI_Constants {
     public static final String ERROR_ASFINSERT = 'Error in inserting ASF record ';
     public static final String ERROR_OMNIRESFAIL = 'Integration Failed. Try again or contact your Salesforce admin for help';
     public static final String ERROR_OMNIRESPENDINGLONG = 'File downlad process took too long to execute. Try again or contact your Salesforce admin for help';
-    public static final String ERROR_OMNISUCCESSLONG = 'File download process failed. Try again or contact your Salesforce admin for help';
     public static final String ERROR_DT_NORECORDS = 'Dynamic datatable child has no records';
     public static final String OMNIPAYLOAD_OMNIDOCINDEX = 'OmniDocIndex';
     public static final String OMNIPAYLOAD_VID = 'VID';
@@ -71,14 +66,4 @@ public with sharing class ABHI_Constants {
     public static final String OMNIRES_SUCCESS = 'Success';
     public static final String OMNIRES_FAILURE = 'Failure';
     public static final String OMNIRES_PENDING = 'Pending';
-    public static final String ERROR_MISSING_LEAD_FOR_CANCELLED = 'Not processed-Missing Lead ID';
-    public static final String OMNIDOC_FILE_TRANSFER_SOURCE = 'SFDC';
-    public static final String OMNIDOC_FILE_TRANSFER_CATEGORYID = '1007';
-    public static final String OMNIDOC_FILE_TRANSFER_DOCSEARCHPARAMID_CASE = '17';
-    public static final String OMNIDOC_FILE_TRANSFER_LOGICALID = 'CRM';
-    public static final String OMNIDOC_FILE_TRANSFER_TASKID = 'Attachments';
-	public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
-
-    // ABHI View Claim Policy Information API
-    public static final String NO_RESPONSE_AVAILABLE = 'No response is available';
 }
