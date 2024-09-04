@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Type_of_Disposal__c</fullName>
-    <description>Complaints IGMS Field</description>
+    <fullName>Complaint_Category__c</fullName>
     <externalId>false</externalId>
-    <label>Type of Disposal</label>
+    <label>Category Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
@@ -13,24 +12,24 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>9</fullName>
+                <fullName>Repeat</fullName>
                 <default>false</default>
-                <label>Duplicate</label>
+                <label>Repeat</label>
             </value>
             <value>
-                <fullName>1</fullName>
+                <fullName>Escalation</fullName>
                 <default>false</default>
-                <label>Infavor</label>
+                <label>Escalation</label>
             </value>
             <value>
-                <fullName>2</fullName>
+                <fullName>Information</fullName>
                 <default>false</default>
-                <label>Partially favor</label>
+                <label>Information</label>
             </value>
             <value>
-                <fullName>Rejected</fullName>
+                <fullName>Complaint</fullName>
                 <default>false</default>
-                <label>Rejected</label>
+                <label>Complaint</label>
             </value>
         </valueSetDefinition>
     </valueSet>
