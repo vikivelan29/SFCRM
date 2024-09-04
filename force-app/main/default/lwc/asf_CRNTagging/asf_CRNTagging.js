@@ -316,12 +316,10 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
                 })
                 .catch(error => {
-                    let errorMessage = reduceErrors(error)[0];
-                    if(errorMessage) {
-                        if(errorMessage.indexOf(this.label.INSUFFICIENT_ACCESS_MSG) != -1){
-                            errorMessage = this.label.CASE_ACCESS_ERROR; //PR1030924-905
-                        }
-                        this.showError("error", "Error ", errorMessage);
+                    let getErrMsg = reduceErrors(error)[0]
+
+                    if(getErrMsg) {
+                        this.showError("error", "Error ", getErrMsg);
                     } else {
                         const event = new ShowToastEvent({
                             title: 'Error',
