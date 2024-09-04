@@ -95,6 +95,7 @@ public with sharing class ASF_CustomerAndProspectSearch {
     {
         Id salesProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Sales').getRecordTypeId();
         Id serviceProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
+        Id abslamcSalesProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('ABSLAMC_Leads').getRecordTypeId(); //PR1030924-180
         
         Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();
         
@@ -113,8 +114,13 @@ public with sharing class ASF_CustomerAndProspectSearch {
                 }
             }
             prospectRecord.RecordTypeId = serviceProspectRTId;
+            //PR1030924-180 Added new record type for ABSLAMC
             if(prospectRecord.Sales_Prospect__c == true){
-                prospectRecord.RecordTypeId = salesProspectRTId;
+                if(prospectRecord.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU) {
+                    prospectRecord.RecordTypeId = abslamcSalesProspectRTId;
+                }else {
+                    prospectRecord.RecordTypeId = salesProspectRTId;
+                }
             }
             
             insert prospectRecord;
