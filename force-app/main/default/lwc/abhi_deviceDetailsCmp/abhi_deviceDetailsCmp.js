@@ -6,7 +6,6 @@ import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
 import deviceDetail from '@salesforce/label/c.ABHI_Devices';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
-import { getRecord } from 'lightning/uiRecordApi';
 
 export default class Abhi_deviceDetailsCmp extends LightningElement {
     @api recordId;
@@ -23,16 +22,6 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     displayError=false;
     accountRecord;
     isLoading = false;
-    fields = ['ACCOUNT.Client_Code__c'];
-
-    @wire(getRecord, { recordId: '$recordId', fields: '$fields'})
-    wiredRecord({ error, data }) {
-        if (error) {
-            console.error('Error getting RecordData', error);    
-        } else if (data) {
-          this.accountRecord = data;
-        }
-      }
 
     connectedCallback(){
         this.displayMessage = this.label.errorMessage;
