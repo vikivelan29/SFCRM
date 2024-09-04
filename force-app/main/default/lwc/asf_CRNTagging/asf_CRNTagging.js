@@ -47,6 +47,7 @@ export default class Asf_CRNTagging extends LightningElement {
     @track dupeLead=[];
     @track showDupeList=false;
     disableCreateBtn = false;
+    isDisabledUpdateCaseButton = true;
     accountCrn;
     FAId;
     caseSuppliedEmail;
@@ -136,16 +137,19 @@ export default class Asf_CRNTagging extends LightningElement {
             this.selectedCustomer = this.prestdAcctId;
 
             let my_ids1 = [];
-            my_ids1.push(this.FAId);
+            if(this.FAId) {
+                my_ids1.push(this.FAId);
+            }
             this.preSelectedAsset = my_ids1;
             console.log('con data--'+JSON.stringify(data));
         } else if (error) {
             this.error = error;
             console.log('error--'+JSON.stringify(error));
         }
-    } 
+    }
 
     valChange(event) {
+        this.isDisabledUpdateCaseButton = true;
         this.inpValue = event.target.value;
         if (this.inpValue && this.inpValue.length >= 2) {
             this.preSelectedRows = [];
@@ -175,6 +179,7 @@ export default class Asf_CRNTagging extends LightningElement {
     }
 
     handleAccAction(event) {
+        this.isDisabledUpdateCaseButton = false;
         const row = event.detail.selectedRows;
         this.selectedCustomer = row[0].recordId;
         this.showLANForCustomer = false;
@@ -198,6 +203,10 @@ export default class Asf_CRNTagging extends LightningElement {
         const row = event.detail.selectedRows;
         this.selectedAsset = row[0];
         console.log('sekectd asset--'+JSON.stringify(this.selectedAsset));
+        
+        if(this.selectedAsset) {
+            this.isDisabledUpdateCaseButton = false;
+        }
     }
 
     handleclick(event) {
@@ -220,7 +229,7 @@ export default class Asf_CRNTagging extends LightningElement {
                 selectedFANum = this.selectedAsset.LAN__c;
             }
         }
-
+        
         if (this.selectedCustomer) {
             updateCRN({
                 accountId: this.selectedCustomer,
@@ -246,13 +255,19 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
                 })
                 .catch(error => {
-                    const event = new ShowToastEvent({
-                        title: 'Error',
-                        message: this.noUpdate,
-                        variant: 'error',
-                        mode: 'dismissable'
-                    });
-                    this.dispatchEvent(event);
+                    let getErrMsg = reduceErrors(error)[0]
+
+                    if(getErrMsg) {
+                        this.showError("error", "Error ", getErrMsg);
+                    } else {
+                        const event = new ShowToastEvent({
+                            title: 'Error',
+                            message: this.noUpdate,
+                            variant: 'error',
+                            mode: 'dismissable'
+                        });
+                        this.dispatchEvent(event);
+                    }
                 });
         } else {
             const event = new ShowToastEvent({
@@ -265,6 +280,7 @@ export default class Asf_CRNTagging extends LightningElement {
         }
 
     }
+
     closeQuickAction() {
         this.dispatchEvent(new CloseActionScreenEvent());
     }
