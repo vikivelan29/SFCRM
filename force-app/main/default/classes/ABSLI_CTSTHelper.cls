@@ -274,17 +274,17 @@ public with sharing class ABSLI_CTSTHelper {
     public static void checkIfOpenBankUpdateCase(List<Case> caseRecs,
                                                  Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap)
     {
-        Set<Id> accountIds = new Set<Id>();
+        Set<Id> assetIds = new Set<Id>();
         for(Case caseRecord : caseRecs){
-            accountIds.add(caseRecord.AccountId);
+            assetIds.add(caseRecord.AssetId);
         }
-        if(accountIds.size()>0){
-            Map<Id,AggregateResult> mAggregateResults = new Map<Id,AggregateResult>([SELECT AccountId Id, COUNT(ID) FROM Case
+        if(assetIds.size()>0){
+            Map<Id,AggregateResult> mAggregateResults = new Map<Id,AggregateResult>([SELECT AssetID Id, COUNT(ID) FROM Case
                                                                                      WHERE CCC_External_Id__c ='PNFT034' AND
-                                                                                     IsClosed = False AND AccountId =:accountIds
-                                                                                     GROUP BY AccountId]);
+                                                                                     IsClosed = False AND AssetId =:assetIds
+                                                                                     GROUP BY AssetID]);
             for(Case caseRecord : caseRecs){
-                if(mAggregateResults.containsKey(caseRecord.AccountId) && resultMap.get(caseRecord.Id).status == ABSLI_Constants.SUCCESS){
+                if(mAggregateResults.containsKey(caseRecord.AssetID)){ // &&  resultMap.get(caseRecord.Id).status == ABSLI_Constants.SUCCESS){
                     ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
                     result.status = ABSLI_Constants.ERROR;
                     result.response = Custom_Messages__mdt.getInstance('ABSLI_SurvivalUpdateIntegration_ERR3').Message__c;
