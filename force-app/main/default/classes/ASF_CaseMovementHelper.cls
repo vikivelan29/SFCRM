@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 02-29-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @last modified on  : 06-23-2024
+ * @last modified by  : rsinghnagar@salesforce.com
 **/
 public class ASF_CaseMovementHelper {
     
@@ -72,8 +72,6 @@ public class ASF_CaseMovementHelper {
                     resultWrapper.nextStageConfig = nextStage.stageConfig;
                     resultWrapper.ownerId = nextStage.ownerId;
                     resultWrapper.errorOwnerId = nextStage.errorOwnerId;
-                    // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM ON CASE.
-                    resultWrapper.ownerName = nextStage.ownerName;
                 }
                 else{
                     resultWrapper.errorMessage = nextStage.errorMessage;
@@ -95,8 +93,6 @@ public class ASF_CaseMovementHelper {
                         resultWrapper.status = 'Success';
                         resultWrapper.nextStageConfig = nextStage.stageConfig;
                         resultWrapper.ownerId = nextStage.ownerId;
-                        // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM ON CASE.
-                    	resultWrapper.ownerName = nextStage.ownerName;
                         resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                     }else{
@@ -188,10 +184,6 @@ public class ASF_CaseMovementHelper {
                             updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
                             updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
                             resultWrapper.ownerId = nextStage.ownerId;
-                            // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGN TEAM ON CASE ASSIGNMENT
-                            resultWrapper.ownerName = nextStage.ownerName;
-                            // VIRENDRA - 8 JUNE 2024 - ENDS HERE.
-                            System.debug('@@@ Virendra - Coming here -- '+nextStage.ownerName);
                         }
                         updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
                     	updatedCase.MoveToNext__c = false;
@@ -269,9 +261,6 @@ public class ASF_CaseMovementHelper {
                         resultWrapper.ownerId = nextStage.ownerId;
                         resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                         resultWrapper.status = 'Success';
-                        // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM
-                        resultWrapper.ownerName = nextStage.ownerName;
-                        // VIRENDRA - ENDS HERE.
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                         
                     }else{
@@ -581,9 +570,6 @@ public class ASF_CaseMovementHelper {
                     if(assignmentInfoMap.containsKey(caseRec.Id)){
                         ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = assignmentInfoMap.get(caseRec.Id);
                         resultWrapper.ownerId = info?.defaultOwnerId;
-                        // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM.
-                        resultWrapper.ownerName = info != null? info.defaultOwnerName : '';
-                        // VIRENDRA - ENDS HERE.
                         resultWrapper.errorOwnerId = info?.defaultErrorOwnerId;
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                         // If Owner Id not found, find by regular method
@@ -601,9 +587,6 @@ public class ASF_CaseMovementHelper {
                     ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = rulesAssignmentInfos.get(caseRec.Id);
                     StageWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
                     resultWrapper.ownerId = info.defaultOwnerId;
-                    // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM.
-                    resultWrapper.ownerName = info.defaultOwnerName;
-                    // VIRENDRA - ENDS HERE.
                     resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
                     resultWrapperMap.put(caseRec.Id, resultWrapper);
                 }
@@ -890,9 +873,6 @@ public class ASF_CaseMovementHelper {
                 }else if(nextStageConfig.Default_Queue__c != null){
                     StageConfigWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
                     resultWrapper.ownerId = nextStageConfig.Default_Queue__c;
-                    // VIRENDRA - 8 JUNE 2024 - ADDED TO STAMP CASE ASSIGNED TEAM.
-                    resultWrapper.ownerName = nextStageConfig.Default_Queue_user_Name__c;
-                    // VIRENDRA - ENDS HERE.
                     resultWrapper.errorOwnerId = nextStageConfig.Default_Error_Queue__c;
                     resultWrapper.status = resultWrapper.ownerId != null?'Success':null;
                     resultWrapperMap.put(caseRec.Id, resultWrapper);
@@ -938,8 +918,6 @@ public class ASF_CaseMovementHelper {
                 if(infos.containsKey(caseRec.Id)){
                     ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseRec.Id);
                     resultWrapper.ownerId = info.defaultOwnerId;
-                    // VIRENDRA - 21 JUL 2024 - Added for SIT BUG FIX.
-                    resultWrapper.ownerName = info.defaultOwnerName != null? info.defaultOwnerName : '';
                     resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
                     resultWrapper.status = 'Success';
                 }
@@ -1027,19 +1005,12 @@ public class ASF_CaseMovementHelper {
             ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrapper = resultWrapperMap.containsKey(caseId) ? resultWrapperMap.get(caseId) : new ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo();
             resultWrapper.defaultOwnerId = info.defaultOwnerId;
             resultWrapper.defaultErrorOwnerId = info.defaultErrorOwnerId;
-            
-            // VIRENDRA - 8 JUNE 2024 - ADDED defaultOwnerName to store on Case.
-            resultWrapper.defaultOwnerName = info.defaultOwnerName;
-            // VIRENDRA - 8 JUNE 2024 - ENDS HERE.
 
             System.debug('@@@@caseIdToCurrentStageConfigMap'+caseIdToCurrentStageConfigMap);
             System.debug('@@@@caseId'+caseId);
             ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.containsKey(caseId) ? caseIdToCurrentStageConfigMap.get(caseId) : null;
             if(resultWrapper.defaultOwnerId == null){
                 resultWrapper.defaultOwnerId = currentStageConfig != null ? currentStageConfig.Default_Queue__c : null;
-                // VIRENDRA - 9 JUNE 2024 - ADDED DEFAULTOWNERNAME to store the QUEUE NAME ON CASE.
-                //System.debug('currentStageConfig.Default_Queue__c '+currentStageConfig.Default_Queue__c+ 'currentStageConfig.Default_Queue_user_Name__c -'+currentStageConfig.Default_Queue_user_Name__c);
-                resultWrapper.defaultOwnerName = currentStageConfig != null ? currentStageConfig.Default_Queue_user_Name__c : null;
             }
             if(resultWrapper.defaultErrorOwnerId == null){
                 resultWrapper.defaultErrorOwnerId = currentStageConfig != null ? currentStageConfig.Default_Error_Queue__c : null;
@@ -1118,6 +1089,15 @@ public class ASF_CaseMovementHelper {
                 Boolean afterPreviousStage = false;
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
                     if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
+                        //Added by Nikhil EY- PR970457-2176 (Not to go back to previous stage if user done backword movement of stage and again try to forward the stage)
+                        boolean isStageSkip = config.Case_Category_Config__r.isStageSkip__c;
+                        if(isStageSkip){
+                            caseRec.Previous_Stage__c = config.StageName__c;
+                        }
+						// End
+                        system.debug('Gateway_Stage__c ==>'+config.Gateway_Stage__c);
+                        system.debug('afterPreviousStage ==>'+afterPreviousStage);
+                        
                         if(afterPreviousStage){
                             // If Not Optional, Allot to Next Stage and Break
                             if(config.Optional_Stage__c){
@@ -1146,7 +1126,8 @@ public class ASF_CaseMovementHelper {
                         if(config.Gateway_Stage__c){
                             caseIdToNextStageConfigMap.put(caseRec.Id, config);
                         }
-                        else if(config.StageName__c == caseRec.Previous_Stage__c) {
+                       else if(config.StageName__c == caseRec.Previous_Stage__c) {                            
+                            //if(config.Case_Category_Config__r.isStageSkip__c != true){                           
                             afterPreviousStage = true;
                             if(config.Optional_Stage__c){
                                 // Run Stage Movement Rules to check if this is the Next Stage
@@ -1170,14 +1151,15 @@ public class ASF_CaseMovementHelper {
                                 caseIdToIsPreviousStageMap.put(caseRec.Id, true);
                                 System.debug('***nextStageConfig:'+config);
                             }
-                        }
 
                         // If Previously Assigned Stage, Find Previously Assigned Owner
                         // If the Stage Config dictates to assign to an owner who 
                         // was the last actioned user of another stage, then find that
+                          
                         if(caseIdToIsPreviousStageMap.get(caseRec.Id) || config.Assign_To_Last_Actioned_Stage__c != null){
                             String stageName = config.StageName__c;
                             if(config.Assign_To_Last_Actioned_Stage__c != null){
+                                
                                 stageName = config.Assign_To_Last_Actioned_Stage__c;
                             }
                             caseIdToAssignmentStageMap.put(caseRec.Id, stageName);
@@ -1185,6 +1167,8 @@ public class ASF_CaseMovementHelper {
                         if(caseIdToNextStageConfigMap.containsKey(caseRec.Id)){
                             break;
                         }
+                   
+                   }
                     }
                 }
             }
@@ -1207,9 +1191,6 @@ public class ASF_CaseMovementHelper {
                 ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = assignmentInfoMap.get(caseRec.Id);
                 resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseRec.Id);
                 resultWrapper.ownerId = info?.defaultOwnerId;
-                // VIRENDRA - 11 June 2024 - TO STAMP THE CASE ASSIGNED TEAM
-                resultWrapper.ownerName = info != null ? info.defaultOwnerName : '';
-                // VIRENDRA - ENDS HERE.
                 resultWrapper.errorOwnerId = info?.defaultErrorOwnerId;
 
                 if(resultWrapper.ownerId == null){
@@ -1226,9 +1207,6 @@ public class ASF_CaseMovementHelper {
                 ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseId);
                 StageConfigWrapper resultWrapper = resultWrapperMap.get(caseId);
                 resultWrapper.ownerId = info.defaultOwnerId;
-                // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGN TEAM ON CASE MOVEMENT.
-                resultWrapper.ownerName = info.defaultOwnerName != null ?info.defaultOwnerName : '';
-                // VIRENDRA - 8 JUNE 2024 - ENDS HERE.
                 resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
                 resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseId);
                 resultWrapperMap.put(caseId, resultWrapper);
@@ -1275,9 +1253,7 @@ public class ASF_CaseMovementHelper {
 
         for(Case caseRec : currentCases){
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
-                system.debug('externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)---->'+externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c));
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                    system.debug('config---->'+config);
                     if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
                         caseIdToNextStageConfigMap.put(caseRec.Id, config);
                         CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
@@ -1370,10 +1346,10 @@ public class ASF_CaseMovementHelper {
                 if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                     && caseRec.CCC_External_Id__c != null){
                         // VIRENDRA - 19 Feb 2024 - ADDITIONAL CHECK TO FIND OUT CASES NOT CONVERTED FROM PREFRAMWORK TO FRAMEWORK.
-                       //if(!(caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
-                       //{
+                       if(!(caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
+                        {
                             updFrameworkCases.add(caseRec);
-                       //}
+                        }
                 }
             }
         }
@@ -1420,9 +1396,6 @@ public class ASF_CaseMovementHelper {
         // Trigger to Call that directly as needed
         //public CaseAdditionalData data;
         public ASF_Case_Stage_Config__c nextStageConfig;
-        // VIRENDRA - 8 JUNE 2024 - ADDED VARIABLE TO STORE THE OWNERNAME
-        // THIS IS USED TO STAMP CASE ASSIGN TEAM ON CASE RECORD.
-        public string ownerName;
         
     }
     
@@ -1453,8 +1426,6 @@ public class ASF_CaseMovementHelper {
         public String status;
         public String errorMessage;
         public Boolean isPreviousStage;
-        // VIRENDRA - 8 JUNE 2024 - ADDED ownerName;
-        public String ownerName;
     }
 
     public class CaseStageValidationWrapper{
