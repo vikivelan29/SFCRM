@@ -1210,4 +1210,11 @@
         <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
 </CustomLabels>
