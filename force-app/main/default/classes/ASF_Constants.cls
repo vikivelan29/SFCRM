@@ -159,6 +159,6 @@ public with sharing class ASF_Constants {
     public static final string CASE_ORIGIN = 'ABSLIG Email';
     
     public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
-    public static final String SOURCE_EMAIL = 'Email';
+    public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';
 
 }

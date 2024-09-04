@@ -36,7 +36,7 @@ public with sharing class FrameworkFunctionalityExtender implements ASF_Framewor
             record = abhflCaseDet;
         } 
 
-        if(sObjName == ASF_Constants.ABSLI_CASE_EXTENSION_OBJ_NAME && caseRec.Technical_Source__c == ASF_Constants.SOURCE_EMAIL){
+        if(sObjName == ASF_Constants.ABSLI_CASE_EXTENSION_OBJ_NAME && caseRec.Origin == ASF_Constants.ABSLI_CASE_ORIGIN_EMAIL){
             ABSLI_Case_Detail__c caseDetail = (ABSLI_Case_Detail__c) record;
             caseDetail.Source_Request_submitted_by__c = ABSLI_Constants.EMAIL_SOURCE_REQ_BY;
             record = caseDetail;
