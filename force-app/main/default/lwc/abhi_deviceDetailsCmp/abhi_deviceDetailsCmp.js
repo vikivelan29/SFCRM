@@ -61,14 +61,8 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     }
 
     getData(){
-        let requestData = {
-            MemberID: this.accountRecord.fields.Client_Code__c.value,
-            OS: 'android',
-            PolicyStartDate: '2000-12-09',
-            WellnessID: ''
-        };
         
-        getDetails({customerId: this.recordId, requestPayload: JSON.stringify(requestData)})
+        getDetails({customerId: this.recordId})
         .then(result => {
             let returnedData=result;
             if(result.statusCode==1000){
