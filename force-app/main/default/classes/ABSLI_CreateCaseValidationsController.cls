@@ -138,14 +138,11 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             if(policy!=null)
             {
                	requestWrap.policy_id = policy.Policy_No__c;
-                Date today = Date.today();
-                DateTime todayDateTime = DateTime.newInstance(today.year(),today.month(),today.day());
-                requestWrap.effective_date = (todayDateTime.format('dd-MM-yyyy'));
-                /*DateTime effectiveDateTime;
+                DateTime effectiveDateTime;
                 if(policy.Effective_Date__c!=null){
                 	effectiveDateTime = DateTime.newInstance(policy.Effective_Date__c.year(), policy.Effective_Date__c.month(),policy.Effective_Date__c.day());    
                 }
-               	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';*/
+               	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';
                 requestWrap.source = ABSLI_Constants.GEN_FUND_SOURCE;
                 ABCL_IntegrationCallout.IntegrationResponseWrapper genFundResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.POLICY_GEN_FUND_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(requestWrap),
@@ -236,7 +233,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             if(policy!=null && policy.Issue_Date__c!=null){
                 Date issueDate = Date.newInstance(policy.Issue_Date__c.year(), policy.Issue_Date__c.month(), policy.Issue_Date__c.day());
                 Date oneYearAfterIssueDate = issueDate.addYears(1);
-                if(Date.Today() >= oneYearAfterIssueDate){
+                if(Date.Today() <= oneYearAfterIssueDate){
                     return 'Success';
                 }else{
                     return 'Policy is not eligible.';
