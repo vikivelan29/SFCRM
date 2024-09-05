@@ -1,0 +1,88 @@
+{
+    "HHSDetails": {
+        "operationStatus": "SUCCESS",
+        "serviceMessages": [
+            {
+                "systemCode": "JAVAFSTXSERINF001",
+                "businessCode": "FSTXSERINF001",
+                "businessDesc": "Result found",
+                "serviceMessageType": "INFORMATION",
+                "messageTime": "2024-08-26T11:27:19.019+05:30"
+            }
+        ],
+        "responseMap": {
+            "resultsList": {
+                "gender": "M",
+                "totalFsScore": 7,
+                "startDate": "2023-11-03T00:00:00.00005:30",
+                "expiryDate": "2024-11-02T00:00:00.000+05:30",
+                "scoreDate": "2023-11-03T00:00:00.00005:30",
+                "tierLevelName": "Amber",
+                "customerNumber": "3319509",
+                "activities": [
+                    {
+                        "name": "Digital Screening Score",
+                        "code": "DIGITALSCREENING",
+                        "value": "7.0",
+                        "score": 7,
+                        "effFromDate": "2023-11-03T00:00:00.000+05:30",
+                        "effToDate": "2024-11-02T00:00:00.000+05:30",
+                        "attributes": [
+                            {
+                                "attributeCode": "SYSTOLIC",
+                                "attributeValue": "136"
+                            },
+                            {
+                                "attributeCode": "EA-DATE_OF_BIRTH",
+                                "attributeValue": "1965-05-31"
+                            },
+                            {
+                                "attributeCode": "BMI",
+                                "attributeValue": "21.1"
+                            },
+                            {
+                                "attributeCode": "AGE",
+                                "attributeValue": "58"
+                            },
+                            {
+                                "attributeCode": "DIASTOLIC",
+                                "attributeValue": "84"
+                            },
+                            {
+                                "attributeCode": "SOURCENAME",
+                                "attributeValue": "ES-MultiplyCore"
+                            },
+                            {
+                                "attributeCode": "EA-GENDER",
+                                "attributeValue": "M"
+                            },
+                            {
+                                "attributeCode": "SMOKING STATUS",
+                                "attributeValue": "No"
+                            },
+                            {
+                                "attributeCode": "DIABETES",
+                                "attributeValue": "Yes"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "AGE",
+                        "code": "AGE",
+                        "value": "58",
+                        "score": 4
+                    }
+                ]
+            }
+        }
+    },
+    "activeAge": {
+        "customerNo": 1187714,
+        "actualAge": 35,
+        "multiplyAge": 34,
+        "heartAge": 35.04,
+        "calculationDate": "2021-01-24"
+    },
+    "StatusCode": 1000,
+    "Message": "Success"
+}
