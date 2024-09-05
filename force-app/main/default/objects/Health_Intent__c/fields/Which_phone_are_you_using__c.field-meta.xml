@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Which_phone_are_you_using__c</fullName>
+    <externalId>false</externalId>
+    <label>Which phone are you using</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Apple</fullName>
+                <default>false</default>
+                <label>Apple</label>
+            </value>
+            <value>
+                <fullName>Android</fullName>
+                <default>false</default>
+                <label>Android</label>
+            </value>
+            <value>
+                <fullName>Basic Phone</fullName>
+                <default>false</default>
+                <label>Basic Phone</label>
+            </value>
+            <value>
+                <fullName>Does not use phone</fullName>
+                <default>false</default>
+                <label>Does not use phone</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

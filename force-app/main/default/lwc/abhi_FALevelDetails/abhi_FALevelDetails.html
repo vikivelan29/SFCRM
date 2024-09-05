@@ -16,7 +16,6 @@
                 </lightning-layout-item>
                                 <lightning-layout-item size="4" class="slds-m-right_small">
                     <lightning-input type="date" name="Enddate" value={endDate} onchange={handleEndDateChange}
-                        label="End Date"  class="inpFieldCheckValidity" format='YYYY-MM-dd'>
                     </lightning-input>
                 </lightning-layout-item>
                 <lightning-layout-item  class="slds-m-right_small" style="padding-top:19px">
@@ -29,6 +28,11 @@
                     <span style="font-size: 0.90rem;">{errorMessageSearch}</span> 
                 </div>
             </template>  
+                </div>
+            </template> 
+            <template if:true={DateErrorMessage}>
+                <div class="slds-text-color_error">{DateErrorMessage}</div>
+            </template>
         </div>
 
         <div lwc:if = {displayTable}>

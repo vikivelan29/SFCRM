@@ -13,10 +13,11 @@ public with sharing class ABHI_FALevelDetails_Controller {
         try{
        
         string integrationName = 'ABHI_FALevelDetails';
+        string eventCode = 'ED-Fitnes2';
         ABCL_IntegrationCallout.accountId = customerId;
         Account acc = [SELECT Client_Code__c from Account where Id =: customerId];
         
-        
+        String scoreType = 'FITNESS_ASSESSMENT';
         Map<String,String> urlParameters = new Map<String,String>();
         urlParameters.put('eventDateFrom',fromDate);
         urlParameters.put('eventDateTo',toDate);
@@ -26,11 +27,10 @@ public with sharing class ABHI_FALevelDetails_Controller {
             system.debug(urlParameters);
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
-        system.debug('integrationResp>>' +integrationResp.statusCode);
-                   IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
+        system.debug('integrationResp>>' +integrationResp);
+                 IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
                 system.debug('deserialized resp' +deserializedIntResponse);
-            return deserializedIntResponse;
-
+                 return deserializedIntResponse;
         
         }catch(Exception e){
          throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
