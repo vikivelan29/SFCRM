@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cashless:Claim process enquiry</fullName>
+                <default>false</default>
+                <label>Cashless:Claim process enquiry</label>
+            </value>
+            <value>
+                <fullName>Medical Decisions:Medical Decisions</fullName>
+                <default>false</default>
+                <label>Medical Decisions:Medical Decisions</label>
+            </value>
+            <value>
+                <fullName>Endorsement:Change in Demographics</fullName>
+                <default>false</default>
+                <label>Endorsement:Change in Demographics</label>
+            </value>
+            <value>
+                <fullName>Endorsement:Modification in policy profile</fullName>
+                <default>false</default>
+                <label>Endorsement:Modification in policy profile</label>
+            </value>
+            <value>
+                <fullName>Policy related services:Counter offer related</fullName>
+                <default>false</default>
+                <label>Policy related services:Counter offer related</label>
+            </value>
+            <value>
+                <fullName>Policy related services:Policy benefits/Inclusion/Exclusion</fullName>
+                <default>false</default>
+                <label>Policy related services:Policy benefits/Inclusion/Exclusion</label>
+            </value>
+            <value>
+                <fullName>Reimbursement:Claim process enquiry</fullName>
+                <default>false</default>
+                <label>Reimbursement:Claim process enquiry</label>
+            </value>
+            <value>
+                <fullName>Reimbursement:Documents related</fullName>
+                <default>false</default>
+                <label>Reimbursement:Documents related</label>
+            </value>
+            <value>
+                <fullName>Reimbursement:OPD claim</fullName>
+                <default>false</default>
+                <label>Reimbursement:OPD claim</label>
+            </value>
+            <value>
+                <fullName>General enquiry:Hospital and Diagnostic Center</fullName>
+                <default>false</default>
+                <label>General enquiry:Hospital and Diagnostic Center</label>
+            </value>
+            <value>
+                <fullName>General enquiry:Promo related</fullName>
+                <default>false</default>
+                <label>General enquiry:Promo related</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
