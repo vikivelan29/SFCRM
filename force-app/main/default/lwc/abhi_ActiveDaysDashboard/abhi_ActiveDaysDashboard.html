@@ -20,18 +20,24 @@
             <lightning-layout class="slds-m-bottom_large slds-grid slds-wrap">
                 <lightning-layout-item size="4" class="slds-m-right_x-small">
                     <lightning-input type="date" name="Startdate" value={startDate} onchange={handleStartDateChange}
-                        label="From Date" class="inpFieldCheckValidity" format='YYYY-MM-dd' disabled={disabled}>
+                        label="From Date" class="date-format-hide" format='YYYY-MM-dd' disabled={disabled}>
                     </lightning-input>
                 </lightning-layout-item>
                     <lightning-layout-item size="4" class="slds-m-right_small">
                         <lightning-input type="date" name="Enddate" value={endDate} onchange={handleEndDateChange} 
-                            label="End Date" class="inpFieldCheckValidity" format='YYYY-MM-dd'>
+                            label="End Date" class="date-format-hide" format='YYYY-MM-dd'>
                         </lightning-input>
                     </lightning-layout-item>
                     <lightning-layout-item size="auto" style="margin-top: 20px; margin-left: 16px;">
                         <lightning-button variant="brand" label="Search" onclick={handleSearch} disabled={isSearchDisabled} ></lightning-button>
                 </lightning-layout-item>                
             </lightning-layout>
+            <template if:true={displayErrorSearch}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{errorMessageSearch}</span> 
+                </div>
+            </template>    
         </div>
 
             <template if:true={showDataTable}>
@@ -68,7 +74,7 @@
     <template if:true={displayError}>
         <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
             <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
-            {errorMessages}
+            <span style="font-size: 0.90rem;">{errorMessage}</span> 
         </div>
     </template>       
 <!--
