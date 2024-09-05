@@ -35,6 +35,18 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
             else if(caseRecord.Technical_Source__c=='LWC' && 
                      (!String.isBlank(caseRecord.AccountId) || !String.isBlank(caseRecord.Client_Code_Text__c)))
             {
+                for(ASF_Checklist__c checkList : [SELECT Id, Case__c, Status__c FROM ASF_Checklist__c WHERE Case__c =:caseRecord.Id AND Mandatory__c=TRUE]){
+                    if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(checkList.Status__c)){
+                        result.response = 'Checklist/s are still pending or Signature not matched';
+                        break;
+                    }
+            	}
+                system.debug('caseRecord.ABSLI_Case_Detail__r.Country__c:'+caseRecord.ABSLI_Case_Detail__r.Country__c);
+                if(caseRecord.ABSLI_Case_Detail__r.Country__c !='IN'){
+                    result.response = Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR4').Message__c;
+                    resultMap.put(caseRecord.Id, result);
+                    break;
+                }
                 result.status = ABSLI_Constants.SUCCESS;
             }
             else if(String.isBlank(caseRecord.AccountId) && String.isBlank(caseRecord.Client_Code_Text__c))
@@ -49,6 +61,7 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
             }
             resultMap.put(caseRecord.Id, result);
         }
+        system.debug('Aditya resultMap:'+resultMap);
         return resultMap;
     }
     
@@ -188,8 +201,7 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(caseInteg.Response__c);
             if(String.valueOf(jsonMap.get('ProcessCode'))=='00'){
                 integrationFailure = false;
-                if(caseRec.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRec.Technical_Source__c=='API' 
-                  && !Test.IsRunningTest() && Schema.sObjectType.Case.isUpdateable())
+                if(Schema.sObjectType.Case.isUpdateable() && !Test.isRunningTest())
                 {
 					caseRec.MoveToNext__c = true;
                    	update caseRec;

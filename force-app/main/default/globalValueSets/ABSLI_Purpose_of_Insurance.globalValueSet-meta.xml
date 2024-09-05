@@ -8,12 +8,12 @@
     <customValue>
         <fullName>E</fullName>
         <default>false</default>
-        <label>Childs Education</label>
+        <label>Child&apos;s Education</label>
     </customValue>
     <customValue>
         <fullName>M</fullName>
         <default>false</default>
-        <label>Childs Marriage</label>
+        <label>Child&apos;s Marriage</label>
     </customValue>
     <customValue>
         <fullName>O</fullName>

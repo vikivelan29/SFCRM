@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Mock_Response_Resource__c</field>
-        <value xsi:type="xsd:string">ABHI_FAHistoryDetails_FailureMockResponse</value>
+        <value xsi:type="xsd:string">ABHI_FAHistoryDetails_SuccessMockResponse</value>
     </values>
     <values>
         <field>Mock_Status_Code__c</field>
