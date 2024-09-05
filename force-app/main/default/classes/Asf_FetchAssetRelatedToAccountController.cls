@@ -28,12 +28,23 @@
         String allFieldApiNameString = String.join(fieldApiNamList,',');
         String escapeSingleQuotes = String.escapeSingleQuotes(allFieldApiNameString);
 
-        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null';
-        System.debug('***dynamicQuery:'+dynamicQuery);
-        List<Sobject> assetRecLst = Database.query(dynamicQuery);
+        System.debug('***escapeSingleQuotes:'+escapeSingleQuotes);
+        String dynamicQuery = '';
+        List<Sobject> assetRecLst = new List<SObject>();
+        if(!ASF_Constants.BUSpecificLANKey.contains(accLOB)){
+            dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null';
+            System.debug('***dynamicQuery:'+dynamicQuery);
+            assetRecLst = Database.query(dynamicQuery);
+        }
 
         findAssetObj.columnNameList = colmnNameList;
-        findAssetObj.assetRecords   = (List<LAN_Mapping__c>) assetRecLst;
+        if(!ASF_Constants.BUSpecificLANKey.contains(accLOB)){
+            findAssetObj.assetRecords   = (List<LAN_Mapping__c>) assetRecLst;
+        }
+        else{
+            findAssetObj.assetRecords   = new List<LAN_Mapping__c>();
+        }
+        
         findAssetObj.fieldMappingForCase = fieldMapping;
         findAssetObj.accBusinessUnit = accLOB;
         return findAssetObj;

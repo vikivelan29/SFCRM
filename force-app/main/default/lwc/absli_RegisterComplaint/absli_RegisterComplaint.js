@@ -190,7 +190,10 @@ export default class Absli_RegisterComplaint extends LightningElement {
                 if(result.registrationStatus == 'Pending' || result.acknowledgeStatus == 'Pending' || result.pendingStatus == 'Pending'){
                     this.submitDisabled = true;
                 }
-                
+               
+                if(result.registrationStatus == 'Failure' || result.acknowledgeStatus == 'Failure' || result.pendingStatus == 'Failure'){
+                    this.submitDisabled = false;
+                }
 
             })
             .catch((error)=>{

@@ -37,3 +37,6 @@
 .successBtn{
   --slds-c-icon-color-foreground:#4BC980;
 }
+.custom-hidden{
+  display: none;
+}
