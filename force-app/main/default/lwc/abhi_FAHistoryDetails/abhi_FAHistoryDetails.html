@@ -1,0 +1,36 @@
+<!--
+  @description       : Component to show Fitness Appointment details to ABHI customers 
+  @author            : amritpreet.singh@salesforce.com
+  @group             : ABHI
+  @last modified on  : 05-08-2024
+  @last modified by  : amritpreet.singh@salesforce.com
+  Modifications Log
+  Ver   Date         Author                            Modification
+  1.0   05-08-2024   amritpreet.singh@salesforce.com   PR1030924-31
+-->
+<template>
+    <lightning-card
+    variant="narrow" >
+        <h1 slot="title">{label.faTitle}</h1> 
+        <div lwc:if={isLoading} >
+            <div class="slds-backdrop" role="presentation"></div>
+                <div class="slds-fade-in-open slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+        </div>
+        <div lwc:if = {displayError}>
+            {message}
+        </div>
+        <template lwc:if={showRecords}>
+            <c-abfl_-data-table-with-pagination columns={columns}
+															table-data={data} page-size = {label.pageSize}
+                                                            onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+        </template>
+        <div slot="actions"  onkeyup={handleKeyUp} class="slds-p-horizontal_small slds-m-bottom_small slds-clearfix" style="width: 200px;">
+            <div class="slds-float_right slds-grid">
+                <lightning-button-icon icon-name="utility:refresh"  alternative-text="Refresh" title="Refresh" style="margin-top:auto;" onclick={handleRefresh}></lightning-button-icon>
+                
+            </div>
+        </div>
+    </lightning-card>
+</template>

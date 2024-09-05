@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>What_activities_are_you_currently_doing__c</fullName>
+    <externalId>false</externalId>
+    <label>What activities are you currently doing</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Walking</fullName>
+                <default>false</default>
+                <label>Walking</label>
+            </value>
+            <value>
+                <fullName>Running</fullName>
+                <default>false</default>
+                <label>Running</label>
+            </value>
+            <value>
+                <fullName>Zumba</fullName>
+                <default>false</default>
+                <label>Zumba</label>
+            </value>
+            <value>
+                <fullName>Cardio @ home Aerobics</fullName>
+                <default>false</default>
+                <label>Cardio @ home Aerobics</label>
+            </value>
+            <value>
+                <fullName>Cycling</fullName>
+                <default>false</default>
+                <label>Cycling</label>
+            </value>
+            <value>
+                <fullName>Dancing</fullName>
+                <default>false</default>
+                <label>Dancing</label>
+            </value>
+            <value>
+                <fullName>Workouts</fullName>
+                <default>false</default>
+                <label>Workouts</label>
+            </value>
+            <value>
+                <fullName>Cardio</fullName>
+                <default>false</default>
+                <label>Cardio</label>
+            </value>
+            <value>
+                <fullName>Swimming</fullName>
+                <default>false</default>
+                <label>Swimming</label>
+            </value>
+            <value>
+                <fullName>Yoga @ gym</fullName>
+                <default>false</default>
+                <label>Yoga @ gym</label>
+            </value>
+            <value>
+                <fullName>Yoga @ home</fullName>
+                <default>false</default>
+                <label>Yoga @ home</label>
+            </value>
+            <value>
+                <fullName>Sports</fullName>
+                <default>false</default>
+                <label>Sports</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
