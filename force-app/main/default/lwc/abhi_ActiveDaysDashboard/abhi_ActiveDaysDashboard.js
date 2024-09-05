@@ -50,6 +50,7 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
         console.log('startdate ',this.startDate);
         this.validateDates();
     }
+    
 
     // Event handler for the end date change
     handleEndDateChange(event) {
@@ -103,7 +104,7 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             this.showDataTable = false;
             this.errorDisplay = 'Error: ' + error.body.message;
             this.showDataTable = false;
-            this.errorMessages =   error.body.message;
+            this.errorMessage =   error.body.message;
             this.displayError = true;
            console.log('Error----> ' + JSON.stringify(error));
 
@@ -241,5 +242,7 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             this.displayErrorSearch = false; // Hide error if one of the dates is missing
         }
     }
-
+    get isEndDateDisabled() {
+        return !this.startDate;
+    }
 }
