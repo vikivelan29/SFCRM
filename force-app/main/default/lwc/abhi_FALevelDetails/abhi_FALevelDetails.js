@@ -186,4 +186,9 @@ validateDates() {
     });
 }*/
 
+    get isEndDateDisabled() {
+        return !this.startDate;
+    }
 }
+
+
