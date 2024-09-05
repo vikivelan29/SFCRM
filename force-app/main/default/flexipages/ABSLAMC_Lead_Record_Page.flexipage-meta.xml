@@ -132,6 +132,16 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Account__c</fieldItem>
+                <identifier>RecordAccount_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.LOB__c</fieldItem>
@@ -184,16 +194,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Folio_for_existing_customer__c</fieldItem>
-                <identifier>RecordFolio_for_existing_customer_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Winback_Scheme_Name__c</fieldItem>
                 <identifier>RecordWinback_Scheme_Name_cField</identifier>
             </fieldInstance>
@@ -202,10 +202,20 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Winback_Asset_Class__c</fieldItem>
-                <identifier>RecordWinback_Asset_Class_cField</identifier>
+                <fieldItem>Record.Winback_Investment_Date__c</fieldItem>
+                <identifier>RecordWinback_Investment_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Overall_Conversion_Amount__c</fieldItem>
+                <identifier>RecordOverall_Conversion_Amount_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -224,8 +234,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Call_Track_ID__c</fieldItem>
-                <identifier>RecordCall_Track_ID_cField</identifier>
+                <fieldItem>Record.Comments_Remarks__c</fieldItem>
+                <identifier>RecordComments_Remarks_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-6fb73ba6-f3d2-4d1f-96cb-0a6be43da396</name>
@@ -240,6 +250,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Business_Unit__c</fieldItem>
                 <identifier>RecordBusiness_Unit_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Folio_for_existing_customer__c</fieldItem>
+                <identifier>RecordFolio_for_existing_customer_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -296,10 +316,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Overall_Conversion_Amount__c</fieldItem>
-                <identifier>RecordOverall_Conversion_Amount_cField</identifier>
+                <fieldItem>Record.Winback_Asset_Class__c</fieldItem>
+                <identifier>RecordWinback_Asset_Class_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -308,8 +328,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Winback_Investment_Date__c</fieldItem>
-                <identifier>RecordWinback_Investment_Date_cField</identifier>
+                <fieldItem>Record.Call_Track_ID__c</fieldItem>
+                <identifier>RecordCall_Track_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -330,16 +350,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Assigned_Team__c</fieldItem>
                 <identifier>RecordAssigned_Team_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Comments_Remarks__c</fieldItem>
-                <identifier>RecordComments_Remarks_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-3f59497f-e30e-4fff-a761-c485751d645c</name>
