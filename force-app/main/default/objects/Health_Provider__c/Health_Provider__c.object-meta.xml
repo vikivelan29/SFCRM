@@ -155,6 +155,7 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
     <label>Health Provider</label>
+
     <nameField>
         <label>Provider Name</label>
         <trackHistory>false</trackHistory>
