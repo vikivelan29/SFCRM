@@ -246,14 +246,4 @@ public without sharing class ASF_EmailMessageHelper {
 
     }
     
-    private static boolean buSpecificReopenCheck(Case caseRec){
-        boolean returnVal = caseRec.Is_Reopen_Allowed__c; // default value
-        
-        if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint'){
-            return false;
-        }
-        return returnVal;
-        
-    }
-    
 }
