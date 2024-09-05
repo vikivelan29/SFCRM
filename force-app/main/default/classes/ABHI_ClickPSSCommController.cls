@@ -47,8 +47,10 @@ public with sharing class ABHI_ClickPSSCommController {
             String requestString = createRequest(objectName, recordId, formData);
             System.debug('requestString>>>'+requestString);
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,requestString,null);
-            Map<String,Object> objectMap = (Map<String,Object>) JSON.deserializeUntyped(integrationResponse.responseBody);
-            integrationResponse.responseBody = JSON.serialize(objectMap);
+            if(integrationResponse.responseBody != ''){
+                Map<String,Object> objectMap = (Map<String,Object>) JSON.deserializeUntyped(integrationResponse.responseBody);
+                integrationResponse.responseBody = JSON.serialize(objectMap);
+            }
             if(integrationResponse.StatusCode == 200) {
                 PSSResponseWrapper intResponse = (PSSResponseWrapper) JSON.deserialize(integrationResponse.responseBody, PSSResponseWrapper.class);
                     // Communication_History__c comHis = new Communication_History__c();
