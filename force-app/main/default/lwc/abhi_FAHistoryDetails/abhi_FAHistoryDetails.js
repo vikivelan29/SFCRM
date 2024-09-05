@@ -9,6 +9,7 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
     @api recordId;
     showRecords = false;
     isLoading = false;
+    message;
     label = {
         errorMessage,
         pageSize,
@@ -17,6 +18,7 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
     displayError=false;
 
     connectedCallback(){
+        this.message=this.label.errorMessage;
         this.isLoading = true;
         getColumns({configName:'ABHI_FADetailsView'})
         .then(result => {
@@ -59,6 +61,12 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
                 this.data=showData;
                 this.isLoading=false;
                 this.showRecords=true;
+            }
+            else if(result.StatusCode == 1001){
+                this.message = result.info.messageDesc;
+                this.isLoading=false;
+                this.displayError=true;
+                this.showRecords=false;
             }
             else{
                 this.isLoading=false;
