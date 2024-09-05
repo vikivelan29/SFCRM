@@ -15,11 +15,15 @@
         <div lwc:if={isLoading} >
             <div class="slds-backdrop" role="presentation"></div>
                 <div class="slds-fade-in-open slds-modal_large">
-                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
                 </div>
         </div>
         <div lwc:if = {displayError}>
-            {displayMessage}
+            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                <span style="font-size: 0.90rem;">{displayMessage}</span> 
+            </div>
+            
         </div>
         <template lwc:if={showRecommendedRecords}>
             <p><b>{label.recDevices}</b></p>
