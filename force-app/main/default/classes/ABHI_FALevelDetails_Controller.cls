@@ -10,17 +10,21 @@ public with sharing class ABHI_FALevelDetails_Controller {
     
     @AuraEnabled
     Public static IntegrationResponseWrapper GetFALevelDetails(string customerId, string fromDate, string toDate){
-        
+        try{
        
         string integrationName = 'ABHI_FALevelDetails';
+        string eventCode = 'ED-Fitnes2';
         ABCL_IntegrationCallout.accountId = customerId;
         Account acc = [SELECT Client_Code__c from Account where Id =: customerId];
         
-        
+        String scoreType = 'FITNESS_ASSESSMENT';
         Map<String,String> urlParameters = new Map<String,String>();
-        urlParameters.put('startDate',fromDate);
-        urlParameters.put('endDate',toDate);
-        urlParameters.put('customerId', acc.Client_Code__c);
+        urlParameters.put('eventDateFrom',fromDate);
+        urlParameters.put('eventDateTo',toDate);
+        urlParameters.put('customerNumber', acc.Client_Code__c);
+        urlParameters.put('eventCode', eventCode);
+        urlParameters.put('scoreType', scoreType);
+            system.debug(urlParameters);
        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,null, urlParameters);
         system.debug('integrationResp>>' +integrationResp);
@@ -46,14 +50,15 @@ public with sharing class ABHI_FALevelDetails_Controller {
        @AuraEnabled public String totalScore;
        @AuraEnabled public String totalCount;
        @AuraEnabled public String effectiveToDate;
-       @AuraEnabled public string StatusCode;
+       @AuraEnabled public Integer StatusCode;
        @AuraEnabled public String Message;
      
-        //public IntegrationResponseWrapper(Integer statusCode, String responseBody){
-            //this.StatusCode = statusCode;
-            //this.Message = responseBody;
+        public IntegrationResponseWrapper(Integer statusCode, String responseBody){
+            this.StatusCode = statusCode;
+            this.Message = responseBody;
         
     }
+        }
            
        
     
