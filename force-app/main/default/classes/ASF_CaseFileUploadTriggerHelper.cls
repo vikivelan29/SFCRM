@@ -238,16 +238,19 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                     }
                 }
             }
-            for(Id caseId : caseIdToTitlesMap.keySet()){
-                for(String title : caseIdToTitlesMap.get(caseId)){
-                    FeedItem feedItem = new FeedItem();
-                    feedItem.ParentId = caseId;
-                    feedItem.Type = 'TextPost';
-                    feedItem.Body = 'The file \''+title+'\' has been deleted';
-                    feedItemList.add(FeedItem);
+            if(!isCustomDelete){
+                for(Id caseId : caseIdToTitlesMap.keySet()){
+                    for(String title : caseIdToTitlesMap.get(caseId)){
+                        FeedItem feedItem = new FeedItem();
+                        feedItem.ParentId = caseId;
+                        feedItem.Type = 'TextPost';
+                        feedItem.Body = 'The file \''+title+'\' has been deleted';
+                        feedItemList.add(FeedItem);
+                    }
                 }
-            }
-            insert feedItemList;  
+                
+                insert feedItemList; 
+            }   
         }
     } 
 }

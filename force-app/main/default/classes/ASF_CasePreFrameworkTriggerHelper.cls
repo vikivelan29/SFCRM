@@ -1,12 +1,12 @@
 /**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+* @description       : 
+* @author            : rsinghnagar@salesforce.com
+* @group             : 
+* @last modified on  : 04-24-2024
+* @last modified by  : rsinghnagar@salesforce.com 
+* Modifications Log
+* Ver   Date         Author                       Modification
+* 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 public class ASF_CasePreFrameworkTriggerHelper {
     
@@ -24,9 +24,14 @@ public class ASF_CasePreFrameworkTriggerHelper {
         {
             mapSLA_Owner.put(m.Queue_Name__c,m.SLA_In_Minutes__c);
         }
-        
-        for(Group g : [SELECT Id, DeveloperName FROM Group where DeveloperName in:mapSLA_Owner.keyset() and Type = 'Queue'])
+        // VIRENDRA - 11 JUNE 2024 - ADDED Name in the query to fetch and stamp Case Assigned Team in PreFramework cases.
+        Map<Id,Group> mCaseAssignedTeamMap = new Map<Id,Group>();
+        for(Group g : [SELECT Id, DeveloperName,Name FROM Group where DeveloperName in:mapSLA_Owner.keyset() and Type = 'Queue']){
+            mCaseAssignedTeamMap.put(g.Id,g);
             mapGroupsByName.put(g.Id,g.DeveloperName );
+        }
+        
+        
         
         Map<String,Id> mBHName = new Map<String,Id>();
         
@@ -45,9 +50,9 @@ public class ASF_CasePreFrameworkTriggerHelper {
                 cs.Technical_Source__c = 'Email';
                 cs.BusinessHoursId = bh.Id;
                 /*
-                 * //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
-                 * //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
-                 */
+* //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
+* //PR970457-91 Start -- Added logic to populate business unit on case records for ABFL cases created through E2C
+*/
                 String caseOrigin = cs.Origin;
                 if(caseOrigin != null){
                     if(ASF_Constants.mCaseOriginVsBusinessUnit.containsKey(caseOrigin)){
@@ -55,7 +60,7 @@ public class ASF_CasePreFrameworkTriggerHelper {
                     }
                 }
                 /* ADDED LOGIC TO CONSIDER ABFL AND ABWM AS ABFL ONLY.
-                 */
+*/
                 String caseRecBU = cs.Business_Unit__c;
                 if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseRecBU)){
                     caseRecBU = 'ABFL';
@@ -74,6 +79,10 @@ public class ASF_CasePreFrameworkTriggerHelper {
                 }
                 
                 cs.Pre_framework_SLA__c = BusinessHours.add(cs.BusinessHoursId, system.now(), sla1Sec);
+                
+                // VIRENDRA - 11 JUNE 2024 - To Stamp Case Assigned Team on PreFramework Case on Creation.
+                cs.Case_Assigned_Team__c = mCaseAssignedTeamMap.containsKey(cs.OwnerId) ? mCaseAssignedTeamMap.get(cs.OwnerId).Name : '';
+                // VIRENDRA - ENDS HERE.
                 
                 ASF_CaseHistoryPercentageCalc percntCls = new ASF_CaseHistoryPercentageCalc();
                 percntCls.setOverallPercSLAFields(sla1Sec,cs.BusinessHoursId,system.now(),cs);
@@ -168,5 +177,39 @@ public class ASF_CasePreFrameworkTriggerHelper {
             }
         }
     }
-       
+    
+    public static void findAndAssociateAssetToCase(list<case> caseList, 
+                                                   Map<Id,Id> mCaseIdAccountId,
+                                                  List<Case> recordsToUpdate)
+    { 
+        Id interactionId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('Interaction').getRecordTypeId();
+        Map<String,Set<Id>> mBUSpecificCustomerVsAssets = new Map<String,Set<ID>>();
+        if(mCaseIdAccountId.values().size()>0){
+            List<Asset> customersAsset = [SELECT ID,AccountId,Business_Unit__c FROM Asset WHERE AccountId =: mCaseIdAccountId.values()];
+            for(Asset asst : customersAsset){
+                String tempKey = asst.Business_Unit__c + '_'+asst.AccountId;
+                if(!mBUSpecificCustomerVsAssets.containsKey(tempKey)){
+                    mBUSpecificCustomerVsAssets.put(tempKey, new Set<Id>());
+                }
+                mBUSpecificCustomerVsAssets.get(tempKey).add(asst.Id);
+            }
+        }
+        Map<Id,Case> mRecordtoUpdate = new Map<Id,Case>(recordsToUpdate);
+        if(mBUSpecificCustomerVsAssets.keySet().size()>0){
+            for(Case cs : caseList){
+                if(cs.RecordTypeId == interactionId && mRecordtoUpdate.containsKey(cs.Id)){
+                    Id rightAccountId = mCaseIdAccountId.get(cs.Id);
+                    String tempKey = cs.Business_Unit__c + '_'+rightAccountId;
+                    if(mBUSpecificCustomerVsAssets.containsKey(tempKey)){
+                        List<Id> customersAssets = new List<Id>(mBUSpecificCustomerVsAssets.get(tempKey));
+                        if(!(customersAssets.size()>1) && cs.Business_Unit__c == ASF_Constants.ABSLI_BU){
+                            mRecordtoUpdate.get(cs.Id).AssetId = customersAssets[0];
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
 }

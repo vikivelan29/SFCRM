@@ -1,5 +1,6 @@
 import { LightningElement,api } from 'lwc';
 import download from "@salesforce/apex/ABSLI_DownloadIGMSComplaintIntegration.downloadAttachment";
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Absli_igmsdownloadattachment extends LightningElement {
     _recordId;
@@ -21,7 +22,7 @@ export default class Absli_igmsdownloadattachment extends LightningElement {
       if (this.isExecuting) {
         return;
       }
-      download({recId : this.recordId}).then((result) => {}).catch((error) => {
+      download({recId : this.recordId}).then((result) => {this.showToast('Success','The Download has been successfully initiated.','Success');}).catch((error) => {
         console.log(error);
         this.displaySpinner = false;
         this.showToast({
@@ -38,5 +39,14 @@ export default class Absli_igmsdownloadattachment extends LightningElement {
     sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
+
+    showToast(title, message, variant) {
+      const evt = new ShowToastEvent({
+          title: title,
+          message: message,
+          variant: variant,
+      });
+      this.dispatchEvent(evt);
+  }
 
 }
