@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Subtype__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Lead Subtype</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Activity - TRO SIP Expiry</fullName>
+                <default>true</default>
+                <label>Activity - TRO SIP Expiry</label>
+            </value>
+            <value>
+                <fullName>Activity - TRO Cheque Bounce</fullName>
+                <default>false</default>
+                <label>Activity - TRO Cheque Bounce</label>
+            </value>
+            <value>
+                <fullName>Activity - TRO Purchase</fullName>
+                <default>false</default>
+                <label>Activity - TRO Purchase</label>
+            </value>
+            <value>
+                <fullName>Activity - TRO Systematic Transaction</fullName>
+                <default>false</default>
+                <label>Activity - TRO Systematic Transaction</label>
+            </value>
+            <value>
+                <fullName>Activity - Distributor Interested To Get Empanelled</fullName>
+                <default>false</default>
+                <label>Activity - Distributor Interested To Get Empanelled</label>
+            </value>
+            <value>
+                <fullName>Activity - Client Interested To Invest</fullName>
+                <default>false</default>
+                <label>Activity - Client Interested To Invest</label>
+            </value>
+            <value>
+                <fullName>Activity - POST- Redemption Saved by SRM</fullName>
+                <default>false</default>
+                <label>Activity - POST- Redemption Saved by SRM</label>
+            </value>
+            <value>
+                <fullName>Activity - PRE-Redemption Saved by SRM</fullName>
+                <default>false</default>
+                <label>Activity - PRE-Redemption Saved by SRM</label>
+            </value>
+            <value>
+                <fullName>Activity - Redemption Saved by Sales RM</fullName>
+                <default>false</default>
+                <label>Activity - Redemption Saved by Sales RM</label>
+            </value>
+            <value>
+                <fullName>Activity - SIP Cancellation Saved Winback</fullName>
+                <default>false</default>
+                <label>Activity - SIP Cancellation Saved Winback</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
