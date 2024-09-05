@@ -1075,13 +1075,6 @@
         <value>Device Details</value>
     </labels>
     <labels>
-        <fullName>ABHI_FitnessAppDetails</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
-        <value>Fitness Appointment Details</value>
-    </labels>
-    <labels>
         <fullName>ABHI_Health_Return_App_Reg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1094,5 +1087,12 @@
         <protected>false</protected>
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
         <value>ABSLAMC;ABSLIG;Payments</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
     </labels>
 </CustomLabels>
