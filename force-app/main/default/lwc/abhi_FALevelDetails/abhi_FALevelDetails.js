@@ -17,6 +17,7 @@ export default class Abhil_FALevelDetails extends LightningElement {
     @track isLoading = false;
     @track errorMessages = '';
     @track displayError = false;
+    
 
 
     get isSearchDisabled() {
@@ -25,7 +26,7 @@ export default class Abhil_FALevelDetails extends LightningElement {
         }
         return new Date(this.startDate) > new Date(this.endDate); // Disable if start date is greater than end date
         
-        
+        }                
   }
 
   get DateErrorMessage() {
@@ -58,10 +59,6 @@ export default class Abhil_FALevelDetails extends LightningElement {
 
     handleSearchClick() {
         
-        // const EventDates = {
-        //     startDate: this.startDate,
-        //     endDate: this.endDate
-        // };
 
         if (this.isSearchDisabled) {
             return; // Prevent search if invalid
@@ -78,6 +75,7 @@ console.log('result' ,result);
             console.log('StatusCode', result.StatusCode);
 
             if(StatusCode == 1000) {
+                console.log('insideIf');
                 this.displayTable=true;
                 this.showRecords=true;
                 
@@ -90,25 +88,22 @@ console.log('result' ,result);
                 console.log('this.date', JSON.stringify(this.data));
             }
             else {
+                console.log('insideElse');
 
                 this.showDataTable = false;
-                this.errorMessage = this.integrationResp.Message;
-                this.displayError = true;
-                //this.apiErrorMessage = this.integrationResp.Message;
-                //this.showNotification('Error', result.Message, 'error');
+                this.errorMessages = this.result.Message;
+                this.displayError = true;               
             }
-                console.log('respBody>>',JSON.parse(respBody));
-                //console.log(JSON.parse(JSON.stringify(this.result)));
                 
             })
             .catch(error => {
                 this.isLoading = false;
                 this.showDataTable = false;
-                this.errorDisplay = 'Error: ' + error.body.message;
-                this.showDataTable = false;
-                this.errorMessages =   error.body.message;
+                let errorDisplay = 'Error: ' + error.message;
+                this.errorMessages = (error.body.message);
+                console.error('Error object:', error);
                 this.displayError = true;
-               console.log('Error----> ' + JSON.stringify(error));
+              
                
             });
 
@@ -138,7 +133,7 @@ fetchColumns() {
     .catch(error => {
 
             
-            this.showNotification('Error','Error fetching data.','Error');
+            //this.showNotification('Error','Error fetching data.','Error');
             //this.showNotification('Error', 'Error fetching columns: ' + (error.body.message || error.message), 'error');
             console.log('Error fetching columns:', JSON.stringify(error));
 
