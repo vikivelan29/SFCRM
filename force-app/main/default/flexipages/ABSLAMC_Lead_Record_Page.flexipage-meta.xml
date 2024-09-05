@@ -164,8 +164,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Prospect_Type__c</fieldItem>
-                <identifier>RecordProspect_Type_cField</identifier>
+                <fieldItem>Record.Lead_Subtype__c</fieldItem>
+                <identifier>RecordLead_Sub_type_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -174,8 +174,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PANNO__c</fieldItem>
-                <identifier>RecordPANNO_cField</identifier>
+                <fieldItem>Record.Prospect_Type__c</fieldItem>
+                <identifier>RecordProspect_Type_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -278,8 +278,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Lead_Subtype__c</fieldItem>
-                <identifier>RecordLead_Sub_type_cField</identifier>
+                <fieldItem>Record.Lead_Status_Change_date__c</fieldItem>
+                <identifier>RecordLead_Status_Change_date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -288,8 +288,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Lead_Status_Change_date__c</fieldItem>
-                <identifier>RecordLead_Status_Change_date_cField</identifier>
+                <fieldItem>Record.PANNO__c</fieldItem>
+                <identifier>RecordPANNO_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
