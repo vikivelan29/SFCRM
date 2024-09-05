@@ -1,4 +1,11 @@
 <template>
+    <template lwc:if={loading}>
+        <lightning-spinner alternative-text="Loading" size="medium"
+                            class="spinnerClass"></lightning-spinner>
+    </template>
+    <div>
+        <lightning-button label="Refresh" onclick={refreshData} class="refresh-button"></lightning-button>
+    </div>
     <template lwc:if={displayTable}>
         <lightning-datatable
             key-field="id"
