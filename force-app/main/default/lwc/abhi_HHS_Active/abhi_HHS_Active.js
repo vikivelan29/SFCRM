@@ -27,7 +27,11 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         recordId: "$recordId",
         fields
     })
-    account;
+    account;    
+    @track errorMessages = '';
+    @track displayError = false;
+
+
 
     connectedCallback() {
         console.log('callBack called' );
@@ -94,7 +98,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         })
         .catch(error => console.error('Error fetching columns:', error));
     }
-    childmessage = false;
 
     processResponse(response) {
         this.recordTable = null;
@@ -205,6 +208,10 @@ export default class AbhiActiveAgeDetails extends LightningElement {
 
     get bDisableLast() {
         return this.currentPage === this.totalPages;
+    }
+    updateMessage(event) {
+        displayError=true;
+        this.errorMessages = event.detail.message;
     }
 
     get pageNumber() {
