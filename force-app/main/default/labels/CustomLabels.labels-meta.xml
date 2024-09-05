@@ -1109,5 +1109,11 @@
         <shortDescription>ABHI_FitnessAppDetails</shortDescription>
         <value>Fitness Appointment Details</value>
     </labels>
-
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
+    </labels>
 </CustomLabels>
