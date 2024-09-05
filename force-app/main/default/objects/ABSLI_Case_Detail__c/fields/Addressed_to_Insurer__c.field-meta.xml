@@ -13,12 +13,12 @@
             <sorted>false</sorted>
             <value>
                 <fullName>Y</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>YES</label>
             </value>
             <value>
                 <fullName>N</fullName>
-                <default>true</default>
+                <default>false</default>
                 <label>NO</label>
             </value>
         </valueSetDefinition>

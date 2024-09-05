@@ -158,14 +158,15 @@
 												<td class="pc-sm-fs-18 pc-xs-fs-16 pc-fb-font" style="line-height: 28px; font-family: 'Public Sans', Helvetica, Arial, sans-serif; font-size: 17px; font-weight: 400; letter-spacing: -0.2px; color: #7c7c7b; text-align: center" valign="top">
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify"><span style="font-size:16px;"><span style="font-family: &quot;Fira Sans&quot;, Helvetica, Arial, sans-serif; font-weight: 500; color: rgb(199, 34, 42); letter-spacing: -0.4px; line-height: 34px; text-align: left;">Dear Sir/Madam,</span></span><br />
 												<br />
-												Your Customer {{{Case.Customer_name_formula__c}}} have raised Request for {{{Case.Sub_Type_Text__c}}} under reference no {{{Case.CaseNumber}}} on {{{Case.CreatedDate}}} for&nbsp;Policy No {{{Case.LAN__c}}}<br />
+												Your Customer {{{Case.Customer_name_formula__c}}} have raised Request for {{{Case.Sub_Type_Text__c}}} under reference no {{{Case.CaseNumber}}} on {{{Case.CreatedDate}}} for&nbsp;Policy No $$Asset.Policy_No__c$$<br />
 												<br />
 												Request will be processed and we shall send a confirmation.<br />
 												<br />
 												Regards,<br />
 												Team Aditya Birla Sun Life Insurance<br />
 												<br />
-												<span lang="EN-US" style="font-size:10.0pt"><span style="background:white"><span style="line-height:107%"><span style="font-family:&quot;Arial&quot;,sans-serif"><span style="color:black">This is an auto generated response; kindly do not reply to this email</span></span></span></span></span></div>
+												<span lang="EN-US" style="font-size:10.0pt"><span style="background:white"><span style="line-height:107%"><span style="font-family:&quot;Arial&quot;,sans-serif"><span style="color:black">This is an auto generated response; kindly do not reply to this email</span></span></span></span></span><br />
+												&nbsp;</div>
 												</td>
 											</tr>
 										
