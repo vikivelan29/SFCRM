@@ -58,7 +58,7 @@ public class ABSLI_LitmusIntegration {
                                                                              GROUP BY AccountId]);
             
             // CODE TO GET THE DETAILS FROM CONTACT - IN CASE OF PERSONACCOUNT, CONTACT RECORD GETS CREATED, IN CASE OF BUSINESS ACCOUNT CONTACT TO BE LOADED.
-            for(Contact c : [SELECT ID,Nationality__c,Birthdate,GenderIdentity,MobilePhone,Email FROM Contact WHERE AccountId =: accountIds]){
+            for(Contact c : [SELECT ID,Nationality__c,Birthdate,GenderIdentity,MobilePhone,Email,AccountID FROM Contact WHERE AccountId =: accountIds]){
                 if(!mAccountPrimaryContact.containsKey(c.AccountId)){
                     mAccountPrimaryContact.put(c.AccountId,c);
                 } 
@@ -234,7 +234,7 @@ public class ABSLI_LitmusIntegration {
         
         public ABSLI_LITMUS_Wrapper(Case caseRecord,Map<Id,Contact> mAccountPrimaryContact){
             
-            Contact accountPrimaryContact = mAccountPrimaryContact.get(caseRecord.Id);
+            Contact accountPrimaryContact = mAccountPrimaryContact.get(caseRecord.AccountId);
             
             this.app_id = System.Label.ABSLI_LITMUS_PROJECT_ID;
             //this.tag_business_unit = caseRecord.Business_Unit__c;
