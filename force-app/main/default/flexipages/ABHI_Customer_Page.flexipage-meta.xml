@@ -370,16 +370,7 @@
                 <identifier>RecordCountry_cField2</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Whatsapp_Number__c</fieldItem>
-                <identifier>RecordWhatsapp_Number_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
+      
         <name>Facet-34b9fc51-3ec7-48f4-8758-d41ab759a8b8</name>
         <type>Facet</type>
     </flexiPageRegions>
