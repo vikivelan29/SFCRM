@@ -1210,12 +1210,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhi_healthFitness</componentName>
-                <identifier>c_abhi_healthFitness</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-871e5a4e-1438-4a7b-a1e1-ab1952b018b9</name>
         <type>Facet</type>
     </flexiPageRegions>
