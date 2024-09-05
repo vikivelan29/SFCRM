@@ -5,6 +5,7 @@ import getRecords from '@salesforce/apex/Abhfl_GenericRepeatingAndOpenComplntCla
 import getCaseCounts from '@salesforce/apex/Asf_NpsIndicatiorController.getCaseCounts';
 import getNpsScore from '@salesforce/apex/Asf_NpsIndicatiorController.getNpsScore';
 import BUSINESS_UNIT from '@salesforce/schema/Account.Business_Unit__c';
+import { lanLabels } from 'c/asf_ConstantUtility';
 export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends LightningElement {
 
     @api recordId;
@@ -29,33 +30,65 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     showEscalatedCases=0;
     nps = undefined;
     isAccount = false;
+    showCustomerNPSbyNumber;
+
     loadNpsScore() {
         getNpsScore({ customerId: this.recordId })
             .then(result => {
                 this.nps = result;
                 console.log('NPS record', this.nps); 
+                this.claculateNPSRating();
             })
             .catch(error => {
                 console.error('Error loading NPS record', error);
             });
     }
-    get showCustomerNPSbyNumber() {
-        if (this.nps == undefined) {
-            return "❌";
+    
+    claculateNPSRating() {
+
+        this.showCustomerNPSbyNumber = '';
+        if(this.nps) {
+            this.businessUnit = Object.keys(this.nps)[0];
+            this.showCustomerNPSbyNumber = this.nps[this.businessUnit];
         }
-        else if(this.nps >= 0 && this.nps <= 6){
-            return "🙁";
+
+        if(this.businessUnit && (this.businessUnit !== lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
+            if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined) {
+                this.showCustomerNPSbyNumber =  "❌";
+            }
+            else if(this.showCustomerNPSbyNumber > 0 && this.showCustomerNPSbyNumber <= 3){
+                this.showCustomerNPSbyNumber =  "🙁";
+            }
+            else if(this.showCustomerNPSbyNumber > 3 &&  this.showCustomerNPSbyNumber <= 6){
+                this.showCustomerNPSbyNumber =  "😐";
+            }
+            else if(this.showCustomerNPSbyNumber > 6 && this.showCustomerNPSbyNumber <= 10){
+                this.showCustomerNPSbyNumber =  "😁";
+            }
+            else {
+                this.showCustomerNPSbyNumber;
+            }
         }
-        else if(this.nps > 6 &&  this.nps <= 8){
-            return "😐";
-        }
-        else if(this.nps > 8 && this.nps <= 10){
-            return "😁";
-        }
-        else {
-            return this.nps;
+        else if(this.businessUnit && (this.businessUnit === lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
+            this.logicToShowEmoji();
         }
     }
+
+    logicToShowEmoji() {
+        if(this.showCustomerNPSbyNumber <= 6){
+            this.showCustomerNPSbyNumber =  "🙁";
+        }
+        else if(this.showCustomerNPSbyNumber <= 8){
+            this.showCustomerNPSbyNumber =  "😐";
+        }
+        else if(this.showCustomerNPSbyNumber <= 10){
+            this.showCustomerNPSbyNumber =  "😁";
+        }
+        else {
+            this.showCustomerNPSbyNumber;
+        }
+    }
+
     @wire(getRecord, {
         recordId: '$recordId',
         fields: [BUSINESS_UNIT]

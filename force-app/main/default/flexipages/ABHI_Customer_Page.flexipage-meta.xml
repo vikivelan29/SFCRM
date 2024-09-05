@@ -1578,8 +1578,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_NdcIndicator</componentName>
-                <identifier>c_asf_NdcIndicator</identifier>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
