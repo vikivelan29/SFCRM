@@ -76,7 +76,7 @@ public without sharing class ASF_CaseQueryHandler {
                                 FROM ASF_Case_Approv__c
                                 WHERE SR__c = :caseIds
                                 AND Case_Stage_At_Creation__c = :caseStages
-                                AND Is_Recategorization_Request__c = false
+                                AND Is_Recategorization_Request__c = false // production ticket: INC000000055852/182117
                                 ORDER BY CreatedDate desc];
         }
         return caseApprovals;
@@ -144,7 +144,7 @@ public without sharing class ASF_CaseQueryHandler {
     public static list<ASF_Case_Stage_Config__c> getCaseStageConfigWithRlAndIntr(Set<String> cccExternalId){
         if(caseStageConfigs == null || refreshRecords){
             // VIRENDRA - 8 JUNE 2024 - ADDED Default_Queue_user_Name__c in QUERY.
-            caseStageConfigs = [SELECT ID,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
+            caseStageConfigs = [SELECT ID,Case_Category_Config__r.isStageSkip__c,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
                                 Is_Approval_Stage__c,Manual_Approval__c,Case_Category_Config__r.CCC_External_Id__c,
                                 Case_Category_Config__r.Order__c,SLA_Target_1_Type__c,SLA_Target_2_Type__c,SLA_Target_3_Type__c,
                                 Optional_Stage__c,Default_Queue__c,Default_Error_Queue__c, Gateway_Stage__c,
@@ -301,6 +301,7 @@ public without sharing class ASF_CaseQueryHandler {
     public static List<ASF_Case_Category_Config__c> getCaseCategoryConfigs(List<String> cccExternalIds) {
         // VIRENDRA - 28 JUN 2024 - ADDED IGMS_Code__c  in QUERY.
         if(caseCategoryConfigs == null || refreshRecords){
+            
             caseCategoryConfigs = [SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, 
                                     Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, 
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
@@ -353,6 +354,7 @@ public without sharing class ASF_CaseQueryHandler {
     * @return List<ASF_Integration__c> 
     **/
     public static List<ASF_Integration__c> getASFIntegrationRecordsForRetry(Set<String> integrationExtnId){
+        
         return [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
                                  UI_Component__c ,Visibility_Class__c ,When_to_Appear__c,Query_Fields__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId WITH SYSTEM_MODE];
@@ -365,6 +367,7 @@ public without sharing class ASF_CaseQueryHandler {
     * @return List<Case> 
     **/
     public static List<Case> getCaseRecordToRetryIntegrations(Set<Id> caseIds){
+        
         return [SELECT ID,CaseNumber, AccountId, Business_Unit__c,IsClosed   FROM Case WHERE Id =: caseIds WITH SYSTEM_MODE];
     }
     
