@@ -186,8 +186,9 @@ validateDates() {
     });
 }*/
 
-get isEndDateDisabled() {
-    return !this.startDate;
+    get isEndDateDisabled() {
+        return !this.startDate;
+    }
 }
 
 
