@@ -17,13 +17,26 @@ public with sharing class ABHI_DeviceDetailsController {
     * @description - This method is used to get the Device details for the customer id passed.
     *****************************************************************************************************************/
     @AuraEnabled
-    public static ResponseWrapper getDeviceDetails(String customerId, String requestPayload){
+    public static ResponseWrapper getDeviceDetails(String customerId){
         try {
             String integrationName = 'ABHI_DeviceDetails';
             ABCL_IntegrationCallout.accountId = customerId;
+            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId];
+            String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
+            if(code == '0'){
+                return new ResponseWrapper(
+                    400,
+                    Custom_Messages__mdt.getInstance('ABHI_Customer_Id_Mandatory').Message__c
+                );
+            }
+            String requestPayload = JSON.serialize(new RequestWrapper(code,'android','',''));
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,requestPayload,null);
             if(integrationResponse.responseBody != ''){
                 EncryptedResponseWrapper encryptedResponse = (EncryptedResponseWrapper) JSON.deserialize(integrationResponse.responseBody, EncryptedResponseWrapper.class);
+                if(encryptedResponse.Content == null || encryptedResponse.Content == ''){
+                    String returnMessage = encryptedResponse.Message != null ? encryptedResponse.Message : Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c;
+                    return new ResponseWrapper(Integer.valueOf(integrationResponse.StatusCode), returnMessage);
+                }
                 String decryptedResponse = ABHI_Encryption.decrypt(encryptedResponse.Content, integrationName);
                 if(integrationResponse.StatusCode == 200 && encryptedResponse.StatusCode == '1000'){
                     String responseDecryptedBody = (String) JSON.deserializeUntyped(decryptedResponse);
@@ -32,7 +45,7 @@ public with sharing class ABHI_DeviceDetailsController {
                     return returnResponse;
                 }
                 else{
-                    String returnMessage = decryptedResponse != '' ? decryptedResponse : encryptedResponse.Message;
+                    String returnMessage = decryptedResponse != '' ? (String) JSON.deserializeUntyped(decryptedResponse) : encryptedResponse.Message;
                     ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), returnMessage);
                     return returnResponse;
                 }
@@ -48,6 +61,39 @@ public with sharing class ABHI_DeviceDetailsController {
     }
 
     /*********************************************************
+    *Class        :  RequestWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  23/08/2024
+    *Last Modified:  23/08/2024
+    *@description  :  Wrapper class to hold the request JSON to send 
+    *********************************************************/
+    public class RequestWrapper{
+        public String MemberID;
+        public String OS;
+        public String PolicyStartDate;
+        public String WellnessID;
+        public RequestWrapper(String memberId, String OS, String policyDate, String wellnessId){
+            this.MemberID = memberId;
+            this.OS = OS;
+            this.PolicyStartDate = policyDate;
+            this.WellnessID = wellnessId;
+        }
+    }
+
+    /*********************************************************
+    *Class        :  EncryptedResponseWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  23/08/2024
+    *Last Modified:  23/08/2024
+    *@description  :  EncryptedResponseWrapper is wrapper class to hold encrypted response
+    *********************************************************/
+    public class EncryptedResponseWrapper{
+        public String Content;
+        public String StatusCode;
+        public String Message;
+    }
+
+    /*********************************************************
     *Class        :  RecommendedWrapper
     *Author       :  Amrit Preet Singh
     *Created Date :  05/08/2024
@@ -56,16 +102,16 @@ public with sharing class ABHI_DeviceDetailsController {
     *********************************************************/
     public class RecommendedWrapper {
         @AuraEnabled
-		public String logo_url;
+    public String logo_url;
         @AuraEnabled
-		public String name;
+    public String name;
         @AuraEnabled
-		public String subname;
+    public String subname;
         @AuraEnabled public String sync_url;
         @AuraEnabled public String synced;
         @AuraEnabled public String redirect_uri;
         @AuraEnabled public GooglefitProfile googlefitProfile;
-	}
+  }
 
     /*********************************************************
     *Class        :  GooglefitProfile
@@ -83,7 +129,7 @@ public with sharing class ABHI_DeviceDetailsController {
         @AuraEnabled public String ID_Token;
         @AuraEnabled public String Server_Auth_Code;
         @AuraEnabled public String Photo_URL;
-	}
+  }
 
     /*********************************************************
     *Class        :  Data
@@ -92,10 +138,10 @@ public with sharing class ABHI_DeviceDetailsController {
     *Last Modified:  05/08/2024
     *@description  :  Data is a wrapper class to hold device categories and details
     *********************************************************/
-	public class Data {
+  public class Data {
         public List<String> deviceCategories;
         public Devices devices;
-	}
+  }
 
     /*********************************************************
     *Class        :  BookingHistoryWrapper
@@ -104,10 +150,10 @@ public with sharing class ABHI_DeviceDetailsController {
     *Last Modified:  05/08/2024
     *@description  :  BookingHistoryWrapper is a wrapper class to hold Booking History Information
     *********************************************************/
-	public class Devices {
+  public class Devices {
         @AuraEnabled public List<RecommendedWrapper> Recommended;
         @AuraEnabled public List<RecommendedWrapper> Others;
-	}
+  }
 
     /*********************************************************
     *Class        :  deserilaizedResponse
