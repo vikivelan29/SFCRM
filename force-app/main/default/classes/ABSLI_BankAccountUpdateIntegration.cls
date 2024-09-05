@@ -31,7 +31,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 				)
 				.Message__c;
 
-			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'API') {
+			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c && caseRecord.Technical_Source__c == 'API') {
 				result.status = ABSLI_Constants.SUCCESS;
 			}
 
