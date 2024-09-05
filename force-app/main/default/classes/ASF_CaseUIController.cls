@@ -5,8 +5,8 @@
 **/
 @SuppressWarnings('PMD.ClassNamingConventions,PMD.MethodNamingConventions')
 public with sharing class  ASF_CaseUIController {
-
-    public static Case caseRecord;
+    
+    public static Case caseRecord; 
 
     @AuraEnabled
     public static Map<String,sObject> CreateProspectAndUpdateOnCase(Case caseToInsert,Lead prospectRecord){
