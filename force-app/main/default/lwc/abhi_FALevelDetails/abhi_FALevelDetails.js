@@ -193,12 +193,6 @@ validateDates() {
     get isEndDateDisabled() {
         return !this.startDate;
     }
-}
-
-// get isEndDateDisabled() {
-//     return !this.startDate;
-// }
-
 validateDates() {
     if (this.startDate && this.endDate) {
         const start = new Date(this.startDate);
