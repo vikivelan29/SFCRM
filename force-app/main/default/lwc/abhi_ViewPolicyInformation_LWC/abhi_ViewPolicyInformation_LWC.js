@@ -38,21 +38,8 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
                 this.isHealthReturns   = true;
             }
             else {
-                this.policyData = respBody;
-                this.healthAndAppRegError = `Error: ${respBody?.Message}`;
-
-                if(statusCode === 1001) {                   
-                    let summationOfTotalBalance = this.calculateTotalBalance(respBody, 'Total_Balance');
-                    this.policyData = {...respBody, totalBalance : summationOfTotalBalance};
-                    this.isAppRegistration = true;
-                    this.isHealthReturns   = false;
-                }    
-                else if(statusCode === 1002) {
-                    this.isAppRegistration = false;
-                    this.isHealthReturns   = true;
-                }
-            } 
-            
+                this.apiErrorMessage = `Error: ${respBody?.Message}`;
+            }
         })
         .catch(error => {
             console.log('Error inside fetchViewInformationPolicy_Data ' + JSON.stringify(error));
