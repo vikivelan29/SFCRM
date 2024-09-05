@@ -84,7 +84,6 @@ export default class Abhil_FALevelDetails extends LightningElement {
                 let data = [];
                 data.push(result);
                 this.data= data;
-                console.log('this.date', JSON.stringify(this.data));
                 this.errorMessages = '';
                 this.displayError = false;
             }else if (this.statusCode === 1001) {
@@ -112,11 +111,6 @@ export default class Abhil_FALevelDetails extends LightningElement {
             .catch(error => {
                 this.isLoading = false;
                 this.showDataTable = false;
-                let errorDisplay = 'Error: ' + error.message;
-                this.errorMessages = (error.body.message);
-                console.error('Error object:', error);
-                this.errorMessages = this.result.StatusCode;
-                console.error('Error object:', error);
                 //let errorDisplay = 'Error: ' + error.message;
                 //this.errorMessages = (error.body.message);
                 this.displayError = true;
@@ -192,24 +186,9 @@ validateDates() {
     });
 }*/
 
-    get isEndDateDisabled() {
-        return !this.startDate;
-    }
-validateDates() {
-    if (this.startDate && this.endDate) {
-        const start = new Date(this.startDate);
-        const end = new Date(this.endDate);
-
-        if (end < start) {
-            this.displayErrorSearch = true;
-            this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
-        } else {
-            this.displayErrorSearch = false;
-        }
-    } else {
-        this.displayErrorSearch = false; // Hide error if one of the dates is missing
-    }
+get isEndDateDisabled() {
+    return !this.startDate;
 }
 
-}
 
+}
