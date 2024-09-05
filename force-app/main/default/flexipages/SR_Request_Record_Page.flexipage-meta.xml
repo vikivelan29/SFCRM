@@ -70,6 +70,24 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Requested_CCC_Details__c</fieldItem>
                 <identifier>RecordRequested_CCC_Details__cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>(1 AND 2) OR 3</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABFL Base Profile</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Is_Recategorization_Request__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>System Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-50780d6a-cc77-4375-9af4-c8a42329b7cc</name>
