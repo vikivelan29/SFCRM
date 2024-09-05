@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Country__c</fullName>
+    <externalId>false</externalId>
     <label>Country</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
@@ -9,6 +10,11 @@
     <valueSet>
         <valueSetDefinition>
             <sorted>false</sorted>
+            <value>
+                <fullName>IN</fullName>
+                <default>false</default>
+                <label>India</label>
+            </value>
             <value>
                 <fullName>A1</fullName>
                 <default>false</default>
@@ -773,11 +779,6 @@
                 <fullName>IK</fullName>
                 <default>false</default>
                 <label>Ivory Coast</label>
-            </value>
-            <value>
-                <fullName>IN</fullName>
-                <default>false</default>
-                <label>India</label>
             </value>
             <value>
                 <fullName>IT</fullName>

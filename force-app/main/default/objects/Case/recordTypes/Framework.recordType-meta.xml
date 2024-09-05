@@ -97,6 +97,14 @@
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
         <values>
+            <fullName>AWB number capture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accounted renewal premium reversal</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
             <default>false</default>
         </values>
@@ -157,6 +165,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Cheque dishonor</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Claim Status related</fullName>
             <default>false</default>
         </values>
@@ -178,6 +190,10 @@
         </values>
         <values>
             <fullName>Commission pass backs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conversion to Physical</fullName>
             <default>false</default>
         </values>
         <values>
@@ -209,6 +225,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Dispatch requests from customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Documentation related</fullName>
             <default>false</default>
         </values>
@@ -237,7 +257,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Excess renewal payment refund related</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Explained On Call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Extension of discontinue period - New ULIP</fullName>
             <default>false</default>
         </values>
         <values>
@@ -282,6 +310,10 @@
         </values>
         <values>
             <fullName>Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Account Statement</fullName>
             <default>false</default>
         </values>
         <values>
@@ -373,6 +405,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Nominee%2F Appointee Related Rectification</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Non Contractual Payout</fullName>
             <default>false</default>
         </values>
@@ -382,6 +418,14 @@
         </values>
         <values>
             <fullName>Non Early Claim</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OR Cancellation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ORD from HO</fullName>
             <default>false</default>
         </values>
         <values>
@@ -433,6 +477,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Premium Receipt</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Premium due statement</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Premium paid certificate %2F Policy Statement from Chatbot</fullName>
             <default>false</default>
         </values>
@@ -453,7 +505,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Receipt cancellation</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Reconciliation Refunds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rectification in Client Profile Detail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rectification in Investment profile %2F Fund Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rectification in policy level detail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reduced paid - New ULIP</fullName>
             <default>false</default>
         </values>
         <values>
@@ -565,6 +637,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Reporting Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Requirements not informed</fullName>
             <default>false</default>
         </values>
@@ -574,6 +650,10 @@
         </values>
         <values>
             <fullName>Riders Related%2FFace Amount Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shortage requirement completed%2FRevival with Loan excluded</fullName>
             <default>false</default>
         </values>
         <values>
@@ -594,6 +674,14 @@
         </values>
         <values>
             <fullName>Surrender Procedure Value Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Surrender Retention by SM%2FZM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Surrender Retention by branch</fullName>
             <default>false</default>
         </values>
         <values>
@@ -641,6 +729,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>TDS Certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>TDS Related</fullName>
             <default>false</default>
         </values>
@@ -650,6 +742,10 @@
         </values>
         <values>
             <fullName>Tampered%2FForged%2FFake Documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax Invoice</fullName>
             <default>false</default>
         </values>
         <values>
@@ -697,11 +793,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Whatsapp Opt In</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Whatsapp Opt Out</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Withdrawal</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Withdrawal%2FSurvival Benefit Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>eIA opening</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1129,6 +1237,10 @@
         </values>
         <values>
             <fullName>ONEABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABC_Servicing_App</fullName>
             <default>false</default>
         </values>
     </picklistValues>

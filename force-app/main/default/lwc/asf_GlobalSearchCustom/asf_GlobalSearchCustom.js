@@ -12,7 +12,7 @@ import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 
 import hasSalesProspectPermission from "@salesforce/customPermission/ShowSalesProspect";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
+import { lanLabels } from 'c/asf_ConstantUtility';
 
 
 
@@ -33,10 +33,12 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     @track dupeLead=[];
     @track showDupeList=false;
     @track selectedProspectId;
-    @track headerName = 'Create Case with Prospect';
+    @track headerName;
     @track isInternalCase = false;
     @track loggedInUserBusinessUnit = '';
     error;
+    createCaseWithNewProspect;
+    createSalesProspectLabel;
 
 
     cols_Customer = [
@@ -65,6 +67,9 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+            this.createCaseWithNewProspect = lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_NEW_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_NEW_PROSPECT : lanLabels["DEFAULT"].CREATE_CASE_WITH_NEW_PROSPECT;
+            this.createSalesProspectLabel = lanLabels[this.loggedInUserBusinessUnit].CREATE_SALES_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_SALES_PROSPECT : lanLabels["DEFAULT"].CREATE_SALES_PROSPECT;
+            this.headerName = lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_PROSPECT : lanLabels["DEFAULT"].CREATE_CASE_WITH_PROSPECT;
         } else if (error) {
             //this.error = error ;
         }
