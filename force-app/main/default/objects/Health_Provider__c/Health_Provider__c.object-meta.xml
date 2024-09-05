@@ -156,22 +156,12 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Health Provider</label>
     <nameField>
-        <displayFormat>HO-{00000}</displayFormat>
         <label>Provider Name</label>
         <trackHistory>false</trackHistory>
-        <type>AutoNumber</type>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Health Providers</pluralLabel>
-    <profileSearchLayouts>
-        <fields>NAME</fields>
-        <fields>Provider_Name__c</fields>
-        <fields>Provider_Code__c</fields>
-        <profileName>ABHI Base Profile</profileName>
-    </profileSearchLayouts>
-    <searchLayouts>
-        <searchResultsAdditionalFields>Provider_Code__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Provider_Name__c</searchResultsAdditionalFields>
-    </searchLayouts>
-    <sharingModel>Read</sharingModel>
+    <searchLayouts></searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
