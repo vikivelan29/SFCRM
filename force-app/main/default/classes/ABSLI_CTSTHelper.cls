@@ -53,7 +53,13 @@ public with sharing class ABSLI_CTSTHelper {
             	validation.result = true;
             	validation.message = 'Team Resolution Status cannot be "Unresolved" to resolve a Case.';
         	}
-            
+            List<Task> openTasks = [SELECT id,Status FROM Task WHERE WhatId =: caseR.Id];
+            for(Task relatedtask : openTasks){
+                if(relatedtask.Status != 'Completed'){
+                  	validation.result = true;
+            		validation.message = 'Please complete required tasks to resolve the case.';  
+                }
+            }
             // Set the message within the wrapper
             if(validation.result && !validation.blankFields.isEmpty()) {
                 String message = 'The following fields are mandatory to Resolve Requests : ';

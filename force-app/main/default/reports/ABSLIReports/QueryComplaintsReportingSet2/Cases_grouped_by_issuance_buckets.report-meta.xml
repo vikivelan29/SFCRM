@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Case$Sub_Type_Text__c</field>
+    </columns>
+    <customDetailFormulas>
+        <calculatedFormula>(Case.Asset.Issue_Date__c - DATEVALUE(Case.CreatedDate)) / 30</calculatedFormula>
+        <dataType>Double</dataType>
+        <description>ABSLI - Query &amp; Complaints Reporting Set - 2</description>
+        <developerName>CDF1</developerName>
+        <label>Created Issuance</label>
+        <scale>2</scale>
+    </customDetailFormulas>
+    <description>ABSLI - Query &amp; Complaints Reporting Set - 2</description>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case$Asset.Plan_Name__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CDF1</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Cases grouped by issuance buckets</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Case_With_Policy_and_Branch_Masters__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Case$CreatedDate</dateColumn>
+        <endDate>2024-07-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-06-01</startDate>
+    </timeFrameFilter>
+</Report>

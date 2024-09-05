@@ -1,0 +1,38 @@
+<template>
+    <lightning-card title="HHS Active Age Details">
+        <div slot="actions"  onkeyup={handleKeyUp} class="slds-p-horizontal_small slds-m-bottom_small slds-clearfix" style="width: 200px;">
+            <div class="slds-float_right slds-grid">
+
+                <lightning-button-icon icon-name="utility:refresh"  alternative-text="Refresh" title="Refresh" style="margin-top:auto;" onclick={handleRefresh}></lightning-button-icon>
+
+            </div>
+        </div>
+        <template if:true={isLoading}>
+            <div class="slds-backdrop" role="presentation"></div>
+            <div class="slds-fade-in-open slds-modal_large">
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </div>
+        </template>
+        
+        <!--<div class="slds-m-around_medium">-->
+            <!-- First Component -->
+            <div class="slds-m-bottom_medium">
+                <!-- <lightning-card title="Healthy Heart Score"></lightning-card> -->
+                <c-abhi_-hhs-active-age-details record-id={recordId} onuploadstart={handleUploadStart} onuploadend={handleUploadEnd}></c-abhi_-hhs-active-age-details>
+                <!-- <lightning-card title="Active Age"></lightning-card> -->
+                <c-abhi_-active-age record-id={recordId} onuploadstart={handleUploadStart} onuploadend={handleUploadEnd}></c-abhi_-active-age>
+            </div>
+
+            <c-abhi_-hhs-active-age-details onhandlechilderror={updateMessage} onhandleerror={updateMessage}></c-abhi_-hhs-active-age-details>
+            <!-- <c-abhi_-hhs-active-age-details onhandleerror={updateMessage}></c-abhi_-hhs-active-age-details> -->
+
+            <template if:true={displayError}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    {errorMessages}
+                </div>
+            </template>
+            
+        <!--</div>-->
+    </lightning-card>
+</template>
