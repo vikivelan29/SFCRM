@@ -23,11 +23,9 @@ public class ABHI_HhsActiveAgeDetails_Controller {
     
     
     public class IntegrationResponseWrapper {
-            
-       @AuraEnabled public String operationStatus;
-       @AuraEnabled public List<serviceMessagesWrapper> serviceMessages;
-       @AuraEnabled public responseMapWrapper responseMap;
-       @AuraEnabled public infoWrapper info;
+        
+       @AuraEnabled public HHSDetailsWrapper HHSDetails;     
+       //@AuraEnabled public infoWrapper info;
        @AuraEnabled public activeAgeWrapper activeAge;
        @AuraEnabled public String StatusCode;	
 	   @AuraEnabled public String Message;
@@ -36,6 +34,12 @@ public class ABHI_HhsActiveAgeDetails_Controller {
             this.Message = responseBody;
         }
         
+    }
+    
+    public class HHSDetailsWrapper {
+       @AuraEnabled public String operationStatus;
+       @AuraEnabled public List<serviceMessagesWrapper> serviceMessages;
+        @AuraEnabled public responseMapWrapper responseMap;
     }
     
     
@@ -78,15 +82,8 @@ public class ABHI_HhsActiveAgeDetails_Controller {
         
     }
     public class attributesWrapper{
-        @AuraEnabled public String SYSTOLIC;
-        @AuraEnabled public String EA_DATE_OF_BIRTH;
-        @AuraEnabled public String BMI;
-        @AuraEnabled public String AGE;
-        @AuraEnabled public String DIASTOLIC;
-        @AuraEnabled public String SOURCENAME;
-        @AuraEnabled public String EA_GENDER;
-        @AuraEnabled public String SMOKING_STATUS;
-        @AuraEnabled public String DIABETES;
+        @AuraEnabled public String attributeCode;
+        @AuraEnabled public String attributeValue;
 
     }
     
