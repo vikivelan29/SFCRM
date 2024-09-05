@@ -1,8 +1,8 @@
 /**
- * @description       : 
+ * @description       :
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 08-08-2024
+ * @group             :
+ * @last modified on  : 07-31-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABSLI_Constants {
@@ -28,7 +28,7 @@ public class ABSLI_Constants {
 	public static final List<String> CHECKLIST_SIGNATURECROPSIGNATUREMISMATCHANDNO_STATUS = new List<String>{'Signature Mismatched', 'No','Signature Not Cropped'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
     public static final String ASSIGNMENT_ISSUE_TYPE_VALIDATION = 'Married Women Property Act';
-    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health FAV';
+    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health'; 
     public static final Map<String,String> FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION = new Map<String,String>
     {'Reinstatement_Amount__c'=>'Decimal',
      'COI_Covid_Quest__c' => 'String',
@@ -43,7 +43,6 @@ public class ABSLI_Constants {
      };
      
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
-    
 
     /* Bitly Link REAL TIME API
      */
@@ -62,7 +61,7 @@ public class ABSLI_Constants {
 
     /** SERVICES NAME BELOW **/
     public static final String MobileUpdateSrvName = 'ContactUpdateApi';
-    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WHATSAPPOPTOUT_OPTINApi';
+    public static final String WHATSAPPOPTOUT_OPTIN_NAME = 'WhatappOptoutUpdateApi';
     public static final String InstaIssuranceAPI = 'InstaIssuance_Shared_API';
     public static final String PanUpdateSrvName = 'PanUpdateApi';
     public static final String BankEsbSrvName = 'BankESBService';
@@ -79,6 +78,7 @@ public class ABSLI_Constants {
 
     public static final String ESB_SOURCE_ID = Label.ABSLI_ESB_SOURCE_VAL;
     public static final String UIN_API_SOURCE = '4170703233';
+    public static final String GEN_FUND_SOURCE = '4170703531';
 
     /* POLICY ACCOUNT STATEMENT INTEGRATION **/
     public static final String POLICYSTATEMENT_SERVICE_NAME = 'PasApi';
@@ -216,23 +216,41 @@ public class ABSLI_Constants {
     public static final String ABSLI_IGMS_OPTION = '1';
     public static final String ABSLI_IGMS_MODE_REGISTER = '1';
     public static final String ABSLI_IGMS_MODE_UPDATE = '2';
+    public static final Integer IGMS_MAX_FILE_SIZE = 10;
     /* LOAN REPAYMENTS INTEGRATION */
     public static final String LOAN_REPAYMENT_EVAL_ERROR = 'ABSLI_LOAN_REPAYMENT_EVAL_ERROR';
     public static final String LOAN_REPAYMENT_SERVICE_NAME = 'LoanRepaymentApi';
-    
-    
+
+
     /* LITMUS API */
     public static final String LITMUS_SOURCE_REQ_BY = 'Customer';
     public static final String LITMUS = 'Litmus';
     public static final String COMPLAINT_NATURE = 'Complaint';
-    
+
     /* REINSTATEMENT API */
     public static final String REINSTATEMENT_EVAL_ERROR = 'ABSLI_REINSTATEMENT_EVAL_ERROR';
     public static final String KARVY_QUEUE_DEVELOPER_NAME = 'ABSLI_Auto_Processing_Queue';//ABSLI_KARVY_TEAM';
     public static final String COVID_19_QUE_STRING = 'COVID 19 Questionnaire';
     public static final String REINSTATEMENT_SERVICE_NAME = 'reinstatementApi';
-    
+
     /* SURVIVAL API */
     public static final String SURVIVALCTST = 'PCPT017';
 
+    /* LSQLeadIntegration */
+    public static final List<String> leadLSQTypeArr = new List<String>{'Branch walk in'};
+    public static final List<String> leadD2CTypeArr = new List<String>{'Contact Centre'};
+    public static final List<String> leadOneABCLeadArr = new List<String>{'Employee Referral'};
+
+    /*Surrender & Withdrawal API */
+    public static final String ABSLI_PANUPDATE_NOT_REQUIRED_ERROR = 'ABSLI_PANUPDATE_NOT_REQUIRED_ERROR';
+    public static final String CHECKLIST_SIGNATURE_MATCHED = 'Signature Matched';
+    public static final String ABSLI_SIGNATURE_NOT_MATCHING_ERROR = 'ABSLI_SIGNATURE_NOT_MATCHING_ERROR';
+    public static final String SURRENDER_POLICY_SRV_NAME = 'policySurrender';//SurrenderUpdateApi';
+    public static final String WITHDRAWAL_POLICY_SRV_NAME = 'fundWithdrawl';//WithdrawalUpdateApi';
+    public static final String ACTION_SURRENDER = 'Surrender';
+    public static final String ACTION_WITHDRAWAL = 'Withdrawal';
+    public static final String TRANSACTION_TYPE_NEFT = 'NEFT';
+    public static final List<String> SURRENDER_WITHDRAWAL_CASE_TYPES = new List<String>{'PPAY001','PPAY008'};
+    public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_NAME = 'User Branch';
+    public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
 }

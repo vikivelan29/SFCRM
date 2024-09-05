@@ -31,7 +31,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 				)
 				.Message__c;
 
-			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'LWC') {
+			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'API') {
 				result.status = ABSLI_Constants.SUCCESS;
 			}
 
@@ -155,7 +155,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 		Set<String> intIds = new Set<String>();
 		for (Case caseRec : caseRecs) {
 			for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-				if (integ.Processing_Class__c == ABSLI_PolicyStatementIntegration.class.getName()) {
+				if (integ.Processing_Class__c == ABSLI_BankAccountUpdateIntegration.class.getName()) {
 					intIds.add(integ.External_Id__c);
 				}
 			}
@@ -199,9 +199,6 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 				);
 
 				if (jsonMap.LSIR_RETURN_CD == '00') {
-                    //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-				    sendoutEmailSMSNotification(caseRecord);
-
                     caseRecord.MoveToNext__c = true;
 				    Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 				}
@@ -213,31 +210,6 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
-	}
-
-    /**
-	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-	 *
-	 * @param caseRecord - Case record from the framework
-	 */
-	public void sendoutEmailSMSNotification(Case caseRecord) {
-		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-			caseRecord.CCC_External_Id__c
-		);
-
-		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_Email_Templates__c
-		);
-		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_SMS_Metadata__c
-		);
-
-		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-			caseRecord,
-			emailTemplateMap.get('Resolved'),
-			smsMetadataMap.get('Resolved'),
-			true
-		);
 	}
 
     /**
