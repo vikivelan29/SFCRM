@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Email_Addresses_Allowed_Long__c</field>
-        <value xsi:type="xsd:string">abclpayment.uat@gmail.com,abcdl.merchant@adityabirlacapital.com,abcdl.service@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">abclpayment.uat@gmail.com,abcdl.merchant@adityabirlacapital.com,abcdl.service@adityabirlacapital.com,care.digital@adityabirlacapital.com</value>
     </values>
 </CustomMetadata>

@@ -25,6 +25,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABSLI_FetchBankDetailsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Asf_NpsIndicatiorController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -94,7 +98,7 @@
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
-        <name>IGMS_Classification_Mapping__mdt</name>
+        <name>ABSLI_Create_Case_Validations__mdt</name>
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
@@ -104,6 +108,11 @@
         <enabled>true</enabled>
         <flow>ABFL_Update_Preferred_Name</flow>
     </flowAccesses>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.ProductCode</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Category_Config__c.IGMS_Code__c</field>
@@ -232,6 +241,76 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Communication_Log__c.Tiny_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Touch_Point_Received_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Advisor_revert_received__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Screening_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Comments_from_web__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Voice_Verification__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Policy_Identification__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Is_PAN_Update_Successful__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Is_Surrender_Withdrawal_Successful__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.TDS_Indicator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Cash_Surrender_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Minimum_Withdrawal_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Withdrawal_Amount_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Litmus_Triggered__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Original_IRDAI_Token_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1151,7 +1230,82 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.Original_IRDAI_Token_Number__c</field>
+        <field>ABSLI_Case_Detail__c.Waiver_percentage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Approved_Waiver_in_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Approver_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.OR_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Policy_Anniversary_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Send_To_UW__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.UW_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.UW_Decision__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.NRI_State__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Loan_Repayment_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Old_Policy_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Address_of_the_Diagnostic_Center__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Name_of_the_Diagnostic_Center__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Contact_Person_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Contact_Person_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Contact_Person_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3708,6 +3862,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>ABSLI_Case_Detail__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Product2</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLI_Underwriting_Team_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABSLI Underwriting Team</label>
+    <queue>ABSLI_Underwriting_Team</queue>
+    <sharedTo>
+        <group>ABSLI_Underwriting_Team_G</group>
+    </sharedTo>
+</ListView>

@@ -21,17 +21,44 @@ public class ABSLI_CreateCaseValidations_Test {
         Asset assetRec = ASF_TestDataFactory.createAsset(accRec.Id, 'Loans');
         assetRec.Policy_No__c = '1234';
         assetRec.Effective_Date__c = Date.today();
-        assetRec.Issue_Date__c = Date.today();
+        assetRec.Issue_Date__c = Date.today().addYears(-2);
         assetRec.Business_Unit__c = ABSLI_Constants.BUSINESS_UNIT;
+        assetRec.Plan_Name__c = 'BSLI Saral Health FAV';
+        assetRec.Type__c = 'ULIP';
+        assetRec.Payment_Term__c = '6';
         update assetRec;
         
+        Asset assetRec1 = ASF_TestDataFactory.createAsset(accRec.Id, 'Loans');
+        assetRec1.Policy_No__c = '5678';
+        assetRec1.Policy_Identification__c = 'New Policy Act';
+        assetRec1.Effective_Date__c = Date.today();
+        assetRec1.Issue_Date__c = Date.today();
+        assetRec1.Business_Unit__c = ABSLI_Constants.BUSINESS_UNIT;
+        assetRec1.Plan_Name__c = 'BSLI Saral Health FAV';
+        assetRec1.Type__c = 'Loans';
+        assetRec1.Payment_Term__c = '6';
+        update assetRec1;
+        
         ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+        caseDetail.Reinstatement_Amount__c = 1000;
+        caseDetail.COI_Covid_Quest__c = '["COVID_QUE","Hello"]';
+        caseDetail.Medicals__c = 'Medical Report';
+        caseDetail.COI_Signed_Date__c = Date.today();
         insert caseDetail;
+        
+        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
+        caseRecList[0].AssetId = assetRec.Id;
+        caseRecList[0].ABSLI_Case_Detail__c = caseDetail.Id;
+        caseRecList[0].Technical_Source__c = 'API';
+        caseRecList[0].CCC_External_Id__c = 'PREI001';
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
+        update caseRecList[0];
+        ASF_TriggerSkipperUtility.resetTriggerRun('Case');
     }
     
     @isTest
     static void testGenFundApiValidationCalloutSuccess() {
-        Asset asset = [SELECT Id,Policy_No__c,Effective_Date__c FROM Asset LIMIT 1];
+        Asset asset = [SELECT Id,Policy_No__c,Effective_Date__c FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         ABSLI_Case_Detail__c caseDetail = [SELECT Id FROM ABSLI_Case_Detail__c LIMIT 1];
         DateTime effectiveDateTime = DateTime.newInstance(asset.Effective_Date__c.year(), asset.Effective_Date__c.month(),asset.Effective_Date__c.day());
         Map<String, Object> caseRecordMap = new Map<String, Object>{
@@ -45,26 +72,12 @@ public class ABSLI_CreateCaseValidations_Test {
         String caseRecord = JSON.serialize(caseRecordMap);
         String request = JSON.serialize(requestMap);
         ABSLI_CreateCaseValidationsController.GenFundResponseWrapper responseWrapper = new ABSLI_CreateCaseValidationsController.GenFundResponseWrapper();
-        responseWrapper.MORE_MESSAGES_IND = 'DummyValue';
-        responseWrapper.MINIMUM_WITHDRAWAL_AMT = '100.00';
-        responseWrapper.ProcessCode = '00';
-        responseWrapper.POLICY_BILLED_TO_DATE = '2024-11-29';
-        responseWrapper.MINIMUM_LOAN_AMT = '500.00';
-        responseWrapper.CSV_PAYABLE_HOLD_AMOUNT = '200.00';
-        responseWrapper.POLICY_BILL_MODE = 'Monthly';
-        responseWrapper.FUND_DETAILS = 'DummyDetails';
-        responseWrapper.WITHDRAWL_AMOUNT_AVAILABLE = '300.00';
-        responseWrapper.navdate = '2022-01-01';
-        responseWrapper.MESSAGES_T = 'DummyMessageT';
-        responseWrapper.LOAN_AMOUNT_AVAILED = '400.00';
-        responseWrapper.MESSAGES = 'DummyMessage';
-        responseWrapper.MESSAGES_T_3 = 'DummyMessageT3';
-        responseWrapper.MESSAGES_T_2 = 'DummyMessageT2';
-        responseWrapper.ProcessMessage = 'Success';
-        responseWrapper.MESSAGES_T_1 = 'DummyMessageT1';
-        responseWrapper.CASH_SURRENDER_VALUE = '500.00';
-        responseWrapper.MAX_LOAD_AMOUNT_AVAILABLE = '1000.00';
-        responseWrapper.POLICY_SA = '200000.00';
+        responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT = '100.00';
+        responseWrapper.BFID_RESPONSE.ProcessCode = '00';
+        responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT = '500.00';
+        responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE = '300.00';
+        responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE = '500.00';
+        responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE = '1000.00';
         String jsonResponse = JSON.serialize(responseWrapper);
         Map<String, String> successResponseMap = new Map<String, String>();
         successResponseMap.put(request,jsonResponse);
@@ -79,7 +92,7 @@ public class ABSLI_CreateCaseValidations_Test {
     
     @isTest
     static void testNomineeChangeCaseCreationValidationSuccess() {
-        Asset asset = [SELECT Id FROM Asset LIMIT 1];
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         
         Map<String, Object> caseRecordMap = new Map<String, Object>{
             'AssetId' => asset.Id
@@ -95,7 +108,7 @@ public class ABSLI_CreateCaseValidations_Test {
     
     @isTest
     static void testNomineeChangeCaseCreationValidationFailure() {
-        Asset asset = [SELECT Id FROM Asset LIMIT 1];
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         
         Map<String, Object> caseRecordMap = new Map<String, Object>{
             'AssetId' => 1
@@ -115,7 +128,7 @@ public class ABSLI_CreateCaseValidations_Test {
     
     @isTest
     static void testDuplicatePolicyPrintingValidationSuccess() {
-        Asset asset = [SELECT Id FROM Asset LIMIT 1];
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         
         Map<String, Object> caseRecordMap = new Map<String, Object>{
             'AssetId' => asset.Id
@@ -131,7 +144,7 @@ public class ABSLI_CreateCaseValidations_Test {
     
     @isTest
     static void testDuplicatePolicyPrintingValidationFailure() {
-        Asset asset = [SELECT Id FROM Asset LIMIT 1];
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         
         Map<String, Object> caseRecordMap = new Map<String, Object>{
             'AssetId' => 1
@@ -152,7 +165,7 @@ public class ABSLI_CreateCaseValidations_Test {
     static void testPerformUINapiCalloutSuccess() {
        // Test.setMock(HttpCalloutMock.class, new ABSLI_CreateCaseValidations_Test.UINApiMock());
         
-        Asset asset = [SELECT Id,Policy_No__c,Effective_Date__c FROM Asset LIMIT 1];
+        Asset asset = [SELECT Id,Policy_No__c,Effective_Date__c FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         
         Map<String, Object> caseRecordMap = new Map<String, Object>{
             'AssetId' => asset.Id
@@ -182,7 +195,7 @@ public class ABSLI_CreateCaseValidations_Test {
     static void testPerformUINapiCalloutFailure() {
        // Test.setMock(HttpCalloutMock.class, new ABSLI_CreateCaseValidations_Test.UINApiMock());
         
-        Asset asset = [SELECT Id,Policy_No__c,Effective_Date__c FROM Asset LIMIT 1];
+        Asset asset = [SELECT Id,Policy_No__c,Effective_Date__c FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         
         Map<String, Object> caseRecordMap = new Map<String, Object>{
             'AssetId' => 1
@@ -210,6 +223,190 @@ public class ABSLI_CreateCaseValidations_Test {
         }
         
         Test.stopTest();
+    }
+    
+    @isTest
+    static void testPenalInterestPayoutSaralHealthValidationSuccess(){
+        Asset asset = [SELECT Id,Plan_Name__c FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => asset.Id
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        String result = ABSLI_CreateCaseValidationsController.penalInterestPayoutSaralHealthValidation(caseRecord);
+        Test.stopTest();
+        
+        System.assertEquals('Success', result, 'The Penal Interest Payout Saral Health validation should return Success.');
+    }
+    
+    @isTest
+    static void testPenalInterestPayoutSaralHealthValidationFailure() {
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => 1
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        try{
+        	String result = ABSLI_CreateCaseValidationsController.penalInterestPayoutSaralHealthValidation(caseRecord);
+        }catch(AuraHandledException e){
+            System.assertEquals('Script-thrown exception', e.getMessage(), 'Unexpected exception message');
+        }
+        Test.stopTest();
+        
+    }
+    
+    @isTest
+    static void testChangeInInvestorProfileValidationSuccess(){
+        Asset asset = [SELECT Id,Type__c FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => asset.Id
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        String result = ABSLI_CreateCaseValidationsController.changeInInvestorProfileValidation(caseRecord);
+        Test.stopTest();
+        
+        System.assertEquals('Success', result, 'The change In Investor Profile validation should return Success.');
+    }
+    
+    @isTest
+    static void testChangeInInvestorProfileValidationFailure() {
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => 1
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        try{
+        	String result = ABSLI_CreateCaseValidationsController.changeInInvestorProfileValidation(caseRecord);
+        }catch(AuraHandledException e){
+            System.assertEquals('Script-thrown exception', e.getMessage(), 'Unexpected exception message');
+        }
+        Test.stopTest();
+        
+    }
+    
+    @isTest
+    static void testReinstatementValidationSuccess(){
+        Asset asset = [SELECT Id,Type__c,Payment_Term__c FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => asset.Id
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        String result = ABSLI_CreateCaseValidationsController.reinstatementValidation(caseRecord);
+        Test.stopTest();
+        
+        System.assertEquals('Success', result, 'The reinstatement validation should return Success.');
+    }
+    
+    @isTest
+    static void testReinstatementValidationFailure() {
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => 1
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        try{
+        	String result = ABSLI_CreateCaseValidationsController.reinstatementValidation(caseRecord);
+        }catch(AuraHandledException e){
+            System.assertEquals('Script-thrown exception', e.getMessage(), 'Unexpected exception message');
+        }
+        Test.stopTest();
+        
+    }
+    
+    @isTest
+    static void testInterestWaiverForHOValidationSuccess(){
+        Asset asset = [SELECT Id,Type__c FROM Asset WHERE Policy_No__c = '5678' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => asset.Id
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        String result = ABSLI_CreateCaseValidationsController.interestWaiverForHOValidation(caseRecord);
+        Test.stopTest();
+        
+        System.assertEquals('Success', result, 'The interest Waiver For HO validation should return Success.');
+    }
+    
+    @isTest
+    static void testInterestWaiverForHOValidationFailure() {
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '5678' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => 1
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        try{
+        	String result = ABSLI_CreateCaseValidationsController.interestWaiverForHOValidation(caseRecord);
+        }catch(AuraHandledException e){
+            System.assertEquals('Script-thrown exception', e.getMessage(), 'Unexpected exception message');
+        }
+        Test.stopTest();
+        
+    }
+    
+    @isTest
+    static void testAssignmentIssueTypeValidationSuccess(){
+        Asset asset = [SELECT Id,Policy_Identification__c FROM Asset WHERE Policy_No__c = '5678' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => asset.Id
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        String result = ABSLI_CreateCaseValidationsController.assignmentIssueTypeValidation(caseRecord);
+        Test.stopTest();
+        
+        System.assertEquals('Success', result, 'The Assignment Issue Type validation should return Success.');
+    }
+    
+    @isTest
+    static void testAssignmentIssueTypeValidationFailure() {
+        Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '5678' LIMIT 1];
+        
+        Map<String, Object> caseRecordMap = new Map<String, Object>{
+            'AssetId' => 1
+        };
+        String caseRecord = JSON.serialize(caseRecordMap);
+        
+        Test.startTest();
+        try{
+        	String result = ABSLI_CreateCaseValidationsController.assignmentIssueTypeValidation(caseRecord);
+        }catch(AuraHandledException e){
+            System.assertEquals('Script-thrown exception', e.getMessage(), 'Unexpected exception message');
+        }
+        Test.stopTest();
+        
+    }
+    
+    @IsTest
+    static void testRedirectToCustomerPortalValidation(){
+        Case c = [SELECT Id From Case WHERE CCC_External_Id__c = 'PREI001' LIMIT 1];
+        List<ABSLI_CreateCaseValidationsController.RedirectToPortalResponse> responseList = ABSLI_CreateCaseValidationsController.redirectToCustomerPortalValidation(c.Id);
+        String portalURL = ABSLI_CreateCaseValidationsController.generateCustomerPortalURL(c.Id);
+        String staticUrl = Label.ABSLI_CustomerPortalUrl;
+        System.assertEquals(staticUrl,'https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/');
     }
 
 
