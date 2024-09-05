@@ -44,6 +44,8 @@ public class ABHI_DeviceDetailsController_Test {
     static void testgetDeviceDetails() {
         Account acc = [SELECT id, Client_Code__c from Account where Name = 'testAcc' LIMIT 1];
         User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
+        String mockRequest = '{"MemberID":' + acc.Client_Code__c + 
+            ', "OS": "android", "PolicyStartDate": "2000-12-09", WellnessID: ""}';
         // Set mock callout class
         Test.setMock(HttpCalloutMock.class, new ABHI_DeviceDetailsMockHttpResponse());
         System.runAs(testUser){
@@ -58,6 +60,8 @@ public class ABHI_DeviceDetailsController_Test {
     static void testgetFailureDeviceDetails() {
         Account acc = [SELECT id, Client_Code__c from Account where Name = 'testAcc' LIMIT 1];
         User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
+        String mockRequest = '{"MemberID":' + acc.Client_Code__c + 
+            ', "OS": "android", "PolicyStartDate": "", WellnessID: ""}';
         // Set mock callout class
         Test.setMock(HttpCalloutMock.class, new ABHI_DeviceDetailsFailureResponseGenerator());
         System.runAs(testUser){
@@ -99,7 +103,7 @@ public class ABHI_DeviceDetailsController_Test {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
-			String s = '{\"Content\":\"AFfSJT4iV7UwdIQNseRlld21/nfM5HBD7kBnemXTIql8LCdgZzwwnNgxdYxVgXtn8bq4bQvZZVN9ZxGZxvLw4A==\",\"StatusCode\":\"1001\",\"Message\":\"DeviceDetailsFailure\"}';
+      String s = '{\"Content\":\"AFfSJT4iV7UwdIQNseRlld21/nfM5HBD7kBnemXTIql8LCdgZzwwnNgxdYxVgXtn8bq4bQvZZVN9ZxGZxvLw4A==\",\"StatusCode\":\"1001\",\"Message\":\"DeviceDetailsFailure\"}';
             res.setBody(s);
             res.setStatusCode(400);
             return res;
