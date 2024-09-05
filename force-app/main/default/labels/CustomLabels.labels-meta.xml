@@ -9,6 +9,13 @@
         <value>5</value>
     </labels>
     <labels>
+        <fullName>ABSLI_Update_CCC_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Update CCC ID</shortDescription>
+        <value>EC0001,EC0002,EC0003</value>
+    </labels>
+    <labels>
         <fullName>ASF_Recat_Approval_Required_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -192,13 +199,6 @@
         <value>Real Time Integration has failed. Please check with admin.</value>
     </labels>
     <labels>
-        <fullName>ABFL_UTR_AUTO_CLOSE_ELIGIBLE_CCC</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL UTR AUTO CLOSE ELIGIBLE CCC</shortDescription>
-        <value>CFGREQDISBLOC01,CMGREQDISBLOC01</value>
-    </labels>
-    <labels>
         <fullName>ABFL_UTR_Auto_Close_Case_User</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -309,6 +309,34 @@
         <protected>false</protected>
         <shortDescription>ASF_CaseEndStatuses</shortDescription>
         <value>Closed,Resolved,Rejected</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
+        <value>1214</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Documents_Of</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
+        <value>1202</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Masking_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
+        <value>1215</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
+        <value>1205</value>
     </labels>
     <labels>
         <fullName>ASF_Case_In_Queue_Long</fullName>
@@ -833,7 +861,7 @@
         <fullName>ABSLI_Policy_Search_Columns</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
+        <shortDescription>ABSLI Policy Search Column</shortDescription>
         <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
     </labels>
     <labels>
@@ -848,14 +876,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_key</shortDescription>
-        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
     </labels>
     <labels>
         <fullName>ABSLI_Ivkey</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8549708501325472</value>
+        <value>8149208531345452</value>
     </labels>
     <labels>
         <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
@@ -901,90 +929,6 @@
         <value>ABSLIG_Acknowledgement_Email_1718112986557</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Policy_Search_Columns</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
-        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_STATICURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicing.adityabirlacapital.com/customer-login/</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_key</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_key</shortDescription>
-        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Ivkey</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8149208531345452</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
-        <value>4170703839</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Policy_Search_Columns</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
-        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Policy_Search_Columns</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Policy Search Columns</shortDescription>
-        <value>Policy #:LAN__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_STATICURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicing.adityabirlacapital.com/customer-login/</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_key</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_key</shortDescription>
-        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Ivkey</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8149208531345452</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI BU</shortDescription>
-        <value>ABSLI</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
-        <value>EBOT has generated an email. Kindly have a look!</value>
-    </labels>
-    <labels>
         <fullName>ABCL_BU_for_E2C_Rules</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1006,31 +950,18 @@
         <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Min_Loan_Amount</fullName>
+        <fullName>ABSLIG_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
-        <value>5000</value>
-    </labels>
-        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
-        <value>0 30 23 1/1 * ? *</value>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
+        <fullName>ABSLIG_E2C</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
-        <value>60</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
-        <value>0 30 23 1/1 * ? *</value>
+        <shortDescription>ABSLIG E2C</shortDescription>
+        <value>absli.uatsfbsliggrouphelpline@adityabirlacapital.com:ABSLIG_Group_Helpline_Acknowledgement_Email_1721731333006,absli.uatsfbsliggroupuw@adityabirlacapital.com:ABSLIG_Group_UW_Acknowledgement_Email_1721731484873</value>
     </labels>
     <labels>
         <fullName>Business_Unit_Check_For_SLA_Override</fullName>
@@ -1040,24 +971,158 @@
         <value>ABSLIG</value>
     </labels>
     <labels>
-        <fullName>ASF_UIActionDelay</fullName>
+        <fullName>ABSLI_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
-        <value>2000</value>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
     </labels>
     <labels>
-        <fullName>ABSLI_CustomerPortalUrl</fullName>
+        <fullName>ABHI_Active_Days</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_CustomerPortalUrl</shortDescription>
-        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/</value>
+        <shortDescription>ABHI Active Days</shortDescription>
+        <value>Active Days</value>
     </labels>
     <labels>
-        <fullName>ABSLI_LITMUS_PROJECT_ID</fullName>
+        <fullName>ABHI_Devices</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_LITMUS_PROJECT_ID</shortDescription>
-        <value>cnwf_touchpoint</value>
+        <shortDescription>Abhi_Device</shortDescription>
+        <value>Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Fitness_Appointment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Fitness_Appointment</shortDescription>
+        <value>Fitness Appointment</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Fitness_Level</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Fitness_Level</shortDescription>
+        <value>Fitness Level</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_KEY</fullName>
+        <categories>ux8634W2FczDqtFDscbDdFxroSbukNmm</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
+        <value>8080808080808080</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_VALUE</fullName>
+        <categories>uQB5hR_562PPG5Nn</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
+        <value>8080808080808080</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_URL</fullName>
+        <categories>https://servace.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_URL</shortDescription>
+        <value>https://ikshauat.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Communication_Link</fullName>
+        <categories>http://10.155.1.214/DTS/ViewPolicyReport.aspx</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Communication_Link</shortDescription>
+        <value>http://10.155.1.214/DTS/ViewPolicyReport.aspx</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_HHS_Active_Age</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_HHS_Active_Age</shortDescription>
+        <value>HHS &amp; Active Age</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_App_Reg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPP</shortDescription>
+        <value>ABHI Health Return App Reg</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OtherDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OtherDevice</shortDescription>
+        <value>Other Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_RecommendedDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_RecommendedDevice</shortDescription>
+        <value>Recommended Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_DeviceDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_DeviceDetails</shortDescription>
+        <value>Device Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_App_Reg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPP</shortDescription>
+        <value>Health Return App Reg</value>
+    </labels>
+    <labels>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG;Payments</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OtherDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OtherDevice</shortDescription>
+        <value>Other Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_RecommendedDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_RecommendedDevice</shortDescription>
+        <value>Recommended Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
     </labels>
 </CustomLabels>

@@ -52,6 +52,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                 if(result && result.columnData){
                     this.impctLogic = result.impactLogic;
                     this.columns = result.columnData;
+                    this.additionalcolumns=result.additionalColumnData;
                     this.childColumns = result.childColumnData;
                     this.searchResult = result.assetDetailRecords;
                     this.totalNoOfRecordsInDatatable = result.assetDetailRecords.length;
@@ -278,7 +279,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
                 let index = this.selectedRows.indexOf(row)
                 this.selectedRows.splice(index,1);
             }
-    
+            
             if(this.selectedRows.length){
                 this.disableAdd = false;
             } else {
