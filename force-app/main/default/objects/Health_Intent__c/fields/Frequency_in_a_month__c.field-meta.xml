@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Frequency_in_a_month__c</fullName>
+    <description>ABHI</description>
+    <externalId>false</externalId>
+    <label>Frequency in a month</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1-2</fullName>
+                <default>false</default>
+                <label>1-2</label>
+            </value>
+            <value>
+                <fullName>3-5</fullName>
+                <default>false</default>
+                <label>3-5</label>
+            </value>
+            <value>
+                <fullName>6-9</fullName>
+                <default>false</default>
+                <label>6-9</label>
+            </value>
+            <value>
+                <fullName>10-13</fullName>
+                <default>false</default>
+                <label>10-13</label>
+            </value>
+            <value>
+                <fullName>&gt;13</fullName>
+                <default>false</default>
+                <label>&gt;13</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,7 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
 import GetFALevelDetails from '@salesforce/apex/ABHI_FALevelDetails_Controller.GetFALevelDetails';
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+//import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { loadStyle } from 'lightning/platformResourceLoader';
+//import styles from '@salesforce/resourceUrl/ASF_RemoveDateFormatStyle';
 
 export default class Abhil_FALevelDetails extends LightningElement {
 
@@ -18,15 +20,20 @@ export default class Abhil_FALevelDetails extends LightningElement {
     @track isLoading = false;
     @track errorMessages = '';
     @track displayError = false;
+    @track errorMessageSearch ='';
+    @track ApiFailure = '';
+    
+    
 
 
     get isSearchDisabled() {
         if (!this.startDate || !this.endDate) {
             return true; // Disable if either date is empty
-        }        
-        //const start = new Date(this.startDate);
-        //const end = new Date(this.endDate);
-        //return end <= start; 
+        }
+        //return new Date(this.startDate) > new Date(this.endDate); // Disable if start date is greater than end date
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+        return end < start; 
   }
 
     showRecords = false;
@@ -45,49 +52,60 @@ export default class Abhil_FALevelDetails extends LightningElement {
         this.endDate = event.target.value;
         this.validateDates();
     }
+    handleRefresh(){
+        this.handleSearchClick();
+    }
+
 
     handleSearchClick() {
         
-        // const EventDates = {
-        //     startDate: this.startDate,
-        //     endDate: this.endDate
-        // };
 
         if (this.isSearchDisabled) {
             return; // Prevent search if invalid
         }
         this.isLoading = true;
+        this.displayError = false; 
+        this.errorMessages = '';
+    
 
         GetFALevelDetails({ customerId: this.recordId, fromDate: this.startDate, toDate: this.endDate })
             .then(result => {
                 this.isLoading = false;
-               this.displayTable=false;
+                this.displayTable=false;
                 this.result = result;
-console.log('result' ,result);
+            console.log('result' ,result);
             let StatusCode = result.StatusCode;
             console.log('StatusCode', result.StatusCode);
+            this.ApiFailure = result.Message;
 
             if(StatusCode == 1000) {
                 this.displayTable=true;
                 this.showRecords=true;
-                
                 let data = [];
                 data.push(result);
-                //this.integrationResp = result;
                 this.data= data;
-                
-                //this.showNotification('Success', result.Message, 'success');
-                console.log('this.date', JSON.stringify(this.data));
+                this.errorMessages = '';
+                this.displayError = false;
+            }else if (this.statusCode === 1001) {
+                // Handle 1001 Status Code
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = result.Message;
+                this.displayError = true;
+            }else if (this.statusCode === 204) {
+                // Handle 204 No Content
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = 'No content available';
+                this.displayError = true;
             }
             else {
                 this.showDataTable = false;
-                this.errorMessage = this.integrationResp.Message;
+                this.errorMessages = result.Message;
                 this.displayError = true;
-                //this.apiErrorMessage = this.integrationResp.Message;
-                //this.showNotification('Error', result.Message, 'error');
+                console.log('errorMessages>>' ,this.result.Message);
+               
             }
-                console.log('respBody>>',JSON.parse(respBody));
-                //console.log(JSON.parse(JSON.stringify(this.result)));
                 
             })
             .catch(error => {
@@ -97,10 +115,18 @@ console.log('result' ,result);
                 this.errorMessages = (error.body.message);
                 this.errorMessages = this.result.StatusCode;
                 console.error('Error object:', error);
+                //let errorDisplay = 'Error: ' + error.message;
+                //this.errorMessages = (error.body.message);
                 this.displayError = true;
-               console.log('Error----> ' + JSON.stringify(error));
-               
-            });
+                if (error.body!= null) {
+                    this.errorMessages = error.body.message;
+                } else if(this.ApiFailure){
+                    this.errorMessages = this.ApiFailure;
+                }
+                else{
+                    this.errorMessages = 'An unknown error occured, please contact your system admin'
+                }
+            });         
 
 }
 
@@ -122,13 +148,8 @@ fetchColumns() {
                 })),
             ];
             console.log('coloumns', JSON.stringify(this.columns));
-            //this.GetFALevelDetails();
         })
     .catch(error => {
-
-            
-            this.showNotification('Error','Error fetching data.','Error');
-            //this.showNotification('Error', 'Error fetching columns: ' + (error.body.message || error.message), 'error');
             console.log('Error fetching columns:', JSON.stringify(error));
 
         });
@@ -136,13 +157,42 @@ fetchColumns() {
 }
 
 // Method to show notifications
-showNotification(title, message, variant) {
-    const event = new ShowToastEvent({
-        title: title,
-        message: message,
-        variant: variant,
+// showNotification(title, message, variant) {
+//     const event = new ShowToastEvent({
+//         title: title,
+//         message: message,
+//         variant: variant,
+//     });
+//     this.dispatchEvent(event);
+// }
+validateDates() {
+    if (this.startDate && this.endDate) {
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+
+        if (end < start) {
+            this.displayErrorSearch = true;
+            this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
+        } else {
+            this.displayErrorSearch = false;
+        }
+    } else {
+        this.displayErrorSearch = false; // Hide error if one of the dates is missing
+    }
+}
+/*renderedCallback(){
+    Promise.all([
+        loadStyle(this, styles) //specified filename
+    ]).then(() => {
+        console.log('Files loaded.');
+    }).catch(error => {
+       console.log("Error " + error.body.message);
     });
-    this.dispatchEvent(event);
+}*/
+
+    get isEndDateDisabled() {
+        return !this.startDate;
+    }
 }
 
 // get isEndDateDisabled() {
@@ -166,3 +216,4 @@ validateDates() {
 }
 
 }
+
