@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>ABHI FAHistoryDetails</label>
+    <label>ABHI DeviceDetails</label>
     <protected>false</protected>
     <values>
         <field>Description__c</field>
@@ -8,11 +8,11 @@
     </values>
     <values>
         <field>EnableMockResponse__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>EndPoint__c</field>
-        <value xsi:type="xsd:string">callout: AWS_API_Gateway/crm-abhi/fahistorydetails</value>
+        <value xsi:type="xsd:string">callout: AWS_API_Gateway/crm-abhi/devicedetails</value>
     </values>
     <values>
         <field>Exception_Log__c</field>
@@ -28,11 +28,11 @@
     </values>
     <values>
         <field>Int_IV__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">lKOvnQbveCQ09UcGGQREiA==</value>
     </values>
     <values>
         <field>Int_Key__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">QVyg0S3DZ3GuYsxECIe9iEo+NGsQL4hhB1T8ugPkz+A=</value>
     </values>
     <values>
         <field>Merchant_Id__c</field>
@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Mock_Response_Resource__c</field>
-        <value xsi:type="xsd:string">ABHI_FAHistoryDetails_SuccessMockResponse</value>
+        <value xsi:type="xsd:string">ABHI_DeviceDetails_SuccessMockResponse</value>
     </values>
     <values>
         <field>Mock_Status_Code__c</field>
@@ -48,7 +48,7 @@
     </values>
     <values>
         <field>Protocol__c</field>
-        <value xsi:type="xsd:string">GET</value>
+        <value xsi:type="xsd:string">POST</value>
     </values>
     <values>
         <field>StoreAsAttachment__c</field>
