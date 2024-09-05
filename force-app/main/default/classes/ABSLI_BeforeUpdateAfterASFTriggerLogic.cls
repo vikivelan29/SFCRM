@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic After ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 08-05-2024
+ * @last modified on  : 08-29-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
@@ -134,4 +134,34 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
             }
         }
     }
+    
+    public static void validateContactEmailUpdate(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
+        List<String> emailContactSubTypes = new List<String>{'PNFT008','PNFT007'};
+        Set<String> caseDetailIds = new Set<String>();
+        for (Case caseRec : newMap.values()) {
+            if (caseRec.ABSLI_Case_Detail__c != null) {
+                caseDetailIds.add(caseRec.ABSLI_Case_Detail__c);
+            }
+        }
+        //Case Detail 
+		Map<Id, ABSLI_Case_Detail__c> caseDetailMap = new Map<Id, ABSLI_Case_Detail__c>();
+        for (ABSLI_Case_Detail__c detail : [SELECT Id,Source_Request_submitted_by__c  FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
+            caseDetailMap.put(detail.Id, detail);
+        }
+        if(!absliCases.isEmpty()){
+             for (Case caseRec : newMap.values()) {
+                 //Validation for Contact Update and Email Id Update
+                 ABSLI_Case_Detail__c caseDetail = caseDetailMap.get(caseRec.ABSLI_Case_Detail__c);
+                 System.debug(caseDetail.Source_Request_submitted_by__c);
+                 System.debug(caseRec.Stage__c);
+				 if (caseDetail != null  && emailContactSubTypes.contains(caseRec.CCC_External_Id__c)) {
+                       if (caseDetail.Source_Request_submitted_by__c != 'Customer' && caseRec.Stage__c != 'Unresolved') {
+                            Case caseError = newMap.get(caseRec.Id);
+                           	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Kindly Unresolve the case.');
+                            newMap.put(caseRec.Id,caseError);
+                       }   
+                 }
+             }
+        }
+    }    
 }
