@@ -71,7 +71,7 @@ export default class Abhi_ActiveDayEventsDetail extends LightningElement {
             this.showDataTable = false;
             this.errorDisplay = 'Error: ' + error.body;
             this.showDataTable = false;
-            this.errorMessages =   error.body.message;
+            this.errorMessage =   error.body.message;
             this.displayError = true;
            console.log('Error----> ' + JSON.stringify(error));
 

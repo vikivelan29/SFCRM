@@ -14,7 +14,7 @@
                     <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
                 </div>
             </template>
-            <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+            <div style="position: absolute; top: 0px; right: 10px; z-index: 10;">
                 <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" title="Refresh" size="medium" onclick={handleRefresh}></lightning-button-icon>
             </div>
             <lightning-layout class="slds-m-bottom_large slds-grid slds-wrap">
@@ -32,6 +32,12 @@
                         <lightning-button variant="brand" label="Search" onclick={handleSearch} disabled={isSearchDisabled} ></lightning-button>
                 </lightning-layout-item>                
             </lightning-layout>
+            <template if:true={displayErrorSearch}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{errorMessageSearch}</span> 
+                </div>
+            </template>    
         </div>
 
             <template if:true={showDataTable}>
@@ -68,7 +74,7 @@
     <template if:true={displayError}>
         <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
             <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
-            {errorMessages}
+            <span style="font-size: 0.90rem;">{errorMessage}</span> 
         </div>
     </template>       
 <!--
