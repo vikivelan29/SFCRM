@@ -8,13 +8,6 @@
                     <valueList>
                         <valueListItems>
                             <value>Account.Send_Communication</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>ABHI Partner Base Profile</rightValue>
-                                </criteria>
-                            </visibilityRule>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
