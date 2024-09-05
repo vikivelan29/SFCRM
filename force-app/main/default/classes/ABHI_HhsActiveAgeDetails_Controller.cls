@@ -5,10 +5,12 @@ public class ABHI_HhsActiveAgeDetails_Controller {
     public static IntegrationResponseWrapper GetHhsActiveAge(string customerId) {
     try{
         String integrationName = 'ABHI_HHS_ActiveAge_Details';
+        String activAge = '1187714';
         ABCL_IntegrationCallout.accountId = customerId;
         Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
         Map<String, String> urlParams = new Map<String, String>();
         urlParams.put('customerId', acc.Client_Code__c);
+        urlParams.put('activAge',activAge);
         system.debug('customerId' +acc.Client_Code__c);
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
         system.debug('IntegrationResp Code' +integrationResp.statuscode);
@@ -23,11 +25,9 @@ public class ABHI_HhsActiveAgeDetails_Controller {
     
     
     public class IntegrationResponseWrapper {
-            
-       @AuraEnabled public String operationStatus;
-       @AuraEnabled public List<serviceMessagesWrapper> serviceMessages;
-       @AuraEnabled public responseMapWrapper responseMap;
-       @AuraEnabled public infoWrapper info;
+        
+       @AuraEnabled public HHSDetailsWrapper HHSDetails;     
+       //@AuraEnabled public infoWrapper info;
        @AuraEnabled public activeAgeWrapper activeAge;
        @AuraEnabled public String StatusCode;	
 	   @AuraEnabled public String Message;
@@ -36,6 +36,12 @@ public class ABHI_HhsActiveAgeDetails_Controller {
             this.Message = responseBody;
         }
         
+    }
+    
+    public class HHSDetailsWrapper {
+       @AuraEnabled public String operationStatus;
+       @AuraEnabled public List<serviceMessagesWrapper> serviceMessages;
+        @AuraEnabled public responseMapWrapper responseMap;
     }
     
     
@@ -78,15 +84,8 @@ public class ABHI_HhsActiveAgeDetails_Controller {
         
     }
     public class attributesWrapper{
-        @AuraEnabled public String SYSTOLIC;
-        @AuraEnabled public String EA_DATE_OF_BIRTH;
-        @AuraEnabled public String BMI;
-        @AuraEnabled public String AGE;
-        @AuraEnabled public String DIASTOLIC;
-        @AuraEnabled public String SOURCENAME;
-        @AuraEnabled public String EA_GENDER;
-        @AuraEnabled public String SMOKING_STATUS;
-        @AuraEnabled public String DIABETES;
+        @AuraEnabled public String attributeCode;
+        @AuraEnabled public String attributeValue;
 
     }
     

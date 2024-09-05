@@ -31,7 +31,7 @@ public with sharing class ABHI_FAHistoryDetailsController {
             }
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
             
-            if(integrationResponse.StatusCode == 1000 || integrationResponse.StatusCode == 1001) {
+            if(integrationResponse.StatusCode == 200) {
                 IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResponse.responseBody, IntegrationResponseWrapper.class);
                 return deserializedIntResponse;
             }
