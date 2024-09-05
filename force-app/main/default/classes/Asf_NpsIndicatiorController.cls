@@ -23,14 +23,17 @@ public with sharing class Asf_NpsIndicatiorController {
         system.debug('countsasc '+counts);
         return counts;
     }
-    @AuraEnabled
-    public static Map<String,String> getNpsScore(string customerId) {
+    @AuraEnabled(cacheable=true)
+    public static Map<String,Decimal> getNpsScore(string customerId) {
 
-        Map<String,String> mapOfBusinessUnitToNpsScore = new Map<String,String>();
+        Map<String,Decimal> mapOfBusinessUnitToNpsScore = new Map<String,Decimal>();
         List<Survey_Response__c> surveyResp = [SELECT ID,Primary_Question_NPS__c,Business_Unit__c FROM Survey_Response__c WHERE Client_Code__c =: customerId ORDER BY CreatedDate DESC LIMIT 1];
 
         if(!surveyResp.isEmpty() && surveyResp[0].Primary_Question_NPS__c !=null){
-            mapOfBusinessUnitToNpsScore.put(surveyResp[0]?.Business_Unit__c, String.valueOf(surveyResp[0].Primary_Question_NPS__c));
+            mapOfBusinessUnitToNpsScore.put(surveyResp[0]?.Business_Unit__c, surveyResp[0].Primary_Question_NPS__c);
+        }
+        else {
+            mapOfBusinessUnitToNpsScore.put(surveyResp[0]?.Business_Unit__c, 0);
         }
         return mapOfBusinessUnitToNpsScore; 
     }
