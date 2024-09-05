@@ -16,6 +16,7 @@ public class ABHI_CaseDetailHelper_Test {
         List<ASF_Case_Category_Config__c> caseCatConfig = [Select Id, Sub_Type__c FROM ASF_Case_Category_Config__c];
         caseCatConfig[0].Sub_Type__c = 'Test_SubType';
         caseCatConfig[0].Type__c = 'TestType';
+        caseCatConfig[0].Business_Unit__c = 'ABHI';
         update caseCatConfig;
         
         // Create test ABHI_Case_Detail__c records
