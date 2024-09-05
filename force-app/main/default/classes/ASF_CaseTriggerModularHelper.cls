@@ -62,6 +62,28 @@ public without sharing class ASF_CaseTriggerModularHelper {
                }
         }
     }
+
+ /**
+    * @Function - setManualSkipperFlags
+    * @Description - method to be invoked by the BU specific classes if skipper flag needs to be set
+    * @param - recIdToSkipperFlag - Key as CaseId or caseDetail Id and value as skipperFlags
+    * @param - caseDetRecName - pass value to this variable only if you are calling the method from before insert where 
+    * 							recIdToSkipperFlag key is the caseDetail Id
+    * This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
+    */
+    public static void setManualSkipperFlags(Map<Id, Set<String>> recIdToSkipperFlag, String caseDetRecName) {
+        relObjName = caseDetRecName != null ? caseDetRecName : '';
+        for(Id recId : recIdToSkipperFlag.keySet()){
+            if(!skipperFlagMap.containsKey(recId)){
+                skipperFlagMap.put(recId, recIdToSkipperFlag.get(recId));
+            }else{
+                Set<String> currentSkippers = skipperFlagMap.get(recId);
+                currentSkippers.addAll(recIdToSkipperFlag.get(recId));
+                skipperFlagMap.put(recId, currentSkippers);
+            }
+        }    
+    }
+
     /****************************************************************************************************************
 * @Function - populateFrameworkFieldsForCase
 * @param newList -  list of cases from trigger.new.
