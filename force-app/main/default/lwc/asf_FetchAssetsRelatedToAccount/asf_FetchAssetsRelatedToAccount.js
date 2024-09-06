@@ -51,12 +51,6 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
             this.populateLwcDatatableData();
             this.totalNoOfRecordsInDatatable = data.assetRecords.length;
 
-            //PR1030924-55 Asset records should be auto-selected for manual case creation for accounts with only a single asset.
-            if(this.totalNoOfRecordsInDatatable == 1 && this.customLabel.autoSelectAssetBUList.split(",").includes(getFieldValue(this.account.data, BUSINESS_UNIT_FIELD))) {
-                this.preSelectedRows = [data.assetRecords[0].Id];
-                this.infoObject.isAsset = "true";
-                this.setFieldMaapingOnCase(data.assetRecords[0]);
-            }
 
             this.accBusinessUnit = data.accBusinessUnit;
             this.setInfoObj();
@@ -64,6 +58,13 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
             if(this.assetRecords.length > 0 && this.columns.length > 0) {
                 this.fieldMappingForCase = data.fieldMappingForCase;
                 this.isRenderDatatable = true;
+            }
+
+            //PR1030924-55 Asset records should be auto-selected for manual case creation for accounts with only a single asset.
+            if(this.totalNoOfRecordsInDatatable == 1 && this.customLabel.autoSelectAssetBUList.split(",").includes(getFieldValue(this.account.data, BUSINESS_UNIT_FIELD))) {
+                this.preSelectedRows = [data.assetRecords[0].Id];
+                this.infoObject.isAsset = "true";
+                this.setFieldMaapingOnCase(data.assetRecords[0]);
             }
 
             this.paginationHelper(); // call helper menthod to update pagination logic

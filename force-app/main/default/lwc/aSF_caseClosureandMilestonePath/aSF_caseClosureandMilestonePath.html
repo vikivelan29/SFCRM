@@ -103,8 +103,15 @@
                                         
                                     </p>
                                 </div>
-                            </div> <div>
-                                <p class="slds-text-body_small">{overallTAT}</p>    
+                            </div>
+                            <!--PR1030924-46 Hide value if Overall_Case_Closure_SLA__c value on case is blank-->
+                            <template lwc:if={caseObj}>
+                                <template lwc:if={caseObj.Overall_Case_Closure_SLA__c}>
+                                    <p class="slds-text-body_small">{overallTAT}</p> 
+                                </template>
+                            </template>
+                            <div>
+                                  
                             </div>
                         </div>
                     </lightning-layout-item>
