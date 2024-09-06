@@ -1,74 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fields>
-        <fullName>Type__c</fullName>
-        <description>Can be blank for Framework Type if Integrations. Need to be populated for generic integrations like eBot</description>
-        <externalId>false</externalId>
-        <label>Type</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-        <valueSet>
-            <restricted>true</restricted>
-            <valueSetDefinition>
-                <sorted>false</sorted>
-                <value>
-                    <fullName>eBOT</fullName>
-                    <default>false</default>
-                    <label>eBOT</label>
-                </value>
-                <value>
-                    <fullName>eBOTFeedback</fullName>
-                    <default>false</default>
-                    <label>eBOTFeedback</label>
-                </value>
-                <value>
-                    <fullName>Log</fullName>
-                    <default>false</default>
-                    <label>Log</label>
-                </value>
-                <value>
-                    <fullName>BRE</fullName>
-                    <default>false</default>
-                    <label>BRE</label>
-                </value>
-                <value>
-                    <fullName>Litmus</fullName>
-                    <default>false</default>
-                    <label>Litmus</label>
-                </value>
-                <value>
-                    <fullName>Enach</fullName>
-                    <default>false</default>
-                    <label>Enach</label>
-                </value>
-                <value>
-                    <fullName>Payment</fullName>
-                    <default>false</default>
-                    <label>Payment</label>
-                </value>
-                <value>
-		    <fullName>CreateCRMPolicy</fullName>
-                    <default>false</default>
-                    <label>CreateCRMPolicy</label>
-                </value>
-                <value>
-                    <fullName>OmniDoc</fullName>
-                    <default>false</default>
-                    <label>OmniDoc</label>
-                </value>
-                <value>
-                    <fullName>NPSFEEDBACK</fullName>
-                    <default>false</default>
-                    <label>NPSFEEDBACK</label>
-                </value>
-                <value>
-                    <fullName>eBOT Feedback</fullName>
-                    <default>false</default>
-                    <isActive>false</isActive>
-                    <label>eBOT Feedback</label>
-                </value>
-            </valueSetDefinition>
-        </valueSet>
-    </fields>
+    <fullName>Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pre Populate</fullName>
+                <default>false</default>
+                <label>Pre Populate</label>
+            </value>
+            <value>
+                <fullName>Process</fullName>
+                <default>false</default>
+                <label>Process</label>
+            </value>
+            <value>
+                <fullName>UI Card</fullName>
+                <default>false</default>
+                <label>UI Card</label>
+            </value>
+            <value>
+                <fullName>Validation</fullName>
+                <default>false</default>
+                <label>Validation</label>
+            </value>
+            <value>
+                <fullName>UI Action</fullName>
+                <default>false</default>
+                <label>UI Action</label>
+            </value>
+            <value>
+                <fullName>Process Sequential</fullName>
+                <default>false</default>
+                <label>Process Sequential</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>
