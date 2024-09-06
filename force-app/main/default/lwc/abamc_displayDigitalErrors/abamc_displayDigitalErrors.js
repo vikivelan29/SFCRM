@@ -70,23 +70,25 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
 
             if (wrap && wrap.isSuccess) {
                 let response = JSON.parse(wrap.responseBody);
-                //response = []; //to mock error scenario
-                if(response.length == 0){
+                if (response.length == 0) {
                     this.displayTable = false;
                     this.userMessage = 'No data found';
                 }
 
                 this.data = response.map((item) => {
                     return {
-                        'id':item._id,
-                        'updatedDatetime':item._metadata.lastUpdated,
-                        'eventType':item.eventType,
-                        'messageText':item.messageText
+                        'id': item._id,
+                        'updatedDatetime': item._metadata.lastUpdated,
+                        'eventType': item.eventType,
+                        'messageText': item.messageText
                     };
                 });
-                this.sortedBy = 'updatedDatetime'
-            }else{
-                //handle API errors
+                this.totalRecords = this.data.length;
+                this.totalPages = Math.ceil(this.totalRecords / this.recordsPerPage);
+                this.updatePaginatedData();
+                this.sortedBy = 'updatedDatetime';
+                this.loading = false;
+            } else {
                 console.error(wrap.errorMessage);
                 this.showError('error', 'Oops! Something went wrong', wrap.errorMessage);
             }
@@ -127,7 +129,6 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
     refreshData() {
         this.loading = true;
         this.fetchData();
-        this.loading = false;
     }
 
     sortBy(field, reverse, primer) {
@@ -152,6 +153,7 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
 
         cloneData.sort(this.sortBy(sortedBy, sortDirection === 'asc' ? 1 : -1));
         this.data = cloneData;
+        this.updatePaginatedData();
         this.sortDirection = sortDirection;
         this.sortedBy = sortedBy;
     }
