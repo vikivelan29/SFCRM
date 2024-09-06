@@ -5,7 +5,6 @@
     <columns>CREATED_DATE</columns>
     <columns>Status__c</columns>
     <columns>Business_External_Id__c</columns>
-    <columns>Type__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>
