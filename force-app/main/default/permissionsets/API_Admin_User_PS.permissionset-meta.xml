@@ -11113,10 +11113,9 @@
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
-        <field>Customer_Member_Mapping__c.Chronic_Condition__c</field>
+        <field>Customer_Member_Mapping__c.Is_Chronic__c</field>
         <readable>true</readable>
     </fieldPermissions>
-
     <hasActivationRequired>false</hasActivationRequired>
     <label>API Admin User PS</label>
     <objectPermissions>
