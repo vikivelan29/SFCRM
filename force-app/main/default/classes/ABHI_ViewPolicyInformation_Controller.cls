@@ -28,10 +28,12 @@ public with sharing class ABHI_ViewPolicyInformation_Controller {
         String requestPayload = JSON.serialize(abhilClassObj.prepareRequestPayload(accRecId));
         ABCL_IntegrationCallout.accountId = accRecId;
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName, requestPayload, null);
+        
         ResponseWrapper respWrapper = new ResponseWrapper();
-
+        system.debug('---> '+integrationResponse.responseBody);
         if(String.isNotBlank(integrationResponse.responseBody)){        
             respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
+            system.debug('respWrapper--- '+JSON.serialize(respWrapper));
         }
         return respWrapper;
     }
@@ -84,11 +86,6 @@ public with sharing class ABHI_ViewPolicyInformation_Controller {
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
 	public class AppRegDetails{
 		@AuraEnabled public String IsRegistered{get;set;}
-        @AuraEnabled public String isAppDownloaded{get;set;}
-        @AuraEnabled public String appDownloadDate{get;set;}
-        @AuraEnabled public String isAppRegistered{get;set;}
-        @AuraEnabled public String appRegiterDate{get;set;}
-        @AuraEnabled public String lastAccessDate{get;set;}
 	}
 
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
