@@ -59,7 +59,7 @@ export default class Abhi_sendCommunication extends LightningElement {
             if(data.length <= 0 ){
                 this.displayError = true;
                 this.isLoading=false;
-                this.displayMessage = "You don't have access to this Communication" ;
+                this.displayMessage = "You don't have access to initiate this Communication. Please close this window." ;
                 return;
             }
             console.log('Metadata>>>', data);

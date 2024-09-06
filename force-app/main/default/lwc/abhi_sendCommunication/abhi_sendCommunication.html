@@ -63,6 +63,8 @@
     <lightning-modal-footer>
             <!-- <lightning-button label="Prev" variant="brand" onclick={handleClick}
                 class="slds-p-around_medium"></lightning-button> -->
-            <lightning-button label="Send" onclick={handleClick}></lightning-button>
+                <template if:false={displayError}>
+                    <lightning-button label="Send" onclick={handleClick}></lightning-button>
+                </template>
     </lightning-modal-footer>
 </template>
