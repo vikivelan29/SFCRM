@@ -18,10 +18,10 @@
 		<name>RecordType</name>
 	</types>
 	<types>
-        	<members>ABHI</members>
-        	<members>ABHI/ABHI_Emails</members>
-        	<members>ABHI/ABHI_Emails/OMNI_DOC_SEND_EMAIL_1724913452870</members>
-        	<name>EmailTemplate</name>
-    	</types>
+		<members>ABHI/ABHI_Emails/OMNI_DOC_SEND_EMAIL_1724913452870</members>
+		<members>ABHI/ABHI_Emails</members>
+		<members>ABHI</members>
+    <name>EmailTemplate</name>
+  </types>
 	<version>60.0</version>
 </Package>
