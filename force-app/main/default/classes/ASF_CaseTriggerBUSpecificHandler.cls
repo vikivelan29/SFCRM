@@ -116,6 +116,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage((Map<Id, Case>)newItems,(Map<Id, Case>)oldItems);
         ABSLI_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
         ABSLAMC_CaseAssignmentHelper.updateAssignmentOnStageChange((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        // Restrict Backward Stage movement from Stage 3 to Stage 1 - ABSLAMC Journey 5
+        ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
 
     /**
