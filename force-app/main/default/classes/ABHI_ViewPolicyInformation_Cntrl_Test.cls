@@ -8,8 +8,8 @@
 
 @isTest
 public class ABHI_ViewPolicyInformation_Cntrl_Test {
-    /*
-    @testSetup
+
+    /*@testSetup
     static void setup() {
         // Create test data for Account
         Account acc = new Account(
@@ -69,5 +69,5 @@ public class ABHI_ViewPolicyInformation_Cntrl_Test {
             res.setStatusCode(1000);
             return res;
         }
-    } */
+    }  */
 }
