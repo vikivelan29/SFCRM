@@ -158,5 +158,6 @@ public with sharing class ASF_Constants {
     
     public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
     public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';
+    public static final Set<String> CASE_EXTENSION_FIELDSET = new Set<String>{'PAY_Payment_Detail__c','ABHFL_Case_Detail__c','ABFL_Case_Detail__c','ABSLI_Case_Detail__c','ABSLIG_Case_Detail__c'};
 
 }
