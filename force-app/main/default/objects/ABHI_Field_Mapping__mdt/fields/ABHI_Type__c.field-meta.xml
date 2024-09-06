@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>Asset</label>
             </value>
+            <value>
+                <fullName>Health_Provider__c</fullName>
+                <default>false</default>
+                <label>Health_Provider__c</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
