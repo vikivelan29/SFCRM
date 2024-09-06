@@ -11,7 +11,8 @@ public with sharing class ABHI_DeviceDetailsController {
 
     /****************************************************************************************************************
     * @Function - getDeviceDetails
-    * @param customerId - Customer Id for which the Device details has to be searched
+    * @param requestPayload - Payload to be passed for requesting the data
+    * @param customerId - Id of the customer record
     * @return - ResponseWrapper - Wrapper including the needed device details
     * @description - This method is used to get the Device details for the customer id passed.
     *****************************************************************************************************************/
@@ -20,21 +21,76 @@ public with sharing class ABHI_DeviceDetailsController {
         try {
             String integrationName = 'ABHI_DeviceDetails';
             ABCL_IntegrationCallout.accountId = customerId;
-            Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
-            String detailPayload =  JSON.serialize(new DeviceDetailsRequest(acc.Client_Code__c , '', ''));
-            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,detailPayload,null);
-            deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(ABHI_Encryption.decrypt(integrationResponse.responseBody, integrationName), deserilaizedResponse.class);
-            if(integrationResponse.StatusCode == 200){
-                ResponseWrapper returnResponse = new ResponseWrapper(integrationResponse.StatusCode, deserializedIntResponse.Message, deserializedIntResponse.data.devices);
-                return returnResponse;
+            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId];
+            String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
+            if(code == '0'){
+                return new ResponseWrapper(
+                    400,
+                    Custom_Messages__mdt.getInstance('ABHI_Customer_Id_Mandatory').Message__c
+                );
+            }
+            String requestPayload = JSON.serialize(new RequestWrapper(code,'android','',''));
+            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,requestPayload,null);
+            if(integrationResponse.responseBody != ''){
+                EncryptedResponseWrapper encryptedResponse = (EncryptedResponseWrapper) JSON.deserialize(integrationResponse.responseBody, EncryptedResponseWrapper.class);
+                if(encryptedResponse.Content == null || encryptedResponse.Content == ''){
+                    String returnMessage = encryptedResponse.Message != null ? encryptedResponse.Message : Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c;
+                    return new ResponseWrapper(Integer.valueOf(integrationResponse.StatusCode), returnMessage);
+                }
+                String decryptedResponse = ABHI_Encryption.decrypt(encryptedResponse.Content, integrationName);
+                if(integrationResponse.StatusCode == 200 && encryptedResponse.StatusCode == '1000'){
+                    String responseDecryptedBody = (String) JSON.deserializeUntyped(decryptedResponse);
+                    deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(responseDecryptedBody, deserilaizedResponse.class);
+                    ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), encryptedResponse.Message, deserializedIntResponse.data.devices);
+                    return returnResponse;
+                }
+                else{
+                    String returnMessage = decryptedResponse != '' ? (String) JSON.deserializeUntyped(decryptedResponse) : encryptedResponse.Message;
+                    ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), returnMessage);
+                    return returnResponse;
+                }
             }
             else{
-                ResponseWrapper returnResponse = new ResponseWrapper(integrationResponse.StatusCode, Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
+                ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(integrationResponse.StatusCode), Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
                 return returnResponse;
             }
+            
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+    }
+
+    /*********************************************************
+    *Class        :  RequestWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  23/08/2024
+    *Last Modified:  23/08/2024
+    *@description  :  Wrapper class to hold the request JSON to send 
+    *********************************************************/
+    public class RequestWrapper{
+        public String MemberID;
+        public String OS;
+        public String PolicyStartDate;
+        public String WellnessID;
+        public RequestWrapper(String memberId, String OS, String policyDate, String wellnessId){
+            this.MemberID = memberId;
+            this.OS = OS;
+            this.PolicyStartDate = policyDate;
+            this.WellnessID = wellnessId;
+        }
+    }
+
+    /*********************************************************
+    *Class        :  EncryptedResponseWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  23/08/2024
+    *Last Modified:  23/08/2024
+    *@description  :  EncryptedResponseWrapper is wrapper class to hold encrypted response
+    *********************************************************/
+    public class EncryptedResponseWrapper{
+        public String Content;
+        public String StatusCode;
+        public String Message;
     }
 
     /*********************************************************
@@ -134,26 +190,6 @@ public with sharing class ABHI_DeviceDetailsController {
         public ResponseWrapper(Integer code, String Message){
             this.statusCode = code;
             this.Message = Message;
-        }
-    }
-
-    /*********************************************************
-    *Class        :  DeviceDetailsRequest
-    *Author       :  Amrit Preet Singh
-    *Created Date :  05/08/2024
-    *Last Modified:  05/08/2024
-    *@description  :  DeviceDetailsRequest is a wrapper class to hold the payload for request
-    *********************************************************/
-    public class DeviceDetailsRequest{
-        String MemberID;
-        String OS;
-        String PolicyStartDate;
-        String WellnessID;
-        public DeviceDetailsRequest(String MemberID, String OS, String PolicyStartDate){
-            this.MemberID = MemberID;
-            this.OS = OS;
-            this.PolicyStartDate = PolicyStartDate;
-            this.WellnessID = '';
         }
     }
 

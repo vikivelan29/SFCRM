@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 06-30-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 03-03-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   03-03-2024   rsinghnagar@salesforce.com   Initial Version
@@ -43,11 +43,7 @@ private class ABFL_AccRecentCaseCommControllerTest {
         // Call the method
         Test.startTest();
         ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, 10);
-        try{
-            ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, -1);
-        }catch(Exception e){
-            
-        }
+        ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, -1);
         Test.stopTest();
         System.assertEquals(cs.size(), 5);
     }

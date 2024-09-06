@@ -361,7 +361,6 @@ public without sharing class ASF_CaseFrameworkHelper {
             if(allIntegrations.get(caseRec.Id)!=null){
                 for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
                     if(integ.Auto_Run_on_Load__c && (!(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false) || (runIntegrationFromLwc.containsKey(caseRec.Id) && runIntegrationFromLwc.get(caseRec.Id) == true))){
-                        runIntegrationFromLwc.put(caseRec.Id, false);
                         if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
                             eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
                             applicableCases.add(caseRec);
@@ -369,9 +368,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                         eligibleIntegrationsMap.get(caseRec.Id).add(integ);
                     }
                 }
-            }
-                
-            
+                runIntegrationFromLwc.put(caseRec.Id, false);
+            }     
         }
 
         if(!applicableCases.isEmpty()){
@@ -434,5 +432,4 @@ public without sharing class ASF_CaseFrameworkHelper {
         // VIRENDRA: 8 JUNE 2024 - ADDED BELOW VARIABLE TO SHOW ASSIGNED TEAM ON ON CASE.
         public string defaultOwnerName;
     }
-
 }

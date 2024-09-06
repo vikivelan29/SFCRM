@@ -9,6 +9,13 @@
         <value>5</value>
     </labels>
     <labels>
+        <fullName>ABSLI_Update_CCC_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Update CCC ID</shortDescription>
+        <value>EC0001,EC0002,EC0003</value>
+    </labels>
+    <labels>
         <fullName>ASF_Recat_Approval_Required_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -111,7 +118,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL Integration UserName</shortDescription>
-        <value>ABCL AWS API User</value>
+        <value>ABFSGSFDC User</value>
     </labels>
     <labels>
         <fullName>ABCL_Integration_User_Nickname</fullName>
@@ -999,18 +1006,43 @@
         <value>Fitness Level</value>
     </labels>
     <labels>
+        <fullName>ABSLI_ARS_IV_KEY</fullName>
+        <categories>ux8634W2FczDqtFDscbDdFxroSbukNmm</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
+        <value>8080808080808080</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_VALUE</fullName>
+        <categories>uQB5hR_562PPG5Nn</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
+        <value>8080808080808080</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_URL</fullName>
+        <categories>https://servace.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_URL</shortDescription>
+        <value>https://ikshauat.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Communication_Link</fullName>
+        <categories>http://10.155.1.214/DTS/ViewPolicyReport.aspx</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Communication_Link</shortDescription>
+        <value>http://10.155.1.214/DTS/ViewPolicyReport.aspx</value>
+    </labels>
+    <labels>
         <fullName>ABHI_HHS_Active_Age</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_HHS_Active_Age</shortDescription>
         <value>HHS &amp; Active Age</value>
-    </labels>
-    <labels>
-        <fullName>ABHI_Health_Return_App_Reg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HAPP</shortDescription>
-        <value>ABHI_Health_Return_App_Reg</value>
     </labels>
     <labels>
         <fullName>ABHI_OtherDevice</fullName>
@@ -1034,6 +1066,50 @@
         <protected>false</protected>
         <shortDescription>ABHI_DeviceDetails</shortDescription>
         <value>Device Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_App_Reg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPP</shortDescription>
+        <value>Health Return App Reg</value>
+    </labels>
+    <labels>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG;Payments</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OtherDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OtherDevice</shortDescription>
+        <value>Other Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_RecommendedDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_RecommendedDevice</shortDescription>
+        <value>Recommended Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
     </labels>
     <labels>
         <fullName>ABHI_FitnessAppDetails</fullName>

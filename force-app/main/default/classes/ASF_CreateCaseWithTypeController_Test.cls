@@ -120,122 +120,96 @@ public static void testClosureTest(){
     Test.stopTest();     
     System.assertEquals('ABHFL', cs.LOB_Code__r.BusinessUnit__c, 'Busineess unit');        
     }
-        
-    @isTest
-    public static void testClosureTest(){
+} 
+
+     @isTest
+    public static void testScenario2(){
         //ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
         Asset assets = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
-        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk561123@gmail.com'];
-        string keyword = 'CreditCard';
+        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk781234@gmail.com'];
         system.runAs(usr)
         {
-        Test.startTest();          
-        ASF_CreateCaseWithTypeController.getAccountData(keyword, assets.LOB_Code__r.BusinessUnit__c,'true');
-        //ASF_CreateCaseWithTypeController.getMetadataRecord('RL');
-        try{
-            ASF_CreateCaseWithTypeController.getAccountData('CIBIL', assets.LOB_Code__r.BusinessUnit__c,'false');
-        }catch(Exception e){
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ASF_CreateCaseWithTypeControllerTest');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
-        } 
+            Test.startTest();   
+            ASF_CreateCaseWithTypeController.CaseDetailsWrapper objWrapper = ASF_CreateCaseWithTypeController.getAccountData('CIBIL', assets.LOB_Code__r.BusinessUnit__c,'true');
+            //ASF_CreateCaseWithTypeController.getSourceDetails();
+            Test.stopTest();     
+            System.assertEquals(objWrapper.boolNoData, false, 'data');        
+        }
+    } 
 
-        Asset cs = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c
-                    FROM Asset WHERE Name = 'AccountFinacial'
-                      LIMIT 1];
-        Test.stopTest();     
-        System.assertEquals('ABHFL', cs.LOB_Code__r.BusinessUnit__c, 'Busineess unit');        
+     @isTest
+    public static void testScenario3(){
+       // ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
+       // Asset assets = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk90900@gmail.com'];
+        system.runAs(usr)
+        {
+            Test.startTest(); 
+            ASF_CreateCaseWithTypeController.CaseDetailsWrapper objWrapper = ASF_CreateCaseWithTypeController.getAccountData('CIBIL', 'Test','true');
+            Test.stopTest();     
+            Assert.isFalse(objWrapper.boolNoData, 'Expected false');  
         }
     } 
     
-         @isTest
-        public static void testScenario2(){
-            //ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
-            Asset assets = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
-            User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk781234@gmail.com'];
-            system.runAs(usr)
-            {
-                Test.startTest();   
-                ASF_CreateCaseWithTypeController.CaseDetailsWrapper objWrapper = ASF_CreateCaseWithTypeController.getAccountData('CIBIL', assets.LOB_Code__r.BusinessUnit__c,'true');
-                //ASF_CreateCaseWithTypeController.getSourceDetails();
-                Test.stopTest();     
-                System.assertEquals(objWrapper.boolNoData, false, 'data');        
-            }
-        } 
-    
-         @isTest
-        public static void testScenario3(){
-           // ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
-           // Asset assets = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
-            User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk90900@gmail.com'];
-            system.runAs(usr)
-            {
-                Test.startTest(); 
-                ASF_CreateCaseWithTypeController.CaseDetailsWrapper objWrapper = ASF_CreateCaseWithTypeController.getAccountData('CIBIL', 'Test','true');
-                Test.stopTest();     
-                Assert.isFalse(objWrapper.boolNoData, 'Expected false');  
-            }
-        } 
-        
-     @isTest
-        public static void testScenario4(){
-            //ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
-           // Asset assets = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
-            User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk901991@gmail.com'];
-            system.runAs(usr)
-            {
-                Test.startTest(); 
-                ASF_CreateCaseWithTypeController.CaseDetailsWrapper objWrapper = ASF_CreateCaseWithTypeController.getAccountData('CIBIL', 'Test','true');
-                Test.stopTest();     
-                Assert.isFalse(objWrapper.boolNoData, 'Expected false');  
-            }
-        } 
-        @isTest
-        public static void testScenario5(){
-           // ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
-           // Asset assets = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
-            User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk90900@gmail.com'];
-            system.runAs(usr)
-            {
-                Test.startTest(); 
-                ASF_CreateCaseWithTypeController.CaseDetailsWrapper objWrapper = ASF_CreateCaseWithTypeController.getAccountData('CIBIL', 'Test','true');
-                
-                Assert.isFalse(objWrapper.boolNoData, 'Expected false');  
-            }
-           // Id accId = [select id from account limit 1].Id;
-           // Account acc = ASF_CreateCaseWithTypeController.getAccountRec(accId);
-            Test.stopTest();
-            Integer count = [SELECT Count() FROM Account];
-            Assert.areEqual(count, 1, 'count');
-        } 
-          @isTest
-        public static void testScenario6(){
-           // ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-03' LIMIT 1];
-          //  Asset assets = [SELECT Id,Name,LOB__c,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
-            User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk901991abfl@gmail.com'];
-            system.runAs(usr)
-            {
-                Test.startTest(); 
-                ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails('CIBIL', 'Test','false','Interaction','Retail - Secured','{"accountLOB":"Wealth"}');
-            }
-            Test.stopTest();
-            Integer count = [SELECT Count() FROM Account];
-            Assert.areEqual(count, 1, 'count');
-        }     
-          @isTest
-        public static void testScenario7(){
-            List<ASF_Case_Category_Config__c> ccc = [SELECT Id,LOB__c,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-04' LIMIT 1];
-          //  Asset assets = [SELECT Id,Name,LOB__c,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
-            User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk901991abfl@gmail.com'];
-            system.runAs(usr)
-            {
-                Test.startTest(); 
-                ABFL_CreateCaseWithTypeControllerHelper.filterCTSTBasedOnBULogic(ccc,'{"accountLOB":"Wealth"}');
-            }
-            Test.stopTest();
-            Integer count = [SELECT Count() FROM Account];
-            Assert.areEqual(count, 1, 'count');
-        }     
-    
+ @isTest
+    public static void testScenario4(){
+        //ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
+       // Asset assets = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk901991@gmail.com'];
+        system.runAs(usr)
+        {
+            Test.startTest(); 
+            ASF_CreateCaseWithTypeController.CaseDetailsWrapper objWrapper = ASF_CreateCaseWithTypeController.getAccountData('CIBIL', 'Test','true');
+            Test.stopTest();     
+            Assert.isFalse(objWrapper.boolNoData, 'Expected false');  
+        }
+    } 
+    @isTest
+    public static void testScenario5(){
+       // ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
+       // Asset assets = [SELECT Id,Name,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk90900@gmail.com'];
+        system.runAs(usr)
+        {
+            Test.startTest(); 
+            ASF_CreateCaseWithTypeController.CaseDetailsWrapper objWrapper = ASF_CreateCaseWithTypeController.getAccountData('CIBIL', 'Test','true');
+            
+            Assert.isFalse(objWrapper.boolNoData, 'Expected false');  
+        }
+       // Id accId = [select id from account limit 1].Id;
+       // Account acc = ASF_CreateCaseWithTypeController.getAccountRec(accId);
+        Test.stopTest();
+        Integer count = [SELECT Count() FROM Account];
+        Assert.areEqual(count, 1, 'count');
+    } 
+      @isTest
+    public static void testScenario6(){
+       // ASF_Case_Category_Config__c caseRecord = [SELECT Id,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-03' LIMIT 1];
+      //  Asset assets = [SELECT Id,Name,LOB__c,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk901991abfl@gmail.com'];
+        system.runAs(usr)
+        {
+            Test.startTest(); 
+            ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails('CIBIL', 'Test','false','Interaction','Retail - Secured','{"accountLOB":"Wealth"}');
+        }
+        Test.stopTest();
+        Integer count = [SELECT Count() FROM Account];
+        Assert.areEqual(count, 1, 'count');
+    }     
+      @isTest
+    public static void testScenario7(){
+        List<ASF_Case_Category_Config__c> ccc = [SELECT Id,LOB__c,CCC_External_Id__c,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = 'CCC-CC-RC-04' LIMIT 1];
+      //  Asset assets = [SELECT Id,Name,LOB__c,LOB_Code__r.BusinessUnit__c FROM Asset WHERE Name = 'AccountFinacial' LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk901991abfl@gmail.com'];
+        system.runAs(usr)
+        {
+            Test.startTest(); 
+            ABFL_CreateCaseWithTypeControllerHelper.filterCTSTBasedOnBULogic(ccc,'{"accountLOB":"Wealth"}');
+            ABFL_CreateCaseWithTypeControllerHelper.filterCTSTBasedOnBULogic(ccc,'{"accountLOB":"Corporate"}');
+        }
+        Test.stopTest();
+        Integer count = [SELECT Count() FROM Account];
+        Assert.areEqual(count, 1, 'count');
+    }     
+
 }

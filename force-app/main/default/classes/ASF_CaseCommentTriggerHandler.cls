@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 06-30-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   06-30-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHandler{
 
     public override void BeforeInsert(List<SObject> newItems){

@@ -40,7 +40,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				Stage__c
 			FROM Case
 			WHERE Id = :caseId
-			WITH SECURITY_ENFORCED
 			FOR UPDATE
 		];
 	}
@@ -65,7 +64,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				Resolved_Case_SMS_Metadata__c
 			FROM ASF_Case_Category_Config__c
 			WHERE CCC_External_Id__c = :configExternalID
-			WITH SECURITY_ENFORCED
 		];
 	}
 
@@ -83,7 +81,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 			SELECT Id, Name, Status__c, Case__c, Integration_Ext_Id__c
 			FROM ASF_Case_Integration__c
 			WHERE Case__c IN :caseRecs AND Integration_Ext_Id__c IN :intgIds
-			WITH SECURITY_ENFORCED
 		];
 	}
 
@@ -101,7 +98,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 			SELECT Name, Case__c
 			FROM ASF_Case_Integration__c
 			WHERE Id IN :intgRecs
-			WITH SECURITY_ENFORCED
 		];
 	}
 
@@ -129,7 +125,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
                 Priority__c
 			FROM ASF_Integration__c
 			WHERE Processing_Class__c = :className
-			WITH SECURITY_ENFORCED
 		]) {
 			integrationInfo.put(integration.Processing_Class__c, integration);
 		}
@@ -138,7 +133,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 
 	public static Map<Id, Case> getCases(Set<Id> caseIdSet) {
         Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
-        
         if(caseIdSet?.size() > 0) {
             Map<Id, Case> caseIdToRecordMap = new Map<Id, Case> ([SELECT Id, Status, IsClosed, FTR__c,
                                                                   CaseNumber, AccountId, AssetId, LAN__c,CreatedDate,LastModifiedDate, 
@@ -180,11 +174,10 @@ public with sharing class ABSLI_IntegrationQueryHelper {
         Map<Id, ASF_Case_Integration__c> caseIdToCaseIntMap = new Map<Id, ASF_Case_Integration__c>();
 
         List<ASF_Case_Integration__c> caseIntRecordsList = [SELECT Name, Case__c
-                                                            FROM ASF_Case_Integration__c 
-                                                            WHERE Case__c IN :caseIdSet 
+                                                            FROM ASF_Case_Integration__c
+                                                            WHERE Case__c IN :caseIdSet
                                                             AND Status__c = :ABFL_Constants.PENDING
-                                                            AND Type__c = :type
-                                                            WITH SECURITY_ENFORCED];
+                                                            AND Type__c = :type];
 
         for(ASF_Case_Integration__c caseIntRecord :caseIntRecordsList) {
             caseIdToCaseIntMap.put(caseIntRecord.Case__c, caseIntRecord);
@@ -192,4 +185,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 
         return caseIdToCaseIntMap;
     }
+                                                                  
 }
+

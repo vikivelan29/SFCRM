@@ -2,7 +2,7 @@
  * @description       : Update/Assign Queue, PublicGroup details on User Record, which the User is assigned to.
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 07-12-2024
+ * @last modified on  : 05-14-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -43,7 +43,10 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
     public Database.QueryLocator start(Database.BatchableContext bc) {
         
         // Query ALL Active User records
-        return Database.getQueryLocator('SELECT Id, Name, Assigned_Team__c,managerGroupId__c FROM USER WHERE IsActive = TRUE AND Business_Unit__c = '+'\''+ABFL_Constants.ABFL+'\''+(Test.isRunningTest()?' AND username like \'adminUserabcl@gmail.com%\'':''));
+        return Database.getQueryLocator([
+            SELECT Id, Name, Assigned_Team__c,managerGroupId__c  
+            FROM USER             
+            WHERE IsActive = TRUE AND Business_Unit__c = :ABFL_Constants.ABFL]);            
     }
     
     /**

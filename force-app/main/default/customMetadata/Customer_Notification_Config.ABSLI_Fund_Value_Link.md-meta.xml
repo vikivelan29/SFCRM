@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>SMS_Entity_Id__c</field>
-        <value xsi:type="xsd:string">319</value>
+        <value xsi:type="xsd:string">1101777950000010559</value>
     </values>
     <values>
         <field>SMS_Merge_Fields_CSV__c</field>
@@ -52,6 +52,6 @@
     </values>
     <values>
         <field>external_templateID__c</field>
-        <value xsi:type="xsd:string">1107172173256372549</value>
+        <value xsi:type="xsd:string">1107172344619458124</value>
     </values>
 </CustomMetadata>

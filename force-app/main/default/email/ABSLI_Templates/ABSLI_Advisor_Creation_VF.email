@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Acknowledgement of {!relatedTo.Sub_Type_Text__c} request for Aditya Birla Sun Life Insurance Policy number {!relatedTo.Asset.Policy_No__c}" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Advisor Creation Communication Template"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

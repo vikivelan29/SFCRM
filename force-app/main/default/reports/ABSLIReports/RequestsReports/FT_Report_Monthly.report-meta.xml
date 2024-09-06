@@ -34,9 +34,6 @@
         <field>Case$ABSLI_Case_Detail__c.Voucher_Date__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
-    </columns>
-    <columns>
         <field>Case$Asset.Advisor__c.Advisor_Code__c</field>
     </columns>
     <columns>

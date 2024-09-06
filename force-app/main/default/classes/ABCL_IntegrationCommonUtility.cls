@@ -96,7 +96,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         Set<Id> setOfCaseIds = new Set<Id>();
 
         for(Case caseRec : caseRecs){
-            setOfCaseIds.add(caseRec.Id); 
+            setOfCaseIds.add(caseRec.Id);
         }
         List<Case> csList = [Select id,Business_Unit__c,Lead__c,AccountId, CCC_External_Id__c, contactId, No_Auto_Communication__c FROM Case WHERE Id in :setOfCaseIds WITH SYSTEM_MODE];
 
@@ -235,7 +235,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
         Set<String> recepientIds = new Set<String>();
         recepientIds.add(caseRec.CreatedById);
         Case caseRecord = [SELECT Id,Owner.Name,CaseNumber,CreatedById from Case WHERE Id =: caseRec.Id WITH SYSTEM_MODE];
-        CustomNotificationType templateInfo = [SELECT Id, DeveloperName, MasterLabel FROM CustomNotificationType 
+        CustomNotificationType templateInfo = [SELECT Id, DeveloperName, MasterLabel FROM CustomNotificationType
                                                             WHERE DeveloperName = 'Case_Assignment_Change' WITH SYSTEM_MODE Limit 1];
         if(Title == Null){
             Title = templateInfo.MasterLabel;
@@ -267,15 +267,15 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 if(response != null && response.returnCode != null && response.returnMessage != null && caseInt.Error_Message__c == null && response.returnCode != '1' ){
                     if(response.returnCode != '1' &&  Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
                         caseInt.Error_Message__c = response.returnMessage;
-                        update caseInt; 
+                        update caseInt;
                     }
-                } 
+                }
             }else {
                 stpResponseWrapper response = (stpResponseWrapper)JSON.deserialize(caseIntegration.Response__c,stpResponseWrapper.class);
                 if(response != null && response.operationStatus != null && response.operationMessage != null && caseInt.Error_Message__c == null && response.operationStatus != '1' ){
                     if(response.operationStatus == '0' &&  Schema.sObjectType.ASF_Case_Integration__c.isUpdateable()){
                         caseInt.Error_Message__c = response.operationMessage;
-                        update caseInt; 
+                        update caseInt;
                     }
                 }
             }
@@ -343,7 +343,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                     fileRecList.add(fileRec);
                 }
                 if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
-                    insert fileRecList; 
+                    insert fileRecList;
                     Set<Id> dmsFileIds = new Set<Id>();
                     for(DMS_Files__c file : fileRecList){
                         dmsFileIds.add(file.Id);
@@ -397,10 +397,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
     public static void transferToDMSBulk(List<Id> recIds){
         Map<Id,Case> caseRecordMap = new Map<Id,Case>([Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,
                                     Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,
-                                    Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  
+                                    Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name
                                     from Case where Id =: recIds and Business_Unit__c in: DMS_LINE_OF_BUSINESS]);
 
-        List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId,LinkedEntityId from ContentDocumentLink 
+        List<ContentDocumentLink> contentDocumentList = [Select ContentDocumentId,LinkedEntityId from ContentDocumentLink
                                                          where LinkedEntityId in: caseRecordMap.keySet()  WITH SYSTEM_MODE];
         if(contentDocumentList.size() > 0){
 
@@ -409,7 +409,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                 contentDocumentCaseMap.put(docLink.ContentDocumentId,caseRecordMap.get(docLink.LinkedEntityId));
             }
 
-            List<ContentVersion> contentVersionList = [ Select id,Title,ContentDocumentId,VersionNumber,FileExtension 
+            List<ContentVersion> contentVersionList = [ Select id,Title,ContentDocumentId,VersionNumber,FileExtension
                                                         from ContentVersion where ContentDocumentId in: contentDocumentCaseMap.keySet()  WITH SYSTEM_MODE ];
 
             Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
@@ -457,8 +457,8 @@ public with sharing class ABCL_IntegrationCommonUtility {
             }
 
             if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
-                insert fileRecList; 
-                
+                insert fileRecList;
+
                 List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
                 for(DMS_Files__c file : fileRecList){
                     if(file.Status__c == ABHFL_Constants.PENDING){
