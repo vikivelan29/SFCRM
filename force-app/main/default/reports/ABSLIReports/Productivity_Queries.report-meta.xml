@@ -31,9 +31,6 @@
         <field>Case.Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case.Source__c</field>
-    </columns>
-    <columns>
         <field>STATUS</field>
     </columns>
     <columns>
@@ -46,10 +43,16 @@
         <field>Asset.Advisor__c</field>
     </columns>
     <columns>
+        <field>Case.Source__c</field>
+    </columns>
+    <columns>
         <field>ASSET.CREATED_DATE</field>
     </columns>
     <columns>
         <field>ASSET.LAST_UPDATE</field>
+    </columns>
+    <columns>
+        <field>Case.Categorization_Date__c</field>
     </columns>
     <description>ABSLI - Query &amp; Complaints Reporting Set - 1</description>
     <filter>
