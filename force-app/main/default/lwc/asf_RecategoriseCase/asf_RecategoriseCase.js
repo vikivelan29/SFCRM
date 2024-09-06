@@ -326,7 +326,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.loaded = true;
             })
             .catch(error => {
-                console.log('ERR: ', error);
                 this.accounts = null;
                 this.isNotSelected = true;
                 this.loaded = true;
@@ -630,7 +629,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     
     async updateCaseHandler() {
-        console.log('inside updateCaseHandler: ' + this.isInputValid);
+
         const issueType = this.template.querySelector('[data-id="issueType"]');
         if(issueType){
             issueType.setCustomValidity("");
