@@ -35,6 +35,17 @@
                 <default>false</default>
                 <label>ABSLIG</label>
             </value>
+            <value>
+                <fullName>ABHI</fullName>
+                <default>false</default>
+                <label>ABHI</label>
+            </value>
+            <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Payment</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
