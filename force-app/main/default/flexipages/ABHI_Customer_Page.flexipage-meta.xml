@@ -104,6 +104,9 @@
                         <valueListItems>
                             <value>Total_NCB__c</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Is_Chronic__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1484,4 +1487,4 @@
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
-</FlexiPage> 
+</FlexiPage>
