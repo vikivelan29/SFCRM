@@ -1101,6 +1101,8 @@
         <protected>false</protected>
         <shortDescription>ABHI_OmniDocURL</shortDescription>
         <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+    <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
