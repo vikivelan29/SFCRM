@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Chronic_Condition__c</fullName>
+    <fullName>Is_Chronic__c</fullName>
+    <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <formula>MemberId__r.Is_Chronic__c</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Is Chronic</label>
-    <trackHistory>false</trackHistory>
-    <trackTrending>false</trackTrending>
+    <trackFeedHistory>false</trackFeedHistory>
     <type>Checkbox</type>
 </CustomField>
