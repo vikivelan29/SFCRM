@@ -580,7 +580,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                                 //last item
                                 item['layoutItemSize'] = 12;
                                 item['classString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_readonly slds-form-element_1-col strong-text';
-                                item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col';
+                                item['editClassString'] = 'slds-form-element slds-form-element_horizontal slds-form-element_1-col fix-error';
                                 item['divEditClass'] = 'slds-col slds-size_1-of-1 slds-form-element slds-form-element_horizontal';
                             } else {
                                 item['layoutItemSize'] = 6;
