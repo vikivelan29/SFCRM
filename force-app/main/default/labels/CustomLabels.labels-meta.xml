@@ -1161,4 +1161,11 @@
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
         <value>ABSLAMC;ABSLIG</value>
     </labels>
+    <labels>
+        <fullName>Active_Day_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Active_Day_Events</shortDescription>
+        <value>Active Day Events</value>
+    </labels>
 </CustomLabels>

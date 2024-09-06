@@ -1,8 +1,8 @@
 /*********************************************************
 *Class        :  ABHIL_ViewPolicyInformation_Controller
 *Author       :  Anirudh Raturi
-*Created Date :  31/07/2023
-*Last Modified:  31/07/2023
+*Created Date :  10/08/2024
+*Last Modified:  10/08/2024
 *@description  :  Class for View Policy Information API 
 *********************************************************/
 
@@ -20,7 +20,7 @@
 public with sharing class ABHI_ViewPolicyInformation_Controller {
 
     @AuraEnabled
-    public static ABCL_IntegrationCallout.IntegrationResponseWrapper viewPolicyInformationApiCallout(String accRecId){
+    public static ResponseWrapper viewPolicyInformationApiCallout(String accRecId){
         
         ABHI_ViewPolicyInformation_Controller abhilClassObj = new ABHI_ViewPolicyInformation_Controller();
 
@@ -28,7 +28,14 @@ public with sharing class ABHI_ViewPolicyInformation_Controller {
         String requestPayload = JSON.serialize(abhilClassObj.prepareRequestPayload(accRecId));
         ABCL_IntegrationCallout.accountId = accRecId;
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName, requestPayload, null);
-        return integrationResponse;
+        
+        ResponseWrapper respWrapper = new ResponseWrapper();
+        system.debug('---> '+integrationResponse.responseBody);
+        if(String.isNotBlank(integrationResponse.responseBody)){        
+            respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
+            system.debug('respWrapper--- '+JSON.serialize(respWrapper));
+        }
+        return respWrapper;
     }
 
     /**********************************
@@ -63,5 +70,31 @@ public with sharing class ABHI_ViewPolicyInformation_Controller {
 	public class RequestType {
 		public String AppRegDetails{get;set;}
 		public String HealthReturns{get;set;}
+	}
+
+    @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
+    /**
+    * @description - API Response Wrapper
+    */
+    public class ResponseWrapper {
+		@AuraEnabled public Integer StatusCode{get;set;}
+		@AuraEnabled public String Message{get;set;}
+		@AuraEnabled public AppRegDetails AppRegDetails{get;set;}
+		@AuraEnabled public HealthReturns HealthReturns{get;set;}
+    }
+
+    @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
+	public class AppRegDetails{
+		@AuraEnabled public String IsRegistered{get;set;}
+	}
+
+    @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
+	public class HealthReturns{
+		@AuraEnabled public List<TotalHealthReturnObj> TotalHealthReturnObj{get;set;}
+	}
+
+    @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
+	public class TotalHealthReturnObj{
+		@AuraEnabled public String Total_Balance{get;set;}
 	}
 }

@@ -7,6 +7,7 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
 
     @track policyData;
 
+    isLoadingData = true;
     apiErrorMessage;
     
     connectedCallback() {
@@ -18,20 +19,21 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
         GET_ViewInformationPolicyData({ accRecId: this.accRecId })
         .then(result => {
 
-            let respString = result.responseBody;
-            let statusCode = result.statusCode;
-            let respBody = JSON.parse(respString);
+            this.isLoadingData = false;
+            let respBody = result;
+            let statusCode = result?.StatusCode ?? "";
             
             if(statusCode === 1000) {
                 let summationOfTotalBalance = this.calculateTotalBalance(respBody, 'Total_Balance');
                 this.policyData = {...respBody, totalBalance : summationOfTotalBalance};
             }
             else {
-                this.apiErrorMessage = `Error: ${respBody?.Message ?? respBody?.message}`;
+                this.apiErrorMessage = `Error: ${respBody?.Message}`;
             }
         })
         .catch(error => {
             console.log('Error inside fetchViewInformationPolicy_Data ' + JSON.stringify(error));
+            this.isLoadingData = false;
         });
     }
 
@@ -43,5 +45,12 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
         }, 0);
 
         return totalBalance;
+    }
+
+    refreshData() {
+        this.policyData = null;
+        this.apiErrorMessage = null;
+        this.isLoadingData = true;
+        this.fetchViewInformationPolicy_Data();
     }
 }
