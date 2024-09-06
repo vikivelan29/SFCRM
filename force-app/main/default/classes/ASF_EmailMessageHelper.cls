@@ -136,7 +136,7 @@ public without sharing class ASF_EmailMessageHelper {
                    //&& (caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
                        //&& caseRec.Nature__c == 'Complaint'){
                        //if closed, check if reopen allowed or not
-                       if(caseRec.Is_Reopen_Allowed__c == true){
+                       if(buSpecificReopenCheck(caseRec)){
                            // if allowed, check if reopen days expired or not
                            if(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
                               && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c){
@@ -234,6 +234,16 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.SuppliedName = closedCase.SuppliedName;
         newCase.Business_Unit__c = closedCase.Business_Unit__c;
         return newCase;
-    }   
+    }  
+
+    private static boolean buSpecificReopenCheck(Case caseRec){
+        boolean returnVal = caseRec.Is_Reopen_Allowed__c; // default value
+
+        if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint'){
+            return false;
+        }
+        return returnVal;
+
+    }
     
 }

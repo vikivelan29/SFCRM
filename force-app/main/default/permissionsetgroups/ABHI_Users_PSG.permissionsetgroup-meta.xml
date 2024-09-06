@@ -2,6 +2,8 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHI Users PSG</label>
+    <permissionSets>ABHI_User_PS</permissionSets>
+    <permissionSets>ABHI_Integration_PS</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
