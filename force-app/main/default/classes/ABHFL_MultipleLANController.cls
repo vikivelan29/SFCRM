@@ -20,7 +20,7 @@ public with sharing class ABHFL_MultipleLANController {
             Case caseRecord = [Select id,CCC_External_Id__c,AccountId,Stage__c,OwnerId from Case where id =: recId ];
             //ABHFL_Multiple_LAN__mdt lanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c);
             List<ABHFL_Multiple_LAN__mdt> lanMetadataList = [ SELECT Id, DeveloperName, MasterLabel, Language, NamespacePrefix, Label,Impact_Option_Logic__c, QualifiedApiName, SystemModstamp, 
-                                                    Asset_Fields__c, Asset_Detail_Fields__c, Asset_Detail_Editable_Fields__c, Stages_Allowing_Field_Edit__c, 
+                                                    Asset_Fields__c, Asset_Detail_Fields__c, Asset_Detail_Editable_Fields__c, Stages_Allowing_Field_Edit__c,Asset_Additional_Fields__c, 
                                                     Stages_Allowing_Fetch_All__c, Stages_Allowing_Add_Rows__c, Stages_Allowing_Delete_Rows__c, Stages_Allowing_File_Upload__c 
                                                     FROM ABHFL_Multiple_LAN__mdt where DeveloperName =: caseRecord.CCC_External_Id__c];
 
@@ -55,6 +55,7 @@ public with sharing class ABHFL_MultipleLANController {
                 }
                 lanWrapper.displayMultipleLan = true;
                 lanWrapper.columnData = getColumnData(lanMetadata,false);
+                lanWrapper.additionalColumnData = getAdditionalColumnData(lanMetadata,false);
                 if(validLoggedInUser){
                     if(String.isNotBlank(lanMetadata.Stages_Allowing_Field_Edit__c)){
                         List<String> stagesAllowed = lanMetadata.Stages_Allowing_Field_Edit__c.split(',');
@@ -196,6 +197,47 @@ public with sharing class ABHFL_MultipleLANController {
         }
         return columnList;
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHFL
+    * @Function - getAdditionalColumnData
+    * @param lanMetadata - Metadata Record for Parent Table Display.
+    * @param isChildTable - Boolean to check if its child table or parent table.
+    * @return - List<ColumnWrapper>.
+    * @Description - Fetches Column Level Data for Multiple LAN Component.
+    * @Author-Yogesh Wagh[PR970457-2144]
+    *****************************************************************************************************************/
+    
+    public static List<ColumnWrapper> getAdditionalColumnData(ABHFL_Multiple_LAN__mdt lanMetadata, Boolean isChildTable){
+        List<ColumnWrapper> columnList = new List<ColumnWrapper>();
+        List<String> sfFieldList = new List<String>();
+        sfFieldList = String.isNotBlank(lanMetadata.Asset_Additional_Fields__c) ? lanMetadata.Asset_Additional_Fields__c.split(',') : sfFieldList;
+
+        Map<String,Schema.SObjectField> fieldSchemaMap = new Map<String,Schema.SObjectField>();
+        if(isChildTable){
+            fieldSchemaMap = Schema.ABHFL_Asset_Detail__c.SObjectType.getDescribe().fields.getMap();
+        }else {
+            fieldSchemaMap = Schema.Asset.SObjectType.getDescribe().fields.getMap();
+        }
+
+        if(sfFieldList != null && sfFieldList.size() > 0){
+            for(String field : sfFieldList){
+                ColumnWrapper column = new ColumnWrapper();
+                Schema.DescribeFieldResult fieldResult = fieldSchemaMap.get(field).getDescribe();
+                column.label = fieldResult.getLabel();
+                if(isChildTable){
+                    column.name = field;
+                } else {
+                    column.name = 'asset.'+field;
+                }
+                column.type = String.valueof(fieldResult.getType());
+                column.isEditable = false;
+                columnList.add(column);         
+            }
+        }
+        return columnList;
+    }
+    
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - getAssetDetailRecords
@@ -214,7 +256,7 @@ public with sharing class ABHFL_MultipleLANController {
                 lanIds.add(lanMap.LAN__c);
             }
         }
-        string queryStr = 'Select id,Account.Client_Code__c,Loan_Disbursement_Status__c,'+String.escapeSingleQuotes(lanMetadata.Asset_Fields__c) + ' from Asset where Id in: lanIds';
+        string queryStr = 'Select id,Account.Client_Code__c,Loan_Disbursement_Status__c,'+String.escapeSingleQuotes(lanMetadata.Asset_Fields__c) +','+String.escapeSingleQuotes(lanMetadata.Asset_Additional_Fields__c) + ' from Asset where Id in: lanIds';
         List<sObject> assetRecords = Database.Query(queryStr);
         string assetDetailQueryStr = 'Select id,Asset__c';
         if(String.isNotBlank(childlanMetadata.Asset_Detail_Fields__c)){
@@ -624,6 +666,8 @@ public with sharing class ABHFL_MultipleLANController {
         public List<AssetDetailWrapper> assetDetailRecords;
         @AuraEnabled
         public List<ColumnWrapper> columnData;
+        @AuraEnabled
+        public List<ColumnWrapper> additionalColumnData;
         @AuraEnabled
         public List<ColumnWrapper> childColumnData;
         @AuraEnabled

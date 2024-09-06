@@ -25,6 +25,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
     public static Map<Id, Set<String>> getSkipperFlagMap() {
         return skipperFlagMap;
     }
+    public static String relObjName = '';
     /**
     * @Function - setSkipperFlags
     * @Description - method to be invoked at the beginning and end of the BEFORE triggers
@@ -32,15 +33,34 @@ public without sharing class ASF_CaseTriggerModularHelper {
     */
     public static void setSkipperFlags(List<Case> newList, Map<Id, Case> oldMap) {
         skipperFlagMap = new Map<Id, Set<String>>();
+        Boolean isInsert = oldMap == null ? true : false;
+        String cccId = '';
+        if(isInsert){
+            for(Case caseRec : newList){
+                if(caseRec.CCC_External_Id__c != null && caseRec.CCC_External_Id__c != ''){
+                   cccId = caseRec.CCC_External_Id__c;
+                   break; 
+                }
+            }
+            if(String.isNotBlank(cccId)){
+                relObjName = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(cccId);
+            }
+        }
         for(Case caseRec : newList){
             system.debug('set flag--'+caseRec.Feature_Skipper_Flag__c);
             if(String.isNotBlank(caseRec.Feature_Skipper_Flag__c) 
                && (oldMap == null || caseRec.Feature_Skipper_Flag__c != oldMap.get(caseRec.Id).Feature_Skipper_Flag__c)){
                    //if insert or the flag field is updated
                    Set<String> skippedItems = new Set<String>(caseRec.Feature_Skipper_Flag__c.split(';'));
+                   if(oldMap != null){
                        skipperFlagMap.put(caseRec.Id, skippedItems);
+                   }else if(String.isNotBlank(relObjName)){
+                       Id fieldValue = (Id)caseRec.get(relObjName);
+            		   skipperFlagMap.put(fieldValue, skippedItems);
+                   }
                    caseRec.Feature_Skipper_Flag__c = '';
                }
+            system.debug('set skipperFlagMap--'+skipperFlagMap);
         }
     }
     /****************************************************************************************************************

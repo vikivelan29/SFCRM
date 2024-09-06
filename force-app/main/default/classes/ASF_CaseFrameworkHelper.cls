@@ -12,6 +12,7 @@ public without sharing class ASF_CaseFrameworkHelper {
      * Return the Approval Records to calling method, to b
      * e inserted
      */
+    public static Map<Id, Boolean> runIntegrationFromLwc = new Map<Id, Boolean>();
     public static Map<Id, List<ASF_Case_Approv__c>> addApprovals(List<Case> caseList, Map<Id, List<ASF_Case_Rule__c>> allCaseRules){
 
         Map<Id, List<ASF_Case_Approv__c>> approvalMap = new Map<Id, List<ASF_Case_Approv__c>>();
@@ -119,10 +120,10 @@ public without sharing class ASF_CaseFrameworkHelper {
                         caseRule.Case_Rule_Entries__r,
                         caseRec);
                         if (result == true){
-                            slaMap.put('caseOverride',caseRule.Overall_SLA_Closure__c.longValue());
-                            slaMap.put('stageSLA1Override',caseRule.Stage_SLA_Override_1__c.longValue());
-                            slaMap.put('stageSLA2Override',caseRule.Stage_SLA_Override_2__c.longValue());
-                            slaMap.put('stageSLA3Override',caseRule.Stage_SLA_Override_3__c.longValue());    
+                            slaMap.put('caseOverride',caseRule.Overall_SLA_Closure__c?.longValue() ?? null);
+                            slaMap.put('stageSLA1Override',caseRule.Stage_SLA_Override_1__c?.longValue() ?? null);
+                            slaMap.put('stageSLA2Override',caseRule.Stage_SLA_Override_2__c?.longValue() ?? null);
+                            slaMap.put('stageSLA3Override',caseRule.Stage_SLA_Override_3__c?.longValue() ?? null);    
                             break;
                         }
                     }
@@ -359,7 +360,7 @@ public without sharing class ASF_CaseFrameworkHelper {
 		for (Case caseRec : caseList){
             if(allIntegrations.get(caseRec.Id)!=null){
                 for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
-                    if(integ.Auto_Run_on_Load__c && !(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false)){
+                    if(integ.Auto_Run_on_Load__c && (!(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false) || (runIntegrationFromLwc.containsKey(caseRec.Id) && runIntegrationFromLwc.get(caseRec.Id) == true))){
                         if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
                             eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
                             applicableCases.add(caseRec);
@@ -367,9 +368,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                         eligibleIntegrationsMap.get(caseRec.Id).add(integ);
                     }
                 }
-            }
-                
-            
+                runIntegrationFromLwc.put(caseRec.Id, false);
+            }     
         }
 
         if(!applicableCases.isEmpty()){
@@ -432,5 +432,4 @@ public without sharing class ASF_CaseFrameworkHelper {
         // VIRENDRA: 8 JUNE 2024 - ADDED BELOW VARIABLE TO SHOW ASSIGNED TEAM ON ON CASE.
         public string defaultOwnerName;
     }
-
 }
