@@ -32,10 +32,16 @@ public without sharing class ABSLI_WhatsAppOptOutandOptInIntegration implements 
             result.status = ABSLI_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('ABSLI_WhatsAppOptOutIntegration_ERR1').Message__c;
             
-            if(caseRecord.Technical_Source__c=='API' &&  (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Is_STP__c== true)){
-                result.status = ABSLI_Constants.SUCCESS;
-            }else if(caseRecord.Technical_Source__c =='LWC'){
-                result.status = ABSLI_Constants.SUCCESS;
+            //Customer Portal and Status_Valid_For_STP__c is false 
+            if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+               	if(caseRecord.Technical_Source__c=='API' &&  (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Is_STP__c== true)){
+                    result.status = ABSLI_Constants.SUCCESS;
+                }else if(caseRecord.Technical_Source__c =='LWC'){
+                    result.status = ABSLI_Constants.SUCCESS;
+                } 
             }
             
             resultMap.put(caseRecord.Id, result);

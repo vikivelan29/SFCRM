@@ -502,6 +502,7 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                         Phone__c  =log.Phone__c,
                                                                         Txt_Msg__c = log.SMS_Msg_Body__c,
                                                                         LOB__c = log.LOB__c,
+                                                                        Department__c = log.Line_of_Business__c,
                                                                         Type__c = msgType,
                                                                         SMS_Entity_Id__c = log.SMS_Entity_Id__c,
                                                                         SMS_Sender_Id__c = log.SMS_Sender_Id__c
@@ -564,20 +565,32 @@ public without sharing class ASF_CommPETriggerHelper {
                     Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
                     
                     if(commConfig != null){
+                        /* Populate Merge field for SMS Template */
                         if(commConfig.SMS_Template_Name__c != null){
                             if(commConfig.get(channelFieldNamesSMS[3]) != null){
                                 ASF_CommPEMergeFieldHandler.populateMergeFields(channelFieldNamesSMS,commConfig,cRec,masterlog,mPeLogIdCommunicationLog,casefieldInfo,pLog.Id);
                             }
-                        } 
+                        }    
+                    }   
+                }
+            
+            //Bypass sending WhatsApp when user manually blocks it during case creation
+            if(pLog.CustomMetadataName__c != null &&
+               (pLog.No_Auto_Communication__c == null || 
+                (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('WhatsApp')))){
+                    String strMetadataName = pLog.CustomMetadataName__c;
+                    Case cRec = mCases.get(pLog.Case__c);
+                    ASF_Communication_Log__c masterlog = new ASF_Communication_Log__c();
+                    Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+                    
+                    if(commConfig != null){
                         /* Populate Merge field for WhatsApp Template */
-                        if(commConfig.Whatsapp_Template_Name__c != null){
+                        if(commConfig.Whatsapp_Template_Name__c != null){                            
                             if(commConfig.get(channelFieldNamesWA[3]) != null){
                                 ASF_CommPEMergeFieldHandler.populateMergeFields(channelFieldNamesWA,commConfig,cRec,masterlog,mPeLogIdCommunicationLog,casefieldInfo,pLog.Id);
                             }
                         }
                     }
-                    /* Populate Merge field for SMS Template */
-                    
                 }
             
         }

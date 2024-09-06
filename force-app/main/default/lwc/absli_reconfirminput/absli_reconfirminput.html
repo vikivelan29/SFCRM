@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 08-09-2024
+  @last modified on  : 08-29-2024
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -31,7 +31,10 @@
                     onchange={handleConfirmTextChange}></lightning-input>
                 <template if:true={isMobileNumberError}>
                     <div class="slds-text-color_error slds-m-top_small">Invalid Mobile Number for selected Country Code. India - 10 digits, Other - 15 digits</div>
-                </template>         
+                </template>
+                <template if:true={showConfirmationError}>
+                    <div class="slds-text-color_error slds-m-top_small">The values entered do not match. Please ensure both fields contain the same value.</div>
+                </template>          
             </div>
             <div class="slds-modal__footer">
                 <lightning-button class="slds-m-around_small" label="Cancel"

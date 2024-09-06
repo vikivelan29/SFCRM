@@ -351,7 +351,7 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
-    },
+    }  , 
     ABSLAMC : {
         ASSET_COLUMNS:[{
             label: 'Id',
@@ -458,6 +458,5 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Policy to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag Policy to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with Policy"
-    } 
-     
+    }      
   };

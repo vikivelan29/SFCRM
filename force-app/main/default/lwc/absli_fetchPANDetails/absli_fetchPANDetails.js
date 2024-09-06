@@ -31,6 +31,7 @@ export default class Absli_fetchPANDetails extends LightningElement {
     @track record;
     @track error;
     @track bConfirmationTextNotMatching = true;
+    @track showConfirmationError = false;
     @track nsdlResponse = undefined;
     @track CancelBtnLbl = 'Cancel';
     @track PAN_Number = '';
@@ -117,8 +118,8 @@ export default class Absli_fetchPANDetails extends LightningElement {
                     this.nsdlResponse = JSON.parse(result.responseStr).outputData[0];
                     this.showFetchResponse = true;
                     this.CancelBtnLbl = 'Deny';
-                    if(this.nsdlResponse && this.nsdlResponse.name == "N" && this.nsdlResponse.dob == "N" 
-                        && this.nsdlResponse.pan_status == "E" && this.nsdlResponse.seeding_status == "Y"){
+                    if(this.nsdlResponse && this.nsdlResponse.name == "Y" && this.nsdlResponse.dob == "Y" 
+                        && this.nsdlResponse.pan_status == "E"){
                     this.isVerificationSuccessful = true;
                     }
                     debugger;
@@ -183,10 +184,12 @@ export default class Absli_fetchPANDetails extends LightningElement {
     confirmationCheck() {
         if (this.originalTextValue == this.confirmTextValue && this.confirmTextValue != '') {
             this.bConfirmationTextNotMatching = false;
+            this.showConfirmationError = false;
             this.iconClass = 'successBtn';
         }
         else {
             this.bConfirmationTextNotMatching = true;
+            this.showConfirmationError = true;
         }
     }
     handleOriginalTextChange(event) {

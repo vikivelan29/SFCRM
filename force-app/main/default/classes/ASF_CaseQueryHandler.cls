@@ -144,7 +144,7 @@ public without sharing class ASF_CaseQueryHandler {
     public static list<ASF_Case_Stage_Config__c> getCaseStageConfigWithRlAndIntr(Set<String> cccExternalId){
         if(caseStageConfigs == null || refreshRecords){
             // VIRENDRA - 8 JUNE 2024 - ADDED Default_Queue_user_Name__c in QUERY.
-            caseStageConfigs = [SELECT ID,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
+            caseStageConfigs = [SELECT ID,Case_Category_Config__r.isStageSkip__c,StageName__c,Status_Mapping__c,Order__c,Query_Fields__c,Manual_Stage__c,
                                 Is_Approval_Stage__c,Manual_Approval__c,Case_Category_Config__r.CCC_External_Id__c,
                                 Case_Category_Config__r.Order__c,SLA_Target_1_Type__c,SLA_Target_2_Type__c,SLA_Target_3_Type__c,
                                 Optional_Stage__c,Default_Queue__c,Default_Error_Queue__c, Gateway_Stage__c,
@@ -307,7 +307,8 @@ public without sharing class ASF_CaseQueryHandler {
                                     First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,
                                     Reopen_Days__c, Reopen_Style__c, Is_STP__c,Multiple_Child_Details__c,
                                     Only_CRN_Mandatory__c,Custom_Segment__c,is_FA_Mandatory__c,Priority__c,
-                                    Is_Recategorise_Allowed__c,Allow_file_upload__c,LOB__c, No_Owner_Change_on_Recat__c,IGMS_Code__c
+                                    Is_Recategorise_Allowed__c,Allow_file_upload__c,LOB__c, No_Owner_Change_on_Recat__c,IGMS_Code__c,
+                                    Activity__c
                                     FROM ASF_Case_Category_Config__c 
                                     WHERE CCC_External_Id__c IN :cccExternalIds WITH SYSTEM_MODE];
                                     

@@ -431,6 +431,61 @@
             <field>CreatedBy.Department</field>
             <table>ASF_Communication_Log__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.FederationIdentifier</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Manager.Manager.Manager</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Manager</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Manager.Name</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Case__c.OwnerText__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Case__c.Owner</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Case__c.Owner.Name</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Case__c.ClosedDate</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Case__c.ABSLI_Case_Detail__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Case__c.ABSLI_Case_Detail__c.RCA_Comments__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Case__c.ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
         <masterLabel>Communication Logs</masterLabel>
     </sections>
 </ReportType>

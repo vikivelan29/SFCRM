@@ -2,7 +2,7 @@
  * @description       :
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             :
- * @last modified on  : 08-09-2024
+ * @last modified on  : 08-29-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABSLI_Constants {
@@ -28,7 +28,7 @@ public class ABSLI_Constants {
 	public static final List<String> CHECKLIST_SIGNATURECROPSIGNATUREMISMATCHANDNO_STATUS = new List<String>{'Signature Mismatched', 'No','Signature Not Cropped'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
     public static final String ASSIGNMENT_ISSUE_TYPE_VALIDATION = 'Married Women Property Act';
-    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health FAV';
+    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health'; 
     public static final Map<String,String> FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION = new Map<String,String>
     {'Reinstatement_Amount__c'=>'Decimal',
      'COI_Covid_Quest__c' => 'String',
@@ -41,9 +41,10 @@ public class ABSLI_Constants {
          'PNFT042' => 'STPFS',
          'PPCT027' => 'STPMC'
      };
-     
+     public static final List<String> SURRENDER_WITHDRAWAL_CCC_IDs = new List<String>{'PPAY008', 'PPAY001'};
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
-    
+
+     public static final List<String> STP_SOURCES = new List<String>{'Customer Portal','ABC_Servicing_App'};
 
     /* Bitly Link REAL TIME API
      */
@@ -166,6 +167,11 @@ public class ABSLI_Constants {
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
     public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
 
+    /* MODE CHANGE INTEGRATION **/
+    public static final String MODECHANGE_SCHEDULDE_JOB = 'Mode Change Schedulde Job';
+    public static final Integer MODECHANGE_BATCH_SIZE = 10;
+    public static final String MODECHANGE_CASECATEGORYCONFIG = 'PPCT027';
+    public static final String MODECHANGE_DEFAULTSTAGE = 'Soft Resolve';
 
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'DeleteNominee';
@@ -237,4 +243,24 @@ public class ABSLI_Constants {
     /* SURVIVAL API */
     public static final String SURVIVALCTST = 'PCPT017';
 
+    /* LSQLeadIntegration */
+    public static final List<String> leadLSQTypeArr = new List<String>{'Branch walk in'};
+    public static final List<String> leadD2CTypeArr = new List<String>{'Contact Centre'};
+    public static final List<String> leadOneABCLeadArr = new List<String>{'Employee Referral'};
+
+    /*Surrender & Withdrawal API */
+    public static final String ABSLI_PANUPDATE_NOT_REQUIRED_ERROR = 'ABSLI_PANUPDATE_NOT_REQUIRED_ERROR';
+    public static final String CHECKLIST_SIGNATURE_MATCHED = 'Signature Matched';
+    public static final String ABSLI_SIGNATURE_NOT_MATCHING_ERROR = 'ABSLI_SIGNATURE_NOT_MATCHING_ERROR';
+    public static final String SURRENDER_POLICY_SRV_NAME = 'policySurrender';//SurrenderUpdateApi';
+    public static final String WITHDRAWAL_POLICY_SRV_NAME = 'fundWithdrawl';//WithdrawalUpdateApi';
+    public static final String ACTION_SURRENDER = 'Surrender';
+    public static final String ACTION_WITHDRAWAL = 'Withdrawal';
+    public static final String TRANSACTION_TYPE_NEFT = 'NEFT';
+    public static final List<String> SURRENDER_WITHDRAWAL_CASE_TYPES = new List<String>{'PPAY001','PPAY008'};
+    public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_NAME = 'User Branch';
+    public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
+  
+    public static final String EMAIL_SOURCE_REQ_BY = 'Customer';
+  
 }

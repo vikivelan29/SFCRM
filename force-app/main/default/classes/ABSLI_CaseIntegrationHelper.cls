@@ -1,5 +1,5 @@
 /*********************************************************
-*Class        :  ABHFL_CaseIntegrationHelper
+*Class        :  ABSLI_CaseIntegrationHelper
 *Author       :  Siddarth Jaitly
 *Created Date :  12/06/2024
 *Last Modified:
@@ -7,6 +7,7 @@
 *History        :
 *********************************************************/
 public class ABSLI_CaseIntegrationHelper {
+    public static Set<String> requestsForStageMovement = new Set<String>{'PEMT042','PEMT024'};
     /****************************************************************************************************************
     * @LOB - ABSLI
     * @Function - eBotHandler
@@ -94,10 +95,11 @@ public class ABSLI_CaseIntegrationHelper {
                                                            ABSLI_EbotWrapper.EbotResponseWrapper ebotResponse,
                                                            ContentRelationWrapper contentRelation){
 
-		ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+	ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
         caseDetail.From_Date__c = String.isNotBlank(ebotResponse.FromDate)?Date.valueOf(ebotResponse.FromDate):null;
         caseDetail.To_Date__c = String.isNotBlank(ebotResponse.ToDate)?Date.valueOf(ebotResponse.ToDate):null;
         caseDetail.Ebot_Email_in_Draft__c  = false;
+        caseDetail.Source_Request_submitted_by__c = ABSLI_Constants.EMAIL_SOURCE_REQ_BY;
 
         if(ebotResponse.Email_Details.size() > 0){
             for(ABSLI_EbotWrapper.EmailDetailsWrapper emailWrapper : ebotResponse.Email_Details){
@@ -253,11 +255,18 @@ public class ABSLI_CaseIntegrationHelper {
             update caseRecord;
         }
 
-      if(caseRecord.FTR__c){
+        if(caseRecord.FTR__c){
             caseRecord.MoveToNext__c = true;  
             if(Schema.sObjectType.Case.isUpdateable()){
                 update caseRecord;
             }
+        }
+
+        if(requestsForStageMovement.contains(caseRecord.CCC_External_Id__c)){
+            caseRecord.MoveToNext__c = true;  
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }         
         }
 
         return caseRecord;
