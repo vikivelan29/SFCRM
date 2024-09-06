@@ -86,11 +86,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABHI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABHI</fullName>
+            <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1105,6 +1101,10 @@
         </values>
         <values>
             <fullName>IVR Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR-Bot</fullName>
             <default>false</default>
         </values>
         <values>

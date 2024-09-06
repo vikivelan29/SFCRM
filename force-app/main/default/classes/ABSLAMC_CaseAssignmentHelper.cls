@@ -20,7 +20,8 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         List<String> caseSources = new List<String>(Label.ABSLAMC_CaseSourcesforAssignment.split(','));
         Map<String, Id> queueMap = new Map<String, Id>(); 
         List<ASF_Case_SLA_History__c> caseSLAHistories = new List<ASF_Case_SLA_History__c>();
-        
+        Map<Id, Set<String>> caseIdToSkipperFlag = new Map<Id, Set<String>>();
+
         for(Case caseRec : newMapCase.values()){
             if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
                 amcSpecificCases.put(caseRec.Id,caseRec);
@@ -53,22 +54,27 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             for (Case caseRec : amcSpecificCases.values()) {
                 if (caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU 
                     && caseRec.Stage__c != oldMapCase.get(caseRec.Id).Stage__c 
-                    && caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT 
-                   ) {
-                       if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
-                           && caseSources.contains(caseRec.Source__c)) {
-                               caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
-                               
-                           } else if (caseSlaHistoryMap.containsKey(caseRec.Id)) {
-                               // Assign to last owner of open stage
-                               for (ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseRec.Id)) {
-                                   if (history.Stage__c == ABSLAMC_Constants.OPEN_STAGE) {
-                                       caseRec.OwnerId = history.Current_Owner_Id__c;
-                                       break;
-                                   }
-                               }
-                           }
-                   }
+                    && caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE) 
+                {
+                    if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
+                        && caseSources.contains(caseRec.Source__c)) {
+                            caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
+                            caseIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_ASSIGNMENT});
+                        }
+                        else if (caseSlaHistoryMap.containsKey(caseRec.Id)) {
+                        // Assign to last owner of open stage
+                        for (ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseRec.Id)) {
+                            if (history.Stage__c == ABSLAMC_Constants.OPEN_STAGE) {
+                                caseRec.OwnerId = history.Current_Owner_Id__c;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(!caseIdToSkipperFlag.isEmpty()){
+                ASF_CaseTriggerModularHelper.setManualSkipperFlags(caseIdToSkipperFlag, null);
             }
         }
         
@@ -120,16 +126,18 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                     Case caseRec = amcSpecificCases.get(caseId);
                     ABSLAMC_Case_Detail__c caseDetailRec = caseToCaseDetailMap.get(caseId);
                     //check if moved backward/forward from Stage 2;
-                    if(caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT || caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE){
-                        
+                    if((caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT || caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE) && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT){
                         caseDetailRec.Date_of_App_Support_Response__c = DateTime.now();
-                        caseDetailRec.No_of_iterations__c = (caseDetailRec.No_of_iterations__c != null) ? caseDetailRec.No_of_iterations__c + 1 : 1;
                         caseDetailToUpdate.add(caseDetailRec);
                     } 
                     // Checking if the current stage is 1 and the previous stage is 2
                     if (caseRec.Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT && oldMapCase.containsKey(caseRec.Id) && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT) {
                         caseDetailRec.Date_of_Reply_back_to_App_Support__c = DateTime.Now();
                         caseDetailToUpdate.add(caseDetailRec);
+                    }
+                    // Checking if the current stage is 3 and the previous stage is 2
+                    if(caseRec.Stage__c == ABSLAMC_Constants.REPLY_RECEIVED_FROM_APP_SUPPORT && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.AWAITING_RESPONSE_FROM_APP_SUPPORT){
+                        caseDetailRec.No_of_iterations__c = (caseDetailRec.No_of_iterations__c != null) ? caseDetailRec.No_of_iterations__c + 1 : 1;
                     }
                 }
             }
@@ -139,4 +147,5 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             
         }
     }
- }
+    
+}
