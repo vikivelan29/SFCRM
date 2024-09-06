@@ -1,0 +1,49 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>Health Returns and App Registration</span>
+                    </h2>
+                </div>
+                <div>
+                    <lightning-button-icon onclick={refreshData} icon-name="utility:refresh" size="medium"
+                        alternative-text="Refresh"
+                        class="slds-float_right slds-m-top_xx-small slds-m-right_xx-small"></lightning-button-icon>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <template if:true={isLoadingData}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+            <template if:true={apiErrorMessage}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{apiErrorMessage}</span>
+                </div>
+            </template>  
+            <template if:true={policyData}>
+                <div class="slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                    <lightning-layout class="slds-gutters_small">
+                        <lightning-layout-item flexibility="auto">
+                            <div class="subHeading">App Registration</div>
+                            <div class="slds-p-top_xxx-small slds-border_bottom">
+                                <span class="slds-form-element__label">Is Registered</span>
+                                <div class="slds-form-element__static">{policyData.AppRegDetails.IsRegistered}</div>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto">
+                            <div class="subHeading">Health Returns</div>
+                            <div class="slds-p-top_xxx-small slds-border_bottom">
+                                <span class="slds-form-element__label">Total Balance</span>
+                                <div class="slds-form-element__static">{policyData.totalBalance}</div>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+        </div>
+    </article>
+</template>
