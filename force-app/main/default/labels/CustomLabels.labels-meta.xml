@@ -1187,4 +1187,25 @@
         <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</shortDescription>
+        <value>Reply Type can only be Satisfactory while resolving a Case.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CAMSMandatoryFieldsErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CAMSMandatoryFieldsErrorMsg</shortDescription>
+        <value>Please fill in the mandatory fields:</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseAssignmentQueueNames</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseAssignmentQueueNames</shortDescription>
+        <value>ABSLAMC MF Issue Management Unit</value>
+    </labels>
 </CustomLabels>
