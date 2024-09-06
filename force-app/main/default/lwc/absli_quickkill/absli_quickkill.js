@@ -5,6 +5,7 @@ import sendCommunication from "@salesforce/apex/ABSLI_QuickKillController.sendCo
 import getAllRelatedAssets from '@salesforce/apex/ABSLI_QuickKillController.getAllRelatedAssets';
 import getPolicyColumns from '@salesforce/apex/ABSLI_QuickKillController.getPolicyColumns';
 import deleteDraftLogs from '@salesforce/apex/ABSLI_QuickKillController.deleteDraftLogs';
+import getCustomerPhoneNumber from '@salesforce/apex/ABSLI_QuickKillController.getCustomerPhoneNumber';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
@@ -62,14 +63,15 @@ export default class Absli_quickkill extends LightningElement {
     filter = {};
 
 
-    @wire(getRecord, { recordId: "$recordId", fields })
+    @wire(getCustomerPhoneNumber, { recordId: "$recordId"})
     async wiredRecord({ error, data }) {
         if (error) {
           console.log(JSON.stringify(error));
         } else if (data) {
-            this.accountRecord = data;
+            debugger;
+            //this.accountRecord = data;
 
-            let mobVal = this.accountRecord.fields.PersonMobilePhone.value;
+            let mobVal = data;//this.accountRecord.fields.PersonMobilePhone.value;
             if(mobVal != null && mobVal != ""){
                 await this.loadColumns();
                 await this.loadRelatedAssets();

@@ -26,6 +26,54 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ABSLAMC_PMS_Accounts_Share_to_PMS_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>ABSLAMC PMS Accounts Share to PMS Users</label>
+        <sharedTo>
+            <group>ABSLAMC_PMS_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_of_Business__c</field>
+            <operation>equals</operation>
+            <value>PMS</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_RE_Accounts_Share_to_RE_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>ABSLAMC RE Accounts Share to RE Users</label>
+        <sharedTo>
+            <group>ABSLAMC_RE_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_of_Business__c</field>
+            <operation>equals</operation>
+            <value>RE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ABSLIG_Account_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <accountSettings>
@@ -60,6 +108,49 @@
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLI_Advisor_Account_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>ABSLI Advisor Account Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>ABSLI Advisor</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>All_ABFL_Customer_To_ABFL_User</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>Read</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>All ABFL Customer To ABFL User</label>
+        <sharedTo>
+            <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABFL</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -103,26 +194,69 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABSLI_Advisor_Account_Sharing</fullName>
+        <fullName>ABHI_Account_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>Read</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>ABHI Account Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_AIF_Accounts_Share_to_AIF_Users</fullName>
         <accessLevel>Read</accessLevel>
         <accountSettings>
             <caseAccessLevel>None</caseAccessLevel>
             <contactAccessLevel>Read</contactAccessLevel>
             <opportunityAccessLevel>None</opportunityAccessLevel>
         </accountSettings>
-        <label>ABSLI Advisor Account Sharing</label>
+        <label>ABSLAMC AIF Accounts Share to AIF Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <group>ABSLAMC_AIF_Users</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLI</value>
+            <value>ABSLAMC</value>
         </criteriaItems>
         <criteriaItems>
-            <field>RecordTypeId</field>
+            <field>Line_of_Business__c</field>
             <operation>equals</operation>
-            <value>ABSLI Advisor</value>
+            <value>AIF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_MF_Accounts_Share_to_MF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>ABSLAMC MF Accounts Share to MF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_MF_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_of_Business__c</field>
+            <operation>equals</operation>
+            <value>MF</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

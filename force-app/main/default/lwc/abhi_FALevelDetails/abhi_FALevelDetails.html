@@ -1,0 +1,64 @@
+<template>
+
+   <lightning-card title="Fitness Level Details"  >
+        <div class="slds-m-around_medium">
+            <template if:true={isLoading}>
+                <div class="slds-backdrop" role="presentation"></div>
+                <div class="slds-fade-in-open slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+            </template>
+            <lightning-layout class="slds-m-bottom_large slds-grid slds-wrap">
+                <lightning-layout-item size="4" class="slds-m-right_x-small">
+                    <lightning-input type="date" name="Startdate" value={startDate} onchange={handleStartDateChange}
+                        label="From Date" class="date-format-hide" format='YYYY-MM-dd' disabled={disabled}>
+                    </lightning-input>
+                </lightning-layout-item>
+                                <lightning-layout-item size="4" class="slds-m-right_small">
+                    <lightning-input type="date" name="Enddate" value={endDate} onchange={handleEndDateChange}
+                        label="End Date"  class="date-format-hide" format='YYYY-MM-dd'>
+                    </lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item  size="auto" style="margin-top: 20px; margin-left: 16px;">
+                    <lightning-button variant="brand" label="Search" onclick={handleSearchClick} disabled={isSearchDisabled} ></lightning-button>
+                </lightning-layout-item>                
+            </lightning-layout>
+            <template if:true={displayErrorSearch}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{errorMessageSearch}</span> 
+                </div>
+            </template>  
+        </div>
+
+        <div lwc:if = {displayTable}>
+            <div class = "slds-p-vertical_medium slds-text-heading_medium">
+               
+            </div>
+
+            <c-abfl_-data-table-with-pagination columns={columns}
+                                                            table-data={data} page-size = {label.pageSize}
+                                                            onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+        </div>
+        
+        <div slot="actions"  onkeyup={handleKeyUp} class="slds-p-horizontal_small slds-m-bottom_small slds-clearfix" style="width: 200px;">
+            <div class="slds-float_right slds-grid">
+                <lightning-button-icon icon-name="utility:refresh"  alternative-text="Refresh" title="Refresh" style="margin-top:auto;" onclick={handleRefresh}></lightning-button-icon>
+
+            </div>
+        </div>
+        <!-- <div lwc:if = {displayError}>
+            {errorMessage}
+        </div>  -->
+        <template if:true={displayError}>
+            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                <span style="font-size: 0.90rem;">{errorMessages}</span> 
+            </div>
+        </template>
+        
+    
+   </lightning-card>
+        
+    
+</template>

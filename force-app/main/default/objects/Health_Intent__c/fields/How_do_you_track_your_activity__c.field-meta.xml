@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>How_do_you_track_your_activity__c</fullName>
+    <externalId>false</externalId>
+    <label>How do you track your activity</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Google fit</fullName>
+                <default>false</default>
+                <label>Google fit</label>
+            </value>
+            <value>
+                <fullName>Fitbit</fullName>
+                <default>false</default>
+                <label>Fitbit</label>
+            </value>
+            <value>
+                <fullName>Garmin</fullName>
+                <default>false</default>
+                <label>Garmin</label>
+            </value>
+            <value>
+                <fullName>Jawbone</fullName>
+                <default>false</default>
+                <label>Jawbone</label>
+            </value>
+            <value>
+                <fullName>MI</fullName>
+                <default>false</default>
+                <label>MI</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Applehealth</fullName>
+                <default>false</default>
+                <label>Applehealth</label>
+            </value>
+            <value>
+                <fullName>S health</fullName>
+                <default>false</default>
+                <label>S health</label>
+            </value>
+            <value>
+                <fullName>Honor</fullName>
+                <default>false</default>
+                <label>Honor</label>
+            </value>
+            <value>
+                <fullName>Amazefit</fullName>
+                <default>false</default>
+                <label>Amazefit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

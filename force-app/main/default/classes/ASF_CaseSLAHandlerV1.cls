@@ -86,7 +86,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 if(slaValues.get('caseOverride') != null){
                     closeSlaSec =  slaValues.get('caseOverride') * slaIdentifier;  
                 }
-                else if (externalIdStageNameCaseStageConfigMap != null) {
+                else if (externalIdStageNameCaseStageConfigMap != null && s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c != null) { // Added null check on 
                     closeSlaSec =  Integer.valueOf( s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c) * slaIdentifier;
                 }
                 //Stage SLA 1 overirde
@@ -201,9 +201,13 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     Since we are using businss hrs , we cannot use case age in list view.
                     Hence this work around. agents will pick cases which are closure for SLA.
                     More of proactove way of selecting cases to work on and avoiding SLA breach
-
                     */
+
+                    // Added null check on closeSlaSec
+                    if(closeSlaSec != null) {
+                        updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, system.now(), closeSlaSec);
                         percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,system.now(),updatedCase);
+                    }
                     
                     if(sla1Sec != null){
                         updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, system.now(), sla1Sec);
@@ -382,13 +386,34 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         return caseBackMovementCheckMap;
     }
     
-    
+    public static Decimal calculateBusinessHoursPerDay(Id businesshourId){
+        Decimal businessHoursPerDay = 9;
+        
+        for(BusinessHours BhRec : [SELECT Id, MondayStartTime, MondayEndTime FROM BusinessHours WHERE Id =: businesshourId]){
+            Decimal startMinutes = BhRec.MondayStartTime.hour() * 60 + BhRec.MondayStartTime.minute();
+            Decimal endMinutes = BhRec.MondayEndTime.hour() * 60 + BhRec.MondayEndTime.minute();
+            Decimal hoursPerDay = (endMinutes - startMinutes) / 60; 
+            
+            if(hoursPerDay == 0){
+                businessHoursPerDay = 24;     
+            }else{
+                businessHoursPerDay = hoursPerDay;
+            }
+        }
+        return businessHoursPerDay;
+    }
     
     public static Boolean updateOldCaseSLAHistory(List<Case> newCases){
         Set<Id> caseIdSet = new Set<Id>();
+        Id businesshourId;
+        Decimal businessHoursPerDay = 9;
+        
         for(Case c:newCases){
             caseIdSet.add(c.Id);
+            businesshourId = c.BusinessHoursId;
         }
+        businessHoursPerDay = calculateBusinessHoursPerDay(businesshourId);
+        
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
         //take running record and make it false
         if(!caseIdSet.isEmpty()){
@@ -430,7 +455,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                                 long seconds = milliseconds / 1000;
                                                                 long minutes = seconds / 60;
                                                                 long hours = minutes / 60;
-                                                                long days = hours / 24;
+                                                                Integer days = Integer.valueOf (Math.floor(hours / businessHoursPerDay));
                                                                 if(days < 1){
                                                                     slaHistory.Time_Taken__c = ( Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60)  )+'s';   
                                                                 }else{
