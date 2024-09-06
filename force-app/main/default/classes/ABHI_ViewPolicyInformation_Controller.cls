@@ -30,10 +30,9 @@ public with sharing class ABHI_ViewPolicyInformation_Controller {
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName, requestPayload, null);
         
         ResponseWrapper respWrapper = new ResponseWrapper();
-        system.debug('---> '+integrationResponse.responseBody);
+
         if(String.isNotBlank(integrationResponse.responseBody)){        
             respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
-            system.debug('respWrapper--- '+JSON.serialize(respWrapper));
         }
         return respWrapper;
     }
