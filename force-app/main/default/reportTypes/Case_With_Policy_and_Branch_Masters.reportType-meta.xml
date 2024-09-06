@@ -843,7 +843,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Case Type</displayNameOverride>
             <field>Type_Text__c</field>
             <table>Case</table>
         </columns>
@@ -1810,11 +1809,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.User_Type__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
             <table>Case</table>
         </columns>
         <columns>
