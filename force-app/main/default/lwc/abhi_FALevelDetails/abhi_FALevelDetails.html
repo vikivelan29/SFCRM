@@ -19,10 +19,16 @@
                         label="End Date"  class="date-format-hide" format='YYYY-MM-dd'>
                     </lightning-input>
                 </lightning-layout-item>
-                <lightning-layout-item  class="slds-m-right_small" style="padding-top:19px">
+                <lightning-layout-item  size="auto" style="margin-top: 20px; margin-left: 16px;">
                     <lightning-button variant="brand" label="Search" onclick={handleSearchClick} disabled={isSearchDisabled} ></lightning-button>
                 </lightning-layout-item>                
             </lightning-layout>
+            <template if:true={displayErrorSearch}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{errorMessageSearch}</span> 
+                </div>
+            </template>  
         </div>
 
         <div lwc:if = {displayTable}>
@@ -47,9 +53,9 @@
         <template if:true={displayError}>
             <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
                 <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
-                {errorMessages}
+                <span style="font-size: 0.90rem;">{errorMessages}</span> 
             </div>
-        </template> 
+        </template>
         
     
    </lightning-card>

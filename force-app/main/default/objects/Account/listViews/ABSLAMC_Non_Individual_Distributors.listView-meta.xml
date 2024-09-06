@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLAMC_Non_Individual_Distributors</fullName>
+    <booleanFilter>1 AND  3 AND (2 OR 4)</booleanFilter>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ACCOUNT.ADDRESS1_STATE</columns>
+    <columns>ACCOUNT.PHONE1</columns>
+    <columns>ACCOUNT.TYPE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>IS_PERSON_ACCOUNT</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABSLAMC</value>
+    </filters>
+    <filters>
+        <field>ACCOUNT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Account.ABSLAMC_Non_Individual_Distributor</value>
+    </filters>
+    <filters>
+        <field>Line_of_Business__c</field>
+        <operation>contains</operation>
+        <value>MF,PMS,AIF,RE</value>
+    </filters>
+    <label>ABSLAMC Non-Individual Distributors</label>
+    <sharedTo>
+        <role>ABSLAMC_AIF_Executive_Leadership</role>
+        <role>ABSLAMC_AIF_Service_Agents_Users</role>
+        <role>ABSLAMC_MF_Executive_Leadership</role>
+        <role>ABSLAMC_MF_Service_Agents_Users</role>
+        <role>ABSLAMC_PMS_Executive_Leadership</role>
+        <role>ABSLAMC_PMS_Service_Agents_Users</role>
+        <role>ABSLAMC_RE_Executive_Leadership</role>
+        <role>ABSLAMC_RE_Service_Agents_Users</role>
+    </sharedTo>
+</ListView>
