@@ -35,14 +35,19 @@
                 <label>ABWM</label>
             </value>
             <value>
+                <fullName>ABSLIG</fullName>
+                <default>false</default>
+                <label>ABSLIG</label>
+            </value>
+            <value>
                 <fullName>ABSLI</fullName>
                 <default>false</default>
                 <label>ABSLI</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
+                <fullName>ABSLAMC</fullName>
                 <default>false</default>
-                <label>ABSLIG</label>
+                <label>ABSLAMC</label>
             </value>
         </valueSetDefinition>
     </valueSet>
