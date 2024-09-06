@@ -317,10 +317,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABSLI_AdvisorCommunicationInvocableTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABSLI_AfterInsertLogic</apexClass>
         <enabled>false</enabled>
     </classAccesses>
