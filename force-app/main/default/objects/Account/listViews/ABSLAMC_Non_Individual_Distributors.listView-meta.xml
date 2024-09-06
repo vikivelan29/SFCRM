@@ -24,7 +24,7 @@
         <value>Account.ABSLAMC_Non_Individual_Distributor</value>
     </filters>
     <filters>
-        <field>Line_of_Business__pc</field>
+        <field>Line_of_Business__c</field>
         <operation>contains</operation>
         <value>MF,PMS,AIF,RE</value>
     </filters>

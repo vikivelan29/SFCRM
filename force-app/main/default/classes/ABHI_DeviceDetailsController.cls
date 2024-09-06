@@ -102,16 +102,16 @@ public with sharing class ABHI_DeviceDetailsController {
     *********************************************************/
     public class RecommendedWrapper {
         @AuraEnabled
-    public String logo_url;
+		public String logo_url;
         @AuraEnabled
-    public String name;
+		public String name;
         @AuraEnabled
-    public String subname;
+		public String subname;
         @AuraEnabled public String sync_url;
         @AuraEnabled public String synced;
         @AuraEnabled public String redirect_uri;
         @AuraEnabled public GooglefitProfile googlefitProfile;
-  }
+	}
 
     /*********************************************************
     *Class        :  GooglefitProfile
@@ -129,7 +129,7 @@ public with sharing class ABHI_DeviceDetailsController {
         @AuraEnabled public String ID_Token;
         @AuraEnabled public String Server_Auth_Code;
         @AuraEnabled public String Photo_URL;
-  }
+	}
 
     /*********************************************************
     *Class        :  Data
@@ -138,10 +138,10 @@ public with sharing class ABHI_DeviceDetailsController {
     *Last Modified:  05/08/2024
     *@description  :  Data is a wrapper class to hold device categories and details
     *********************************************************/
-  public class Data {
+	public class Data {
         public List<String> deviceCategories;
         public Devices devices;
-  }
+	}
 
     /*********************************************************
     *Class        :  BookingHistoryWrapper
@@ -150,10 +150,10 @@ public with sharing class ABHI_DeviceDetailsController {
     *Last Modified:  05/08/2024
     *@description  :  BookingHistoryWrapper is a wrapper class to hold Booking History Information
     *********************************************************/
-  public class Devices {
+	public class Devices {
         @AuraEnabled public List<RecommendedWrapper> Recommended;
         @AuraEnabled public List<RecommendedWrapper> Others;
-  }
+	}
 
     /*********************************************************
     *Class        :  deserilaizedResponse

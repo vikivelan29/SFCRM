@@ -1,9 +1,10 @@
 /****************************************************************************************************************
   * Author           - Anirudh Raturi
   * Date             - 28-November-2023
-  *****************************************************************************************************************/
+*****************************************************************************************************************/
 
-  public with sharing class Asf_FetchAssetRelatedToAccountController {
+@SuppressWarnings('PMD')
+public with sharing class Asf_FetchAssetRelatedToAccountController {
     
     /****************************************************** 
     * Description      - Getting asset records on the basis of Account LOB and to the related account.
@@ -97,6 +98,12 @@
                         colNameObj.fieldName = 'assetNameRecLink';
                     }
                     else if(fieldApiName == 'LAN__r.LAN__c') {
+                        colNameObj.fieldName = 'assetLanRecLink';
+                        toolTp.fieldName = fieldApiName;
+                        typeAttrbtObj.tooltip = toolTp;
+
+                    }
+                    else if(fieldApiName == 'LAN__r.Policy_No__c') {
                         colNameObj.fieldName = 'assetLanRecLink';
                         toolTp.fieldName = fieldApiName;
                         typeAttrbtObj.tooltip = toolTp;
