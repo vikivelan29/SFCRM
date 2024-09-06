@@ -2,7 +2,7 @@
  * @description       :
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             :
- * @last modified on  : 07-31-2024
+ * @last modified on  : 08-29-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABSLI_Constants {
@@ -41,8 +41,10 @@ public class ABSLI_Constants {
          'PNFT042' => 'STPFS',
          'PPCT027' => 'STPMC'
      };
-     
+     public static final List<String> SURRENDER_WITHDRAWAL_CCC_IDs = new List<String>{'PPAY008', 'PPAY001'};
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
+
+     public static final List<String> STP_SOURCES = new List<String>{'Customer Portal','ABC_Servicing_App'};
 
     /* Bitly Link REAL TIME API
      */
@@ -165,6 +167,11 @@ public class ABSLI_Constants {
     public static final Integer LOANVOUCHERPROCESS_BATCH_SIZE = 10;
     public static final String LOANVOUCHERPROCESS_SUBTYPE = 'Loan Payout';
 
+    /* MODE CHANGE INTEGRATION **/
+    public static final String MODECHANGE_SCHEDULDE_JOB = 'Mode Change Schedulde Job';
+    public static final Integer MODECHANGE_BATCH_SIZE = 10;
+    public static final String MODECHANGE_CASECATEGORYCONFIG = 'PPCT027';
+    public static final String MODECHANGE_DEFAULTSTAGE = 'Soft Resolve';
 
     /* NOMINEE UPDATE INTEGRATION */
     public static final String DELETENOMINEE_SRV_NAME = 'DeleteNominee';
@@ -253,6 +260,7 @@ public class ABSLI_Constants {
     public static final List<String> SURRENDER_WITHDRAWAL_CASE_TYPES = new List<String>{'PPAY001','PPAY008'};
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_NAME = 'User Branch';
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
-
+  
     public static final String EMAIL_SOURCE_REQ_BY = 'Customer';
+  
 }

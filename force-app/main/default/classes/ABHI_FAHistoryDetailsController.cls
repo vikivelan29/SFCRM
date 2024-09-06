@@ -76,8 +76,8 @@ public with sharing class ABHI_FAHistoryDetailsController {
     public class IntegrationResponseWrapper {
         @AuraEnabled public InfoWrapper info;
         @AuraEnabled public List<CustomerAppointmentsWrapper> customerAppointments;
-        @AuraEnabled public Integer StatusCode;  
-      @AuraEnabled public String Message;  
+        @AuraEnabled public Integer StatusCode;	
+	    @AuraEnabled public String Message;	
         public IntegrationResponseWrapper(Integer statusCode, String responseBody){
             this.StatusCode = statusCode;
             this.Message = responseBody;

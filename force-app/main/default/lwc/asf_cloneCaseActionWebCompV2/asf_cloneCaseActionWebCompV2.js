@@ -242,7 +242,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             const successevent = new ShowToastEvent({
                 variant: 'success',
                 title: 'Cloning successful',
-                message: 'Successfully cloned the SR!'
+                message: 'Successfully cloned the Case'
             });
             this.dispatchEvent(successevent);
 
