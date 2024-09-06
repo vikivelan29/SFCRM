@@ -11,6 +11,7 @@ import { getRecord } from 'lightning/uiRecordApi';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 
 import hasSalesProspectPermission from "@salesforce/customPermission/ShowSalesProspect";
+import hideCaseWithProspect from "@salesforce/customPermission/HideCaseWithProspect";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { lanLabels } from 'c/asf_ConstantUtility';
 
@@ -163,6 +164,8 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         event.preventDefault();
         this.disableCreateBtn = true;
         let isValid = this.isInputValid();
+        if(isValid) {
+
         let leadFields = [...this.template.querySelectorAll('lightning-input-field')]
         let fieldsVar = leadFields.map((field)=>[field.fieldName,field.value]);
         let leadRecord = Object.fromEntries([...fieldsVar, ['sobjectType', 'Lead']]);
@@ -200,32 +203,17 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
                 console.log('tst225572' + JSON.stringify(error));
                 this.showError('error', 'Oops!', error);
             });
+        }
     }
     
     isInputValid() {
-        let isValid = true;
-        let inputFields = this.template.querySelectorAll('lightning-input-field');
-        inputFields.forEach(inputField => {
-            //if (inputField.value != null && inputField.value != undefined) {
-
-            if (inputField.required == true) {
-                if (inputField.value != null && inputField != undefined) {
-                    if (inputField.value.trim() == '') {
-                        inputField.value = '';
-                        inputField.reportValidity();
-                        isValid = false;
-                    }
-                    
-                }
-                else{
-                    inputField.reportValidity();
-                    isValid = false;
-                }
-
-            }
-
+        this.template.querySelectorAll("lightning-input-field").forEach(field => {
+            field.reportValidity();
         });
-        return isValid;
+        return [...this.template.querySelectorAll("lightning-input-field")].reduce((validSoFar, field) => {
+
+            return (validSoFar && field.reportValidity());
+        }, true);
     }
     
     showError(variant, title, error) {
@@ -253,6 +241,9 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
 
     get isSalesProspectVisible() {
         return hasSalesProspectPermission;
+    }
+    get isCaseWithProspectHidden() {
+        return hideCaseWithProspect;
     }
 
 

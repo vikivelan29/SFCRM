@@ -7,20 +7,29 @@ const fields = [CLIENT_CODE_FIELD];
 const ATTRIBUTE_CODE_LABELS = {
     'DIABTS': 'Fasting Blood Sugar (mg/dl)',
     'TOTCHL': 'Total Cholesterol',
-    'SMOKING STATUS': 'Smoking Status',
+    'SMOKER': 'Smoking Status',
     'DIASTOLIC': 'Diastolic',
-    'SYSTOLIC': 'Systolic',
+    'BPMDIA': 'Diastolic',
+    'BPMSYS': 'Systolic',
+    'BPMSYS': 'Systolic',
+    'tierLevelName': 'Current Score',
     'AGE': 'Age'
 };
 const ALLOWED_ATTRIBUTES = [
-    'Current Score',
-    'Fasting Blood Sugar mgdl',
-    'Total Cholesterol',
     'Smoking Status',
     'Diastolic',
     'Systolic',
-    'Age'
+    //'Age'
 ];
+const DEFAULT_VALUES = {
+    'Fasting Blood Sugar (mg/dl)': '0',
+    'Total Cholesterol': '0',
+    'Smoking Status': '0',
+    'Diastolic': '0',
+    'Systolic': '0',
+    'Current Score': '0',
+    'Age': '0'
+};
 
 export default class AbhiActiveAgeDetails extends LightningElement {
     @api recordId;
@@ -41,8 +50,13 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     @track tableData = [];
     @track noResultsMessage = false;
     resultMessageValue;
+    @track ApiFailure = '';
 
     customerId;
+
+    get showResultMessage() {
+        return this.resultMessageValue && !this.displayError;
+    }
 
     @wire(getRecord, {
         recordId: "$recordId",
@@ -55,6 +69,15 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         this.loadData();
     }
 
+    initializeTable() {
+        this.table = Object.keys(DEFAULT_VALUES).map(label => ({
+            attributeCode: label,
+            attributeValue: DEFAULT_VALUES[label]
+        }));
+        console.log('Initialized Table with Defaults:', JSON.stringify(this.table, null, 2));
+
+    }
+
     loadData() {
         this.isLoading = true;
         this.displayError = false;
@@ -65,6 +88,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             console.log('result---->', result);
             this.isLoading = false;
             this.showDataTable = true;
+            this.ApiFailure = result.Message;
 
             if(result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length > 0) {
                 this.setupColumns(result);
@@ -94,7 +118,18 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         .catch(error => {
             this.isLoading = false;
             this.displayError = true;
-            this.errorMessages = error.body.message;
+            if (error.body!= null) {
+                this.errorMessages = error.body.message;
+                this.resultMessageValue = error.body.message;
+            } else if(this.ApiFailure){
+                this.errorMessages = this.ApiFailure;
+                this.resultMessageValue = this.ApiFailure;
+                
+            }
+            else{
+                this.errorMessages = 'An unknown error occured, please contact your system admin'
+                this.resultMessageValue = this.errorMessages;
+            }
         });
     }
 
@@ -115,9 +150,12 @@ export default class AbhiActiveAgeDetails extends LightningElement {
 
     processResponse(response) {
         console.log('API Response:', response);
+        this.initializeTable(); // Initialize with default values
+        console.log('Initialized Table with Defaults:', this.table);
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
+        let hasData = false;
         
         if (response && response.StatusCode === '1000'|| response.StatusCode === '1002') {
             console.log('response code', response.StatusCode);
@@ -136,6 +174,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             this.recordTable2 = tableData;  // Ensure this is populated as needed
             this.showDataTable = true;
             this.displayError = false;
+            hasData = true;
         }
         else{
             this.showDataTable = false;
@@ -157,51 +196,54 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                         const resultsList = response.HHSDetails.responseMap.resultsList;
                         const tierLevelName = resultsList.tierLevelName;
                         const activities = resultsList.activities;
-                            //console.log('Activities:', JSON.stringify(activities, null, 2));
+                            console.log('Activities:', JSON.stringify(activities, null, 2));
 
-                            let table = [];
+                            //let table = [...this.table];
+                            let table = Object.keys(DEFAULT_VALUES).map(label => ({
+                                attributeCode: label,
+                                attributeValue: DEFAULT_VALUES[label]
+                            }));
+
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
-                                table.push({
-                                    attributeCode: 'Current Score',
-                                    attributeValue: tierLevelName || ''
-                                });
-
-
-                                let attributeValues = {
-                                    'Total Cholesterol': '',
-                                    'Fasting Blood Sugar (mg/dl)': ''
-                                };
+                                if (tierLevelName) {
+                                    table = table.map(row =>
+                                        row.attributeCode === 'Current Score'
+                                            ? { attributeCode: 'Current Score', attributeValue: tierLevelName }
+                                            : row
+                                    );
+                                   
+                                }
 
                                 activities.forEach(activity => {
-                                    if (activity.name === "Total cholesterol") {
-                                        attributeValues['Total Cholesterol'] = activity.value || '';
-                                    } else if (activity.name === "Fasting Blood Sugar (mg/dl)") {
-                                        attributeValues['Fasting Blood Sugar (mg/dl)'] = activity.value || '';
-                                    }
+                                    const label = ATTRIBUTE_CODE_LABELS[activity.code] || activity.name;
+                                        // Push the activity value
+                                   
+                                    table = table.map(row =>
+                                        row.attributeCode === label
+                                            ? { attributeCode: label, attributeValue: activity.value || DEFAULT_VALUES[label] }
+                                            : row
+                                    );
+
                                     if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
                                         activity.attributes.forEach(attr => {
                                             const label = ATTRIBUTE_CODE_LABELS[attr.attributeCode] || attr.attributeCode;
                                             if (ALLOWED_ATTRIBUTES.includes(label)) {
-                                                table.push({
-                                                    attributeCode: label,
-                                                    attributeValue: attr.attributeValue || ''
-                                                });
+                                                
+                                                table = table.map(row =>
+                                                    row.attributeCode === label
+                                                        ? { attributeCode: label, attributeValue: attr.attributeValue || DEFAULT_VALUES[label] }
+                                                        : row
+                                                );
                                             }
                                         });
                                     }
                                 });
-        
-                                // Add specific attributes to the table
-                                Object.keys(attributeValues).forEach(key => {
-                                    table.push({
-                                        attributeCode: key,
-                                        attributeValue: attributeValues[key]
-                                    });
-                                });
-        
+
                                 this.table = table;
                                 console.log('Table Data:', JSON.stringify(this.table, null, 2));
                                 this.showTable = true;
+                                hasData = true;
+                                console.log('hasData', hasData);
                             } else {
                                 this.table = [];
                                 this.noResultsMessage = true;
@@ -224,6 +266,12 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             this.errorMessages = response.Message;
             this.displayError = true;
         }
+        if (!hasData) {
+            this.showDataTable = false;
+            this.displayError = true; 
+            
+        }
+    
     }
 
     formatNumber(value) {

@@ -62,6 +62,28 @@ public without sharing class ASF_CaseTriggerModularHelper {
                }
         }
     }
+
+ /**
+    * @Function - setManualSkipperFlags
+    * @Description - method to be invoked by the BU specific classes if skipper flag needs to be set
+    * @param - recIdToSkipperFlag - Key as CaseId or caseDetail Id and value as skipperFlags
+    * @param - caseDetRecName - pass value to this variable only if you are calling the method from before insert where 
+    * 							recIdToSkipperFlag key is the caseDetail Id
+    * This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
+    */
+    public static void setManualSkipperFlags(Map<Id, Set<String>> recIdToSkipperFlag, String caseDetRecName) {
+        relObjName = caseDetRecName != null ? caseDetRecName : '';
+        for(Id recId : recIdToSkipperFlag.keySet()){
+            if(!skipperFlagMap.containsKey(recId)){
+                skipperFlagMap.put(recId, recIdToSkipperFlag.get(recId));
+            }else{
+                Set<String> currentSkippers = skipperFlagMap.get(recId);
+                currentSkippers.addAll(recIdToSkipperFlag.get(recId));
+                skipperFlagMap.put(recId, currentSkippers);
+            }
+        }    
+    }
+
     /****************************************************************************************************************
 * @Function - populateFrameworkFieldsForCase
 * @param newList -  list of cases from trigger.new.
@@ -192,6 +214,8 @@ blankSourcePresent = true;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                 caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
                 caseRec.Activity__c = appliedCCC.Activity__c;
+                //mapping Line_of_Business__c on caseRec
+                caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
                 // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
                 if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
                     caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
