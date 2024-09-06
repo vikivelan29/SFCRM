@@ -1010,7 +1010,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_Fitness_Appointment</shortDescription>
-        <value>Fitness Appointment</value>
+        <value>FA Appointment</value>
     </labels>
     <labels>
         <fullName>ABHI_Fitness_Level</fullName>
@@ -1075,11 +1075,11 @@
         <value>Recommended Devices</value>
     </labels>
     <labels>
-        <fullName>ABHI_DeviceDetails</fullName>
+        <fullName>ABHI_FitnessAppDetails</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI_DeviceDetails</shortDescription>
-        <value>Device Details</value>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Assessment Appointment History</value>
     </labels>
     <labels>
         <fullName>ABHI_Health_Return_App_Reg</fullName>
