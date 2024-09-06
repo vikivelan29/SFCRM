@@ -1119,6 +1119,12 @@ public class ASF_CaseMovementHelper {
                 Boolean afterPreviousStage = false;
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
                     if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
+                        //Added by Nikhil EY- PR970457-2176 (Not to go back to previous stage if user done backword movement of stage and again try to forward the stage)
+                        boolean isStageSkip = config.Case_Category_Config__r.isStageSkip__c;
+                        if(isStageSkip){
+                            caseRec.Previous_Stage__c = config.StageName__c;
+                        }
+			// End
                         if(afterPreviousStage){
                             // If Not Optional, Allot to Next Stage and Break
                             if(config.Optional_Stage__c){

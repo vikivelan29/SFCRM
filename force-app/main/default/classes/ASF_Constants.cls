@@ -123,7 +123,7 @@ public with sharing class ASF_Constants {
     public static final String DUPLICATESTATUS = 'Closed Duplicate';
     public static final String DUPLICATESTAGE = 'Duplicate';
     public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected','Duplicate'};
-    public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
+    public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved','Duplicate'};
     public static final String ONCREATECLOSESTAGE = 'Resolved';
     public static final String ONCREATECLOSESTATUS = 'Resolved';
     public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
@@ -157,4 +157,8 @@ public with sharing class ASF_Constants {
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
 
     public static final string CASE_ORIGIN = 'ABSLIG Email';
+    
+    public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
+    public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';
+
 }
