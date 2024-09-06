@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>SMS_Entity_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">1701159224452635175</value>
     </values>
     <values>
         <field>SMS_Merge_Fields_CSV__c</field>
@@ -32,11 +32,11 @@
     </values>
     <values>
         <field>SMS_Sender_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ABCAMC</value>
     </values>
     <values>
         <field>SMS_Template_Name__c</field>
-        <value xsi:type="xsd:string">ABSLAMC_SMS_RE_resolution_1723713492849</value>
+        <value xsi:type="xsd:string">ABSLAMC_SMS_RE_resolution_Complaints</value>
     </values>
     <values>
         <field>To_recipient_CSV__c</field>
@@ -48,10 +48,10 @@
     </values>
     <values>
         <field>Whatsapp_Template_Name__c</field>
-        <value xsi:type="xsd:string">ABSLAMC_WA_RE_resolution_1723713564901</value>
+        <value xsi:type="xsd:string">ABSLAMC_WA_RE_resolution_Complaints</value>
     </values>
     <values>
         <field>external_templateID__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">1107172302372434378</value>
     </values>
 </CustomMetadata>
