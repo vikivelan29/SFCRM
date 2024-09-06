@@ -84,7 +84,12 @@ export default class Abhi_HhsActiveAgeDetails extends LightningElement {
                 //this.showNotification('Success', result.Message, 'success');
             }
             else{
-                this.displayError = true;
+                this.displayError = false;
+                this.dispatchEvent(new CustomEvent('handleChildError',{
+                    detail: {
+                                    message: result.Message
+                                }
+                            }));
             }
         })
         .catch(error => {

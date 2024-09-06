@@ -11,7 +11,8 @@ public with sharing class ABHI_DeviceDetailsController {
 
     /****************************************************************************************************************
     * @Function - getDeviceDetails
-    * @param customerId - Customer Id for which the Device details has to be searched
+    * @param requestPayload - Payload to be passed for requesting the data
+    * @param customerId - Id of the customer record
     * @return - ResponseWrapper - Wrapper including the needed device details
     * @description - This method is used to get the Device details for the customer id passed.
     *****************************************************************************************************************/
@@ -53,6 +54,7 @@ public with sharing class ABHI_DeviceDetailsController {
                 ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(integrationResponse.StatusCode), Custom_Messages__mdt.getInstance('ABHI_DeviceDetailsNotFound').Message__c);
                 return returnResponse;
             }
+            
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -188,26 +190,6 @@ public with sharing class ABHI_DeviceDetailsController {
         public ResponseWrapper(Integer code, String Message){
             this.statusCode = code;
             this.Message = Message;
-        }
-    }
-
-    /*********************************************************
-    *Class        :  DeviceDetailsRequest
-    *Author       :  Amrit Preet Singh
-    *Created Date :  05/08/2024
-    *Last Modified:  05/08/2024
-    *@description  :  DeviceDetailsRequest is a wrapper class to hold the payload for request
-    *********************************************************/
-    public class DeviceDetailsRequest{
-        String MemberID;
-        String OS;
-        String PolicyStartDate;
-        String WellnessID;
-        public DeviceDetailsRequest(String MemberID, String OS, String PolicyStartDate){
-            this.MemberID = MemberID;
-            this.OS = OS;
-            this.PolicyStartDate = PolicyStartDate;
-            this.WellnessID = '';
         }
     }
 

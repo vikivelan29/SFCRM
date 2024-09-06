@@ -86,7 +86,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 if(slaValues.get('caseOverride') != null){
                     closeSlaSec =  slaValues.get('caseOverride') * slaIdentifier;  
                 }
-                else if (externalIdStageNameCaseStageConfigMap != null) {
+                else if (externalIdStageNameCaseStageConfigMap != null && s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c != null) { // Added null check on 
                     closeSlaSec =  Integer.valueOf( s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c) * slaIdentifier;
                 }
                 //Stage SLA 1 overirde
@@ -201,9 +201,13 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     Since we are using businss hrs , we cannot use case age in list view.
                     Hence this work around. agents will pick cases which are closure for SLA.
                     More of proactove way of selecting cases to work on and avoiding SLA breach
-
                     */
+
+                    // Added null check on closeSlaSec
+                    if(closeSlaSec != null) {
+                        updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, system.now(), closeSlaSec);
                         percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,system.now(),updatedCase);
+                    }
                     
                     if(sla1Sec != null){
                         updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, system.now(), sla1Sec);
