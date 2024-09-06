@@ -1,0 +1,40 @@
+<!--
+  @description       : 
+  @author            : Shubham Sinha
+  @group             : 
+  @last modified on  : 31-07-2024
+  @last modified by  : Shubham Sinha
+-->
+<template>
+    <lightning-card title="Active Day Events">
+        <div class="slds-m-around_medium">
+            <template if:true={isLoading}>
+                <div class="slds-backdrop" role="presentation"></div>
+                <div class="slds-fade-in-open slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </div>
+            </template>
+            <div style="position: absolute; top: 0px; right: 10px; z-index: 10;">
+                <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" title="Refresh" size="medium" onclick={handleRefresh}></lightning-button-icon>
+            </div>
+           
+        </div>
+            <div style="margin-top: 25px;"> 
+                <template if:true={showDataTable}>
+                    <lightning-datatable
+                    key-field="id"
+                    data={recordTable}
+                    columns={columns}
+                    hide-checkbox-column
+                    ></lightning-datatable> 
+                </template>
+            </div>
+    <template if:true={displayError}>
+        <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+            <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+            <span style="font-size: 0.90rem;">{errorMessage}</span> 
+        </div>
+    </template>     
+    </lightning-card>
+    
+</template>
