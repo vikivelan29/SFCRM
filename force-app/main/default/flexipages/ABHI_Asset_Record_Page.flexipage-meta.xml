@@ -9,9 +9,6 @@
                         <valueListItems>
                             <value>Asset.Send_Communication</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Asset.HealthAssesmentDetails</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
