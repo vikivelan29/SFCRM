@@ -2,8 +2,8 @@
  * @description       : Test Class for ABHI_FAHistoryDetailsController
  * @author            : Amrit Preet Singh
  * @group             : 
- * @last modified on  : 06/08/2024
- * @last modified by  : Amrit Preet Singh
+ * @last modified on  : 06/08/2024 
+ * @last modified by  : Amrit Preet Singh 1
  * Modifications Log
  * Ver   Date         Author                            Modification
  * 1.0   08-06-2024   amritpreet.singh@salesforce.com   Initial Version
@@ -38,6 +38,9 @@ public class ABHI_FAHistoryDetailsController_Test {
                 Name='testAcc',
                 Client_Code__c = '1234');
             insert acc;
+            Account accWithoutCode = new Account( 
+                Name='testAcc');
+            insert accWithoutCode;
         }
     }
     
@@ -66,6 +69,19 @@ public class ABHI_FAHistoryDetailsController_Test {
             System.assertEquals(400, res.StatusCode, 'code');
         }
     }
+    
+    @isTest static void testgetFADetailsWithoutCustomerId() {
+        Account acc = [SELECT id from Account where Client_Code__c = '' LIMIT 1];
+        User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
+        // Set mock callout class 
+        Test.setMock(HttpCalloutMock.class, new ABHI_FAHistoryDetailsFailureResponseGenerator());
+        System.runAs(testUser){
+            Test.startTest();
+            ABHI_FAHistoryDetailsController.IntegrationResponseWrapper res= ABHI_FAHistoryDetailsController.getFADetails(acc.Id);
+            Test.stopTest();
+            System.assertEquals(400, res.StatusCode, 'code');
+        }
+    }
 
     /**
     * @description  Mocking success response
@@ -81,7 +97,7 @@ public class ABHI_FAHistoryDetailsController_Test {
             res.setHeader('Content-Type', 'application/json');
             String s = '{\"info\":{\"status\":\"SUCCESS\",\"messageCode\":\"JAVASUCCESS0001\",\"messageDesc\":\"Successfullyfetchappointmenthistory\",\"serviceMessageType\":\"INFORMATION\"},\"customerAppointments\":[{\"bookingId\":5905,\"bookingHistories\":[{\"id\":12806,\"status\":\"REQUESTRECEIVED\",\"bookingSlot\":\"11AM\",\"comments\":\"Appointmentbookedsuccessfully\",\"createdBy\":\"NareshM\",\"appointmentDate\":\"2024-01-13\",\"createdDate\":\"2024-01-12T17:48:43\",\"fitnessCenterBranch\":\"KrishnaMarg\"}]}],\"StatusCode\":\"1000\",\"Message\":\"Success\"}';
             res.setBody(s);
-            res.setStatusCode(1000);
+            res.setStatusCode(200);
             return res;
         }
     }
@@ -98,7 +114,7 @@ public class ABHI_FAHistoryDetailsController_Test {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
-			String s = '{\"ReturnCode\":\"2\",\"ReturnMessage\":\"Nodatafound\"}';
+            String s = '{\"ReturnCode\":\"2\",\"ReturnMessage\":\"Nodatafound\"}';
             res.setBody(s);
             res.setStatusCode(400);
             return res;

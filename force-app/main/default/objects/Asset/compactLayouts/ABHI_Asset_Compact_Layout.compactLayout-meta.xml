@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABHI_Asset_Compact_Layout</fullName>
+    <fields>SerialNumber</fields>
+    <fields>Policy_No__c</fields>
+    <fields>Sum_Assured__c</fields>
+    <fields>Next_Premium_Date__c</fields>
+    <label>ABHI Asset Compact Layout</label>
+</CompactLayout>
