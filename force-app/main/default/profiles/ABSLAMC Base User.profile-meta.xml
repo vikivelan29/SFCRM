@@ -5479,5 +5479,5 @@
         <application>ABCL_Service_Console</application>
         <default>true</default>
         <visible>true</visible>
-    </applicationVisibilities> 
+    </applicationVisibilities>
 </Profile>
