@@ -480,6 +480,13 @@
         <value>mulesoft@abcl.dev</value>
     </labels>
     <labels>
+        <fullName>ASF_List_of_BUs_To_AutoSelect_Single_Asset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
         <fullName>ASF_No_DML_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -950,6 +957,20 @@
         <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
     <labels>
+        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Min_Loan_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
+        <value>5000</value>
+    </labels>
+    <labels>
         <fullName>ABSLIG_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -962,6 +983,13 @@
         <protected>false</protected>
         <shortDescription>ABSLIG E2C</shortDescription>
         <value>absli.uatsfbsliggrouphelpline@adityabirlacapital.com:ABSLIG_Group_Helpline_Acknowledgement_Email_1721731333006,absli.uatsfbsliggroupuw@adityabirlacapital.com:ABSLIG_Group_UW_Acknowledgement_Email_1721731484873</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
+        <value>0 30 23 1/1 * ? *</value>
     </labels>
     <labels>
         <fullName>Business_Unit_Check_For_SLA_Override</fullName>
@@ -1104,25 +1132,10 @@
         <value>Other Devices</value>
     </labels>
     <labels>
-        <fullName>ABHI_RecommendedDevice</fullName>
-        <categories>ABHI</categories>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI_RecommendedDevice</shortDescription>
-        <value>Recommended Devices</value>
-    </labels>
-    <labels>
-        <fullName>ABHI_FitnessAppDetails</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
-        <value>Fitness Appointment Details</value>
-    </labels>
-    <labels>
-        <fullName>ABHI_FitnessAppDetails</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
-        <value>Fitness Appointment Details</value>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG</value>
     </labels>
 </CustomLabels>

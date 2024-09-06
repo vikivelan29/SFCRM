@@ -27,23 +27,28 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
                         label: col.MasterLabel,
                         fieldName: col.Api_Name__c,
                         type: col.Data_Type__c,
-                        cellAttributes: { alignment: 'left' }
+                        cellAttributes: { alignment: 'left' },
+                        typeAttributes: col.Data_Type__c=='date-local'?{
+                            day: "2-digit",
+                            month: "2-digit"
+                        }:''
                     })),
                 ];
                 this.getDetails();
             })
         .catch(error => {
                 // todo: remove hardcoding
-                console.error('error in COlumn fetch>>>', error);
+                this.isLoading=false;
+                this.displayError=true;
+                this.showRecords=false;
+                console.error('error in Column fetch>>>', error);
             });
         
     }
 
     getDetails(){
-        console.log('In getDetails>>>');
         getFADetails({customerId: this.recordId})
         .then(result => {
-            console.log('Result>>>>', result);
             if(result.StatusCode == 1000){
                 this.displayError=false;
                 let showData = [];
@@ -53,18 +58,18 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
                         ...booking
                     }))];
                 });
-                console.log('showData>>>>', JSON.stringify(showData));
                 this.data=showData;
                 this.isLoading=false;
                 this.showRecords=true;
             }
             else if(result.StatusCode == 1001){
-                this.message = result.info.messageDesc;
+                this.message = result.info && result.info.messageDesc ? result.info.messageDesc : result.Message;
                 this.isLoading=false;
                 this.displayError=true;
                 this.showRecords=false;
             }
             else{
+                this.message = result.Message;
                 this.isLoading=false;
                 this.displayError=true;
                 this.showRecords=false;
@@ -73,7 +78,7 @@ export default class Abhi_FAHistoryDetails extends LightningElement {
         .catch(error => {
             this.isLoading=false;
             this.displayError=true;
-                this.showRecords=false;
+            this.showRecords=false;
             console.error('error in getdetails>>>', error);
         });
     }

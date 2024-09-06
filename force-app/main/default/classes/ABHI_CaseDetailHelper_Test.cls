@@ -16,6 +16,7 @@ public class ABHI_CaseDetailHelper_Test {
         List<ASF_Case_Category_Config__c> caseCatConfig = [Select Id, Sub_Type__c FROM ASF_Case_Category_Config__c];
         caseCatConfig[0].Sub_Type__c = 'Test_SubType';
         caseCatConfig[0].Type__c = 'TestType';
+        caseCatConfig[0].Business_Unit__c = 'ABHI';
         update caseCatConfig;
         
         // Create test ABHI_Case_Detail__c records
@@ -50,6 +51,7 @@ public class ABHI_CaseDetailHelper_Test {
 
         ABHI_Case_Detail__c abhiCaseDetObj = [SELECT id, Sub_Type__c FROM ABHI_Case_Detail__c LIMIT 1];
         
-        System.assertEquals(abhiCaseDetObj.Sub_Type__c, 'TestType:Test_SubType' ,'Value of Sub_Type__c is Test_SubType');    
+        System.assertEquals(abhiCaseDetObj.Sub_Type__c, 'TestType:Test_SubType' ,'Value of Sub_Type__c is Test_SubType'); 
+        system.debug('---');   
     }
 }
