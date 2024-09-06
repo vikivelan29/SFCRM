@@ -25,9 +25,9 @@
                 <label>NRO Account</label>
             </value>
             <value>
-                <fullName>NRE Account</fullName>
+                <fullName>NRE</fullName>
                 <default>false</default>
-                <label>NRE Account</label>
+                <label>NRE</label>
             </value>
             <value>
                 <fullName>Cash Credit</fullName>
@@ -50,9 +50,9 @@
                 <label>Personal Chequing Account</label>
             </value>
             <value>
-                <fullName>Chequing Account</fullName>
+                <fullName>True Chequing Account</fullName>
                 <default>false</default>
-                <label>Chequing Account</label>
+                <label>True Chequing Account</label>
             </value>
         </valueSetDefinition>
     </valueSet>
