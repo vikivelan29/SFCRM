@@ -158,6 +158,9 @@ public without sharing class ASF_CommPETriggerHelper {
             if(log.Id != null){
                 // Do some data setup here and then update.
                 log.Status__c = 'In Progress';
+                if(log.Whatsappp_Msg_Body__c!=''){
+                log.WhatsApp_Delivery_Status__c = 'In Progress';
+                }
                 updLogs.add(log);
             }
         }
@@ -499,6 +502,7 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                         Phone__c  =log.Phone__c,
                                                                         Txt_Msg__c = log.SMS_Msg_Body__c,
                                                                         LOB__c = log.LOB__c,
+                                                                        Department__c = log.Line_of_Business__c,
                                                                         Type__c = msgType,
                                                                         SMS_Entity_Id__c = log.SMS_Entity_Id__c,
                                                                         SMS_Sender_Id__c = log.SMS_Sender_Id__c
@@ -536,13 +540,13 @@ public without sharing class ASF_CommPETriggerHelper {
                     }
                 }
         }
-        String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin';
+        String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c';
         query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';
         if(setCaseFields !=null && setCaseFields.size()>0){
             List<string> temp = new List<String>();
             temp.addAll(setCaseFields);
             Set<Id> tempCaseIds = caseIds;
-            query = 'SELECT ID,Business_Unit__c,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,'+String.escapeSingleQuotes(String.join(temp, ','));
+            query = 'SELECT ID,Business_Unit__c,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,'+String.escapeSingleQuotes(String.join(temp, ','));
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :tempCaseIds FOR UPDATE';
         }
@@ -561,20 +565,32 @@ public without sharing class ASF_CommPETriggerHelper {
                     Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
                     
                     if(commConfig != null){
+                        /* Populate Merge field for SMS Template */
                         if(commConfig.SMS_Template_Name__c != null){
                             if(commConfig.get(channelFieldNamesSMS[3]) != null){
                                 ASF_CommPEMergeFieldHandler.populateMergeFields(channelFieldNamesSMS,commConfig,cRec,masterlog,mPeLogIdCommunicationLog,casefieldInfo,pLog.Id);
                             }
-                        } 
+                        }    
+                    }   
+                }
+            
+            //Bypass sending WhatsApp when user manually blocks it during case creation
+            if(pLog.CustomMetadataName__c != null &&
+               (pLog.No_Auto_Communication__c == null || 
+                (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('WhatsApp')))){
+                    String strMetadataName = pLog.CustomMetadataName__c;
+                    Case cRec = mCases.get(pLog.Case__c);
+                    ASF_Communication_Log__c masterlog = new ASF_Communication_Log__c();
+                    Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+                    
+                    if(commConfig != null){
                         /* Populate Merge field for WhatsApp Template */
-                        if(commConfig.Whatsapp_Template_Name__c != null){
+                        if(commConfig.Whatsapp_Template_Name__c != null){                            
                             if(commConfig.get(channelFieldNamesWA[3]) != null){
                                 ASF_CommPEMergeFieldHandler.populateMergeFields(channelFieldNamesWA,commConfig,cRec,masterlog,mPeLogIdCommunicationLog,casefieldInfo,pLog.Id);
                             }
                         }
                     }
-                    /* Populate Merge field for SMS Template */
-                    
                 }
             
         }
@@ -589,6 +605,7 @@ public without sharing class ASF_CommPETriggerHelper {
                         log = createCommunincationLogRecord(log,null,null,cRec.Id,'Customer',pLog.Specific_To_MobilePhone__c,null);
                         log.put('PE_Logger_Id__c',pLog.Id);
                         log.LOB__c = pLog.LOB__c;
+                        log.Line_of_Business__c = cRec.LOB__c;
                         log.put('Status__c','In Progress');
                         log.put('Send_To_Specific_Mobile__c',pLog.Send_To_Specific_Mobile__c);
                         logs.add(log);
@@ -599,7 +616,7 @@ public without sharing class ASF_CommPETriggerHelper {
                     log.put('Contact_Email__c', selectedCon.email);
                     log.put('PE_Logger_Id__c',pLog.Id);
                     log.LOB__c = pLog.LOB__c;
-                    
+                    log.Line_of_Business__c = cRec.LOB__c;
                     if( selectedCon.MobilePhone != ''){
                         log.put('Status__c','In Progress');
                     }
@@ -621,6 +638,7 @@ public without sharing class ASF_CommPETriggerHelper {
                             log.put('Contact_Email__c', con.email);
                             log.put('PE_Logger_Id__c',pLog.Id);
                             log.LOB__c = pLog.LOB__c;
+                            log.Line_of_Business__c = cRec.LOB__c;
                             logs.add(log);
                         }
                     }
