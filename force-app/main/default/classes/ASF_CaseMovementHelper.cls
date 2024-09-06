@@ -859,6 +859,8 @@ public class ASF_CaseMovementHelper {
                             else{
                                 continue;
                             }
+                        } else if(config.Gateway_Stage__c){
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
                         }
                         // If Manual, Continue ahead
                         else if(config.Manual_Stage__c){
