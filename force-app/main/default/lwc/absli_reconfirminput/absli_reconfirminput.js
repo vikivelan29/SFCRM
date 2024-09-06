@@ -168,9 +168,6 @@ export default class absli_reconfirminput extends LightningElement {
             this.bConfirmationTextNotMatching = false;
             this.showConfirmationError = false;
             this.iconClass = 'successBtn';
-        }else if ((this.originalTextValue == this.confirmTextValue)){
-            this.bConfirmationTextNotMatching = false;
-            this.iconClass = 'successBtn';
         }
         else {
             this.bConfirmationTextNotMatching = true;
