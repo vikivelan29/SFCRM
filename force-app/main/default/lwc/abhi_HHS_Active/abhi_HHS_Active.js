@@ -7,21 +7,31 @@ const fields = [CLIENT_CODE_FIELD];
 const ATTRIBUTE_CODE_LABELS = {
     'DIABTS': 'Fasting Blood Sugar (mg/dl)',
     'TOTCHL': 'Total Cholesterol',
-    'SMOKING STATUS': 'Smoking Status',
+    'SMOKER': 'Smoking Status',
     'DIASTOLIC': 'Diastolic',
-    'SYSTOLIC': 'Systolic',
+    'BPMDIA': 'Diastolic',
+    'BPMSYS': 'Systolic',
+    'BPMSYS': 'Systolic',
+    'tierLevelName': 'Current Score',
     'AGE': 'Age'
 };
 const ALLOWED_ATTRIBUTES = [
-    'Current Score',
-    'Fasting Blood Sugar mgdl',
-    'Total Cholesterol',
     'Smoking Status',
     'Diastolic',
     'Systolic',
-    'Age'
+    //'Age'
 ];
+const DEFAULT_VALUES = {
+    'Fasting Blood Sugar (mg/dl)': '0',
+    'Total Cholesterol': '0',
+    'Smoking Status': '0',
+    'Diastolic': '0',
+    'Systolic': '0',
+    'Current Score': '0',
+    'Age': '0'
+};
 
+export default class AbhiActiveAgeDetails extends LightningElement {
     @api recordId;
     @track isLoading = false;
     @track displayError = false;
@@ -40,8 +50,35 @@ const ALLOWED_ATTRIBUTES = [
     @track tableData = [];
     @track noResultsMessage = false;
     resultMessageValue;
+    @track ApiFailure = '';
 
-    handleUploadStart() {
+    customerId;
+
+    get showResultMessage() {
+        return this.resultMessageValue && !this.displayError;
+    }
+
+    @wire(getRecord, {
+        recordId: "$recordId",
+        fields
+    })
+    account;
+
+    connectedCallback() {
+
+        this.loadData();
+    }
+
+    initializeTable() {
+        this.table = Object.keys(DEFAULT_VALUES).map(label => ({
+            attributeCode: label,
+            attributeValue: DEFAULT_VALUES[label]
+        }));
+        console.log('Initialized Table with Defaults:', JSON.stringify(this.table, null, 2));
+
+    }
+
+    loadData() {
         this.isLoading = true;
         this.displayError = false;
         let customerId = this.recordId;
@@ -51,20 +88,22 @@ const ALLOWED_ATTRIBUTES = [
             console.log('result---->', result);
             this.isLoading = false;
             this.showDataTable = true;
+            this.ApiFailure = result.Message;
 
-            if(result.StatusCode == 1000 && result.HHSDetails.serviceMessages[0].businessDesc==="Result found") {
+            if(result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length > 0) {
                 this.setupColumns(result);
                 this.processResponse(result);
-            } else if (result.StatusCode == 1000 && result.HHSDetails.serviceMessages[0].businessDesc==="No Result found"){
+            } else if (result.StatusCode == 1000 && Object.keys(result.HHSDetails.responseMap).length ===0){
                 this.setupColumns(result);
                 this.processResponse(result);
                 this.resultMessageValue = result.HHSDetails.serviceMessages[0].businessDesc;
 
-            } else if (result.StatusCode == 1002 && result.HHSDetails.serviceMessages[0].businessDesc==="Result found"){
+            } else if (result.StatusCode == 1002 && Object.keys(result.HHSDetails.responseMap).length > 0){
                 this.showDataTable = false;
                 this.errorMessages = result.Message;
-                this.resultMessageValue = "No Result found";
                 this.displayError = true;
+                this.showTable = true;
+                this.processResponse(result);
 
             }
             else {
@@ -79,7 +118,18 @@ const ALLOWED_ATTRIBUTES = [
         .catch(error => {
             this.isLoading = false;
             this.displayError = true;
-            this.errorMessages = error.body.message;
+            if (error.body!= null) {
+                this.errorMessages = error.body.message;
+                this.resultMessageValue = error.body.message;
+            } else if(this.ApiFailure){
+                this.errorMessages = this.ApiFailure;
+                this.resultMessageValue = this.ApiFailure;
+                
+            }
+            else{
+                this.errorMessages = 'An unknown error occured, please contact your system admin'
+                this.resultMessageValue = this.errorMessages;
+            }
         });
     }
 
@@ -100,15 +150,17 @@ const ALLOWED_ATTRIBUTES = [
 
     processResponse(response) {
         console.log('API Response:', response);
+        this.initializeTable(); // Initialize with default values
+        console.log('Initialized Table with Defaults:', this.table);
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
+        let hasData = false;
         
-        if (response && response.StatusCode === '1000') {
+        if (response && response.StatusCode === '1000'|| response.StatusCode === '1002') {
+            console.log('response code', response.StatusCode);
           
-
-            // console.log('response.operationStatus', response.operationStatus);
-            ///const resultsList = response.activeAge;
+            if(response.activeAge!=null){
                 const activeAge = response.activeAge;
             console.log('activeAge-->',activeAge);
 
@@ -120,10 +172,15 @@ const ALLOWED_ATTRIBUTES = [
                 CalculationDate: activeAge.CalculationDate
             }];
             this.recordTable2 = tableData;  // Ensure this is populated as needed
-        this.showDataTable = true;
-        this.displayError = false;
-        
-            
+            this.showDataTable = true;
+            this.displayError = false;
+            hasData = true;
+        }
+        else{
+            this.showDataTable = false;
+            this.displayError = true;
+            this.errorMessages = response.Message;
+        }
            // Check if HHSDetails and serviceMessages exist
         if (response.HHSDetails && Array.isArray(response.HHSDetails.serviceMessages)) {
             const serviceMessages = response.HHSDetails.serviceMessages;
@@ -133,74 +190,70 @@ const ALLOWED_ATTRIBUTES = [
                 msg.businessDesc === "Result found" || msg.businessDesc === "No Result found"
             );
             
-
-            
             if (resultMessage) {
                 if (resultMessage.businessDesc === "Result found" && response.HHSDetails.responseMap && Object.keys(response.HHSDetails.responseMap).length > 0) {
                 
                         const resultsList = response.HHSDetails.responseMap.resultsList;
                         const tierLevelName = resultsList.tierLevelName;
                         const activities = resultsList.activities;
-                        
-                        console.log('valuss---', ATTRIBUTE_CODE_LABELS);
-
-                            console.log('activities-->', activities);
                             console.log('Activities:', JSON.stringify(activities, null, 2));
 
-                            let table = [];
+                            //let table = [...this.table];
+                            let table = Object.keys(DEFAULT_VALUES).map(label => ({
+                                attributeCode: label,
+                                attributeValue: DEFAULT_VALUES[label]
+                            }));
+
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
-                                table.push({
-                                    attributeCode: 'Current Score',
-                                    attributeValue: tierLevelName || ''
-                                });
-
-
-                                let attributeValues = {
-                                    'Total Cholesterol': '',
-                                    'Fasting Blood Sugar (mg/dl)': ''
-                                };
-
-                                // let totalCholesterolFound = false;
-                                // let fastingBloodSugarFound = false;
+                                if (tierLevelName) {
+                                    table = table.map(row =>
+                                        row.attributeCode === 'Current Score'
+                                            ? { attributeCode: 'Current Score', attributeValue: tierLevelName }
+                                            : row
+                                    );
+                                   
+                                }
 
                                 activities.forEach(activity => {
-                                    if (activity.name === "Total cholesterol") {
-                                        attributeValues['Total Cholesterol'] = activity.value || '';
-                                    } else if (activity.name === "Fasting Blood Sugar (mg/dl)") {
-                                        attributeValues['Fasting Blood Sugar (mg/dl)'] = activity.value || '';
-                                    }
+                                    const label = ATTRIBUTE_CODE_LABELS[activity.code] || activity.name;
+                                        // Push the activity value
+                                   
+                                    table = table.map(row =>
+                                        row.attributeCode === label
+                                            ? { attributeCode: label, attributeValue: activity.value || DEFAULT_VALUES[label] }
+                                            : row
+                                    );
+
                                     if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
                                         activity.attributes.forEach(attr => {
                                             const label = ATTRIBUTE_CODE_LABELS[attr.attributeCode] || attr.attributeCode;
                                             if (ALLOWED_ATTRIBUTES.includes(label)) {
-                                                table.push({
-                                                    attributeCode: label,
-                                                    attributeValue: attr.attributeValue || ''
-                                                });
+                                                
+                                                table = table.map(row =>
+                                                    row.attributeCode === label
+                                                        ? { attributeCode: label, attributeValue: attr.attributeValue || DEFAULT_VALUES[label] }
+                                                        : row
+                                                );
                                             }
                                         });
                                     }
                                 });
-        
-                                // Add specific attributes to the table
-                                Object.keys(attributeValues).forEach(key => {
-                                    table.push({
-                                        attributeCode: key,
-                                        attributeValue: attributeValues[key]
-                                    });
-                                });
-        
+
                                 this.table = table;
                                 console.log('Table Data:', JSON.stringify(this.table, null, 2));
                                 this.showTable = true;
+                                hasData = true;
+                                console.log('hasData', hasData);
                             } else {
                                 this.table = [];
                                 this.noResultsMessage = true;
+                                //this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
                             }
                    
                 } else if (resultMessage.businessDesc === "No Result found") {
+                    console.log('resultMessage.businessDesc', resultMessage.businessDesc);
                     // Handle case where "No Result found" is present
-                    this.noResultsMessage = resultMessage.businessDesc;
+                    this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
                 }
             } else {
                 this.noResultsMessage = resultMessage.businessDesc;
@@ -213,6 +266,12 @@ const ALLOWED_ATTRIBUTES = [
             this.errorMessages = response.Message;
             this.displayError = true;
         }
+        if (!hasData) {
+            this.showDataTable = false;
+            this.displayError = true; 
+            
+        }
+    
     }
 
     formatNumber(value) {
