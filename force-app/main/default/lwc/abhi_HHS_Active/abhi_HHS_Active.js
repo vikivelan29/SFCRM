@@ -31,8 +31,26 @@ const DEFAULT_VALUES = {
     'Age': '0'
 };
 
+export default class AbhiActiveAgeDetails extends LightningElement {
     @api recordId;
     @track isLoading = false;
+    @track displayError = false;
+    @track errorMessages = '';
+    @track showDataTable = false; 
+    @track recordTable = [];
+    @track recordTable2 = [];
+    @track columns = [];
+    @track columns2 = [];
+    @track currentPage = 1;
+    @track pageSize = 7; // Number of records per page
+    @track totalRecords = 0;
+    @track totalPages = 0;
+    @track scoresList = [];
+    @track showTable = false; 
+    @track tableData = [];
+    @track noResultsMessage = false;
+    resultMessageValue;
+    @track ApiFailure = '';
 
     customerId;
 
@@ -115,13 +133,19 @@ const DEFAULT_VALUES = {
         });
     }
 
-    handleUploadEnd() {
-        this.isLoading = false;
-    }
-    childmessage = false;
-
-    updateMessage(event) {
-        this.message = event.detail.message;
+    setupColumns(apiResponse) {
+        
+        getColumns({ configName: 'ABHI_ActiveAgeDetails' })
+        .then(result => {
+            console.log('result---->', result);
+            this.columns2 = result.map(column => ({
+                label: column.MasterLabel,
+                fieldName: column.Api_Name__c,
+                type: column.Data_Type__c,
+                cellAttributes: { alignment: 'left' }
+            }));
+        })
+        .catch(error => console.error('Error fetching columns:', error));
     }
 
     processResponse(response) {
