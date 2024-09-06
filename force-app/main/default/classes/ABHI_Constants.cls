@@ -1,9 +1,9 @@
 /*********************************************************
-*Class        :  ABHIL_Constants
+*Class        :  ABHI_Constants
 *Author       :  Anirudh Raturi
 *Created Date :  31/07/2023
 *Last Modified:  31/07/2023
-*@description  :  Class for ABHIL Constants
+*@description  :  Class for ABHI Constants
 *********************************************************/
 
 public with sharing class ABHI_Constants {
