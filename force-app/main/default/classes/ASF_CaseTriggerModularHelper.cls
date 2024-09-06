@@ -2,8 +2,8 @@
 * @description       : 
  * @author            : rsinghnagar@salesforce.com
 * @group             : 
- * @last modified on  : 06-30-2024
- * @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 04-24-2024
+* @last modified by  : Salesforce 
 * Modifications Log
 * Ver   Date         Author                       Modification
  * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
@@ -192,6 +192,7 @@ blankSourcePresent = true;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                 caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
+                caseRec.Activity__c = appliedCCC.Activity__c;
                 // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
                 if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
                     caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
@@ -458,7 +459,7 @@ blankSourcePresent = true;
         if(allStageConfigs != null && !eligibleRecords.isEmpty()){
             
             // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-            Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
+            Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
                 for(ASF_Case_Stage_Config__c config: allStageConfigs){
                     if(config.Query_Fields__c != null){
                         allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
