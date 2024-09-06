@@ -21,7 +21,17 @@ const ALLOWED_ATTRIBUTES = [
     'Systolic',
     //'Age'
 ];
+const DEFAULT_VALUES = {
+    'Fasting Blood Sugar (mg/dl)': '0',
+    'Total Cholesterol': '0',
+    'Smoking Status': '0',
+    'Diastolic': '0',
+    'Systolic': '0',
+    'Current Score': '0',
+    'Age': '0'
+};
 
+export default class AbhiActiveAgeDetails extends LightningElement {
     @api recordId;
     @track isLoading = false;
     @track displayError = false;
@@ -57,6 +67,15 @@ const ALLOWED_ATTRIBUTES = [
     connectedCallback() {
 
         this.loadData();
+    }
+
+    initializeTable() {
+        this.table = Object.keys(DEFAULT_VALUES).map(label => ({
+            attributeCode: label,
+            attributeValue: DEFAULT_VALUES[label]
+        }));
+        console.log('Initialized Table with Defaults:', JSON.stringify(this.table, null, 2));
+
     }
 
     loadData() {
@@ -101,29 +120,42 @@ const ALLOWED_ATTRIBUTES = [
             this.displayError = true;
             if (error.body!= null) {
                 this.errorMessages = error.body.message;
+                this.resultMessageValue = error.body.message;
             } else if(this.ApiFailure){
                 this.errorMessages = this.ApiFailure;
+                this.resultMessageValue = this.ApiFailure;
+                
             }
             else{
                 this.errorMessages = 'An unknown error occured, please contact your system admin'
+                this.resultMessageValue = this.errorMessages;
             }
         });
     }
 
-    handleUploadEnd() {
-        this.isLoading = false;
-    }
-    childmessage = false;
-
-    updateMessage(event) {
-        this.message = event.detail.message;
+    setupColumns(apiResponse) {
+        
+        getColumns({ configName: 'ABHI_ActiveAgeDetails' })
+        .then(result => {
+            console.log('result---->', result);
+            this.columns2 = result.map(column => ({
+                label: column.MasterLabel,
+                fieldName: column.Api_Name__c,
+                type: column.Data_Type__c,
+                cellAttributes: { alignment: 'left' }
+            }));
+        })
+        .catch(error => console.error('Error fetching columns:', error));
     }
 
     processResponse(response) {
         console.log('API Response:', response);
+        this.initializeTable(); // Initialize with default values
+        console.log('Initialized Table with Defaults:', this.table);
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
+        let hasData = false;
         
         if (response && response.StatusCode === '1000'|| response.StatusCode === '1002') {
             console.log('response code', response.StatusCode);
@@ -142,6 +174,7 @@ const ALLOWED_ATTRIBUTES = [
             this.recordTable2 = tableData;  // Ensure this is populated as needed
             this.showDataTable = true;
             this.displayError = false;
+            hasData = true;
         }
         else{
             this.showDataTable = false;
@@ -165,32 +198,42 @@ const ALLOWED_ATTRIBUTES = [
                         const activities = resultsList.activities;
                             console.log('Activities:', JSON.stringify(activities, null, 2));
 
-                            let table = [];
+                            //let table = [...this.table];
+                            let table = Object.keys(DEFAULT_VALUES).map(label => ({
+                                attributeCode: label,
+                                attributeValue: DEFAULT_VALUES[label]
+                            }));
+
                             if (response.HHSDetails.operationStatus === 'SUCCESS') {
                                 if (tierLevelName) {
-                                    table.push({
-                                        attributeCode: 'Current Score', // Custom label for Current Score
-                                        attributeValue: tierLevelName || '' // Value from response
-                                    });
+                                    table = table.map(row =>
+                                        row.attributeCode === 'Current Score'
+                                            ? { attributeCode: 'Current Score', attributeValue: tierLevelName }
+                                            : row
+                                    );
+                                   
                                 }
 
                                 activities.forEach(activity => {
                                     const label = ATTRIBUTE_CODE_LABELS[activity.code] || activity.name;
                                         // Push the activity value
-                                    table.push({
-                                        //attributeCode: `${activity.name}`,
-                                        attributeCode: label,
-                                        attributeValue: activity.value || ''
-                                    });
+                                   
+                                    table = table.map(row =>
+                                        row.attributeCode === label
+                                            ? { attributeCode: label, attributeValue: activity.value || DEFAULT_VALUES[label] }
+                                            : row
+                                    );
 
                                     if (activity.attributes && Array.isArray(activity.attributes) && activity.attributes.length > 0) {
                                         activity.attributes.forEach(attr => {
                                             const label = ATTRIBUTE_CODE_LABELS[attr.attributeCode] || attr.attributeCode;
                                             if (ALLOWED_ATTRIBUTES.includes(label)) {
-                                                table.push({
-                                                    attributeCode: `${label}`,
-                                                    attributeValue: attr.attributeValue || ''
-                                                });
+                                                
+                                                table = table.map(row =>
+                                                    row.attributeCode === label
+                                                        ? { attributeCode: label, attributeValue: attr.attributeValue || DEFAULT_VALUES[label] }
+                                                        : row
+                                                );
                                             }
                                         });
                                     }
@@ -199,6 +242,8 @@ const ALLOWED_ATTRIBUTES = [
                                 this.table = table;
                                 console.log('Table Data:', JSON.stringify(this.table, null, 2));
                                 this.showTable = true;
+                                hasData = true;
+                                console.log('hasData', hasData);
                             } else {
                                 this.table = [];
                                 this.noResultsMessage = true;
@@ -221,6 +266,12 @@ const ALLOWED_ATTRIBUTES = [
             this.errorMessages = response.Message;
             this.displayError = true;
         }
+        if (!hasData) {
+            this.showDataTable = false;
+            this.displayError = true; 
+            
+        }
+    
     }
 
     formatNumber(value) {

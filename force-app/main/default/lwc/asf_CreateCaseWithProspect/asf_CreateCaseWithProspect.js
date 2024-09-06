@@ -41,7 +41,6 @@ import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
 
-
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
     @track loaded = true;
     typingTimer;
@@ -283,6 +282,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             }
             this.disbleNextBtn = false;
         }
+        // added by sunil 03/09/2024
+        this.checkTrackIdCondition();
     }
 
     // Method Description - Deselect all selection from lightning datatable
@@ -566,7 +567,31 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 this.showAniNumber = true;
             }
         }
+        //code added by sunil - 03/09/2024
+        this.checkTrackIdCondition();
     }
+     checkTrackIdCondition(){
+        
+        if(this.boolAllSourceVisible){
+            if(this.loggedInUserBusinessUnit === 'ABHFL'){
+                if(this.sourceFldValue === 'Call Center'){
+                    this.isPhoneInbound = true;
+                }
+                else{
+                    this.isPhoneInbound = false;
+                }
+            }
+            else if(this.loggedInUserBusinessUnit === 'ABFL'){
+                if(this.sourceFldValue === 'Phone-Inbound' || this.sourceFldValue === 'Inbound Nodal Desk' || this.sourceFldValue === 'Phone-Outbound'){
+                    this.isPhoneInbound = true;
+                }
+                else{
+                    this.isPhoneInbound = false;
+                }
+            }
+        }
+    }
+    
     handleChangeChannel(event) {
         this.strChannelValue = event.target.value;
     }

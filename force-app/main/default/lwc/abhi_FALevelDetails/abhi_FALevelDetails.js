@@ -2,6 +2,8 @@ import { LightningElement, api, track } from 'lwc';
 import GetFALevelDetails from '@salesforce/apex/ABHI_FALevelDetails_Controller.GetFALevelDetails';
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 //import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { loadStyle } from 'lightning/platformResourceLoader';
+import styles from '@salesforce/resourceUrl/ASF_RemoveDateFormatStyle';
 
 export default class Abhil_FALevelDetails extends LightningElement {
 
@@ -13,6 +15,7 @@ export default class Abhil_FALevelDetails extends LightningElement {
     @track error;
     displayTable=false;
     @track integrationResp;
+    @track displayErrorSearch = false;
     @track data;
     @track isLoading = false;
     @track errorMessages = '';
@@ -26,8 +29,11 @@ export default class Abhil_FALevelDetails extends LightningElement {
     get isSearchDisabled() {
         if (!this.startDate || !this.endDate) {
             return true; // Disable if either date is empty
-        }        
-        
+        }
+        //return new Date(this.startDate) > new Date(this.endDate); // Disable if start date is greater than end date
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+        return end < start; 
   }
 
     showRecords = false;
@@ -39,11 +45,17 @@ export default class Abhil_FALevelDetails extends LightningElement {
 
     handleStartDateChange(event) {
         this.startDate = event.target.value;
+        this.validateDates();
     }
 
     handleEndDateChange(event) {
         this.endDate = event.target.value;
+        this.validateDates();
     }
+    handleRefresh(){
+        this.handleSearchClick();
+    }
+
 
     handleSearchClick() {
         
@@ -52,6 +64,9 @@ export default class Abhil_FALevelDetails extends LightningElement {
             return; // Prevent search if invalid
         }
         this.isLoading = true;
+        this.displayError = false; 
+        this.errorMessages = '';
+    
 
         GetFALevelDetails({ customerId: this.recordId, fromDate: this.startDate, toDate: this.endDate })
             .then(result => {
@@ -66,21 +81,29 @@ export default class Abhil_FALevelDetails extends LightningElement {
             if(StatusCode == 1000) {
                 this.displayTable=true;
                 this.showRecords=true;
-                
                 let data = [];
                 data.push(result);
-                //this.integrationResp = result;
                 this.data= data;
-                
-                //this.showNotification('Success', result.Message, 'success');
-                console.log('this.date', JSON.stringify(this.data));
+                this.errorMessages = '';
+                this.displayError = false;
+            }else if (this.statusCode === 1001) {
+                // Handle 1001 Status Code
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = result.Message;
+                this.displayError = true;
+            }else if (this.statusCode === 204) {
+                // Handle 204 No Content
+                this.displayTable = false;
+                this.showRecords = false;
+                this.errorMessages = 'No content available';
+                this.displayError = true;
             }
             else {
-
                 this.showDataTable = false;
-                this.errorMessage = this.integrationResp.Message;
+                this.errorMessages = result.Message;
                 this.displayError = true;
-                console.log('errormessage>>' ,this.integrationResp.Message);
+                console.log('errorMessages>>' ,this.result.Message);
                
             }
                 
@@ -110,8 +133,7 @@ connectedCallback(){
 fetchColumns() {
     getColumns({configName:'Abhi_FAdata_view'})
     .then(result => {
-            console.log('**rec2>'+JSON.stringify(result));
-            console.log('result1', result);
+            console.log('result-->', result);
             this.columns = [
                 
                 ...result.map(col => ({
@@ -122,13 +144,8 @@ fetchColumns() {
                 })),
             ];
             console.log('coloumns', JSON.stringify(this.columns));
-            //this.GetFALevelDetails();
         })
     .catch(error => {
-
-            
-            this.showNotification('Error','Error fetching data.','Error');
-            //this.showNotification('Error', 'Error fetching columns: ' + (error.body.message || error.message), 'error');
             console.log('Error fetching columns:', JSON.stringify(error));
 
         });
@@ -158,6 +175,15 @@ validateDates() {
     } else {
         this.displayErrorSearch = false; // Hide error if one of the dates is missing
     }
+}
+renderedCallback(){
+    Promise.all([
+        loadStyle(this, styles) //specified filename
+    ]).then(() => {
+        console.log('Files loaded.');
+    }).catch(error => {
+       console.log("Error " + error.body.message);
+    });
 }
 
 }

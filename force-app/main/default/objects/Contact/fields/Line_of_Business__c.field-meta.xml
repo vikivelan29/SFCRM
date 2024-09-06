@@ -35,9 +35,34 @@
                 <label>ABSLI</label>
             </value>
             <value>
+                <fullName>ABHI</fullName>
+                <default>false</default>
+                <label>ABHI</label>
+            </value>
+            <value>
                 <fullName>ABSLIG</fullName>
                 <default>false</default>
                 <label>ABSLIG</label>
+            </value>
+            <value>
+                <fullName>MF</fullName>
+                <default>false</default>
+                <label>MF</label>
+            </value>
+            <value>
+                <fullName>PMS</fullName>
+                <default>false</default>
+                <label>PMS</label>
+            </value>
+            <value>
+                <fullName>AIF</fullName> 
+                <default>false</default>
+                <label>AIF</label> 
+            </value>
+            <value>
+                <fullName>RE</fullName>
+                <default>false</default>
+                <label>RE</label>
             </value>
         </valueSetDefinition>
     </valueSet>
