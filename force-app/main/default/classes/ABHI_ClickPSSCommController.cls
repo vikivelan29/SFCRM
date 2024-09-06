@@ -43,7 +43,7 @@ public with sharing class ABHI_ClickPSSCommController {
     public static ClientResponseWrapper doCommunication(String objectName, String recordId, String formData){
         try {
             String integrationName = 'ABHI_PSSCommunication';
-            RecordType rt = [SELECT Id from RecordType where DeveloperName = 'PSS'];
+            // RecordType rt = [SELECT Id from RecordType where DeveloperName = 'PSS'];
             String requestString = createRequest(objectName, recordId, formData);
             System.debug('requestString>>>'+requestString);
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,requestString,null);
@@ -90,21 +90,26 @@ public with sharing class ABHI_ClickPSSCommController {
     * @description This method will create the request data for the API call.
     *****************************************************************************************************************/
     public static String createRequest(String objectName, String recordId, String formData){
-        formWrapper formDataWrap = (formWrapper) JSON.deserialize(formData, formWrapper.class);
-        PSSRequestWrapper reqWrap = new PSSRequestWrapper();
-        Asset ass = [SELECT Policy_No__c, Next_Premium_Date__c, SerialNumber, Account.Phone, Account.Office_Email__c from Asset where id=: recordId];
-        reqWrap.PolicyID = ass.Policy_No__c;
-        reqWrap.AppNo = ass.SerialNumber;
-        reqWrap.mobileno = formDataWrap.phoneNumber != ''? formDataWrap.phoneNumber : ass.Account.Phone;
-        reqWrap.emailId = formDataWrap.emailId != ''? formDataWrap.emailId : ass.Account.Office_Email__c;
-        reqWrap.channel_ID = 'SFCRM';
-        reqWrap.Req_Id = '5696';
-        reqWrap.Alert_Mode = formDataWrap.alertCode;
-        reqWrap.alertID = formDataWrap.template;
-        reqWrap.field1 = 'NA';
-        reqWrap.field2 = 'NA';
-        reqWrap.field3 = 'NA';
-        return JSON.serialize(reqWrap);
+        try {
+            formWrapper formDataWrap = (formWrapper) JSON.deserialize(formData, formWrapper.class);
+            PSSRequestWrapper reqWrap = new PSSRequestWrapper();
+            Asset ass = [SELECT Policy_No__c, Next_Premium_Date__c, SerialNumber, Account.Phone, Account.Office_Email__c from Asset where id=: recordId];
+            reqWrap.PolicyID = ass.Policy_No__c;
+            reqWrap.AppNo = ass.SerialNumber;
+            reqWrap.mobileno = formDataWrap.phoneNumber != ''? formDataWrap.phoneNumber : ass.Account.Phone;
+            reqWrap.emailId = formDataWrap.emailId != ''? formDataWrap.emailId : ass.Account.Office_Email__c;
+            reqWrap.channel_ID = 'SFCRM';
+            reqWrap.Req_Id = '5696';
+            reqWrap.Alert_Mode = formDataWrap.alertCode;
+            reqWrap.alertID = formDataWrap.template;
+            reqWrap.field1 = 'NA';
+            reqWrap.field2 = 'NA';
+            reqWrap.field3 = 'NA';
+            return JSON.serialize(reqWrap);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+        
     }
 
     /*********************************************************
