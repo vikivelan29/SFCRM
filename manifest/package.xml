@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>ABHI/ABHI_Emails/OMNI_DOC_SEND_EMAIL_1724913452870</members>
+		<members>ABHI/ABHI_Emails</members>
+        	<members>ABHI</members>
+        <name>EmailTemplate</name>
+    	</types>
 	<version>60.0</version>
 </Package>
