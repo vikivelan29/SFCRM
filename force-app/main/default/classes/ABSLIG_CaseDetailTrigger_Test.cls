@@ -2,8 +2,8 @@
  * @description       : Test Class for ABSLIG_CaseDetailTrigger
  * @author            : Anirudh Raturi
  * @createdDate       : 10-06-2024
- * @last modified on  : 10-06-2024
- * @last modified by  : Anirudh Raturi 
+ * @last modified on  : 08-16-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author           Modification
  * 1.0   08-06-2024   Anirudh Raturi   Initial Version
