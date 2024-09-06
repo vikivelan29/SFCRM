@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Type__c</fullName>
+    <description>Can be blank for Framework Type if Integrations. Need to be populated for generic integrations like eBot</description>
     <externalId>false</externalId>
     <label>Type</label>
     <required>false</required>
@@ -11,34 +12,60 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Pre Populate</fullName>
+                <fullName>eBOT</fullName>
                 <default>false</default>
-                <label>Pre Populate</label>
+                <label>eBOT</label>
             </value>
             <value>
-                <fullName>Process</fullName>
+                <fullName>eBOTFeedback</fullName>
                 <default>false</default>
-                <label>Process</label>
+                <label>eBOTFeedback</label>
             </value>
             <value>
-                <fullName>UI Card</fullName>
+                <fullName>Log</fullName>
                 <default>false</default>
-                <label>UI Card</label>
+                <label>Log</label>
             </value>
             <value>
-                <fullName>Validation</fullName>
+                <fullName>BRE</fullName>
                 <default>false</default>
-                <label>Validation</label>
+                <label>BRE</label>
             </value>
             <value>
-                <fullName>UI Action</fullName>
+                <fullName>Litmus</fullName>
                 <default>false</default>
-                <label>UI Action</label>
+                <label>Litmus</label>
             </value>
             <value>
-                <fullName>Process Sequential</fullName>
+                <fullName>Enach</fullName>
                 <default>false</default>
-                <label>Process Sequential</label>
+                <label>Enach</label>
+            </value>
+            <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <label>Payment</label>
+            </value>
+            <value>
+                <fullName>CreateCRMPolicy</fullName>
+                <default>false</default>
+                <label>CreateCRMPolicy</label>
+            </value>
+            <value>
+                <fullName>OmniDoc</fullName>
+                <default>false</default>
+                <label>OmniDoc</label>
+            </value>
+            <value>
+                <fullName>NPSFEEDBACK</fullName>
+                <default>false</default>
+                <label>NPSFEEDBACK</label>
+            </value>
+            <value>
+                <fullName>eBOT Feedback</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>eBOT Feedback</label>
             </value>
         </valueSetDefinition>
     </valueSet>
