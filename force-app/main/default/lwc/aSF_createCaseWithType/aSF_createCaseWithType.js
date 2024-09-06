@@ -64,7 +64,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     searchKey;
     accounts;
     isNotSelected = true;
-    isNotSelectedReject = true; 
+    isNotSelectedReject = true;
     @api recordId;
     loaded = true;
     caseRelObjName;
@@ -208,15 +208,22 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
 
-   @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
-   wiredPicklistValues({ error, data}) {
-       if (data){
-               this.noAutoCommOptions = data.values.map(item => ({
-                   label: item.label,
-                   value: item.value
-               }));
-       } else if (error){
-           console.log('error in get picklist--'+JSON.stringify(error));
+   //To get No Auto Communication and category picklist values
+   @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
+   objectInfos({ error, data}) {
+       if(data){
+           for (const [key, value] of Object.entries(data.results)) {
+               if(value.result.apiName === CASE_OBJECT.objectApiName){
+                   this.currentObj = CASE_OBJECT.objectApiName;
+                   this.defaultRecTypeId = value.result.defaultRecordTypeId;
+                   this.picklistApiName = NOAUTOCOMM_FIELD;
+               }
+               if(value.result.apiName === ABSLI_CASE_DETAIL_OBJECT.objectApiName){
+                   this.bsliRecTypeId = value.result.defaultRecordTypeId;
+               } 
+           }
+       }else if(error){
+           console.log('error in get objectInfos--'+JSON.stringify(error));
        }
    }
 
@@ -292,6 +299,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
             let noAutoCommValues = this.caseRec.fields.No_Auto_Communication__c.value;
             this.noAutoCommValue = noAutoCommValues != null?noAutoCommValues.split(';'):[];
+
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
             if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != ''){
