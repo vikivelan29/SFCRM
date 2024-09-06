@@ -23,11 +23,7 @@
                 <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
                 <span style="font-size: 0.90rem;">{message}</span> 
             </div>
-                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
-                </div>
-        </div>
-        <div lwc:if = {displayError}>
-            {message}
+            
         </div>
         <template lwc:if={showRecords}>
             <c-abfl_-data-table-with-pagination columns={columns}
