@@ -1,11 +1,11 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import getDetails from '@salesforce/apex/ABHI_DeviceDetailsController.getDeviceDetails';
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
-import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import recDevices from '@salesforce/label/c.ABHI_RecommendedDevice';
 import otherDevices from '@salesforce/label/c.ABHI_OtherDevice';
-import deviceDetail from '@salesforce/label/c.ABHI_DeviceDetails';
+import deviceDetail from '@salesforce/label/c.ABHI_Devices';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
+import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 
 export default class Abhi_deviceDetailsCmp extends LightningElement {
     @api recordId;
@@ -20,6 +20,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
         deviceDetail
     };
     displayError=false;
+    accountRecord;
     isLoading = false;
 
     connectedCallback(){
@@ -39,12 +40,17 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
             })
         .catch(error => {
                 // todo: remove hardcoding
-                console.error('Error in getColumns>>>', error);
+                this.isLoading=false;
+                this.displayError=true;
+                this.showRecommendedRecords=false;
+                this.showOtherRecords=false;
+                console.error('Error in getColumns>>>', JSON.stringify(error));
             });
         
     }
 
     getData(){
+        
         getDetails({customerId: this.recordId})
         .then(result => {
             let returnedData=result;
@@ -75,7 +81,6 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
             }
         })
         .catch(error => {
-            this.displayMessage=this.displayMessage+': '+error.body.message;
             this.isLoading=false;
             this.displayError=true;
             this.showRecommendedRecords=false;
@@ -85,8 +90,7 @@ export default class Abhi_deviceDetailsCmp extends LightningElement {
     }
 
     handleRefresh(){
-        this.showOtherRecords=false;
-        this.showRecommendedRecords=false;
+        this.isLoading=true;
         this.getData();
     }
 }
