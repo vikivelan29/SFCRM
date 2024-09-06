@@ -18,11 +18,12 @@ export default class Abhi_ActiveDayEventsDetail extends LightningElement {
     @track payloadInfo = '';
     @track showDataTable = false; 
     @track displayError = false;
-    @track errorDisplay='';
     pageSize = 10;
     columns;
     customerID;
     @track recordTable = []; 
+    @track apiFailure ='';
+
 
     @wire(getRecord, { recordId: "$recordId", fields })
     wiredAccount(value) {
@@ -35,7 +36,7 @@ export default class Abhi_ActiveDayEventsDetail extends LightningElement {
             console.error('Error fetching record:', value.error);
             this.isLoading = false;
             this.displayError = true;
-            this.errorDisplay = 'Error: ' + value.error.body.message;
+            this.errorMessage = 'Error: ' + value.error.body.message;
         }
     }
     connectedCallback() {
@@ -53,6 +54,9 @@ export default class Abhi_ActiveDayEventsDetail extends LightningElement {
         .then((result) => {
             this.isLoading = false;
             this.showDataTable = true;
+            if(result.message){
+                this.apiFailure=result.message;
+            }
             if(result.serviceMessages[0].businessDesc==='Result found'){
                 this.columnName(result);
             }
@@ -66,14 +70,19 @@ export default class Abhi_ActiveDayEventsDetail extends LightningElement {
            // this.startDate = '';
             //this.endDate = '';     
            })
-        .catch((error) => {
+           .catch((error) => {
+            console.log('Error----> ',JSON.stringify(error));
             this.isLoading = false;
             this.showDataTable = false;
-            this.errorDisplay = 'Error: ' + error.body;
-            this.showDataTable = false;
-            this.errorMessage =   error.body.message;
             this.displayError = true;
-           console.log('Error----> ' + JSON.stringify(error));
+            if ( error.body != null) {
+                this.errorMessage =   error.body.message;
+            } else if(this.apiFailure){
+                this.errorMessage = this.apiFailure;
+            }
+            else{
+                this.errorMessage = 'An unknown error occured, please contact your admin'
+            }
 
         });
     }
