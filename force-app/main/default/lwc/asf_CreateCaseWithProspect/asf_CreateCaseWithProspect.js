@@ -41,7 +41,6 @@ import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
 
-
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
     @track loaded = true;
     typingTimer;
