@@ -1,0 +1,6 @@
+.subHeading {
+    font-size: small;
+    font-weight: bold;
+    padding: var(--lwc-spacingXSmall);
+    background-color: var(--lwc-colorBackground);
+  }
