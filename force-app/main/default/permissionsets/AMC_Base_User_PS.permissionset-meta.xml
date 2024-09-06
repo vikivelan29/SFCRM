@@ -3552,7 +3552,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Profile_Completion_Percentage_at_folio_l__c</field>
+        <field>Asset.Profile_Completion_Percentage_at_folio__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
