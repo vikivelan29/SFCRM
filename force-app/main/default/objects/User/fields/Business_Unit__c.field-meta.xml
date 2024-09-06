@@ -39,11 +39,6 @@
                 <default>false</default>
                 <label>ABSLAMC</label>
             </value>
-            <value>
-                <fullName>ABSLAMC</fullName>
-                <default>false</default>
-                <label>ABSLAMC</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
