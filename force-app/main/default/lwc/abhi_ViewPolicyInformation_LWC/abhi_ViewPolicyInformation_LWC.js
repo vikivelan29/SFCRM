@@ -20,8 +20,10 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
         .then(result => {
 
             this.isLoadingData = false;
-            let respBody = result;
-            let statusCode = result?.StatusCode ?? "";
+
+            let respString = result.responseBody;
+            let respBody = JSON.parse(respString);
+            let statusCode = respBody?.StatusCode ?? "";
             
             if(statusCode === 1000) {
                 let summationOfTotalBalance = this.calculateTotalBalance(respBody, 'Total_Balance');
