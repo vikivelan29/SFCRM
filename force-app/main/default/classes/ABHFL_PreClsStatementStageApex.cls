@@ -22,6 +22,14 @@ public class ABHFL_PreClsStatementStageApex implements ASF_CaseStageClassInvocab
                 sendPrclsStatementclosureEligibleCases.add(caseRec);
                 
             }
+              if(caseRec.CCC_External_Id__c=='RLOAPRONHFC'){
+                ABHFL_CTSTHelper.storeMultipleLANs(caseRecords);
+                ASF_CaseMovementHelper.CaseStageValidationWrapper retCls1 = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
+                retCls1.status = ABHFL_Constants.SUCCESS;
+                retCls1.updatedCase = caseRec;
+                retCls1.isCaseUpdated = false;
+              returnWrapper.put(caseRec.Id, retCls1);
+           }
             //AM-PR970457-1214-COmments
             if(caseRec.CCC_External_Id__c=='qbccdd01' && caseRec.Stage__c=='Pending Amortization' && caseRec.ABHFL_Case_Detail__r.PP_Status__c=='Part Payment Not Done'){
                 retCls = returnWrapper.get(caseRec.Id);

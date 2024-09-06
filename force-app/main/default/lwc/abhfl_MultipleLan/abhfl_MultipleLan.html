@@ -63,6 +63,34 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- code started here by Yogesh-->
+              
+                <div class="slds-p-around_x-small slds-scrollable_x" >
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr>
+                                <template for:each={additionalcolumns} for:item="column">
+                                    <th scope="col" key={column.name}>
+                                        <div>{column.label}</div>
+                                    </th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={recordsToDisplay} for:item = "item" for:index="indexVar">
+                                <tr key={item.asset.Id} data-id={item.asset.Id}>
+                                    <template for:each={additionalcolumns} for:item="column">
+                                        <td scope="col" key={column.name}>
+                                            <c-abhfl_fielddisplay column-name={column.name} row-data={item} data-id={item.asset.id} column-type={column.type}></c-abhfl_fielddisplay>
+                                        </td>
+                                    </template>                       
+                                </tr>
+                            </template>   
+                        </tbody>  
+                    </table>
+                </div>
+             
+                <!--Code ends here by Yogesh-->
                 <div class="slds-align_absolute-center" style="height:3rem">
                     <template lwc:if={enableRowSelection}>
                         <lightning-button 
