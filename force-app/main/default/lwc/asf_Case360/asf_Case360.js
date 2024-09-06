@@ -834,7 +834,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     saveDataOnBackStage(){
         //get case record as object from lightning-record-edit-form
-         console.log('asmita inside saveDataOnBackStage method');
         let caseRecord;
         let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
         if (caseElement) {
@@ -918,12 +917,12 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             }
                             if(this.stagesData[i].hasOwnProperty('No_Action_stage__c')
                             && this.stagesData[i].No_Action_stage__c == true){
-                        this.hideActionsForCams = true;
-                
+                                                this.hideActionsForCams = true;
+                       
                         }
                         if(this.stagesData[i].hasOwnProperty('Save_Data_On_Back__c')
                             && this.stagesData[i].Save_Data_On_Back__c == true){
-                        this.saveDataOnBack = true;
+                                                this.saveDataOnBack = true;
                        
                         }
                         }
