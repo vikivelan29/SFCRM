@@ -47,6 +47,11 @@
                 <label>Payment</label>
             </value>
             <value>
+                <fullName>CAMS</fullName>
+                <default>false</default>
+                <label>CAMS</label>
+            </value>
+            <value>
                 <fullName>eBOT Feedback</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
