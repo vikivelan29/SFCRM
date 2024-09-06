@@ -957,20 +957,6 @@
         <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
     <labels>
-        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
-        <value>1</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Min_Loan_Amount</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
-        <value>5000</value>
-    </labels>
-    <labels>
         <fullName>ABSLIG_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1017,7 +1003,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Abhi_Device</shortDescription>
-        <value>Devices</value>
+        <value>ABHI_Devices</value>
     </labels>
     <labels>
         <fullName>ABHI_Fitness_Appointment</fullName>
@@ -1073,13 +1059,6 @@
         <value>HHS &amp; Active Age</value>
     </labels>
     <labels>
-        <fullName>ABHI_Health_Return_App_Reg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HAPP</shortDescription>
-        <value>ABHI Health Return App Reg</value>
-    </labels>
-    <labels>
         <fullName>ABHI_OtherDevice</fullName>
         <categories>ABHI</categories>
         <language>en_US</language>
@@ -1132,12 +1111,11 @@
         <value>Other Devices</value>
     </labels>
     <labels>
-        <fullName>ABHI_RecommendedDevice</fullName>
-        <categories>ABHI</categories>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI_RecommendedDevice</shortDescription>
-        <value>Recommended Devices</value>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG</value>
     </labels>
     <labels>
         <fullName>ABHI_FitnessAppDetails</fullName>
@@ -1194,5 +1172,19 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
         <value>Email,Phone</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Back_Stage_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Back Stage Movement Error</shortDescription>
+        <value>You Can not go directly to the &quot;Open&quot; Stage.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Forward_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
+        <value>Movement to this stage can only be done through CAMS</value>
     </labels>
 </CustomLabels>

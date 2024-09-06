@@ -2225,6 +2225,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.Last_Update_Date_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Line_of_Business__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2251,6 +2256,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.NISM_21A__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.NPO_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3204,6 +3214,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Last_Update_Date_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Lead_Id__c</field>
         <readable>true</readable>
@@ -3545,7 +3560,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Profile_Completion_Percentage_at_folio_l__c</field>
+        <field>Asset.Profile_Completion_Percentage_at_folio__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4246,6 +4261,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Description</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Distributor_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
