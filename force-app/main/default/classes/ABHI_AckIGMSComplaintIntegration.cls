@@ -110,18 +110,15 @@ public with sharing class ABHI_AckIGMSComplaintIntegration implements ASF_Integr
             if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
                 Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
                 System.debug(caseInteg.Response__c);
-                UpdateComplaintResponseWrapper jsonMap = (UpdateComplaintResponseWrapper) JSON.deserialize(
+                AckComplaintResponseWrapper jsonMap = (AckComplaintResponseWrapper) JSON.deserialize(
                     caseInteg.Response__c,
-                    UpdateComplaintResponseWrapper.class
+                    AckComplaintResponseWrapper.class
                 );
                 List<sObject> dmlRecords = new List<sObject>();
-                String errorCodes = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.ERROR_CODES;
-                system.debug('errorCodess '+errorCodes);
-                String irdaTokenNumber = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.IRDA_TOKEN_NUMBER;
-               if (String.isEmpty(errorCodes) && (!String.isEmpty(irdaTokenNumber))) {
+                if (jsonMap.ReturnCode == ABSLI_Constants.IGMS_ACKCOMPLAINT_SUCCESS_RET_CD) {
                     if(caseRecord.ABHI_Case_Detail__c  != null){
                         ABHI_Case_Detail__c  caseExt = new ABHI_Case_Detail__c (Id = caseRecord.ABHI_Case_Detail__c );
-                        caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
+                        caseExt.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
                         caseExt.Acknowledged_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '2';
                         caseExt.Next_Integration_Name__c = 'ABHI_PendingIGMSComplaintIntegration';
@@ -144,7 +141,7 @@ public with sharing class ABHI_AckIGMSComplaintIntegration implements ASF_Integr
                         ASF_IntegrationsController.runIntegration(runIntegrationMap.get(caseRecord.Id),caseRecord);
                     }
                     
-               }
+                }
             }
         } catch (Exception e) {
             System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
@@ -205,7 +202,7 @@ public with sharing class ABHI_AckIGMSComplaintIntegration implements ASF_Integr
         public string Branch_Code{get;set;}                 
         public string Cheque_Number{get;set;}                 
         public string Claim_Clsr_Additional_Info{get;set;}    
-        public string Claim_Received_Amount{get;set;}                 
+       	public string Claim_Received_Amount{get;set;}                 
         public string Claim_Requested_Amount{get;set;}                 
         public string Is_Complainant_Informed{get;set;}                 
         public string Others_Clsr_Additional_Info{get;set;}                 
@@ -214,15 +211,15 @@ public with sharing class ABHI_AckIGMSComplaintIntegration implements ASF_Integr
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '2';
-            this.Status_Change_Date = ABHI_IGMSIntegrationHelper.todayString;
+            this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
-            this.Trans_Login_Id = 'ABHICADMIN1';
+            this.Trans_Login_Id = 'abhiadmin';
             this.Ack_Officer_Designation= '';
             this.Ack_Officer_Name= 'SM';
             this.BOC_Or_Collection_Number= '';
-            //this.Branch_Code= 'MU01';
+            this.Branch_Code= 'MU01';
             this.Cheque_Number= '';
             this.Claim_Clsr_Additional_Info= '';
             this.Claim_Received_Amount= '';
@@ -235,39 +232,12 @@ public with sharing class ABHI_AckIGMSComplaintIntegration implements ASF_Integr
     /**
 * @description Contact Detail Update Wrapper Class to follow through Response Body JSON
 */
-   /* @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+    @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
     public class AckComplaintResponseWrapper {
         public String ReturnMessage { get; set; }
         public String ReturnCode { get; set; }
         public String IRDA_TOKEN_NUMBER { get; set; }
         public String ENTITY_COMPLAINT_REF_NUMBER { get; set; }
 
-    }*/
-    @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-    public class UpdateComplaintResponseWrapper {
-        public UpdateComplaintResponseBody Body { get; set; }
-        public String TRANSFORMED_ERROR_MESSAGE { get; set; }
-    }
-    
-    public class UpdateComplaintResponseBody {
-        public UpdateComplaintResponse UpdateComplaintResponse { get; set; }
-    }
-    
-    public class UpdateComplaintResponse {
-        public UpdateComplaintResult UpdateComplaintResult { get; set; }
-    }
-    
-    public class UpdateComplaintResult {
-        public Result RESULT { get; set; }
-    }
-    
-    public class Result {
-        public ComplaintDetails COMPLAINTDETAILS { get; set; }
-    }
-    
-    public class ComplaintDetails {
-        public String IRDA_TOKEN_NUMBER { get; set; }
-        public String ENTITY_COMPLAINT_REF_NUMBER { get; set; }
-        public String ERROR_CODES { get; set; }
     }
 }

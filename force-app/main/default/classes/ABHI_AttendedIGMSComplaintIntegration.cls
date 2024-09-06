@@ -232,21 +232,17 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
             if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
                 Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
                 
-               ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper jsonMap = (ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper) JSON.deserialize(
+                AttendedComplaintResponseWrapper jsonMap = (AttendedComplaintResponseWrapper) JSON.deserialize(
                     caseInteg.Response__c,
-                    ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper.class
+                    AttendedComplaintResponseWrapper.class
                 );
                 List<sObject> dmlRecords = new List<sObject>();
-                String errorCodes = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.ERROR_CODES;
-                String irdaTokenNumber = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.IRDA_TOKEN_NUMBER;
-               if (String.isEmpty(errorCodes) && (!String.isEmpty(irdaTokenNumber))) {
+                if (jsonMap.ReturnCode == ABSLI_Constants.IGMS_ATTENDEDCOMPLAINT_SUCCESS_RET_CD) {
                     if(caseRecord.ABHI_Case_Detail__c != null){
                         ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
-                        caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
+                        caseExt.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
                         caseExt.Resolved_Date__c = System.Today();
-                        caseExt.Final_Resolution_Date__c = datetime.now();
                         caseExt.IGMS_Complaint_Status__c = '4';
-                        caseExt.First_Resolution_Date_time__c = datetime.now();
                         dmlRecords.add(caseExt);
                         caseRecord.MoveToNext__c = true;
                         dmlRecords.add(caseRecord);
@@ -297,10 +293,10 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '4';
-            this.Status_Change_Date = ABHI_IGMSIntegrationHelper.todayString;
+            this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Claim_Received_Amount = '0';
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
-            this.Trans_Login_Id = 'ABHICADMIN1';
+            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
             
@@ -308,12 +304,12 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
     }
     /**
     @description IGMS Attended Case Class to follow through Response Body JSON
-   
+    */
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
     public class AttendedComplaintResponseWrapper {
         public String ReturnMessage { get; set; }
         public String ReturnCode { get; set; }
         public String IRDA_TOKEN_NUMBER { get; set; }
         public String ENTITY_COMPLAINT_REF_NUMBER { get; set; }
-    } */
+    }
 }

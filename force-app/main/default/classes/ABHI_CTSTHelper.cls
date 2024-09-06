@@ -65,15 +65,13 @@ public with sharing class ABHI_CTSTHelper {
     public static Map<Id, FieldValidationResult> validateResolutionfieldComplaints(List<Case> caseRecs){
         //Id caseId = caseRec.Id;
         Map<Id, FieldValidationResult> resultsMap = new Map<Id, FieldValidationResult>();
-        Set<Id> caseId = new  Set<Id>();
         for(Case caseRec : caseRecs){
             FieldValidationResult validation = new FieldValidationResult();
             validation.result = false;
             validation.blankFields = new Set<String>();
             resultsMap.put(caseRec.Id, validation);
-            caseId.add(caseRec.Id);
         }
-        List<Task> openTasks = [SELECT id,Status FROM Task WHERE WhatId =: caseId];
+
         Map<String, Schema.SObjectField> caseDetailFields = Schema.SObjectType.ABHI_Case_Detail__c.fields.getMap();
         Schema.DescribeFieldResult resolveCaseField = caseDetailFields.get('Resolve_case__c').getDescribe();
         Schema.DescribeFieldResult resolutionCommentsField = caseDetailFields.get('Resolution_Comments__c').getDescribe();
@@ -85,10 +83,10 @@ public with sharing class ABHI_CTSTHelper {
                 validation.blankFields.add(resolveCaseField.getLabel());
                 validation.result = true;
             }*/
-            /*if(String.isBlank(caseR.ABHI_Case_Detail__r.Resolution_Comments__c)) {
-              //  validation.blankFields.add(resolutionCommentsField.getLabel());
-                //validation.result = true;
-            }*/
+            if(String.isBlank(caseR.ABHI_Case_Detail__r.Resolution_Comments__c)) {
+                validation.blankFields.add(resolutionCommentsField.getLabel());
+                validation.result = true;
+            }
             /*if(String.isBlank(caseR.ABHI_Case_Detail__r.Investigation_Comment__c)) {
                 validation.blankFields.add(investigationCommentsField.getLabel());
                 validation.result = true;
@@ -97,15 +95,13 @@ public with sharing class ABHI_CTSTHelper {
                 validation.blankFields.add(acknowledgementConField.getLabel());
                 validation.result = true;
             }*/
-            if(!openTasks.isEmpty()){
-               for(Task relatedtask : openTasks){
-					if(relatedtask.Status != 'Completed'){
+            List<Task> openTasks = [SELECT id,Status FROM Task WHERE WhatId =: caseR.Id];
+            for(Task relatedtask : openTasks){
+                if(relatedtask.Status != 'Completed'){
                     validation.result = true;
                     validation.message = 'Please complete required tasks to resolve the case.';  
-                	}
-            	} 
+                }
             }
-            
             // Set the message within the wrapper
             if(validation.result && !validation.blankFields.isEmpty()) {
                 String message = 'Below Resolution Fields are mandatory to close Complaints : ';

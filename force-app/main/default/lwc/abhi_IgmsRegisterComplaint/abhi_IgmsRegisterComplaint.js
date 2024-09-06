@@ -52,7 +52,6 @@ export default class abhil_IgmsRegisterComplaint extends LightningElement {
     @track step = '0';
     @track integrationInProgress = false;
     @track loading = true;
-    @track integrationFailure = false;
 
 
 
@@ -104,9 +103,8 @@ export default class abhil_IgmsRegisterComplaint extends LightningElement {
             //this.handleUnsubscribe();
         }
         else if(result.status == 'Success'){
-            this.integrationFailure = false;
             this.integrationInProgress = true;
-           // console.log(result.caseIntId);
+            console.log(result.caseIntId);
             this.caseIntId = result.caseIntId;
             this.interval = setInterval(() => {
                 //this.closeModal();
@@ -129,7 +127,6 @@ export default class abhil_IgmsRegisterComplaint extends LightningElement {
     }
 
     async submit() {
-        this.integrationFailure = false;
         let selectedInt = this.allIntegrations.find((el) => el.Id == this.selectedAction.id);
         this.showSpinner = true;
         this.submitDisabled = true;
@@ -196,9 +193,6 @@ export default class abhil_IgmsRegisterComplaint extends LightningElement {
                
                 if(result.registrationStatus == 'Failure' || result.acknowledgeStatus == 'Failure' || result.pendingStatus == 'Failure'){
                     this.submitDisabled = false;
-                    this.integrationInProgress = false;
-                    this.integrationFailure = true;
-                    console.log('failing api');
                 }
 
             })
