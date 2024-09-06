@@ -34,14 +34,17 @@ public with sharing class ABSLI_IssueTypeController {
      * @description - Method to get the Issue Types of CCc 
      *****************************************************************************************************************/
     @AuraEnabled
-    public static void updateIssueType(String recordID, String issueType) {
+    public static boolean updateIssueType(String recordID, String issueType) {
+        Boolean result = false;
         Case caseRec = [SELECT ID, CCC_External_Id__c, Issue_Type__c 
                         FROM Case 
                         WHERE Id = :recordID WITH SECURITY_ENFORCED LIMIT 1];
     
         if (caseRec != null && Case.Issue_Type__c.getDescribe().isUpdateable()) {
             caseRec.Issue_Type__c = issueType; 
-            update caseRec; 
+            update caseRec;
+            result = true;
+            return result;
         } else {
             throw new AuraHandledException('The Issue Type field is not updatable for the current user.');
         }
