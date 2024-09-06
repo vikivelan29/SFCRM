@@ -1,6 +1,6 @@
 /**
 * @description       : Constant class to store all the resable variables at one place
-* @author            : rsinghnagar@salesforce.com
+* @author            : neeraj.kumar@salesforce.com
 * @group             : 
 * @last modified on  : 13-08-2024
 * @last modified by  : Neeraj Kumar
