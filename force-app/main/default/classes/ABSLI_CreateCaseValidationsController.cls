@@ -12,7 +12,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         try {
             Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null){
-                if(policy.Plan_Name__c==ABSLI_Constants.SARAL_HEALTH_PLAN_NAME){
+                if(policy.Plan_Name__c.contains(ABSLI_Constants.SARAL_HEALTH_PLAN_NAME)){ 
                     return 'Success';
                 }else{
                     return 'Policy is not eligible for Penal Interest Payout - Saral Health Reimbursement.';
@@ -133,37 +133,63 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         try{
             PolicyGenFundRequestWrapper requestWrap = new PolicyGenFundRequestWrapper();
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-            Asset policy = [SELECT Id, Name, Effective_Date__c FROM Asset WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
+            Asset policy = [SELECT Id, Name,Policy_No__c, Effective_Date__c FROM Asset WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
             if(policy!=null)
             {
-               	requestWrap.policy_id = policy.Name;
-                DateTime effectiveDateTime;
+               	requestWrap.policy_id = policy.Policy_No__c;
+                Date today = Date.today();
+                DateTime todayDateTime = DateTime.newInstance(today.year(),today.month(),today.day());
+                requestWrap.effective_date = (todayDateTime.format('dd-MM-yyyy'));
+                /*DateTime effectiveDateTime;
                 if(policy.Effective_Date__c!=null){
                 	effectiveDateTime = DateTime.newInstance(policy.Effective_Date__c.year(), policy.Effective_Date__c.month(),policy.Effective_Date__c.day());    
                 }
-               	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';
+               	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';*/
+                requestWrap.source = ABSLI_Constants.GEN_FUND_SOURCE;
                 ABCL_IntegrationCallout.IntegrationResponseWrapper genFundResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.POLICY_GEN_FUND_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(requestWrap),
                                                                                                                     null);
                 if(String.isNotBlank(genFundResponse.responseBody) && genFundResponse.statusCode == 200){
                		GenFundResponseWrapper responseWrapper = (GenFundResponseWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundResponseWrapper.class);
-                    if(responseWrapper.ProcessCode=='00'){
+                    if(responseWrapper.BFID_RESPONSE.ProcessCode=='00'){
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id=String.valueOf(jsonMap.get('ABSLI_Case_Detail__c')));
-                        if(Decimal.valueOf(responseWrapper.MAX_LOAD_AMOUNT_AVAILABLE)>0 || !String.isBlank(responseWrapper.MAX_LOAD_AMOUNT_AVAILABLE)){
-                            caseExt.Max_Loan_Amount__c = Decimal.valueOf(responseWrapper.MAX_LOAD_AMOUNT_AVAILABLE);
-                        }else{
-                            return 'Maximum loan amount not specified.';
+                        if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT033'){
+                         	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
+                                caseExt.Max_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE);
+                            }else{
+                                return 'Maximum loan amount should be more than 0.';
+                            }
+                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT)){
+                                caseExt.Min_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_LOAN_AMT);    
+                            }else{
+                                caseExt.Min_Loan_Amount__c = Decimal.valueOf(Label.ABSLI_Min_Loan_Amount);
+                            }   
+                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY008' || String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PFTT011'){
+                           	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT)){
+                                caseExt.Minimum_Withdrawal_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MINIMUM_WITHDRAWAL_AMT);
+                            }
+                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE)){
+                                caseExt.Withdrawal_Amount_Available__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE);    
+                            }else{
+                                return 'Withdrawal amount available should be more than 0.';
+                            } 
+                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY001' || String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PFTT010'){
+                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)){
+                                caseExt.Cash_Surrender_Value__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE);
+                            }else{
+                                return 'Cash Surrender Value should be more than 0.';
+                            }
                         }
-                        if(Decimal.valueOf(responseWrapper.MINIMUM_LOAN_AMT)>0 || !String.isBlank(responseWrapper.MINIMUM_LOAN_AMT)){
-                        	caseExt.Min_Loan_Amount__c = Decimal.valueOf(responseWrapper.MINIMUM_LOAN_AMT);    
-                        }else{
-                            caseExt.Min_Loan_Amount__c = Decimal.valueOf(Label.ABSLI_Min_Loan_Amount);
+                        else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='NNOP004'){
+                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)<=5000 || String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
+                                return 'Maximum loan amount should be more than 5000.';
+                            }
                         }
                         update caseExt;
                     	return 'Success';    
                     }else{
-            			return 'Policy is not eligible for loan payout.';         	   
+            			return 'Policy is not eligible.';         	   
                     }
                 }
             }
@@ -187,7 +213,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if((!ABSLI_Constants.NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION.contains(policy.Policy_Identification__c))){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for nominee update.';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -210,10 +236,10 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             if(policy!=null && policy.Issue_Date__c!=null){
                 Date issueDate = Date.newInstance(policy.Issue_Date__c.year(), policy.Issue_Date__c.month(), policy.Issue_Date__c.day());
                 Date oneYearAfterIssueDate = issueDate.addYears(1);
-                if(Date.Today() >= oneYearAfterIssueDate){
+                if(Date.Today() <= oneYearAfterIssueDate){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for Duplicate Policy printing.';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -301,7 +327,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if(policy.Type__c=='ULIP'){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for Change In Investor Profile';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -324,7 +350,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if(policy.Type__c!='ULIP'){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for Interest Waiver for HO Users';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -347,7 +373,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 if(policy.Type__c=='ULIP' && Decimal.valueOf(policy.Payment_Term__c)>5){
                     return 'Success';
                 }else{
-                    return 'Policy is not eligible for Reinstatement';
+                    return 'Policy is not eligible.';
                 }
             }
             return 'User is not eligible';
@@ -410,29 +436,23 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     public class PolicyGenFundRequestWrapper{
         public String policy_id{get;set;}
         public String effective_date{get;set;}
+        public String source{get;set;}
     }
     
     public class GenFundResponseWrapper{
-        public String MORE_MESSAGES_IND { get; set; }
-        public String MINIMUM_WITHDRAWAL_AMT { get; set; }
-        public String ProcessCode { get; set; }
-        public String POLICY_BILLED_TO_DATE { get; set; }
-        public String MINIMUM_LOAN_AMT { get; set; }
-        public String CSV_PAYABLE_HOLD_AMOUNT { get; set; }
-        public String POLICY_BILL_MODE { get; set; }
-        public String FUND_DETAILS { get; set; }
-        public String WITHDRAWL_AMOUNT_AVAILABLE { get; set; }
-        public String navdate { get; set; }
-        public String MESSAGES_T { get; set; }
-        public String LOAN_AMOUNT_AVAILED { get; set; }
-        public String MESSAGES { get; set; }
-        public String MESSAGES_T_3 { get; set; }
-        public String MESSAGES_T_2 { get; set; }
-        public String ProcessMessage { get; set; }
-        public String MESSAGES_T_1 { get; set; }
-        public String CASH_SURRENDER_VALUE { get; set; }
-        public String MAX_LOAD_AMOUNT_AVAILABLE { get; set; }
-        public String POLICY_SA { get; set; }
+        public BfidResponse BFID_RESPONSE{get;set;}
+        public GenFundResponseWrapper() {
+            this.BFID_RESPONSE = new BfidResponse();
+        }
+    }
+    
+    public class BfidResponse{
+        public String MINIMUM_WITHDRAWAL_AMT{get;set;}
+        public String ProcessCode{get;set;}
+        public String MINIMUM_LOAN_AMT{get;set;}
+        public String WITHDRAWL_AMOUNT_AVAILABLE{get;set;}
+        public String CASH_SURRENDER_VALUE{get;set;}
+        public String MAX_LOAD_AMOUNT_AVAILABLE{get;set;}
     }
 
 }

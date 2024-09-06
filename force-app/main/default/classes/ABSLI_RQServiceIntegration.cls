@@ -156,6 +156,7 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
     
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
+        System.debug(caseInteg.Response__c);
         if(caseInteg.Status__c==ABSLI_Constants.SUCCESS){
             rqServiceResponseWrapper response = (rqServiceResponseWrapper) JSON.deserialize(
                     caseInteg.Response__c,
@@ -170,21 +171,22 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
                                                 FROM ABSLI_Case_Detail__c
                                                 WHERE ID=:caseRec.ABSLI_Case_Detail__c FOR UPDATE];
                 integrationFailure = false;
+                String[] coiList = new List<String>();
                 if(Schema.sObjectType.ABSLI_Case_Detail__c.isUpdateable())
                 {
                     System.debug('response --> '+response);
-                    String reinstatementAmtString = response.RqRes.Response.Details.NETAMOUNT;
+                    String reinstatementAmtString = String.ValueOf(response.RqRes.Response.Details.NETAMOUNT);
                     decimal reinstetementAmt = 0;
-                    String medicalsString = response.RqRes.Response.Details.MEDICALREQUIREMENTS.MEDICALDETAILS;
+                    List<String> medicalsString = response.RqRes.Response.Details.MEDICALREQUIREMENTS.MEDICALDETAILS;
                     String medicalsFieldValue = '';
-                    String[] coiList = response.RqRes.Response.Details.COIFORMS.FORM;
+                    coiList = response.RqRes.Response.Details.COIFORMS.FORM;
                     if(reinstatementAmtString != null){
                         reinstatementAmtString = reinstatementAmtString.replaceAll(',','');
                         reinstetementAmt = decimal.valueOf(reinstatementAmtString);
                         caseExt.Reinstatement_Amount__c = reinstetementAmt;
                     }
-                    if(medicalsString != null){
-                        List<String> medicalsList = medicalsString.split(',');
+                    if(medicalsString.size()>0){
+                        List<String> medicalsList = medicalsString;
                         List<String> finalMedicalsVal = new List<String>();
                         
                         if(medicalsList.size()>0){
@@ -193,7 +195,7 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
                                     finalMedicalsVal.add(str);
                                 }
                             }
-                            medicalsFieldValue = finalMedicalsVal.size()>0? String.JOIN(finalMedicalsVal,',') : medicalsString;
+                            medicalsFieldValue = finalMedicalsVal.size()>0? String.JOIN(finalMedicalsVal,',') : String.JOIN(medicalsString,',');
                             caseExt.Medicals__c = medicalsFieldValue;
                         }
                     }
@@ -219,7 +221,8 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
             }
             else{	
                	//handleTransferFailure(caseRec);
-           	}   
+           	} 
+			
         }
     }
     
@@ -252,7 +255,7 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
             this.POLICYID = policy;
             this.MAILVIEW = 'Y';
             this.DESIGCODE = 'Y';
-            this.SOURCE = '1';
+            this.SOURCE = 'WS';
             this.CHANNEL = '1';
             this.OUTPUTYPE = '1';
             this.RERQ = 'Y';
@@ -268,12 +271,12 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
         public detail Details;
     }
     public class detail{
-        public string NETAMOUNT;
+        public String NETAMOUNT;
         public mdecialsReq MEDICALREQUIREMENTS;
         public coiform COIFORMS;
     }
     public class mdecialsReq{
-        public string MEDICALDETAILS;
+        public List<string> MEDICALDETAILS;
     }
     public class coiform{
         public List<String> FORM;

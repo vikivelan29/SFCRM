@@ -473,25 +473,5 @@
             <controllingFieldValue>Reimbursement:Documents related</controllingFieldValue>
             <valueName>Claim documents return</valueName>
         </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Reimbursement:OPD claim</controllingFieldValue>
-            <valueName>Intimation</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Reimbursement:OPD claim</controllingFieldValue>
-            <valueName>Status inquiry</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>General enquiry:Hospital and Diagnostic Center</controllingFieldValue>
-            <valueName>Inquiry of Network Hospital</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>General enquiry:Hospital and Diagnostic Center</controllingFieldValue>
-            <valueName>Inquiry of diagnostic centre</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>General enquiry:Hospital and Diagnostic Center</controllingFieldValue>
-            <valueName>Inquiry of Blacklisted hospital</valueName>
-        </valueSettings>
     </valueSet>
 </CustomField>
