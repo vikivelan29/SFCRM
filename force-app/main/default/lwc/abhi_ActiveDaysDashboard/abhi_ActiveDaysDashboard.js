@@ -3,6 +3,8 @@ import getActiveDaysDashboard from '@salesforce/apex/ABHI_ActiveDaysDashboardCon
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
+import { loadStyle } from 'lightning/platformResourceLoader';
+import styles from '@salesforce/resourceUrl/ASF_RemoveDateFormatStyle';
 const fields = [CLIENT_CODE_FIELD];   
 export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track startDate = '';
@@ -252,6 +254,15 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
         } else {
             this.displayErrorSearch = false; // Hide error if one of the dates is missing
         }
+    }
+    renderedCallback(){
+        Promise.all([
+            loadStyle(this, styles) //specified filename
+        ]).then(() => {
+            console.log('Files loaded.');
+        }).catch(error => {
+           console.log("Error " + error.body.message);
+        });
     }
 
 }

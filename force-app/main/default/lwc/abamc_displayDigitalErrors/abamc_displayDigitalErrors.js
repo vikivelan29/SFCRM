@@ -1,15 +1,18 @@
 import { api, LightningElement } from 'lwc';
 import fetchDigitalErrors from '@salesforce/apex/ABAMC_DisplayDigitalErrorsController.fetchDigitalErrors';
-
 import { reduceErrors } from 'c/asf_ldsUtils';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import TIME_ZONE  from '@salesforce/i18n/timeZone';
+import TIME_ZONE from '@salesforce/i18n/timeZone';
 import MyModal from 'c/asf_simpleModal';
 
-
 const columns = [
-    { label: 'Updated Date', fieldName: 'updatedDatetime', type: 'date', initialWidth: 200,
-        typeAttributes:{
+    { 
+        label: 'Updated Date', 
+        fieldName: 'updatedDatetime', 
+        type: 'date', 
+        initialWidth: 200,
+        sortable: true,
+        typeAttributes: {
             year: "2-digit",
             month: "short",
             day: "2-digit",
@@ -18,9 +21,13 @@ const columns = [
             timeZone: TIME_ZONE
         }
     },
-    { label: 'Type', fieldName: 'eventType',initialWidth: 100 },
-    { label: 'Message', fieldName: 'messageText',initialWidth: 550},
-    { label: 'View', fieldName: 'id', type: 'button-icon',initialWidth: 80,
+    { label: 'Event Type', fieldName: 'eventType', initialWidth: 100, sortable: true },
+    { label: 'Message', fieldName: 'messageText', initialWidth: 550, sortable: true },
+    { 
+        label: 'View', 
+        fieldName: 'id', 
+        type: 'button-icon', 
+        initialWidth: 80,
         typeAttributes: {
             label: { fieldName: 'View' },
             name: 'id',
@@ -40,91 +47,98 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
     displayTable = true;
     userMessage;
 
+    // Pagination variables
+    currentPage = 1;
+    recordsPerPage = 10;
+    totalRecords = 0;
+    totalPages = 0;
+    paginatedData = [];
 
-    connectedCallback(){
+    connectedCallback() {
         console.log('connectedCallback');
         this.fetchData();
         this.loading = false;
     }
 
-    async fetchData(){
-        console.log('connectedCallback fetchData', this.recordId);
-        if(this.recordId){
-            let wrap = await fetchDigitalErrors({input:this.recordId}).catch((error)=>{
+    async fetchData() {
+        console.log('fetchData', this.recordId);
+        if (this.recordId) {
+            let wrap = await fetchDigitalErrors({ input: this.recordId }).catch((error) => {
                 console.error(error);
                 this.showError('error', 'Oops! Something went wrong', error);
             });
-            if(wrap.isSuccess){
-                //handle success
+
+            if (wrap && wrap.isSuccess) {
                 let response = JSON.parse(wrap.responseBody);
-                //response = []; //to mock error scenario
-                if(response.length == 0){
+                if (response.length == 0) {
                     this.displayTable = false;
                     this.userMessage = 'No data found';
                 }
-                this.data = [];
-                this.data = response.map((item)=>{
+
+                this.data = response.map((item) => {
                     return {
-                        'id':item._id,
-                        'updatedDatetime':item._metadata.lastUpdated,
-                        'eventType':item.eventType,
-                        'messageText':item.messageText
+                        'id': item._id,
+                        'updatedDatetime': item._metadata.lastUpdated,
+                        'eventType': item.eventType,
+                        'messageText': item.messageText
                     };
                 });
-                this.sortedBy = 'updatedDatetime'
-            }else{
-                //handle API errors
+                this.totalRecords = this.data.length;
+                this.totalPages = Math.ceil(this.totalRecords / this.recordsPerPage);
+                this.updatePaginatedData();
+                this.sortedBy = 'updatedDatetime';
+                this.loading = false;
+            } else {
                 console.error(wrap.errorMessage);
                 this.showError('error', 'Oops! Something went wrong', wrap.errorMessage);
             }
         }
     }
-    viewRecord(event){
+
+    viewRecord(event) {
         console.log(event.detail.action.name);
         console.log(event.detail.row.id);
         let selectedId = event.detail.row.id;
-        let selectedRow = this.data.find(item=>{
+        let selectedRow = this.data.find(item => {
             return item.id == selectedId;
         });
-        console.log('selectedRow',selectedRow);
+        console.log('selectedRow', selectedRow);
         let currentDateVal = new Date(selectedRow.updatedDatetime);
         let formattingOptions = {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
             timeZone: 'IST',
-            hour12:true,
-  			hour:'2-digit',
-  			minute:'2-digit'
+            hour12: true,
+            hour: '2-digit',
+            minute: '2-digit'
         };
         let currentDateLocale = currentDateVal.toLocaleString('en-IN', formattingOptions);
         MyModal.open({
-            content:selectedRow.messageText,
-            header:currentDateLocale + ' / '+ selectedRow.eventType,
-            label:currentDateLocale + ' / '+ selectedRow.eventType,
-            footeraction:'Okay'
+            content: selectedRow.messageText,
+            header: 'Digital Error Details',
+            label: currentDateLocale + ' / ' + selectedRow.eventType,
+            footeraction: 'Okay'
         }).then((result) => {
-              console.log(result);
-          }).catch(error=>{
+            console.log(result);
+        }).catch(error => {
             console.error(error);
-          });
+        });
     }
 
-    refreshData(){
+    refreshData() {
         this.loading = true;
         this.fetchData();
-        this.loading = false;
     }
 
-    // Used to sort the 'Age' column
     sortBy(field, reverse, primer) {
         const key = primer
             ? function (x) {
-                  return primer(x[field]);
-              }
+                return primer(x[field]);
+            }
             : function (x) {
-                  return x[field];
-              };
+                return x[field];
+            };
 
         return function (a, b) {
             a = key(a);
@@ -139,11 +153,55 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
 
         cloneData.sort(this.sortBy(sortedBy, sortDirection === 'asc' ? 1 : -1));
         this.data = cloneData;
+        this.updatePaginatedData();
         this.sortDirection = sortDirection;
         this.sortedBy = sortedBy;
     }
 
-    //utility method
+    // Pagination methods
+    updatePaginatedData() {
+        const startIndex = (this.currentPage - 1) * this.recordsPerPage;
+        const endIndex = startIndex + this.recordsPerPage;
+        this.paginatedData = this.data.slice(startIndex, endIndex);
+    }
+
+    handlePrevPage() {
+        if (this.currentPage > 1) {
+            this.currentPage -= 1;
+            this.updatePaginatedData();
+        }
+    }
+
+    handleNextPage() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage += 1;
+            this.updatePaginatedData();
+        }
+    }
+
+    handleFirstPage() {
+        this.currentPage = 1;
+        this.updatePaginatedData();
+    }
+
+    handleLastPage() {
+        this.currentPage = this.totalPages;
+        this.updatePaginatedData();
+    }
+
+    get isPrevDisabled() {
+        return this.currentPage === 1;
+    }
+
+    get isNextDisabled() {
+        return this.currentPage === this.totalPages;
+    }
+
+    get pageInfo() {
+        return `Showing ${this.currentPage} of ${this.totalPages} pages(s)`;
+    }
+
+    // Utility method for error handling
     showError(variant, title, error) {
         let errMsg = reduceErrors(error);
         const event = new ShowToastEvent({
@@ -153,6 +211,7 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
         });
         this.dispatchEvent(event);
     }
+
     showSuccessMessage(variant, title, message) {
         const event = new ShowToastEvent({
             variant: variant,
