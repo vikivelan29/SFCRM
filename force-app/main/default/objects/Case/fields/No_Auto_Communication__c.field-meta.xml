@@ -22,11 +22,6 @@
                 <default>false</default>
                 <label>SMS</label>
             </value>
-            <value>
-                <fullName>WhatsApp</fullName>
-                <default>false</default>
-                <label>WhatsApp</label> 
-            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>4</visibleLines>
