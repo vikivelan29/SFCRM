@@ -53,7 +53,7 @@ public without sharing class ASF_EmailMessageHelper {
                                         CCC_External_Id__c, AccountId, Channel__c, Origin, Priority, RecordTypeId, SuppliedEmail, SuppliedName, 
                                         Technical_Source__c, Nature__c, ContactId, Business_Unit__c
                                         FROM Case 
-                                        WHERE Id IN :caseIds AND RecordTypeId = :ASF_Constants.RT_FRAMEWORK];
+                                        WHERE Id IN :caseIds];
         }
         return existingCases;
     }
@@ -105,6 +105,7 @@ public without sharing class ASF_EmailMessageHelper {
             Map<Id, Case> oldCaseIdToNewCaseMap = new Map<Id, Case>();
             List<Case> casesToReopen = new List<Case>();
             Map<String, Set<Id>> firstOwnerToOldCases = new Map<String, Set<Id>>();
+            Map<String, ASF_PriorityEmailAddressesByBU__mdt> mWinningEmailDetails = new Map<String,ASF_PriorityEmailAddressesByBU__mdt>();
 
             for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
                                                                   Business_Unit__c, Email2CaseAddress__c, 
@@ -114,6 +115,9 @@ public without sharing class ASF_EmailMessageHelper {
                                                                   WHERE Email2CaseAddress__c =: winningEmailAddr])
             {
                 queueDevNameToEmail.put(winningRec.Email2CaseAddress__c,winningRec.Default_Queue_Dev_Name__c);
+                if(!mWinningEmailDetails.containsKey(winningRec.Email2CaseAddress__c)){
+                    mWinningEmailDetails.put(winningRec.Email2CaseAddress__c,winningRec);
+                }
             }
             
             for(Group grp : [SELECT ID,DeveloperName FROM Group WHERE DeveloperName =: queueDevNameToEmail.values() AND Type ='Queue']){
@@ -132,7 +136,7 @@ public without sharing class ASF_EmailMessageHelper {
                    //&& (caseRec.RecordTypeId == ASF_Constants.RT_FRAMEWORK){
                        //&& caseRec.Nature__c == 'Complaint'){
                        //if closed, check if reopen allowed or not
-                       if(caseRec.Is_Reopen_Allowed__c == true){
+                       if(buSpecificReopenCheck(caseRec)){
                            // if allowed, check if reopen days expired or not
                            if(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
                               && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c){
@@ -152,6 +156,14 @@ public without sharing class ASF_EmailMessageHelper {
                        }else {
                            // else create new case and reparent EMailMessage
                            Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
+                           String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
+                           newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
+                           if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
+                               ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
+                               //newCase.Sent_to_EBOT__c = onEmailMdt.Send_to_EBOT__c;
+                           	   newCase.Origin = onEmailMdt.Case_Origin__c ;
+                           }
+                           
                            oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
                            //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                            // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
@@ -222,6 +234,16 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.SuppliedName = closedCase.SuppliedName;
         newCase.Business_Unit__c = closedCase.Business_Unit__c;
         return newCase;
-    }   
+    }  
+
+    private static boolean buSpecificReopenCheck(Case caseRec){
+        boolean returnVal = caseRec.Is_Reopen_Allowed__c; // default value
+
+        if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint'){
+            return false;
+        }
+        return returnVal;
+
+    }
     
 }

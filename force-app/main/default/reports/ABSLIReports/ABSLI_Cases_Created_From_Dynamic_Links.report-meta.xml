@@ -4,10 +4,22 @@
         <field>ASF_Communication_Log__c$CreatedDate</field>
     </columns>
     <columns>
+        <field>ASF_Communication_Log__c$CreatedBy.FederationIdentifier</field>
+    </columns>
+    <columns>
         <field>ASF_Communication_Log__c$CreatedBy</field>
     </columns>
     <columns>
+        <field>ASF_Communication_Log__c$CreatedBy.Manager</field>
+    </columns>
+    <columns>
+        <field>ASF_Communication_Log__c$CreatedBy.Department</field>
+    </columns>
+    <columns>
         <field>ASF_Communication_Log__c$Account__c.Client_Code__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Communication_Log__c$Account__c</field>
     </columns>
     <columns>
         <field>ASF_Communication_Log__c$Function_Name__c</field>
@@ -16,13 +28,10 @@
         <field>ASF_Communication_Log__c$Policy_No__c</field>
     </columns>
     <columns>
+        <field>ASF_Communication_Log__c$Case__c.Owner</field>
+    </columns>
+    <columns>
         <field>ASF_Communication_Log__c$Case__c</field>
-    </columns>
-    <columns>
-        <field>ASF_Communication_Log__c$Case__c.Status</field>
-    </columns>
-    <columns>
-        <field>ASF_Communication_Log__c$Case__c.Stage__c</field>
     </columns>
     <columns>
         <field>ASF_Communication_Log__c$Case__c.Type_Text__c</field>
@@ -31,10 +40,16 @@
         <field>ASF_Communication_Log__c$Case__c.Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>ASF_Communication_Log__c$Case__c.Subject</field>
+        <field>ASF_Communication_Log__c$Case__c.Nature__c</field>
     </columns>
     <columns>
-        <field>ASF_Communication_Log__c$Case__c.Nature__c</field>
+        <field>ASF_Communication_Log__c$Case__c.Status</field>
+    </columns>
+    <columns>
+        <field>ASF_Communication_Log__c$Case__c.Stage__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Communication_Log__c$Case__c.Subject</field>
     </columns>
     <columns>
         <field>ASF_Communication_Log__c$Case__c.CreatedDate</field>
@@ -46,13 +61,16 @@
         <field>ASF_Communication_Log__c$Case__c.LastModifiedDate</field>
     </columns>
     <columns>
+        <field>ASF_Communication_Log__c$Case__c.ABSLI_Case_Detail__c.RCA_Comments__c</field>
+    </columns>
+    <columns>
         <field>ASF_Communication_Log__c$Case__c.ABSLI_Case_Detail__c.Resolution_Comments__c</field>
     </columns>
     <columns>
         <field>ASF_Communication_Log__c$Case__c.Source__c</field>
     </columns>
     <columns>
-        <field>ASF_Communication_Log__c$CreatedBy.Department</field>
+        <field>ASF_Communication_Log__c$Case__c.ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
     </columns>
     <description>This report is useful to get Cases Created from Dynamic Link SMS.</description>
     <filter>

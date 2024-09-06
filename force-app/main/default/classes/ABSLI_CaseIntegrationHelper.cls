@@ -1,5 +1,5 @@
 /*********************************************************
-*Class        :  ABHFL_CaseIntegrationHelper
+*Class        :  ABSLI_CaseIntegrationHelper
 *Author       :  Siddarth Jaitly
 *Created Date :  12/06/2024
 *Last Modified:
@@ -7,6 +7,7 @@
 *History        :
 *********************************************************/
 public class ABSLI_CaseIntegrationHelper {
+    public static Set<String> requestsForStageMovement = new Set<String>{'PEMT042','PEMT024'};
     /****************************************************************************************************************
     * @LOB - ABSLI
     * @Function - eBotHandler
@@ -94,10 +95,11 @@ public class ABSLI_CaseIntegrationHelper {
                                                            ABSLI_EbotWrapper.EbotResponseWrapper ebotResponse,
                                                            ContentRelationWrapper contentRelation){
 
-		ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+	ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
         caseDetail.From_Date__c = String.isNotBlank(ebotResponse.FromDate)?Date.valueOf(ebotResponse.FromDate):null;
         caseDetail.To_Date__c = String.isNotBlank(ebotResponse.ToDate)?Date.valueOf(ebotResponse.ToDate):null;
         caseDetail.Ebot_Email_in_Draft__c  = false;
+        caseDetail.Source_Request_submitted_by__c = ABSLI_Constants.EMAIL_SOURCE_REQ_BY;
 
         if(ebotResponse.Email_Details.size() > 0){
             for(ABSLI_EbotWrapper.EmailDetailsWrapper emailWrapper : ebotResponse.Email_Details){
@@ -123,10 +125,10 @@ public class ABSLI_CaseIntegrationHelper {
                         staticAttachmentDocumentIds.add(attachmentIdContentDocumentMap.get(attachment));
                     }
                 }
-                if(emailWrapper.EmailCustomerFlag == 'Y'){
+                if(emailWrapper.EmailCustomerFlag != null && emailWrapper.EmailCustomerFlag/* == 'Y'*/){
                     string templateId = '';
                     string attachmentIds = '';
-                    if(emailWrapper.Is_Register_Customer == 'Y'){
+                    if(emailWrapper.Is_Register_Customer != null && emailWrapper.Is_Register_Customer/* == 'Y'*/){
                         templateId = contentRelation.registeredTemplateId;
                         staticAttachmentDocumentIds.addAll(contentRelation.registeredAttachments);
                     } else {
@@ -144,13 +146,13 @@ public class ABSLI_CaseIntegrationHelper {
                 }else{
                     caseDetail.Draft_To_Address__c = emailWrapper.EmailTo;
                     caseDetail.Draft_Subject__c = emailWrapper.EmailSubject;
-                    if(emailWrapper.Is_Register_Customer == 'Y'){
+                    if(emailWrapper.Is_Register_Customer != null && emailWrapper.Is_Register_Customer/* == 'Y'*/){
                         staticAttachmentDocumentIds.addAll(contentRelation.registeredAttachments);
                     } else {
                         staticAttachmentDocumentIds.addAll(contentRelation.unregisteredAttachments);
                     }
                     caseDetail.Draft_AttachmentIds__c = String.join(staticAttachmentDocumentIds,',');
-                    if(emailWrapper.Is_Register_Customer == 'Y'){
+                    if(emailWrapper.Is_Register_Customer != null && emailWrapper.Is_Register_Customer/* == 'Y'*/){
                         caseDetail.Ebot_Email_in_Draft__c  = true;
                     }
                 }
@@ -217,7 +219,9 @@ public class ABSLI_CaseIntegrationHelper {
         caseRecord.CCC_External_Id__c = ebotResponse.CaseSubSubType;
         caseRecord.Comments = ebotResponse.Comments;
         caseRecord.Issue_Type__c = ebotResponse.Issue_Type;
-        caseRecord.FTR__c = String.isNotBlank(ebotResponse.FTR)?Boolean.valueOf(ebotResponse.FTR):false;
+        if(ebotResponse.FTR != null){
+            caseRecord.FTR__c = ebotResponse.FTR;//String.isNotBlank(ebotResponse.FTR)?Boolean.valueOf(ebotResponse.FTR):false;
+        }
         if(String.isNotBlank(ebotResponse.CaseSubSubType)){
             List<ASF_Case_Category_Config__c> cccList = [SELECT Id
                                                          FROM ASF_Case_Category_Config__c
@@ -251,11 +255,18 @@ public class ABSLI_CaseIntegrationHelper {
             update caseRecord;
         }
 
-      if(caseRecord.FTR__c){
+        if(caseRecord.FTR__c){
             caseRecord.MoveToNext__c = true;  
             if(Schema.sObjectType.Case.isUpdateable()){
                 update caseRecord;
             }
+        }
+
+        if(requestsForStageMovement.contains(caseRecord.CCC_External_Id__c)){
+            caseRecord.MoveToNext__c = true;  
+            if(Schema.sObjectType.Case.isUpdateable()){
+                update caseRecord;
+            }         
         }
 
         return caseRecord;
@@ -287,9 +298,21 @@ public class ABSLI_CaseIntegrationHelper {
                 emailWrapper.emailAttachmentIds = caseRecord.ABSLI_Case_Detail__r.Draft_AttachmentIds__c;
                 emailWrapper.caseDetailId = caseRecord.ABSLI_Case_Detail__c;
                 emailWrapper.emailTemplateId = documentLink[0].ContentDocumentId;
-                List<String> attachmentList = String.isNotBlank(emailWrapper.emailAttachmentIds)?emailWrapper.emailAttachmentIds.split(','):null;
-                List<ContentVersion> contentVersionList = [SELECT VersionData,ContentDocumentId,Is_Email_Body__c,For_Registered_Customer__c,Id,PathOnClient FROM ContentVersion 
-                                                     WHERE ContentDocumentId in: documentIds or id in: attachmentList];
+                List<String> attachmentList = String.isNotBlank(emailWrapper.emailAttachmentIds)?emailWrapper.emailAttachmentIds.split(','): new List<String>();
+                String queryStr = 'SELECT VersionData,ContentDocumentId,Is_Email_Body__c,For_Registered_Customer__c,Id,PathOnClient FROM ContentVersion WHERE ';
+                if(documentIds.size() > 0){
+                    queryStr += ' ContentDocumentId IN: documentIds ';
+                }
+                if(attachmentList.size() > 0){
+                    if(queryStr.contains('ContentDocumentId')){
+                        queryStr += ' or id in: attachmentList';
+                    } else {
+                        queryStr += ' id in: attachmentList';
+                    }
+                }
+                List<ContentVersion> contentVersionList = Database.query(queryStr);
+                //List<ContentVersion> contentVersionList = [SELECT VersionData,ContentDocumentId,Is_Email_Body__c,For_Registered_Customer__c,Id,PathOnClient FROM ContentVersion 
+                //                                     WHERE ContentDocumentId in: documentIds or id in: attachmentList];
                 List<EmailAttachmentWrapper> attachmentWrapperList = new List<EmailAttachmentWrapper>();
                 for(ContentVersion doc : contentVersionList){
                     if(doc.Is_Email_Body__c && doc.For_Registered_Customer__c){

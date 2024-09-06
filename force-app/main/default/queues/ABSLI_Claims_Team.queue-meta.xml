@@ -6,10 +6,6 @@
         <publicGroups>
             <publicGroup>ABSLI_Claims_Team_G</publicGroup>
         </publicGroups>
-        <users>
-            <user>mudupi@salesforce.com.abcl</user>
-            <user>virendra.patil@salesforce.com.abcl</user>
-        </users>
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>

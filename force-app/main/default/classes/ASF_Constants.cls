@@ -2,8 +2,8 @@
  * @description       : Constant class to store all the resable variables at one place
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-13-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 09-03-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
@@ -11,6 +11,21 @@
 public with sharing class ASF_Constants {
 
     public static final String GENERIC_ERROR_MESSAGE = 'An error occurred during processing, please contact system administrator';
+    
+    //Skipper flags - keep it sync with Feature_Skipper_Flag__c field options from Case
+    public static final String SKIP_ASSIGNMENT = 'SKIP_ASSIGNMENT';
+    public static final String SKIP_VALIDATE_RECAT_PARAM = 'SKIP_VALIDATE_RECAT_PARAM';
+    public static final String SKIP_STAGE_ENTRY_CHECKS = 'SKIP_STAGE_ENTRY_CHECKS';
+    public static final String SKIP_PERI_GENERATE = 'SKIP_PERI_GENERATE';
+    public static final String SKIP_CLOSE_CASE_CHECK = 'SKIP_CLOSE_CASE_CHECK';
+    public static final String SKIP_OWNER_CHECK = 'SKIP_OWNER_CHECK';
+    public static final String SKIP_STAGE_EXIT_CHECKS = 'SKIP_STAGE_EXIT_CHECKS';
+    public static final String SKIP_VALIDATE_CHECKLISTS = 'SKIP_VALIDATE_CHECKLISTS';
+    public static final String SKIP_VALIDATE_TASKS = 'SKIP_VALIDATE_TASKS';
+    public static final String SKIP_APPROVAL_CHECKS = 'SKIP_APPROVAL_CHECKS';
+    public static final String SKIP_VALIDATION_CHECKS = 'SKIP_VALIDATION_CHECKS';
+    public static final String SKIP_INTEGRATION_CHECKS = 'SKIP_INTEGRATION_CHECKS';
+
 
     public static final String STRING_BLANK ='';
     public static final String STRING_SPACE = ' ';
@@ -103,19 +118,18 @@ public with sharing class ASF_Constants {
     /* Added For Loans Search API BU Logic */
     public static final String STRING_IS_API_LOAD = 'API_LOANS';
     
-    
+    public static final List<String> BU_SHOWCHECKLISTS_ONREJECTION = new List<String>{'ABSLI'};
     public static final String REJECTIONSTATUS = 'Unresolved';
     public static final String DUPLICATESTATUS = 'Closed Duplicate';
     public static final String DUPLICATESTAGE = 'Duplicate';
     public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected','Duplicate'};
-        public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
+    public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved','Duplicate'};
     public static final String ONCREATECLOSESTAGE = 'Resolved';
     public static final String ONCREATECLOSESTATUS = 'Resolved';
     public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
     public static final String ABFL_BU = 'ABFL';
     public static final String ABSLI_BU = 'ABSLI';
     public static final String ABSLIG_BU = 'ABSLIG';
-
     public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
 
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
@@ -141,5 +155,8 @@ public with sharing class ASF_Constants {
     /* Asset ExternalId fields per Business Unit */
     public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG'};
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
+    
+    public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
+    public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';
 
 }

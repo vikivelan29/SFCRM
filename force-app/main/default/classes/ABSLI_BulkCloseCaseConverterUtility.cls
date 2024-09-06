@@ -58,13 +58,6 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(caseNumberToCaseMap.get(caseNumber).Nature__c == 'Request' && (resolutionComments == null || resolutionComments.trim() == '')){
-                keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'Resolution Comments is required');
-                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-                continue;
-            }
             if(!caseNumberToCaseMap.containsKey(caseNumber)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Case Number');
@@ -83,6 +76,13 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
             && (caseNumberToCaseMap.get(caseNumber).AccountId == null || caseNumberToCaseMap.get(caseNumber).CCC_External_Id__c == null)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Case does not have Account tagged or Issue Type Code tagged');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(caseNumberToCaseMap.get(caseNumber).Nature__c == 'Request' && (resolutionComments == null || resolutionComments.trim() == '')){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Resolution Comments is required');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
