@@ -1073,6 +1073,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhi_healthAssesmentDetails</componentName>
+                <identifier>c_abhi_healthAssesmentDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>aBHI_OmniDocView</componentName>
                 <identifier>c_aBHI_OmniDocView</identifier>
             </componentInstance>
@@ -1088,11 +1098,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-f69f70aa-0fea-4fec-aed3-c8468967b388</name>
-                <componentName>abhi_healthAssesmentDetails</componentName>
-                <identifier>c_abhi_healthAssesmentDetails</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1128,7 +1133,7 @@
                 <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
+	<itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
@@ -1140,6 +1145,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
