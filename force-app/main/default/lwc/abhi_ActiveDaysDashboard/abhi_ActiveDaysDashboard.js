@@ -3,6 +3,8 @@ import getActiveDaysDashboard from '@salesforce/apex/ABHI_ActiveDaysDashboardCon
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
+import { loadStyle } from 'lightning/platformResourceLoader';
+import styles from '@salesforce/resourceUrl/ASF_RemoveDateFormatStyle';
 const fields = [CLIENT_CODE_FIELD];   
 export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track startDate = '';
@@ -11,7 +13,9 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track disabled = false; // Adjust this as needed
     @track displayTable = false;
     @track displayError = false;
+    @track displayErrorSearch = false;
     @track errorMessages = '';
+    @track errorMessageSearch ='';
     @track showChildTable = false;
     @track apiName = '';
     @track payloadInfo = '';
@@ -47,12 +51,15 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     handleStartDateChange(event) {
         this.startDate = event.target.value;
         console.log('startdate ',this.startDate);
+        this.validateDates();
     }
+    
 
     // Event handler for the end date change
     handleEndDateChange(event) {
         this.endDate = event.target.value;
         console.log('startdate ',this.endDate);
+        this.validateDates();
 
     }
 
@@ -166,8 +173,8 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
 
             this.scoresList = scoresList.flatMap(score => 
                 score.activities.map(activity => ({
-                    //eventDate: score.activeDate,
-                    eventDate: new Date(score.activeDate).toISOString().split('T')[0],
+                    eventDate: score.activeDate,
+                    //eventDate: new Date(score.activeDate).toISOString().split('T')[0],
                     isScored: score.isScored === 'true' ? "True" : "False",
                     caloriesActivity: activity.name === "Calories Activity" ? this.formatNumber(activity.value || 0) : '',
                     Steps_Activity: activity.name === "Step Activity" ? this.formatNumber(activity.value || 0) : '',
@@ -232,6 +239,30 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
 
     get pageNumber() {
         return this.currentPage;
+    }
+    validateDates() {
+        if (this.startDate && this.endDate) {
+            const start = new Date(this.startDate);
+            const end = new Date(this.endDate);
+
+            if (end < start) {
+                this.displayErrorSearch = true;
+                this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
+            } else {
+                this.displayErrorSearch = false;
+            }
+        } else {
+            this.displayErrorSearch = false; // Hide error if one of the dates is missing
+        }
+    }
+    renderedCallback(){
+        Promise.all([
+            loadStyle(this, styles) //specified filename
+        ]).then(() => {
+            console.log('Files loaded.');
+        }).catch(error => {
+           console.log("Error " + error.body.message);
+        });
     }
 
 }

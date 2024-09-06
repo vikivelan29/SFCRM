@@ -59,7 +59,7 @@ public without sharing class ASF_CommPEMergeFieldHandler {
         List<string> mergeFields = MergeCSVField.tostring().split(',');
         
         string mergeField, fieldName, fieldValue;
-        
+        masterlog = mPeLogIdCommunicationLog.containsKey(pLogId)?mPeLogIdCommunicationLog.get(pLogId):masterlog;
         for(integer counter = 1; counter<=mergeFields.size(); counter++){
             mergeField = mergeFields[counter-1].trim();
             
