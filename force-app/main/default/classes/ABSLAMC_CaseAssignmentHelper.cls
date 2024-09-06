@@ -174,7 +174,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         Map<Id, ABSLAMC_Case_Detail__c> caseToCaseDetailMap = new Map<Id, ABSLAMC_Case_Detail__c>();
         Map<Id, ABSLAMC_Case_Detail__c> caseDetailMap = new Map<Id, ABSLAMC_Case_Detail__c>();
         Map<Id,ABSLAMC_Case_Detail__c> caseDetailToUpdate = new Map<Id,ABSLAMC_Case_Detail__c>();
-        Set<String> validReplyTypeForResolveStage = new Set<String>{ABSLAMC_Constants.SATISFACTORYREPLYTYPE,ABSLAMC_Constants.NONSATISFACTORYREPLYTYPE};
+        Set<String> validReplyTypeForResolveStage = new Set<String>{ABSLAMC_Constants.SATISFACTORYREPLYTYPE};
         String mandatoryFieldsErrMsg = label.ABSLAMC_CAMSMandatoryFieldsErrorMsg;
         String replyTypeErrorMsg = label.ABSLAMC_ClosureReplyTypeForCAMSErrorMsg;
         
