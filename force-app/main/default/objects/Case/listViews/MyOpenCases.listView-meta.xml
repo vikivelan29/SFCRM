@@ -4,6 +4,7 @@
     <columns>CASES.CASE_NUMBER</columns>
     <columns>CASES.SUBJECT</columns>
     <columns>CASES.STATUS</columns>
+    <columns>Stage__c</columns>
     <columns>CASES.CREATED_DATE</columns>
     <columns>Ageing_Business_Days__c</columns>
     <columns>CORE.USERS.ALIAS</columns>

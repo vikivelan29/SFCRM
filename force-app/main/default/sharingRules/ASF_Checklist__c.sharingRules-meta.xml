@@ -101,7 +101,7 @@
         <criteriaItems>
             <field>Line_Of_Business__c</field>
             <operation>equals</operation>
-            <value>PMS</value>
+            <value>PMS</value> 
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

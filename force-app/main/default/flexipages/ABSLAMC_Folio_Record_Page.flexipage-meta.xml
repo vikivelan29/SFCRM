@@ -188,6 +188,16 @@
                 <identifier>RecordFolio_Creation_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Last_Update_Date_Time__c</fieldItem>
+                <identifier>RecordLast_Update_Date_Time__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-11747dba-5a00-4987-9abb-87ce339c18a6</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -368,7 +378,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Profile_Completion_Percentage_at_folio_l__c</fieldItem>
+                <fieldItem>Record.Profile_Completion_Percentage_at_folio__c</fieldItem>
                 <identifier>RecordProfile_Completion_Percentage_at_folio_l_cField</identifier>
             </fieldInstance>
         </itemInstances>
@@ -687,7 +697,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
+                    <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
