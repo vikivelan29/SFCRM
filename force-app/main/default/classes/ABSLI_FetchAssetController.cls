@@ -2,8 +2,8 @@
  * @description       : ABSLI Fetch Asset LWC Controller
  * @author            : dhinesh.t@salesforce.com
  * @group             : 
- * @last modified on  : 06-03-2024
- * @last modified by  : dhinesh.t@salesforce.com
+ * @last modified on  : 08-16-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version

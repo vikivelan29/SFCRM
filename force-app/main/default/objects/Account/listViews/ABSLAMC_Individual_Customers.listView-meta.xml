@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABSLAMC_Individual_Customers</fullName>
-    <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
+    <booleanFilter>1 AND 2 AND (3 OR 4 OR 5 OR 6)</booleanFilter>
     <columns>ACCOUNT.NAME</columns>
     <columns>ACCOUNT.SITE</columns>
     <columns>ACCOUNT.ADDRESS1_STATE</columns>
@@ -28,6 +28,16 @@
         <field>Line_of_Business__pc</field>
         <operation>equals</operation>
         <value>MF,PMS,AIF,RE</value>
+    </filters>
+    <filters>
+        <field>Line_of_Business__c</field>
+        <operation>equals</operation>
+        <value>RE,PMS,AIF,MF</value>
+    </filters>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABSLAMC</value>
     </filters>
     <label>ABSLAMC Individual Customers</label>
     <sharedTo>
