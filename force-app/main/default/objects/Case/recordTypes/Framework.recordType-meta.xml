@@ -90,15 +90,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLAMC</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABHI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -852,10 +844,6 @@
         </values>
         <values>
             <fullName>SMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>WhatsApp</fullName> 
             <default>false</default>
         </values>
     </picklistValues>
