@@ -50,6 +50,9 @@
                 <fullName>OmniDoc</fullName>
                 <default>false</default>
                 <label>OmniDoc</label>
+                <fullName>CAMS</fullName>
+                <default>false</default>
+                <label>CAMS</label>
             </value>
             <value>
                 <fullName>eBOT Feedback</fullName>

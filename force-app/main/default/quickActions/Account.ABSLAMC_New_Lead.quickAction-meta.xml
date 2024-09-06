@@ -5,8 +5,28 @@
         <formula>TEXT(Account.Business_Unit__c)</formula>
     </fieldOverrides>
     <fieldOverrides>
+        <field>FirstName</field>
+        <formula>Account.FirstName</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>LastName</field>
+        <formula>Account.LastName</formula>
+    </fieldOverrides>
+    <fieldOverrides>
         <field>LOB__c</field>
         <formula>TEXT(Account.Line_of_Business__c)</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>MobilePhone</field>
+        <formula>Account.Phone</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>PANNO__c</field>
+        <formula>Account.PAN__c</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Salutation</field>
+        <formula>Text(Account.Salutation)</formula>
     </fieldOverrides>
     <fieldOverrides>
         <field>Status</field>

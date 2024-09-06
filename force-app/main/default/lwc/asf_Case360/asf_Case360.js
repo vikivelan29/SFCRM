@@ -256,6 +256,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
+    hideActionsForCams = false;
+    saveDataOnBack = false;
         
 
     get eligibleForBU(){
@@ -349,7 +351,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * User clicked on Edit Details button
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c && !this.hideActionsForCams;
     }
 
     get displayBackButton() {
@@ -813,16 +815,50 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             return;
         }
         this.loading = true;
+        if(this.saveDataOnBack){
+           this.saveDataOnBackStage();
+        }else{
+            let caseRecord;
+            caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
+            caseRecord['Stage__c'] = this.selectedStage;
+            caseRecord['Pending_Clarification__c'] = true;
+            caseRecord['moved_back__c'] = true;
+            caseRecord['Is_Manual_Moved__c'] = false;
+            if (this.caseObj.Technical_Source__c == 'API') {
+                caseRecord['Technical_Source__c'] = 'LWC';
+            }
+            this.saveCase(caseRecord);
+            }
+       
+    }
+
+    saveDataOnBackStage(){
+        //get case record as object from lightning-record-edit-form
         let caseRecord;
-        caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-        caseRecord['Stage__c'] = this.selectedStage;
-        caseRecord['Pending_Clarification__c'] = true;
-        caseRecord['moved_back__c'] = true;
-        caseRecord['Is_Manual_Moved__c'] = false;
-        if (this.caseObj.Technical_Source__c == 'API') {
-            caseRecord['Technical_Source__c'] = 'LWC';
+        let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
+        if (caseElement) {
+            let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
+            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
+            caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
+            caseRecord['Stage__c'] = this.selectedStage;
+            caseRecord['Pending_Clarification__c'] = true;
+            caseRecord['moved_back__c'] = true;
+            caseRecord['Is_Manual_Moved__c'] = false;
+            if (this.caseObj.Technical_Source__c == 'API') {
+                caseRecord['Technical_Source__c'] = 'LWC';
+            }
         }
-        this.saveCase(caseRecord);
+
+        //get case extn record as object from lightning-record-edit-form
+        let caseExtnRecord;
+        let caseExtnElement = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
+        if (caseExtnElement) {
+            let inputFields = [...caseExtnElement.querySelectorAll('lightning-input-field')];
+            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
+            caseExtnRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseExtensionRecord.Id]]);
+            caseExtnRecord["sobjectType"] = caseExtnElement.objectApiName;
+        }
+        this.saveCaseWithExtension(caseRecord, caseExtnRecord);
     }
 
     saveManualCaseStage(event) {
@@ -879,6 +915,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             else {
                                 this.boolSaveReassignButton = false;
                             }
+                            if(this.stagesData[i].hasOwnProperty('No_Action_stage__c')
+                            && this.stagesData[i].No_Action_stage__c == true){
+                                                this.hideActionsForCams = true;
+                       
+                        }
+                        if(this.stagesData[i].hasOwnProperty('Save_Data_On_Back__c')
+                            && this.stagesData[i].Save_Data_On_Back__c == true){
+                                                this.saveDataOnBack = true;
+                       
+                        }
                         }
                     }
                 }
