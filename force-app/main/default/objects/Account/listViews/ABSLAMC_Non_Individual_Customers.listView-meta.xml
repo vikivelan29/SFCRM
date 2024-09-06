@@ -17,6 +17,7 @@
     <filters>
         <field>Business_Unit__c</field>
         <operation>equals</operation>
+        <value>ABSLAMC</value>
     </filters>
     <filters>
         <field>IS_PERSON_ACCOUNT</field>
@@ -24,7 +25,7 @@
         <value>0</value>
     </filters>
     <filters>
-        <field>Line_of_Business__pc</field>
+        <field>Line_of_Business__c</field>
         <operation>equals</operation>
         <value>MF,PMS,AIF,RE</value>
     </filters>

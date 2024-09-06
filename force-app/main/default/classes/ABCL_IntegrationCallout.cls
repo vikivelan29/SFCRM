@@ -6,7 +6,7 @@
 *Description  :  Outbound Callout Logger
 *********************************************************/
 public with sharing class ABCL_IntegrationCallout {
-    public static string caseId; 
+    public static string caseId;
     public static string accountId;
 
     /****************************************************************************************************************
@@ -39,6 +39,7 @@ public with sharing class ABCL_IntegrationCallout {
         if(integrationMdt.Timeout__c != null){
             request.setTimeout(Integer.valueof(integrationMdt.Timeout__c));
         }
+        
         //Check for Payload
         if(!String.isBlank(payload)){
             request.setBody(payload);
@@ -76,8 +77,8 @@ public with sharing class ABCL_IntegrationCallout {
     }
     public static ABCL_Integrations__mdt  getIntegrationMetadata(string integrationName){
         List<ABCL_Integrations__mdt> integrationMetadata = [Select  EndPoint__c,HTTP_Headers__c,EnableMockResponse__c,
-                                                                    Mock_Status_Code__c,Mock_Response_Resource__c,
-                                                                    Full_Log__c,Timeout__c,Exception_Log__c,StoreAsAttachment__c,Protocol__c 
+                                                                  Mock_Status_Code__c,Timeout__c,Mock_Response_Resource__c,
+                                                                    Full_Log__c,Exception_Log__c,StoreAsAttachment__c,Protocol__c 
                                                                     from ABCL_Integrations__mdt where DeveloperName =: integrationName];
         return integrationMetadata[0];
     }
