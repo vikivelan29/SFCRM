@@ -59,6 +59,39 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ABHI_CCC_Sharing_Rule</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABHI CCC Sharing Rule</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_AIF_CCC_Share_to_AIF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC AIF CCC Share to AIF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_AIF_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>LOB__c</field>
+            <operation>equals</operation>
+            <value>AIF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ABSLIG_CCC_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABSLIG CCC Sharing</label>
@@ -111,25 +144,6 @@
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>Payments</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_AIF_CCC_Share_to_AIF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC AIF CCC Share to AIF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>AIF</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
