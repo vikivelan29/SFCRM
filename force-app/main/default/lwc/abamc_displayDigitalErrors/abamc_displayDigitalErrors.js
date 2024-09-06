@@ -8,7 +8,7 @@ import MyModal from 'c/asf_simpleModal';
 
 
 const columns = [
-    { label: 'Updated Date', fieldName: 'updatedDatetime', type: 'date', initialWidth: 200,
+    { label: 'Updated Date', fieldName: 'updatedDatetime', type: 'date', initialWidth: 200,sortable: true ,
         typeAttributes:{
             year: "2-digit",
             month: "short",
@@ -18,8 +18,8 @@ const columns = [
             timeZone: TIME_ZONE
         }
     },
-    { label: 'Type', fieldName: 'eventType',initialWidth: 100 },
-    { label: 'Message', fieldName: 'messageText',initialWidth: 550},
+    { label: 'Event Type', fieldName: 'eventType',initialWidth: 100,sortable: true  },
+    { label: 'Message', fieldName: 'messageText',initialWidth: 550,sortable: true },
     { label: 'View', fieldName: 'id', type: 'button-icon',initialWidth: 80,
         typeAttributes: {
             label: { fieldName: 'View' },
@@ -39,6 +39,12 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
     loading = true;
     displayTable = true;
     userMessage;
+    //pagination variables
+    currentPage = 1;
+    recordsPerPage = 10;
+    totalRecords = 0;
+    totalPages = 0;
+    paginatedData = [];
 
 
     connectedCallback(){
@@ -47,38 +53,39 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
         this.loading = false;
     }
 
-    async fetchData(){
+    async fetchData() {
         console.log('connectedCallback fetchData', this.recordId);
-        if(this.recordId){
-            let wrap = await fetchDigitalErrors({input:this.recordId}).catch((error)=>{
+        if (this.recordId) {
+            let wrap = await fetchDigitalErrors({ input: this.recordId }).catch((error) => {
                 console.error(error);
                 this.showError('error', 'Oops! Something went wrong', error);
             });
-            if(wrap.isSuccess){
-                //handle success
+            if (wrap.isSuccess) {
                 let response = JSON.parse(wrap.responseBody);
-                //response = []; //to mock error scenario
-                if(response.length == 0){
+                if (response.length == 0) {
                     this.displayTable = false;
                     this.userMessage = 'No data found';
                 }
-                this.data = [];
-                this.data = response.map((item)=>{
+                this.data = response.map((item) => {
                     return {
-                        'id':item._id,
-                        'updatedDatetime':item._metadata.lastUpdated,
-                        'eventType':item.eventType,
-                        'messageText':item.messageText
+                        'id': item._id,
+                        'updatedDatetime': item._metadata.lastUpdated,
+                        'eventType': item.eventType,
+                        'messageText': item.messageText
                     };
                 });
-                this.sortedBy = 'updatedDatetime'
-            }else{
-                //handle API errors
+                this.totalRecords = this.data.length;
+                this.totalPages = Math.ceil(this.totalRecords / this.recordsPerPage);
+                this.updatePaginatedData();
+                this.sortedBy = 'updatedDatetime';
+                this.loading = false;
+            } else {
                 console.error(wrap.errorMessage);
                 this.showError('error', 'Oops! Something went wrong', wrap.errorMessage);
             }
         }
     }
+    
     viewRecord(event){
         console.log(event.detail.action.name);
         console.log(event.detail.row.id);
@@ -100,7 +107,7 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
         let currentDateLocale = currentDateVal.toLocaleString('en-IN', formattingOptions);
         MyModal.open({
             content:selectedRow.messageText,
-            header:currentDateLocale + ' / '+ selectedRow.eventType,
+            header:'Digital Error Details',
             label:currentDateLocale + ' / '+ selectedRow.eventType,
             footeraction:'Okay'
         }).then((result) => {
@@ -113,10 +120,9 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
     refreshData(){
         this.loading = true;
         this.fetchData();
-        this.loading = false;
     }
 
-    // Used to sort the 'Age' column
+    
     sortBy(field, reverse, primer) {
         const key = primer
             ? function (x) {
@@ -136,9 +142,10 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
     onHandleSort(event) {
         const { fieldName: sortedBy, sortDirection } = event.detail;
         const cloneData = [...this.data];
-
+    
         cloneData.sort(this.sortBy(sortedBy, sortDirection === 'asc' ? 1 : -1));
         this.data = cloneData;
+        this.updatePaginatedData();
         this.sortDirection = sortDirection;
         this.sortedBy = sortedBy;
     }
@@ -160,5 +167,34 @@ export default class Abamc_displayDigitalErrors extends LightningElement {
             message: message
         });
         this.dispatchEvent(event);
+    }
+
+     
+    updatePaginatedData() {
+        const startIndex = (this.currentPage - 1) * this.recordsPerPage;
+        const endIndex = startIndex + this.recordsPerPage;
+        this.paginatedData = this.data.slice(startIndex, endIndex);
+    }
+    
+    handlePrevPage() {
+        if (this.currentPage > 1) {
+            this.currentPage -= 1;
+            this.updatePaginatedData();
+        }
+    }
+    
+    handleNextPage() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage += 1;
+            this.updatePaginatedData();
+        }
+    }
+
+    get isPrevDisabled() {
+        return this.currentPage === 1;
+    }
+
+    get isNextDisabled() {
+        return this.currentPage === this.totalPages;
     }
 }

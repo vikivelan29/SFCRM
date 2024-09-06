@@ -4,13 +4,13 @@
                             class="spinnerClass"></lightning-spinner>
     </template>
     <div>
-        <lightning-button label="Refresh" onclick={refreshData} class="refresh-button" ></lightning-button>
+        <lightning-button label="Refresh" onclick={refreshData} class="refresh-button"></lightning-button>
     </div>
     <template lwc:if={displayTable}>
         <lightning-datatable
                 key-field="id"
                 columns={columns}
-                data={data}
+                data={paginatedData}
                 hide-checkbox-column
                 default-sort-direction={defaultSortDirection}
                 sorted-direction={sortDirection}
@@ -18,8 +18,12 @@
                 onsort={onHandleSort}
                 onrowaction={viewRecord}>
         </lightning-datatable>
+        <div class="pagination-controls">
+            <lightning-button variant="brand" label="Previous" onclick={handlePrevPage} disabled={isPrevDisabled}></lightning-button>
+            <lightning-button variant="brand" label="Next" onclick={handleNextPage} disabled={isNextDisabled}></lightning-button>
+        </div>
     </template>
     <template lwc:else>
-        {userMessage}
+        <p>{userMessage}</p>
     </template>
 </template>
