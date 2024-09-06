@@ -184,6 +184,5 @@ renderedCallback(){
     }).catch(error => {
        console.log("Error " + error.body.message);
     });
-}
-
+} 
 }
