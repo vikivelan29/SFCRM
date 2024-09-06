@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>ABHI_JSON_Field_Name__c</field>
-        <value xsi:type="xsd:string">Claim_Number</value>
+        <value xsi:type="xsd:string">Claim_Type</value>
     </values>
     <values>
         <field>ABHI_Object_Mapping__c</field>
