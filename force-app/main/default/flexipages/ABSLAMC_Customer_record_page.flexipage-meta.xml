@@ -5,11 +5,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Account.ABSLAMC_New_Lead</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -21,7 +16,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsInNative</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
@@ -372,8 +367,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Bank_Branch__c</fieldItem>
-                <identifier>RecordBank_Branch_cField</identifier>
+                <fieldItem>Record.Branch__c</fieldItem>
+                <identifier>RecordBranch_cField</identifier>
                 <visibilityRule>
                     <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
                     <criteria>
@@ -387,16 +382,6 @@
                         <rightValue>AIF</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>MF</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>MF</rightValue>
-                    </criteria>
-                    <criteria>
                         <leftValue>{!Record.Line_of_Business__pc}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>AIF</rightValue>
@@ -404,7 +389,17 @@
                     <criteria>
                         <leftValue>{!Record.Line_of_Business__pc}</leftValue>
                         <operator>EQUAL</operator>
+                        <rightValue>MF</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
+                        <operator>EQUAL</operator>
                         <rightValue>PMS</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>AIF</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -427,23 +422,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Service_2_Sales_CRE_Email_ID__c</fieldItem>
                 <identifier>RecordService_2_Sales_CRE_Email_ID_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Last_Update_Date_Time__c</fieldItem>
-                <identifier>RecordLast_Update_Date_Time__cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>MF</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-5b364407-cf0c-4fd9-a855-18faa34dfc8e</name>
@@ -624,8 +602,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NPO_Flag__c</fieldItem>
-                <identifier>RecordNPO_Flag_cField</identifier>
+                <fieldItem>Record.NBO_Flag__c</fieldItem>
+                <identifier>RecordNBO_Flag_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b0f0b316-1fd3-472e-ae1d-b4e794cf704d</name>
@@ -836,16 +814,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abamc_displayDigitalErrors</componentName>
-                <identifier>c_abamc_displayDigitalErrors</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-e1a0ea7c-49df-40bd-90bd-154636690089</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</value>
@@ -907,20 +875,6 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-e1a0ea7c-49df-40bd-90bd-154636690089</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Digital Errors</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>maintabs</name>
         <type>Facet</type>
@@ -951,32 +905,6 @@
             <componentInstance>
                 <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
                 <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Account.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Survey_Responses__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
