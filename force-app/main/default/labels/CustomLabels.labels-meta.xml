@@ -1017,7 +1017,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Abhi_Device</shortDescription>
-        <value>Devices</value>
+        <value>ABHI_Devices</value>
     </labels>
     <labels>
         <fullName>ABHI_Fitness_Appointment</fullName>
@@ -1071,13 +1071,6 @@
         <protected>false</protected>
         <shortDescription>ABHI_HHS_Active_Age</shortDescription>
         <value>HHS &amp; Active Age</value>
-    </labels>
-    <labels>
-        <fullName>ABHI_Health_Return_App_Reg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HAPP</shortDescription>
-        <value>ABHI Health Return App Reg</value>
     </labels>
     <labels>
         <fullName>ABHI_OtherDevice</fullName>
