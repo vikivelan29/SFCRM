@@ -112,20 +112,20 @@
                     <lightning-layout-item class="center-text" size="3">
                         <div >
                             <div>
-                                <p class="field-title slds-text-body_small" title="Stage Case SLA">Level 3 Stage SLA
+                                <p class="field-title slds-text-body_small" title="Stage Case SLA">{primarySLAProp.label}
                                     
                                 </p>
                             </div> 
                             <div>
                                 <template lwc:if={caseObj}>
-                                            <lightning-formatted-date-time value={caseObj.Stage_SLA_3__c}
+                                            <lightning-formatted-date-time value={primarySLAProp.slaValue}
                                                 year="numeric"
                                                 month="2-digit"
                                                 day="2-digit"
                                                 hour="2-digit"
                                                 minute="2-digit"
                                                 time-zone="IST"
-                                                class={sla3Style}>
+                                                class={primarySLAProp.slaStyle}>
                                             </lightning-formatted-date-time>
                                 </template>
                             </div>
@@ -135,7 +135,7 @@
                         <div >
                             <div class="slds-text-heading_medium">
                                 <div>
-                                    <p class="field-title" title="Case No" style="text-align:center">Level 3 Turnaround Time(TAT)
+                                    <p class="field-title" title="Case No" style="text-align:center">{primarySLATATProp.label}
                                         
                                     </p>
                                 </div>
@@ -143,8 +143,8 @@
                             </div> 
                             <div>
                                 <template lwc:if={caseObj}>
-                                    <template lwc:if={caseObj.Stage_SLA_3__c}>
-                                        <p class="slds-text-body_small">{sla3TAT}</p>
+                                    <template lwc:if={primarySLATATProp.slaValue}>
+                                        <p class="slds-text-body_small">{primarySLATATProp.slaTAT}</p>
                                     </template>
                                 </template>
                             </div>
@@ -158,19 +158,19 @@
                         <lightning-layout-item  class="center-text" size="3">
                             <div >
                                 <div>
-                                    <p class="field-title" title="Case Closure SLA">Level 1 Stage SLA
+                                    <p class="field-title" title="Case Closure SLA">{secondarySLAProp.label}
                                         
                                     </p>
                                 </div><div>
                                     <template lwc:if={caseObj}>
-                                        <lightning-formatted-date-time value={caseObj.Stage_SLA_1__c}
+                                        <lightning-formatted-date-time value={secondarySLAProp.slaValue}
                                                     year="numeric"
                                                     month="2-digit"
                                                     day="2-digit"
                                                     hour="2-digit"
                                                     minute="2-digit"
                                                     time-zone="IST"
-                                                    class={sla1Style}>
+                                                    class={secondarySLAProp.slaStyle}>
                                                 </lightning-formatted-date-time>
                                     </template>
                                 </div>
@@ -181,19 +181,19 @@
                         <lightning-layout-item class="center-text" size="3">
                             <div >
                                 <div>
-                                    <p class="field-title" title="Stage Case SLA">Level 2 Stage SLA
+                                    <p class="field-title" title="Stage Case SLA">{tertiarySLAProp.label}
                                         
                                     </p>
                                 </div> <div>
                                     <template lwc:if={caseObj}>
-                                        <lightning-formatted-date-time value={caseObj.Stage_SLA_2__c}
+                                        <lightning-formatted-date-time value={tertiarySLAProp.slaValue}
                                                     year="numeric"
                                                     month="2-digit"
                                                     day="2-digit"
                                                     hour="2-digit"
                                                     minute="2-digit"
                                                     time-zone="IST"
-                                                    class={sla2Style}>
+                                                    class={tertiarySLAProp.slaStyle}>
                                                 </lightning-formatted-date-time>
                                     </template>
                                 </div>
