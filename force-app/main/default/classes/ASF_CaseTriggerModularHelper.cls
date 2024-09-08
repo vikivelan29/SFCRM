@@ -80,8 +80,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 Set<String> currentSkippers = skipperFlagMap.get(recId);
                 currentSkippers.addAll(recIdToSkipperFlag.get(recId));
                 skipperFlagMap.put(recId, currentSkippers);
-            }
-        }    
+        }
+    }
     }
     
     /****************************************************************************************************************
@@ -483,6 +483,7 @@ blankSourcePresent = true;
             
             // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
             Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+                allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
                 for(ASF_Case_Stage_Config__c config: allStageConfigs){
                     if(config.Query_Fields__c != null){
                         allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -905,7 +906,7 @@ blankSourcePresent = true;
         List<Case> eligibleLWCCases = new List<Case>();
         
         for(Case caseRec : newMap.values()){
-            if(caseRec.Technical_Source__c == 'API'){
+            if(caseRec.Technical_Source__c == 'API' || ASF_BulkCaseProcessorUtility.runAssignmentForBulk){
                 caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                 eligibleCases.add(caseRec);
             }
@@ -1037,6 +1038,12 @@ blankSourcePresent = true;
                     addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
                     addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
                 }
+            for(Case caseRec : caseListForSla){
+                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
+                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
+            }
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
+                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
             }
             
             List<Case> integCaseList = new List<Case>();
