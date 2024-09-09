@@ -27,9 +27,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
             }
-          /*  else if(triggerContext == 'AfterASFCodeAfterInsert') {
-                updateCustomerOrPolicyOnExistCase();
-            } */
         }
     }
 
@@ -45,29 +42,4 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
         }
     }
-
-    /**
-    * Jira Story  - PR1030924-98
-    * @description - Update customer or policy on existing case.
-    *
-    public void updateCustomerOrPolicyOnExistCase(){
-        
-        List<ABHI_Case_Detail__c> abhiCaseDetList = new List<ABHI_Case_Detail__c>();
-
-        for(Case cs : abhiNewCaseList) {
-            String abhiCaseDetId = cs?.ABHI_Case_Detail__c;
-
-            if(String.isNotBlank(cs.ABHI_Case_Detail__c)) {
-                ABHI_Case_Detail__c abhiCaseDet = new ABHI_Case_Detail__c();
-                abhiCaseDet.Id = cs.ABHI_Case_Detail__c;
-                abhiCaseDet.Policy_Id__c = cs?.AssetId;
-                abhiCaseDetList.add(abhiCaseDet);
-            }
-        }
-
-        if(abhiCaseDetList.size() > 0) {
-            update abhiCaseDetList;
-        }
-    } */
-
 }
