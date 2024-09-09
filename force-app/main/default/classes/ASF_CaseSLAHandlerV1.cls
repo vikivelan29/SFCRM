@@ -453,7 +453,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                                 long seconds = milliseconds / 1000;
                                                                 long minutes = seconds / 60;
                                                                 long hours = minutes / 60;
-                                                                Integer days = Integer.valueOf (hours / businessHoursPerDay);
+                                                                Integer days = Integer.valueOf (Math.floor(hours / businessHoursPerDay));
                                                                 if(days < 1){
                                                                     slaHistory.Time_Taken__c = ( Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60)  )+'s';   
                                                                 }else{
