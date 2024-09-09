@@ -847,11 +847,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ABHI_Case_Detail__c.Policy__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-   <fieldPermissions>
-        <editable>false</editable>
         <field>Previous_Policy_Details__c.CumulativeBonus__c</field>
         <readable>true</readable>
     </fieldPermissions>
