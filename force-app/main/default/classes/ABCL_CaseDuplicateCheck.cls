@@ -5,8 +5,9 @@ public without sharing class ABCL_CaseDuplicateCheck {
         List<Case> paymentCases = new List<Case>();
         List<LOBVsAPIChannels__mdt> lobToChannelQueue = [SELECT Id, Line_Of_Business__c, Source__c, Queue_DeveloperName__c FROM LOBVsAPIChannels__mdt];
         Map<String,List<Case>> mChannelVsCases = new Map<String,List<Case>>();
-        Set<String> queueDevName = new Set<String>();
+                Set<String> queueDevName = new Set<String>();
         List<Case> abhflCases = new List<Case>();//AM-ABHFL Case DEDUPE
+        List<Case> abslamcCases = new List<Case>();
         
         for(LOBVsAPIChannels__mdt mdt : lobToChannelQueue){
             if(!mLobToChannelToQueue.containsKey(mdt.Line_Of_Business__c)){
@@ -33,6 +34,9 @@ public without sharing class ABCL_CaseDuplicateCheck {
             if(c.Business_Unit__c=='ABHFL'){//AM-ABHFL Case DEDUPE
                 abhflCases.add(c);
             }
+             else if(c.Business_Unit__c== ABSLAMC_Constants.ABSLAMCBU){//AM-ABSLAMC Case DEDUPE
+                abslamcCases.add(c);
+            }
         }
         
         for(String key : mChannelVsCases.keySet()){
@@ -42,6 +46,9 @@ public without sharing class ABCL_CaseDuplicateCheck {
         }
         if(Label.ABHFL_Case_Dedupe_Active=='Active'){//AM-ABHFL Case DEDUPE
         	ABHFL_CTSTHelper.runDuplicateCheck(abhflCases);  
+        }
+        if(Label.ABSLAMC_Case_Dedupe_Active=='Active'){//AM-ABHFL Case DEDUPE
+        	ABSLAMC_CaseCreationDuplicateChecker.runDuplicateCheck2(abslamcCases);
         }
         
     }
