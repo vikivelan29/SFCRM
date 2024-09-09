@@ -5978,6 +5978,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Feature_Skipper_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Assign_Me_list_button__c</field>
         <readable>true</readable>
     </fieldPermissions>
