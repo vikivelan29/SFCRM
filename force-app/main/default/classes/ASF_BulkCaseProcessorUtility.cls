@@ -1,9 +1,11 @@
 public with sharing class ASF_BulkCaseProcessorUtility {
 
     public static Boolean isBulkProcessing = false;
+    public static Boolean runAssignmentForBulk = false;
 
     private List<ASF_Bulk_Upload_Line_Item__c> lineItemsToProcess = new List<ASF_Bulk_Upload_Line_Item__c>();
     private Map<Id, String> headIdToTemplateNameMap = new Map<Id,String>();
+    private Map<String, Boolean> templateToRunAssignRuleMap = new Map<String, Boolean>();
     //private Boolean isQueueableProcessing = false;
     //Constructor for handling platform events
     public ASF_BulkCaseProcessorUtility(List<ASF_Bulk_Case_Processor__e> peRecords) {
@@ -30,8 +32,9 @@ public with sharing class ASF_BulkCaseProcessorUtility {
 
     public void process(String triggerName) {
         Map<String, String> templateNameToApexClassMap = new Map<String,String>();
-        for(ASF_Bulk_Row_to_Record_Converter_Config__mdt converterMDT : [Select Id,Apex_Class_Name__c, Template_Name__c, Active__c from ASF_Bulk_Row_to_Record_Converter_Config__mdt where Template_Name__c IN :headIdToTemplateNameMap.values() AND Active__c = true]){
+        for(ASF_Bulk_Row_to_Record_Converter_Config__mdt converterMDT : [Select Id,Apex_Class_Name__c, Template_Name__c, Active__c, Run_Assignment_Rule_on_Create__c from ASF_Bulk_Row_to_Record_Converter_Config__mdt where Template_Name__c IN :headIdToTemplateNameMap.values() AND Active__c = true]){
             templateNameToApexClassMap.put(converterMDT.Template_Name__c, converterMDT.Apex_Class_Name__c); 
+            templateToRunAssignRuleMap.put(converterMDT.Template_Name__c, converterMDT.Run_Assignment_Rule_on_Create__c);
         }
 
         Map<Id, SObject> newCaseRecords = new Map<Id, SObject>();
@@ -65,6 +68,9 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             newCaseRecords.putAll(result.resultRecords);
             jsonResults.putAll(result.resultJSONRows); // Serialized JSON, for already error encountered rows
             jsonMapResults.putAll(result.resultJSONMapRows); //Deserialized JSON, for the insert results.
+            if(templateToRunAssignRuleMap.get(templateName) == true){
+                ASF_BulkCaseProcessorUtility.runAssignmentForBulk = true;
+            }
         }
         Map<Integer, Id> indexToLineItemIdMap = new Map<Integer,Id>();
         List<SObject> recordsForDML = new List<SObject>();
@@ -85,6 +91,7 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             ASF_BulkCaseProcessorUtility.isBulkProcessing = true;
             List<Database.UpsertResult> srList = Database.upsert(recordsForDML, false);
             ASF_BulkCaseProcessorUtility.isBulkProcessing = false;
+            ASF_BulkCaseProcessorUtility.runAssignmentForBulk = false;
 
             Set<Id> caseIds = new Set<Id>();
             Map<Id, String> caseNumberMap = new Map<Id, String>();
