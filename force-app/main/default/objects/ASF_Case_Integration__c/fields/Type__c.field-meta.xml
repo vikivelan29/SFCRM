@@ -72,11 +72,6 @@
                 <default>false</default>
                 <label>CAMS</label>
             </value>
-            <value>
-                <fullName>CreateCRMPolicy</fullName>
-                <default>false</default>
-                <label>CreateCRMPolicy</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
