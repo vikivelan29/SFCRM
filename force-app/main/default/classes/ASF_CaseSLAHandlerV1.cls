@@ -507,7 +507,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
             allCaseIds.addAll(assignedUserIdToCaseIdsMap.get(userId));
         }
-        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c from Case where Id IN : allCaseIds]){
+        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c,BusinessHoursId from Case where Id IN : allCaseIds]){
             caseRec.Last_Owner_Change_Date__c = System.now();
             cases.add(caseRec);
         }
