@@ -356,6 +356,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>MF</fullName>
             <default>false</default>
         </values>
@@ -364,7 +368,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RE</fullName>
             <default>false</default>
         </values>
         <values>

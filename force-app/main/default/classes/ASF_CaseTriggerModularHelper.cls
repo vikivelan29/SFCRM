@@ -483,6 +483,7 @@ blankSourcePresent = true;
             
             // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
             Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+                allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
                 for(ASF_Case_Stage_Config__c config: allStageConfigs){
                     if(config.Query_Fields__c != null){
                         allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -1031,12 +1032,12 @@ blankSourcePresent = true;
                             }
                             addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
                         }
-                    }                
-                    addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
-                    addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
-                    addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
-                    addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
-                }
+                    }  
+                }              
+                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+                addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
+                addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
             }
             
             List<Case> integCaseList = new List<Case>();
@@ -1049,7 +1050,7 @@ blankSourcePresent = true;
                        || newMap.get(caseId).Technical_Source__c == 'LWC'){
                            integCaseList.add(newMap.get(caseId));
                            //TO DOO:check on the data type of allintegrations wrapper
-                           runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations);                   
+                           runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations); 
                        }
                     
                     if(addlDataFromStageMovementMethods.get(caseId).manualApprovalStage != null){
