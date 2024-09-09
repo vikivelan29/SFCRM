@@ -906,7 +906,7 @@ blankSourcePresent = true;
         List<Case> eligibleLWCCases = new List<Case>();
         
         for(Case caseRec : newMap.values()){
-            if(caseRec.Technical_Source__c == 'API' || ASF_BulkCaseProcessorUtility.runAssignmentForBulk){
+            if(caseRec.Technical_Source__c == 'API'){
                 caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                 eligibleCases.add(caseRec);
             }
