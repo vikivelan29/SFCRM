@@ -109,6 +109,9 @@
                         <valueListItems>
                             <value>Total_NCB__c</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Is_Chronic__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -843,13 +846,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
@@ -858,10 +861,10 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATEDBY_USER.ALIAS</value>
+                            <value>Resolution_Comments__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.REASON</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -897,6 +900,9 @@
                         <valueListItems>
                             <value>CASES.STATUS|EQUALS|[&quot;Resolved&quot;,&quot;Closed&quot;,&quot;Unresolved&quot;,&quot;Merged&quot;,&quot;Closed Duplicate&quot;]</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Nature__c|EQUALS|[&quot;Request&quot;,&quot;Complaint&quot;]</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -925,13 +931,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
@@ -940,10 +946,10 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATEDBY_USER.ALIAS</value>
+                            <value>Resolution_Comments__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.REASON</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1007,6 +1013,9 @@
                             <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
@@ -1016,19 +1025,16 @@
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Nature__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATEDBY_USER.ALIAS</value>
+                            <value>Resolution_Comments__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.REASON</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1087,13 +1093,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Nature__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.CASE_NUMBER</value>
@@ -1102,10 +1108,10 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CREATEDBY_USER.ALIAS</value>
+                            <value>Resolution_Comments__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.REASON</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1311,90 +1317,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>showLegacyActivityComposer</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
-                <identifier>runtime_sales_activities_activityPanel</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-q18x8urccw</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>context</name>
-                    <value>RECORD</value>
-                </componentInstanceProperties>
-                <componentName>forceChatter:publisher</componentName>
-                <identifier>forceChatter_publisher2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>context</name>
-                    <value>RECORD</value>
-                </componentInstanceProperties>
-                <componentName>forceChatter:publisher</componentName>
-                <identifier>forceChatter_publisher3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>forceChatter:recordFeedContainer</componentName>
-                <identifier>forceChatter_recordFeedContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>context</name>
-                    <value>RECORD</value>
-                </componentInstanceProperties>
-                <componentName>forceChatter:publisher</componentName>
-                <identifier>forceChatter_publisher</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-da8b06b5-78e1-427c-90d1-2e996bb195e3</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Account.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>ActivityHistories</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-bf858a29-04d4-43ab-a300-4f3bb4bd06b8</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -1466,48 +1388,6 @@
                 <identifier>flexipage_tab9</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-q18x8urccw</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.activity</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab11</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-da8b06b5-78e1-427c-90d1-2e996bb195e3</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Feed</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-bf858a29-04d4-43ab-a300-4f3bb4bd06b8</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Activity Hist</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab12</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>maintabs</name>
         <type>Facet</type>
@@ -1528,6 +1408,79 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>showLegacyActivityComposer</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
+            </componentInstance>
+        </itemInstances>
+        <mode>Replace</mode>
+        <name>activityTabContent</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
+            </componentInstance>
+        </itemInstances>
+        <mode>Replace</mode>
+        <name>feedTabContent</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>active</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>activityTabContent</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Standard.Tab.activity</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>activityTab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>feedTabContent</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Standard.Tab.collaborate</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>collaborateTab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <mode>Replace</mode>
+        <name>sidebartabs</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tabs</name>
+                    <value>sidebartabs</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset4</identifier>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>sidebar</name>
         <type>Region</type>

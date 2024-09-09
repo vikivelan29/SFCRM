@@ -1010,7 +1010,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_Fitness_Appointment</shortDescription>
-        <value>Fitness Appointment</value>
+        <value>FA Appointment</value>
     </labels>
     <labels>
         <fullName>ABHI_Fitness_Level</fullName>
@@ -1075,18 +1075,18 @@
         <value>Recommended Devices</value>
     </labels>
     <labels>
-        <fullName>ABHI_DeviceDetails</fullName>
+        <fullName>ABHI_FitnessAppDetails</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI_DeviceDetails</shortDescription>
-        <value>Device Details</value>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Assessment Appointment History</value>
     </labels>
     <labels>
         <fullName>ABHI_Health_Return_App_Reg</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HAPP</shortDescription>
-        <value>Health Return App Reg</value>
+        <value>Health Return &amp; App Reg</value>
     </labels>
     <labels>
         <fullName>BUsToHideEbotFeedbackInRecat</fullName>
@@ -1101,13 +1101,6 @@
         <protected>false</protected>
         <shortDescription>ABHI_FitnessAppDetails</shortDescription>
         <value>Fitness Appointment Details</value>
-    </labels>
-    <labels>
-        <fullName>ABHI_Health_Return_App_Reg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HAPP</shortDescription>
-        <value>ABHI Health Return App Reg</value>
     </labels>
     <labels>
         <fullName>ABHI_OtherDevice</fullName>
@@ -1216,5 +1209,26 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
         <value>Movement to this stage can only be done through CAMS</value>
+    </labels>
+	    <labels>
+        <fullName>ABSLI_Min_Loan_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
+        <value>5000</value>
+    </labels>
+	<labels>
+        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
+        <value>60</value>
+    </labels>
+	<labels>
+        <fullName>ASF_UIActionDelay</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
+        <value>2000</value>
     </labels>
 </CustomLabels>

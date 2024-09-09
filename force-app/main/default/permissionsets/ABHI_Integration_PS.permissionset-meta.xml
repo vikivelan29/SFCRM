@@ -448,13 +448,13 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Aadhar_No__c</field>
+        <editable>false</editable>
+        <field>Account.CEO_Club_Advisor__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.CEO_Club_Advisor__c</field>
+        <field>Account.Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -478,11 +478,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Client_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Account.Customer_Role_Type__c</field>
         <readable>true</readable>
@@ -494,17 +489,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.Segment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.Customer_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Occupation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -558,6 +543,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Occupation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Account.PAN_Number__c</field>
         <readable>true</readable>
@@ -570,6 +560,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Priority_Customer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Segment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -644,11 +639,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset.COILink__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.CombiPolicyNo__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -685,16 +675,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.CrossSellNumber__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Asset.CrossSellPolicyNumbers__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Asset.CrossSellProductName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -785,16 +765,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.IntermediaryName__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Asset.IsCombi__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Asset.IsCrossSell__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1018,13 +988,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Nationality__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Passport_Number__c</field>
+        <field>Contact.Email2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1033,8 +998,13 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Nationality__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Email2__c</field>
+        <field>Contact.Passport_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1075,6 +1045,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Customer_Member_Mapping__c.Healty_Heart_Score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.Is_Chronic__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -59,48 +59,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.MemberExternalId__c</fieldItem>
-                <identifier>RecordMemberExternalId_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.MemberId__c</fieldItem>
-                <identifier>RecordMemberId_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Client_Id__c</fieldItem>
-                <identifier>RecordClient_Id_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Member_Id__c</fieldItem>
                 <identifier>RecordMember_Id_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Member_Name__c</fieldItem>
-                <identifier>RecordMember_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -199,40 +159,18 @@
                 <identifier>RecordHealth_Return_cField2</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Relation__c</fieldItem>
-                <identifier>RecordRelation__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Chronic_Condition__c</fieldItem>
-                <identifier>RecordChronic_Condition__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Age__c</fieldItem>
-                <identifier>RecordAge__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-e25d4426-f623-4803-bc78-fd389a4a700d</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.MemberId__r.Name</fieldItem>
-                <identifier>RecordMemberId_rNameField</identifier>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Member_Name__c</fieldItem>
+                <identifier>RecordMember_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -251,8 +189,28 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Age__c</fieldItem>
+                <identifier>RecordAge_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Pre_Existing_Disease_Waiting_Period__c</fieldItem>
                 <identifier>RecordPre_Existing_Disease_Waiting_Period_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Chronic__c</fieldItem>
+                <identifier>RecordIs_Chronic_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

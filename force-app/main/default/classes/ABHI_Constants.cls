@@ -1,9 +1,9 @@
 /*********************************************************
-*Class        :  ABHIL_Constants
+*Class        :  ABHI_Constants
 *Author       :  Anirudh Raturi
 *Created Date :  31/07/2023
 *Last Modified:  31/07/2023
-*@description  :  Class for ABHIL Constants
+*@description  :  Class for ABHI Constants
 *********************************************************/
 
 public with sharing class ABHI_Constants {
@@ -26,7 +26,7 @@ public with sharing class ABHI_Constants {
     public static final String OPEN = 'Open';
     public static final String NEW_STATUS = 'New';
     public static final String ABHI = 'ABHI';
-    public static final String ABHI_LOB = 'ABHI_';
+    public static final String JARVIS = 'JARVIS';
     public static final String PERMANENT = 'Permanent';
     public static final String INDIVIDUAL = 'Individual';
     public static final String NON_INDIVIDUAL = 'Non-Individual';
