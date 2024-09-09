@@ -1117,8 +1117,29 @@
         <fullName>BUsToHideEbotFeedbackInRecat</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments;ABML</value>
+        <shortDescription>ABHI Active Days</shortDescription>
+        <value>Active Days</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Devices</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Abhi_Devices</shortDescription>
+        <value>Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Fitness_Appointment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Fitness_Appointment</shortDescription>
+        <value>FA Appointment</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Fitness_Level</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Fitness_Level</shortDescription>
+        <value>Fitness Level</value>
     </labels>
     <labels>
         <fullName>ABSLI_ARS_IV_KEY</fullName>
