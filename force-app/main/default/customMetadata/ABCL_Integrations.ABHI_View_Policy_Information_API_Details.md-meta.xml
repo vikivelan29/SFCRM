@@ -48,7 +48,7 @@
     </values>
     <values>
         <field>Protocol__c</field>
-        <value xsi:type="xsd:string">POST</value>
+        <value xsi:type="xsd:string">GET</value>
     </values>
     <values>
         <field>StoreAsAttachment__c</field>
