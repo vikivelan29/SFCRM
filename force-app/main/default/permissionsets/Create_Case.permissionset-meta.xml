@@ -3134,19 +3134,9 @@
         <field>Asset.AssetProvidedById</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ActiveHealthVersion__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.AgentStatus__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ApplicationDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
