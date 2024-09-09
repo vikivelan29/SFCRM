@@ -206,7 +206,7 @@ public with sharing class ABHI_CreatePolicy {
         }
        
         if(!mapPreviousPolicyList.isEmpty()) {
-            List<Previous_Policy_Details__c> previousPolicy = createPreviousPolicy(mapPreviousPolicyList, mapObjectFieldMapping.get('Previous_Policy_Details'), policy, isCreated);
+            List<Previous_Policy_Details__c> previousPolicy = createPreviousPolicy(mapPreviousPolicyList, mapObjectFieldMapping.get('Previous_Policy_Details'), policy);
         	upsert previousPolicy PreviousPolicyNumber__c ;
         }
        
@@ -328,33 +328,26 @@ public with sharing class ABHI_CreatePolicy {
     * @return - List<Policy_Nominee__c> 
     * @description - this method creates nominees
     */
-    private static List<Previous_Policy_Details__c> createPreviousPolicy(List<Map<String,Object>> nomineeList, Map<String, String> nomineeFieldMapping, Asset policy, Boolean policyCreated) {
+     private static List<Previous_Policy_Details__c> createPreviousPolicy(List<Map<String,Object>> prevPolicyList, Map<String, String> prevPolicyFieldMapping, Asset policy) {
         List<Previous_Policy_Details__c> listPrevPolicy = new List<Previous_Policy_Details__c>();
         Previous_Policy_Details__c  prevPolicy = null;
-        //Policy exists(not created) - need to delete existing nominees
-        /*if(!policyCreated) {
-            List<Previous_Policy_Details__c> existingNomineeList = [SELECT ID FROM Previous_Policy_Details__c WHERE Policy_Number__c = :policy.Id];
-            if(!existingNomineeList.isEmpty()) {
-                delete existingNomineeList;
-            }
-        }*/
-        //Creating new mapping for nominees again
-        for(Map<String,Object> nominee : nomineeList) {
+        //Creating new mapping for previousPolicys again
+        for(Map<String,Object> previousPolicy : prevPolicyList) {
             prevPolicy = new Previous_Policy_Details__c ();
-            for(String nomineeMapping : nomineeFieldMapping.keyset()) {
-                switch on nomineeMapping.split('_')[2] {
+            for(String prevPolMapping : prevPolicyFieldMapping.keyset()) {
+                switch on prevPolMapping.split('_')[2] {
                     when 'Date' {
-                        prevPolicy.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split('_')[0]) != null && nominee.get(nomineeMapping.split('_')[0]) != ''?(Date)(nominee.get(nomineeMapping.split('_')[0])):null);
+                        prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split('_')[0]) != null && previousPolicy.get(prevPolMapping.split('_')[0]) != ''?(Date)(previousPolicy.get(prevPolMapping.split('_')[0])):null);
+                    }
+		    when 'Double' {
+                        prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), Double.valueOf(previousPolicy.get(prevPolMapping.split('_')[0])));
                     }
                     when else {
-                        prevPolicy.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split('_')[0]));
+                        prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split('_')[0]));
                     }    
                 }  
             } 
-            //prevPolicy.put(ABHI_Constants.BUSINESS_UNIT_API, ABHI_Constants.ABHI);
             prevPolicy.put('Policy__c', policy.Id);
-            //NomineeExternalId__c = <NomineeId><ProposalNumber>
-            //policyNominee.put('NomineeExternalId__c', nominee.get('NomineeId').toString()+ policy.LAN__c);
             listPrevPolicy.add(prevPolicy);
         }
         

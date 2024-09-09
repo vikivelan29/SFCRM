@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>ABHI_Field_Type__c</field>
-        <value xsi:type="xsd:string">String</value>
+        <value xsi:type="xsd:string">Double</value>
     </values>
     <values>
         <field>ABHI_JSON_Field_Name__c</field>
@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>ABHI_Object_Mapping__c</field>
-        <value xsi:type="xsd:string">Asset</value>
+        <value xsi:type="xsd:string">Customer_Member_Mapping</value>
     </values>
     <values>
         <field>ABHI_Type__c</field>
