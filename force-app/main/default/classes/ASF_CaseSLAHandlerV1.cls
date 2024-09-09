@@ -379,13 +379,34 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         return caseBackMovementCheckMap;
     }
     
-    
+    public static Decimal calculateBusinessHoursPerDay(Id businesshourId){
+        Decimal businessHoursPerDay = 9;
+        
+        for(BusinessHours BhRec : [SELECT Id, MondayStartTime, MondayEndTime FROM BusinessHours WHERE Id =: businesshourId]){
+            Decimal startMinutes = BhRec.MondayStartTime.hour() * 60 + BhRec.MondayStartTime.minute();
+            Decimal endMinutes = BhRec.MondayEndTime.hour() * 60 + BhRec.MondayEndTime.minute();
+            Decimal hoursPerDay = (endMinutes - startMinutes) / 60; 
+            
+            if(hoursPerDay == 0){
+                businessHoursPerDay = 24;     
+            }else{
+                businessHoursPerDay = hoursPerDay;
+            }
+        }
+        return businessHoursPerDay;
+    }
     
     public static Boolean updateOldCaseSLAHistory(List<Case> newCases){
         Set<Id> caseIdSet = new Set<Id>();
+        Id businesshourId;
+        Decimal businessHoursPerDay = 9;
+        
         for(Case c:newCases){
             caseIdSet.add(c.Id);
+            businesshourId = c.BusinessHoursId;
         }
+        businessHoursPerDay = calculateBusinessHoursPerDay(businesshourId);
+        
         List<ASF_Case_SLA_History__c> slaHistoryList = new List<ASF_Case_SLA_History__c>();
         //take running record and make it false
         if(!caseIdSet.isEmpty()){
@@ -427,7 +448,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                                 long seconds = milliseconds / 1000;
                                                                 long minutes = seconds / 60;
                                                                 long hours = minutes / 60;
-                                                                long days = hours / 24;
+                                                                Integer days = Integer.valueOf (Math.floor(hours / businessHoursPerDay));
                                                                 if(days < 1){
                                                                     slaHistory.Time_Taken__c = ( Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60)  )+'s';   
                                                                 }else{
@@ -749,7 +770,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 Case updatedCase = new Case(Id=newCases.get(i).Id,Case_Stage_Change_Date__c=newCases.get(i).Case_Stage_Change_Date__c);
                 resetSLAFields(newCases.get(i),oldCases.get(i),updatedCase);
                 casesToUpdate.put(newCases.get(i).Id, updatedCase);
-                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved')){
+                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved' && newCases.get(i).Stage__c != 'Unresolved' && newCases.get(i).Stage__c != 'Duplicate')){
                     externalIdList.add(newCases.get(i).CCC_External_Id__c);    
                     caseNewStatusList.add(newCases.get(i).Stage__c);
                     changedCaseList.add(newCases.get(i)); 
