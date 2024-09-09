@@ -3081,11 +3081,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.ARU__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.ASF_Card_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3139,19 +3134,9 @@
         <field>Asset.AssetProvidedById</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ActiveHealthVersion__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.AgentStatus__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ApplicationDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5069,6 +5054,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.User_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Created_By_User_formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Assigned_Team__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
