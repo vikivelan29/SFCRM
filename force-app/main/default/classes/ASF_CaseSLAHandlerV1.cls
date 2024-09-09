@@ -749,7 +749,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 Case updatedCase = new Case(Id=newCases.get(i).Id,Case_Stage_Change_Date__c=newCases.get(i).Case_Stage_Change_Date__c);
                 resetSLAFields(newCases.get(i),oldCases.get(i),updatedCase);
                 casesToUpdate.put(newCases.get(i).Id, updatedCase);
-                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved')){
+                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved' && newCases.get(i).Stage__c != 'Unresolved' && newCases.get(i).Stage__c != 'Duplicate')){
                     externalIdList.add(newCases.get(i).CCC_External_Id__c);    
                     caseNewStatusList.add(newCases.get(i).Stage__c);
                     changedCaseList.add(newCases.get(i)); 
