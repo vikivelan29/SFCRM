@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>ABSLI_CustomerPortal_STPFalse_Err</label>
+    <label>ABHI_CRMPolicySuccess</label>
     <protected>false</protected>
     <values>
         <field>Business_Unit__c</field>
-        <value xsi:type="xsd:string">ABSLI</value>
+        <value xsi:type="xsd:string">ABHI</value>
     </values>
     <values>
         <field>Message__c</field>
-        <value xsi:type="xsd:string">Invalid STP Cases need to be manually processed.</value>
+        <value xsi:type="xsd:string">Details created or updated in CRM successfully.</value>
     </values>
     <values>
         <field>Type__c</field>
