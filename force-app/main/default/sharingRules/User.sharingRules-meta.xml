@@ -46,6 +46,17 @@
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
+        <fullName>Share_ABHI_User_with_ABHI_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Share ABHI User with ABHI Users</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
         <fullName>Share_Payment_User_with_Payment_Users</fullName>
         <accessLevel>Read</accessLevel>
         <description>Sharing Payment user with each other</description>
