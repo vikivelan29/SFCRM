@@ -554,6 +554,11 @@
         <field>Account.MMI_Customer_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Nationality__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Nationality__c</field>
@@ -582,6 +587,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.PEDWaitingPeriod__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.PED__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -627,6 +637,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.RiskClass__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Segment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -723,6 +738,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.CountOfLives__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Cover_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
