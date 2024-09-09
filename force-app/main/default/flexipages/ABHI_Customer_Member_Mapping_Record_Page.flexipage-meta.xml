@@ -65,6 +65,12 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
+                <fieldItem>Record.MemberId__r.Relation__c</fieldItem>
+                <identifier>RecordMemberId_rRelation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>none</value>
@@ -103,6 +109,12 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
+                <fieldItem>Record.MemberId__r.SumInsured__c</fieldItem>
+                <identifier>RecordMemberId_rSumInsured_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.Policy_Number__r.GrossPremium__c</fieldItem>
                 <identifier>RecordPolicy_Number_rGrossPremium_cField</identifier>
             </fieldInstance>
@@ -121,18 +133,18 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Is_Chronic__c</fieldItem>
-                <identifier>RecordIs_Chronic__cField</identifier>
+                <fieldItem>Record.MemberId__r.UpfrontDiscount__c</fieldItem>
+                <identifier>RecordMemberId_rUpfrontDiscount_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.CumulativeBonus__c</fieldItem>
-                <identifier>RecordCumulativeBonus__cField</identifier>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Health_Return__c</fieldItem>
+                <identifier>RecordHealth_Return_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e25d4426-f623-4803-bc78-fd389a4a700d</name>
@@ -161,12 +173,26 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Age__c</fieldItem>
-                <identifier>RecordAge_cField</identifier>
+                <fieldItem>Record.MemberId__r.Age__c</fieldItem>
+                <identifier>RecordMemberId_rAge_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.MemberId__r.PED__c</fieldItem>
+                <identifier>RecordMemberId_rPED_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.MemberId__r.Is_Chronic__c</fieldItem>
+                <identifier>RecordMemberId_rIs_Chronic_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.MemberId__r.Riders_Opted__c</fieldItem>
+                <identifier>RecordMemberId_rRiders_Opted_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -175,8 +201,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_Chronic__c</fieldItem>
-                <identifier>RecordIs_Chronic_cField</identifier>
+                <fieldItem>Record.Total_NCB__c</fieldItem>
+                <identifier>RecordTotal_NCB_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -187,6 +213,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Healty_Heart_Score__c</fieldItem>
                 <identifier>RecordHealty_Heart_Score_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.App_Download_Status__c</fieldItem>
+                <identifier>RecordApp_Download_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-87f63cf5-2cae-4ed6-a5d4-166606510381</name>
@@ -370,4 +406,4 @@
         <name>flexipage:recordHomeSingleColTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
-</FlexiPage> 
+</FlexiPage>
