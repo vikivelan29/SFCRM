@@ -39,6 +39,10 @@
         <value xsi:type="xsd:double">1.0</value>
     </values>
     <values>
+        <field>Run_Assignment_Rule_on_Create__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>SOQL_Where_Clause__c</field>
         <value xsi:nil="true"/>
     </values>
