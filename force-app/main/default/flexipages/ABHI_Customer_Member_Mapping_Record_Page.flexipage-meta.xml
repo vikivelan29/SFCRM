@@ -185,24 +185,14 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.MemberId__r.Is_Chronic__c</fieldItem>
-                <identifier>RecordMemberId_rIs_Chronic_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
                 <fieldItem>Record.MemberId__r.Riders_Opted__c</fieldItem>
                 <identifier>RecordMemberId_rRiders_Opted_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Total_NCB__c</fieldItem>
-                <identifier>RecordTotal_NCB_cField</identifier>
+                <fieldItem>Record.MemberId__r.SuperNcbAmount__c</fieldItem>
+                <identifier>RecordMemberId_rSuperNcbAmount_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
