@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>ABHI_Field_API_Name__c</field>
-        <value xsi:type="xsd:string">Riders_Opted__c</value>
+        <value xsi:type="xsd:string">Rider_Opted__c</value>
     </values>
     <values>
         <field>ABHI_Field_Type__c</field>
