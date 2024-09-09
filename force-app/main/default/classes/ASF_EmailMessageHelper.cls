@@ -70,9 +70,14 @@ public without sharing class ASF_EmailMessageHelper {
         if(!caseIds.isEmpty()){
             existingCases = fetchCaseDetails(caseIds);
             for(Case caseRec : existingCases){
+                /*
                 if(caseRec.IsClosed && (caseRec.Is_Reopen_Allowed__c == false || (caseRec.Is_Reopen_Allowed__c == true && 
                  !(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
                   && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c)))){
+                    bNewCaseByReplyToCloseCase = true;
+                }
+*/
+                if(caseRec.IsClosed){
                     bNewCaseByReplyToCloseCase = true;
                 }
             }
@@ -232,7 +237,7 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.RecordTypeId = ASF_Constants.RT_INTERACTION;
         newCase.SuppliedEmail = closedCase.SuppliedEmail;
         newCase.SuppliedName = closedCase.SuppliedName;
-        newCase.Business_Unit__c = closedCase.Business_Unit__c;
+        //newCase.Business_Unit__c = closedCase.Business_Unit__c;
         return newCase;
     }   
     
