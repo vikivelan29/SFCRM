@@ -15,7 +15,18 @@ public with Sharing class ABSLAMC_Constants {
     public static final String ABSLAMCBU = 'ABSLAMC'; 
     public static final String REPLYFROMCAMS = 'Reply Received from CAMS';
     public static final String CAMSCLOSEDSTATUS = 'Closed';
+    public static final String CAMSOPENSTATUS = 'Open';
     public static final String CAMSPENDINGSTATUS = 'Pending with CAMS';
     public static final String ABSLAMC_CUSTOMER_STRING = 'Customer'; 
-    public static final String ABSLAMC_DISTRIBUTOR_STRING= 'Distributor'; 
+    public static final String ABSLAMC_DISTRIBUTOR_STRING= 'Distributor';
+    public static final String CREATEWFINT = 'CAMS-CreateWorkflow'; 
+    public static final String UPDATEWFINT = 'CAMS-UpdateWorkflow'; 
+    public static final String BIRLACRM = 'BIRLACRM'; 
+    public static final String CAMSWEB = 'CAMSWEB'; 
+    public static final String CAMS = 'CAMS'; 
+    public static final String CAMSCREATEWFAPI = 'ABSLAMC CAMS-CreateWF API'; 
+    public static final String CAMSUPDATEWFAPI = 'ABSLAMC CAMS-UpdateWF API'; 
+    public static final String REPLYTYPEFORCAMS = 'Reply Type for CAMS'; 
+    public static final String ADDNTLREMARKSFORCAMS = 'Additional Remarks for CAMS';
+    public static final String SATISFACTORYREPLYTYPE = 'S';
 }

@@ -15,32 +15,32 @@
             <value>
                 <fullName>1</fullName>
                 <default>false</default>
-                <label>1</label>
+                <label>E-mail</label>
             </value>
             <value>
                 <fullName>2</fullName>
                 <default>false</default>
-                <label>2</label>
+                <label>Letter</label>
             </value>
             <value>
                 <fullName>3</fullName>
                 <default>false</default>
-                <label>3</label>
+                <label>Web</label>
             </value>
             <value>
                 <fullName>4</fullName>
                 <default>false</default>
-                <label>4</label>
+                <label>Fax</label>
             </value>
             <value>
                 <fullName>5</fullName>
                 <default>false</default>
-                <label>5</label>
+                <label>Telephone</label>
             </value>
             <value>
                 <fullName>6</fullName>
                 <default>false</default>
-                <label>6</label>
+                <label>Walk in</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -5,6 +5,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Account.Send_Communication</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -1424,4 +1429,4 @@
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
-</FlexiPage>
+</FlexiPage> 

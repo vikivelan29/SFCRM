@@ -48,20 +48,14 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
     public static void restrictComplaintsRejection(List<Case> absliCases, Map<Id, Case> oldMap,Map<Id, Case> newMap){
         if(!absliCases.isEmpty()){
             for (Case caseRec : absliCasesAdditionalFields.values()) {
-                Case caseError = newMap.get(caseRec.Id);
-				System.debug(caseError.Stage__c);
-                System.debug(caseError.ABSLI_Case_Detail__c);
-                System.debug(caseError.IRDAI_Token_Number__c);
-                System.debug(caseError.Technical_Source__c);
-                
+                Case caseError = newMap.get(caseRec.Id);                
         		// Check if the Case record is related to ABSLI business unit
                 if (caseError.ABSLI_Case_Detail__c != null  && 
-                    caseError.IRDAI_Token_Number__c != null &&
-                    caseError.Nature__c == 'Complaint' && 
                     caseError.Technical_Source__c != 'API' &&
-                    caseError.Stage__c == 'Unresolved') {
+                    caseError.Stage__c == 'Unresolved' && 
+                    caseError.Nature__c == 'Complaint') {
                        	   System.debug('Inside restrictComplaintsRejection: IRDAI_Token_Number__c=' + caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c + ', Nature__c=' + caseRec.Nature__c);
-                           caseError.addError('IGMS Synced Complaints cannot be Unresolved.');
+                           caseError.addError('Complaints cannot be Unresolved.');
                            newMap.put(caseRec.Id,caseError);
                     	
                 	}

@@ -1,0 +1,43 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-05-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+        class="slds-fade-in-open">
+            
+            <div class="slds-modal__header">
+                <h1 class="slds-modal__title slds-hyphenate">
+                    Select Issue Type</h1>
+            </div>
+            <template if:false={issueTypeNotAvailable}>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-combobox
+                        required
+                        class="slds-m-top_small"
+                        name="options"
+                        label="Issue Type"
+                        placeholder="Issue Type"
+                        options={options}
+                        onchange={handleIssueTypeChange}>
+                    </lightning-combobox>      
+            </div>
+            </template>
+            <template if:true={issueTypeNotAvailable}>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-text-color_error slds-text-heading_medium">
+                        Issue Type is not valid for this sub type
+                    </div>
+                </div>
+            </template>
+             <div class="slds-modal__footer">
+                <lightning-button class="slds-m-around_small" label="Cancel"
+                    onclick={cancelConfirmFieldPopup}></lightning-button>
+                <lightning-button class="slds-m-around_small" label="Save" onclick={varifyConfirmFieldPopup}
+                    disabled={valueEmpty}></lightning-button>
+            </div>
+    </section>
+</template>

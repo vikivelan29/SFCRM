@@ -55,6 +55,15 @@ public with sharing class ABSLI_AttendedToValidationHandler {
                 errorText = 'To Attend to IGMS, Successful Sync To IGMS is needed';
             }
 
+
+            if(String.isBlank(caseRecord.Issue_Type__c)){
+                List<ASF_Case_Category_Config__c> caseConfigRecord = [Select id,Allowed_Issue_Types__c from ASF_Case_Category_Config__c where CCC_External_Id__c =: caseRecord.CCC_External_Id__c Limit 1];
+                if(caseConfigRecord.size() > 0 && String.isNotBlank(caseConfigRecord[0].Allowed_Issue_Types__c)){
+                    errorText = 'Issue Type is Mandatory for this Case Type. Kindly use the Button';
+                    bErrored = true;
+                }
+            }
+
             if(bErrored){
                 result.status = ABSLI_Constants.ERROR;
                 result.response = errorText;

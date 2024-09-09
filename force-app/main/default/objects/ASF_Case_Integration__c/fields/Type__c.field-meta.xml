@@ -47,10 +47,30 @@
                 <label>Payment</label>
             </value>
             <value>
+                <fullName>CreateCRMPolicy</fullName>
+                <default>false</default>
+                <label>CreateCRMPolicy</label>
+            </value>
+            <value>
+                <fullName>OmniDoc</fullName>
+                <default>false</default>
+                <label>OmniDoc</label>
+            </value>
+            <value>
+                <fullName>NPSFEEDBACK</fullName>
+                <default>false</default>
+                <label>NPSFEEDBACK</label>
+            </value>
+            <value>
                 <fullName>eBOT Feedback</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>eBOT Feedback</label>
+            </value>
+            <value>
+                <fullName>CAMS</fullName>
+                <default>false</default>
+                <label>CAMS</label>
             </value>
         </valueSetDefinition>
     </valueSet>
