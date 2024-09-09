@@ -191,8 +191,8 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.MemberId__r.Riders_Opted__c</fieldItem>
-                <identifier>RecordMemberId_rRiders_Opted_cField</identifier>
+                <fieldItem>Record.MemberId__r.Rider_Opted__c</fieldItem>
+                <identifier>RecordMemberId_rRider_Opted_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
