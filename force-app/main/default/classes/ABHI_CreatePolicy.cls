@@ -339,7 +339,7 @@ public with sharing class ABHI_CreatePolicy {
                     when 'Date' {
                         prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split('_')[0]) != null && previousPolicy.get(prevPolMapping.split('_')[0]) != ''?(Date)(previousPolicy.get(prevPolMapping.split('_')[0])):null);
                     }
-		    when 'Double' {
+                    when 'Double' {
                         prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), Double.valueOf(previousPolicy.get(prevPolMapping.split('_')[0])));
                     }
                     when else {
