@@ -95,8 +95,16 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <!-- <fieldItem>Record.Approval_Status__c</fieldItem>
-                <identifier>RecordApproval_Status_cField</identifier> -->
+                <fieldItem>Record.Approval_Status__c</fieldItem>
+                <identifier>RecordApproval_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Requested_CCC_Details__c</fieldItem> 
                 <identifier>RecordRequested_CCC_Details_cField</identifier>
                 <visibilityRule>
