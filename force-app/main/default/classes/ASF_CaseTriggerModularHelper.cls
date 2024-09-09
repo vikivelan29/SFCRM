@@ -646,6 +646,8 @@ blankSourcePresent = true;
                         //caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();//commented PR970457-1746
                         caseRecFromMap.OwnerId = resultWrap.ownerId != null ? resultWrap.ownerId : (resultWrap.errorOwnerId != null ? resultWrap.errorOwnerId : caseRec.OwnerId);
                         caseRecFromMap.MoveToNext__c = false;
+                        caseRecFromMap.Stage__c = resultWrap.nextStageConfig.StageName__c;
+                        caseRecFromMap.Status = resultWrap.nextStageConfig.Status_Mapping__c;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
