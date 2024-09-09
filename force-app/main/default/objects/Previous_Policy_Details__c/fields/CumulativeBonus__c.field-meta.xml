@@ -3,10 +3,10 @@
     <fullName>CumulativeBonus__c</fullName>
     <externalId>false</externalId>
     <label>Cumulative Bonus</label>
-    <length>100</length>
+    <precision>18</precision>
     <required>false</required>
+    <scale>2</scale>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Currency</type>
 </CustomField>
