@@ -268,7 +268,7 @@ public without sharing class ABHI_CreatePolicy {
         System.debug('@@@previousPolicy '+mapPreviousPolicyList);
         if(!mapPreviousPolicyList.isEmpty()) {
             List<Previous_Policy_Details__c> previousPolicy = createPreviousPolicy(mapPreviousPolicyList, mapObjectFieldMapping.get('Previous_Policy_Details'), policy);
-        	upsert previousPolicy ;
+        	upsert previousPolicy PreviousPolicyNumber__c ;
         }
         ABHI_CreateCRMPolicy.proposalNumber = policyMap.get('ProposalNumber').toString();        
     }
@@ -391,23 +391,16 @@ public without sharing class ABHI_CreatePolicy {
         for(Map<String,Object> previousPolicy : prevPolicyList) {
             prevPolicy = new Previous_Policy_Details__c ();
             for(String prevPolMapping : prevPolicyFieldMapping.keyset()) {
-                switch on prevPolMapping.split(':')[2] {
+                switch on prevPolMapping.split('_')[2] {
                     when 'Date' {
-                       // prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split(':')[0]) != null?Date.valueOf(previousPolicy.get(prevPolMapping.split(':')[0]).toString()):null);
-                        prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split(':')[0]) != null && previousPolicy.get(prevPolMapping.split(':')[0]) != ''?Date.valueOf(previousPolicy.get(prevPolMapping.split(':')[0]).toString()):null);
-                        System.debug('@@@date1'+previousPolicy.get(prevPolMapping.split(':')[0]));
-                        System.debug('@@@date2'+prevPolicyFieldMapping.get(prevPolMapping));
-                    }
-                    when 'Double' {
-						prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split(':')[0]) != ''? Double.valueOf(previousPolicy.get(prevPolMapping.split(':')[0])):null);
+                        prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split('_')[0]) != null && previousPolicy.get(prevPolMapping.split('_')[0]) != ''?(Date)(previousPolicy.get(prevPolMapping.split('_')[0])):null);
                     }
                     when else {
-                        prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split(':')[0]));
+                        prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split('_')[0]));
                     }    
                 }  
             } 
             prevPolicy.put('Policy__c', policy.Id);
-            prevPolicy.putSObject('Customer__r', new Account(LOB_Client_Code__c = policy.Account.LOB_Client_Code__c ));
             listPrevPolicy.add(prevPolicy);
         }
         
