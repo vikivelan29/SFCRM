@@ -780,6 +780,8 @@ blankSourcePresent = true;
                             caseREcFromMap.Case_Assigned_Team__c = resultWrap.ownerName != null ? resultWrap.ownerName : '';
                         // VIRENDRA - ENDS HERE.
                         caseRecFromMap.MoveToNext__c = false;
+                        caseRecFromMap.Stage__c = resultWrap.nextStageConfig.StageName__c;
+                        caseRecFromMap.Status = resultWrap.nextStageConfig.Status_Mapping__c;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
