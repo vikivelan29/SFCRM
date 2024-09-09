@@ -1250,4 +1250,18 @@
         <shortDescription>ABSLAMC Litmus Allowed Sources</shortDescription>
         <value>Phone - Call Centre;Email – Call Centre;Branch Walk-In;Email - Branch</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
+        <value>Duplicate case: A case with same criteria is already open with source as</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
 </CustomLabels>
