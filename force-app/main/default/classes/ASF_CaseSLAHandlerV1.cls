@@ -453,7 +453,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                                                 long seconds = milliseconds / 1000;
                                                                 long minutes = seconds / 60;
                                                                 long hours = minutes / 60;
-                                                                Integer days = Integer.valueOf (Math.floor(hours / businessHoursPerDay));
+                                                                Integer days = Integer.valueOf (hours / businessHoursPerDay);
                                                                 if(days < 1){
                                                                     slaHistory.Time_Taken__c = ( Math.mod(hours, 24) + 'hr ' +  Math.mod(minutes, 60)  + 'min ' + Math.mod(seconds, 60)  )+'s';   
                                                                 }else{
@@ -863,14 +863,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     closeSlaSec = slaMap.get('caseClosureSLA');
                 }
                 long slaIdentifier = 3600000;
-                //If the overallsla is not configured, empty the field
-                if(closeSlaSec == null){
-                    updatedCase.Overall_Case_Closure_SLA__c = null;
-                    updatedCase.Overall_SLA_plus_X_days__c = null;
-                    updatedCase.Case_SLA_Threshold_1__c = null;
-                    updatedCase.Case_SLA_Threshold_2__c = null;
-                    updatedCase.Case_SLA_Threshold_3__c = null;
-                }
+             
                 if(closeSlaSec != null && oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
                     //When case is recategorizzed. Take difference between Case created date.
                     //this is slightly different during case insert where we take systemnow
