@@ -184,5 +184,15 @@ renderedCallback(){
     }).catch(error => {
        console.log("Error " + error.body.message);
     });
-} 
+}
+renderedCallback(){
+    Promise.all([
+        loadStyle(this, styles) //specified filename
+    ]).then(() => {
+        console.log('Files loaded.');
+    }).catch(error => {
+       console.log("Error " + error.body.message);
+    });
+}
+
 }
