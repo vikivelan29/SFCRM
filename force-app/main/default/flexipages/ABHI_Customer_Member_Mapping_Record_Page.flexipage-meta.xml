@@ -191,6 +191,12 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
+                <fieldItem>Record.MemberId__r.Is_Chronic__c</fieldItem>
+                <identifier>RecordMemberId_rIs_Chronic_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.MemberId__r.Rider_Opted__c</fieldItem>
                 <identifier>RecordMemberId_rRider_Opted_cField</identifier>
             </fieldInstance>
