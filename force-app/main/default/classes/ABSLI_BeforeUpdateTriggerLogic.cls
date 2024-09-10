@@ -146,7 +146,7 @@ caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
                                     when 'No' {
                                         Date expectedDate = today.addDays(1);
                                         if (branchReceiveDate != expectedDate) {
-                                            caseError.addError('Branch received Date should be next day, if before 3PM');
+                                            caseError.addError('Branch received Date should be next day, if after 3PM');
                                         }
                                     }
                                     when 'Yes' {
