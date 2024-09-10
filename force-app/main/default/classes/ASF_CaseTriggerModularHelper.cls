@@ -21,6 +21,69 @@ public without sharing class ASF_CaseTriggerModularHelper {
     private static Map<Id, Boolean> supressErrors = new Map<Id, Boolean>();
     public static Boolean isRecursiveUpdate = false;
     public static Boolean preClosureStageAlreadyStamped = false;
+    private static Map<Id, Set<String>> skipperFlagMap = new Map<Id, Set<String>>();
+    public static Map<Id, Set<String>> getSkipperFlagMap() {
+        return skipperFlagMap;
+    }
+    public static String relObjName = '';
+    /**
+    * @Function - setSkipperFlags
+    * @Description - method to be invoked at the beginning and end of the BEFORE triggers
+    * This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
+    */
+    public static void setSkipperFlags(List<Case> newList, Map<Id, Case> oldMap) {
+        skipperFlagMap = new Map<Id, Set<String>>();
+        Boolean isInsert = oldMap == null ? true : false;
+        String cccId = '';
+        if(isInsert){
+            for(Case caseRec : newList){
+                if(caseRec.CCC_External_Id__c != null && caseRec.CCC_External_Id__c != ''){
+                   cccId = caseRec.CCC_External_Id__c;
+                   break; 
+                }
+            }
+            if(String.isNotBlank(cccId)){
+                relObjName = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(cccId);
+            }
+        }
+        for(Case caseRec : newList){
+            system.debug('set flag--'+caseRec.Feature_Skipper_Flag__c);
+            if(String.isNotBlank(caseRec.Feature_Skipper_Flag__c) 
+               && (oldMap == null || caseRec.Feature_Skipper_Flag__c != oldMap.get(caseRec.Id).Feature_Skipper_Flag__c)){
+                   //if insert or the flag field is updated
+                   Set<String> skippedItems = new Set<String>(caseRec.Feature_Skipper_Flag__c.split(';'));
+                   if(oldMap != null){
+                       skipperFlagMap.put(caseRec.Id, skippedItems);
+                   }else if(String.isNotBlank(relObjName)){
+                       Id fieldValue = (Id)caseRec.get(relObjName);
+            		   skipperFlagMap.put(fieldValue, skippedItems);
+                   }
+                   caseRec.Feature_Skipper_Flag__c = '';
+               }
+        }
+    }
+    
+     /**
+    * @Function - setManualSkipperFlags
+    * @Description - method to be invoked by the BU specific classes if skipper flag needs to be set
+    * @param - recIdToSkipperFlag - Key as CaseId or caseDetail Id and value as skipperFlags
+    * @param - caseDetRecName - pass value to this variable only if you are calling the method from before insert where 
+    * 							recIdToSkipperFlag key is the caseDetail Id
+    * This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
+    */
+    public static void setManualSkipperFlags(Map<Id, Set<String>> recIdToSkipperFlag, String caseDetRecName) {
+        relObjName = caseDetRecName != null ? caseDetRecName : '';
+        for(Id recId : recIdToSkipperFlag.keySet()){
+            if(!skipperFlagMap.containsKey(recId)){
+                skipperFlagMap.put(recId, recIdToSkipperFlag.get(recId));
+            }else{
+                Set<String> currentSkippers = skipperFlagMap.get(recId);
+                currentSkippers.addAll(recIdToSkipperFlag.get(recId));
+                skipperFlagMap.put(recId, currentSkippers);
+        }
+    }
+    }
+    
     /****************************************************************************************************************
 * @Function - populateFrameworkFieldsForCase
 * @param newList -  list of cases from trigger.new.
@@ -152,8 +215,10 @@ blankSourcePresent = true;
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
-                
-                
+                caseRec.Run_Assignment_Rule_on_Bulk_Create__c = appliedCCC.Run_Assignment_Rule_on_Bulk_Create__c;
+                if((!isUpdate) || (isUpdate && oldMap.get(caseRec.Id).Categorization_Date__c == null)){
+                    caseRec.Categorization_Date__c = system.now();     
+                }
             }else if(isUpdate && casesChangingRT.contains(caseRec.Id)){
                 //error out cases with wrong Issue Code while converting from preframework to framework
                 //during case creation in framework, if wrong issue code is provided(some api), allow. 
@@ -766,7 +831,7 @@ blankSourcePresent = true;
         List<Case> eligibleCases = new List<Case>();
         Map<Id, String> caseStageMap = new Map<Id, String>();
         for(Case caseRec : newMap.values()){
-            if(caseRec.Technical_Source__c == 'API'){
+            if(caseRec.Technical_Source__c == 'API' || (ASF_BulkCaseProcessorUtility.isBulkProcessing && caseRec.Run_Assignment_Rule_on_Bulk_Create__c)){
                 caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                 eligibleCases.add(caseRec);
             }
@@ -870,6 +935,18 @@ blankSourcePresent = true;
                     addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
                     addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
                 }
+
+                    addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
+                }
+            for(Case caseRec : caseListForSla){
+                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
+                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
+            }
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
+                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
             }
             
             List<Case> integCaseList = new List<Case>();
