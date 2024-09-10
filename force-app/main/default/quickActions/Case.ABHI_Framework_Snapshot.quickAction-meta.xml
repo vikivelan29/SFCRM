@@ -15,7 +15,7 @@
                 <field>Lead__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
-            <quickActionLayoutItems>
+            <quickActionLayoutItems>  
                 <emptySpace>false</emptySpace>
                 <field>Ageing_Number_Of_Days__c</field>
                 <uiBehavior>Readonly</uiBehavior>
