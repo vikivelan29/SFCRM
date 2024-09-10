@@ -93,7 +93,7 @@
                             <value>DOB__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Riders_Opted__c</value>
+                            <value>Rider_Opted__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Health_Return__c</value>
