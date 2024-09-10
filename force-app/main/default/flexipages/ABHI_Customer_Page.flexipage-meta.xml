@@ -93,7 +93,7 @@
                             <value>DOB__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Rider_Opted__c</value>
+                            <value>Riders_Opted__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Health_Return__c</value>
@@ -1424,4 +1424,4 @@
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
-</FlexiPage>
+</FlexiPage>    
