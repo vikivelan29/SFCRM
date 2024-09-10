@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 08-16-2024
+* @last modified on  : 07-01-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
@@ -191,7 +191,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     sla2Sec = slaMap.get('sla2');
                     sla3Sec = slaMap.get('sla3');
                     closeSlaSec = slaMap.get('caseClosureSLA');
-
+                    
                     /*
                     Percentage is to calculate fields which is available in List view.
                     Example if Over all Case closure is 31-Dec , then we get calculate what s
@@ -863,24 +863,27 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     closeSlaSec = slaMap.get('caseClosureSLA');
                 }
                 long slaIdentifier = 3600000;
-                //If the overallsla is not configured, empty the field
-                if(closeSlaSec == null){
-                    updatedCase.Overall_Case_Closure_SLA__c = null;
-                    updatedCase.Overall_SLA_plus_X_days__c = null;
-                    updatedCase.Case_SLA_Threshold_1__c = null;
-                    updatedCase.Case_SLA_Threshold_2__c = null;
-                    updatedCase.Case_SLA_Threshold_3__c = null;
-                }
+                
 
-                if(closeSlaSec != null && oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
-                    //When case is recategorizzed. Take difference between Case created date.
-                    //this is slightly different during case insert where we take systemnow
-                    //when external id is changed , case can get changed after 2 days , so take 
-                    //created date,.
-                    updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
-                    if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
-                        updatedCase.SLA_Broken__c = true;
-                        updatedCase.SLA_Broken_DateTime__c = System.now();
+                if(oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
+                    //If the overallsla is not configured, empty the field
+                    if(closeSlaSec == null){
+                        updatedCase.Overall_Case_Closure_SLA__c = null;
+                        updatedCase.Overall_SLA_plus_X_days__c = null;
+                        updatedCase.Case_SLA_Threshold_1__c = null;
+                        updatedCase.Case_SLA_Threshold_2__c = null;
+                        updatedCase.Case_SLA_Threshold_3__c = null;
+                    }
+                    if(closeSlaSec != null){
+                        //When case is recategorizzed. Take difference between Case created date.
+                        //this is slightly different during case insert where we take systemnow
+                        //when external id is changed , case can get changed after 2 days , so take 
+                        //created date,.
+                        updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
+                        if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
+                            updatedCase.SLA_Broken__c = true;
+                            updatedCase.SLA_Broken_DateTime__c = System.now();
+                        }
                     }
                 }
 
