@@ -1,12 +1,12 @@
 /**
-* @description       : 
-* @author            : rsinghnagar@salesforce.com
-* @group             : 
-* @last modified on  : 05-20-2024
-* @last modified by  : rsinghnagar@salesforce.com
-* Modifications Log
-* Ver   Date         Author                       Modification
-* 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 05-20-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 @SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions,PMD.ApexSOQLInjection')
 public without sharing class ASF_CommPETriggerHelper {
@@ -36,7 +36,7 @@ public without sharing class ASF_CommPETriggerHelper {
     public static Set<Id> markForDeletion = new Set<Id>();
     public static Set<Id> caseProspectIds = new Set<Id>();
     public static Map<Id,Lead> mLeads = new Map<Id,Lead>();
-    
+  
     
     
     // VIRENDRA - 12 APRIL 2024 - ADDED FOR INFOSEC AND PRODUCTION REQUIREMENT OF ABHFL.
@@ -46,12 +46,12 @@ public without sharing class ASF_CommPETriggerHelper {
     
     
     public static Set<Id> peLogBodyInCV = new Set<Id>();
-    
+  
     /**
-* @description Executes the constructor to handle communication log creation based on PE logger records.
-* @param peLogs List of PE_Logger__c records.
-* @return Map containing PE logger ID to responseWrapper mapping.
-*/
+     * @description Executes the constructor to handle communication log creation based on PE logger records.
+     * @param peLogs List of PE_Logger__c records.
+     * @return Map containing PE logger ID to responseWrapper mapping.
+     */
     public static Map<Id,responseWrapper> executeContructor(List<PE_Logger__c> peLogs){
         // 1. Find out Custom Metadata - Done
         // 2. Find out SMS Template and WhatsApp Template - Done
@@ -76,7 +76,7 @@ public without sharing class ASF_CommPETriggerHelper {
                 mBusUnitVsDefaultFromAddress.put(buSpecificAutoEmail.Default_Automated_Email_From_Address__c, new Set<String>());
             }
             mBusUnitVsDefaultFromAddress.get(buSpecificAutoEmail.Default_Automated_Email_From_Address__c).add(buSpecificAutoEmail.Business_Unit__c);
-            
+
             if(!mBusUnitVsReplyToAddress.containsKey(buSpecificAutoEmail.Business_Unit__c)){
                 mBusUnitVsReplyToAddress.put(buSpecificAutoEmail.Business_Unit__c,buSpecificAutoEmail.Reply_To_Address__c);
             }
@@ -150,8 +150,8 @@ public without sharing class ASF_CommPETriggerHelper {
         return peLogIdVsSuccessResult;
     }
     /**
-* @description Updates the communication log records.
-*/
+     * @description Updates the communication log records.
+     */
     public static void updateLog(){
         List<ASF_Communication_Log__c> updLogs = new List<ASF_Communication_Log__c>();
         for(ASF_Communication_Log__c log : logs){
@@ -159,7 +159,7 @@ public without sharing class ASF_CommPETriggerHelper {
                 // Do some data setup here and then update.
                 log.Status__c = 'In Progress';
                 if(log.Whatsappp_Msg_Body__c!=''){
-                    log.WhatsApp_Delivery_Status__c = 'In Progress';
+                log.WhatsApp_Delivery_Status__c = 'In Progress';
                 }
                 updLogs.add(log);
             }
@@ -174,73 +174,73 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                           Case cRec,
                                                                           Boolean isAttachment,
                                                                           Id owdID){
-                                                                              Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-                                                                              if(con != null){
-                                                                                  msg.setTargetObjectId(con.Id);
-                                                                                  msg.setTreatTargetObjectAsRecipient(true);	
-                                                                                  msg.setToAddresses(new String[]{con.Email});
-                                                                              }
-                                                                              else if(prospect != null){
-                                                                                  msg.setTargetObjectId(defaultContactId);
-                                                                                  msg.setTreatTargetObjectAsRecipient(false);	
-                                                                                  msg.setToAddresses(new String[]{prospect.Email});
-                                                                              }
-                                                                              else{
-                                                                                  msg.setTargetObjectId(defaultContactId);
-                                                                                  msg.setTreatTargetObjectAsRecipient(false);
-                                                                                  msg.setToAddresses(new String[]{cRec.SuppliedEmail});
-                                                                              }
-                                                                              //Start - Calling the function to add files to the email as attachments - Aditya Mehrotra
-                                                                              if(isAttachment){
-                                                                                  List<Messaging.Emailfileattachment> emailFileAttachments = getCaseFilesAsEmailAttachments(cRec.Id);
-                                                                                  if(emailFileAttachments.size()>0){
-                                                                                      msg.setFileAttachments(emailFileAttachments);
-                                                                                  }
-                                                                              }
+        Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+        if(con != null){
+            msg.setTargetObjectId(con.Id);
+            msg.setTreatTargetObjectAsRecipient(true);	
+            msg.setToAddresses(new String[]{con.Email});
+        }
+        else if(prospect != null){
+            msg.setTargetObjectId(defaultContactId);
+            msg.setTreatTargetObjectAsRecipient(false);	
+            msg.setToAddresses(new String[]{prospect.Email});
+        }
+        else{
+            msg.setTargetObjectId(defaultContactId);
+            msg.setTreatTargetObjectAsRecipient(false);
+            msg.setToAddresses(new String[]{cRec.SuppliedEmail});
+        }
+        //Start - Calling the function to add files to the email as attachments - Aditya Mehrotra
+        if(isAttachment){
+            List<Messaging.Emailfileattachment> emailFileAttachments = getCaseFilesAsEmailAttachments(cRec.Id);
+            if(emailFileAttachments.size()>0){
+                msg.setFileAttachments(emailFileAttachments);
+            }
+        }
+        
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
+            OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
+        }
+        if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
+            String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
+            msg.setReplyTo(replyAddr);
+        }
+        /******* VIRENDRA - ENDS HERE on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
                                                                               
-                                                                              /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
-                                                                              if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
-                                                                                  OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
-                                                                              }
-                                                                              if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
-                                                                                  String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
-                                                                                  msg.setReplyTo(replyAddr);
-                                                                              }
-                                                                              /******* VIRENDRA - ENDS HERE on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
-                                                                              
-                                                                              return msg;
-                                                                              
-                                                                          }
+        return msg;
+        
+    }
     
     private static Messaging.SingleEmailMessage getMessageGeneratedFromCV(Id bodyId, Contact con, Case cRec, List<Id> contentId, Id owdID, Boolean isAttachment, Lead prospect){
         ContentVersion contentVersion = [SELECT VersionData FROM ContentVersion WHERE ContentDocumentId =: bodyId and islatest = true Limit 1];
         String emailBody = contentVersion.versionData.toString();
-        
+	
         
         Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
-        
+
         msg.SetHTMLBody(emailBody);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
         msg.setOrgWideEmailAddressId(owdID);
         msg.setEntityAttachments(contentId);        
         return msg;
-        
+ 
     }
     /**
-* @description Generates a single email message based on provided parameters.
-* 
-* @param con The contact associated with the email.
-* @param cRec The case record associated with the email.
-* @param eTempId The email template ID.
-* @param owdID The organization-wide email address ID.
-* @param isAttachment Indicates if attachments need to be included.
-* @param prospect The lead associated with the email.
-* @return Messaging.SingleEmailMessage The generated email message.
-*/
+     * @description Generates a single email message based on provided parameters.
+     * 
+     * @param con The contact associated with the email.
+     * @param cRec The case record associated with the email.
+     * @param eTempId The email template ID.
+     * @param owdID The organization-wide email address ID.
+     * @param isAttachment Indicates if attachments need to be included.
+     * @param prospect The lead associated with the email.
+     * @return Messaging.SingleEmailMessage The generated email message.
+     */
     private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
         Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
-        
+
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
@@ -248,11 +248,11 @@ public without sharing class ASF_CommPETriggerHelper {
         return msg;
     }
     /**
-* @description Function to get all the case files(if present) to attach to the email communication
-* @createdBy Aditya Mehrotra
-* @param caseId The ID of the case to retrieve files for.
-* @return List<Messaging.Emailfileattachment> A list of email file attachments.
-*/
+     * @description Function to get all the case files(if present) to attach to the email communication
+     * @createdBy Aditya Mehrotra
+     * @param caseId The ID of the case to retrieve files for.
+     * @return List<Messaging.Emailfileattachment> A list of email file attachments.
+     */
     private static List<Messaging.Emailfileattachment> getCaseFilesAsEmailAttachments(String caseId){
         List<Id> contentDocumentIds = new List<Id>();
         List<Messaging.Emailfileattachment> emailFileAttachments = new List<Messaging.Emailfileattachment>();
@@ -275,9 +275,9 @@ public without sharing class ASF_CommPETriggerHelper {
         return emailFileAttachments;
     }
     /**
-* @description Sends email communication based on the provided PE Logger records.
-* @param peLogs A list of PE Logger records.
-*/
+     * @description Sends email communication based on the provided PE Logger records.
+     * @param peLogs A list of PE Logger records.
+     */
     private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
         //OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE Purpose = 'DefaultNoreply' order by lastmodifiedDate desc  limit 1];
@@ -414,10 +414,10 @@ public without sharing class ASF_CommPETriggerHelper {
         }
     }
     /**
-* @description Sends communications via SMS and WhatsApp based on the provided PE Logger records.
-* @param skipPE A boolean flag to skip publishing Platform Events.
-* @param peLogs A list of PE Logger records.
-*/
+     * @description Sends communications via SMS and WhatsApp based on the provided PE Logger records.
+     * @param skipPE A boolean flag to skip publishing Platform Events.
+     * @param peLogs A list of PE Logger records.
+     */
     public static void sendCommunications(Boolean skipPE,List<PE_Logger__c> peLogs){
         List<Outbound_Communication__e> eventList = new List<Outbound_Communication__e>();
         
@@ -477,53 +477,45 @@ public without sharing class ASF_CommPETriggerHelper {
     }
     
     /**
-* @description Generates the message body based on the provided email template ID, recipient ID, and related record ID.
-* @param templateID The ID of the email template.
-* @param whoID The ID of the recipient.
-* @param whatID The ID of the related record.
-* @param isPlainText A boolean value indicating whether to return plain text message or HTML message.
-* @return The generated message body.
-*/
+     * @description Generates the message body based on the provided email template ID, recipient ID, and related record ID.
+     * @param templateID The ID of the email template.
+     * @param whoID The ID of the recipient.
+     * @param whatID The ID of the related record.
+     * @param isPlainText A boolean value indicating whether to return plain text message or HTML message.
+     * @return The generated message body.
+     */
     private static String generateMessageBody(String templateID, String whoID, STring whatID, Boolean isPlainText){
         Messaging.SingleEmailMessage msg = Messaging.renderStoredEmailTemplate(templateID, whoId, whatID, Messaging.AttachmentRetrievalOption.NONE); 
         String richTextMessage = msg.getHtmlBody(); 
         return isPlainText ? richTextMessage.StripHtmlTags() : richTextMessage;
     }
     /**
-* @description Creates an Outbound_Communication__e event based on the provided ASF_Communication_Log__c object and message type.
-* @param log The ASF_Communication_Log__c object containing communication log details.
-* @param msgType The type of message (e.g., "SMS", "WhatsApp").
-* @return The created Outbound_Communication__e event.
-*/
+     * @description Creates an Outbound_Communication__e event based on the provided ASF_Communication_Log__c object and message type.
+     * @param log The ASF_Communication_Log__c object containing communication log details.
+     * @param msgType The type of message (e.g., "SMS", "WhatsApp").
+     * @return The created Outbound_Communication__e event.
+     */
     private static Outbound_Communication__e createOutboundCommunication(ASF_Communication_Log__c log,String msgType){
-        string body = '';
-        if(msgType == 'WhatsApp'){
-            body = log.Whatsappp_Msg_Body__c;
-        } else {
-            body = log.SMS_Msg_Body__c;
-        }
-        
         Outbound_Communication__e event = new Outbound_Communication__e(LogID__c  =log.id,
                                                                         Case__c = log.Case__c,
                                                                         Template_ID__c  = log.External_Template_ID__c ,
                                                                         Phone__c  =log.Phone__c,
-                                                                        Txt_Msg__c = body,
+                                                                        Txt_Msg__c = log.SMS_Msg_Body__c,
                                                                         LOB__c = log.LOB__c,
                                                                         Department__c = log.Line_of_Business__c,
                                                                         Type__c = msgType,
                                                                         SMS_Entity_Id__c = log.SMS_Entity_Id__c,
                                                                         SMS_Sender_Id__c = log.SMS_Sender_Id__c
-                                                                       );
+                                                                        );
         
-        System.debug('Event--> '+event);
         return event;
     }
     
     /**
-* @description Creates ASF_Communication_Log__c records based on the provided PE_Logger__c records and selected contact.
-* @param peLogs The list of PE_Logger__c records.
-* @param selectedCon The selected contact.
-*/
+     * @description Creates ASF_Communication_Log__c records based on the provided PE_Logger__c records and selected contact.
+     * @param peLogs The list of PE_Logger__c records.
+     * @param selectedCon The selected contact.
+     */
     private static void createLogs(List<PE_Logger__c> peLogs,Contact selectedCon){
         List<ASF_Communication_Log__c> masterLogs = new List<ASF_Communication_Log__c>();
         
@@ -691,17 +683,17 @@ public without sharing class ASF_CommPETriggerHelper {
         
     }
     /**
-* @description Retrieves the developer name and ID mapping of email templates and stores them in the templateIDMap.
-*/
+     * @description Retrieves the developer name and ID mapping of email templates and stores them in the templateIDMap.
+     */
     private static void getEmailTempDevNameVsId(){
         for(EmailTemplate template : emailTemplates){
             templateIDMap.put(template.DeveloperName,template.Id);
         }
     }
     /**
-* @description Retrieves the template names from the provided custom metadata name and adds them to the setTemplates collection. 
-* @param strMetadataName The name of the custom metadata.
-*/
+     * @description Retrieves the template names from the provided custom metadata name and adds them to the setTemplates collection. 
+     * @param strMetadataName The name of the custom metadata.
+     */
     private static void getTemplateNamesFromConfig(String strMetadataName){
         Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
         
@@ -716,48 +708,48 @@ public without sharing class ASF_CommPETriggerHelper {
         }
     }
     /**
-* @description Wrapper class to encapsulate response information.
-*/
+     * @description Wrapper class to encapsulate response information.
+     */
     public class responseWrapper{
         /**
-* @description The ID associated with the log.
-*/
+         * @description The ID associated with the log.
+         */
         public string logId{get;set;} 
         /**
-* @description The status of the response.
-*/
+         * @description The status of the response.
+         */
         public string status{get;set;} 
         /**
-* @description The message content of the response.
-*/
+         * @description The message content of the response.
+         */
         public string message{get;set;}
         /**
-* @description The template content of the response.
-*/
+         * @description The template content of the response.
+         */
         public string template{get;set;}
         /**
-* @description The ID associated with the communication.
-*/
+         * @description The ID associated with the communication.
+         */
         public string communicationId{get;set;}
         /**
-* @description Constructs a response wrapper object with the provided parameters.
-* @param lId The ID associated with the log.
-* @param st The status of the response.
-* @param msg The message content of the response.
-*/
+         * @description Constructs a response wrapper object with the provided parameters.
+         * @param lId The ID associated with the log.
+         * @param st The status of the response.
+         * @param msg The message content of the response.
+         */
         public responseWrapper(string lId,string st,string msg){
             this.logId = lId;
             this.status = st;
             this.message = msg;
         }
         /**
-* @description Constructs a response wrapper object with the provided parameters.
-* @param lId The ID associated with the log.
-* @param st The status of the response.
-* @param msg The message content of the response.
-* @param comId The ID associated with the communication.
-* @param body The template body.
-*/
+         * @description Constructs a response wrapper object with the provided parameters.
+         * @param lId The ID associated with the log.
+         * @param st The status of the response.
+         * @param msg The message content of the response.
+         * @param comId The ID associated with the communication.
+         * @param body The template body.
+         */
         public responseWrapper(string lId,string st,string msg, String comId, String body){
             this.logId = lId;
             this.status = st;
@@ -767,9 +759,9 @@ public without sharing class ASF_CommPETriggerHelper {
         }
     }
     /**
-* @description Populates sets of relevant Ids from PE_Logger__c records.
-* @param peLogs List of PE_Logger__c records.
-*/
+     * @description Populates sets of relevant Ids from PE_Logger__c records.
+     * @param peLogs List of PE_Logger__c records.
+     */
     private static void getAccountAndContactIdsAndLeadIds(List<PE_Logger__c> peLogs){
         for(PE_Logger__c pLog : peLogs){
             customMetadataName.add(pLog.CustomMetadataName__c);
@@ -786,28 +778,28 @@ public without sharing class ASF_CommPETriggerHelper {
         }
     }
     /**
-* @description Sets case fields based on the provided Customer_Notification_Config__mdt record and developer name.
-* @param commConfig The Customer_Notification_Config__mdt record.
-* @param developerName The developer name of the field.
-*/
+     * @description Sets case fields based on the provided Customer_Notification_Config__mdt record and developer name.
+     * @param commConfig The Customer_Notification_Config__mdt record.
+     * @param developerName The developer name of the field.
+     */
     private static void setCaseFields(Customer_Notification_Config__mdt commConfig, String developerName){
         String mergeFieldCSV = (String) commConfig.get(developerName);
         if(mergeFieldCSV !=null && String.IsNotBlank(mergeFieldCSV)){
             setCaseFields.addAll(mergeFieldCSV.split(','));
         }
     }
-    
+
     /**
-* @description Creates an ASF_Communication_Log__c record with the provided details.
-* @param log The ASF_Communication_Log__c record to populate.
-* @param accountId The ID of the account.
-* @param contactId The ID of the contact.
-* @param caseId The ID of the case.
-* @param contactName The name of the contact.
-* @param mobNo The mobile number associated with the communication.
-* @param leadId The ID of the lead.
-* @return The populated ASF_Communication_Log__c record.
-*/
+     * @description Creates an ASF_Communication_Log__c record with the provided details.
+     * @param log The ASF_Communication_Log__c record to populate.
+     * @param accountId The ID of the account.
+     * @param contactId The ID of the contact.
+     * @param caseId The ID of the case.
+     * @param contactName The name of the contact.
+     * @param mobNo The mobile number associated with the communication.
+     * @param leadId The ID of the lead.
+     * @return The populated ASF_Communication_Log__c record.
+     */
     private static ASF_Communication_Log__c createCommunincationLogRecord(ASF_Communication_Log__c log,
                                                                           Id accountId,
                                                                           Id contactId,
