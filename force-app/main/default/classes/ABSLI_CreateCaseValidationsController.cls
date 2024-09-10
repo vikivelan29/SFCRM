@@ -233,13 +233,25 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     public static String duplicatePolicyPrintingValidation(String caseRecord){
         try {
             Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
+            Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
+            system.debug('Aditya ccc'+String.valueOf(jsonMap.get('CCC_External_Id__c')));
             if(policy!=null && policy.Issue_Date__c!=null){
                 Date issueDate = Date.newInstance(policy.Issue_Date__c.year(), policy.Issue_Date__c.month(), policy.Issue_Date__c.day());
-                Date oneYearAfterIssueDate = issueDate.addYears(1);
-                if(Date.Today() >= oneYearAfterIssueDate){
-                    return 'Success';
-                }else{
-                    return 'Policy is not eligible.';
+                if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='DUP002'){
+                 	Date oneYearAfterIssueDate = issueDate.addYears(1);
+                    if(Date.Today() <= oneYearAfterIssueDate){
+                        return 'Success';
+                    }else{
+                        return 'Policy is not eligible.';
+                    }   
+                }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PNFT019'){
+                    Date today = Date.today();
+                    Date oneYearBeforeToday = today.addYears(-1);
+                    if(issueDate <= oneYearBeforeToday){
+                        return 'Success';
+                    }else{
+                        return 'Policy is not eligible.';
+                    }
                 }
             }
             return 'User is not eligible';
@@ -442,7 +454,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     public class GenFundResponseWrapper{
         public BfidResponse BFID_RESPONSE{get;set;}
         public GenFundResponseWrapper() {
-            BFID_RESPONSE = new BfidResponse();
+            this.BFID_RESPONSE = new BfidResponse();
         }
     }
     

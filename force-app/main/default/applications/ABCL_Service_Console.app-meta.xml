@@ -246,6 +246,24 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>ABSLAMC_Lead_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.ABSLAMC_Leads</recordType>
+        <type>Flexipage</type>
+        <profile>ABSLAMC Base User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABSLAMC_Lead_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.ABSLAMC_Leads</recordType>
+        <type>Flexipage</type>
+        <profile>ABSLAMC Base User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ABHFL_Asset_Detail_Record_Page1</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>

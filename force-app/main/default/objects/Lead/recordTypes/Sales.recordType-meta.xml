@@ -30,10 +30,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Payments</fullName>
             <default>false</default>
         </values>

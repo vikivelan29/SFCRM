@@ -5,6 +5,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Asset.Send_Communication</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -24,7 +29,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
-                    <value>0</value>
+                    <value>2</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
@@ -52,16 +57,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Deal_No__c</fieldItem>
                 <identifier>RecordDeal_No_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>required</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Name</fieldItem>
-                <identifier>RecordNameField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -150,38 +145,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.BalanceHR__c</fieldItem>
-                <identifier>RecordBalanceHR__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.CrossSellNumber__c</fieldItem>
                 <identifier>RecordCrossSellNumber__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.DebitReason__c</fieldItem>
-                <identifier>RecordDebitReason__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ActiveHealthVersion__c</fieldItem>
-                <identifier>RecordActiveHealthVersion__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -200,38 +165,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.DRMCustomer__c</fieldItem>
-                <identifier>RecordDRMCustomer__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.GoGreen__c</fieldItem>
                 <identifier>RecordGoGreen__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.HHS__c</fieldItem>
-                <identifier>RecordHHS__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.HR__c</fieldItem>
-                <identifier>RecordHR__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -260,36 +195,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.MandateEndDate__c</fieldItem>
-                <identifier>RecordMandateEndDate__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.MasterPolicy__c</fieldItem>
-                <identifier>RecordMasterPolicy__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.PortalCertificate__c</fieldItem>
-                <identifier>RecordPortalCertificate__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.SNCB__c</fieldItem>
                 <identifier>RecordSNCB__cField</identifier>
             </fieldInstance>
@@ -300,58 +205,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.TAXDetails__c</fieldItem>
-                <identifier>RecordTAXDetails__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.UR__c</fieldItem>
-                <identifier>RecordUR__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.ZoneOfCover__c</fieldItem>
                 <identifier>RecordZoneOfCover__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.UtilizedHR__c</fieldItem>
-                <identifier>RecordUtilizedHR__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.CrossSellProductName__c</fieldItem>
-                <identifier>RecordCrossSellProductName__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.IsCrossSell__c</fieldItem>
-                <identifier>RecordIsCrossSell__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -372,16 +227,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.RenewableFlag__c</fieldItem>
                 <identifier>RecordRenewableFlag__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.TPAContactDetails__c</fieldItem>
-                <identifier>RecordTPAContactDetails__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -420,38 +265,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NameOfEW__c</fieldItem>
-                <identifier>RecordNameOfEW__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.GrossPremium__c</fieldItem>
                 <identifier>RecordGrossPremium__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.CombiProposalNumber__c</fieldItem>
-                <identifier>RecordCombiProposalNumber__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.COILink__c</fieldItem>
-                <identifier>RecordCOILink__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -492,6 +307,46 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.CombiReferenceNo__c</fieldItem>
                 <identifier>RecordCombiReferenceNo__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Cover_Type__c</fieldItem>
+                <identifier>RecordCover_Type__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Cross_Sale_Applicable__c</fieldItem>
+                <identifier>RecordCross_Sale_Applicable__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.branch_name__c</fieldItem>
+                <identifier>Recordbranch_name__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.NoOfPrimaryMembers__c</fieldItem>
+                <identifier>RecordNoOfPrimaryMembers__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
@@ -594,16 +449,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ARU__c</fieldItem>
-                <identifier>RecordARU__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.AutoDebitRegistrationStatus__c</fieldItem>
                 <identifier>RecordAutoDebitRegistrationStatus__cField</identifier>
             </fieldInstance>
@@ -614,58 +459,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.IsCombi__c</fieldItem>
-                <identifier>RecordIsCombi__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ContactPersonOfEmployer__c</fieldItem>
-                <identifier>RecordContactPersonOfEmployer__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.DebitFrequency__c</fieldItem>
-                <identifier>RecordDebitFrequency__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Discount__c</fieldItem>
                 <identifier>RecordDiscount__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ApplicationDate__c</fieldItem>
-                <identifier>RecordApplicationDate__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ConsumedHR__c</fieldItem>
-                <identifier>RecordConsumedHR__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -686,16 +481,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Lead_Id__c</fieldItem>
                 <identifier>RecordLead_Id_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.HA__c</fieldItem>
-                <identifier>RecordHA__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -734,16 +519,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.MandateStartDate__c</fieldItem>
-                <identifier>RecordMandateStartDate__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.PaymentStatus__c</fieldItem>
                 <identifier>RecordPaymentStatus__cField</identifier>
             </fieldInstance>
@@ -774,38 +549,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.TPA__c</fieldItem>
-                <identifier>RecordTPA__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.UWLoading__c</fieldItem>
                 <identifier>RecordUWLoading__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.TotalHR__c</fieldItem>
-                <identifier>RecordTotalHR__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.CrossSellPolicyNumbers__c</fieldItem>
-                <identifier>RecordCrossSellPolicyNumbers__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -836,16 +581,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.SponsoredFlag__c</fieldItem>
                 <identifier>RecordSponsoredFlag__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.PreviousPolicyNumber__c</fieldItem>
-                <identifier>RecordPreviousPolicyNumber__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1272,11 +1007,41 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>aBHI_OmniDocView</componentName>
+                <identifier>c_aBHI_OmniDocView</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>showLegacyActivityComposer</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-f69f70aa-0fea-4fec-aed3-c8468967b388</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>abhi_ViewClaimDetails_LWC</componentName>
                 <identifier>c_abhi_ViewClaimDetails_LWC</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-be8cf508-ddc2-4ed7-9bee-09dc21e92106</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_healthAssesmentDetails</componentName>
+                <identifier>c_abhi_healthAssesmentDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1387,6 +1152,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-f69f70aa-0fea-4fec-aed3-c8468967b388</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>OmniDoc</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

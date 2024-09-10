@@ -103,6 +103,10 @@
                 <behavior>Edit</behavior>
                 <field>Is_Prospect_Related__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>isStageSkip__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -129,7 +133,7 @@
                 <behavior>Edit</behavior>
                 <field>is_FA_Mandatory__c</field>
             </layoutItems>
-            <layoutItems>
+             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Validation_method_during_creation__c</field>
             </layoutItems>

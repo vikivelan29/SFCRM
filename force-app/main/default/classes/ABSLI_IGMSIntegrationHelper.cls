@@ -34,7 +34,10 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
             ABSLI_RegisterIGMSComplaintIntegration.objReq requestJSON = new ABSLI_RegisterIGMSComplaintIntegration.objReq();
             
             /* ALL REQUIRED ATTRIBUTES HERE */
-            requestJSON.FirstName = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).FirstName:'';
+            requestJSON.FirstName = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).FirstName:'FNU';
+            if(String.isBlank(requestJSON.FirstName)){
+                requestJSON.FirstName = 'FNU';
+            }
             requestJSON.LastName = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).LastName:'';
             String gender = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).GenderIdentity:'0';
             // SEND O-OTHER WHEN NOT EQUALS M/F

@@ -34,6 +34,9 @@
         <field>Case$ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
     </columns>
     <columns>
+        <field>Case$CreatedBy.FederationIdentifier</field>
+    </columns>
+    <columns>
         <field>Case$CreatedBy.EmployeeNumber</field>
     </columns>
     <columns>

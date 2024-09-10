@@ -46,7 +46,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
             }
             
             //Customer Portal and Status_Valid_For_STP__c is false 
-            if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
             	result.status = ABSLI_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
             } else {
@@ -218,7 +218,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
     
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
-        Case caseRec =[SELECT Id,MoveToNext__c,ABSLI_Case_Detail__c FROM Case WHERE Id=:caseInteg.Case__c ];
+        Case caseRec =[SELECT Id,MoveToNext__c,ABSLI_Case_Detail__c,CCC_External_ID__c FROM Case WHERE Id=:caseInteg.Case__c ];
         if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(caseInteg.Response__c);
             if(String.valueOf(jsonMap.get('ProcessCode'))=='00'){

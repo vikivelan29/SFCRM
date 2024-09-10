@@ -4,22 +4,33 @@
                             class="spinnerClass"></lightning-spinner>
     </template>
     <div>
-        <lightning-button label="Refresh" onclick={refreshData} class="refresh-button" ></lightning-button>
+        <lightning-button label="Refresh" onclick={refreshData} class="refresh-button"></lightning-button>
     </div>
     <template lwc:if={displayTable}>
         <lightning-datatable
-                key-field="id"
-                columns={columns}
-                data={data}
-                hide-checkbox-column
-                default-sort-direction={defaultSortDirection}
-                sorted-direction={sortDirection}
-                sorted-by={sortedBy}
-                onsort={onHandleSort}
-                onrowaction={viewRecord}>
+            key-field="id"
+            columns={columns}
+            data={paginatedData}
+            hide-checkbox-column
+            default-sort-direction={defaultSortDirection}
+            sorted-direction={sortDirection}
+            sorted-by={sortedBy}
+            onsort={onHandleSort}
+            onrowaction={viewRecord}>
         </lightning-datatable>
+
+        <div class="pagination-controls">
+            <lightning-button disabled={isPrevDisabled} icon-name="utility:jump_to_left" label="First" class="slds-p-horizontal_x-small" alternative-text="first page" onclick={handleFirstPage}></lightning-button>
+            <lightning-button disabled={isPrevDisabled} icon-name="utility:chevronleft" label="Previous" alternative-text="Previous" onclick={handlePrevPage}></lightning-button>
+            &nbsp;
+            <span class="slds-badge">{pageInfo}</span>
+            &nbsp;
+            <lightning-button disabled={isNextDisabled} icon-name="utility:chevronright" label="Next" alternative-text="Next" onclick={handleNextPage} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+            <lightning-button disabled={isNextDisabled} icon-name="utility:jump_to_right" label="Last" alternative-text="last page" onclick={handleLastPage} icon-position="right"></lightning-button>
+         </div>
     </template>
+
     <template lwc:else>
-        {userMessage}
+        <p>{userMessage}</p>
     </template>
 </template>

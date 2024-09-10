@@ -21,6 +21,7 @@ export default class absli_reconfirminput extends LightningElement {
     @track isOriginalEmailInvalid = false;
     @track isConfirmEmailInvalid = false;
     @track bankAccNumbervalidation = false;
+    @track hasValidationError = false;
 
     connectedCallback(){
         console.log('this in connectedcallback',JSON.stringify(this.recordId));
@@ -50,8 +51,10 @@ export default class absli_reconfirminput extends LightningElement {
                     if (inputElement.value) {
                         if (condition) {
                             inputElement.setCustomValidity(message);
+                            this.hasValidationError = true;
                         } else {
-                            inputElement.setCustomValidity(''); 
+                            inputElement.setCustomValidity('');
+                            this.hasValidationError = false; 
                         }
                         inputElement.reportValidity(); 
                     } else {
@@ -84,14 +87,17 @@ export default class absli_reconfirminput extends LightningElement {
         if (this.originalTextValue === '') {
             this.isOriginalEmailInvalid = false;
             isOriginalAccNumInvalid = false;
+            this.hasValidationError = false;
             originalInput.setCustomValidity('');
         } else if(this.emailIDvalidation){
             this.isOriginalEmailInvalid = !this.validateEmail(this.originalTextValue);
             this.isOriginalEmailInvalid?originalInput.setCustomValidity('Invalid Email ID.'):originalInput.setCustomValidity('');
+            this.hasValidationError = this.isOriginalEmailInvalid;
             this.confirmationCheck(); 
         } else if(this.bankAccNumbervalidation){
             isOriginalAccNumInvalid = !this.validateBankAccountNumber(this.originalTextValue);
             isOriginalAccNumInvalid?originalInput.setCustomValidity('Invalid Account Number. Min-5 Max-34.'):originalInput.setCustomValidity('');
+            this.hasValidationError = isOriginalAccNumInvalid;
             this.confirmationCheck(); 
         }
         originalInput.reportValidity();
@@ -110,14 +116,17 @@ export default class absli_reconfirminput extends LightningElement {
         if (this.confirmTextValue === '') {
             this.isConfirmEmailInvalid = false;
             isConfirmAccNumInvalid = false;
+            this.hasValidationError = false;
             confirmInput.setCustomValidity('');
         } else if(this.emailIDvalidation){
             this.isConfirmEmailInvalid = !this.validateEmail(this.confirmTextValue);
             this.isConfirmEmailInvalid?confirmInput.setCustomValidity('Invalid Email ID.'):confirmInput.setCustomValidity('');
+            this.hasValidationError = this.isConfirmEmailInvalid;
             this.confirmationCheck(); 
         } else if(this.bankAccNumbervalidation){
             isConfirmAccNumInvalid = !this.validateBankAccountNumber(this.confirmTextValue);
             isConfirmAccNumInvalid?confirmInput.setCustomValidity('Invalid Account Number. Min-5 Max-34.'):confirmInput.setCustomValidity('');
+            this.hasValidationError = isConfirmAccNumInvalid;
             this.confirmationCheck(); 
         }
         confirmInput.reportValidity();
@@ -163,6 +172,13 @@ export default class absli_reconfirminput extends LightningElement {
         else {
             this.bConfirmationTextNotMatching = true;
             this.showConfirmationError = true;
+        }
+        
+        if(this.countryCodeVisibilty && this.selectedCountryCode == null){
+            this.bConfirmationTextNotMatching = true; 
+        }
+        if(this.hasValidationError){
+            this.bConfirmationTextNotMatching = true; 
         }
     }
     cancelConfirmFieldPopup(event) {

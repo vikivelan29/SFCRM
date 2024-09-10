@@ -15,11 +15,9 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABFL_OwnerChangeWithLocation.checkCCCExternalIdAndAddRTId((List<Case>)newItems);
         Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
-            //AM-Validating case creation for different CTSTs against policy statuses for ABSLI.
-            ABSLI_BeforeInsertTriggerLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
-ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert((List<Case>)newItems);
+            ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert((List<Case>)newItems);
         }
     }
       
