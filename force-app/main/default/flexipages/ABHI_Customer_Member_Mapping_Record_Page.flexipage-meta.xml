@@ -147,16 +147,6 @@
                 <identifier>RecordHealth_Return_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Relation__c</fieldItem>
-                <identifier>RecordRelation__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-e25d4426-f623-4803-bc78-fd389a4a700d</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -408,4 +398,4 @@
         <name>flexipage:recordHomeSingleColTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
-</FlexiPage>
+</FlexiPage> 
