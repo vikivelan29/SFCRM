@@ -109,6 +109,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
      */
     public static void validateFromDateToDate(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
         List<String> validSubTypes = new List<String>{'PEMT042', 'PEMT024'};
+	List<String> validSubTypesBefore3PM = new List<String>{'PNFT042','PPAY001','PPAY008'};
             if(!absliCases.isEmpty()){
                 for (Case caseRec : absliCasesAdditionalFields.values()) {
                     System.debug(caseRec.ABSLI_Case_Detail__r.To_date__c);
