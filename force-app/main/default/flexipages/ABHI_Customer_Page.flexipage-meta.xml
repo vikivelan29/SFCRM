@@ -93,13 +93,16 @@
                             <value>DOB__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Riders_Opted__c</value>
+                            <value>Rider_Opted__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Health_Return__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Total_NCB__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Is_Chronic__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1421,4 +1424,4 @@
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
-</FlexiPage> 
+</FlexiPage>    
