@@ -460,11 +460,17 @@ public without sharing class ASF_CommPETriggerHelper {
      * @return The created Outbound_Communication__e event.
      */
     private static Outbound_Communication__e createOutboundCommunication(ASF_Communication_Log__c log,String msgType){
+        string body = '';
+        if(msgType == 'WhatsApp'){
+            body = log.Whatsappp_Msg_Body__c;
+        } else {
+            body = log.SMS_Msg_Body__c;
+        }
         Outbound_Communication__e event = new Outbound_Communication__e(LogID__c  =log.id,
                                                                         Case__c = log.Case__c,
                                                                         Template_ID__c  = log.External_Template_ID__c ,
                                                                         Phone__c  =log.Phone__c,
-                                                                        Txt_Msg__c = log.SMS_Msg_Body__c,
+                                                                        Txt_Msg__c = body,
                                                                         LOB__c = log.LOB__c,
                                                                         Type__c = msgType,
                                                                         SMS_Entity_Id__c = log.SMS_Entity_Id__c,
