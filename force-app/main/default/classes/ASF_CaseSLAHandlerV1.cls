@@ -191,8 +191,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     sla2Sec = slaMap.get('sla2');
                     sla3Sec = slaMap.get('sla3');
                     closeSlaSec = slaMap.get('caseClosureSLA');
-                    
-                    updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, system.now(), closeSlaSec);
 
                     /*
                     Percentage is to calculate fields which is available in List view.
