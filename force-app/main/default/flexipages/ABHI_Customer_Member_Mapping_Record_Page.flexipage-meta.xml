@@ -179,8 +179,8 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.MemberId__r.PED__c</fieldItem>
-                <identifier>RecordMemberId_rPED_cField</identifier>
+                <fieldItem>Record.MemberId__r.PEDWaitingPeriod__c</fieldItem>
+                <identifier>RecordMemberId_rPEDWaitingPeriod_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
