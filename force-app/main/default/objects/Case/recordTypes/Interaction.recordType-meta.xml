@@ -901,10 +901,6 @@
             <fullName>Web</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ABHI Email</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
