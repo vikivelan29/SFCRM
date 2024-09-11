@@ -29,8 +29,8 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         if(!mAbsliCases.isEmpty()){
             absliCasesAdditionalFields = new Map<Id, Case>([SELECT Id,Asset.Issue_Date__c,ABSLI_Case_Detail__c,CCC_External_Id__c, 
                                        ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
-                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c,IGMS_Complaint_Type_Code__c ,FTR__c, ABSLI_Case_Detail__r.IGMS_type_of_policy__c
-                                       FROM Case 
+                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c,IGMS_Complaint_Type_Code__c ,FTR__c,ABSLI_Case_Detail__r.Before_3_PM__c,ABSLI_Case_Detail__r.Branch_Receive_Date__c
+									                     FROM Case 
                                        WHERE Id IN :mAbsliCases.keySet()]);
             System.debug('Inside ABSLI before Update Trigger logic');
             System.debug(absliCasesAdditionalFields);
@@ -62,7 +62,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
     
     /**
      * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-     * moved to next stage. It validates if any open checklist is pending and throws validation error
+     * moved to next stage and skip to stage. It validates if any open checklist is pending and throws validation error
      * @param newMap
      * @param oldMap
      */
@@ -109,7 +109,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
      */
     public static void validateFromDateToDate(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
         List<String> validSubTypes = new List<String>{'PEMT042', 'PEMT024'};
-	List<String> validSubTypesBefore3PM = new List<String>{'PNFT042','PPAY001','PPAY008'};
+        List<String> validSubTypesBefore3PM = new List<String>{'PNFT042','PPAY001','PPAY008'};
             if(!absliCases.isEmpty()){
                 for (Case caseRec : absliCasesAdditionalFields.values()) {
                     System.debug(caseRec.ABSLI_Case_Detail__r.To_date__c);
@@ -153,7 +153,32 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                                 }  
                             }
                         }
-                    }
+                   }
+                    //Validate before3PM scenario
+                   if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypesBefore3PM.contains(caseRec.CCC_External_Id__c)) {
+                       Date today = Date.today();
+        			   String before3PM = caseRec.ABSLI_Case_Detail__r.Before_3_PM__c;
+        			   Date branchReceiveDate = caseRec.ABSLI_Case_Detail__r.Branch_Receive_Date__c;
+                       Case caseError = newMap.get(caseRec.Id);
+                       if(before3PM != null && branchReceiveDate != null){
+                         	 switch on before3PM {
+                                when 'No' {
+                                    Date expectedDate = today.addDays(1);
+                                    if (branchReceiveDate != expectedDate) {
+                                        caseError.addError('Branch received Date should be next day, if before 3PM');
+                                    }
+                                }
+                                when 'Yes' {
+                                    if (branchReceiveDate != today) {
+                                        caseError.addError('Branch received Date should be Today, if before 3PM');
+                                    }
+                                }
+                                when else {
+                                    caseError.addError('Invalid value for Before 3 PM');
+                                }
+                            }  
+                       }
+                   }   
                 }
             }
 	}
@@ -177,20 +202,45 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         // CHECK IF OPEN CHECKLIST.
         // IF COUNT OF RECORD IS > 0, SET REJECT_CASE__C to TRUE
         if(!eligibleCases.isEmpty()){
-            Map<Id,AggregateResult> mCountOfNotCompletedChecklistOnCase = new Map<Id,AggregateResult>(
-                [SELECT Case__c Id, COUNT(ID) FROM ASF_Checklist__c 
-                 WHERE Status__c IN: ABSLI_Constants.CHECKLIST_FAILURE_STATUS
+            List<AggregateResult> caseToStatusCount = [SELECT Case__c,Status__c, COUNT(ID) FROM ASF_Checklist__c
+                                                      WHERE Status__c IN : ABSLI_Constants.CHECKLIST_SIGNATURECROPSIGNATUREMISMATCHANDNO_STATUS
                                                       AND Case__c =: eligibleCases.keySet()
                                                       AND Mandatory__c = TRUE
-                 GROUP BY Case__c
-                 HAVING COUNT(ID) > 0]);
+                                                      GROUP BY Case__c,Status__c
+                                                      HAVING COUNT(ID) > 0];
+            
+            Map<Id,String> mCaseAndFlow = new Map<Id,String>();
+            
+            for(AggregateResult result : caseToStatusCount){
+                Id caseId = Id.ValueOf(String.ValueOf(result.get('Case__c')));
+                String statusStr = String.ValueOf(result.get('Status__c'));
+                Integer iCount = Integer.ValueOf(String.ValueOf(result.get('expr0')));
+                if(caseId != null){
+                        if(ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(statusStr)){
+                            mCaseAndFlow.put(caseId,statusStr);
+                        }
+                        else{
+                            String existingValue = mCaseAndFlow.get(caseId);
+                            if(!ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(statusStr)){
+                                mCaseAndFlow.put(caseId,statusStr);
+                            }
+                        }
+                }
+            }
             for(Case c : eligibleCases.values()){
-                if(mCountOfNotCompletedChecklistOnCase.containsKey(c.Id)){
+                if(mCaseAndFlow.containsKey(c.Id)){
+                   if(ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(mCaseAndFlow.get(c.Id))){
                         c.Reject_Case__c = true;
                         c.Auto_Rejected__c = true;
                         c.MoveToNext__c = false;
+                    }
+                    else{
+                        c.Notes__c = '3';
+                        c.MoveToNext__c = true;
+                    }
                 }
             }
+            
         }              
     }
     

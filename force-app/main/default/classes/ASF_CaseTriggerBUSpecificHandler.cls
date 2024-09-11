@@ -62,8 +62,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
         	//AM-Validating case creation for different CTSTs against policy statuses for ABSLI.
         	ABSLI_AfterInsertLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId)); 
-            ABSLI_AfterInsertLogic.executeAfterInsertLogic((List<Case>)newItems.values());   
-        }
+        ABSLI_AfterInsertLogic.executeAfterInsertLogic((List<Case>)newItems.values());
+    }
     }
 
     /**
@@ -81,7 +81,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
         //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
-
+        
         // Create Comment if the case is closed while creation.[through api]
         ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
         ctstHelperObj.ICAndPICEvaluationOnApiCall((List<Case>)newItems.values());
@@ -161,6 +161,15 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.values());
         //ABSLAMC_CaseAssignmentHelper.dummyMethod((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
         ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFields((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
+    }
+   
+    /**
+     * @description  Executes before the Case DML code runs in after update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
+    public override void executeBeforeCaseDMLInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);
     }
    
     /**
