@@ -1344,4 +1344,11 @@
         <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
         <value>2000</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
+        <value>Email - Call Centre,Phone - Call Centre</value>
+    </labels>
 </CustomLabels>
