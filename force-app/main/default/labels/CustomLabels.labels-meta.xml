@@ -1264,4 +1264,11 @@
         <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
         <value>Active</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
+        <value>Email - Call Centre,Phone - Call Centre</value>
+    </labels>
 </CustomLabels>
