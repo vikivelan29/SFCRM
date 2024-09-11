@@ -28,7 +28,7 @@
             </value>
             <value>
                 <fullName>Complaint</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>Complaint</label>
             </value>
         </valueSetDefinition>
