@@ -874,6 +874,16 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         updatedCase.Case_SLA_Threshold_2__c = null;
                         updatedCase.Case_SLA_Threshold_3__c = null;
                     }
+                    //If the stage sla are not configured, empty the field
+                    if(sla1Sec == null){
+                        updatedCase.Stage_SLA_1__c = null;
+                    } 
+                    if(sla2Sec == null){
+                        updatedCase.Stage_SLA_2__c = null;
+                    }
+                    if(sla3Sec == null){
+                        updatedCase.Stage_SLA_3__c = null;
+                    }
                     if(closeSlaSec != null){
                         //When case is recategorizzed. Take difference between Case created date.
                         //this is slightly different during case insert where we take systemnow
