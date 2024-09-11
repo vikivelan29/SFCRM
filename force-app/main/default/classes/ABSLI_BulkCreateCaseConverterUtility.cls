@@ -121,6 +121,9 @@ public with sharing class ABSLI_BulkCreateCaseConverterUtility implements ASF_Bu
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            
+            ABSLI_Case_Detail__c caseDetRec = new ABSLI_Case_Detail__c();
+            caseDetRec.Source_Request_submitted_by__c = 'Customer';
 
             Case caseRec = new Case();
             caseRec.AccountId = lanToAccountIdMap.get(lan);
@@ -131,6 +134,7 @@ public with sharing class ABSLI_BulkCreateCaseConverterUtility implements ASF_Bu
             caseRec.Description = description;
             caseRec.RecordTypeId = ASF_Constants.RT_FRAMEWORK;
             caseRec.Technical_Source__c = 'LWC';
+            caseRec.Bulk_CaseDetail_JSON__c = JSON.serialize(caseDetRec);
             resultWrapper.resultRecords.put(lineItemId, caseRec);
             resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
         }
