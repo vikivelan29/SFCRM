@@ -94,6 +94,7 @@ public without sharing class ASF_CaseEmailController {
         while (matcher.find()) {
             String capturedString = matcher.group(1);
             if (!dynamicFieldsToReplace.contains(capturedString)){
+                System.debug('captured string'+capturedString);
                 if(capturedString.contains(':')){
                     String fs = capturedString;
                     // 1st -> field api, 2nd: either date/datetime, 3rd: function, 4th: number
@@ -122,6 +123,8 @@ public without sharing class ASF_CaseEmailController {
         }else{
             resultMap.put('Today',Date.today().format());
         }
+        System.debug(resultMap);
+        System.debug(inputText);
 
         inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL,caseBusinessUnit);
         if (resultMap != null){
@@ -164,17 +167,22 @@ public without sharing class ASF_CaseEmailController {
             // date
             when 'd'{
                 if(splitList[2]=='add'){
+                    System.debug('***fv:'+fv);
                     Datetime datetimeVal = (Datetime) Date.parse(fv);
+                    System.debug('***datetimeVal:'+datetimeVal);
                     retVal = datetimeVal.addDays(Integer.valueOf(splitList[3])).format('dd/MM/yyyy', 'IST');
                 }
             }
             when 'cd'{
                 if(splitList[2]=='add'){
+                    System.debug('inside custom.');
                     Datetime datetimeVal = (Datetime) Date.parse(fv);
                     retVal =  datetimeVal.addDays(Integer.valueOf(splitList[3])).format('dd/MM/yyyy', 'IST');
+                    System.debug('cusyom date ==> '+retVal);
                 }
             }
         }
+        System.debug('***retVal:'+retVal);
         return retVal;
     }
 
@@ -202,14 +210,15 @@ public without sharing class ASF_CaseEmailController {
         set<String> allfieldsToQueryUniqueset = new set<String>();
         allfieldsToQueryUniqueset.addAll(subFieldWithQuery.values());
         allfieldsToQueryUniqueset.addAll(fieldsToQuery);
-        List<String> allfieldsToQuerUiqueList = new List<String>();
-        allfieldsToQuerUiqueList.addAll(allfieldsToQueryUniqueset);
+        List<String> AllfieldsToQuerUiqueList = new List<String>();
+        AllfieldsToQuerUiqueList.addAll(allfieldsToQueryUniqueset);
+        System.debug('allfieldsToQueryUniqueset --> '+allfieldsToQueryUniqueset);
 
         String sobjectType = recordId1.getSObjectType().getDescribe().getName();
         String dynamicSOQL ;
         
-        dynamicSOQL = buildDynamicSOQL(sobjectType, allfieldsToQuerUiqueList, recordId1);
-
+        dynamicSOQL = buildDynamicSOQL(sobjectType, AllfieldsToQuerUiqueList, recordId1);
+		System.debug('dynamicSOQL --> '+dynamicSOQL);
         List<sObject> documentGenerationList = Database.query(dynamicSOQL);        
         sObject documentGenObject = documentGenerationList.get(0);
         map<string,Map<String,Schema.SObjectField>> objectSchemas = getObjectSchemas(objectNames);
@@ -219,6 +228,7 @@ public without sharing class ASF_CaseEmailController {
         }
 
         for(String s : fieldsToQuerUiqueList){
+            //documentGenObject.getSObject('Primary_Borrower__r').get('Full_Name__c')
             //relationship queries need second level. 
             if (s.contains('__r')){
                 processRelationshipField(resultMap, s, documentGenObject, objectSchemas, dateFormat);
@@ -254,10 +264,10 @@ public without sharing class ASF_CaseEmailController {
         String fieldValue = '';
         if(documentGenObject.getSObjects(objectName) != null){
             for(sObject sob : documentGenObject.getSObjects(objectName)){
-                fieldValue+=(sob.get(fieldName) != null)?sob.get(fieldName) + ',':' --- ,';
+                fieldValue+=(sob.get(fieldName) != null)?sob.get(fieldName) + '<next>':' --- <next>';
             }
         }
-        return fieldValue.removeEnd(',');
+        return fieldValue.removeEnd('<next>');
     }
 
     private static void processNestedField(Map<String, String> resultMap, String field, sObject documentGenObject,Map<String, Map<String, Schema.SObjectField>> objectSchemas, String dateFormat){
@@ -265,6 +275,9 @@ public without sharing class ASF_CaseEmailController {
         String objectName = field.substring(0,field.indexOf('.'));
         String fieldName = field.substring(field.indexOf('.') + 1);
         object fieldValue = ' --- ';
+        /*if(documentGenObject.getSObject(objectName) != null){
+            fieldValue = ((documentGenObject.getSObject(objectName).get(fieldName))!= null)?String.valueOf(documentGenObject.getSObject(objectName).get(fieldName)):fieldValue;
+        }*/
         if(documentGenObject.getSObject(objectName) != null){
             fieldValue = ((documentGenObject.getSObject(objectName).get(fieldName))!= null)?documentGenObject.getSObject(objectName).get(fieldName):fieldValue;
         }
