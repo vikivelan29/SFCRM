@@ -151,6 +151,7 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
         }
 
         if(checkboxAction === "rowDeselect" || checkboxAction === "deselectAllRows") {
+            this.infoObject.isAsset = "false"; //ABSLAMC UAT-B-19 - Show CTST with folio madatory = false when user has deselected all rows
             this.fieldToBeStampedOnCase = {};
             return;
         }
