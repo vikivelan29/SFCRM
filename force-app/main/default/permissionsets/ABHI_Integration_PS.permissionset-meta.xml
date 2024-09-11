@@ -185,17 +185,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.IGMS_Branch_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.IGMS_Case__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.IGMS_Comments__c</field>
+        <field>ABHI_Case_Detail__c.IGMS_Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
