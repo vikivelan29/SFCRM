@@ -1027,6 +1027,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhi_ViewClaimDetails_LWC</componentName>
+                <identifier>c_abhi_ViewClaimDetails_LWC</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-be8cf508-ddc2-4ed7-9bee-09dc21e92106</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
@@ -1152,6 +1162,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-be8cf508-ddc2-4ed7-9bee-09dc21e92106</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Claims</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-f60ec8d4-027f-4b42-9988-22a4d88ece83</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1167,7 +1191,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <componentInstance>
+            <componentInstance> 
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>maintabs</value>

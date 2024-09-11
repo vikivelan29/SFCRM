@@ -1178,13 +1178,6 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HAPP</shortDescription>
-        <value>Health Return App Reg</value>
-    </labels>
-    <labels>
-        <fullName>ABHI_Health_Return_App_Reg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>HAPP</shortDescription>
         <value>Health Return &amp; App Reg</value>
     </labels>
     <labels>
@@ -1207,6 +1200,13 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
         <value>Movement to this stage can only be done through CAMS</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
     </labels>
     <labels>
         <fullName>ABHI_OmniDocURL</fullName>
@@ -1263,5 +1263,12 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
         <value>Active</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
+        <value>Email - Call Centre,Phone - Call Centre</value>
     </labels>
 </CustomLabels>
