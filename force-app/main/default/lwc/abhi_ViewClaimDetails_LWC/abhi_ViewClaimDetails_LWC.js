@@ -1,14 +1,12 @@
 import { LightningElement, api, track, wire } from 'lwc';
-import getClaimDetails from '@salesforce/apex/ABCL_IntegrationCallout.executeCallout';
+import getViewClaimDetailsData from '@salesforce/apex/Abhi_ViewClaimDetails_Controller.viewClaimDetailsInformationCallout';
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 import claimDetails from '@salesforce/label/c.ABHI_Claim_Details_Header';
 import { getRecord } from 'lightning/uiRecordApi';
 import POLICY_NO_FIELD from '@salesforce/schema/Asset.Policy_No__c';
-import BUSINESS_UNIT_FIELD from '@salesforce/schema/Asset.Business_Unit__c';
-import { lanLabels } from 'c/asf_ConstantUtility';
 
-const fields = [POLICY_NO_FIELD, BUSINESS_UNIT_FIELD];
+const fields = [POLICY_NO_FIELD];
 export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
 
     @api recordId;
@@ -16,13 +14,12 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
     @track claimsData;
 
     showClaimDetailRecords = false;
-    displayError = false;
+    displayError;
     isLoading = false;
 
-    displayMessage = "";
     policyNo = "";
-    businessUnit = "";
     policyData;
+    columns;
 
     label = {
         pageSize,
@@ -32,6 +29,7 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
     @wire(getRecord, { recordId: "$recordId", fields })
     wiredPolicyRecord({ error, data }) {
         if (error) {
+            this.displayError = true;
             let message = "Unknown error";
             if (Array.isArray(error.body)) {
                 message = error.body.map((e) => e.message).join(", ");
@@ -43,7 +41,6 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
         } else if (data) {
             this.policyData = data;
             this.policyNo = this.policyData.fields.Policy_No__c.value;
-            this.businessUnit = this.policyData.fields.Business_Unit__c.value
             this.getColumnsData();
         }
     }
@@ -62,7 +59,7 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
                         cellAttributes: { alignment: 'left' }
                     })),
                 ];
-                this.getData();
+                this.fetchViewClaimDetailsPolicy_Data();
             })
             .catch(error => {
                 console.error('Error in getColumnsData>>>', error);
@@ -70,47 +67,29 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
             });
     }
 
-    getData() {
+    fetchViewClaimDetailsPolicy_Data() {
 
-        let reqBody = {"RequestType" : "ClaimMasterDetails", "PolicyNumber" : this.policyNo};
+        getViewClaimDetailsData({policyNo: this.policyNo})
+        .then(result => {
 
-        getClaimDetails({requestBody : JSON.stringify(reqBody), integrationName : 'ABHI_View_Claim_Details_API_Details'})
-            .then(result => {
-
-                let responseBody = JSON.parse(result?.responseBody) ?? "";
-                let statusCode = responseBody?.StatusCode;
-
-                if (statusCode === 1000) {
-                    this.isLoading = false;
-                    this.displayError = false;
-                    let claimsData = responseBody?.Response;
-
-                    if (claimsData) {
-                        this.claimsData = claimsData;
-                        this.showClaimDetailRecords = true;
-                    }
-                    else {
-                        this.displayMessage = lanLabels[this.businessUnit].CLAIMDETAILS_FAILURE_MESSAGE;
-                    }
-                }
-                else {
-                    this.displayMessage = `Error: ${responseBody.Message}`;
-                    this.isLoading = false;
-                    this.showClaimDetailRecords = false;
-                    this.displayError = true;
-                }
-            })
-            .catch(error => {
-                this.displayMessage = 'Error : ' + error.body.message;
-                this.isLoading = false;
-                this.showClaimDetailRecords = false;
-                this.displayError = true;
-                console.error('error in getClaimDetails>>>', JSON.stringify(error));
-            });
+            this.isLoading = false;
+            let statusCode = result?.StatusCode ?? "";
+            
+            if(statusCode === 1000) {
+                this.claimsData = result?.Response;
+            }
+            else {
+                this.displayError = `Error: ${result?.Message}`;
+            }
+        })
+        .catch(error => {
+            console.log('Error inside fetchViewClaimDetailsPolicy_Data ' + JSON.stringify(error));
+            this.isLoading = false;
+        });
     }
 
     handleRefresh() {
         this.isLoading = true;
-        this.getData();
+        this.fetchViewClaimDetailsPolicy_Data();
     }
 }
