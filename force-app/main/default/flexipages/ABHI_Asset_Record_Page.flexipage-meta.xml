@@ -1037,16 +1037,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abhi_healthAssesmentDetails</componentName>
-                <identifier>c_abhi_healthAssesmentDetails</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
