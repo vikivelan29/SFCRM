@@ -686,23 +686,18 @@
     </customMetadataTypeAccesses>
     <description>Create and Update Case record</description>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Run_Assignment_Rule_on_Bulk_Create__c</field>
+        <editable>true</editable>
+        <field>ASF_Case_Approv__c.Approval_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Additional_SMS_Metadata__c</field>
+        <editable>true</editable>
+        <field>ASF_Case_Approv__c.Approval_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.PPC_Change_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.PPC_Case_Sub_TYPE__c</field>
+        <editable>true</editable>
+        <field>ASF_Case_Approv__c.Approver_01__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3313,11 +3308,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.LAN__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Run_Assignment_Rule_on_Bulk_Create__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
