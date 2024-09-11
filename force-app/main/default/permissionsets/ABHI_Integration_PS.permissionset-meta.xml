@@ -315,7 +315,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.NCH_Complaint_Number__c</field>
+        <field>ABHI_Case_Detail__c.Others_Clsr_Additional_Info__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
