@@ -341,7 +341,8 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN",
-        LAN_IS_MANDATORY_FOR_CUSTOMER: "Please select the Policy to update the case."
+        CLAIMDETAILS_FAILURE_MESSAGE: "No Claims Found",
+        ABHI_BUSINESS_UNIT: "ABHI"
     },
     ABWM: {
         SELECT_PRODUCT: "Select LAN",
