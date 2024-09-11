@@ -872,15 +872,35 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                   //  updatedCase.Case_SLA_Threshold_3__c = null;
                 //}
 
-                if(closeSlaSec != null && oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
-                    //When case is recategorizzed. Take difference between Case created date.
-                    //this is slightly different during case insert where we take systemnow
-                    //when external id is changed , case can get changed after 2 days , so take 
-                    //created date,.
-                    updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
-                    if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
-                        updatedCase.SLA_Broken__c = true;
-                        updatedCase.SLA_Broken_DateTime__c = System.now();
+                if(oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
+                    //If the overallsla is not configured, empty the field
+                    if(closeSlaSec == null){
+                        updatedCase.Overall_Case_Closure_SLA__c = null;
+                        updatedCase.Overall_SLA_plus_X_days__c = null;
+                        updatedCase.Case_SLA_Threshold_1__c = null;
+                        updatedCase.Case_SLA_Threshold_2__c = null;
+                        updatedCase.Case_SLA_Threshold_3__c = null;
+                    }
+                    //If the stage sla are not configured, empty the field
+                    if(sla1Sec == null){
+                        updatedCase.Stage_SLA_1__c = null;
+                    } 
+                    if(sla2Sec == null){
+                        updatedCase.Stage_SLA_2__c = null;
+                    }
+                    if(sla3Sec == null){
+                        updatedCase.Stage_SLA_3__c = null;
+                    }
+                    if(closeSlaSec != null){
+                        //When case is recategorizzed. Take difference between Case created date.
+                        //this is slightly different during case insert where we take systemnow
+                        //when external id is changed , case can get changed after 2 days , so take 
+                        //created date,.
+                        updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
+                        if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
+                            updatedCase.SLA_Broken__c = true;
+                            updatedCase.SLA_Broken_DateTime__c = System.now();
+                        }
                     }
                 }
 
