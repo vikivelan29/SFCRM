@@ -3762,6 +3762,11 @@
             <field>Contact.GenderIdentity</field>
             <table>Case</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account.PersonContact.Birthdate</field>
+            <table>Case</table>
+        </columns>
         <masterLabel>Cases</masterLabel>
     </sections>
 </ReportType>
