@@ -8613,11 +8613,6 @@
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
-        <field>Asset.AgentStatus__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.AutoDebitFlag__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8849,11 +8844,6 @@
         <fieldPermissions>
         <editable>true</editable>
         <field>Asset.SponsoredFlag__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
-        <field>Asset.TPA__c</field>
         <readable>true</readable>
     </fieldPermissions>
         <fieldPermissions>
