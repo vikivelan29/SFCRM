@@ -100,6 +100,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         }
         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
         ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        ABHFL_CTSTHelper.adjustStageTransitions((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage((Map<Id, Case>)newItems,(Map<Id, Case>)oldItems);
     }
 
