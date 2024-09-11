@@ -21,14 +21,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABHI_CreateHealthIntent_Inbound</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABHI_CreateHealthProvider_Inbound</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABHI_DeviceDetailsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
