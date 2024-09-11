@@ -80,7 +80,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Cheque_Number__c</field>
+        <field>ABHI_Case_Detail__c.Cheque_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
