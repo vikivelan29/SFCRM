@@ -277,7 +277,8 @@ blankSourcePresent = true;
         String relObjectName;
         for(Case caseRec : newMap.values()){
             if(ASF_BulkCaseProcessorUtility.isBulkProcessing && String.isNotBlank(caseRec.Bulk_CaseDetail_JSON__c)
-               && (oldMap != null && oldMap.get(caseRec.Id).Bulk_CaseDetail_JSON__c != caseRec.Bulk_CaseDetail_JSON__c)){
+               && (oldMap == null || 
+                   (oldMap != null && oldMap.get(caseRec.Id).Bulk_CaseDetail_JSON__c != caseRec.Bulk_CaseDetail_JSON__c))){
                    eligibleCases.add(caseRec);
                }
         }

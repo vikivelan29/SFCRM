@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Fields_Name__c</field>
-        <value xsi:type="xsd:string">Loan Account No,Issue Type Code,Source,Description,Block Customer Communication</value>
+        <value xsi:type="xsd:string">Loan Account No,Issue Type Code,Source,Description,Block Customer Communication, Case Owner</value>
     </values>
     <values>
         <field>Max_File_Size__c</field>
