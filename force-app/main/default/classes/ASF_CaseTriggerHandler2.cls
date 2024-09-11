@@ -174,6 +174,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
             ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
             buSpecificCls.executeBeforeASFCodeInAfterInsert(frameworkRTCases);
+            ASF_CaseTriggerModularHelper.populateCaseDetailFromBulk((Map<Id, Case>)newItemsCase, null);
             ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), null);
             ASF_CaseTriggerModularHelper.checkAndPopulateOwnerOnCaseCreation((Map<Id, Case>)newItemsCase);
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);
