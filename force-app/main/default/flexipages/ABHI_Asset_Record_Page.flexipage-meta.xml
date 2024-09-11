@@ -1186,7 +1186,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <componentInstance>
+            <componentInstance> 
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>maintabs</value>
