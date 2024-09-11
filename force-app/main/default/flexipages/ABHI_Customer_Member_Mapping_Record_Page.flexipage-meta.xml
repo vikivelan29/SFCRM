@@ -175,8 +175,12 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.MemberId__r.SuperNcbAmount__c</fieldItem>
-                <identifier>RecordMemberId_rSuperNcbAmount_cField</identifier>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Super_Ncb_Amount__c</fieldItem>
+                <identifier>RecordSuper_Ncb_Amount_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
