@@ -1,0 +1,23 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{Recipient.Name}}},<br />
+<br role="presentation" />
+Greetings from Aditya Birla Health Insurance!<br role="presentation" />
+This is with reference to your Complaint received against policy number - {{{Case.AssetId}}}<br />
+<br />
+In case you wish to pursue this case further, you may write to us on<br role="presentation" />
+gro.healthinsurance@adityabirlacapital.com within 8 weeks.<br />
+<br role="presentation" />
+Alternatively, you may approach the Insurance Ombudsman for Redressal of your grievance within<br role="presentation" />
+your jurisdiction. Please find attached the list of Ombudsman for your reference.<br />
+<br role="presentation" />
+We trust that we have been able to respond to your concerns to your satisfaction.<br />
+<br role="presentation" />
+For any further assistance please feel free to call us on 1800-270-7000 or write us to<br role="presentation" />
+abhi.grievance@adityabirlacapital.com<br />
+<br role="presentation" />
+Thanks &amp; Regards,<br role="presentation" />
+<strong>Aditya Birla Health Insurance Co. Ltd.</strong></body>
+</html>
