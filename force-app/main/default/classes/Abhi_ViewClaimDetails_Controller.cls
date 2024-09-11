@@ -23,15 +23,11 @@ public with sharing class Abhi_ViewClaimDetails_Controller {
         String integrationName = 'ABHI_View_Claim_Details_API_Details';
         String requestPayload = JSON.serialize(abhilClassObj.prepareRequestPayload(policyNo));
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName, requestPayload, null);
-
+        
         ResponseWrapper respWrapper = new ResponseWrapper();
 
         if(String.isNotBlank(integrationResponse.responseBody)){        
             respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
-            if(respWrapper.StatusCode == null || respWrapper.StatusCode != 1000) {
-                respWrapper.Message = ABHI_Constants.NO_RESPONSE_AVAILABLE;
-                respWrapper.StatusCode = 1001;
-            }
         }
         return respWrapper;
     }
@@ -43,7 +39,7 @@ public with sharing class Abhi_ViewClaimDetails_Controller {
 
         RequestWrapper reqWrapper = new RequestWrapper();
         reqWrapper.RequestType   = 'ClaimMasterDetails';
-        reqWrapper.PolicyNumber = policyNo;
+        reqWrapper.policyNumber = policyNo;
 
         return reqWrapper;
     }
@@ -54,7 +50,7 @@ public with sharing class Abhi_ViewClaimDetails_Controller {
     ***********************************/
     public class RequestWrapper {
 		@AuraEnabled public String RequestType{get;set;}
-		@AuraEnabled public String PolicyNumber{get;set;}
+		@AuraEnabled public String policyNumber{get;set;}
     }
 
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
@@ -65,7 +61,7 @@ public with sharing class Abhi_ViewClaimDetails_Controller {
 		@AuraEnabled public List<Response> Response{get;set;}
 		@AuraEnabled public Integer StatusCode{get;set;}
 		@AuraEnabled public String Message{get;set;}
-		@AuraEnabled public List<ResponseObj> ResponseObj{get;set;}
+		@AuraEnabled public ResponseObj ResponseObj{get;set;}
     }
 
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
