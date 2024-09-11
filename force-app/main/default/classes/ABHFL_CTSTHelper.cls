@@ -283,15 +283,15 @@ public static void skipOpenStageforAPIcases(List<Case> caseList, Map<Id, Case> o
 		}
     	for (Case caseRecord : caseList) {
         	Case originalCase = oldCaseMap.get(caseRecord.Id);
-            string modeofchangeofaddress=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).Mode_of_Change_of_Address__c;
+                string modeofchangeofaddress=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).Mode_of_Change_of_Address__c;
         	String previousStage = originalCase.Stage__c;	
         	String currentStage = caseRecord.Stage__c;
         	String subType = caseRecord.CCC_External_Id__c;
 
         // Check if the previous stage was not 'Open', the current stage is 'Open',
         // and the sub_Type_Text__c is one of the valid subTypes
-        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK && caseRecord.channel__c='API' && 'VKYC'.equals(modeofchangeofaddress)) {
-            	caseRecord.movetonext__c=true;
+        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK && caseRecord.channel__c=='API' && 'VKYC'.equals(modeofchangeofaddress)) {
+            	     caseRecord.movetonext__c=true;
 				updatedcases.add(caseRecord);
         	}
     	}
