@@ -10,6 +10,36 @@ public without sharing class ABHFL_CTSTHelper {
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
     
+    // Avoid skipping the CPU banking stage when case move back to Open stage for hfl060 added by EY-Nikhil
+    public static void adjustStageTransitions(List<Case> casesToUpdate, Map<Id, Case> oldCaseMap){
+        Boolean isUpdate = oldCaseMap!=null?true:false;
+        Map<Id, String> currentStageMap = new Map<Id, String>();
+        List<Case> newCaseList = new List<Case>();
+        List<Case> listToUpdate = new List<Case>();
+        newCaseList.addAll(casesToUpdate);
+        
+        for (Case cs : casesToUpdate) {
+            system.debug('ENTER Previous_Stage__c>>'+cs.Previous_Stage__c);
+            system.debug('ENTER currnet stage>>'+cs.Stage__c);
+            system.debug('oldmap>>'+ oldCaseMap.get(cs.Id).stage__c);
+            system.debug('MAP Previous_Stage__c>>>'+ oldCaseMap.get(cs.Id).Previous_Stage__c);
+                
+            if (cs.CCC_External_Id__c == 'hfl060' && cs.Pending_Clarification__c == true){
+				    currentStageMap.put(cs.Id, isUpdate?oldCaseMap.get(cs.Id).Stage__c:cs.Stage__c);   
+                   //cs.Previous_Stage__c = oldCaseMap.get(cs.Id).stage__c;
+                    system.debug('cs.moved_back__c$$>>'+cs.Previous_Stage__c);
+                    system.debug('cs.Stage__c>>'+cs.Stage__c); 
+                    listToUpdate.add(cs);
+            }
+        }  
+        system.debug('listToUpdate>>'+listToUpdate);
+        if(!listToUpdate.isEmpty()){
+          Map<Id, ASF_CaseMovementHelper.StageConfigWrapper> stageConfigMap = ASF_CaseMovementHelper.findNextStageAfterBackward(listToUpdate, currentStageMap);
+          system.debug('stageConfigMap>>'+stageConfigMap);
+        }
+
+    } 
+    
     //AM-Delete existing asset detail records on a case on customer change
     public static void deleteExistingAssetDetails(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
         Set<Id> caseIds = new Set<Id>();
@@ -181,8 +211,11 @@ public without sharing class ABHFL_CTSTHelper {
         Map<String, List<Case>> lanVsCases = new Map<String, List<Case>>();
         Map<String,Set<Id>> cccVsAccIds = new Map<String,Set<Id>>();
         Set<String> cccIdsForAcc = new Set<String>();
+        Map<Id,Case> IdvsCase = new Map<Id,Case>();           // added by vikas
+        Map<Id, Case> casesToUpdate = new Map<Id, Case>();    // added by vikas
         RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
         for(Case c: caseList){
+            IdvsCase.put(c.Id,c);        // added by vikas
             if(c.Business_Unit__c=='ABHFL' && 
                		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
                 	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
@@ -236,6 +269,9 @@ public without sharing class ABHFL_CTSTHelper {
                     if(accIdVsCases.containsKey(dupeCase.AccountId)){
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
+                                if(c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ){
+                                ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase,oldCaseMap);   // added by vikas, After recategorisation, ovarall SLA should changed before marked as closed duplicate.
+                                }
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = ASF_Constants.DUPLICATESTAGE;
                                     c.Status = ASF_Constants.DUPLICATESTATUS;
@@ -256,6 +292,17 @@ public without sharing class ABHFL_CTSTHelper {
             }    
         }
     }
+    
+  /*  Public static void populateBranchName(List<Case> caseList){
+        List<case> caseupdate = new List<case>();
+        Set<Id> AssetId = new Set<Id>();
+        Set<Id> setId = new Set<Id>();
+        for(case cc: caseList){
+            SetId.add(cc.Id);
+            AssetId.add(cc.AssetId);
+        }
+        List<case> caseList = [Select Id, from case where Id =: SetId]
+    }*/
     
     //Dhinesh
     public static void OpenStageOwnershipChange(List<Case> caseList, Map<Id, Case> oldCaseMap) {
@@ -357,9 +404,10 @@ public without sharing class ABHFL_CTSTHelper {
 	}
 
     //Dhinesh - Stop at banking stage on forward movement after a backward movement.
-    public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
-        // List of valid subTypes
-    	List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+     public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
+      // List of valid subTypes
+    /*	List<String> validSubTypes = new List<String>{'hfl060'};
+        List<String> SourceOfFunds = new List<String>{'Mature','Loan cancellation','Settlement/Auction'};
         
     	for (Case caseRecord : caseList) {
         	Case originalCase = oldCaseMap.get(caseRecord.Id);
@@ -372,13 +420,20 @@ public without sharing class ABHFL_CTSTHelper {
 
         // Check if the previous stage was 'Open', the current stage is not 'Open',
         // and the sub_Type_Text__c is one of the valid subTypes
-        	if ('Open'.equals(previousStage) && !'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.moved_back__c == TRUE && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
-            	changeStagetoCPUBanking(caseRecord);
-                ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped = true;
-        	}
-            
-    	}
-	}
+        system.debug('$$$Source_of_Funds__c111'+caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c);
+        system.debug('$$SourceOfFunds22'+SourceOfFunds);
+
+
+            //if(caseRecord.moved_back__c == TRUE &&  !SourceOfFunds.contains(caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c)){ //Condition added by Nikhil EY - PR970457-2176
+            if(caseRecord.moved_back__c == TRUE &&  (caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' || caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' ||  caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation')){ //Condition added by Nikhil EY - PR970457-2176
+                system.debug('$$$ SourceOfFundsss333'+caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c);
+                if ('Open'.equals(previousStage) && !'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.moved_back__c == TRUE && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
+                    changeStagetoCPUBanking(caseRecord);
+                    ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped = true;
+                }
+            }
+    	}  */
+	} 
     
     public static void changeStagetoCPUBanking(Case caseRecord) {
         Group CPUQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_CPU_Banking_Team' WITH SECURITY_ENFORCED LIMIT 1];
