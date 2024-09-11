@@ -11006,11 +11006,6 @@
         <field>Survey_Response__c.Trigger_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Policy_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>API Admin User PS</label>
     <objectPermissions>
