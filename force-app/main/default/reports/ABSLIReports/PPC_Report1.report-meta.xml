@@ -115,6 +115,9 @@
         <field>Case$ABSLI_Case_Detail__c.Case_Pending_With__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.Follow_up_Name__c</field>
+    </columns>
+    <columns>
         <field>Case$Owner</field>
     </columns>
     <columns>

@@ -40,6 +40,9 @@
         <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
+        <field>Case$Asset.Advisor__c.Advisor_Code__c</field>
+    </columns>
+    <columns>
         <field>Case$Source__c</field>
     </columns>
     <columns>
@@ -82,7 +85,7 @@
         <field>Case$Account.Salutation</field>
     </columns>
     <columns>
-        <field>Case$Account.Agent_Sub_Category__c</field>
+        <field>Case$Asset.Advisor__c.Agent_Sub_Category__c</field>
     </columns>
     <filter>
         <criteriaItems>
