@@ -55,16 +55,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Acknowledged_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Acknowledgement_contacted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABHI_Case_Detail__c.Addressed_to_Insurer__c</field>
         <readable>true</readable>
     </fieldPermissions>
