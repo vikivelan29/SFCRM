@@ -125,24 +125,18 @@
                 <identifier>RecordHealth_Return_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Relation__c</fieldItem>
-                <identifier>RecordRelation__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-e25d4426-f623-4803-bc78-fd389a4a700d</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.MemberId__r.Name</fieldItem>
-                <identifier>RecordMemberId_rNameField</identifier>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Member_Name__c</fieldItem>
+                <identifier>RecordMember_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -177,6 +171,12 @@
             <fieldInstance>
                 <fieldItem>Record.MemberId__r.Rider_Opted__c</fieldItem>
                 <identifier>RecordMemberId_rRider_Opted_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.MemberId__r.SuperNcbAmount__c</fieldItem>
+                <identifier>RecordMemberId_rSuperNcbAmount_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
