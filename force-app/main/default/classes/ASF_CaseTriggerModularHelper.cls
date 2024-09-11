@@ -80,8 +80,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 Set<String> currentSkippers = skipperFlagMap.get(recId);
                 currentSkippers.addAll(recIdToSkipperFlag.get(recId));
                 skipperFlagMap.put(recId, currentSkippers);
-            }
-        }    
+        }
+    }
     }
     
     /****************************************************************************************************************
@@ -223,6 +223,7 @@ blankSourcePresent = true;
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
+                caseRec.Run_Assignment_Rule_on_Bulk_Create__c = appliedCCC.Run_Assignment_Rule_on_Bulk_Create__c;
                 if((!isUpdate) || (isUpdate && oldMap.get(caseRec.Id).Categorization_Date__c == null)){
                     caseRec.Categorization_Date__c = system.now();     
                 }
@@ -906,7 +907,7 @@ blankSourcePresent = true;
         List<Case> eligibleLWCCases = new List<Case>();
         
         for(Case caseRec : newMap.values()){
-            if(caseRec.Technical_Source__c == 'API'){
+            if(caseRec.Technical_Source__c == 'API' || (ASF_BulkCaseProcessorUtility.isBulkProcessing && caseRec.Run_Assignment_Rule_on_Bulk_Create__c)){
                 caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                 eligibleCases.add(caseRec);
             }
@@ -1032,14 +1033,14 @@ blankSourcePresent = true;
                             }
                             addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
                         }
-                    }  
-                }              
-                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
-                addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
-                addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
-                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
-            }
-            
+                    }                
+                }
+
+                    addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
+                    addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
+                }
             List<Case> integCaseList = new List<Case>();
             Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
             
@@ -1050,7 +1051,7 @@ blankSourcePresent = true;
                        || newMap.get(caseId).Technical_Source__c == 'LWC'){
                            integCaseList.add(newMap.get(caseId));
                            //TO DOO:check on the data type of allintegrations wrapper
-                           runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations); 
+                           runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations);                   
                        }
                     
                     if(addlDataFromStageMovementMethods.get(caseId).manualApprovalStage != null){
