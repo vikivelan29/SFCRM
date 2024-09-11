@@ -81,7 +81,8 @@ public class ASF_CaseEmailControllerBUSpecificHandler {
         String resultantString = '';
         for(String str : subFields){
             if(String.isNotEmpty(resultMap.get(str))){
-                listMPL.add(resultMap.get(str).split('\\,'));
+                //listMPL.add(resultMap.get(str).split('\\,'));
+                listMPL.add(resultMap.get(str).split('<next>'));
             }
         }
         

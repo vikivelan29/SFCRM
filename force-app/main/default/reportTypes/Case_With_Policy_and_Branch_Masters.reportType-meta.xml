@@ -3758,8 +3758,18 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Asset.Advisor__c.Agent_Sub_Category__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <displayNameOverride>Gender</displayNameOverride>
             <field>Contact.GenderIdentity</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account.PersonContact.Birthdate</field>
             <table>Case</table>
         </columns>
         <masterLabel>Cases</masterLabel>
