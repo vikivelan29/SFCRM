@@ -74,6 +74,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @track loggedInUserBusinessUnit = '';
     noAutoCommOptions = [];
     noAutoCommValue = [];
+    isPhoneInbound = false;
 
 
 
@@ -376,7 +377,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         caseRecord[NATURE_FIELD.fieldApiName] = this.natureVal;
         caseRecord[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         caseRecord[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
-        caseRecord[TRACK_ID.fieldApiName] = this.trackId;
+        if(this.trackId != null && this.trackId != undefined && this.trackId != ""){
+            caseRecord[TRACK_ID.fieldApiName] = this.trackId;
+        }
         caseRecord[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
         caseRecord["sobjectType"] = "Case";
@@ -452,6 +455,37 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
     handleSource(event) {
         this.sourceFldValue = event.target.value;
+         //code added by sunil - 03/09/2024
+        this.checkTrackIdCondition();
     }
+    //method code added by sunil- 03/09/2024
+    // this method checking whether trackId field should be visible or not
+    checkTrackIdCondition(){
+
+        
+        if(this.boolAllSourceVisible){
+            if(this.loggedInUserBusinessUnit === 'ABHFL'){
+                if(this.sourceFldValue === 'Call Center'){
+                    this.isPhoneInbound = true;
+                }
+                else{
+                    this.isPhoneInbound = false;
+                }
+            }
+            else if(this.loggedInUserBusinessUnit === 'ABFL'){
+                if(this.sourceFldValue === 'Phone-Inbound' || this.sourceFldValue === 'Inbound Nodal Desk' || this.sourceFldValue === 'Phone-Outbound'){
+                    this.isPhoneInbound = true;
+                }
+                else{
+                    this.isPhoneInbound = false;
+                }
+            }
+        }
+    }
+    //method code added by sunil- 03/09/2024
+    handleTrackId(event){
+        this.trackId = event.target.value;
+    }
+    //END  method code added by sunil- 03/09/2024
       
 }
