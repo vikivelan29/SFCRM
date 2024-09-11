@@ -158,7 +158,7 @@
         <field>Case$Account.Client_Code__c</field>
     </columns>
     <columns>
-        <field>Case$Contact.Birthdate</field>
+        <field>Case$Account.PersonContact.Birthdate</field>
     </columns>
     <columns>
         <field>Case$Account.Owner.Email</field>
