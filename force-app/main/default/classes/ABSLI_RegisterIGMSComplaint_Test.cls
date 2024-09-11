@@ -23,6 +23,7 @@ public class ABSLI_RegisterIGMSComplaint_Test {
 
 		Account accRec = ASF_TestDataFactory.insertPersonAccount('test', 'test', '100');
 		accRec.Client_Code__c = 'ABI123';
+        accRec.PersonMobilePhone = '1234567890';
 		update accRec;
 
 		Asset assetRec = ASF_TestDataFactory.createAsset(accRec.Id, 'Loans');
@@ -119,14 +120,17 @@ public class ABSLI_RegisterIGMSComplaint_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	AssetId,
 				Status,
 				OwnerId,
 				CaseNumber,
             	Description,
 				Client_Code_Text__c,
 				Account.Client_Code__c,
+            	Account.PersonMobilePhone,
 				ABSLI_Case_Detail__c,
 				ABSLI_Case_Detail__r.Status_Valid_For_STP__c,
+            	ABSLI_Case_Detail__r.Complaint_Category__c,
 				AccountId,
 				ABSLI_Case_Detail__r.IGMS_type_of_policy__c,
             	ABSLI_Case_Detail__r.IGMS_Source_of_Complaint__c,
@@ -194,14 +198,17 @@ public class ABSLI_RegisterIGMSComplaint_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	AssetId,
 				Status,
 				OwnerId,
 				CaseNumber,
             	Description,
 				Client_Code_Text__c,
 				Account.Client_Code__c,
+            	Account.PersonMobilePhone,
 				ABSLI_Case_Detail__c,
 				ABSLI_Case_Detail__r.Status_Valid_For_STP__c,
+            	ABSLI_Case_Detail__r.Complaint_Category__c,
 				AccountId,
 				ABSLI_Case_Detail__r.IGMS_type_of_policy__c,
             	ABSLI_Case_Detail__r.IGMS_Source_of_Complaint__c,

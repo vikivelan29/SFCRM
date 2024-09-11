@@ -82,7 +82,7 @@ public with sharing class ASF_CloneCaseActionController {
         outerWrap.fieldList = new List<FieldWrapper>();
         try {
             Case caseRec = [SELECT Id, CCC_External_Id__c FROM Case WHERE Id =: caseId LIMIT 1];
-            List<ASF_Case_Category_Config__c> cccRecs = [SELECT Id, 
+            List<ASF_Case_Category_Config__c> cccRecs = [SELECT Id, is_FA_Mandatory__c,
                                                 (SELECT Id, FieldAPIName__c, ObjectAPIName__c FROM Case_Main_Configs__r
                                                 WHERE ASF_Is_Cloneable__c = TRUE) 
                                                 FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = :caseRec.CCC_External_Id__c];
@@ -91,6 +91,8 @@ public with sharing class ASF_CloneCaseActionController {
                 e.setMessage('Case Category Config is invalid');
                 throw e;
             }
+            
+            outerWrap.isFAMandatory = cccRecs[0].is_FA_Mandatory__c;
 
             for(ASF_Case_Field_Config__c field : cccRecs[0].Case_Main_Configs__r){
                 FieldWrapper wrap = new FieldWrapper();
@@ -321,6 +323,7 @@ public with sharing class ASF_CloneCaseActionController {
     @TestVisible class FieldListWrapper{
         @AuraEnabled public List<FieldWrapper> fieldList{get;set;}
         @AuraEnabled public String messageIfListIsEmpty{get;set;}
+        @AuraEnabled public Boolean isFAMandatory{get;set;}
     }
 
     @TestVisible class CaseDetailWrapper{

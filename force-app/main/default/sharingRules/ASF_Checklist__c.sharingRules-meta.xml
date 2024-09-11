@@ -48,4 +48,80 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_AIF_Checklist_Share_to_AIF_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABSLAMC AIF Checklist Share to AIF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_AIF_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>AIF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_MF_Checklist_Share_to_MF_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABSLAMC MF Checklist Share to MF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_MF_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>MF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_PMS_Checklist_Share_to_PMS_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABSLAMC PMS Checklist Share to PMS Users</label>
+        <sharedTo>
+            <group>ABSLAMC_PMS_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>PMS</value> 
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_RE_Checklist_Share_to_RE_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABSLAMC RE Checklist Share to RE Users</label>
+        <sharedTo>
+            <group>ABSLAMC_RE_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>RE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>

@@ -162,7 +162,7 @@
 												<br />
 												Service Request: {{{Case.Sub_Type_Text__c}}}<br />
 												Date of Receipt: {{{Case.CreatedDate}}}<br />
-												Resolution By: {{{Case.Overall_Case_Closure_SLA__c}}}<br />
+												Resolution By: {{{Case.Resolution_By_Date_Value__c}}}<br />
 												<br />
 												Warm Regards,<br />
 												Team ABSLI.</div>

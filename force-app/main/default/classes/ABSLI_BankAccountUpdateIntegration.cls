@@ -30,10 +30,16 @@ public with sharing class ABSLI_BankAccountUpdateIntegration implements ASF_Inte
 					ABSLI_Constants.BANKACCOUNTUPDATE_EVALUATION_ERROR
 				)
 				.Message__c;
-
-			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'API') {
-				result.status = ABSLI_Constants.SUCCESS;
-			}
+			
+            //Customer Portal and Status_Valid_For_STP__c is false 
+            if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+            	if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c && caseRecord.Technical_Source__c == 'API') {
+                    result.status = ABSLI_Constants.SUCCESS;
+				}
+			}    
 
 			resultMap.put(caseRecord.Id, result);
 		}

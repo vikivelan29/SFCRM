@@ -15,6 +15,7 @@ public class ABSLI_LitmusIntegration {
         List<Case> litmusApiCasesList = new List<Case>();
         List<Case> eligibleCases = new List<Case>();
         Set<Id> accountIds = new Set<Id>();
+        Map<Id,Contact> mAccountPrimaryContact = new Map<Id,Contact>();
         
         // CONDITION 1 - CHECK IF BUSINESS UNIT IS ABSLI
         // CONDITION 2 - CHECK IF CASE IS CLOSED AND CASE STATUS IS RESOLVED.
@@ -55,6 +56,13 @@ public class ABSLI_LitmusIntegration {
             Map<Id,AggregateResult> aggResults = new Map<Id,AggregateResult>([SELECT AccountId Id, COUNT(ID) FROM Case WHERE
                                                                              AccountId =: accountIds AND Nature__c=: ABSLI_Constants.COMPLAINT_NATURE AND IsClosed = False
                                                                              GROUP BY AccountId]);
+            
+            // CODE TO GET THE DETAILS FROM CONTACT - IN CASE OF PERSONACCOUNT, CONTACT RECORD GETS CREATED, IN CASE OF BUSINESS ACCOUNT CONTACT TO BE LOADED.
+            for(Contact c : [SELECT ID,Nationality__c,Birthdate,GenderIdentity,MobilePhone,Email,AccountID FROM Contact WHERE AccountId =: accountIds]){
+                if(!mAccountPrimaryContact.containsKey(c.AccountId)){
+                    mAccountPrimaryContact.put(c.AccountId,c);
+                } 
+            }
             for(Case c : eligibleCases){
                 if(aggResults.containsKey(c.AccountId)){
                     integer iCount = Integer.ValueOf(aggResults.get(c.AccountId).get('expr0'));
@@ -69,7 +77,7 @@ public class ABSLI_LitmusIntegration {
             
         }
         if(litmusApiCasesList.size()>0){
-            callLitmusAPI(litmusApiCasesList, cccIdToRecordsMap);
+            callLitmusAPI(litmusApiCasesList, cccIdToRecordsMap,mAccountPrimaryContact);
             Set<Id> caseDetailIds = new Set<Id>();
        
             for (Case litmusCase : litmusApiCasesList) {
@@ -86,7 +94,9 @@ public class ABSLI_LitmusIntegration {
         }
     }
     
-    public static void callLitmusAPI(List<Case> caseList, Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap){
+    public static void callLitmusAPI(List<Case> caseList, 
+                                     Map<String, ASF_Case_Category_Config__c> cccIdToRecordsMap,
+                                    Map<Id,Contact> mAccountPrimaryContact){ 
         try{
             //Cancel exixting litmus case Integrations
             List<ASF_Case_Integration__c> pendingLitmusIntList = [SELECT Id
@@ -126,7 +136,7 @@ public class ABSLI_LitmusIntegration {
             caseIdToCaseIntMap = ABSLI_IntegrationQueryHelper.getCaseIdsToIntegrationRecordsMap((new Map<Id, SObject>(caseList)).keySet(), ABFL_Constants.LITMUS);
             
             for (Case caseRecord : caseList){
-                ABSLI_LITMUS_Wrapper wrapper = new ABSLI_LITMUS_Wrapper(caseRecord);
+                ABSLI_LITMUS_Wrapper wrapper = new ABSLI_LITMUS_Wrapper(caseRecord,mAccountPrimaryContact);
                 
                 caseOutEvntList.add(new Case_Integration_Outbound__e(
                     Business_Unit__c = caseRecord.Business_Unit__c, 
@@ -222,19 +232,22 @@ public class ABSLI_LitmusIntegration {
  
         
         
-        public ABSLI_LITMUS_Wrapper(Case caseRecord){
+        public ABSLI_LITMUS_Wrapper(Case caseRecord,Map<Id,Contact> mAccountPrimaryContact){
+            
+            Contact accountPrimaryContact = mAccountPrimaryContact.get(caseRecord.AccountId);
+            
             this.app_id = System.Label.ABSLI_LITMUS_PROJECT_ID;
             //this.tag_business_unit = caseRecord.Business_Unit__c;
             this.tag_client_id = String.isNotBlank(caseRecord.Account.Client_Code__c) ? caseRecord.Account.Client_Code__c : '';
-            this.tag_policy = String.isNotBlank(caseRecord.AssetId)?caseRecord.Asset.Policy_No__c : '';
+            this.tag_policy = String.isNotBlank(caseRecord.AssetId)?caseRecord.Asset.Policy_No__c : caseRecord.LAN__c;
             this.tag_policy_issue_date = String.isNotBlank(caseRecord.AssetId) ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.Asset.Issue_Date__c, 'dd-MM-YYYY') : '';
             this.tag_policy_status = String.isNotBlank(caseRecord.AssetId) ? caseRecord.Asset.Status : '';
-            this.tag_nationality = String.isNotBlank(caseRecord.AccountId) ? caseRecord.Account.Nationality__pc : '';
+            this.tag_nationality = (String.isNotBlank(caseRecord.AccountId) && accountPrimaryContact != null) ? accountPrimaryContact.Nationality__c : '';
             this.tag_customer_income_segment = String.isNotBlank(caseRecord.AccountId) ? caseRecord.Account.Customer_Segment__c : '';
-            this.tag_date_of_birth = String.isNotBlank(caseRecord.AccountId) ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.Account.PersonBirthdate, 'dd-MM-YYYY') : '';
-            this.tag_generation = getGeneration(caseRecord.Account.PersonBirthdate); // TO BUILD THIS LOGIC.
+            this.tag_date_of_birth = (String.isNotBlank(caseRecord.AccountId) && accountPrimaryContact != null) ? ABCL_IntegrationCommonUtility.dateFormat(accountPrimaryContact.Birthdate, 'dd-MM-YYYY') : '';
+            this.tag_generation = getGeneration((accountPrimaryContact != null ? accountPrimaryContact.Birthdate : null)); // TO BUILD THIS LOGIC.
             this.tag_occupation = String.isNotBlank(caseRecord.AccountId) ? caseRecord.Account.Occupation__c : '';
-            this.tag_gender = String.isNotBlank(caseRecord.AccountId) ? caseRecord.Account.PersonGenderIdentity : '';
+            this.tag_gender = (String.isNotBlank(caseRecord.AccountId) && accountPrimaryContact != null) ? accountPrimaryContact.GenderIdentity : '';
             this.tag_case_number = caseRecord.CaseNumber;
             this.tag_case_category = caseRecord.Nature__c;
             this.tag_call_type = caseRecord.Type_Text__c;
@@ -258,9 +271,9 @@ public class ABSLI_LitmusIntegration {
             this.tag_serv_agent_status = String.isNotBlank(caseRecord.AssetId)? (String.isNotBlank(caseRecord.Asset.Advisor__c ) ? caseRecord.Asset.Advisor__r.Advisor_Status__c:'' ):'';
             this.tag_private_group_hierarchy_0_id = String.isNotBlank(caseRecord.OwnerId)? caseRecord.Owner.Name : '';
             this.name = String.isNotBlank(caseRecord.AccountId) ? (caseRecord.Account.IsPersonAccount ? caseRecord.Account.Full_Name__pc : caseRecord.Account.Name) : '';
-            this.userPhone = String.isNotBlank(caseRecord.AccountId) ? (caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonMobilePhone : '') : '';
+            this.userPhone = (String.isNotBlank(caseRecord.AccountId) && accountPrimaryContact != null) ? accountPrimaryContact.MobilePhone : '';
             this.userWhatsapp = '';
-            this.userEmail = String.isNotBlank(caseRecord.AccountId) ? (caseRecord.Account.IsPersonAccount ? caseRecord.Account.PersonEmail : '') : '';
+            this.userEmail = (String.isNotBlank(caseRecord.AccountId) && accountPrimaryContact != null) ? accountPrimaryContact.Email : '';
             this.shopId = 'Touchpoint';
             this.tag_Feedback_For = String.isNotBlank(caseRecord.OwnerId)? caseRecord.Owner.Name : '';
         }

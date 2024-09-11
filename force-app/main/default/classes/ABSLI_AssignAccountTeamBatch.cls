@@ -8,9 +8,7 @@
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
 **/
-
 global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>,  Schedulable {  
-
      /****************************************************************************************************************
      * @LOB - ABSLI
      * @Function - start function of batch 
@@ -39,7 +37,7 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
 
     	// Query users with the role 'ABSLI Virtual Relationship Manager'
     	Set<Id> roleUserIds = new Set<Id>();
-    	for (User user : [SELECT Id FROM User WHERE UserRole.DeveloperName = 'ABSLI_Virtual_Relationship_Manager']) {
+    	for (User user : [SELECT Id FROM User WHERE UserRole.DeveloperName = 'ABSLI_Virtual_Relationship_Manager' AND IsActive = true]) {
         	roleUserIds.add(user.Id);
     	}
 

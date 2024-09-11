@@ -168,9 +168,9 @@ public with sharing class ASF_CaseFrameworkValidator {
         Set<String> caseStages = new Set<String>();
         Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName);
-            system.debug('validateChecklists--'+skipperFlagMap.get(caseRec.Id));
-            if(skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATE_CHECKLISTS)){
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATE_CHECKLISTS)){
                 caseIdToReturnFlagMap.put(caseRec.Id, true);
             }else{
                 caseIds.add(caseRec.Id);
@@ -213,8 +213,9 @@ public with sharing class ASF_CaseFrameworkValidator {
         Map<Id, List<ASF_Case_Rule__c>> caseIdToCaseRulesForCurrentStage = new Map<Id, List<ASF_Case_Rule__c>>();
         Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName);
-            if(!(skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATION_CHECKS))){
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(!(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATION_CHECKS))){
          		cccExternalIds.add(caseRec.CCC_External_Id__c);
             }            
         }
@@ -258,9 +259,9 @@ public with sharing class ASF_CaseFrameworkValidator {
         Set<String> caseStages = new Set<String>();
         Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName);
-            system.debug('validate tasks--'+skipperFlagMap.get(caseRec.Id));
-            if(skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATE_TASKS)){
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATE_TASKS)){
                 caseIdToReturnFlagMap.put(caseRec.Id, true);
             }else{
                 caseIds.add(caseRec.Id);
@@ -310,9 +311,9 @@ public with sharing class ASF_CaseFrameworkValidator {
         Set<Id> stageConfigIds = new Set<Id>();
         
         for(Case caseRec : currentCases){
-            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName);
-            system.debug('set skipperFlagMap--'+skipperMapKey+'--'+skipperFlagMap);
-            if(skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_INTEGRATION_CHECKS)){
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_INTEGRATION_CHECKS)){
                 resultMap.put(caseRec.Id, result);
             }else{
             	caseIds.add(caseRec.Id);
@@ -391,9 +392,9 @@ public with sharing class ASF_CaseFrameworkValidator {
         Set<String> caseStages = new Set<String>();
         Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName);
-            system.debug('set skipperFlagMap--'+skipperMapKey+'--'+skipperFlagMap);
-            if(skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_APPROVAL_CHECKS)){
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_APPROVAL_CHECKS)){
                 caseIdToReturnFlagMap.put(caseRec.Id, true);
             }else{
                 caseIds.add(caseRec.Id);

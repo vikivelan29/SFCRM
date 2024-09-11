@@ -66,7 +66,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                 errorMessage = 'Case is already sync with IGMS., ';
                 //bErrorOccured = true;
             }
-            if(caseRecord.IGMS_Complaint_Type_Code__c != null){
+            if(caseRecord.IGMS_Complaint_Type_Code__c != null && ABSLI_Constants.IGMS_COMPLAINT_CATEGORIES.contains(caseRecord.ABSLI_Case_Detail__r.Complaint_Category__c)){
                 ABSLI_IGMSClassificationUtility.validationWrapper returnWrapper= ABSLI_IGMSClassificationUtility.validateCurrentSelection(mClassificationIGMS, caseRecord);
                 if(returnWrapper.bErrorOccured){
                     errorMessage = returnWrapper.errorMessage;
@@ -74,7 +74,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                 }
                 
             }
-            if(bErrorOccured){
+            if(bErrorOccured && ABSLI_Constants.IGMS_COMPLAINT_CATEGORIES.contains(caseRecord.ABSLI_Case_Detail__r.Complaint_Category__c)){
                 errorMessage = errorMessage.removeEnd(', ');
                 result.response = errorMessage;
                 resultMap.put(caseRecord.Id, result);
@@ -92,7 +92,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                 result.status = ABSLI_Constants.SUCCESS;
                 result.response = ABSLI_Constants.EVALUATION_SUCCESS;
             }
-            
+                        
             resultMap.put(caseRecord.Id, result);
         }
         

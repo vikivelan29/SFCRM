@@ -27,18 +27,16 @@ public class ABSLI_FetchPolicyDetailsTest {
     @isTest
     public static void coverClassVariables(){
         ABSLI_FetchPolicyDetails.fetchPolicyResponseWrapper resp = new ABSLI_FetchPolicyDetails.fetchPolicyResponseWrapper();
-        resp.ReturnCode = '00';
-        resp.ReturnMessage = 'Record retrieved successfully.';
-        ABSLI_FetchPolicyDetails.details cls = new ABSLI_FetchPolicyDetails.details();
-        cls.POLICY_NO='003149963';
-        cls.FUND_ID='I0003';
-        cls.FUND_VALUE='0.00';
-        cls.NAV= '68.519600000';
-        cls.NAV_DATE = '28-11-2019';
+        resp.statusCode = '00';
+        resp.message = 'Record retrieved successfully.';
+        ABSLI_FetchPolicyDetails.detail cls = new ABSLI_FetchPolicyDetails.detail();
+        cls.POL_ID='003149963';
+        cls.FND_ID='I0003';
+        cls.FUND_VALUE=0.00;
+        cls.NAV= 68.519600000;
         cls.FUND_NAME =  'Individual Life - Enhancer';
-        cls.ALLOCATION_RATIO =  '100.0000';
-        cls.UNITS = '0.000000000';
-        resp.lstDetails = cls;
+        cls.TOT_UNITS = 0.000000000;
+        resp.FUND_DETAILS = new List<ABSLI_FetchPolicyDetails.detail>{cls};
 
 
     }

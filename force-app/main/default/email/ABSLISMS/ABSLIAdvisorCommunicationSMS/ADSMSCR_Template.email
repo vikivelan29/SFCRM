@@ -2,5 +2,5 @@
 <head>
 	<title></title>
 </head>
-<body aria-readonly="false" style="height: auto; min-height: auto;">Your Customer {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} have raised Request for {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} under reference no {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}} on {{{ASF_Communication_Log__c.SMS_Merge_Field4__c}}} for Policy No. {{{ASF_Communication_Log__c.SMS_Merge_Field5__c}}} Regards, Aditya Birla Sun Life Insurance.</body>
+<body style="height: auto; min-height: auto;">Your Customer {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}, has raised Request for {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} under reference no {{{ASF_Communication_Log__c.SMS_Merge_Field3__c}}} on {{{ASF_Communication_Log__c.SMS_Merge_Field4__c}}} for Policy No. {{{ASF_Communication_Log__c.SMS_Merge_Field5__c}}} Regards, Aditya Birla Sun Life Insurance.</body>
 </html>

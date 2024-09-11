@@ -40,13 +40,13 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             });
     }
     get showCustomerNPSbyNumber() {
-        if (this.nps == 0 || this.nps == undefined) {
+        if (this.nps == undefined) {
             return "❌";
         }
-        else if(this.nps > 0 && this.nps <= 6){
+        else if(this.nps >= 0 && this.nps <= 6){
             return "🙁";
         }
-        else if(this.nps == 7 || this.nps == 8 ){
+        else if(this.nps > 6 &&  this.nps <= 8){
             return "😐";
         }
         else if(this.nps > 8 && this.nps <= 10){

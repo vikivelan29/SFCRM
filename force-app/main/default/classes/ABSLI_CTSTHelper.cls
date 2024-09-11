@@ -2,8 +2,8 @@
 * @description       : ABSLI CTST Helper
 * @author            : dhinesh.t@salesforce.com
 * @group             : 
-* @last modified on  : 06-03-2024
-* @last modified by  : dhinesh.t@salesforce.com
+* @last modified on  : 08-28-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   06-05-2024   dhinesh.t@salesforce.com   Initial Version
@@ -39,7 +39,7 @@ public with sharing class ABSLI_CTSTHelper {
             validation.result = false;
             validation.blankFields = new Set<String>();
             resultsMap.put(caseRec.Id, validation);
-            if(caseRec.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false && caseRec.CCC_External_Id__c == ABSLI_Constants.SURVIVALCTST){
+            if(caseRec.CCC_External_Id__c == ABSLI_Constants.SURVIVALCTST){
             	survialCases.add(caseRec);                
             }
             if(ABSLI_Constants.SURRENDER_WITHDRAWAL_CCC_IDs.contains(caseRec.CCC_External_Id__c)){
@@ -274,17 +274,18 @@ public with sharing class ABSLI_CTSTHelper {
     public static void checkIfOpenBankUpdateCase(List<Case> caseRecs,
                                                  Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap)
     {
-        Set<Id> accountIds = new Set<Id>();
+
+        Set<Id> assetIds = new Set<Id>();
         for(Case caseRecord : caseRecs){
-            accountIds.add(caseRecord.AccountId);
+            assetIds.add(caseRecord.AssetId);
         }
-        if(accountIds.size()>0){
-            Map<Id,AggregateResult> mAggregateResults = new Map<Id,AggregateResult>([SELECT AccountId Id, COUNT(ID) FROM Case
+        if(assetIds.size()>0){
+            Map<Id,AggregateResult> mAggregateResults = new Map<Id,AggregateResult>([SELECT AssetID Id, COUNT(ID) FROM Case
                                                                                      WHERE CCC_External_Id__c ='PNFT034' AND
-                                                                                     IsClosed = False AND AccountId =:accountIds
-                                                                                     GROUP BY AccountId]);
+                                                                                     IsClosed = False AND AssetId =:assetIds
+                                                                                     GROUP BY AssetID]);
             for(Case caseRecord : caseRecs){
-                if(mAggregateResults.containsKey(caseRecord.AccountId)){
+                if(mAggregateResults.containsKey(caseRecord.AssetID)){ // &&  resultMap.get(caseRecord.Id).status == ABSLI_Constants.SUCCESS){
                     ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
                     result.status = ABSLI_Constants.ERROR;
                     result.response = Custom_Messages__mdt.getInstance('ABSLI_SurvivalUpdateIntegration_ERR3').Message__c;

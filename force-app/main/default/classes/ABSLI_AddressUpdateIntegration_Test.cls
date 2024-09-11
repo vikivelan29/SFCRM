@@ -34,7 +34,7 @@ public class ABSLI_AddressUpdateIntegration_Test {
 		ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
         detailRec.Status_Valid_For_STP__c = true;
 		detailRec.Address_Line_1__c = '6/47, ABC Colony';
-        detailRec.Country__c = 'IND';
+        detailRec.Country__c = 'IN';
         detailRec.City__c = 'Mumbai';
         detailRec.State__c = 'MH';
         detailRec.Pincode__c = '400010';

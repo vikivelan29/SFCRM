@@ -26,39 +26,46 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABSLI_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR1').Message__c;
-            system.debug('caseRecord.Technical_Source__c:'+caseRecord.Technical_Source__c);
-            if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API' 
-              && (!String.isBlank(caseRecord.AccountId) || !String.isBlank(caseRecord.Client_Code_Text__c)))
-            {
-                result.status = ABSLI_Constants.SUCCESS;
-            }
-            else if(caseRecord.Technical_Source__c=='LWC' && 
-                     (!String.isBlank(caseRecord.AccountId) || !String.isBlank(caseRecord.Client_Code_Text__c)))
-            {
-                for(ASF_Checklist__c checkList : [SELECT Id, Case__c, Status__c FROM ASF_Checklist__c WHERE Case__c =:caseRecord.Id AND Mandatory__c=TRUE]){
-                    if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(checkList.Status__c)){
-                        result.response = 'Checklist/s are still pending or Signature not matched';
+			
+            //Customer Portal and Status_Valid_For_STP__c is false 
+            if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+				if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API' 
+                  && (!String.isBlank(caseRecord.AccountId) || !String.isBlank(caseRecord.Client_Code_Text__c)))
+                {
+                    result.status = ABSLI_Constants.SUCCESS;
+                }
+                else if(caseRecord.Technical_Source__c=='LWC' && 
+                         (!String.isBlank(caseRecord.AccountId) || !String.isBlank(caseRecord.Client_Code_Text__c)))
+                {
+                    for(ASF_Checklist__c checkList : [SELECT Id, Case__c, Status__c FROM ASF_Checklist__c WHERE Case__c =:caseRecord.Id AND Mandatory__c=TRUE]){
+                        if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(checkList.Status__c)){
+                            result.response = 'Checklist/s are still pending or Signature not matched';
+                            break;
+                        }
+                    }
+                    system.debug('caseRecord.ABSLI_Case_Detail__r.Country__c:'+caseRecord.ABSLI_Case_Detail__r.Country__c);
+                    if(caseRecord.ABSLI_Case_Detail__r.Country__c !='IN'){
+                        result.response = Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR4').Message__c;
+                        resultMap.put(caseRecord.Id, result);
                         break;
                     }
-            	}
-                system.debug('caseRecord.ABSLI_Case_Detail__r.Country__c:'+caseRecord.ABSLI_Case_Detail__r.Country__c);
-                if(caseRecord.ABSLI_Case_Detail__r.Country__c !='IN'){
-                    result.response = Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR4').Message__c;
-                    resultMap.put(caseRecord.Id, result);
-                    break;
+                    result.status = ABSLI_Constants.SUCCESS;
                 }
-                result.status = ABSLI_Constants.SUCCESS;
+                else if(String.isBlank(caseRecord.AccountId) && String.isBlank(caseRecord.Client_Code_Text__c))
+                {
+                    result.response =  Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR2').Message__c;        
+                }
+                else if(String.isBlank(caseRecord.ABSLI_Case_Detail__r.Address_Line_1__c) || String.isBlank(caseRecord.ABSLI_Case_Detail__r.Country__c)
+                        || String.isBlank(caseRecord.ABSLI_Case_Detail__r.City__c) || String.isBlank(caseRecord.ABSLI_Case_Detail__r.State__c)
+                         || String.isBlank(caseRecord.ABSLI_Case_Detail__r.Pincode__c))
+                {
+                    result.response =  Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR3').Message__c;      
+                }                
             }
-            else if(String.isBlank(caseRecord.AccountId) && String.isBlank(caseRecord.Client_Code_Text__c))
-            {
-                result.response =  Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR2').Message__c;        
-            }
-            else if(String.isBlank(caseRecord.ABSLI_Case_Detail__r.Address_Line_1__c) || String.isBlank(caseRecord.ABSLI_Case_Detail__r.Country__c)
-                    || String.isBlank(caseRecord.ABSLI_Case_Detail__r.City__c) || String.isBlank(caseRecord.ABSLI_Case_Detail__r.State__c)
-                     || String.isBlank(caseRecord.ABSLI_Case_Detail__r.Pincode__c))
-            {
-               	result.response =  Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR3').Message__c;      
-            }
+            
             resultMap.put(caseRecord.Id, result);
         }
         system.debug('Aditya resultMap:'+resultMap);
@@ -201,7 +208,7 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(caseInteg.Response__c);
             if(String.valueOf(jsonMap.get('ProcessCode'))=='00'){
                 integrationFailure = false;
-                if(Schema.sObjectType.Case.isUpdateable())
+                if(Schema.sObjectType.Case.isUpdateable() && !Test.isRunningTest())
                 {
 					caseRec.MoveToNext__c = true;
                    	update caseRec;

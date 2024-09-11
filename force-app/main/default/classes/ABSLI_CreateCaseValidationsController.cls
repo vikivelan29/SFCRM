@@ -12,7 +12,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         try {
             Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null){
-                if(policy.Plan_Name__c==ABSLI_Constants.SARAL_HEALTH_PLAN_NAME){
+                if(policy.Plan_Name__c.contains(ABSLI_Constants.SARAL_HEALTH_PLAN_NAME)){ 
                     return 'Success';
                 }else{
                     return 'Policy is not eligible for Penal Interest Payout - Saral Health Reimbursement.';
@@ -133,16 +133,19 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         try{
             PolicyGenFundRequestWrapper requestWrap = new PolicyGenFundRequestWrapper();
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-            Asset policy = [SELECT Id, Name, Effective_Date__c FROM Asset WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
+            Asset policy = [SELECT Id, Name,Policy_No__c, Effective_Date__c FROM Asset WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
             if(policy!=null)
             {
-               	requestWrap.policy_id = policy.Name;
-                DateTime effectiveDateTime;
+               	requestWrap.policy_id = policy.Policy_No__c;
+                Date today = Date.today();
+                DateTime todayDateTime = DateTime.newInstance(today.year(),today.month(),today.day());
+                requestWrap.effective_date = (todayDateTime.format('dd-MM-yyyy'));
+                /*DateTime effectiveDateTime;
                 if(policy.Effective_Date__c!=null){
                 	effectiveDateTime = DateTime.newInstance(policy.Effective_Date__c.year(), policy.Effective_Date__c.month(),policy.Effective_Date__c.day());    
                 }
-               	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';
+               	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';*/
                 requestWrap.source = ABSLI_Constants.GEN_FUND_SOURCE;
                 ABCL_IntegrationCallout.IntegrationResponseWrapper genFundResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.POLICY_GEN_FUND_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(requestWrap),
@@ -175,7 +178,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                             if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)){
                                 caseExt.Cash_Surrender_Value__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE);
                             }else{
-                                return 'Case Surrender Value should be more than 0.';
+                                return 'Cash Surrender Value should be more than 0.';
                             }
                         }
                         else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='NNOP004'){
@@ -233,7 +236,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             if(policy!=null && policy.Issue_Date__c!=null){
                 Date issueDate = Date.newInstance(policy.Issue_Date__c.year(), policy.Issue_Date__c.month(), policy.Issue_Date__c.day());
                 Date oneYearAfterIssueDate = issueDate.addYears(1);
-                if(Date.Today() >= oneYearAfterIssueDate){
+                if(Date.Today() <= oneYearAfterIssueDate){
                     return 'Success';
                 }else{
                     return 'Policy is not eligible.';

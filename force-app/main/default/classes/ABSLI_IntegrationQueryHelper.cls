@@ -134,7 +134,6 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 
 	public static Map<Id, Case> getCases(Set<Id> caseIdSet) {
         Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
-
         if(caseIdSet?.size() > 0) {
             Map<Id, Case> caseIdToRecordMap = new Map<Id, Case> ([SELECT Id, Status, IsClosed, FTR__c,
                                                                   CaseNumber, AccountId, AssetId, LAN__c,CreatedDate,LastModifiedDate,

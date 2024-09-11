@@ -56,7 +56,7 @@
             <assignToReference>EmailTemplateName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Advisor_Closure_Communication</stringValue>
+                <stringValue>ABSLI_Advisor_Closure_VF</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -79,7 +79,7 @@
             <assignToReference>EmailTemplateName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Advisor_Creation_Communication_Template</stringValue>
+                <stringValue>ABSLI_Advisor_Creation_VF</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -292,6 +292,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>LOB__c</field>
+            <value>
+                <stringValue>ABSLI</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Retry_PE__c</field>
             <value>
                 <booleanValue>true</booleanValue>
@@ -344,7 +350,7 @@
         <inputAssignments>
             <field>CustomMetadataName__c</field>
             <value>
-                <elementReference>customMetadataName</elementReference>
+                <elementReference>AdvisorSMSTemplate</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -399,6 +405,12 @@
             <field>Is_Attachment__c</field>
             <value>
                 <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LOB__c</field>
+            <value>
+                <stringValue>ABSLI</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -460,7 +472,7 @@
         <inputAssignments>
             <field>CustomMetadataName__c</field>
             <value>
-                <elementReference>customMetadataName</elementReference>
+                <elementReference>AdvisorSMSTemplate</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -518,6 +530,9 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>LOB__c</field>
+        </inputAssignments>
+        <inputAssignments>
             <field>Retry_PE__c</field>
             <value>
                 <booleanValue>true</booleanValue>
@@ -570,7 +585,7 @@
         <inputAssignments>
             <field>CustomMetadataName__c</field>
             <value>
-                <elementReference>customMetadataName</elementReference>
+                <elementReference>AdvisorSMSTemplate</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

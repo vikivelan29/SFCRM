@@ -1,3 +1,10 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 08-29-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
 <template>
     <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
         class="slds-modal slds-fade-in-open">
@@ -36,6 +43,9 @@
                                 <template if:true={apifetchError}>
                                     <div class="slds-text-color_error">{apiFetchErroText}</div>
                                 </template>
+                                <template if:true={showConfirmationError}>
+                                    <div class="slds-text-color_error slds-m-top_small">The values entered do not match. Please ensure both fields contain the same value.</div>
+                                </template>    
                                 <template if:true={showFetchResponse}>
                                     <lightning-layout-item padding="around-small" size="12">
                                         <b><lightning-formatted-text value="NSDL Service Response"></lightning-formatted-text></b>

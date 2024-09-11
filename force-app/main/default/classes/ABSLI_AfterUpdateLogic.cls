@@ -111,7 +111,7 @@ public with sharing class ABSLI_AfterUpdateLogic {
      public static void changeOwnerOnAutoResolve(List<Case> newCases, Map<Id, Case> oldMap){
         List<Case> eligibleCases = new List<Case>();
         for(Case caseRec : newCases){
-            if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT
+            if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && String.isBlank(caseRec.IRDAI_Token_Number__c)
                && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c 
                && caseRec.Stage__c == 'Resolved' && UserInfo.getName() == System.Label.ABCL_Integration_UserName){
                    eligibleCases.add(caseRec);

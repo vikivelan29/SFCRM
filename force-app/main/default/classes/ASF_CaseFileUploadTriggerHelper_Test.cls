@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 07-01-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   07-01-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @isTest
 public class ASF_CaseFileUploadTriggerHelper_Test {
 
@@ -17,29 +7,34 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
         ContentVersion cv = new ContentVersion(Title = 'Test Content',PathOnClient = 'test.pdf',VersionData = Blob.valueOf('Test Content'));
         insert cv;
 
-        ASF_TestDataFactory.createCaseRecords(0);
+        ASF_TestDataFactory.createCaseRecords(1);
+        List<Case> caseList = [SELECT Id From Case];
 
         ContentDocumentLink cdl = new ContentDocumentLink(
             ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :cv.Id].ContentDocumentId,
-            LinkedEntityId = [select Id from case LIMIT 1].Id,
+            LinkedEntityId = caseList[0].Id,
             ShareType = 'V'
         );
         insert cdl;
         
-        EmailMessage emailMessageRec = new EmailMessage(
-            ParentId = [select Id from case LIMIT 1].Id, // Link to the Case
+        /*EmailMessage emailMessageRec = new EmailMessage(
+            ParentId = [select Id from case LIMIT 1].Id,
             Subject = 'Test Email',
             FromAddress = 'test@example.com',
             TextBody = 'This is a test email message.'
         );
-        insert emailMessageRec;
+        insert emailMessageRec;*/
         
         // Create a ContentVersion record
         ContentVersion contentVersion = new ContentVersion(
-            Title = emailMessageRec.Subject,
+            /*Title = emailMessageRec.Subject,
             VersionData = Blob.valueOf(emailMessageRec.TextBody),
             PathOnClient = 'test.txt',
-            FirstPublishLocationId = emailMessageRec.Id
+            FirstPublishLocationId = emailMessageRec.Id*/
+            Title = 'This is a test subject',
+            VersionData = Blob.valueOf('This is a test body'),
+            PathOnClient = 'test.txt',
+            FirstPublishLocationId = caseList[1].Id
         );
         insert contentVersion;
 
@@ -59,7 +54,7 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
         caseRec.Status = 'Closed';
         update caseRec;
         ContentDocumentLink cdl = [select Id from ContentDocumentLink where LinkedEntityId =: caseRec.Id LIMIT 1];
-        ContentDocumentLink cdlMsg = [select Id from ContentDocumentLink where LinkedEntity.type = 'EmailMessage' LIMIT 1];
+        ContentDocumentLink cdlMsg = [select Id from ContentDocumentLink where LinkedEntity.type = 'Case' LIMIT 1];
         Assert.isNotNull(cdl);
         try {
             delete cdl;
@@ -95,7 +90,7 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
 
         Test.StartTest();
         Id ContentVerisonId = [SELECT Id FROM ContentVersion where Title='Test Content' LIMIT 1].Id;
-        Id ContentVerisonMsg = [SELECT Id FROM ContentVersion where Title='Test Email' LIMIT 1].Id;
+        Id ContentVerisonMsg = [SELECT Id FROM ContentVersion where Title='This is a test subject' LIMIT 1].Id;
         String result = ASF_CaseFileUploadTriggerHelper.deleteFileById(ContentVerisonId, 'Test');
         String resultmsg = ASF_CaseFileUploadTriggerHelper.deleteFileById(ContentVerisonMsg, 'Test email');
         Assert.areNotEqual('Error', result, 'result cannot be Error');

@@ -107,9 +107,21 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
         }
         Map<String,List<Id>> mAccWithSamePhNum = new Map<String,List<Id>>();
         if(phoneNumbers.size()>0){
-            for(Contact con : [SELECT ID,AccountId,MobilePhone FROM Contact
-                               WHERE MobilePhone =: phoneNumbers
-                               AND Business_Unit__c =: ABSLI_Constants.BUSINESS_UNIT])
+ 			String searchTerms = '';
+            integer iCount = 0;
+            for(String phoneNum : phoneNumbers){
+                if(iCount == (phoneNumbers.size() -1)){
+                    searchTerms +='\''+phoneNum+'\'';
+                }
+                else{
+                    searchTerms +='\''+phoneNum+'\' OR ';
+                }
+                iCount++;
+            }
+            List<List<SObject>> searchList  = Search.query('FIND :searchTerms  IN PHONE FIELDS RETURNING Contact (Id, Name,AccountId,MobilePhone WHERE MobilePhone IN :phoneNumbers AND Account.Business_Unit__c =\'ABSLI\')');
+ 			List<Contact> contactList = searchList[0];
+ 
+            for(Contact con : contactList)
             {
                 if(!mAccWithSamePhNum.containsKey(con.MobilePhone))
                 {
@@ -171,12 +183,16 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                         when 'IN'{
                             if((caseVsAsset.get(cs).Status!=null) && (!policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
+                            }else if(String.isBlank(caseVsAsset.get(cs).Status)){
+                                cs.addError('Policy is not eligible.');
                             }
                         }
                         when 'NOT IN'{
                             if((caseVsAsset.get(cs).Status!=null) && (policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
-                            }
+                            }else if(String.isBlank(caseVsAsset.get(cs).Status)){
+                                cs.addError('Policy is not eligible.');
+                            } 
                         }
                     }
                 }

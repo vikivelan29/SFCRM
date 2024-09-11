@@ -329,4 +329,16 @@ System.debug(decryptedString);*/
         public string URLReturned{get;set;}        
     }
     
+    
+    @AuraEnabled(cacheable = true)
+    public static String getCustomerPhoneNumber(String recordId){
+        List<Contact> contacts = [SELECT ID,MobilePhone FROM Contact WHERE AccountId =: recordId AND Primary__c = true];
+        if(contacts.size()>0){
+            return contacts[0].MobilePhone;
+        }
+        else{
+            return null;
+        }
+    }
+    
 }

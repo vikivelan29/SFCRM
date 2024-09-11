@@ -354,7 +354,13 @@ public without sharing class ASF_GetCaseRelatedDetails {
     
     @AuraEnabled(cacheable= true)
     public static List<ASF_Checklist__c> getPendingChecklists(string caseId){
-        return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c,Status_Picklist_Options__c from ASF_Checklist__c where Case__c  =: caseId AND Status__c != 'Rejected'];
+        Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
+        if(ASF_Constants.BU_SHOWCHECKLISTS_ONREJECTION.contains(caseRec.Business_Unit__c)){
+           	return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c,Status_Picklist_Options__c from ASF_Checklist__c where Case__c  =: caseId]; 
+        }else{
+        	return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c,Status_Picklist_Options__c from ASF_Checklist__c where Case__c  =: caseId AND Status__c != 'Rejected'];    
+        }
+        
     }
     @AuraEnabled(cacheable= true)
     public static List< ASF_Case_Approv__c > getCaseApprovalRecords(string caseId){

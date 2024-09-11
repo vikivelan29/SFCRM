@@ -846,6 +846,10 @@
             <fullName>SMS</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>WhatsApp</fullName> 
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>
@@ -962,6 +966,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
             <default>false</default>
         </values>
@@ -985,10 +993,6 @@
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Duplicate</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>
@@ -1008,15 +1012,19 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
+            <fullName>AMFI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Branch</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>OneABC</fullName>
+            <fullName>Branch %28walk-in %2F phone%29</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Branch %28walk-in %2F phone%29</fullName>
+            <fullName>Branch Walk-In</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1044,11 +1052,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Email - Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email - Call Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>IVR</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>IVR Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR-Bot</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1064,7 +1084,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Internal Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Internal Usage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1076,11 +1104,23 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Others</fullName>
+            <fullName>OneABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online Dispute Resolution %28ODR%29</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Payment Link</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone - Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone - Call Centre</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1108,11 +1148,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>SEBI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service2Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Social Media</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>SystemIntegration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transaction Remediation</fullName>
             <default>false</default>
         </values>
         <values>

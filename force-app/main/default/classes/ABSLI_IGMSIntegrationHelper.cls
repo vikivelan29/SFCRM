@@ -10,7 +10,16 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
         Map<Integer, Case_Integration_Outbound__e> peMap = new Map<Integer, Case_Integration_Outbound__e>();
         Integer index = 0;
         Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
-        
+        Set<Id> accountIds = new Set<Id>();
+        for(Case caseRec : caseRecords){
+            accountIds.add(caseRec.AccountId);
+        }
+        Map<Id,Contact> mAccountPrimaryContact = new Map<Id,Contact>();
+        for(Contact c : [SELECT ID,FirstName,LastName,Birthdate,GenderIdentity,MobilePhone,Email,AccountID FROM Contact WHERE AccountId =: accountIds]){
+            if(!mAccountPrimaryContact.containsKey(c.AccountId)){
+                mAccountPrimaryContact.put(c.AccountId,c);
+            } 
+        }
         for (Case caseRecord : caseRecords) {
             String policyNumberText = '';
             List<ABSLI_RegisterIGMSComplaintIntegration.objReq> lstRequest = new List<ABSLI_RegisterIGMSComplaintIntegration.objReq>();
@@ -25,16 +34,19 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
             ABSLI_RegisterIGMSComplaintIntegration.objReq requestJSON = new ABSLI_RegisterIGMSComplaintIntegration.objReq();
             
             /* ALL REQUIRED ATTRIBUTES HERE */
-            requestJSON.FirstName = caseRecord.Account.FirstName;
-            requestJSON.LastName = caseRecord.Account.LastName;
-            String gender = caseRecord.Account?.PersonGenderIdentity;
+            requestJSON.FirstName = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).FirstName:'FNU';
+            if(String.isBlank(requestJSON.FirstName)){
+                requestJSON.FirstName = 'FNU';
+            }
+            requestJSON.LastName = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).LastName:'';
+            String gender = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).GenderIdentity:'0';
             // SEND O-OTHER WHEN NOT EQUALS M/F
             requestJSON.Sex = ABSLI_Constants.validGenders.contains(gender)? gender : 'O';
             
             String addr = caseRecord.Account?.Street_Address_1__c;
             requestJSON.Address1 = (addr != null && addr != '')?addr : 'Not Available';
             
-            Date birthDate = caseRecord.Account?.PersonBirthdate;
+            Date birthDate = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).BirthDate:null;
             requestJSON.Date_Of_Birth = birthDate != null ? ABCL_IntegrationCommonUtility.dateFormat(birthDate, 'dd-MM-YYYY') : null;
             requestJSON.Entity_Complaint_Ref_Number = 'BSLI'+caseRecord.CaseNumber;
             requestJSON.Complaint_Details = caseRecord.Description.left(4000);
@@ -53,7 +65,7 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
             requestJSON.Policy_Number = policyNumberText;
             requestJSON.Policy_Proposal_Cert_ClaimNumber = policyNumberText;
             
-            String mobileNo = caseRecord.Account?.PersonMobilePhone;
+            String mobileNo = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).MobilePhone:'';
             requestJSON.Mobile_Number = (mobileNo != null && mobileNo != '')?mobileNo:'';
             
             

@@ -2,8 +2,8 @@
  * @description       : Constant class to store all the resable variables at one place
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-13-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 09-03-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
@@ -118,12 +118,12 @@ public with sharing class ASF_Constants {
     /* Added For Loans Search API BU Logic */
     public static final String STRING_IS_API_LOAD = 'API_LOANS';
     
-    
+    public static final List<String> BU_SHOWCHECKLISTS_ONREJECTION = new List<String>{'ABSLI'};
     public static final String REJECTIONSTATUS = 'Unresolved';
     public static final String DUPLICATESTATUS = 'Closed Duplicate';
     public static final String DUPLICATESTAGE = 'Duplicate';
     public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected','Duplicate'};
-    public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
+    public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved','Duplicate'};
     public static final String ONCREATECLOSESTAGE = 'Resolved';
     public static final String ONCREATECLOSESTATUS = 'Resolved';
     public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
@@ -155,5 +155,10 @@ public with sharing class ASF_Constants {
     /* Asset ExternalId fields per Business Unit */
     public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG'};
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
+    
+    public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
+    public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';
+    //Add all the Case Detail fields here in lowercase. It's used for the skipper functionality in case the field is not present in Case Stage Config for query
+    public static final Set<String> CASE_EXTENSION_FIELDSET = new Set<String>{'pay_payment_detail__c','abhfl_case_detail__c','abfl_case_detail__c','absli_case_detail__c','abslig_case_detail__c'};
 
 }

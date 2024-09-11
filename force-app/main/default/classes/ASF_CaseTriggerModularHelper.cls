@@ -2,8 +2,8 @@
 * @description       : 
  * @author            : rsinghnagar@salesforce.com
 * @group             : 
- * @last modified on  : 06-30-2024
- * @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 04-24-2024
+* @last modified by  : Salesforce 
 * Modifications Log
 * Ver   Date         Author                       Modification
  * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
@@ -60,9 +60,30 @@ public without sharing class ASF_CaseTriggerModularHelper {
                    }
                    caseRec.Feature_Skipper_Flag__c = '';
                }
-            system.debug('set skipperFlagMap--'+skipperFlagMap);
         }
     }
+    
+     /**
+    * @Function - setManualSkipperFlags
+    * @Description - method to be invoked by the BU specific classes if skipper flag needs to be set
+    * @param - recIdToSkipperFlag - Key as CaseId or caseDetail Id and value as skipperFlags
+    * @param - caseDetRecName - pass value to this variable only if you are calling the method from before insert where 
+    * 							recIdToSkipperFlag key is the caseDetail Id
+    * This will set the flags set to skip per case, respective methods can just check whether their skipper flag is present in the map or not.
+    */
+    public static void setManualSkipperFlags(Map<Id, Set<String>> recIdToSkipperFlag, String caseDetRecName) {
+        relObjName = caseDetRecName != null ? caseDetRecName : '';
+        for(Id recId : recIdToSkipperFlag.keySet()){
+            if(!skipperFlagMap.containsKey(recId)){
+                skipperFlagMap.put(recId, recIdToSkipperFlag.get(recId));
+            }else{
+                Set<String> currentSkippers = skipperFlagMap.get(recId);
+                currentSkippers.addAll(recIdToSkipperFlag.get(recId));
+                skipperFlagMap.put(recId, currentSkippers);
+            }
+        }    
+    }
+    
     /****************************************************************************************************************
 * @Function - populateFrameworkFieldsForCase
 * @param newList -  list of cases from trigger.new.
@@ -192,6 +213,9 @@ blankSourcePresent = true;
                 caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                 caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
+                caseRec.Activity__c = appliedCCC.Activity__c;
+                //mapping Line_of_Business__c on caseRec
+                caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
                 // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
                 if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
                     caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
@@ -458,7 +482,8 @@ blankSourcePresent = true;
         if(allStageConfigs != null && !eligibleRecords.isEmpty()){
             
             // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-            Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
+            Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+                allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
                 for(ASF_Case_Stage_Config__c config: allStageConfigs){
                     if(config.Query_Fields__c != null){
                         allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -1007,12 +1032,12 @@ blankSourcePresent = true;
                             }
                             addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
                         }
-                    }                
-                    addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
-                    addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
-                    addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
-                    addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
-                }
+                    }  
+                }              
+                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+                addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
+                addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
             }
             
             List<Case> integCaseList = new List<Case>();
@@ -1025,7 +1050,7 @@ blankSourcePresent = true;
                        || newMap.get(caseId).Technical_Source__c == 'LWC'){
                            integCaseList.add(newMap.get(caseId));
                            //TO DOO:check on the data type of allintegrations wrapper
-                           runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations);                   
+                           runIntegrationMap.put(caseId, addlDataFromStageMovementMethods.get(caseId).allIntegrations); 
                        }
                     
                     if(addlDataFromStageMovementMethods.get(caseId).manualApprovalStage != null){

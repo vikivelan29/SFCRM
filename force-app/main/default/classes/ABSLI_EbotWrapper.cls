@@ -7,14 +7,17 @@ public class ABSLI_EbotWrapper {
         public String CaseNo;
         public String FromDate;
         public String ToDate;
-        public String FTR;
+        //public String FTR;
         public String Comments;
+        public Boolean FTR;
         public List<EmailDetailsWrapper> Email_Details;
     }
     
     public class EmailDetailsWrapper {
-        public String Is_Register_Customer;	
-        public String EmailCustomerFlag;
+        //public String Is_Register_Customer;	
+        //public String EmailCustomerFlag;
+        public Boolean Is_Register_Customer;	
+        public Boolean EmailCustomerFlag;
         public String EmailFrom;
         public String EmailTo;
         public String EmailSubject;

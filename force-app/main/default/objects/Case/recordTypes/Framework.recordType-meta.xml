@@ -85,6 +85,10 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
@@ -853,13 +857,17 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>No_Auto_Communication__c</picklist>
+        <picklist>No_Auto_Communication__c</picklist> 
         <values>
             <fullName>Email</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName> 
             <default>false</default>
         </values>
     </picklistValues>
@@ -1024,6 +1032,10 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
+            <fullName>AMFI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Advisor Portal</fullName>
             <default>false</default>
         </values>
@@ -1037,6 +1049,10 @@
         </values>
         <values>
             <fullName>Branch %28walk-in %2F phone%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Walk-In</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1064,10 +1080,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
@@ -1088,6 +1100,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Email - Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email - Call Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Fax</fullName>
             <default>false</default>
         </values>
@@ -1105,6 +1125,10 @@
         </values>
         <values>
             <fullName>IVR Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR-Bot</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1132,15 +1156,19 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Insurance Repository website</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Insurance Repository</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Insurance Repository website</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Internal RM - Collection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1149,6 +1177,14 @@
         </values>
         <values>
             <fullName>Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter %2F Snail Mail</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1161,6 +1197,14 @@
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OneABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online Dispute Resolution %28ODR%29</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1188,6 +1232,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Phone - Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone - Call Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Phone-Inbound</fullName>
             <default>false</default>
         </values>
@@ -1212,7 +1264,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>SEBI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service2Sales</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1225,6 +1285,10 @@
         </values>
         <values>
             <fullName>Telephone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transaction Remediation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1253,6 +1317,10 @@
         </values>
         <values>
             <fullName>ABCD App</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>

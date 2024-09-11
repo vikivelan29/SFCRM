@@ -11,6 +11,7 @@ public class ABSLI_NSDLPANVerificationTest {
         conRec.Primary__c = true;
         update conRec;
         ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+        caseDetail.PAN_Number__c = 'CYIPP8888A';
         insert caseDetail;
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(2);
         caseRecList[0].AccountId = accRec.Id;
@@ -38,13 +39,16 @@ public class ABSLI_NSDLPANVerificationTest {
                 }catch(Exception ex){}
                 Test.startTest();
                 personAccountresponse.dob = system.today();
-                StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
+                /*StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
                 mock.setStaticResource('PANVerificationMockResponse');
                 mock.setStatusCode(200);
-                mock.setHeader('Content-Type', 'application/json');
+                mock.setHeader('Content-Type', 'application/json');*/
+                Test.setMock(HttpCalloutMock.class, new ABSLI_NSDLPANResponseGenerator());
                 ABSLI_NSDLPANVerification.PANVerificationResponseWrapper verificationResponse = ABSLI_NSDLPANVerification.verifyPAN(JSON.serialize(personAccountresponse)
                                                                                                                                     ,String.valueof(caseRec.Id)
                                                                                                                                     ,'test');
+                ABSLI_NSDLPANVerification.PANVerificationResponseWrapper verificationResponse1 = ABSLI_NSDLPANVerification.verifyPANDetails(JSON.serialize(personAccountresponse)
+                                                                                                                                    ,String.valueof(caseRec.Id));
                 Test.stopTest();
                 System.assertEquals(true,verificationResponse.isSuccess);
                 ABSLI_NSDLPANVerification.PANVerificationResponseWrapper updatePanResponse = ABSLI_NSDLPANVerification.updatePAN(caseRec.Id);
@@ -56,4 +60,21 @@ public class ABSLI_NSDLPANVerificationTest {
             }           
         }
     }
+    
+    public class ABSLI_NSDLPANResponseGenerator implements HttpCalloutMock {
+        /**
+            * @description  Mocking failure response
+            * @param req
+            ** @return HTTPResponse
+        */ 
+        public HTTPResponse respond(HTTPRequest req) {
+            HttpResponse res = new HttpResponse();
+            res.setHeader('Content-Type', 'application/json');
+			String s = '{}';
+            res.setBody(s);
+            res.setStatusCode(200);
+            return res;
+        }
+    }
+    
 }

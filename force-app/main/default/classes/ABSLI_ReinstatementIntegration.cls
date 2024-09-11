@@ -23,26 +23,32 @@ public with sharing class ABSLI_ReinstatementIntegration implements ASF_Integrat
             String evaluationErrorMetadataName = ABSLI_Constants.REINSTATEMENT_EVAL_ERROR;
             
             result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
-            
-            if(caseRecord.Technical_Source__c=='LWC'){
-                if(!caseIdVsCheckListMap.isEmpty() && caseIdVsCheckListMap.get(caseRecord.Id)!=null 
-                   && caseIdVsCheckListMap.get(caseRecord.Id).size()>0)
-                {
-                    for(ASF_Checklist__c cList : caseIdVsCheckListMap.get(caseRecord.Id)){
-                        if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(cList.Status__c)){
-                            result.response = Custom_Messages__mdt.getInstance('ABSLI_REINSTATEMENT_ERR2').Message__c;
-                            break;
+           
+            //Customer Portal and Status_Valid_For_STP__c is false 
+            if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+             	if(caseRecord.Technical_Source__c=='LWC'){
+                    if(!caseIdVsCheckListMap.isEmpty() && caseIdVsCheckListMap.get(caseRecord.Id)!=null 
+                       && caseIdVsCheckListMap.get(caseRecord.Id).size()>0)
+                    {
+                        for(ASF_Checklist__c cList : caseIdVsCheckListMap.get(caseRecord.Id)){
+                            if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(cList.Status__c)){
+                                result.response = Custom_Messages__mdt.getInstance('ABSLI_REINSTATEMENT_ERR2').Message__c;
+                                break;
+                            }
                         }
                     }
+                    
                 }
-                
-            }
-            if (caseRecord.ABSLI_Case_Detail__r.PX_Response__c !=null) {
-                if(caseRecord.ABSLI_Case_Detail__r.PX_Response__c.containsIgnoreCase('clean') && 
-                   !caseRecord.ABSLI_Case_Detail__r.PX_Response__c.containsIgnoreCase('not clean')){
-                       result.status = ABSLI_Constants.SUCCESS;
-                       result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-                   }
+                if (caseRecord.ABSLI_Case_Detail__r.PX_Response__c !=null) {
+                    if(caseRecord.ABSLI_Case_Detail__r.PX_Response__c.containsIgnoreCase('clean') && 
+                       !caseRecord.ABSLI_Case_Detail__r.PX_Response__c.containsIgnoreCase('not clean')){
+                           result.status = ABSLI_Constants.SUCCESS;
+                           result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+                       }
+                }   
             }
             
             resultMap.put(caseRecord.Id, result);
