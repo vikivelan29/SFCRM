@@ -14,8 +14,9 @@
                 <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
                 <span style="font-size: 0.90rem;">{displayError}</span>
             </div>
+        
         </template> 
-        <template lwc:if={showClaimDetailRecords}>
+        <template if:true={claimsData}>
             <c-abfl_-data-table-with-pagination columns={columns} table-data={claimsData} page-size={label.pageSize}
                 onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
         </template>
