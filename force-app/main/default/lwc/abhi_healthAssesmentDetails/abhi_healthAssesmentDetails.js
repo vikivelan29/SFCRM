@@ -51,15 +51,24 @@ GetDetails(){
     .then(result => {
         console.log('Response Data:', JSON.stringify(result.Response));
         this.ApiFailure = result.Message; 
-        if (result && result.Response) {    
-        if(result.StatusCode == 1000){
-            this.displayError=false;
-            this.data = result.Response;
-            this.errorMessages = '';
-            this.showRecords=true;
+        if (result && result.Response !== undefined) { 
+        if(result.StatusCode == 1000){     
+        if (result.Response === null || !Array.isArray(result.Response) || result.Response.length === 0) {
+                // Response is either null, not an array, or an empty array
+                this.errorMessages = 'No data found';
+                this.isLoading = false;
+                this.displayError = true;
+                this.showRecords = false;
+            }else{
+                // Response is a non-empty array
+                this.displayError=false;
+                this.data = result.Response;
+                this.errorMessages = '';
+                this.showRecords=true;
+            }   
         }
         else if(result.StatusCode == 1001){
-            this.message = 'No data available';
+            this.errorMessages = result.Message;
             this.isLoading=false;
             this.displayError=true;
             this.showRecords=false;
@@ -72,6 +81,7 @@ GetDetails(){
         }
     }else {
             this.errorMessages = result.Message;
+            console.log('error Messages>>>', this.errorMessages);
             this.displayError = true;
             this.showRecords = false;
         }

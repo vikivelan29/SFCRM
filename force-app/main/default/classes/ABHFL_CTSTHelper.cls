@@ -263,6 +263,43 @@ public without sharing class ABHFL_CTSTHelper {
         	}
     	}
 	}
+ //This is changes related to CR made by Yogesh[EY_PR970457-2388]
+ //skipOpenStageforAPIcases: It will impact cases which created from API
+public static void skipOpenStageforAPIcases(List<Case> caseList, Map<Id, Case> oldCaseMap) {
+    // List of valid subTypes
+    	Set<String> caseDetailIds = new Set<String>();
+		Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
+		List<Case>updatedcases=new List<case>();
+		List<String> validSubTypes = new List<String>{'hfl003'};
+        for(Case caseRec : caseList){
+            if(caseRec.Business_Unit__c=='ABHFL'){
+            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);   
+            }
+        }
+        if(!caseDetailIds.isEmpty()){
+        for(ABHFL_Case_Detail__c cd : [SELECT Id, Mode_of_Change_of_Address__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
+            caseToDetailMap.put(cd.Id, cd);
+        }
+		}
+    	for (Case caseRecord : caseList) {
+        	Case originalCase = oldCaseMap.get(caseRecord.Id);
+                string modeofchangeofaddress=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).Mode_of_Change_of_Address__c;
+        	String previousStage = originalCase.Stage__c;	
+        	String currentStage = caseRecord.Stage__c;
+        	String subType = caseRecord.CCC_External_Id__c;
+
+        // Check if the previous stage was not 'Open', the current stage is 'Open',
+        // and the sub_Type_Text__c is one of the valid subTypes
+        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK && caseRecord.channel__c=='API' && 'VKYC'.equals(modeofchangeofaddress)) {
+            	     caseRecord.movetonext__c=true;
+				updatedcases.add(caseRecord);
+        	}
+    	}
+		if(!updatedcases.isEmpty()){
+		    update updatedcases; 
+		}
+	}
+    
 
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
