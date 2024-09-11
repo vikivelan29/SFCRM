@@ -19,6 +19,9 @@
         <field>Case$Issue_Type__c</field>
     </columns>
     <columns>
+        <field>Case$CCC_External_Id__c</field>
+    </columns>
+    <columns>
         <field>Case$Channel__c</field>
     </columns>
     <columns>
@@ -90,7 +93,7 @@
         <field>Case$Account.Client_Code__c</field>
     </columns>
     <columns>
-        <field>Case$Contact.Birthdate</field>
+        <field>Case$Account.PersonContact.Birthdate</field>
     </columns>
     <columns>
         <field>Case$Asset.Plan_Name__c</field>
@@ -113,6 +116,9 @@
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Case_Pending_With__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Follow_up_Name__c</field>
     </columns>
     <columns>
         <field>Case$Owner</field>
@@ -143,6 +149,9 @@
     </columns>
     <columns>
         <field>Case$Account.State__c</field>
+    </columns>
+    <columns>
+        <field>Case$Account.Area__c</field>
     </columns>
     <columns>
         <field>Case$Account.ShippingPostalCode</field>
