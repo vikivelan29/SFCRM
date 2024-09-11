@@ -18,8 +18,8 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
     isLoading = false;
 
     policyNo = "";
-    policyData;
-    columns;
+    policyData = [];
+    @track columns;
 
     label = {
         pageSize,
@@ -29,16 +29,16 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
     @wire(getRecord, { recordId: "$recordId", fields })
     wiredPolicyRecord({ error, data }) {
         if (error) {
-            this.displayError = true;
             let message = "Unknown error";
             if (Array.isArray(error.body)) {
                 message = error.body.map((e) => e.message).join(", ");
             } else if (typeof error.body.message === "string") {
                 message = error.body.message;
             }
-            console.log("Error inside wiredPolicyRecord " + message);
+            this.displayError = message;
 
         } else if (data) {
+            this.displayError = "";
             this.policyData = data;
             this.policyNo = this.policyData.fields.Policy_No__c.value;
             this.getColumnsData();
@@ -63,6 +63,7 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
             })
             .catch(error => {
                 console.error('Error in getColumnsData>>>', error);
+                this.displayError = `Error: ${JSON.stringify(error)}`;
                 this.isLoading = false;
             });
     }
@@ -76,15 +77,18 @@ export default class Abhi_ViewClaimDetails_LWC extends LightningElement {
             let statusCode = result?.StatusCode ?? "";
             
             if(statusCode === 1000) {
+                this.displayError = "";
                 this.claimsData = result?.Response;
             }
             else {
                 this.displayError = `Error: ${result?.Message}`;
+                this.claimsData = false;
             }
         })
         .catch(error => {
-            console.log('Error inside fetchViewClaimDetailsPolicy_Data ' + JSON.stringify(error));
             this.isLoading = false;
+            this.claimsData = false;
+            this.displayError = `Error: ${JSON.stringify(error)}`; 
         });
     }
 
