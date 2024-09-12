@@ -1,5 +1,5 @@
 /*********************************************************
-*Class        :  ABHFL_CaseIntegrationHelper
+*Class        :  ABSLI_CaseIntegrationHelper
 *Author       :  Siddarth Jaitly
 *Created Date :  12/06/2024
 *Last Modified:

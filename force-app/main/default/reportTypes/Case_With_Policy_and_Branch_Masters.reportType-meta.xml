@@ -2884,6 +2884,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Account.PersonContact.Email</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Account.Phone</field>
             <table>Case</table>
         </columns>
