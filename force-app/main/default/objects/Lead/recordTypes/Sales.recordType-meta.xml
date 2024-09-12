@@ -310,41 +310,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Lead_Type__c</picklist>
-        <values>
-            <fullName>Contact Centre</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer Referral</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>D2C Winback</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Employee Referral</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>HDFC Win back</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SEND AN ADVISOR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service to Sales</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service to Sales- NBO</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Name</picklist>
         <values>
             <fullName>Dr%2E</fullName>

@@ -342,21 +342,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Lead_Type__c</picklist>
-        <values>
-            <fullName>Contact Centre</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>D2C Winback</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>HDFC Win back</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Name</picklist>
         <values>
             <fullName>Dr%2E</fullName>

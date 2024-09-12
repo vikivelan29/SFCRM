@@ -110,16 +110,6 @@
                 <identifier>RecordOwnerIdField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABSLI_Lead_Type__c</fieldItem>
-                <identifier>RecordABSLI_Lead_Type__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-60dd56bb-1ed9-4f8a-8dd3-afdb4b496454</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -498,36 +488,6 @@
                 <identifier>RecordCustomer_ok_for_call_out_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Employee_Name_LK__c</fieldItem>
-                <identifier>RecordEmployee_Name_LK_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Employee_Email__c</fieldItem>
-                <identifier>RecordEmployee_Email_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.City__c</fieldItem>
-                <identifier>RecordCity_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-5b01c26a-dc4d-410b-974b-dfe68611051c</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -548,8 +508,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Target_LOB__c</fieldItem>
-                <identifier>RecordTarget_Business_Unit_cField</identifier>
+                <fieldItem>Record.Target_LOBs__c</fieldItem>
+                <identifier>RecordTarget_LOBs_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -558,8 +518,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Target_Sub_LOB__c</fieldItem>
-                <identifier>RecordTarget_LOB_cField</identifier>
+                <fieldItem>Record.Target_Sub_LOBs__c</fieldItem>
+                <identifier>RecordTarget_Sub_LOBs_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -570,16 +530,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Employee_ADID_Text__c</fieldItem>
                 <identifier>RecordEmployee_ADID_Text_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Employee_Phone__c</fieldItem>
-                <identifier>RecordEmployee_Phone_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-0446d27f-dd8a-4b43-850d-431444b403aa</name>
@@ -720,20 +670,20 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Target_LOB__c</fieldItem>
-                <identifier>RecordTarget_Business_Unit_cField2</identifier>
+                <fieldItem>Record.Target_LOBs__c</fieldItem>
+                <identifier>RecordTarget_LOBs_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Target_Sub_LOB__c</fieldItem>
-                <identifier>RecordTarget_LOB_cField2</identifier>
+                <fieldItem>Record.Target_Sub_LOBs__c</fieldItem>
+                <identifier>RecordTarget_Sub_LOBs_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
