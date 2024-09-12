@@ -146,7 +146,6 @@ public with sharing class ABSLI_CreatePolicyNomineeIntegration implements ASF_In
                             caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                             caseInteg.Is_Validation_Success__c = true;
                             caseInteg.Business_External_Id__c = nominee.Id;
-                            caseInteg.Retry__c = false;
                             newCaseIntegrations.add(caseInteg);
                             
                             Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
