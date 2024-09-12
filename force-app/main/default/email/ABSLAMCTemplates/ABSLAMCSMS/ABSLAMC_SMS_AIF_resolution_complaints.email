@@ -3,7 +3,6 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">
-<p style="line-height:1.2; margin-top:19px; margin-bottom:8px"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Times New Roman',serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear Customer, We wish to inform you that your concern registered under reference number {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has now been resolved now. Should you have any more queries or require assistance, please don t hesitate to contact us. Regards, ABSLAMC AIF.</span></span></span></span></span></span></p>
-<br />
-&nbsp;</body>
+<p style="line-height:1.2; margin-top:19px; margin-bottom:8px"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Times New Roman',serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear Customer, We wish to inform you that your concern registered under reference number {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has now been resolved now. Should you have any more queries or require assistance, please don t hesitate to contact us. Regards, ABSLAMC AIF</span></span></span></span></span></span></p>
+</body>
 </html>
