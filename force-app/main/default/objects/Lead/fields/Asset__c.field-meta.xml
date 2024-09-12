@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Account__c</fullName>
+    <fullName>Asset__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Ability to create a lead for an existing account</description>
     <externalId>false</externalId>
-    <label>Customer</label>
-    <referenceTo>Account</referenceTo>
+    <label>Asset</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Asset.AccountId</field>
+            <operation>equals</operation>
+            <valueField>$Source.Account__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Asset</referenceTo>
     <relationshipLabel>Leads</relationshipLabel>
     <relationshipName>Leads</relationshipName>
     <required>false</required>
