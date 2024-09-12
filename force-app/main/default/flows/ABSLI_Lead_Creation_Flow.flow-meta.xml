@@ -1371,69 +1371,6 @@
                 </conditions>
             </visibilityRule>
         </fields>
-        <fields>
-            <name>One_ABC_Details</name>
-            <fieldText>One ABC Details</fieldText>
-            <fieldType>RegionContainer</fieldType>
-            <fields>
-                <name>One_ABC_Details_Column1</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>CIN</name>
-                    <dataType>String</dataType>
-                    <defaultValue>
-                        <elementReference>customerRecord.Client_Code__c</elementReference>
-                    </defaultValue>
-                    <fieldText>CIN</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                </fields>
-                <fields>
-                    <name>Category</name>
-                    <dataType>String</dataType>
-                    <fieldText>Category</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>One_ABC_Details_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>LOB_Presence</name>
-                    <dataType>String</dataType>
-                    <fieldText>LOB Presence</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                </fields>
-                <fields>
-                    <name>Comments</name>
-                    <fieldText>Comments</fieldText>
-                    <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <isRequired>false</isRequired>
-            <regionContainerType>SectionWithHeader</regionContainerType>
-        </fields>
         <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
