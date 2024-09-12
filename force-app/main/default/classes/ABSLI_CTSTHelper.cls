@@ -274,7 +274,6 @@ public with sharing class ABSLI_CTSTHelper {
     public static void checkIfOpenBankUpdateCase(List<Case> caseRecs,
                                                  Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap)
     {
-
         Set<Id> assetIds = new Set<Id>();
         for(Case caseRecord : caseRecs){
             assetIds.add(caseRecord.AssetId);
