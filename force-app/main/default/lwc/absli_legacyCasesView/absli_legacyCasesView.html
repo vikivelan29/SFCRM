@@ -28,20 +28,25 @@
                 </lightning-layout-item>
                 <lightning-layout-item size="3" class="slds-m-right_x-small">
                     <lightning-input type="date" name="Startdate" value={startDate} onchange={startDateChange}
-                        label="Start Date" class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled}>
+                        label="Start Date" class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled} required={startDateRequired}>
                     </lightning-input>
                 </lightning-layout-item>
                 <lightning-layout-item size="3" class="slds-m-right_x-small">
                     <lightning-input type="date" name="Enddate" value={endDate} onchange={endDateChange} min={startDate}
                         label="End Date" message-when-range-underflow="Please Choose a date more than start date" 
-                        class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled}>
+                        class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled} required={endDateRequired}>
                     </lightning-input>
                 </lightning-layout-item>
             </lightning-layout>
-
-            <lightning-button label="Search" title="Search" onclick={fetchLegacyCases} variant = "brand"
-                class="slds-m-top_x-small" disabled = {disabled}>
-            </lightning-button>
+            <div style="display:flex; justify-content: space-between">
+                <lightning-button label="Search" title="Search" onclick={fetchLegacyCases} variant = "brand"
+                    class="slds-m-top_x-small" disabled = {disabled}>
+                </lightning-button>
+                <lightning-button label="Clear" title="Clear" onclick={clearSelection} variant = "neutral"
+                    class="slds-m-top_x-small">
+                </lightning-button>
+            </div>
+            
         </div>
 
         <div lwc:if={displayTable}>

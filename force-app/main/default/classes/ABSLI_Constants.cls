@@ -2,7 +2,7 @@
  * @description       :
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             :
- * @last modified on  : 08-29-2024
+ * @last modified on  : 08-21-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ABSLI_Constants {
@@ -28,7 +28,7 @@ public class ABSLI_Constants {
 	public static final List<String> CHECKLIST_SIGNATURECROPSIGNATUREMISMATCHANDNO_STATUS = new List<String>{'Signature Mismatched', 'No','Signature Not Cropped'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
     public static final String ASSIGNMENT_ISSUE_TYPE_VALIDATION = 'Married Women Property Act';
-    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health'; 
+    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health';
     public static final Map<String,String> FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION = new Map<String,String>
     {'Reinstatement_Amount__c'=>'Decimal',
      'COI_Covid_Quest__c' => 'String',
@@ -44,7 +44,8 @@ public class ABSLI_Constants {
      public static final List<String> SURRENDER_WITHDRAWAL_CCC_IDs = new List<String>{'PPAY008', 'PPAY001'};
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
 
-     public static final List<String> STP_SOURCES = new List<String>{'Customer Portal','ABC_Servicing_App'};
+     public static final String CUSTOMER_PORTAL = 'Customer Portal';
+
 
     /* Bitly Link REAL TIME API
      */
@@ -260,6 +261,5 @@ public class ABSLI_Constants {
     public static final List<String> SURRENDER_WITHDRAWAL_CASE_TYPES = new List<String>{'PPAY001','PPAY008'};
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_NAME = 'User Branch';
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
-  
-    public static final String EMAIL_SOURCE_REQ_BY = 'Customer';
+
 }

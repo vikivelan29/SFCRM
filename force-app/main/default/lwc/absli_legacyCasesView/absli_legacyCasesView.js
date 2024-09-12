@@ -32,6 +32,8 @@ export default class Absli_legacyCasesView extends LightningElement {
     lob;
     customerId;
     msdCaseNumber = '';
+    startDateRequired = false;
+    endDateRequired = false;
     @track requiredDateSelection = false;
     @track initialErrorMsg = 'Please select either Case Number or Policy.'
 
@@ -102,6 +104,7 @@ export default class Absli_legacyCasesView extends LightningElement {
                     customerId: this.customerId, lanNumber: this.selectedAsset, startDate: this.startDate,
                     endDate: this.endDate, lob: this.lob, msdCaseNumber : this.msdCaseNumber
                 }).then(result => {
+                    console.log('Result=>:'+JSON.stringify(result));
                     debugger;
                     this.leagcyCaseData = result;
                     console.log('Result1 ==> ', result);
@@ -175,6 +178,16 @@ export default class Absli_legacyCasesView extends LightningElement {
         }*/
         console.log('this.v' + JSON.stringify(event.detail));
     }
+
+    clearSelection(event){
+        this.msdCaseNumber = '';
+        this.selectedAsset = '';
+        this.startDate='';
+        this.endDate='';
+        this.startDateRequired = false;
+        this.endDateRequired = false;
+    }
+
     callRowAction(event) {
         debugger;
         //this.showChildTable = false;
@@ -197,13 +210,25 @@ export default class Absli_legacyCasesView extends LightningElement {
     }
     startDateChange(event)
     {
+        if(!this.selectedAsset){
+            this.endDateRequired = false;
+        }
         this.startDate = event.target.value;
+        if(this.startDate){
+            this.endDateRequired = true;
+        }
         console.log('The startDate selected is '+this.startDate );
     }
 
     endDateChange(event)
     {
+        if(!this.selectedAsset){
+            this.startDateRequired = false;
+        }
         this.endDate = event.target.value;
+        if(this.endDate){
+            this.startDateRequired = true;
+        }
         console.log('The endDate selected is '+this.endDate );
     }
     checkFieldValidity(){
