@@ -150,8 +150,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.CreatedById</fieldItem>
-                <identifier>RecordCreatedByIdField4</identifier>
+                <fieldItem>Record.Employee_Name__c</fieldItem>
+                <identifier>RecordEmployee_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
