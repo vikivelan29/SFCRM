@@ -191,7 +191,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                     }else{
             			return 'Policy is not eligible.';         	   
                     }
-                }else{
+                }else if(String.isNotBlank(genFundResponse.responseBody)){
                     system.debug('genFundResponse.responseBody:'+genFundResponse.responseBody);
                     system.debug('genFundResponse:'+genFundResponse);
                     GenFundFailureResponseBodyWrapper failureResponseWrapper = (GenFundFailureResponseBodyWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundFailureResponseBodyWrapper.class);
