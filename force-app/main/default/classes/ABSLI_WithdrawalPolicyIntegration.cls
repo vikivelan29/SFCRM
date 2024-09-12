@@ -49,10 +49,14 @@ public with sharing class ABSLI_WithdrawalPolicyIntegration implements ASF_Integ
             	result.status = ABSLI_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
             }else{
-            	if(caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
+                if(caseRecord.Technical_Source__c == 'LWC' && caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
                     result.status = ABSLI_Constants.SUCCESS;
                     result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-                }    
+                }  
+                if(caseRecord.Technical_Source__c == 'API'){
+                    result.status = ABSLI_Constants.SUCCESS;
+                    result.response = ABSLI_Constants.EVALUATION_SUCCESS;                
+                } 
             }
             
             resultMap.put(caseRecord.Id, result);

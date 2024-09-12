@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic After ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 09-02-2024
+ * @last modified on  : 09-09-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
@@ -150,7 +150,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
                  ABSLI_Case_Detail__c caseDetail = caseDetailMap.get(caseRec.ABSLI_Case_Detail__c);
                  System.debug(caseDetail.Source_Request_submitted_by__c);
                  System.debug(caseRec.Stage__c);
-				 if (caseDetail != null  && emailContactSubTypes.contains(caseRec.CCC_External_Id__c)) {
+				 if (caseDetail != null  && emailContactSubTypes.contains(caseRec.CCC_External_Id__c) && caseDetail.Source_Request_submitted_by__c != null) {
                        if (caseDetail.Source_Request_submitted_by__c != 'Customer' && caseRec.Stage__c != 'Unresolved') {
                             Case caseError = newMap.get(caseRec.Id);
                            	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Kindly Unresolve the case.');

@@ -51,7 +51,7 @@
         <field>Case$Status</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
+        <field>Case$Entity_Reference_No__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
@@ -66,13 +66,13 @@
         <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Advisor_Code__c</field>
+        <field>Case$Asset.Advisor__c.Advisor_Code__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Advisor_Status__c</field>
+        <field>Case$Asset.Advisor__c.Advisor_Status__c</field>
     </columns>
     <columns>
-        <field>Case$Asset.Bank_Branch_Name__c</field>
+        <field>Case$Asset.Branch__c.Name</field>
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Branch_Code__c</field>
@@ -219,7 +219,7 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>Case$Issue_Type__c</sortColumn>
+    <sortColumn>Case$Asset.Branch__c.Branch_Code__c</sortColumn>
     <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>
