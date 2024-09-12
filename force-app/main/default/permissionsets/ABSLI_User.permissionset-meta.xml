@@ -3761,11 +3761,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Lead.Employee_Email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Employee_LOB__c</field>
         <readable>true</readable>
@@ -3783,11 +3778,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Employee_Phone_Text__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Lead.Employee_Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

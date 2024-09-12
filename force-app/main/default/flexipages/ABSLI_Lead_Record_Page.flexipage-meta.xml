@@ -988,7 +988,7 @@
                 <identifier>flexipage_fieldSection3</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.Lead_Type__c}</leftValue>
+                        <leftValue>{!Record.ABSLI_Lead_Type__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Employee Referral</rightValue>
                     </criteria>
@@ -1032,12 +1032,12 @@
                 <visibilityRule>
                     <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
-                        <leftValue>{!Record.Lead_Type__c}</leftValue>
+                        <leftValue>{!Record.ABSLI_Lead_Type__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Service to Sales</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!Record.Lead_Type__c}</leftValue>
+                        <leftValue>{!Record.ABSLI_Lead_Type__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Service to Sales- NBO</rightValue>
                     </criteria>
