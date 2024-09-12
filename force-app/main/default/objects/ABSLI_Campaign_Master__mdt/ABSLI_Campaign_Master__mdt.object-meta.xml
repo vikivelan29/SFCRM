@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This is going to store the campaign records related to ABSLI. This is master and not any CRM Managed Campaigns.</description>
+    <label>ABSLI Campaign Master</label>
+    <pluralLabel>ABSLI Campaign Masters</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

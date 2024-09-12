@@ -489,7 +489,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 };
                 if (this.sourceValues.length == 0) {
                     this.sourceValues.push(optionVal, optionVal1, emailVal);
-                } 
+                }
 
                 // this.sourceValues.push(optionVal1);
 
@@ -671,7 +671,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
         
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
-
+        this.loaded = false;
         if(selected.Validation_method_during_creation__c){
             console.log('invoing validator');
             let methodName = selected.Validation_method_during_creation__c;

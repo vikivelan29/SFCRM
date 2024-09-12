@@ -10,7 +10,7 @@
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
-        <field>Case$Assigned_Team__c</field>
+        <field>Case$Case_Assigned_Team__c</field>
     </columns>
     <columns>
         <field>Case$Owner</field>
