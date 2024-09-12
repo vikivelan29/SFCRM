@@ -78,13 +78,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Employee_LOB__c</picklist>
-        <values>
-            <fullName>ABSLI</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Employment_Type__c</picklist>
         <values>
             <fullName>SENP</fullName>
