@@ -548,12 +548,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>CIN__c</field>
-            <value>
-                <elementReference>CIN</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>Campaign_Code__c</field>
             <value>
                 <elementReference>leadRecord.Campaign_Code__c</elementReference>
@@ -566,75 +560,15 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Category__c</field>
-            <value>
-                <elementReference>Category</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>City__c</field>
             <value>
                 <elementReference>City_2</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Comments__c</field>
-            <value>
-                <elementReference>Comments</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Customer_ok_for_call_out__c</field>
-            <value>
-                <elementReference>Customer_OK_for_call_out</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Department__c</field>
-            <value>
-                <elementReference>Department</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>Email</field>
             <value>
                 <elementReference>Contact_Email.value</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Employee_ADID_Text__c</field>
-            <value>
-                <elementReference>Employee_ADID</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Employee_City__c</field>
-            <value>
-                <elementReference>Employee_City</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Employee_Email_Text__c</field>
-            <value>
-                <elementReference>Employee_Email.value</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Employee_LOB__c</field>
-            <value>
-                <stringValue>ABSLI</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Employee_Name_Text__c</field>
-            <value>
-                <elementReference>Employee_Name_Text</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Employee_Phone_Text__c</field>
-            <value>
-                <elementReference>Employee_Phone.value</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -647,12 +581,6 @@
             <field>FirstName</field>
             <value>
                 <elementReference>First_Name</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>LOB_Presence__c</field>
-            <value>
-                <elementReference>LOB_Presence</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1328,214 +1256,6 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithHeader</regionContainerType>
-        </fields>
-        <fields>
-            <name>Employee_Referral</name>
-            <fieldText>Employee Referral</fieldText>
-            <fieldType>RegionContainer</fieldType>
-            <fields>
-                <name>Employee_Referral_Column1</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>Department</name>
-                    <dataType>String</dataType>
-                    <defaultValue>
-                        <stringValue>Non-Sales</stringValue>
-                    </defaultValue>
-                    <fieldText>Department</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isReadOnly>
-                        <booleanValue>true</booleanValue>
-                    </isReadOnly>
-                    <isRequired>false</isRequired>
-                </fields>
-                <fields>
-                    <name>Customer_OK_for_call_out</name>
-                    <choiceReferences>CustomerCallOutChoiceSet</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Customer OK for call out</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                </fields>
-                <fields>
-                    <name>Employee_Name_Text</name>
-                    <dataType>String</dataType>
-                    <fieldText>Employee Name</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                </fields>
-                <fields>
-                    <name>Employee_Email</name>
-                    <extensionName>flowruntime:email</extensionName>
-                    <fieldType>ComponentInstance</fieldType>
-                    <inputParameters>
-                        <name>label</name>
-                        <value>
-                            <stringValue>Employee Email</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>required</name>
-                        <value>
-                            <booleanValue>true</booleanValue>
-                        </value>
-                    </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
-                </fields>
-                <fields>
-                    <name>Employee_City</name>
-                    <dataType>String</dataType>
-                    <fieldText>City</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Employee_Referral_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>Employee_LOB</name>
-                    <dataType>String</dataType>
-                    <defaultValue>
-                        <stringValue>ABSLI</stringValue>
-                    </defaultValue>
-                    <fieldText>Employee LOB</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isReadOnly>
-                        <booleanValue>true</booleanValue>
-                    </isReadOnly>
-                    <isRequired>false</isRequired>
-                </fields>
-                <fields>
-                    <name>Target_BU_ER</name>
-                    <extensionName>flowruntime:dependentPicklists</extensionName>
-                    <fieldType>ComponentInstance</fieldType>
-                    <inputParameters>
-                        <name>dependencyWrapperApiName</name>
-                        <value>
-                            <stringValue>Lead</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>topPicklistApiName</name>
-                        <value>
-                            <stringValue>Target_LOBs__c</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>middlePicklistApiName</name>
-                        <value>
-                            <stringValue>Target_Sub_LOBs__c</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>topLabel</name>
-                        <value>
-                            <stringValue>Target LOB</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>middleLabel</name>
-                        <value>
-                            <stringValue>Target Sub-LOB</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>topRequired</name>
-                        <value>
-                            <booleanValue>true</booleanValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>topValue</name>
-                        <value>
-                            <elementReference>targetBUValue</elementReference>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>middleRequired</name>
-                        <value>
-                            <booleanValue>true</booleanValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>middleValue</name>
-                        <value>
-                            <elementReference>targetLOBValue</elementReference>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>disabled</name>
-                        <value>
-                            <booleanValue>false</booleanValue>
-                        </value>
-                    </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
-                </fields>
-                <fields>
-                    <name>Employee_ADID</name>
-                    <dataType>String</dataType>
-                    <fieldText>Employee ADID</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                </fields>
-                <fields>
-                    <name>Employee_Phone</name>
-                    <extensionName>flowruntime:phone</extensionName>
-                    <fieldType>ComponentInstance</fieldType>
-                    <inputParameters>
-                        <name>label</name>
-                        <value>
-                            <stringValue>Employee Phone</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>required</name>
-                        <value>
-                            <booleanValue>true</booleanValue>
-                        </value>
-                    </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <isRequired>false</isRequired>
-            <regionContainerType>SectionWithHeader</regionContainerType>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Lead_Source</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>Employee Referral</stringValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
         </fields>
         <fields>
             <name>Service_to_Sales</name>
