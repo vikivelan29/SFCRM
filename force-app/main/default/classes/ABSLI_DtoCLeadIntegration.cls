@@ -7,7 +7,7 @@ public with sharing class ABSLI_DtoCLeadIntegration {
         }
         List<Lead> leads = [SELECT ID,FirstName,LastName,External_Lead_ID__c,Rating,Name,MobilePhone,Email,Asset__c,Asset__r.Policy_No__c,
                             City__c,PIN_Code__c,Branch__r.Branch_Code__c,Branch__r.Name,
-                            OwnerId, Owner.Name,Lead_Type__c FROM Lead WHERE Id =: leadIds];
+                            OwnerId, Owner.Name,ABSLI_Lead_Type__c FROM Lead WHERE Id =: leadIds];
         for(Lead ld : leads){
             ABCL_Integration_Event__e evt = new ABCL_Integration_Event__e ();
             evt.Record_Id__c = ld.Id;
