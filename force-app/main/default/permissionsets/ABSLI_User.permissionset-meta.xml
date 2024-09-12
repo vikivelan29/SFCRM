@@ -64,10 +64,6 @@
         <apexClass>ABSLI_NSDLPANVerification</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <customPermissions>
-        <enabled>true</enabled>
-        <name>ShowCreateLead</name>
-    </customPermissions>
     <classAccesses>
         <apexClass>ABSLI_FundValueCompController</apexClass>
         <enabled>true</enabled>
@@ -3681,22 +3677,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Annual_Premium__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Application_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Asset__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3752,11 +3738,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Lead.Employee_ADID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.Employee_Name_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4062,7 +4043,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Product2</object>
-        <viewAllRecords>true</viewAllRecords>
+        <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -4147,4 +4128,8 @@
         <apexPage>ASF_redirectToCaseApprovalVF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>ShowCreateLead</name>
+    </customPermissions>
 </PermissionSet>
