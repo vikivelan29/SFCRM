@@ -1032,6 +1032,14 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
+            <fullName>ABCD App</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABC_Servicing_App</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>AMFI</fullName>
             <default>false</default>
         </values>
@@ -1313,10 +1321,6 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABCD App</fullName>
             <default>false</default>
         </values>
         <values>
