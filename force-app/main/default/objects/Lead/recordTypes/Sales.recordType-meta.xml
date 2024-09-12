@@ -37,6 +37,28 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Customer_ok_for_call_out__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Employee_LOB__c</picklist>
+        <values>
+            <fullName>ABSLI</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Employment_Type__c</picklist>
@@ -246,6 +268,48 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Lead_Sub_Stage__c</picklist>
+        <values>
+            <fullName>Fresh</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lead_Type__c</picklist>
+        <values>
+            <fullName>Contact Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D2C Winback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HDFC Win back</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SEND AN ADVISOR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service to Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service to Sales- NBO</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Name</picklist>
         <values>
             <fullName>Dr%2E</fullName>
@@ -388,6 +452,17 @@
         </values>
         <values>
             <fullName>Warm</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Source_Code__c</picklist>
+        <values>
+            <fullName>Customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DSE</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2192,6 +2267,68 @@
         </values>
         <values>
             <fullName>TOPUP%28NEW%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Target_LOBs__c</picklist>
+        <values>
+            <fullName>Health Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Housing Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loans</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Motor%2F Travel Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mutual Funds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stock broking</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Target_Sub_LOBs__c</picklist>
+        <values>
+            <fullName>CFG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HFC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mortgage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unsecured</fullName>
             <default>false</default>
         </values>
     </picklistValues>

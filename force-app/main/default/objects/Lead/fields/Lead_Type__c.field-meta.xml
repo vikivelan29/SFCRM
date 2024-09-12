@@ -12,19 +12,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Branch walk in</fullName>
-                <default>false</default>
-                <label>Branch walk in</label>
-            </value>
-            <value>
                 <fullName>Contact Centre</fullName>
                 <default>false</default>
                 <label>Contact Centre</label>
-            </value>
-            <value>
-                <fullName>One ABC</fullName>
-                <default>false</default>
-                <label>One ABC</label>
             </value>
             <value>
                 <fullName>Customer Referral</fullName>
@@ -51,18 +41,58 @@
                 <default>false</default>
                 <label>SEND AN ADVISOR</label>
             </value>
+            <value>
+                <fullName>HDFC Win back</fullName>
+                <default>false</default>
+                <label>HDFC Win back</label>
+            </value>
+            <value>
+                <fullName>D2C Winback</fullName>
+                <default>false</default>
+                <label>D2C Winback</label>
+            </value>
+            <value>
+                <fullName>Branch walk in</fullName>
+                <default>false</default>
+                <label>Branch walk in</label>
+            </value>
+            <value>
+                <fullName>One ABC</fullName>
+                <default>false</default>
+                <label>One ABC</label>
+            </value>
         </valueSetDefinition>
-        <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>Branch walk in</valueName>
-        </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABSLI</controllingFieldValue>
             <valueName>Contact Centre</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>One ABC</valueName>
+            <valueName>Customer Referral</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Service to Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Service to Sales- NBO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Employee Referral</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>SEND AN ADVISOR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>HDFC Win back</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>D2C Winback</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

@@ -870,7 +870,7 @@
                     <name>Lead_Source</name>
                     <choiceReferences>LeadTypePicklist</choiceReferences>
                     <dataType>String</dataType>
-                    <fieldText>Lead Source</fieldText>
+                    <fieldText>Lead Type</fieldText>
                     <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
@@ -1843,7 +1843,7 @@
             <targetReference>Get_RecordTypeId</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>customerRecord</name>
         <dataType>SObject</dataType>
