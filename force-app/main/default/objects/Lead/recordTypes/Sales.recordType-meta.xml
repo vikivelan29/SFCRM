@@ -78,17 +78,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Customer_ok_for_call_out__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Employee_LOB__c</picklist>
         <values>
             <fullName>ABSLI</fullName>
