@@ -157,7 +157,7 @@
         <field>Case$Account.ShippingPostalCode</field>
     </columns>
     <columns>
-        <field>Case$Account.Owner.MobilePhone</field>
+        <field>Case$Account.PersonContact.Mobile__c</field>
     </columns>
     <columns>
         <field>Case$Account.Phone</field>

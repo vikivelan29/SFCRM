@@ -42,9 +42,9 @@ public with sharing class ABSLI_CTSTHelper {
             if(caseRec.CCC_External_Id__c == ABSLI_Constants.SURVIVALCTST){
             	survialCases.add(caseRec);                
             }
-            if(ABSLI_Constants.SURRENDER_WITHDRAWAL_CCC_IDs.contains(caseRec.CCC_External_Id__c)){
+            /*if(ABSLI_Constants.SURRENDER_WITHDRAWAL_CCC_IDs.contains(caseRec.CCC_External_Id__c)){
             	surrednerWithdrawalcaseIds.add(caseRec.Id);                
-            }
+            }*/
 
         }
         
@@ -58,13 +58,13 @@ public with sharing class ABSLI_CTSTHelper {
         }
         
         //Dhinesh - Surrender Withdrawal
-        Map<Id,Boolean> caseSignatureMatchedMap = new Map<Id,Boolean>();
+        /*Map<Id,Boolean> caseSignatureMatchedMap = new Map<Id,Boolean>();
         if(surrednerWithdrawalcaseIds.size()>0){
             List<ASF_Checklist__c> checklistRecords = [SELECT Id, Description__c, Label__c,Case__c, Status__c FROM ASF_Checklist__c where case__c in: surrednerWithdrawalcaseIds and Status__c =: ABSLI_Constants.CHECKLIST_SIGNATURE_MATCHED];
             for(ASF_Checklist__c checklist : checklistRecords){
                 caseSignatureMatchedMap.put(checklist.Case__c,true);
             }
-        }
+        }*/
         
         for(Case caseR : caseRecs){
             FieldValidationResult validation = resultsMap.get(caseR.Id);
@@ -90,7 +90,7 @@ public with sharing class ABSLI_CTSTHelper {
             }
             
             //Validation for Surrender and withrdrawal APIs
-            if(caseSignatureMatchedMap.containsKey(caseR.Id) && caseSignatureMatchedMap.get(caseR.Id)) {
+            /*if(caseSignatureMatchedMap.containsKey(caseR.Id) && caseSignatureMatchedMap.get(caseR.Id)) {
                 String apiName;
                 if (caseR.CCC_External_Id__c == 'PPAY001') {
                     apiName = 'Surrender API';
@@ -122,7 +122,7 @@ public with sharing class ABSLI_CTSTHelper {
                             validation.message = apiName + ' needs to be successful to close the case.';
                         }
                 }  
-            }
+            }*/
             
             // Set the message within the wrapper
             if(validation.result && !validation.blankFields.isEmpty()) {
