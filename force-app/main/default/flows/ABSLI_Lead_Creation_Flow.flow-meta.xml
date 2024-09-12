@@ -404,7 +404,7 @@
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
-        <picklistField>Target_LOB__c</picklistField>
+        <picklistField>Target_LOBs__c</picklistField>
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
@@ -412,7 +412,7 @@
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
-        <picklistField>Target_LOB__c</picklistField>
+        <picklistField>Target_LOBs__c</picklistField>
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
@@ -420,7 +420,7 @@
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
-        <picklistField>Target_Sub_LOB__c</picklistField>
+        <picklistField>Target_Sub_LOBs__c</picklistField>
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
@@ -428,7 +428,7 @@
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
-        <picklistField>Target_Sub_LOB__c</picklistField>
+        <picklistField>Target_Sub_LOBs__c</picklistField>
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <environments>Default</environments>

@@ -14,8 +14,8 @@
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Asset</referenceTo>
-    <relationshipLabel>Leads</relationshipLabel>
-    <relationshipName>Leads</relationshipName>
+    <relationshipLabel>Leads1</relationshipLabel>
+    <relationshipName>Leads1</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Lookup</type>
