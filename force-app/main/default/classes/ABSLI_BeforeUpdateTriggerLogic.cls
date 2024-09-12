@@ -161,32 +161,7 @@ caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
                                 }  
                             }
                         }
-                   }
-                    //Validate before3PM scenario
-                   if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypesBefore3PM.contains(caseRec.CCC_External_Id__c)) {
-                       Date today = Date.today();
-        			   String before3PM = caseRec.ABSLI_Case_Detail__r.Before_3_PM__c;
-        			   Date branchReceiveDate = caseRec.ABSLI_Case_Detail__r.Branch_Receive_Date__c;
-                       Case caseError = newMap.get(caseRec.Id);
-                       if(before3PM != null && branchReceiveDate != null){
-                         	 switch on before3PM {
-                                when 'No' {
-                                    Date expectedDate = today.addDays(1);
-                                    if (branchReceiveDate != expectedDate) {
-                                        caseError.addError('Branch received Date should be next day, if before 3PM');
-                                    }
-                                }
-                                when 'Yes' {
-                                    if (branchReceiveDate != today) {
-                                        caseError.addError('Branch received Date should be Today, if before 3PM');
-                                    }
-                                }
-                                when else {
-                                    caseError.addError('Invalid value for Before 3 PM');
-                                }
-                            }  
-                       }
-                   }   
+                   }  
                 }
     }
     /**
