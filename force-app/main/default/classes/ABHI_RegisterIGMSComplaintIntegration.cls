@@ -190,7 +190,7 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
                 List<sObject> dmlRecords = new List<sObject>();
                 String irdaTokenNumber = jsonMap.Body.RegisterComplaintResponse.RegisterComplaintResult.RESULT.COMPLAINTDETAILS.IRDA_TOKEN_NUMBER;
                 system.debug('irdaTokenNumberas '+irdaTokenNumber);
-                String entity_Complaint_Ref_Number = jsonMap.Body.RegisterComplaintResponse.RegisterComplaintResult.RESULT.COMPLAINTDETAILS.ENTITY_COMPLAINT_REF_NUMBER;
+				String entity_Complaint_Ref_Number = jsonMap.Body.RegisterComplaintResponse.RegisterComplaintResult.RESULT.COMPLAINTDETAILS.ENTITY_COMPLAINT_REF_NUMBER;
                 if (irdaTokenNumber != null ) {
                     if(caseRecord.ABHI_Case_Detail__c != null){
                         System.debug(caseRecord.ABHI_Case_Detail__c);

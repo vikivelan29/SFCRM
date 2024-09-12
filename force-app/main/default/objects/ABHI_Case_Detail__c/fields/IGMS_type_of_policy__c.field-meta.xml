@@ -14,31 +14,8 @@
             <value>
                 <fullName>5</fullName>
                 <default>false</default>
-                <label>Health Insurance</label>
-            </value>
-            <value>
-                <fullName>1</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>1</label>
-            </value>
-            <value>
-                <fullName>2</fullName>
-                <default>false</default>
                 <isActive>false</isActive>
                 <label>2</label>
-            </value>
-            <value>
-                <fullName>3</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>3</label>
-            </value>
-            <value>
-                <fullName>4</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>4</label>
             </value>
         </valueSetDefinition>
     </valueSet>

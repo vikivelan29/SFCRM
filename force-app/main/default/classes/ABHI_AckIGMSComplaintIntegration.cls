@@ -121,7 +121,7 @@ public with sharing class ABHI_AckIGMSComplaintIntegration implements ASF_Integr
                if (String.isEmpty(errorCodes) && (!String.isEmpty(irdaTokenNumber))) {
                     if(caseRecord.ABHI_Case_Detail__c  != null){
                         ABHI_Case_Detail__c  caseExt = new ABHI_Case_Detail__c (Id = caseRecord.ABHI_Case_Detail__c );
-                        caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
+                 	    caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
                         caseExt.Acknowledged_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '2';
                         caseExt.Next_Integration_Name__c = 'ABHI_PendingIGMSComplaintIntegration';

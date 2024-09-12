@@ -73,9 +73,9 @@ public with sharing class ABHI_AttendedToValidationHandler {
         }
     }
 
-    public static final Map<String,String> caseExtFieldsEscalated = new Map<String,String>{'Final_Resolution_Remark__c'=>'Final Resolution Remark',
-    'Additional_Closure_Information__c'=>'Additional Closure Information',
-     'Insurer_Resolution_Letter_date__c'=>'Insurer Resolution Letter Date'
+    public static final Map<String,String> caseExtFieldsEscalated = new Map<String,String>{'Final_Resolution_Remark__c'=>'Final Resolution Remark'
+   // 'Date_of_Honoring_Service__c'=>'Date of Honoring Service',
+   // 'TAT_Crossed_Remark__c'=>'TAT Crossed Remark'
    };
 
     public static void validateAttendedToEscalated(Case caseRecord,ASF_IntegrationsController.IntegrationWrapper result){
