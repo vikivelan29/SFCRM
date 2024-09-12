@@ -265,6 +265,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>FV</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Freelook Information</fullName>
             <default>false</default>
         </values>
@@ -282,6 +286,10 @@
         </values>
         <values>
             <fullName>Incomplete charges explained</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial</fullName>
             <default>false</default>
         </values>
         <values>
@@ -417,6 +425,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Null %26 Void Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>OR Cancellation</fullName>
             <default>false</default>
         </values>
@@ -442,6 +454,10 @@
         </values>
         <values>
             <fullName>Overseas Medicals Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PPC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -589,6 +605,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Renewal</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Renewal Due Date%2FAmount</fullName>
             <default>false</default>
         </values>
@@ -650,6 +670,14 @@
         </values>
         <values>
             <fullName>Shortage requirement completed%2FRevival with Loan excluded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Show Cause Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
             <default>false</default>
         </values>
         <values>
@@ -810,10 +838,6 @@
         </values>
         <values>
             <fullName>post call- complaint</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1289,6 +1313,10 @@
         </values>
         <values>
             <fullName>Welcome BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABCD App</fullName>
             <default>false</default>
         </values>
         <values>

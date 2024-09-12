@@ -177,27 +177,30 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
                     System.debug('response --> '+response);
                     String reinstatementAmtString = String.ValueOf(response.RqRes.Response.Details.NETAMOUNT);
                     decimal reinstetementAmt = 0;
-                    List<String> medicalsString = response.RqRes.Response.Details.MEDICALREQUIREMENTS.MEDICALDETAILS;
-                    String medicalsFieldValue = '';
+                    //List<String> medicalsString = response.RqRes.Response.Details.MEDICALREQUIREMENTS.MEDICALDETAILS;
+                    //String medicalsFieldValue = '';
                     coiList = response.RqRes.Response.Details.COIFORMS.FORM;
                     if(reinstatementAmtString != null){
                         reinstatementAmtString = reinstatementAmtString.replaceAll(',','');
                         reinstetementAmt = decimal.valueOf(reinstatementAmtString);
                         caseExt.Reinstatement_Amount__c = reinstetementAmt;
                     }
-                    if(medicalsString.size()>0){
-                        List<String> medicalsList = medicalsString;
+                    List<String> medicalsList = response.RqRes.Response.Details.MEDICALREQUIREMENTS.getMedicalsList();
+                    
+                    if (medicalsList.size() > 0) {
                         List<String> finalMedicalsVal = new List<String>();
-                        
-                        if(medicalsList.size()>0){
-                            for(String str : medicalsList){
-                                if(!str.containsIgnoreCase(ABSLI_Constants.COVID_19_QUE_STRING)){
-                                    finalMedicalsVal.add(str);
-                                }
+                    
+                        for (String str : medicalsList) {
+                            if (!str.containsIgnoreCase(ABSLI_Constants.COVID_19_QUE_STRING)) {
+                                finalMedicalsVal.add(str);
                             }
-                            medicalsFieldValue = finalMedicalsVal.size()>0? String.JOIN(finalMedicalsVal,',') : String.JOIN(medicalsString,',');
-                            caseExt.Medicals__c = medicalsFieldValue;
                         }
+                    
+                        String medicalsFieldValue = finalMedicalsVal.size() > 0
+                            ? String.join(finalMedicalsVal, ',')
+                            : String.join(medicalsList, ',');
+                    
+                        caseExt.Medicals__c = medicalsFieldValue;
                     }
                     if(coiList.size()>0){
                         String coiString = String.JOIN(coiList,',');
@@ -272,11 +275,22 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
     }
     public class detail{
         public String NETAMOUNT;
-        public mdecialsReq MEDICALREQUIREMENTS;
+        public MedicalRequirements MEDICALREQUIREMENTS;
         public coiform COIFORMS;
     }
-    public class mdecialsReq{
-        public List<string> MEDICALDETAILS;
+    public class MedicalRequirements {
+        public List<String> MEDICALDETAILS_LIST; 
+        public String MEDICALDETAILS_SINGLE; 
+
+        public List<String> getMedicalsList() {
+            List<String> medicalsList = new List<String>();
+            if (MEDICALDETAILS_LIST != null) {
+                medicalsList = MEDICALDETAILS_LIST;
+            } else if (MEDICALDETAILS_SINGLE != null) {
+                medicalsList.add(MEDICALDETAILS_SINGLE);
+            }
+            return medicalsList;
+        }
     }
     public class coiform{
         public List<String> FORM;

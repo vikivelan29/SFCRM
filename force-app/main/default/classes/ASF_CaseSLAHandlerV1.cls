@@ -191,8 +191,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     sla2Sec = slaMap.get('sla2');
                     sla3Sec = slaMap.get('sla3');
                     closeSlaSec = slaMap.get('caseClosureSLA');
-                    
-                    updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, system.now(), closeSlaSec);
 
                     /*
                     Percentage is to calculate fields which is available in List view.
@@ -514,7 +512,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
             allCaseIds.addAll(assignedUserIdToCaseIdsMap.get(userId));
         }
-        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c from Case where Id IN : allCaseIds]){
+        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c, BusinessHoursId from Case where Id IN : allCaseIds]){
             caseRec.Last_Owner_Change_Date__c = System.now();
             cases.add(caseRec);
         }
@@ -777,7 +775,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 Case updatedCase = new Case(Id=newCases.get(i).Id,Case_Stage_Change_Date__c=newCases.get(i).Case_Stage_Change_Date__c);
                 resetSLAFields(newCases.get(i),oldCases.get(i),updatedCase);
                 casesToUpdate.put(newCases.get(i).Id, updatedCase);
-                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved' && newCases.get(i).Stage__c != 'Unresolved')){
+                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved' && newCases.get(i).Stage__c != 'Unresolved' && newCases.get(i).Stage__c != 'Duplicate')){
                     externalIdList.add(newCases.get(i).CCC_External_Id__c);    
                     caseNewStatusList.add(newCases.get(i).Stage__c);
                     changedCaseList.add(newCases.get(i)); 
@@ -865,7 +863,15 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     closeSlaSec = slaMap.get('caseClosureSLA');
                 }
                 long slaIdentifier = 3600000;
-             
+                //If the overallsla is not configured, empty the field
+                //if(closeSlaSec == null){
+                  //  updatedCase.Overall_Case_Closure_SLA__c = null;
+                  //  updatedCase.Overall_SLA_plus_X_days__c = null;
+                  //  updatedCase.Case_SLA_Threshold_1__c = null;
+                  //  updatedCase.Case_SLA_Threshold_2__c = null;
+                  //  updatedCase.Case_SLA_Threshold_3__c = null;
+                //}
+
                 if(closeSlaSec != null && oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
                     //When case is recategorizzed. Take difference between Case created date.
                     //this is slightly different during case insert where we take systemnow
