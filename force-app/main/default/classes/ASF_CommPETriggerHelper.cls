@@ -456,18 +456,27 @@ public without sharing class ASF_CommPETriggerHelper {
                     if(mCommConfigMetaName.containsKey(pLog.CustomMetadataName__c)){
                         String strMetadataName = pLog.CustomMetadataName__c;
                         Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
-                        
+
                         // SMS Related
                         if(commConfig != null && commConfig.SMS_Template_Name__c != null){
                             setCaseFields(commConfig,channelFieldNamesSMS[0]);
                         }
-                        
-                        // WhatsApp Related
-                        if(commConfig != null && commConfig.Whatsapp_Template_Name__c !=null){
-                            setCaseFields(commConfig,channelFieldNamesWA[0]);
-                        }
                     }
                 }
+                //Bypass sending WhatsApp when user manually blocks it during case creation
+                if(pLog.CustomMetadataName__c != null &&
+                (pLog.No_Auto_Communication__c == null || 
+                 (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('WhatsApp')))){
+                     if(mCommConfigMetaName.containsKey(pLog.CustomMetadataName__c)){
+                         String strMetadataName = pLog.CustomMetadataName__c;
+                         Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+                         // WhatsApp Related
+                         if(commConfig != null && commConfig.Whatsapp_Template_Name__c !=null){
+                             setCaseFields(commConfig,channelFieldNamesWA[0]);
+                         }
+                     }
+                 }
+
         }
         String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin';
         query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';
