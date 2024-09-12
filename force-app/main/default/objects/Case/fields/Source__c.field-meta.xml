@@ -796,11 +796,6 @@ Portal</label>
                 <isActive>false</isActive>
                 <label>kjkh</label>
             </value>
-            <value>
-                <fullName>ABC_Servicing_App</fullName>
-                <default>false</default>
-                <label>ABC_Servicing_App</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
