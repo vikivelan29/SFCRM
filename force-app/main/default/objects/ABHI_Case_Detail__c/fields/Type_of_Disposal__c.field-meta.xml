@@ -28,7 +28,7 @@
                 <label>Partially favor</label>
             </value>
             <value>
-                <fullName>Rejected</fullName>
+                <fullName>3</fullName>
                 <default>false</default>
                 <label>Rejected</label>
             </value>

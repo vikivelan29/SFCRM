@@ -232,15 +232,17 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
             if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
                 Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
                 
-                AttendedComplaintResponseWrapper jsonMap = (AttendedComplaintResponseWrapper) JSON.deserialize(
+               ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper jsonMap = (ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper) JSON.deserialize(
                     caseInteg.Response__c,
-                    AttendedComplaintResponseWrapper.class
+                    ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper.class
                 );
                 List<sObject> dmlRecords = new List<sObject>();
-                if (jsonMap.ReturnCode == ABSLI_Constants.IGMS_ATTENDEDCOMPLAINT_SUCCESS_RET_CD) {
+                String errorCodes = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.ERROR_CODES;
+                String irdaTokenNumber = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.IRDA_TOKEN_NUMBER;
+               if (String.isEmpty(errorCodes) && (!String.isEmpty(irdaTokenNumber))) {
                     if(caseRecord.ABHI_Case_Detail__c != null){
                         ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
-                        caseExt.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
+                        caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
                         caseExt.Resolved_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
@@ -296,7 +298,7 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
             this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Claim_Received_Amount = '0';
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
-            this.Trans_Login_Id = ABSLI_Constants.ABSLI_IGMS_TRANS_LOGIN_ID;
+            this.Trans_Login_Id = 'ABHICADMIN1';
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
             

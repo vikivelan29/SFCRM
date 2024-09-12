@@ -16,37 +16,37 @@ This field is used in Salesforce to IRDAI Complaint Update Outbound API.</descri
             <value>
                 <fullName>1</fullName>
                 <default>false</default>
-                <label>1</label>
+                <label>New</label>
             </value>
             <value>
                 <fullName>2</fullName>
                 <default>false</default>
-                <label>2</label>
+                <label>Acknowledged</label>
             </value>
             <value>
                 <fullName>3</fullName>
                 <default>false</default>
-                <label>3</label>
+                <label>Pending</label>
             </value>
             <value>
                 <fullName>4</fullName>
                 <default>false</default>
-                <label>4</label>
+                <label>Resolved</label>
             </value>
             <value>
                 <fullName>5</fullName>
                 <default>false</default>
-                <label>5</label>
+                <label>Escalated</label>
             </value>
             <value>
                 <fullName>6</fullName>
                 <default>false</default>
-                <label>6</label>
+                <label>Re-open</label>
             </value>
             <value>
                 <fullName>7</fullName>
                 <default>false</default>
-                <label>7</label>
+                <label>Closed</label>
             </value>
         </valueSetDefinition>
     </valueSet>
