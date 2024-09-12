@@ -14,8 +14,7 @@
             <value>
                 <fullName>5</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>2</label>
+                <label>Health Insurance</label>
             </value>
         </valueSetDefinition>
     </valueSet>
