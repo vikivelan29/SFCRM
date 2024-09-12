@@ -12,7 +12,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         try {
             Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null){
-                if(policy.Plan_Name__c.contains(ABSLI_Constants.SARAL_HEALTH_PLAN_NAME)){ 
+                if(policy.Plan_Name__c.contains(ABSLI_Constants.SARAL_HEALTH_PLAN_NAME)){
                     return 'Success';
                 }else{
                     return 'Policy is not eligible for Penal Interest Payout - Saral Health Reimbursement.';
@@ -439,7 +439,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     public class GenFundResponseWrapper{
         public BfidResponse BFID_RESPONSE{get;set;}
         public GenFundResponseWrapper() {
-            this.BFID_RESPONSE = new BfidResponse();
+            BFID_RESPONSE = new BfidResponse();
         }
     }
     

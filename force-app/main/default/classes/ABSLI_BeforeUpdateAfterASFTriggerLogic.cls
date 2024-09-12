@@ -28,13 +28,14 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
         if(!mAbsliCases.isEmpty()){
             absliCasesAdditionalFields = new Map<Id, Case>([SELECT Id,Asset.Issue_Date__c,ABSLI_Case_Detail__c,CCC_External_Id__c, 
                                        ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
-                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c 
+                                       ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c,ABSLI_Case_Detail__r.Source_Request_submitted_by__c 
                                        FROM Case 
                                        WHERE Id IN :mAbsliCases.keySet() WITH SECURITY_ENFORCED]);
             System.debug('Inside ABSLI before Update Trigger logic');
             System.debug(absliCasesAdditionalFields);
             ABSLI_BeforeUpdateAfterASFTriggerLogic.restrictComplaintsRejection(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateAfterASFTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateAfterASFTriggerLogic.validateContactEmailUpdate(newMap.values(), oldMap, newMap);
         }  
     }
     
@@ -152,7 +153,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
 				 if (caseDetail != null  && emailContactSubTypes.contains(caseRec.CCC_External_Id__c)) {
                        if (caseDetail.Source_Request_submitted_by__c != 'Customer' && caseRec.Stage__c != 'Unresolved') {
                             Case caseError = newMap.get(caseRec.Id);
-                           	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Unresolve the case.');
+                           	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Kindly Unresolve the case.');
                             newMap.put(caseRec.Id,caseError);
                        }   
                  }

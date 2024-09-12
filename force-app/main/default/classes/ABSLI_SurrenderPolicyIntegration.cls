@@ -44,7 +44,8 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
                     result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
                 }
             }*/
-			//Customer Portal and Status_Valid_For_STP__c is false 
+     
+			      //Customer Portal and Status_Valid_For_STP__c is false 
             if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
             	result.status = ABSLI_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
@@ -106,7 +107,11 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
             requestJSON.action = ABSLI_Constants.ACTION_SURRENDER;
             requestJSON.FT_Amount_BR = '0';
             requestJSON.TDS_Ind = caseRecord.ABSLI_Case_Detail__r.TDS_Indicator__c == 'Y'?'true':'false';
-            requestJSON.surrenderamount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c);
+            String surrenderAmount = '0';
+            if(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c != null){
+                surrenderAmount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c.intValue());
+            }
+            requestJSON.surrenderamount = surrenderAmount;
 
             string requestBody = JSON.serialize(requestJSON);
             for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
