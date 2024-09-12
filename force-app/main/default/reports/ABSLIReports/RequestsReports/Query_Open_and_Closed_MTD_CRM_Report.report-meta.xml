@@ -7,64 +7,61 @@
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
+        <field>Case$Account.Customer_Category__c</field>
+    </columns>
+    <columns>
         <field>Case$Asset.Policy_No__c</field>
     </columns>
     <columns>
-        <field>Case$Stage__c</field>
+        <field>Case$Case_Assigned_Team__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Resolution__c</field>
+        <field>Case$CCC_External_Id__c</field>
     </columns>
     <columns>
         <field>Case$Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$Nature__c</field>
-    </columns>
-    <columns>
-        <field>Case$ABSLI_Case_Detail__c.RCA_Comments__c</field>
-    </columns>
-    <columns>
         <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$LastModifiedDate</field>
+        <field>Case$Status</field>
+    </columns>
+    <columns>
+        <field>Case$Overall_Case_Closure_SLA__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Reason_for_Delay__c</field>
+    </columns>
+    <columns>
+        <field>Case$Source__c</field>
+    </columns>
+    <columns>
+        <field>Case$Account.Customer_Segment__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
     </columns>
     <columns>
-        <field>Case$CreatedBy.EmployeeNumber</field>
-    </columns>
-    <columns>
-        <field>Case$CreatedBy</field>
-    </columns>
-    <columns>
-        <field>Case$CreatedBy.Manager</field>
+        <field>Case$LastModifiedDate</field>
     </columns>
     <columns>
         <field>Case$LastModifiedBy</field>
     </columns>
     <columns>
-        <field>Case$LastModifiedBy.Manager</field>
-    </columns>
-    <columns>
-        <field>Case$LastModifiedBy.Department</field>
-    </columns>
-    <columns>
-        <field>Case$Source__c</field>
+        <field>Case$Nature__c</field>
     </columns>
     <filter>
         <criteriaItems>
-            <column>Case$Source__c</column>
+            <column>Case$CCC_External_Id__c</column>
             <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Anywhere Service</value>
+            <isUnlocked>false</isUnlocked>
+            <operator>contains</operator>
+            <value>PCPT028,PCPT005,PCPT006,PCPT016,PCPT025,PCPT026,PCPT029,PCPT031,PCPT030,PCPT012,PCPT017</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>Anywhere service</name>
+    <name>Query Open and Closed MTD CRM Report</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -76,7 +73,7 @@
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>
-        <endDate>2024-10-31</endDate>
+        <endDate>2024-09-30</endDate>
         <interval>INTERVAL_CUSTOM</interval>
         <startDate>2024-07-01</startDate>
     </timeFrameFilter>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>ABSLI_CustomerPortal_STPFalse_Err</label>
+    <label>ABSLI_PANUPDATE_NOT_REQUIRED_ERROR</label>
     <protected>false</protected>
     <values>
         <field>Business_Unit__c</field>
@@ -8,10 +8,10 @@
     </values>
     <values>
         <field>Message__c</field>
-        <value xsi:type="xsd:string">Invalid STP Cases from Customer Portal need to manually processed.</value>
+        <value xsi:type="xsd:string">PAN Update is not required for Cases where TDS is not Y and Customer PAN is not missing</value>
     </values>
     <values>
         <field>Type__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">SURRENDER/WITHDRAWALPOLICY</value>
     </values>
 </CustomMetadata>
