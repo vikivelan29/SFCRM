@@ -64,10 +64,6 @@
         <apexClass>ABSLI_NSDLPANVerification</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <customPermissions>
-        <enabled>true</enabled>
-        <name>ShowCreateLead</name>
-    </customPermissions>
     <classAccesses>
         <apexClass>ABSLI_FundValueCompController</apexClass>
         <enabled>true</enabled>
@@ -4062,7 +4058,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Product2</object>
-        <viewAllRecords>true</viewAllRecords>
+        <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -4147,4 +4143,8 @@
         <apexPage>ASF_redirectToCaseApprovalVF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>ShowCreateLead</name>
+    </customPermissions>
 </PermissionSet>
