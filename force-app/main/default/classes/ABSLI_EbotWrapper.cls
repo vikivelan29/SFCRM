@@ -21,7 +21,7 @@ public class ABSLI_EbotWrapper {
         public String EmailFrom;
         public String EmailTo;
         public String EmailSubject;
-        public List<StaticAttachmentWrapper> Static_Attachment;
+        public List<String> Static_Attachment;
     }
     
     public class StaticAttachmentWrapper {
