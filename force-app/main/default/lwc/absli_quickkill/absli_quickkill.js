@@ -9,7 +9,7 @@ import getCustomerPhoneNumber from '@salesforce/apex/ABSLI_QuickKillController.g
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
-
+import checkforvalidRPJ from '@salesforce/apex/ABSLI_QuickKillController.checkforvalidforRPJ';
 
 
 import MOBILE_FIELD from "@salesforce/schema/Account.PersonMobilePhone";
@@ -42,6 +42,7 @@ export default class Absli_quickkill extends LightningElement {
     @track noMobileNum = false;
     @track loaded = false;
     @track accountRecord;
+    @track validRPJ = true;
 	
 	 totalNoOfRecordsInDatatable = 0;
     pageSize = 10; //No.of records to be displayed per page
@@ -302,13 +303,31 @@ export default class Absli_quickkill extends LightningElement {
 
         ];
     }
-    handleFuncSelection(event){
+    handleFuncSelection(event) {
         this.selectedFuncValue = event.detail.value;
-        if(this.selectedFuncValue){
+        console.log('hereLog', this.selectedPolicyId);
+    
+        if (this.selectedFuncValue) {
             this.showGenerateLink = true;
         }
-        
-         
+    
+        if (this.selectedFuncValue === 'RPJ') {
+            checkforvalidRPJ({ AssetId: this.selectedPolicyId })
+                .then(result => {
+                    this.validRPJ = result;
+                    if (!this.validRPJ) {
+                        this.showGenerateLink = false;
+                    } else {
+                        this.showGenerateLink = true;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking RPJ:', error);
+                    this.showGenerateLink = false;
+                });
+        }else{
+            this.validRPJ = true;
+        }
     }
     handleGenerateLinkPrev(event){
         console.log(this.selectedFuncValue);

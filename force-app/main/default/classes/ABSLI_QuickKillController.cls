@@ -306,6 +306,12 @@ System.debug(decryptedString);*/
         return event;
     }
     
+    @AuraEnabled(cacheable=true)
+    public static boolean checkforvalidforRPJ(Id AssetId) {
+        Asset policy = [SELECT ID,Policy_Flag__c FROM Asset WHERE Id =: AssetId]; 
+        return policy.Policy_Flag__c == null ? true : false;
+    }
+    
     public class BitlyRequestWrapper{
         public String LongURL{get;set;}	// LINK+ENCRYPTED_DATA 
         public String LOB{get;set;}	//
