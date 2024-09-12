@@ -263,4 +263,3 @@ public class ABSLI_Constants {
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
 
 }
-
