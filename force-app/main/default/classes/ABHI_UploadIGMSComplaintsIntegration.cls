@@ -74,9 +74,9 @@ public with sharing class ABHI_UploadIGMSComplaintsIntegration {
                 downloadWrapper.IRDA_Token_Number = caseRecord[0].IRDAI_Token_Number__c;
                 downloadWrapper.fileName = docWrapper.fileName;
                 if(caseRecord[0].ABHI_Case_Detail__r.Resolved_Date__c != null){
-                    downloadWrapper.isFRRDoc = true;
+                    downloadWrapper.isFRRDoc = 'true';
                 }else{
-                    downloadWrapper.isFRRDoc = false;
+                    downloadWrapper.isFRRDoc = 'false';
                 }
                 downloadWrapper.contentVersionID = docWrapper.contentVersionId;
                 igmsDocument.Request__c = JSON.serialize(downloadWrapper);
@@ -129,7 +129,7 @@ public with sharing class ABHI_UploadIGMSComplaintsIntegration {
     public class IGMSUploadDocumentWrapper{
         public string IRDA_Token_Number;
         public string fileName;
-        public boolean isFRRDoc;
+        public string isFRRDoc;
         public string contentVersionID;
         public string caseId;
     }
