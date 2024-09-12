@@ -4,6 +4,5 @@
     <displayFormat>SFL-{000000000}</displayFormat>
     <externalId>true</externalId>
     <label>External Lead ID</label>
-    <trackHistory>false</trackHistory>
     <type>AutoNumber</type>
 </CustomField>
