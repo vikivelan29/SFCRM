@@ -54,10 +54,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Lead_Type__c</fieldItem>
-                <identifier>RecordLead_Type_cField</identifier>
+                <fieldItem>Record.ABSLI_Lead_Type__c</fieldItem>
+                <identifier>RecordABSLI_Lead_Type_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -108,6 +108,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.OwnerId</fieldItem>
                 <identifier>RecordOwnerIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABSLI_Lead_Type__c</fieldItem>
+                <identifier>RecordABSLI_Lead_Type__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-60dd56bb-1ed9-4f8a-8dd3-afdb4b496454</name>

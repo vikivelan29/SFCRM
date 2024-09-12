@@ -341,7 +341,7 @@
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
-        <picklistField>Lead_Type__c</picklistField>
+        <picklistField>ABSLI_Lead_Type__c</picklistField>
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
@@ -493,6 +493,12 @@
         <faultConnector>
             <targetReference>Error_Screen</targetReference>
         </faultConnector>
+        <inputAssignments>
+            <field>ABSLI_Lead_Type__c</field>
+            <value>
+                <elementReference>Lead_Source</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <field>ANI_Number__c</field>
             <value>
@@ -665,12 +671,6 @@
             <field>Lead_Sub_Stage__c</field>
             <value>
                 <elementReference>leadRecord.Lead_Sub_Stage__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Lead_Type__c</field>
-            <value>
-                <elementReference>Lead_Source</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1843,7 +1843,7 @@
             <targetReference>Get_RecordTypeId</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>customerRecord</name>
         <dataType>SObject</dataType>

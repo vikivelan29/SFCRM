@@ -1,98 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Lead_Type__c</fullName>
-    <description>This Field is restricted based on the Business Unit Field.</description>
     <externalId>false</externalId>
     <label>Lead Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
     <type>Picklist</type>
     <valueSet>
-        <controllingField>Business_Unit__c</controllingField>
+        <controllingField>LOB__c</controllingField>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Contact Centre</fullName>
+                <fullName>MF Transaction Related Outcall</fullName>
                 <default>false</default>
-                <label>Contact Centre</label>
+                <label>MF Transaction Related Outcall</label>
             </value>
             <value>
-                <fullName>Customer Referral</fullName>
+                <fullName>PMS Distributor Leads</fullName>
                 <default>false</default>
-                <label>Customer Referral</label>
+                <label>PMS Distributor Leads</label>
             </value>
             <value>
-                <fullName>Service to Sales</fullName>
+                <fullName>PMS Client Leads</fullName>
                 <default>false</default>
-                <label>Service to Sales</label>
+                <label>PMS Client Leads</label>
             </value>
             <value>
-                <fullName>Service to Sales- NBO</fullName>
+                <fullName>MF Service To Sales</fullName>
                 <default>false</default>
-                <label>Service to Sales- NBO</label>
-            </value>
-            <value>
-                <fullName>Employee Referral</fullName>
-                <default>false</default>
-                <label>Employee Referral</label>
-            </value>
-            <value>
-                <fullName>SEND AN ADVISOR</fullName>
-                <default>false</default>
-                <label>SEND AN ADVISOR</label>
-            </value>
-            <value>
-                <fullName>HDFC Win back</fullName>
-                <default>false</default>
-                <label>HDFC Win back</label>
-            </value>
-            <value>
-                <fullName>D2C Winback</fullName>
-                <default>false</default>
-                <label>D2C Winback</label>
-            </value>
-            <value>
-                <fullName>Branch walk in</fullName>
-                <default>false</default>
-                <label>Branch walk in</label>
-            </value>
-            <value>
-                <fullName>One ABC</fullName>
-                <default>false</default>
-                <label>One ABC</label>
+                <label>MF Service To Sales</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>Contact Centre</valueName>
+            <controllingFieldValue>MF</controllingFieldValue>
+            <valueName>MF Transaction Related Outcall</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>Customer Referral</valueName>
+            <controllingFieldValue>MF</controllingFieldValue>
+            <valueName>MF Service To Sales</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>Service to Sales</valueName>
+            <controllingFieldValue>PMS</controllingFieldValue>
+            <valueName>PMS Distributor Leads</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>Service to Sales- NBO</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>Employee Referral</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>SEND AN ADVISOR</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>HDFC Win back</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>D2C Winback</valueName>
+            <controllingFieldValue>PMS</controllingFieldValue>
+            <valueName>PMS Client Leads</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
