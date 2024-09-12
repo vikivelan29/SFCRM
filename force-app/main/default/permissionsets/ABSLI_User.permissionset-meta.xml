@@ -64,6 +64,10 @@
         <apexClass>ABSLI_NSDLPANVerification</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>ShowCreateLead</name>
+    </customPermissions>
     <classAccesses>
         <apexClass>ABSLI_FundValueCompController</apexClass>
         <enabled>true</enabled>
