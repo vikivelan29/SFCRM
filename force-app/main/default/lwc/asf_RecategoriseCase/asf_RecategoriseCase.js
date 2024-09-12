@@ -25,6 +25,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
 import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
 
+
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 import Recat_Approval_Required_BU_label from '@salesforce/label/c.ASF_Recat_Approval_Required_BU';
 
@@ -188,7 +189,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     selectLan;
     assetSearchPlaceholder;
     currentIssueType = '';
-
+    
     /* METHOD TO GET THE CASE RELATED INFORMATION ON LOAD.
     */
     @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD,CCC_FIELD,CASE_ASSET_LAN_NUMBER,BSLI_ISSUE_TYPE,CASE_ASSET_POLICY_NUMBER] })
@@ -203,8 +204,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
-            // if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU){
-            if(BU_TO_HIDE_EBOT_FEEDBACK.includes(case_Bu)){
+            //if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU || getFieldValue(data, CASE_BU_FIELD) == ABSLAMC_BU){
+            if(BU_TO_HIDE_EBOT_FEEDBACK.split(';').includes(case_Bu)){
                 this.showBotFeedbackDropdown = false;
             }
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);

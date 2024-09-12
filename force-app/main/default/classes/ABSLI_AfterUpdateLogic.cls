@@ -102,4 +102,32 @@ public with sharing class ABSLI_AfterUpdateLogic {
         }
     }
     
+     /**
+     * @description This method is called from ASF_CaseTriggerBUSpecificHandler
+     * If the case is Resolved by API, update the owner to API User
+     * @param newCases
+     * @param oldMap 
+	 */
+     public static void changeOwnerOnAutoResolve(List<Case> newCases, Map<Id, Case> oldMap){
+        List<Case> eligibleCases = new List<Case>();
+        for(Case caseRec : newCases){
+            if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && String.isBlank(caseRec.IRDAI_Token_Number__c) 
+               && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c 
+               && caseRec.Stage__c == 'Resolved' && UserInfo.getName() == System.Label.ABCL_Integration_UserName){
+                   eligibleCases.add(caseRec);
+               }
+        }
+        if(!eligibleCases.isEmpty()){
+            Map<Id, Case> caseFinalDMLMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
+            for(Case caseRec : eligibleCases){
+                if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                    Case caseObj = new Case(Id = caseRec.Id);
+                    caseFinalDMLMap.put(caseRec.Id, caseObj);
+                }
+                Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                caseRecFromMap.OwnerId = UserInfo.getUserId();
+                caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+            }
+        }   
+    }
 }

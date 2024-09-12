@@ -16,12 +16,18 @@ public with sharing class ABSLI_LoanRepaymentIntegration implements ASF_Integrat
             
             result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
             
-            if (
-                (caseRecord.Technical_Source__c == 'API' && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c
-                && caseRecord.ABSLI_Case_Detail__r.Loan_Repayment_Type__c == 'Full Loan Repayment')
-            ) {
-                result.status = ABSLI_Constants.SUCCESS;
-                result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+            //Customer Portal and Status_Valid_For_STP__c is false 
+            if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+             	if (
+                    (caseRecord.Technical_Source__c == 'API' && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c
+                    && caseRecord.ABSLI_Case_Detail__r.Loan_Repayment_Type__c == 'Full Loan Repayment')
+                ) {
+                    result.status = ABSLI_Constants.SUCCESS;
+                    result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+                }   
             }
             
             resultMap.put(caseRecord.Id, result);

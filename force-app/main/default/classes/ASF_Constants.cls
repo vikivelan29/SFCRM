@@ -123,7 +123,7 @@ public with sharing class ASF_Constants {
     public static final String DUPLICATESTATUS = 'Closed Duplicate';
     public static final String DUPLICATESTAGE = 'Duplicate';
     public static final List<String> REJECTIONSTATUSES = new List<String>{'Unresolved','Rejected','Duplicate'};
-    public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved'};
+    public static final List<String> CASECLOSEREJECTEDSTATUSES = new List<String>{'Closed','Resolved','Rejected','Unresolved','Duplicate'};
     public static final String ONCREATECLOSESTAGE = 'Resolved';
     public static final String ONCREATECLOSESTATUS = 'Resolved';
     public static final List<String> RESOLVEDSTAGES = new List<String>{'Resolved','Closed'};
@@ -155,5 +155,10 @@ public with sharing class ASF_Constants {
     /* Asset ExternalId fields per Business Unit */
     public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG'};
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
+    
+    public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
+    public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';
+    //Add all the Case Detail fields here in lowercase. It's used for the skipper functionality in case the field is not present in Case Stage Config for query
+    public static final Set<String> CASE_EXTENSION_FIELDSET = new Set<String>{'pay_payment_detail__c','abhfl_case_detail__c','abfl_case_detail__c','absli_case_detail__c','abslig_case_detail__c'};
 
 }

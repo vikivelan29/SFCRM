@@ -1,7 +1,7 @@
 /**
-* @description       : 
+* @description       :
 * @author            : Dhinesh
-* @group             : 
+* @group             :
 * @last modified on  : 14-06-2024
 * @last modified by  : Dhinesh
 * Modifications Log
@@ -21,8 +21,8 @@ public with sharing class ABSLI_RequestResolutionBeforeStage implements ASF_Case
         }
         List<Case> validateResolutionCases = new List<Case>();
         for(Case caseRec : caseRecords){
-            if(caseRec.Technical_Source__c != 'API' && UserInfo.getName() != System.Label.ABCL_Integration_UserName ){
-               validateResolutionCases.add(caseRec); 
+            if(caseRec.Technical_Source__c != 'API' && (UserInfo.getName() != System.Label.ABCL_Integration_UserName) ){
+               validateResolutionCases.add(caseRec);
             }
 		}
        	Map<Id, ABSLI_CTSTHelper.FieldValidationResult> wrapperResultMap = ABSLI_CTSTHelper.validateResolutionfields(validateResolutionCases);
@@ -31,11 +31,11 @@ public with sharing class ABSLI_RequestResolutionBeforeStage implements ASF_Case
                 ABSLI_CTSTHelper.FieldValidationResult wrapperResult = wrapperResultMap.get(caseId);
                 if(wrapperResult.result && !wrapperResult.blankFields.isEmpty()){
                     retCls.status = ABSLI_Constants.ERROR;
-                    retCls.errorMessage = wrapperResult.message; 
+                    retCls.errorMessage = wrapperResult.message;
                 }
            		if(wrapperResult.result && wrapperResult.blankFields.isEmpty()){
                     retCls.status = ABSLI_Constants.ERROR;
-                    retCls.errorMessage = wrapperResult.message; 
+                    retCls.errorMessage = wrapperResult.message;
                 }
                 returnWrapper.put(caseId, retCls);
             }

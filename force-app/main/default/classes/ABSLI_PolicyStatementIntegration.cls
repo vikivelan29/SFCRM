@@ -22,23 +22,26 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 
 		for (Case caseRecord : caseRecords) {
 			ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-
+            
 			result.status = ABSLI_Constants.ERROR;
 			result.response = result.response = Custom_Messages__mdt.getInstance(
 					ABSLI_Constants.POLICYSTATEMENT_EVALUATION_ERROR
 				)
 				.Message__c;
-
-			if (
-				caseRecord.Asset.Policy_No__c != null &&
-				caseRecord.Asset.LI_DOB__c != null &&
-				caseRecord.ABSLI_Case_Detail__r.From_Date__c != null &&
-				caseRecord.ABSLI_Case_Detail__r.To_Date__c != null
-			) {
-				result.status = ABSLI_Constants.SUCCESS;
-				result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-			}
-
+            if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+                if (
+                    caseRecord.Asset.Policy_No__c != null &&
+                    caseRecord.Asset.LI_DOB__c != null &&
+                    caseRecord.ABSLI_Case_Detail__r.From_Date__c != null &&
+                    caseRecord.ABSLI_Case_Detail__r.To_Date__c != null
+                ) {
+                    result.status = ABSLI_Constants.SUCCESS;
+                    result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+                }
+            }
 			resultMap.put(caseRecord.Id, result);
 		}
 

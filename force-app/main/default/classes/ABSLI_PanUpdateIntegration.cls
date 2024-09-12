@@ -24,9 +24,13 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
             caseIds.add(caseRec.Id);
         }
+        Map<Id,Boolean> caseSignatureMatchedMap = new Map<Id,Boolean>();
         for(ASF_Checklist__c checklist : [SELECT Id, Case__c, Status__c FROM ASF_Checklist__c WHERE Case__c IN:caseIds AND Mandatory__c=TRUE]){
             if(!caseIdVsCheckListMap.containsKey(checklist.Case__c)){
                 caseIdVsCheckListMap.put(checklist.Case__c,new List<ASF_Checklist__c>());
+            }
+            if(checklist.Status__c == ABSLI_Constants.CHECKLIST_SIGNATURE_MATCHED){
+                caseSignatureMatchedMap.put(checklist.Case__c,true);
             }
             caseIdVsCheckListMap.get(checklist.Case__c).add(checklist);
         }
@@ -34,24 +38,49 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABSLI_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('ABSLI_PanUpdateIntegration_ERR1').Message__c;
+
+            if(ABSLI_Constants.SURRENDER_WITHDRAWAL_CASE_TYPES.contains(caseRecord.CCC_External_ID__c)){
+                result.status = ABSLI_Constants.ERROR;
+                String evaluationErrorMetadataName = ABSLI_Constants.ABSLI_PANUPDATE_NOT_REQUIRED_ERROR;
+                result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
+            }
             
-            if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API'){
-                result.status = ABSLI_Constants.SUCCESS;
-            }else if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='LWC'){
-                if(!caseIdVsCheckListMap.isEmpty() && caseIdVsCheckListMap.get(caseRecord.Id)!=null 
-                   && caseIdVsCheckListMap.get(caseRecord.Id).size()>0)
-                {
-                    for(ASF_Checklist__c cList : caseIdVsCheckListMap.get(caseRecord.Id)){
-                        if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(cList.Status__c)){
-                            result.response = Custom_Messages__mdt.getInstance('ABSLI_PanUpdateIntegration_ERR2').Message__c;
-                            break;
-                        }else{
-                            result.status = ABSLI_Constants.SUCCESS;
-                        }
-                    }
-                }else{
-                    result.status = ABSLI_Constants.SUCCESS;
-                }
+
+            //Customer Portal and Status_Valid_For_STP__c is false 
+            if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            } else {
+                
+                if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API'){
+                	result.status = ABSLI_Constants.SUCCESS;
+            	}else if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='LWC'){
+                	if(!caseIdVsCheckListMap.isEmpty() && caseIdVsCheckListMap.get(caseRecord.Id)!=null 
+                   		&& caseIdVsCheckListMap.get(caseRecord.Id).size()>0)
+                	{
+                    	for(ASF_Checklist__c cList : caseIdVsCheckListMap.get(caseRecord.Id)){
+                        	if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(cList.Status__c)){
+                            	result.response = Custom_Messages__mdt.getInstance('ABSLI_PanUpdateIntegration_ERR2').Message__c;
+                            	break;
+                        	}else{
+                            	result.status = ABSLI_Constants.SUCCESS;
+                        	}
+                    	}
+                	}else{
+                        result.status = ABSLI_Constants.SUCCESS;
+                	}
+               	}
+
+              if (caseRecord.ABSLI_Case_Detail__r.TDS_Indicator__c == 'Y' && String.isBlank(caseRecord.Account.PAN__c)) 
+              {
+                  if(caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
+                      result.status = ABSLI_Constants.SUCCESS;
+                      result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+                  } else {
+                      String evaluationErrorMetadataName = ABSLI_Constants.ABSLI_SIGNATURE_NOT_MATCHING_ERROR;
+                      result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
+                  }
+              }
             }
             resultMap.put(caseRecord.Id, result);
         }
@@ -189,15 +218,25 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
     
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
-        Case caseRec =[SELECT Id,MoveToNext__c FROM Case WHERE Id=:caseInteg.Case__c ];
+        Case caseRec =[SELECT Id,MoveToNext__c,ABSLI_Case_Detail__c,CCC_External_ID__c FROM Case WHERE Id=:caseInteg.Case__c ];
         if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(caseInteg.Response__c);
             if(String.valueOf(jsonMap.get('ProcessCode'))=='00'){
                 integrationFailure = false;
-                caseRec.MoveToNext__c = true;
-                if(!Test.IsRunningTest() && Schema.sObjectType.Case.isUpdateable())
-                {
-                    update caseRec;            
+                if(!ABSLI_Constants.SURRENDER_WITHDRAWAL_CASE_TYPES.contains(caseRec.CCC_External_ID__c)){
+                    caseRec.MoveToNext__c = true;
+                    if(!Test.IsRunningTest() && Schema.sObjectType.Case.isUpdateable())
+                    {
+                        update caseRec;            
+                    }
+                }else {
+                    List<sObject> dmlRecords = new List<sObject>();
+                    if(caseRec.ABSLI_Case_Detail__c != null){
+                        ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id = caseRec.ABSLI_Case_Detail__c);
+                        caseExt.Is_PAN_Update_Successful__c = true;
+                        dmlRecords.add(caseExt);
+                        Database.SaveResult[] results = Database.update(dmlRecords, true);
+                    }
                 }
             }
             else{	

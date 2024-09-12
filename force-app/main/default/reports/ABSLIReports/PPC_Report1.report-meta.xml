@@ -19,6 +19,9 @@
         <field>Case$Issue_Type__c</field>
     </columns>
     <columns>
+        <field>Case$CCC_External_Id__c</field>
+    </columns>
+    <columns>
         <field>Case$Channel__c</field>
     </columns>
     <columns>
@@ -48,7 +51,7 @@
         <field>Case$Status</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Entity_Reference_No__c</field>
+        <field>Case$Entity_Reference_No__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
@@ -63,13 +66,13 @@
         <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Advisor_Code__c</field>
+        <field>Case$Asset.Advisor__c.Advisor_Code__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Advisor_Status__c</field>
+        <field>Case$Asset.Advisor__c.Advisor_Status__c</field>
     </columns>
     <columns>
-        <field>Case$Asset.Bank_Branch_Name__c</field>
+        <field>Case$Asset.Branch__c.Name</field>
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Branch_Code__c</field>
@@ -90,7 +93,7 @@
         <field>Case$Account.Client_Code__c</field>
     </columns>
     <columns>
-        <field>Case$Contact.Birthdate</field>
+        <field>Case$Account.PersonContact.Birthdate</field>
     </columns>
     <columns>
         <field>Case$Asset.Plan_Name__c</field>
@@ -113,6 +116,9 @@
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Case_Pending_With__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Follow_up_Name__c</field>
     </columns>
     <columns>
         <field>Case$Owner</field>
@@ -143,6 +149,9 @@
     </columns>
     <columns>
         <field>Case$Account.State__c</field>
+    </columns>
+    <columns>
+        <field>Case$Account.Area__c</field>
     </columns>
     <columns>
         <field>Case$Account.ShippingPostalCode</field>
@@ -210,7 +219,7 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>Case$Issue_Type__c</sortColumn>
+    <sortColumn>Case$Asset.Branch__c.Branch_Code__c</sortColumn>
     <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>

@@ -480,6 +480,13 @@
         <value>mulesoft@abcl.dev</value>
     </labels>
     <labels>
+        <fullName>ASF_List_of_BUs_To_AutoSelect_Single_Asset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
         <fullName>ASF_No_DML_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -964,6 +971,13 @@
         <value>absli.uatsfbsliggrouphelpline@adityabirlacapital.com:ABSLIG_Group_Helpline_Acknowledgement_Email_1721731333006,absli.uatsfbsliggroupuw@adityabirlacapital.com:ABSLIG_Group_UW_Acknowledgement_Email_1721731484873</value>
     </labels>
     <labels>
+        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
+        <value>0 30 23 1/1 * ? *</value>
+    </labels>
+    <labels>
         <fullName>Business_Unit_Check_For_SLA_Override</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -988,7 +1002,7 @@
         <fullName>ABHI_Devices</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Abhi_Device</shortDescription>
+        <shortDescription>Abhi_Devices</shortDescription>
         <value>Devices</value>
     </labels>
     <labels>
@@ -996,7 +1010,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_Fitness_Appointment</shortDescription>
-        <value>Fitness Appointment</value>
+        <value>FA Appointment</value>
     </labels>
     <labels>
         <fullName>ABHI_Fitness_Level</fullName>
@@ -1045,11 +1059,48 @@
         <value>HHS &amp; Active Age</value>
     </labels>
     <labels>
+        <fullName>ABHI_OtherDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OtherDevice</shortDescription>
+        <value>Other Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_RecommendedDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_RecommendedDevice</shortDescription>
+        <value>Recommended Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Assessment Appointment History</value>
+    </labels>
+    <labels>
         <fullName>ABHI_Health_Return_App_Reg</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HAPP</shortDescription>
-        <value>ABHI Health Return App Reg</value>
+        <value>Health Return &amp; App Reg</value>
+    </labels>
+    <labels>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG;Payments</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Appointment Details</value>
     </labels>
     <labels>
         <fullName>ABHI_OtherDevice</fullName>
@@ -1075,6 +1126,28 @@
         <value>Device Details</value>
     </labels>
     <labels>
+        <fullName>ABHI_OtherDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OtherDevice</shortDescription>
+        <value>Other Devices</value>
+    </labels>
+    <labels>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG</value>
+    </labels>
+    <labels>
+        <fullName>Active_Day_Events</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Active_Day_Events</shortDescription>
+        <value>Active Day Events</value>
+    </labels>
+    <labels>
         <fullName>ABHI_FitnessAppDetails</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1082,17 +1155,80 @@
         <value>Fitness Appointment Details</value>
     </labels>
     <labels>
-        <fullName>ABHI_Health_Return_App_Reg</fullName>
+        <fullName>ABSLI_CustomerPortalUrl</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>HAPP</shortDescription>
-        <value>Health Return App Reg</value>
+        <shortDescription>ABSLI_CustomerPortalUrl</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/</value>
     </labels>
     <labels>
-        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <fullName>ABSLI_LITMUS_PROJECT_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments</value>
+        <shortDescription>ABSLI_LITMUS_PROJECT_ID</shortDescription>
+        <value>cnwf_touchpoint</value>
+    </labels>
+    <labels>
+        <fullName>ASF_List_of_BUs_To_AutoSelect_Single_Asset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ABAMC_NonMandatoryUnresCommentsBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABAMC_NonMandatoryUnresCommentsBUs</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseAssignmentQueueNames</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseAssignmentQueueNames</shortDescription>
+        <value>ABSLAMC MF Issue Management Unit</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
+        <value>Email,Phone</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Back_Stage_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Back Stage Movement Error</shortDescription>
+        <value>You Can not go directly to the &quot;Open&quot; Stage.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Forward_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
+        <value>Movement to this stage can only be done through CAMS</value>
+    </labels>
+	    <labels>
+        <fullName>ABSLI_Min_Loan_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
+        <value>5000</value>
+    </labels>
+	<labels>
+        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
+        <value>60</value>
+    </labels>
+	<labels>
+        <fullName>ASF_UIActionDelay</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
+        <value>2000</value>
     </labels>
 </CustomLabels>

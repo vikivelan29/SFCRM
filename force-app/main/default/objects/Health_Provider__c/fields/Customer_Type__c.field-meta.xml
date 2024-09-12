@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_Type__c</fullName>
+    <description>ABHI</description>
+    <externalId>false</externalId>
+    <label>Customer Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Health Provider</fullName>
+                <default>true</default>
+                <label>Health Provider</label>
+            </value>
+            <value>
+                <fullName>Group Customer</fullName>
+                <default>false</default>
+                <label>Group Customer</label>
+            </value>
+            <value>
+                <fullName>Agent</fullName>
+                <default>false</default>
+                <label>Agent</label>
+            </value>
+            <value>
+                <fullName>Prospect</fullName>
+                <default>false</default>
+                <label>Prospect</label>
+            </value>
+            <value>
+                <fullName>Member Customer</fullName>
+                <default>false</default>
+                <label>Member Customer</label>
+            </value>
+            <value>
+                <fullName>Dependent Customer</fullName>
+                <default>false</default>
+                <label>Dependent Customer</label>
+            </value>
+            <value>
+                <fullName>Retail Customer</fullName>
+                <default>false</default>
+                <label>Retail Customer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

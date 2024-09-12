@@ -55,6 +55,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     handleChange(event) {
         this.newAssetSelected = event.detail.recordId;
         console.log(`Selected record: ${event.detail.recordId}`);
+        this.template.querySelector("lightning-record-picker").reportValidity();
     }
 
     @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME,ASSET_NAME] })
@@ -115,6 +116,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
         let fieldsToCopy = [];
         let clonedCaseRecord = {};
         let clonedCaseExtnRecords = {}; //Its a map of objectapiname to cloned record
+        let isFAMandatory = false;
 
         if(!this.template.querySelector("lightning-record-picker").reportValidity()){
             const event = new ShowToastEvent({
@@ -164,7 +166,18 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                 && specificFields.fieldList.length > 0) {
                 fieldsToCopy = [...fieldsToCopy, ...specificFields.fieldList];
             }
+            //checks whether folio is mandatory on CCC, throws error when user proceeds to cloning the case without selecting folio
+            isFAMandatory = specificFields.isFAMandatory;
+            if(isFAMandatory && (this.newAssetSelected == 'NA' || !this.newAssetSelected)){
+               let recpicker = this.template.querySelector("lightning-record-picker");
+               recpicker.setCustomValidity('Please select an asset');
+               recpicker.reportValidity();
+               recpicker.setCustomValidity('');
+               this.isLoading = false;
+               return;
+            }
             console.log(JSON.stringify(fieldsToCopy), fieldsToCopy.length);
+
 
             //fetch existing case with clonable fields with case extension objects
             let caseWrapper = await fetchCaseDetailsWithExtension({
@@ -229,7 +242,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             const successevent = new ShowToastEvent({
                 variant: 'success',
                 title: 'Cloning successful',
-                message: 'Successfully cloned the SR!'
+                message: 'Successfully cloned the Case'
             });
             this.dispatchEvent(successevent);
 

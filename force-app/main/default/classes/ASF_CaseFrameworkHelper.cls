@@ -37,6 +37,7 @@ public without sharing class ASF_CaseFrameworkHelper {
                             caseApprovalRecord.Approval_Status__c  = 'Pending';
                             caseApprovalRecord.Case_Stage_At_Creation__c = caseRec.Stage__c;
                             caseApprovalRecord.SR__c = caseRec.Id;
+                            caseApprovalRecord.Line_Of_Business__c = caseRec.LOB__c;
                             approvalList.add(caseApprovalRecord);
                             break;
                         }
@@ -84,6 +85,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                                 // VIRENDRA - 13 June 2024 - Added Picklist Option field on ASF_Checklist.
                                 checklistRecord.Status_Picklist_Options__c = chklistMaster.Picklist_Options__c;
                                 // VIRENDRA - 13 June 2024 - ENDS HERE.
+                                //PR1030924-60, for populating new Line_Of_Business__c field
+                                checklistRecord.Line_Of_Business__c = caseRec.LOB__c;
                                 checklistList.add(checklistRecord);
                             }
                             break;
@@ -235,7 +238,14 @@ public without sharing class ASF_CaseFrameworkHelper {
     public static Map<Id, CaseRuleAssignmentInfo> findAssignmentForPreviouslyVisitedStage(Map<Id, String> caseStageMap){
         Map<Id,User> mINTEGRATIONUSERS = new Map<Id,User>([SELECT ID FROM User WHERE Profile.Name = 'Salesforce API Only System Integrations']);
         Map<Id, CaseRuleAssignmentInfo> resultInfoMap = new Map<Id, CaseRuleAssignmentInfo>();
-        
+        //Checks whether to skip case assignment rule or not based on the Feature_Skipper_Flag__c field on case
+        Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
+        Map<Id, String> filteredCaseStageMap = new Map<Id,String>();
+        for(Id caseId : caseStageMap.keySet()){
+            if(!(skipperFlagMap.containsKey(caseId) && skipperFlagMap.get(caseId).contains(ASF_Constants.SKIP_ASSIGNMENT))){
+                filteredCaseStageMap.put(caseId,caseStageMap.get(caseId)) ;
+            }
+        }
         // To be able to find the Owner, below is the Logic
         // 1. Find the Last Actioned User of that Stage using SLA History
         // 2. If that user is Inactive, Run Assignment Rule of that Stage and Return the Queue
@@ -253,9 +263,9 @@ public without sharing class ASF_CaseFrameworkHelper {
        Map<Id,ASF_Case_SLA_History__c> lastActionedUserHistoryMap = new Map<Id,ASF_Case_SLA_History__c>();
         Set<Id> lastActionedUsers = new Set<Id>();
         
-        for(Id caseId : caseStageMap.keySet()){
+        for(Id caseId : filteredCaseStageMap.keySet()){
             for(ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseId)){
-                if(history.Stage__c == caseStageMap.get(caseId)){
+                if(history.Stage__c == filteredCaseStageMap.get(caseId)){
                     if(!mINTEGRATIONUSERS.containsKey(history.Current_Owner_Id__c)){
                         //lastActionedUserIdMap.put(caseId, history.Current_Owner_Id__c);
                         lastActionedUserHistoryMap.put(caseId,history);
@@ -366,7 +376,7 @@ public without sharing class ASF_CaseFrameworkHelper {
                     }
                 }
                 runIntegrationFromLwc.put(caseRec.Id, false);
-            }     
+            }
         }
 
         if(!applicableCases.isEmpty()){
