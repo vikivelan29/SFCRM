@@ -28,7 +28,7 @@ public with sharing class ABSLI_PolicyStatementIntegration implements ASF_Integr
 					ABSLI_Constants.POLICYSTATEMENT_EVALUATION_ERROR
 				)
 				.Message__c;
-            if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
             	result.status = ABSLI_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
             }else{

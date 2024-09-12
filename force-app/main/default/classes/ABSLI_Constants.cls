@@ -43,7 +43,9 @@ public class ABSLI_Constants {
      };
      public static final List<String> SURRENDER_WITHDRAWAL_CCC_IDs = new List<String>{'PPAY008', 'PPAY001'};
      public static final String RQ_REDIRECT_COVID_QUE = 'COVID_QUE';
-    
+
+     public static final String CUSTOMER_PORTAL = 'Customer Portal';
+
 
     /* Bitly Link REAL TIME API
      */
@@ -259,4 +261,6 @@ public class ABSLI_Constants {
     public static final List<String> SURRENDER_WITHDRAWAL_CASE_TYPES = new List<String>{'PPAY001','PPAY008'};
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_NAME = 'User Branch';
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
+
 }
+
