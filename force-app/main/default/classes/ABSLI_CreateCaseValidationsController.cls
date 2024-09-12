@@ -191,9 +191,16 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                     }else{
             			return 'Policy is not eligible.';         	   
                     }
+                }else{
+                    system.debug('genFundResponse.responseBody:'+genFundResponse.responseBody);
+                    system.debug('genFundResponse:'+genFundResponse);
+                    GenFundFailureResponseBodyWrapper failureResponseWrapper = (GenFundFailureResponseBodyWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundFailureResponseBodyWrapper.class);
+                    if(!String.isBlank(failureResponseWrapper.Fault.FaultMessage)){
+                        return 'API Error: '+failureResponseWrapper.Fault.FaultMessage;
+                    }
                 }
             }
-        	return 'User is not eligible';
+        	return 'An error occurred while processing your request. Please try again later.';
         }catch (Exception e) {
             System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
@@ -202,6 +209,15 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
         }
+    }
+
+    public class GenFundFailureResponseBodyWrapper{
+        public FaultBody Fault{get;set;}
+    }
+
+    public class FaultBody{
+        public String FaultCode{get;set;}
+        public String FaultMessage{get;set;}
     }
 
     //AM-PR970457-2002 - nominee change pre case creation validation from UI
