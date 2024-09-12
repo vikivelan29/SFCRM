@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Prospect_Type__c</fullName>
-    <defaultValue>&quot;Service&quot;</defaultValue>
+    <fullName>Customer_ok_for_call_out__c</fullName>
     <externalId>false</externalId>
-    <label>Lead Prospect Type</label>
+    <label>Customer ok for call out</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Picklist</type>
@@ -12,14 +11,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Service</fullName>
+                <fullName>Yes</fullName>
                 <default>false</default>
-                <label>Service</label>
+                <label>Yes</label>
             </value>
             <value>
-                <fullName>Sales</fullName>
+                <fullName>No</fullName>
                 <default>false</default>
-                <label>Sales</label>
+                <label>No</label>
             </value>
         </valueSetDefinition>
     </valueSet>
