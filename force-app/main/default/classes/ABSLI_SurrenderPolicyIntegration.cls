@@ -44,7 +44,7 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
                     result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
                 }
             }*/
-          
+     
 			      //Customer Portal and Status_Valid_For_STP__c is false 
             if(caseRecord.Source__c == ABSLI_Constants.CUSTOMER_PORTAL && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
             	result.status = ABSLI_Constants.ERROR;

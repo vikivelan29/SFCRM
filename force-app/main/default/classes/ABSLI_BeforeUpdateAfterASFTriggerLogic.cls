@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic After ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 08-28-2024
+ * @last modified on  : 09-02-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
@@ -122,9 +122,9 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
                     caseDetail.Final_Resolution_Date__c == null &&
                     caseRec.Stage__c == 'Resolved' &&
                     caseDetail.IGMS_Complaint_Status__c == '6') {
-                        Case caseError = newMap.get(caseRec.Id);
+                            Case caseError = newMap.get(caseRec.Id);
                         caseError.addError('Attended to IGMS Esc API needs to be successful in order to close this case');
-                        newMap.put(caseRec.Id,caseError);
+                        	newMap.put(caseRec.Id,caseError);
                 }
             }
         }
@@ -132,6 +132,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
     
     public static void validateContactEmailUpdate(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
         List<String> emailContactSubTypes = new List<String>{'PNFT008','PNFT007'};
+        String withdrawalCCCId = 'PPAY008';
         Set<String> caseDetailIds = new Set<String>();
         for (Case caseRec : newMap.values()) {
             if (caseRec.ABSLI_Case_Detail__c != null) {
@@ -140,7 +141,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
         }
         //Case Detail 
 		Map<Id, ABSLI_Case_Detail__c> caseDetailMap = new Map<Id, ABSLI_Case_Detail__c>();
-        for (ABSLI_Case_Detail__c detail : [SELECT Id,Source_Request_submitted_by__c  FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
+        for (ABSLI_Case_Detail__c detail : [SELECT Id,Source_Request_submitted_by__c,Withdrawal_Amount_Available__c,Minimum_Withdrawal_Amount__c,Requested_Withdrawal_Amount__c  FROM ABSLI_Case_Detail__c WHERE Id IN :caseDetailIds]) {
             caseDetailMap.put(detail.Id, detail);
         }
         if(!absliCases.isEmpty()){
@@ -152,9 +153,18 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
 				 if (caseDetail != null  && emailContactSubTypes.contains(caseRec.CCC_External_Id__c)) {
                        if (caseDetail.Source_Request_submitted_by__c != 'Customer' && caseRec.Stage__c != 'Unresolved') {
                             Case caseError = newMap.get(caseRec.Id);
-                           	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Kindley Unresolve the case.');
+                           	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Kindly Unresolve the case.');
                             newMap.put(caseRec.Id,caseError);
                        }   
+                 }
+                 if (caseDetail !=null && caseRec.CCC_External_Id__c == withdrawalCCCId){
+                     if ((caseDetail.Requested_Withdrawal_Amount__c > caseDetail.Withdrawal_Amount_Available__c || 
+                          caseDetail.Requested_Withdrawal_Amount__c < caseDetail.Minimum_Withdrawal_Amount__c) && 
+                          caseRec.Stage__c != 'Unresolved'){
+                            Case caseError = newMap.get(caseRec.Id);
+                           	caseError.addError('Requested Withdrawal Amount is outside Range');
+                            newMap.put(caseRec.Id,caseError);
+                     }
                  }
              }
         }
