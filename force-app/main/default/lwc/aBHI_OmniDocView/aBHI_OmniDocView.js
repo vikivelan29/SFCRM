@@ -36,7 +36,6 @@ const CASE_FIELDS = [CASE_ID, CASE_NUMBER, CASE_ACCOUNT_ID, CASE_ASSET_PLAN_NAME
 
 export default class ABHI_OmniDocView extends LightningElement {
     @api recordId;
-    @api objectApiName;
     boolLoad = true;
     showAwaitDoc;
     showEmailComposer;
@@ -54,7 +53,7 @@ export default class ABHI_OmniDocView extends LightningElement {
     wireData;
     noRecordsAvailable;
     boolShowNoRec;
-    objAssetRecord;
+    objAssetRecord;// = {'sobjectType': 'Asset', 'sobjectFields': 'Account.PersonEmail'};
 
     get fields() {
         console.log('getObjectInfo Object Name ', this.objectApiName);
@@ -128,15 +127,13 @@ export default class ABHI_OmniDocView extends LightningElement {
             await getDataForDatatable({strAssetId: this.recordId, strPolicyNo: this.policyNumber}).then((response)=>{
                 if(response && response.SearchResponse){
                     for (let i = 0; i < response.SearchResponse.length; i++) {
-                        if(this.objectApiName != 'Case') response.SearchResponse[i].policyNumber = this.policyNumber;
+                        response.SearchResponse[i].policyNumber = this.policyNumber;
                         response.SearchResponse[i].rowUniqueId = Math.random().toString(16).slice(2,13);
                         if(response.SearchResponse[i].Error){
-                            if(Array.isArray(response.SearchResponse[i].Error)){
-                                for(let j = 0; j < response.SearchResponse[i].Error.length; j++){
-                                    if(response.SearchResponse[i].Error[j].Description != 'SUCCESS'){
-                                        this.boolShowNoRec = true;
-                                        this.noRecordsAvailable = response.SearchResponse[i].Error[j].Description;
-                                    }
+                            for(let j = 0; j < response.SearchResponse[i].Error.length; j++){
+                                if(response.SearchResponse[i].Error[j].Description != 'SUCCESS'){
+                                    this.boolShowNoRec = true;
+                                    noRecordsAvailable = response.SearchResponse[i].Error[j].Description;
                                 }
                             }
                         }
