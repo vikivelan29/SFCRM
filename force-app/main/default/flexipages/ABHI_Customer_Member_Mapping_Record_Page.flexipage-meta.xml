@@ -179,16 +179,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Super_Ncb_Amount__c</fieldItem>
-                <identifier>RecordSuper_Ncb_Amount_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Healty_Heart_Score__c</fieldItem>
                 <identifier>RecordHealty_Heart_Score_cField</identifier>
             </fieldInstance>
@@ -370,4 +360,4 @@
         <name>flexipage:recordHomeSingleColTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
-</FlexiPage> 
+</FlexiPage>
