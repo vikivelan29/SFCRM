@@ -352,6 +352,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Resolve_case__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Resolved_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Resolved_settled_status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHI_Case_Detail__c.Status_Valid_For_STP__c</field>
         <readable>true</readable>
     </fieldPermissions>
