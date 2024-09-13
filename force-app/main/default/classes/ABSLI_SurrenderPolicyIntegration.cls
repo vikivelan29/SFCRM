@@ -193,7 +193,7 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
         Set<String> intIds = new Set<String>();
         for (Case caseRec : caseRecs) {
             for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-                if (integ.Processing_Class__c == ABSLI_CreatePolicyNomineeIntegration.class.getName()) {
+                if (integ.Processing_Class__c == ABSLI_SurrenderPolicyIntegration.class.getName()) {
                     intIds.add(integ.External_Id__c);
                 }
             }
