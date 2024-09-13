@@ -284,7 +284,7 @@ public with sharing class ABSLI_CTSTHelper {
                                                                                      IsClosed = False AND AssetId =:assetIds
                                                                                      GROUP BY AssetID]);
             for(Case caseRecord : caseRecs){
-                if(mAggregateResults.containsKey(caseRecord.AccountId) && resultMap.get(caseRecord.Id).status == ABSLI_Constants.SUCCESS){
+                if(mAggregateResults.containsKey(caseRecord.AssetID)){ // &&  resultMap.get(caseRecord.Id).status == ABSLI_Constants.SUCCESS){
                     ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
                     result.status = ABSLI_Constants.ERROR;
                     result.response = Custom_Messages__mdt.getInstance('ABSLI_SurvivalUpdateIntegration_ERR3').Message__c;
