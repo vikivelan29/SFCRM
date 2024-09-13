@@ -21,12 +21,12 @@ public class ABSLI_EbotWrapper {
         public String EmailFrom;
         public String EmailTo;
         public String EmailSubject;
-        public List<String> Static_Attachment;
+        public List<StaticAttachmentWrapper> Static_Attachment;
     }
     
     public class StaticAttachmentWrapper {
 		public String AttachmentName;
-		public String For_Registered_Customer;
+		public Boolean For_Registered_Customer;
 	}
 
 }
