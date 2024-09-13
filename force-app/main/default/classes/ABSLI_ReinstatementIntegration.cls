@@ -23,7 +23,7 @@ public with sharing class ABSLI_ReinstatementIntegration implements ASF_Integrat
             String evaluationErrorMetadataName = ABSLI_Constants.REINSTATEMENT_EVAL_ERROR;
             
             result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
-           
+            
             //Customer Portal and Status_Valid_For_STP__c is false 
             if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
             	result.status = ABSLI_Constants.ERROR;

@@ -168,14 +168,14 @@ export default class Absli_legacyCasesView extends LightningElement {
     handleChange(event) {
 
         this.selectedAsset = event.detail.value;
-        if(this.selectedAsset != null && this.selectedAsset != undefined){
+        /*if(this.selectedAsset != null && this.selectedAsset != undefined){
             this.startDateRequired = true;
             this.endDateRequired = true;
         }
         else{
             this.startDateRequired = false;
             this.endDateRequired = false;
-        }
+        }*/
         console.log('this.v' + JSON.stringify(event.detail));
     }
 
