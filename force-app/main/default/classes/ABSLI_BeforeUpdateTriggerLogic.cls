@@ -184,7 +184,7 @@ caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
         // IF COUNT OF RECORD IS > 0, SET REJECT_CASE__C to TRUE
         if(!eligibleCases.isEmpty()){
             List<AggregateResult> caseToStatusCount = [SELECT Case__c,Status__c, COUNT(ID) FROM ASF_Checklist__c
-                                                       WHERE Status__c IN : ABSLI_Constants.CHECKLIST_SIGNATURECROPSIGNATUREMISMATCHANDNO_STATUS
+                                                       WHERE Status__c IN : ABSLI_Constants.CHECKLIST_FAILURE_STATUS
                                                        AND Case__c =: eligibleCases.keySet()
                                                        AND Mandatory__c = TRUE
                                                        GROUP BY Case__c,Status__c
