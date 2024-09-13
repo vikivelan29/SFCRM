@@ -121,7 +121,7 @@ export default class ABHI_OmniDocView extends LightningElement {
                 break;
             case 'cmpEmail':
                 if(this.objASFRecord.has(event.detail.row.rowUniqueId)){
-                    this.objCurrentASFRec = this.objASFRecord.get(event.detail.row.rowUniqueId)
+                    this.objCurrentASFRec = this.objASFRecord.get(event.detail.row.rowUniqueId);
                     console.log('currAsfId::',this.objCurrentASFRec);
                     this.showAwaitDoc = true;
                 }else{
