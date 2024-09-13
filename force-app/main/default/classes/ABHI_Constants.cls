@@ -57,6 +57,7 @@ public with sharing class ABHI_Constants {
     public static final String ERROR_ASFINSERT = 'Error in inserting ASF record ';
     public static final String ERROR_OMNIRESFAIL = 'Integration Failed. Try again or contact your Salesforce admin for help';
     public static final String ERROR_OMNIRESPENDINGLONG = 'File downlad process took too long to execute. Try again or contact your Salesforce admin for help';
+    public static final String ERROR_OMNISUCCESSLONG = 'File download process failed. Try again or contact your Salesforce admin for help';
     public static final String ERROR_DT_NORECORDS = 'Dynamic datatable child has no records';
     public static final String OMNIPAYLOAD_OMNIDOCINDEX = 'OmniDocIndex';
     public static final String OMNIPAYLOAD_VID = 'VID';
