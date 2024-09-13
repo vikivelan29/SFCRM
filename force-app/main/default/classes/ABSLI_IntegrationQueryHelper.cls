@@ -37,6 +37,7 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				Source__c,
 				CreatedById,
 				ABSLI_Case_Detail__c,
+                ABSLI_Case_Detail__r.Requested_Loan_Amount__c,
 				Stage__c
 			FROM Case
 			WHERE Id = :caseId
@@ -186,6 +187,4 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 
         return caseIdToCaseIntMap;
     }
-                                                                  
 }
-

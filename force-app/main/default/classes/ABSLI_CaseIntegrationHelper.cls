@@ -105,8 +105,8 @@ public class ABSLI_CaseIntegrationHelper {
             for(ABSLI_EbotWrapper.EmailDetailsWrapper emailWrapper : ebotResponse.Email_Details){
                 List<String> staticAttachmentList = new List<String>();
                 if(emailWrapper.Static_Attachment.size()>0){
-                    for(ABSLI_EbotWrapper.StaticAttachmentWrapper attachment: emailWrapper.Static_Attachment){
-                        staticAttachmentList.add(attachment.AttachmentName);
+                    for(String attachment: emailWrapper.Static_Attachment){
+                        staticAttachmentList.add(attachment);
                     }
                 }
                 String staticAttachmentIds = String.join(staticAttachmentList,',');

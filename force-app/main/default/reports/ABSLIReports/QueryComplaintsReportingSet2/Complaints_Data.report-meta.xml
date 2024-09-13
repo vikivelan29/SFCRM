@@ -19,10 +19,7 @@
         <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Advisor_Code__c</field>
-    </columns>
-    <columns>
-        <field>Case$Account.Advisor_Status__c</field>
+        <field>Case$Asset.Advisor__c.Advisor_Code__c</field>
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Name</field>
@@ -77,7 +74,7 @@
         <field>Case$Asset.Type__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Resolution__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Resolution_Comments__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Acknowledged_Date__c</field>
@@ -169,10 +166,10 @@
         <field>Case$Account.PersonContact.Birthdate</field>
     </columns>
     <columns>
-        <field>Case$Account.Owner.Email</field>
+        <field>Case$Account.PersonContact.Email</field>
     </columns>
     <columns>
-        <field>Case$Account.Phone</field>
+        <field>Case$Account.PersonContact.Mobile__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Acknowledgement_Call_Done_on_Number__c</field>
@@ -212,6 +209,9 @@
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Reopened_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Screening_Date__c</field>
     </columns>
     <description>ABSLI - Query &amp; Complaints Reporting Set - 2</description>
     <filter>

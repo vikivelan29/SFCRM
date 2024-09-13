@@ -218,7 +218,7 @@ public class ABSLI_PanUpdateIntegration implements ASF_IntegrationInvocable{
     
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
-        Case caseRec =[SELECT Id,MoveToNext__c,ABSLI_Case_Detail__c FROM Case WHERE Id=:caseInteg.Case__c ];
+        Case caseRec =[SELECT Id,MoveToNext__c,ABSLI_Case_Detail__c,CCC_External_ID__c FROM Case WHERE Id=:caseInteg.Case__c ];
         if(caseInteg.Status__c==ABHFL_Constants.SUCCESS){
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped(caseInteg.Response__c);
             if(String.valueOf(jsonMap.get('ProcessCode'))=='00'){
