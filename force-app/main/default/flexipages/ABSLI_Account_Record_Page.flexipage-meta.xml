@@ -10,7 +10,7 @@
                             <value>Account.Update_Fields_ViaFlow</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Account.New_Lead</value>
+                            <value>Account.Create_Sales_Lead</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
