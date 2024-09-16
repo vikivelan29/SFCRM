@@ -34,33 +34,14 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                                                             WHERE Id IN :mAbsliCases.keySet()]);
             System.debug('Inside ABSLI before Update Trigger logic');
             System.debug(absliCasesAdditionalFields);
-            //ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases(mAbsliCases.values(), oldMap);
             ABSLI_BeforeUpdateTriggerLogic.validateFromDateToDate(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.validateTasks(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
             ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(mAbsliCases.values(), oldMap, newMap);
         }  
     }
-    /**
-* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-* updated. If the case is marked as FTR, the case status is updated to 'Resolved'
-* @param absliCases
-* @param oldMap
 
-public static void autoResolveFtrCases(List<Case> absliCases, Map<Id, Case> oldMap){
-if(!absliCases.isEmpty()){
-for(Case caseRec : absliCases){
-if(caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c 
-&& caseRec.MoveToNext__c == true && caseRec.FTR__c == true){
-caseRec.MoveToNext__c = false;
-caseRec.Status = ASF_Constants.ONCREATECLOSESTATUS;
-caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
-}
-}
-}   
-}*/
-    
-    /**
+/**
 * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
 * moved to next stage and skip to stage. It validates if any open checklist is pending and throws validation error
 * @param newMap
