@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Target_Sub_LOBs__c</fullName>
+    <externalId>false</externalId>
+    <label>Target Sub-LOB</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Target_LOBs__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CFG</fullName>
+                <default>false</default>
+                <label>CFG</label>
+            </value>
+            <value>
+                <fullName>CMG</fullName>
+                <default>false</default>
+                <label>CMG</label>
+            </value>
+            <value>
+                <fullName>Corporate</fullName>
+                <default>false</default>
+                <label>Corporate</label>
+            </value>
+            <value>
+                <fullName>HFC</fullName>
+                <default>false</default>
+                <label>HFC</label>
+            </value>
+            <value>
+                <fullName>MF</fullName>
+                <default>false</default>
+                <label>MF</label>
+            </value>
+            <value>
+                <fullName>Mortgage</fullName>
+                <default>false</default>
+                <label>Mortgage</label>
+            </value>
+            <value>
+                <fullName>Retail</fullName>
+                <default>false</default>
+                <label>Retail</label>
+            </value>
+            <value>
+                <fullName>Unsecured</fullName>
+                <default>false</default>
+                <label>Unsecured</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Health Insurance</controllingFieldValue>
+            <controllingFieldValue>Housing Loan</controllingFieldValue>
+            <controllingFieldValue>Loans</controllingFieldValue>
+            <controllingFieldValue>Motor/ Travel Insurance</controllingFieldValue>
+            <controllingFieldValue>Mutual Funds</controllingFieldValue>
+            <controllingFieldValue>Stock broking</controllingFieldValue>
+            <valueName>CFG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Health Insurance</controllingFieldValue>
+            <controllingFieldValue>Housing Loan</controllingFieldValue>
+            <controllingFieldValue>Loans</controllingFieldValue>
+            <controllingFieldValue>Motor/ Travel Insurance</controllingFieldValue>
+            <controllingFieldValue>Mutual Funds</controllingFieldValue>
+            <controllingFieldValue>Stock broking</controllingFieldValue>
+            <valueName>CMG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Health Insurance</controllingFieldValue>
+            <controllingFieldValue>Housing Loan</controllingFieldValue>
+            <controllingFieldValue>Loans</controllingFieldValue>
+            <controllingFieldValue>Motor/ Travel Insurance</controllingFieldValue>
+            <controllingFieldValue>Mutual Funds</controllingFieldValue>
+            <controllingFieldValue>Stock broking</controllingFieldValue>
+            <valueName>Corporate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Health Insurance</controllingFieldValue>
+            <controllingFieldValue>Housing Loan</controllingFieldValue>
+            <controllingFieldValue>Loans</controllingFieldValue>
+            <controllingFieldValue>Motor/ Travel Insurance</controllingFieldValue>
+            <controllingFieldValue>Mutual Funds</controllingFieldValue>
+            <controllingFieldValue>Stock broking</controllingFieldValue>
+            <valueName>HFC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Health Insurance</controllingFieldValue>
+            <controllingFieldValue>Housing Loan</controllingFieldValue>
+            <controllingFieldValue>Loans</controllingFieldValue>
+            <controllingFieldValue>Motor/ Travel Insurance</controllingFieldValue>
+            <controllingFieldValue>Mutual Funds</controllingFieldValue>
+            <controllingFieldValue>Stock broking</controllingFieldValue>
+            <valueName>MF</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Health Insurance</controllingFieldValue>
+            <controllingFieldValue>Housing Loan</controllingFieldValue>
+            <controllingFieldValue>Loans</controllingFieldValue>
+            <controllingFieldValue>Motor/ Travel Insurance</controllingFieldValue>
+            <controllingFieldValue>Mutual Funds</controllingFieldValue>
+            <controllingFieldValue>Stock broking</controllingFieldValue>
+            <valueName>Mortgage</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Health Insurance</controllingFieldValue>
+            <controllingFieldValue>Housing Loan</controllingFieldValue>
+            <controllingFieldValue>Loans</controllingFieldValue>
+            <controllingFieldValue>Motor/ Travel Insurance</controllingFieldValue>
+            <controllingFieldValue>Mutual Funds</controllingFieldValue>
+            <controllingFieldValue>Stock broking</controllingFieldValue>
+            <valueName>Retail</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Health Insurance</controllingFieldValue>
+            <controllingFieldValue>Housing Loan</controllingFieldValue>
+            <controllingFieldValue>Loans</controllingFieldValue>
+            <controllingFieldValue>Motor/ Travel Insurance</controllingFieldValue>
+            <controllingFieldValue>Mutual Funds</controllingFieldValue>
+            <controllingFieldValue>Stock broking</controllingFieldValue>
+            <valueName>Unsecured</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

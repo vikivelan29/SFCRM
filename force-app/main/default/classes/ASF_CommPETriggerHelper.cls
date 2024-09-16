@@ -496,11 +496,17 @@ public without sharing class ASF_CommPETriggerHelper {
      * @return The created Outbound_Communication__e event.
      */
     private static Outbound_Communication__e createOutboundCommunication(ASF_Communication_Log__c log,String msgType){
+        string body = '';
+        if(msgType == 'WhatsApp'){
+            body = log.Whatsappp_Msg_Body__c;
+        } else {
+            body = log.SMS_Msg_Body__c;
+        }
         Outbound_Communication__e event = new Outbound_Communication__e(LogID__c  =log.id,
                                                                         Case__c = log.Case__c,
                                                                         Template_ID__c  = log.External_Template_ID__c ,
                                                                         Phone__c  =log.Phone__c,
-                                                                        Txt_Msg__c = log.SMS_Msg_Body__c,
+                                                                        Txt_Msg__c = body,
                                                                         LOB__c = log.LOB__c,
                                                                         Department__c = log.Line_of_Business__c,
                                                                         Type__c = msgType,
@@ -527,18 +533,27 @@ public without sharing class ASF_CommPETriggerHelper {
                     if(mCommConfigMetaName.containsKey(pLog.CustomMetadataName__c)){
                         String strMetadataName = pLog.CustomMetadataName__c;
                         Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
-                        
+
                         // SMS Related
                         if(commConfig != null && commConfig.SMS_Template_Name__c != null){
                             setCaseFields(commConfig,channelFieldNamesSMS[0]);
                         }
-                        
-                        // WhatsApp Related
-                        if(commConfig != null && commConfig.Whatsapp_Template_Name__c !=null){
-                            setCaseFields(commConfig,channelFieldNamesWA[0]);
-                        }
                     }
                 }
+                //Bypass sending WhatsApp when user manually blocks it during case creation
+                if(pLog.CustomMetadataName__c != null &&
+                (pLog.No_Auto_Communication__c == null || 
+                 (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('WhatsApp')))){
+                     if(mCommConfigMetaName.containsKey(pLog.CustomMetadataName__c)){
+                         String strMetadataName = pLog.CustomMetadataName__c;
+                         Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+                         // WhatsApp Related
+                         if(commConfig != null && commConfig.Whatsapp_Template_Name__c !=null){
+                             setCaseFields(commConfig,channelFieldNamesWA[0]);
+                         }
+                     }
+                 }
+
         }
         String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c';
         query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';

@@ -49,10 +49,14 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
             	result.status = ABSLI_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
             }else{
-             	if(caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
+             	if(caseRecord.Technical_Source__c == 'LWC' && caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
                     result.status = ABSLI_Constants.SUCCESS;
                     result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-                }   
+                }  
+                if(caseRecord.Technical_Source__c == 'API'){
+                    result.status = ABSLI_Constants.SUCCESS;
+                    result.response = ABSLI_Constants.EVALUATION_SUCCESS;                
+                } 
             }
             
             resultMap.put(caseRecord.Id, result);
@@ -189,7 +193,7 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
         Set<String> intIds = new Set<String>();
         for (Case caseRec : caseRecs) {
             for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-                if (integ.Processing_Class__c == ABSLI_CreatePolicyNomineeIntegration.class.getName()) {
+                if (integ.Processing_Class__c == ABSLI_SurrenderPolicyIntegration.class.getName()) {
                     intIds.add(integ.External_Id__c);
                 }
             }

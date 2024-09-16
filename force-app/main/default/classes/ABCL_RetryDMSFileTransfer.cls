@@ -20,12 +20,12 @@ public with sharing class ABCL_RetryDMSFileTransfer {
             if(ASF_Constants.RETRY_ENABLEDSTATUESES.contains(dms.Status__c)){
                 caseIds.add(dms.Case__c);
             }
-        } 
+        }
 
         if(caseIds.size() < 1){
             return;
         }
-        
+
         String query = 'SELECT ';
         query += ABFL_DMSSync_Orchestrator.getSOQLFieldsForDMS().DMS_Case_SOQL_Fields__c;
         query += ' FROM Case WHERE Id IN :caseIds';
@@ -35,20 +35,20 @@ public with sharing class ABCL_RetryDMSFileTransfer {
         DateTime startOfLast60Mins = System.now().addMinutes(-60);
         DateTime currentTime = System.now();
         Map<Integer,Integer> dmsRecordNoOfAttemptHashMap = new Map<Integer,Integer>();
-        
-        
+
+
         List<DMS_Files__c> oldDMSRecords = new List<DMS_Files__c> ();
-        
+
         if(DMS_Files__c.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).isAccessible()){
             oldDMSRecords = [SELECT ID,Case__c,ContentVersionId__c FROM DMS_Files__c WHERE Case__c =:caseIds AND Case__r.IsClosed = true AND (CreatedDate > :startOfLast60Mins AND CreatedDate <= :currentTime)];
         }
 
         for(DMS_Files__c oldDMS : oldDMSRecords){
-            
+
             String tempKey = oldDMS.Case__c+'_'+oldDMS.ContentVersionId__c;
             integer ihashKey = tempKey.hashCode();
-            
-            
+
+
             if(!dmsRecordNoOfAttemptHashMap.containsKey(ihashKey)){
                 dmsRecordNoOfAttemptHashMap.put(ihashKey,0);
             }
@@ -126,7 +126,6 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 fileRec.ContentDocumentId__c = file.ContentDocumentId__c;
                 fileRec.Case__c = file.Case__c;
                 fileRec.ContentVersionId__c = file.ContentVersionId__c;
-                fileRec.File_Name__c = file.File_Name__c;
                 fileRec.Has_Multiple_Versions__c = file.Has_Multiple_Versions__c;
                 fileRec.Is_Latest_Version__c = file.Is_Latest_Version__c;
                 fileRec.Version_Number__c = file.Version_Number__c;
@@ -136,11 +135,16 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                 fileRec.File_Extension__c = file.File_Extension__c;
                 fileRec.Next_Retry__c = System.now().addMinutes((Integer)Asf_Dynamic_Datatable_Parent__mdt.getInstance(ABFL_Constants.DMS_METADATA).DMS_Retry_Interval__c);
                 fileRec.Retry_Attempt__c = noOfAttempt;
-                if(String.isBlank(leadId)){
+                if(String.isBlank(leadId) && file.Business_Unit__c != ABSLI_Constants.BUSINESS_UNIT){
                     fileRec.Status__c = ABHFL_Constants.CANCELED;
                 } else {
                     fileRec.Status__c = ABHFL_Constants.PENDING;
                 }
+                // Modified Attribute for ABSLI specific Business Unit
+                fileRec.File_Name__c = file.File_Name__c;
+                fileRec.DMS_Folder_Id__c = file.DMS_Folder_Id__c;
+                fileRec.Application_ID__c = file.Application_ID__c;
+                fileRec.Policy_No__c = file.Policy_No__c;
                 fileRecList.add(fileRec);
             }
         }
@@ -177,7 +181,9 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                         File_Name__c = file.File_Name__c,
                         Is_Latest_Version__c = file.Is_Latest_Version__c,
                         Version_Number__c = file.Version_Number__c,
-                        Application_ID__c = caseRecord.Asset.LAN__c,
+                        Application_ID__c = file.Application_ID__c,
+                        DMS_Folder_Id__c = file.DMS_Folder_Id__c,
+                        Policy_No__c = file.Policy_No__c,
                         Document_Type__c = caseRecord.Type_Text__c+'-'+caserecord.Sub_Type_Text__c+'-'+caseRecord.Nature__c,
                         File_Extension__c = file.File_Extension__c,
                         Doc_SubType__c = caseRecord.Sub_Type_Text__c,
