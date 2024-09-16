@@ -126,10 +126,6 @@ public with sharing class ABHI_PendingIGMSComplaintIntegration implements ASF_In
                         dmlRecords.add(caseExt);
                         caseRecord.MoveToNext__c = true;
                         caseRecord.Entity_Reference_No__c  = entity_Complaint_Ref_Number;
-                        if(caseRecord.Technical_Source__c  == 'API' && queue.Id != null){
-                            caseRecord.OwnerId = queue.Id; 
-                           
-                        }
                         dmlRecords.add(caseRecord);
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
