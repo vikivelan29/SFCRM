@@ -142,26 +142,11 @@
         <value>5</value>
     </labels>
     <labels>
-        <fullName>ABFL_DMSPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMSPageSize</shortDescription>
-        <value>5</value>
-    </labels>
-    <labels>
         <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABFL_LegacyPageSize</shortDescription>
         <value>10</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_Manual_Sync_Threshold</fullName>
-        <categories>ABFL DMS</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
-        <value>5</value>
     </labels>
     <labels>
         <fullName>ABFL_LegacyPageSize</fullName>
@@ -309,34 +294,6 @@
         <protected>false</protected>
         <shortDescription>ASF_CaseEndStatuses</shortDescription>
         <value>Closed,Resolved,Rejected</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
-        <value>1214</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Documents_Of</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
-        <value>1202</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Masking_Status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
-        <value>1215</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
-        <value>1205</value>
     </labels>
     <labels>
         <fullName>ASF_Case_In_Queue_Long</fullName>
