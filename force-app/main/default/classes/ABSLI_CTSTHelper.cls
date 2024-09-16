@@ -68,11 +68,11 @@ public with sharing class ABSLI_CTSTHelper {
         
         for(Case caseR : caseRecs){
             FieldValidationResult validation = resultsMap.get(caseR.Id);
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Outcome__c)) {
+            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Outcome__c) && !(ASF_BulkCaseProcessorUtility.isBulkProcessing == TRUE && ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate == TRUE)) {
                 validation.blankFields.add(caseOutcomeField.getLabel());
                 validation.result = true;
             }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution__c)) {
+            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution__c) && !(ASF_BulkCaseProcessorUtility.isBulkProcessing == TRUE && ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate == TRUE)) {
                 validation.blankFields.add(caseResolutionField.getLabel());
                 validation.result = true;
             }
