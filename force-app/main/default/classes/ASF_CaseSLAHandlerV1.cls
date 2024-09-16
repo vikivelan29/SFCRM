@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 07-01-2024
+* @last modified on  : 08-16-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
@@ -864,14 +864,13 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 }
                 long slaIdentifier = 3600000;
                 //If the overallsla is not configured, empty the field
-                //if(closeSlaSec == null){
-                  //  updatedCase.Overall_Case_Closure_SLA__c = null;
-                  //  updatedCase.Overall_SLA_plus_X_days__c = null;
-                  //  updatedCase.Case_SLA_Threshold_1__c = null;
-                  //  updatedCase.Case_SLA_Threshold_2__c = null;
-                  //  updatedCase.Case_SLA_Threshold_3__c = null;
-                //}
-
+                if(closeSlaSec == null){
+                    updatedCase.Overall_Case_Closure_SLA__c = null;
+                    updatedCase.Overall_SLA_plus_X_days__c = null;
+                    updatedCase.Case_SLA_Threshold_1__c = null;
+                    updatedCase.Case_SLA_Threshold_2__c = null;
+                    updatedCase.Case_SLA_Threshold_3__c = null;
+                }
                 if(closeSlaSec != null && oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
                     //When case is recategorizzed. Take difference between Case created date.
                     //this is slightly different during case insert where we take systemnow
