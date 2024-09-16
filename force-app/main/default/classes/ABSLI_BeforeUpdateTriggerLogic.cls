@@ -22,7 +22,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             for(Case caseRec : frameworkCases.values()){
                 if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU){
                         mAbsliCases.put(caseRec.Id,caseRec);
-                }
+                    }
             }
         }
         
@@ -169,7 +169,7 @@ caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
 * @param mAbsliCases
 * @param oldMap
 */
-    public static void checkIfMandatoryChecklistNotCompleted(Map<Id, Case> mAbsliCases, Map<Id, Case> oldMap){
+	public static void checkIfMandatoryChecklistNotCompleted(Map<Id, Case> mAbsliCases, Map<Id, Case> oldMap){
         Map<Id, Case> eligibleCases = new Map<Id, Case>();
         if(mAbsliCases.keyset().size()>0){
             for(Case c : mAbsliCases.values()){
@@ -183,45 +183,20 @@ caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
         // CHECK IF OPEN CHECKLIST.
         // IF COUNT OF RECORD IS > 0, SET REJECT_CASE__C to TRUE
         if(!eligibleCases.isEmpty()){
-            List<AggregateResult> caseToStatusCount = [SELECT Case__c,Status__c, COUNT(ID) FROM ASF_Checklist__c
-                                                       WHERE Status__c IN : ABSLI_Constants.CHECKLIST_FAILURE_STATUS
-                                                       AND Case__c =: eligibleCases.keySet()
-                                                       AND Mandatory__c = TRUE
-                                                       GROUP BY Case__c,Status__c
-                                                       HAVING COUNT(ID) > 0];
-            
-            Map<Id,String> mCaseAndFlow = new Map<Id,String>();
-            
-            for(AggregateResult result : caseToStatusCount){
-                Id caseId = Id.ValueOf(String.ValueOf(result.get('Case__c')));
-                String statusStr = String.ValueOf(result.get('Status__c'));
-                Integer iCount = Integer.ValueOf(String.ValueOf(result.get('expr0')));
-                if(caseId != null){
-                    if(ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(statusStr)){
-                        mCaseAndFlow.put(caseId,statusStr);
-                    }
-                    else{
-                        String existingValue = mCaseAndFlow.get(caseId);
-                        if(!ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(statusStr)){
-                            mCaseAndFlow.put(caseId,statusStr);
-                        }
-                    }
-                }
-            }
+            Map<Id,AggregateResult> mCountOfNotCompletedChecklistOnCase = new Map<Id,AggregateResult>(
+                [SELECT Case__c Id, COUNT(ID) FROM ASF_Checklist__c 
+                 WHERE Status__c IN: ABSLI_Constants.CHECKLIST_FAILURE_STATUS
+                                                      AND Case__c =: eligibleCases.keySet()
+                                                      AND Mandatory__c = TRUE
+                 GROUP BY Case__c
+                 HAVING COUNT(ID) > 0]);
             for(Case c : eligibleCases.values()){
-                if(mCaseAndFlow.containsKey(c.Id)){
-                    if(ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(mCaseAndFlow.get(c.Id))){
+                if(mCountOfNotCompletedChecklistOnCase.containsKey(c.Id)){
                         c.Reject_Case__c = true;
                         c.Auto_Rejected__c = true;
                         c.MoveToNext__c = false;
-                    }
-                    else{
-                        c.Notes__c = '3';
-                        c.MoveToNext__c = true;
-                    }
                 }
             }
-            
         }              
     }
     
