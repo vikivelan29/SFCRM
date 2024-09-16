@@ -32,8 +32,8 @@ private class CaseEmailBatchTest {
     @isTest
     static void testCaseEmailBatch() {
         // Retrieve setup data
-        EmailTemplate emailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'apologize_email_to_customer_1726208031855' LIMIT 1];
-        OrgWideEmailAddress orgWideEmail = [SELECT Id FROM OrgWideEmailAddress WHERE Address = 'abctsl.crmteam-noreply@adityabirlacapital.com' LIMIT 1];
+        //EmailTemplate emailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'apologize_email_to_customer_1726208031855' LIMIT 1];
+        //OrgWideEmailAddress orgWideEmail = [SELECT Id FROM OrgWideEmailAddress WHERE Address = 'abctsl.crmteam-noreply@adityabirlacapital.com' LIMIT 1];
         
         // Retrieve record type IDs
         String individualRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Individual').getRecordTypeId();
