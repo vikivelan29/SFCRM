@@ -195,7 +195,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                     system.debug('genFundResponse.responseBody:'+genFundResponse.responseBody);
                     system.debug('genFundResponse:'+genFundResponse);
                     GenFundFailureResponseBodyWrapper failureResponseWrapper = (GenFundFailureResponseBodyWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundFailureResponseBodyWrapper.class);
-                    if(!String.isBlank(failureResponseWrapper.Fault.FaultMessage)){
+                    if(failureResponseWrapper!=null && (failureResponseWrapper.Fault)!=null && !String.isBlank(failureResponseWrapper.Fault.FaultMessage)){
                         return 'API Error: '+failureResponseWrapper.Fault.FaultMessage;
                     }
                 }
