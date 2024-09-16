@@ -20,7 +20,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
     public void abhiHandlerMethod(Map<String, List<Case>> mapOfBUToNewCs,  Map<Id, Case> oldMapOfCases, String triggerContext) {
 
         if(mapOfBUToNewCs.containsKey('ABHI') && mapOfBUToNewCs.get('ABHI').size() > 0) {
-            ABHI_CaseDetailHelper abhiCsDetHelperObj = new ABHI_CaseDetailHelper();
             mapOfBUToNewCase = mapOfBUToNewCs;
             mapOfIdToOldCase = oldMapOfCases;
             abhiNewCaseList = mapOfBUToNewCs.get('ABHI');
@@ -28,7 +27,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
             }
-            abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
         }
     }
 
