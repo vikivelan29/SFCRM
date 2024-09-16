@@ -4,6 +4,8 @@ import updateIssueType from "@salesforce/apex/ABSLI_IssueTypeController.updateIs
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { CurrentPageReference } from 'lightning/navigation';
+import { fireEventNoPageRef, registerListener } from 'c/asf_pubsub';
+import {RefreshEvent } from 'lightning/refresh'
 
 export default class Absli_IssueTypePopup extends LightningElement {
     @api recordId;
@@ -11,6 +13,7 @@ export default class Absli_IssueTypePopup extends LightningElement {
     @track selectedPicklistValue;
     @track valueEmpty = true;
     @track issueTypeNotAvailable = false;
+    @wire(CurrentPageReference) pageRef;
     
     @wire(CurrentPageReference)
     getPageReference(pageRef) {
@@ -43,11 +46,22 @@ export default class Absli_IssueTypePopup extends LightningElement {
         this.valueEmpty = !this.selectedPicklistValue;
     }
 
-    varifyConfirmFieldPopup(event) {
-        //event.preventDefault();
+    async varifyConfirmFieldPopup(event) {
         try {
-            const result = updateIssueType({ recordID: this.recordId, issueType: this.selectedPicklistValue});
+            const result = await updateIssueType({ recordID: this.recordId, issueType: this.selectedPicklistValue });
+    
             if (result) {
+                
+                let payload = { 'source': 'issueType', 'recordId': this.recordId };
+                console.log('PageRef before fireEventNoPageRef:', this.pageRef);
+                try {
+                    fireEventNoPageRef(this.pageRef, "refreshfromIntLWC", payload);
+                    console.log('Event fired successfully');
+                } catch (error) {
+                    console.error('Error firing event:', error);
+                }
+                this.dispatchEvent(new RefreshEvent());
+                
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Success',

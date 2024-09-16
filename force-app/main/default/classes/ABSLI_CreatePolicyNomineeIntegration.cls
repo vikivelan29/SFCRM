@@ -73,7 +73,8 @@ public with sharing class ABSLI_CreatePolicyNomineeIntegration implements ASF_In
         Boolean anyOutOfSync = false;
         Map<Id,List<ABSLI_Nominee__c>> mCaseNominees = new Map<Id,List<ABSLI_Nominee__c>>();
         for(ABSLI_Nominee__c nominee : [SELECT ID,Case__c,Sequence_No__c,Percentage__c,First_Name__c,Last_Name__c,Sync_Status__c,
-                                        Nominee_Birthdate__c,Relation__c,Appointee_Name__c,Appointee_Relation__c,Appointee_Birthdate__c
+                                        Nominee_Birthdate__c,Relation__c,Appointee_Name__c,Appointee_Relation__c,Appointee_Birthdate__c,
+                                        Minor_Birthdate__c,Minor_Relation__c
                                         FROM ABSLI_Nominee__c WHERE Case__c =: integs.keySet()
                                         AND Action_Item__c ='Create'])
         {
@@ -114,8 +115,8 @@ public with sharing class ABSLI_CreatePolicyNomineeIntegration implements ASF_In
                             nominee.Nominee_Birthdate__c,
                             nominee.Relation__c,
                             nominee.Appointee_Name__c,
-                            nominee.Appointee_Relation__c,
-                            nominee.Appointee_Birthdate__c
+                            nominee.Minor_Relation__c,
+                            nominee.Minor_Birthdate__c
                         )
                     );
                     /*lstRequest.add(new CreatePolicyNomineeRequestWrapper(
