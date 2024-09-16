@@ -261,14 +261,6 @@
         <valueField>Campaign_Name__c</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
-        <name>CustomerCallOutChoiceSet</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Customer_ok_for_call_out__c</picklistField>
-        <picklistObject>Lead</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
         <name>LeadStageChoiceSet</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
