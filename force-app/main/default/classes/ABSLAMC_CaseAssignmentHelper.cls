@@ -20,7 +20,6 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         List<String> caseSources = new List<String>(Label.ABSLAMC_CaseSourcesforAssignment.split(','));
         Map<String, Id> queueMap = new Map<String, Id>(); 
         List<ASF_Case_SLA_History__c> caseSLAHistories = new List<ASF_Case_SLA_History__c>();
-        System.debug('Sourced from Labels: '+caseSources);
         Map<Id, Set<String>> caseIdToSkipperFlag = new Map<Id, Set<String>>();
         
         for(Case caseRec : newMapCase.values()){
@@ -57,7 +56,6 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                     && caseRec.Stage__c != oldMapCase.get(caseRec.Id).Stage__c 
                     && caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE) 
                 {
-                    System.debug('Sourced from Labels: '+caseSources+' '+caseRec.Source__c);
                     if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
                         && caseSources.contains(caseRec.Source__c)) {
                             caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
