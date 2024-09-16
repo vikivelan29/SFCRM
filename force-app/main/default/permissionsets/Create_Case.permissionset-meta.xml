@@ -842,6 +842,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.DMS_Folder_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Case_Category_Config__c.ASF_Issue_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2772,6 +2777,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Policy_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Policy_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.ASF_Card_or_Account_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3818,6 +3833,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Policy_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Application_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.DMS_Folder_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -696,6 +696,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Policy_Identification__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Claimant_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2357,6 +2362,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Contact_Person_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Is_PAN_Update_Successful__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Is_Surrender_Withdrawal_Successful__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4753,6 +4768,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Category_Config__c.ASF_Is_Cloneable__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.DMS_Folder_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7537,6 +7557,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Filter_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Entity_Reference_No__c </field>
         <readable>true</readable>
@@ -8113,6 +8138,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Feature_Skipper_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.SLA_Override_Identifier__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8644,6 +8674,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Policy_No__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.Application_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DMS_Files__c.DMS_Folder_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9799,6 +9844,61 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.OneABC_Customer_TAT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.TDS_Indicator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Cash_Surrender_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Early_Payout__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Branch_Receive_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Before_3_PM__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Minimum_Withdrawal_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Requested_Withdrawal_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Withdrawal_Amount_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Balance_Amount_to_be_paid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Send_to_PS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.PAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12440,5 +12540,9 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewAllUsers</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ContentWorkspaces</name>
     </userPermissions>
 </PermissionSet>
