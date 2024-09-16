@@ -433,6 +433,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Not Attempted</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Warm</fullName>
             <default>false</default>
         </values>

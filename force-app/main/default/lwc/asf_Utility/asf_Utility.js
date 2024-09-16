@@ -7,6 +7,7 @@ import { reduceErrors } from 'c/asf_ldsUtils';
 
 //Fields
 import CASE_OBJECT from '@salesforce/schema/Case';
+import ASSETID_FIELD from '@salesforce/schema/Case.AssetId';
 import STAGE_FIELD from '@salesforce/schema/Case.Stage__c';
 import ID_FIELD from '@salesforce/schema/Case.Id';
 import CCC_FIELD from '@salesforce/schema/Case.CCC_External_Id__c';
@@ -145,6 +146,7 @@ export class asf_Utility {
        //fields[CASE_ORIGIN.fieldApiName] = parentJS.originValue;
        fields[TECHNICAL_SOURCE_FIELD.fieldApiName] = 'LWC';
        fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnitValue; 
+       fields[ASSETID_FIELD.fieldApiName] = parentJS.assetId;
        //fields[CASE_PRODUCT_FIELD.fieldApiName] = parentJS.assetProductName; 
        if(!parentJS.closeCase && !parentJS.rejectCase){
             fields['recordTypeId'] = recTypeId;

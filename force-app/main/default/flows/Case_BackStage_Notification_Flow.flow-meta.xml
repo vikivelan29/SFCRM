@@ -224,7 +224,7 @@
     <formulas>
         <name>CamsStageChangeNotificationBody</name>
         <dataType>String</dataType>
-        <expression>{!$Record.CaseNumber} + &apos; &apos;+&apos;Stage is Changed From&apos; +&apos; &apos;+TEXT({!$Record__Prior.Stage__c} ) +&apos; &apos;+&apos;Reply Received from CAMS.&apos;</expression>
+        <expression>{!$Record.CaseNumber} + &apos; &apos;+&apos;Stage is Changed From&apos; +&apos; &apos;+TEXT({!$Record__Prior.Stage__c} ) +&apos; to &apos;+&apos;Reply Received from CAMS.&apos;</expression>
     </formulas>
     <formulas>
         <name>Case_Open_Stage_Changed</name>
