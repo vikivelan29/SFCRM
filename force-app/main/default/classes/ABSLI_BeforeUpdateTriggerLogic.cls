@@ -22,7 +22,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             for(Case caseRec : frameworkCases.values()){
                 if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU){
                         mAbsliCases.put(caseRec.Id,caseRec);
-                }
+                    }
             }
         }
         
@@ -34,38 +34,19 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                                                             WHERE Id IN :mAbsliCases.keySet()]);
             System.debug('Inside ABSLI before Update Trigger logic');
             System.debug(absliCasesAdditionalFields);
-            //ABSLI_BeforeUpdateTriggerLogic.autoResolveFtrCases(mAbsliCases.values(), oldMap);
             ABSLI_BeforeUpdateTriggerLogic.validateFromDateToDate(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.validateTasks(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
             ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
         }  
     }
-    /**
-* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-* updated. If the case is marked as FTR, the case status is updated to 'Resolved'
-* @param absliCases
-* @param oldMap
 
-public static void autoResolveFtrCases(List<Case> absliCases, Map<Id, Case> oldMap){
-if(!absliCases.isEmpty()){
-for(Case caseRec : absliCases){
-if(caseRec.MoveToNext__c != oldMap.get(caseRec.Id).MoveToNext__c 
-&& caseRec.MoveToNext__c == true && caseRec.FTR__c == true){
-caseRec.MoveToNext__c = false;
-caseRec.Status = ASF_Constants.ONCREATECLOSESTATUS;
-caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
-}
-}
-}   
-}*/
-    
-    /**
-     * @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
-     * moved to next stage and skip to stage. It validates if any open checklist is pending and throws validation error
-     * @param newMap
-     * @param oldMap
-     */
+/**
+* @description This method is called from ASF_CaseTriggerBUSpecificHandler whenever a case is
+* moved to next stage and skip to stage. It validates if any open checklist is pending and throws validation error
+* @param newMap
+* @param oldMap
+*/
     public static void validateTasks(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
         Map<Id, Case> eligibleCases = new Map<Id, Case>();
         if(!absliCases.isEmpty()){
@@ -170,7 +151,7 @@ caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
 * @param mAbsliCases
 * @param oldMap
 */
-    public static void checkIfMandatoryChecklistNotCompleted(Map<Id, Case> mAbsliCases, Map<Id, Case> oldMap){
+	public static void checkIfMandatoryChecklistNotCompleted(Map<Id, Case> mAbsliCases, Map<Id, Case> oldMap){
         Map<Id, Case> eligibleCases = new Map<Id, Case>();
         if(mAbsliCases.keyset().size()>0){
             for(Case c : mAbsliCases.values()){
@@ -184,45 +165,20 @@ caseRec.Stage__c = ASF_Constants.ONCREATECLOSESTAGE;
         // CHECK IF OPEN CHECKLIST.
         // IF COUNT OF RECORD IS > 0, SET REJECT_CASE__C to TRUE
         if(!eligibleCases.isEmpty()){
-            List<AggregateResult> caseToStatusCount = [SELECT Case__c,Status__c, COUNT(ID) FROM ASF_Checklist__c
-                                                       WHERE Status__c IN : ABSLI_Constants.CHECKLIST_FAILURE_STATUS
-                                                       AND Case__c =: eligibleCases.keySet()
-                                                       AND Mandatory__c = TRUE
-                                                       GROUP BY Case__c,Status__c
-                                                       HAVING COUNT(ID) > 0];
-            
-            Map<Id,String> mCaseAndFlow = new Map<Id,String>();
-            
-            for(AggregateResult result : caseToStatusCount){
-                Id caseId = Id.ValueOf(String.ValueOf(result.get('Case__c')));
-                String statusStr = String.ValueOf(result.get('Status__c'));
-                Integer iCount = Integer.ValueOf(String.ValueOf(result.get('expr0')));
-                if(caseId != null){
-                        if(ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(statusStr)){
-                            mCaseAndFlow.put(caseId,statusStr);
-                        }
-                        else{
-                            String existingValue = mCaseAndFlow.get(caseId);
-                            if(!ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(statusStr)){
-                                mCaseAndFlow.put(caseId,statusStr);
-                            }
-                        }
-                }
-            }
+            Map<Id,AggregateResult> mCountOfNotCompletedChecklistOnCase = new Map<Id,AggregateResult>(
+                [SELECT Case__c Id, COUNT(ID) FROM ASF_Checklist__c 
+                 WHERE Status__c IN: ABSLI_Constants.CHECKLIST_FAILURE_STATUS
+                                                      AND Case__c =: eligibleCases.keySet()
+                                                      AND Mandatory__c = TRUE
+                 GROUP BY Case__c
+                 HAVING COUNT(ID) > 0]);
             for(Case c : eligibleCases.values()){
-                if(mCaseAndFlow.containsKey(c.Id)){
-                   if(ABSLI_Constants.CHECKLIST_FAILURE_STATUS.contains(mCaseAndFlow.get(c.Id))){
+                if(mCountOfNotCompletedChecklistOnCase.containsKey(c.Id)){
                         c.Reject_Case__c = true;
                         c.Auto_Rejected__c = true;
                         c.MoveToNext__c = false;
-                    }
-                    else{
-                        c.Notes__c = '3';
-                        c.MoveToNext__c = true;
-                    }
                 }
             }
-            
         }              
     }
     
