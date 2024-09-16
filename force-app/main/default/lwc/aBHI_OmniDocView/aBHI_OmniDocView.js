@@ -83,6 +83,17 @@ export default class ABHI_OmniDocView extends LightningElement {
                 if(response && response.SearchResponse){
                     for (let i = 0; i < response.SearchResponse.length; i++) {
                         response.SearchResponse[i].policyNumber = this.policyNumber;
+                        response.SearchResponse[i].rowUniqueId = Math.random().toString(16).slice(2,13);
+                        if(response.SearchResponse[i].Error){
+                            if(Array.isArray(response.SearchResponse[i].Error)){
+                                for(let j = 0; j < response.SearchResponse[i].Error.length; j++){
+                                    if(response.SearchResponse[i].Error[j].Description != 'SUCCESS'){
+                                        this.boolShowNoRec = true;
+                                        this.noRecordsAvailable = response.SearchResponse[i].Error[j].Description;
+                                    }
+                                }
+                            }
+                        }
                     }
                     this.data = response.SearchResponse;
                     resolve(response);
