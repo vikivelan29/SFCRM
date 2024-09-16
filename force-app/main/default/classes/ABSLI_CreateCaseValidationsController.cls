@@ -173,11 +173,6 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                                 caseExt.Withdrawal_Amount_Available__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.WITHDRAWL_AMOUNT_AVAILABLE);    
                             }else{
                                 return 'Withdrawal amount available should be more than 0.';
-                            }
-                            if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)){
-                                caseExt.Cash_Surrender_Value__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE);
-                            }else{
-                                return 'Cash Surrender Value should be more than 0.';
                             } 
                         }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PPAY001' || String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PFTT010'){
                             if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.CASH_SURRENDER_VALUE)){
