@@ -21,6 +21,8 @@
 		<targetConfig targets="lightning__RecordPage">
 			<property name="displayType" label="Display Type" type="String"
 			datasource="Timer,Date" description="Timer will display how much business hours/mins left for each SLA, Date will display the SLA dates only"/>
+			<property name="primarySLA" label="Primary SLA for display" type="String"
+			datasource="sla1,sla2,sla3" description="This SLA will be shown next to overall SLA"/>
 		</targetConfig>
 	</targetConfigs>
 </LightningComponentBundle>

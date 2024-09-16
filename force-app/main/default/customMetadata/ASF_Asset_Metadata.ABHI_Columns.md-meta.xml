@@ -8,7 +8,8 @@
     </values>
     <values>
         <field>Fields_to_Fetch__c</field>
-        <value xsi:type="xsd:string">Policy Number:LAN__r.Policy_No__c:url,Policy Owner:Customer__r.Name,Scheme:LAN__r.Plan_Name__c,Policy Start date:LAN__r.Issue_Date__c:date,Policy End Date:LAN__r.Next_Premium_Date__c:date,Policy Status:LAN__r.Status,Gross Premium:LAN__r.GrossPremium__c,Sum Insured:LAN__r.Sum_Assured__c,Policy Zone:LAN__r.ZoneOfCover__c,Is Combi:LAN__r.IsCombi__c</value>
+        <value xsi:type="xsd:string">Policy Number:LAN__r.Policy_No__c:url,Policy Owner:LAN__r.OwnerClientCode__r.Name,Scheme:LAN__r.Plan_Name__c,Policy Start date:LAN__r.Issue_Date__c:date,Policy End Date:LAN__r.Next_Premium_Date__c:date,Policy Status:LAN__r.Status,Gross Premium:LAN__r.GrossPremium__c,Sum Insured:LAN__r.Sum_Assured__c,Policy Zone:LAN__r.ZoneOfCover__c,
+Is Combi:LAN__r.IsCombi__c</value>
     </values>
     <values>
         <field>Line_Of_Business__c</field>

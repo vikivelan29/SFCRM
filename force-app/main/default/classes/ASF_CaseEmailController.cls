@@ -263,10 +263,10 @@ public without sharing class ASF_CaseEmailController {
         String fieldValue = '';
         if(documentGenObject.getSObjects(objectName) != null){
             for(sObject sob : documentGenObject.getSObjects(objectName)){
-                fieldValue+=(sob.get(fieldName) != null)?sob.get(fieldName) + ',':' --- ,';
+                fieldValue+=(sob.get(fieldName) != null)?sob.get(fieldName) + '<next>':' --- <next>';
             }
         }
-        return fieldValue.removeEnd(',');
+        return fieldValue.removeEnd('<next>');
     }
 
     private static void processNestedField(Map<String, String> resultMap, String field, sObject documentGenObject,Map<String, Map<String, Schema.SObjectField>> objectSchemas, String dateFormat){

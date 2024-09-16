@@ -1130,6 +1130,21 @@
                     <elementReference>$Record__Prior.Recategorisation_Date__c</elementReference>
                 </rightValue>
             </conditions>
+            <connector>
+                <targetReference>Is_CCC_Recat_flag_true</targetReference>
+            </connector>
+            <label>Yes Recategorised</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_CCC_Recat_flag_true</name>
+        <label>Is CCC Recat flag true</label>
+        <locationX>710</locationX>
+        <locationY>1871</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Send_Recat_Flag_True</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_case_config.Send_Recategorisation_Communication__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -1140,7 +1155,7 @@
             <connector>
                 <targetReference>Assign_Recategorisation_Templates</targetReference>
             </connector>
-            <label>Yes Recategorised</label>
+            <label>Send Recat Flag True</label>
         </rules>
     </decisions>
     <description>added condition to send an email for ABFL when case is categorized .

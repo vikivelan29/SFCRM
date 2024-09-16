@@ -140,7 +140,10 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.checkAndInsertPeripheralRecords(newCaseMap, (Map<Id, Case>)oldItems);
             
             // Virendra - to Reject the Checklist and Task on Case Rejection.
-            ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems); 
+            ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems);
+            
+            // EXECUTE BU SPECIFIC LOGIC IN BELOW CODE - Populate case field values before DML
+            buSpecificCls.executeBeforeCaseDMLInAfterUpdate(newCaseMap, (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);
             ASF_CaseSLAHandlerV1.updateSLAHistory((Map<Id, Case>)oldItems,newCaseMap); 
             ASF_CaseTriggerModularHelper.createFeedItem((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
@@ -170,6 +173,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
             ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
             buSpecificCls.executeBeforeASFCodeInAfterInsert(frameworkRTCases);
+            ASF_CaseTriggerModularHelper.populateCaseDetailFromBulk((Map<Id, Case>)newItemsCase, null);
             ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), null);
             ASF_CaseTriggerModularHelper.checkAndPopulateOwnerOnCaseCreation((Map<Id, Case>)newItemsCase);
             ASF_CaseTriggerModularHelper.checkAndProcessMoveToNextStage(newItemsCase.values(), null);

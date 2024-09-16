@@ -49,10 +49,14 @@ public with sharing class ABSLI_WithdrawalPolicyIntegration implements ASF_Integ
             	result.status = ABSLI_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
             }else{
-            	if(caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
+                if(caseRecord.Technical_Source__c == 'LWC' && caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
                     result.status = ABSLI_Constants.SUCCESS;
                     result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-                }    
+                }  
+                if(caseRecord.Technical_Source__c == 'API'){
+                    result.status = ABSLI_Constants.SUCCESS;
+                    result.response = ABSLI_Constants.EVALUATION_SUCCESS;                
+                } 
             }
             
             resultMap.put(caseRecord.Id, result);
@@ -106,7 +110,11 @@ public with sharing class ABSLI_WithdrawalPolicyIntegration implements ASF_Integ
             requestJSON.action = ABSLI_Constants.ACTION_WITHDRAWAL;
             requestJSON.FT_Amount_BR = '0';
             requestJSON.TDS_Ind = caseRecord.ABSLI_Case_Detail__r.TDS_Indicator__c == 'Y'?'true':'false';
-            requestJSON.surrenderamount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c);
+            String surrenderAmount = '0';
+            if(caseRecord.ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c != null){
+                surrenderAmount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c.intValue());
+            }
+            requestJSON.surrenderamount = surrenderAmount;
 
             string requestBody = JSON.serialize(requestJSON);
             for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {

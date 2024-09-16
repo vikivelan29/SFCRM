@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLI_Lead_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Lead Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Business_Unit__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Contact Centre</fullName>
+                <default>false</default>
+                <label>Contact Centre</label>
+            </value>
+            <value>
+                <fullName>Customer Referral</fullName>
+                <default>false</default>
+                <label>Customer Referral</label>
+            </value>
+            <value>
+                <fullName>Service to Sales</fullName>
+                <default>false</default>
+                <label>Service to Sales</label>
+            </value>
+            <value>
+                <fullName>Service to Sales- NBO</fullName>
+                <default>false</default>
+                <label>Service to Sales- NBO</label>
+            </value>
+            <value>
+                <fullName>Employee Referral</fullName>
+                <default>false</default>
+                <label>Employee Referral</label>
+            </value>
+            <value>
+                <fullName>SEND AN ADVISOR</fullName>
+                <default>false</default>
+                <label>SEND AN ADVISOR</label>
+            </value>
+            <value>
+                <fullName>HDFC Win back</fullName>
+                <default>false</default>
+                <label>HDFC Win back</label>
+            </value>
+            <value>
+                <fullName>D2C Winback</fullName>
+                <default>false</default>
+                <label>D2C Winback</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Contact Centre</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Customer Referral</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Service to Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Service to Sales- NBO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Employee Referral</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>SEND AN ADVISOR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>HDFC Win back</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>D2C Winback</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>
