@@ -124,18 +124,4 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLI_Checklist_sharing_Rule</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>ABSLI_Checklist_sharing_Rule</label>
-        <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
 </SharingRules>
