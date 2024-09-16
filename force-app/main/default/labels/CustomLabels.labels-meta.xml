@@ -1271,4 +1271,11 @@
         <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
         <value>Email - Call Centre,Phone - Call Centre</value>
     </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation</shortDescription>
+        <value>You do not have access to create complaint case.Complaint case can only be created by grievance user.</value>
+    </labels>
 </CustomLabels>
