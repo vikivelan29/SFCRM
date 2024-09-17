@@ -55,6 +55,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Calculator__c</fieldItem>
+                <identifier>RecordCalculator_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Deal_No__c</fieldItem>
                 <identifier>RecordDeal_No_cField</identifier>
             </fieldInstance>
@@ -1124,13 +1134,18 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhi_ViewPrintandDispatchDetails</componentName>
+                <identifier>c_abhi_ViewPrintandDispatchDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-8f8ce5d9-d05f-4479-bbf2-1609da4b6a1e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>New</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
@@ -1158,31 +1173,28 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Claim_Amount__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Claim_Status__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Claim_Sub_Type__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Hospital_Name__c</value>
+                            <value>Member_Name__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Claim_Type__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Co_Payment__c</value>
+                            <value>Claim_Date__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Member_Name__c</value>
+                            <value>Claim_Status__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Beneficiary_Name__c</value>
+                            <value>Claim_Amount__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Customer_Member_Mapping__c</value>
+                            <value>Total_amount_approved__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Deducted_amount__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Balance_Sum_Insured__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1207,6 +1219,58 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_healthAssesmentDetails</componentName>
+                <identifier>c_abhi_healthAssesmentDetails2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-m2h4cvao129</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-m2h4cvao129</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Medical Checkup</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-11065a6b-bab7-492a-8218-7400dfad8c4f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tabs</name>
+                    <value>Facet-11065a6b-bab7-492a-8218-7400dfad8c4f</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-20e8ec32-ded0-4eee-9327-dfd772a51122</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_RefundDetails</componentName>
+                <identifier>c_abhi_RefundDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-35c9f572-3815-4bd8-85ac-3d631dcca097</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1302,6 +1366,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-8f8ce5d9-d05f-4479-bbf2-1609da4b6a1e</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>View Print and Dispatch Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1312,12 +1390,40 @@
                 <identifier>flexipage_tab7</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-20e8ec32-ded0-4eee-9327-dfd772a51122</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Health Return</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-35c9f572-3815-4bd8-85ac-3d631dcca097</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Refunds</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab9</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>maintabs</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <componentInstance> 
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>maintabs</value>
