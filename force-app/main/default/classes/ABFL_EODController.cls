@@ -62,7 +62,7 @@ public without sharing class ABFL_EODController{
                 requestPayload.put('loanAccountNumber', assetRecord.LAN__c);
                 requestPayload.put('type', 1);
             } else if (apiName == 'EOD_Application_Details' && String.isNotBlank(assetRecord.LAN__c)){
-                requestPayload.put('applicationNo', assetRecord.LAN__c);
+                requestPayload.put('applicationNo', assetRecord.Application_Number__c);
                 requestPayload.put('type', 2);
             } else if (apiName == 'EOD_Disbursement_Details' && String.isNotBlank(assetRecord.LAN__c)){
                 requestPayload.put('loanAccountNumber', assetRecord.LAN__c);
