@@ -49,7 +49,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         else if(this.nps > 6 &&  this.nps <= 8){
             return "😐";
         }
-        else if(this.nps > 6 && this.nps <= 10){
+        else if(this.nps > 8 && this.nps <= 10){
             return "😁";
         }
         else {
