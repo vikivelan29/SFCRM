@@ -18,23 +18,26 @@ public with sharing class ABHI_ReopenedIGMSComplaintIntegration  implements ASF_
         for (Case caseRec : caseRecs) {
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
+        
         for (Case caseRecord : caseRecords) {
-            System.debug('comlaintstatus'+caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c);
-            if(caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '5'){
-                ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-                result.status = ABSLI_Constants.ERROR;
-                String evaluationErrorMetadataName = ABSLI_Constants.IGMS_REOPENEDCOMPLAINT_EVAL_ERROR;
-                result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
-                if (caseRecord.ABHI_Case_Detail__r.Escalated_Date__c != null )
-    //&& caseRecord.Technical_Source__c == 'LWC')
-                {
-                    result.status = ABSLI_Constants.SUCCESS;
-                    result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-                }
-                resultMap.put(caseRecord.Id, result);
+            ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+            
+            result.status = ABSLI_Constants.ERROR;
+            String evaluationErrorMetadataName = ABSLI_Constants.IGMS_REOPENEDCOMPLAINT_EVAL_ERROR;
+            
+            result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
+            
+            if (caseRecord.ABHI_Case_Detail__r.Escalated_Date__c != null )
+//&& caseRecord.Technical_Source__c == 'LWC')
+            {
+                result.status = ABSLI_Constants.SUCCESS;
+                result.response = ABSLI_Constants.EVALUATION_SUCCESS;
             }
+            
+            resultMap.put(caseRecord.Id, result);
         }
-        return resultMap;   
+        
+        return resultMap;
     }
 
     /**
@@ -81,38 +84,37 @@ public with sharing class ABHI_ReopenedIGMSComplaintIntegration  implements ASF_
         Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
         
         for (Case caseRecord : caseRecords) {
-            if(caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '5'){
-                objReq requestJSON = new objReq();
-                
-                /* ALL REQUIRED ATTRIBUTES HERE */
-                requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
-                requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
-                requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
+            objReq requestJSON = new objReq();
+            
+            /* ALL REQUIRED ATTRIBUTES HERE */
+            requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
+            requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
+            requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
 
-                string requestBody = JSON.serialize(requestJSON);
-                
-                for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
-                    System.debug('intSpec.Processing_Class__c --> '+intSpec.Processing_Class__c);
-                    if (intSpec.Processing_Class__c == ABHI_ReopenedIGMSComplaintIntegration.class.getName()) {
-                        ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
-                        caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
-                        caseInteg.Case__c = caseRecord.Id;
-                        caseInteg.Status__c = ABSLI_Constants.PENDING;
-                        caseInteg.Request__c = requestBody;
-                        caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
-                        caseInteg.Is_Validation_Success__c = true;
-                        newCaseIntegrations.add(caseInteg);
-                        
-                        Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
-                        caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
-                        caseIntOut.Request_Payload__c = requestBody;
-                        caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
-                        caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
-                        peMap.put(index, caseIntOut);
-                        indexToCaseId.put(index, caseRecord.Id);
-                        index++;
-                    }
+            string requestBody = JSON.serialize(requestJSON);
+            
+            for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
+                System.debug('intSpec.Processing_Class__c --> '+intSpec.Processing_Class__c);
+                if (intSpec.Processing_Class__c == ABHI_ReopenedIGMSComplaintIntegration.class.getName()) {
+                    ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+                    caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+                    caseInteg.Case__c = caseRecord.Id;
+                    caseInteg.Status__c = ABSLI_Constants.PENDING;
+                    caseInteg.Request__c = requestBody;
+                    caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInteg.Is_Validation_Success__c = true;
+                    newCaseIntegrations.add(caseInteg);
+                    
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
+                    caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
+                    caseIntOut.Request_Payload__c = requestBody;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.IGMS_UPDATECOMPLAINT_SRV_NAME;
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRecord.Id);
+                    index++;
                 }
+                
             }
         }
         
@@ -226,7 +228,6 @@ public with sharing class ABHI_ReopenedIGMSComplaintIntegration  implements ASF_
                         ABHI_Case_Detail__c  caseExt = new ABHI_Case_Detail__c (Id = caseRecord.ABHI_Case_Detail__c );
                         caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
                         caseExt.Reopened_Date__c = System.Today();
-                        caseExt.Final_Resolution_Date__c = null;
                         caseExt.IGMS_Complaint_Status__c = '6';
                         dmlRecords.add(caseExt);
                     }
@@ -259,7 +260,7 @@ public with sharing class ABHI_ReopenedIGMSComplaintIntegration  implements ASF_
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '6';
-            this.Status_Change_Date = ABHI_IGMSIntegrationHelper.todayString;
+            this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
             this.Trans_Login_Id = 'ABHICADMIN1';
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
