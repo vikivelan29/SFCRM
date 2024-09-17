@@ -4,7 +4,7 @@
         <description>This apex class is for checking the BU Specific logic.</description>
         <name>Additional_Checks_for_Email_Templates</name>
         <label>Additional Checks for Email Templates</label>
-        <locationX>908</locationX>
+        <locationX>1106</locationX>
         <locationY>2363</locationY>
         <actionName>ASF_CustomerEmailInvocable</actionName>
         <actionType>apex</actionType>
@@ -92,7 +92,7 @@
     <actionCalls>
         <name>Case_creator_when_the_case_is_closed</name>
         <label>Case creator when the case is closed</label>
-        <locationX>2494</locationX>
+        <locationX>2750</locationX>
         <locationY>755</locationY>
         <actionName>Case.Case_creator_when_the_case_is_closed</actionName>
         <actionType>emailAlert</actionType>
@@ -112,7 +112,7 @@
     <actionCalls>
         <name>Case_owner_when_the_case_is_assigned</name>
         <label>Case owner when the case is assigned</label>
-        <locationX>2450</locationX>
+        <locationX>2706</locationX>
         <locationY>1139</locationY>
         <actionName>Case.Case_owner_when_the_case_is_assigned</actionName>
         <actionType>emailAlert</actionType>
@@ -134,7 +134,7 @@
         <name>Assign_Recategorisation_Templates</name>
         <label>Assign Recategorisation Templates</label>
         <locationX>578</locationX>
-        <locationY>1871</locationY>
+        <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>EmailTempDevName</assignToReference>
             <operator>Assign</operator>
@@ -177,7 +177,7 @@
     <assignments>
         <name>Closed_Email_Template</name>
         <label>Resolved Email Template</label>
-        <locationX>1106</locationX>
+        <locationX>1370</locationX>
         <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
@@ -221,7 +221,7 @@
     <assignments>
         <name>Duplicate_Email_Template</name>
         <label>Duplicate Email Template</label>
-        <locationX>1634</locationX>
+        <locationX>1898</locationX>
         <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
@@ -265,7 +265,7 @@
     <assignments>
         <name>In_Progress_Email_Template</name>
         <label>In Progress Email Template</label>
-        <locationX>1898</locationX>
+        <locationX>2162</locationX>
         <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
@@ -309,7 +309,7 @@
     <assignments>
         <name>Open_Email_Template</name>
         <label>New Email Template</label>
-        <locationX>842</locationX>
+        <locationX>1106</locationX>
         <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
@@ -353,7 +353,7 @@
     <assignments>
         <name>Rejection_Email_Template</name>
         <label>Unresolved Email Template</label>
-        <locationX>1370</locationX>
+        <locationX>1634</locationX>
         <locationY>1979</locationY>
         <assignmentItems>
             <assignToReference>customMetadataName</assignToReference>
@@ -397,7 +397,7 @@
     <decisions>
         <name>By_pass_flow</name>
         <label>By pass flow</label>
-        <locationX>584</locationX>
+        <locationX>648</locationX>
         <locationY>323</locationY>
         <defaultConnector>
             <targetReference>Check_if_case_is_from_email</targetReference>
@@ -419,7 +419,7 @@
     <decisions>
         <name>Check_case_category_config</name>
         <label>Check case category config</label>
-        <locationX>2211</locationX>
+        <locationX>2459</locationX>
         <locationY>1547</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -441,7 +441,7 @@
     <decisions>
         <name>Check_case_creator_if_case_closed</name>
         <label>Check case creator if case closed</label>
-        <locationX>2582</locationX>
+        <locationX>2838</locationX>
         <locationY>539</locationY>
         <defaultConnector>
             <targetReference>Check_Case_Owner_is_changed</targetReference>
@@ -501,7 +501,7 @@
     <decisions>
         <name>Check_Case_Owner_is_changed</name>
         <label>Check Case Owner is changed</label>
-        <locationX>2582</locationX>
+        <locationX>2838</locationX>
         <locationY>1031</locationY>
         <defaultConnector>
             <targetReference>Check_Case_status</targetReference>
@@ -554,12 +554,12 @@
     <decisions>
         <name>Check_Case_status</name>
         <label>Check Case status</label>
-        <locationX>2582</locationX>
+        <locationX>2838</locationX>
         <locationY>1331</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Closed_Rejected_Resolved</name>
-            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8 OR (9 AND (10 OR 13 OR 14 OR 15)) OR (11 AND 12)</conditionLogic>
+            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR (6 AND 7) OR 8 OR (9 AND (10 OR 13 OR 14 OR 15 OR 16)) OR (11 AND 12)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record__Prior</leftValueReference>
                 <operator>IsNull</operator>
@@ -665,6 +665,13 @@
                     <stringValue>ABSLI</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABHI</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_case_config</targetReference>
             </connector>
@@ -674,7 +681,7 @@
     <decisions>
         <name>Check_for_contact_or_account</name>
         <label>Check for contact or account</label>
-        <locationX>1040</locationX>
+        <locationX>1238</locationX>
         <locationY>2555</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -788,7 +795,7 @@
     <decisions>
         <name>Check_if_case_is_from_email</name>
         <label>Check if case is from email</label>
-        <locationX>1382</locationX>
+        <locationX>1510</locationX>
         <locationY>431</locationY>
         <defaultConnector>
             <targetReference>Check_case_creator_if_case_closed</targetReference>
@@ -813,7 +820,7 @@
     <decisions>
         <name>Check_if_the_Origin_is_Email</name>
         <label>Check if the Origin is Email</label>
-        <locationX>2406</locationX>
+        <locationX>2662</locationX>
         <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Case_creator_when_the_case_is_closed</targetReference>
@@ -845,7 +852,7 @@
     <decisions>
         <name>Check_send_communication_configs</name>
         <label>Check send communication configs</label>
-        <locationX>1733</locationX>
+        <locationX>1964</locationX>
         <locationY>1655</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -902,7 +909,7 @@
     <decisions>
         <name>Custom_metadata_names</name>
         <label>Custom metadata names</label>
-        <locationX>1502</locationX>
+        <locationX>1766</locationX>
         <locationY>1871</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1075,7 +1082,7 @@
     <decisions>
         <name>Email_Template_Found</name>
         <label>Email Template Found?</label>
-        <locationX>1040</locationX>
+        <locationX>1238</locationX>
         <locationY>2255</locationY>
         <defaultConnector>
             <targetReference>Check_for_contact_or_account</targetReference>
@@ -1107,7 +1114,7 @@
     <decisions>
         <name>Is_Case_Recategorised</name>
         <label>Is Case Recategorised</label>
-        <locationX>1040</locationX>
+        <locationX>1238</locationX>
         <locationY>1763</locationY>
         <defaultConnector>
             <targetReference>Custom_metadata_names</targetReference>
@@ -1203,7 +1210,7 @@ Added Condition on Decision box -Email Template Found</description>
     <recordCreates>
         <name>Create_PE_Logger_Record</name>
         <label>Create PE Logger Record</label>
-        <locationX>908</locationX>
+        <locationX>1106</locationX>
         <locationY>2663</locationY>
         <connector>
             <targetReference>Invoke_PlatformEvent_Communication_Log</targetReference>
@@ -1298,7 +1305,7 @@ Added Condition on Decision box -Email Template Found</description>
     <recordCreates>
         <name>Invoke_PlatformEvent_Communication_Log</name>
         <label>Invoke PlatformEvent - Communication Log</label>
-        <locationX>908</locationX>
+        <locationX>1106</locationX>
         <locationY>2771</locationY>
         <connector>
             <targetReference>BU_Specific_Flow_Handler</targetReference>
@@ -1339,7 +1346,7 @@ Added Condition on Decision box -Email Template Found</description>
     <recordLookups>
         <name>Get_case_config</name>
         <label>Get case config</label>
-        <locationX>2211</locationX>
+        <locationX>2459</locationX>
         <locationY>1439</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1358,7 +1365,7 @@ Added Condition on Decision box -Email Template Found</description>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>458</locationX>
+        <locationX>522</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>By_pass_flow</targetReference>
@@ -1400,7 +1407,7 @@ Added Condition on Decision box -Email Template Found</description>
     <subflows>
         <name>BU_Specific_Flow_Handler</name>
         <label>BU Specific Flow Handler</label>
-        <locationX>908</locationX>
+        <locationX>1106</locationX>
         <locationY>2879</locationY>
         <flowName>Communication_Log_Extension_Flow_BU_Specific_Handler</flowName>
         <inputAssignments>
