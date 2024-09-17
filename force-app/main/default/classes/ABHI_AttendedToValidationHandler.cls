@@ -46,7 +46,7 @@ public with sharing class ABHI_AttendedToValidationHandler {
 
             if(String.isNotBlank(errorText)){
                 errorText = errorText.removeEnd(', ');
-                errorText += ' fields are mandatory in the Attended to section.';
+                errorText += ' fields are mandatory for Attended to IGMS button.';
             }
             fieldSpecificValidation(caseRecord);
 
