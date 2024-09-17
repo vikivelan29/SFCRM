@@ -32,6 +32,9 @@ public with sharing class Asf_NpsIndicatiorController {
         if(!surveyResp.isEmpty() && surveyResp[0].Primary_Question_NPS__c !=null){
             mapOfBusinessUnitToNpsScore.put(surveyResp[0]?.Business_Unit__c, String.valueOf(surveyResp[0].Primary_Question_NPS__c));
         }
+        else {
+            mapOfBusinessUnitToNpsScore.put(surveyResp[0]?.Business_Unit__c, 'null');
+        }
         return mapOfBusinessUnitToNpsScore; 
     }
 
