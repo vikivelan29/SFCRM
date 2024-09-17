@@ -49,11 +49,11 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         this.showCustomerNPSbyNumber = '';
         if(this.nps) {
             this.businessUnit = Object.keys(this.nps)[0];
-            this.showCustomerNPSbyNumber = this.nps[this.businessUnit];
+            this.showCustomerNPSbyNumber = Number(this.nps[this.businessUnit]);
         }
 
         if(this.businessUnit && (this.businessUnit !== lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
-            if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined) {
+            if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined || this.showCustomerNPSbyNumber == Nan) {
                 this.showCustomerNPSbyNumber =  "❌";
             }
             else if(this.showCustomerNPSbyNumber > 0 && this.showCustomerNPSbyNumber <= 3){
@@ -66,7 +66,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
                 this.showCustomerNPSbyNumber =  "😁";
             }
             else {
-                this.showCustomerNPSbyNumber;
+                this.showCustomerNPSbyNumber = '';
             }
         }
         else if(this.businessUnit && (this.businessUnit === lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
@@ -85,7 +85,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             this.showCustomerNPSbyNumber =  "😁";
         }
         else {
-            this.showCustomerNPSbyNumber;
+            this.showCustomerNPSbyNumber = '';
         }
     }
 

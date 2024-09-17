@@ -1073,13 +1073,13 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Policy_number_Formula__c</value>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Member_Id__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Member_Name__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Member_Status__c</value>
