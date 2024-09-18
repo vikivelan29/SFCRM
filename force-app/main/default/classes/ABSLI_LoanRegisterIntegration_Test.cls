@@ -29,6 +29,7 @@ public with sharing class ABSLI_LoanRegisterIntegration_Test {
 
 		ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
 		detailRec.Requested_Loan_Amount__c = 999999;
+        detailRec.Status_Valid_For_STP__c = true;
 		insert detailRec;
 
 		Case caseRec = ASF_TestDataFactory.createInteractionCaseRecords()[0];
@@ -160,7 +161,6 @@ public with sharing class ABSLI_LoanRegisterIntegration_Test {
 		ABSLI_LoanRegisterIntegration.LRResponseWrapper responseObj = new ABSLI_LoanRegisterIntegration.LRResponseWrapper();
 		responseObj.MIR_ACT_CHQ_VCHR_NUM = '8895335596';
         responseObj.LSIR_RETURN_CD = '00';
-        responseObj.MIR_BNK_ACCT_TYP_CD = 'AbiDhya';
 
 		caseIntegRec.Response__c = JSON.serialize(responseObj);
 		caseIntegRec.Status__c = 'Success';
@@ -188,6 +188,7 @@ public with sharing class ABSLI_LoanRegisterIntegration_Test {
 
         ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
 		detailRec.Requested_Loan_Amount__c = 999999;
+        detailRec.Status_Valid_For_STP__c = true;
 		insert detailRec;
 
         Case caseRec2 = ASF_TestDataFactory.createInteractionCaseRecords()[0];
@@ -203,7 +204,7 @@ public with sharing class ABSLI_LoanRegisterIntegration_Test {
 		update caseRec2;
 
 		Test.startTest();
-		Database.executeBatch(new ABSLI_LoanVoucherProcessIntegrationBatch(), 1);
+		Database.executeBatch(new ABSLI_LoanVoucherProcessIntegrationBatch(), 2);
 		Test.stopTest();
 	}
 

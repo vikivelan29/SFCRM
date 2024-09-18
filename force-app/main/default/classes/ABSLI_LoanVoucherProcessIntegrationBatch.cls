@@ -38,8 +38,8 @@ public with sharing class ABSLI_LoanVoucherProcessIntegrationBatch implements Da
                     return Database.getQueryLocator(strQuery);
                 }
 			}
-		//return Database.getQueryLocator(strQuery + ' LIMIT 0');
-        return Database.getQueryLocator(strQuery);
+		return Database.getQueryLocator(strQuery + ' LIMIT 0');
+        //return Database.getQueryLocator(strQuery);
 	}
 
 	public void execute(Database.BatchableContext bc, List<Case> caseRecords) {
