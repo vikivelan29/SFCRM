@@ -192,16 +192,22 @@ export class asf_Utility {
 
     async updateCaseJS(fields,parentJS, selected){
         if(selected.Validation_method_during_creation__c){
-            console.log('invoing validator');
             const caseRecordForValidation = { apiName: CASE_OBJECT.objectApiName, fields: fields };
+            console.log('invoing validator'+JSON.stringify(caseRecordForValidation));
             let methodName = selected.Validation_method_during_creation__c;
             let validationResult = await validator[methodName](caseRecordForValidation);
             console.log('returned with dynamic method '+JSON.stringify(validationResult));
             if(validationResult.isSuccess == false){
-                this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
-                this.loaded = true;
-                this.isNotSelected = true;
-                this.createCaseWithAll = false;
+                parentJS.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Oops! Validation error occured',
+                        message: validationResult.errorMessageForUser,
+                        variant: 'error'
+                    }),
+                );
+                parentJS.loaded = true;
+                parentJS.isNotSelected = true;
+                parentJS.createCaseWithAll = false;
                 return;
             }
             console.log('ending validator');

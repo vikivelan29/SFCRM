@@ -108,6 +108,18 @@
         <apexClass>ABSLI_DownloadIGMSComplaintIntegration</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_ReopenedIGMSComplaintIntegration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_AttendedToValidationHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_AssocCustomerForAPICases</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
@@ -1656,6 +1668,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.IRDAI_Token_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
