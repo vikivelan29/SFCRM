@@ -23,7 +23,12 @@
         <isRequired>true</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>Location__c</field>
+        <field>Proposal_Number__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>Policy_Number__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
