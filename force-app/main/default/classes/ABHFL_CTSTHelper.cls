@@ -181,8 +181,10 @@ public without sharing class ABHFL_CTSTHelper {
         Map<String, List<Case>> lanVsCases = new Map<String, List<Case>>();
         Map<String,Set<Id>> cccVsAccIds = new Map<String,Set<Id>>();
         Set<String> cccIdsForAcc = new Set<String>();
+	Map<Id,Case> IdvsCase = new Map<Id,Case>();         // added by Vikas
         RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
         for(Case c: caseList){
+		IdvsCase.put(c.Id,c);                      // added by vikas
             if(c.Business_Unit__c=='ABHFL' && 
                		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
                 	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
@@ -236,6 +238,9 @@ public without sharing class ABHFL_CTSTHelper {
                     if(accIdVsCases.containsKey(dupeCase.AccountId)){
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
+				if(c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ){
+                                ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase,oldCaseMap); 			// added by vikas, After recategorisation, ovarall SLA should changed before marked as closed duplicate.
+				}                                                                                
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = ASF_Constants.DUPLICATESTAGE;
                                     c.Status = ASF_Constants.DUPLICATESTATUS;
