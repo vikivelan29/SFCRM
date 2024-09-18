@@ -13,141 +13,6 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Anywhere Service</fullName>
-                <default>false</default>
-                <label>Anywhere Service</label>
-            </value>
-            <value>
-                <fullName>Advisor Portal</fullName>
-                <default>false</default>
-                <label>Advisor Portal</label>
-            </value>
-            <value>
-                <fullName>Bulk Upload from HO</fullName>
-                <default>false</default>
-                <label>Bulk Upload from HO</label>
-            </value>
-            <value>
-                <fullName>CAMS FO</fullName>
-                <default>false</default>
-                <label>CAMS FO</label>
-            </value>
-            <value>
-                <fullName>Deadline</fullName>
-                <default>false</default>
-                <label>Deadline</label>
-            </value>
-            <value>
-                <fullName>EMT CNX</fullName>
-                <default>false</default>
-                <label>EMT CNX</label>
-            </value>
-            <value>
-                <fullName>EMT HO</fullName>
-                <default>false</default>
-                <label>EMT HO</label>
-            </value>
-            <value>
-                <fullName>Fax</fullName>
-                <default>false</default>
-                <label>Fax</label>
-            </value>
-            <value>
-                <fullName>HO Back office</fullName>
-                <default>false</default>
-                <label>HO Back office</label>
-            </value>
-            <value>
-                <fullName>IGMS</fullName>
-                <default>false</default>
-                <label>IGMS</label>
-            </value>
-            <value>
-                <fullName>Inbound ABC</fullName>
-                <default>false</default>
-                <label>Inbound ABC</label>
-            </value>
-            <value>
-                <fullName>Inbound call</fullName>
-                <default>false</default>
-                <label>Inbound call</label>
-            </value>
-            <value>
-                <fullName>Inbound CNX</fullName>
-                <default>false</default>
-                <label>Inbound CNX</label>
-            </value>
-            <value>
-                <fullName>Inbound ConnectQ</fullName>
-                <default>false</default>
-                <label>Inbound ConnectQ</label>
-            </value>
-            <value>
-                <fullName>Insurance Repositary website</fullName>
-                <default>false</default>
-                <label>Insurance Repositary website</label>
-            </value>
-            <value>
-                <fullName>Insurance Repository</fullName>
-                <default>false</default>
-                <label>Insurance Repository</label>
-            </value>
-            <value>
-                <fullName>Insurance Repository website</fullName>
-                <default>false</default>
-                <label>Insurance Repository website</label>
-            </value>
-            <value>
-                <fullName>Letters and Faxes</fullName>
-                <default>false</default>
-                <label>Letters and Faxes</label>
-            </value>
-            <value>
-                <fullName>MH</fullName>
-                <default>false</default>
-                <label>MH</label>
-            </value>
-            <value>
-                <fullName>Outbound Altruist</fullName>
-                <default>false</default>
-                <label>Outbound Altruist</label>
-            </value>
-            <value>
-                <fullName>Outbound call</fullName>
-                <default>false</default>
-                <label>Outbound call</label>
-            </value>
-            <value>
-                <fullName>Outbound CNX</fullName>
-                <default>false</default>
-                <label>Outbound CNX</label>
-            </value>
-            <value>
-                <fullName>Outbound ConnectQ</fullName>
-                <default>false</default>
-                <label>Outbound ConnectQ</label>
-            </value>
-            <value>
-                <fullName>SMS</fullName>
-                <default>false</default>
-                <label>SMS</label>
-            </value>
-            <value>
-                <fullName>Telephone</fullName>
-                <default>false</default>
-                <label>Telephone</label>
-            </value>
-            <value>
-                <fullName>Web</fullName>
-                <default>false</default>
-                <label>Web</label>
-            </value>
-            <value>
-                <fullName>Website Redressal</fullName>
-                <default>false</default>
-                <label>Website Redressal</label>
-            </value>
-            <value>
                 <fullName>Email</fullName>
                 <default>false</default>
                 <label>Email</label>
@@ -308,304 +173,220 @@
                 <label>Others</label>
             </value>
             <value>
-                <fullName>Branch (walk-in / phone)</fullName>
+                <fullName>ABC Servicing App</fullName>
                 <default>false</default>
-                <label>Branch (walk-in / phone)</label>
+                <label>ABC Servicing App</label>
             </value>
             <value>
-                <fullName>Underwriting</fullName>
+                <fullName>Grievance Form</fullName>
                 <default>false</default>
-                <label>Underwriting</label>
+                <label>Grievance Form</label>
             </value>
             <value>
-                <fullName>NSTP</fullName>
+                <fullName>$%^&amp;</fullName>
                 <default>false</default>
-                <label>NSTP</label>
+                <isActive>false</isActive>
+                <label>$%^&amp;</label>
             </value>
             <value>
-                <fullName>Ubona</fullName>
+                <fullName>....</fullName>
                 <default>false</default>
-                <label>Ubona</label>
+                <isActive>false</isActive>
+                <label>....</label>
             </value>
             <value>
-                <fullName>CashLessAnywhere</fullName>
+                <fullName>123</fullName>
                 <default>false</default>
-                <label>CashLessAnywhere</label>
+                <isActive>false</isActive>
+                <label>123</label>
             </value>
             <value>
-                <fullName>Wellness</fullName>
+                <fullName>BOT</fullName>
                 <default>false</default>
-                <label>Wellness</label>
+                <isActive>false</isActive>
+                <label>BOT</label>
             </value>
             <value>
-                <fullName>Renewal Team</fullName>
+                <fullName>Branch,Bureau,Call- in,Chatbot,Customer Portal,Email,Inbound Nodal Desk,Internal RM - Collection,IVR,IVR-No Email,Letter / Snail Mail,MOBILEAPP,Phone-Inbound,Phone-Outbound,RM,RM-No Email,Social Media,Walkin,WhatsApp</fullName>
                 <default>false</default>
-                <label>Renewal Team</label>
+                <isActive>false</isActive>
+                <label>Branch,Bureau,Call- in,Chatbot,Customer Portal,Email,Inbound Nodal Desk,Internal RM - Collection,IVR,IVR-No Email,Letter / Snail Mail,MOBILEAPP,Phone-Inbound,Phone-Outbound,RM,RM-No Email,Social Media,Walkin,WhatsApp</label>
             </value>
             <value>
-                <fullName>Affinity Email</fullName>
+                <fullName>Call</fullName>
                 <default>false</default>
-                <label>Affinity Email</label>
+                <isActive>false</isActive>
+                <label>Call</label>
             </value>
             <value>
-                <fullName>PolicyBazar</fullName>
+                <fullName>Call Centre</fullName>
                 <default>false</default>
-                <label>PolicyBazar</label>
+                <isActive>false</isActive>
+                <label>Call Centre</label>
             </value>
             <value>
-                <fullName>Courier</fullName>
+                <fullName>Customer
+Portal</fullName>
                 <default>false</default>
-                <label>Courier</label>
+                <isActive>false</isActive>
+                <label>Customer
+Portal</label>
             </value>
             <value>
-                <fullName>BFL</fullName>
+                <fullName>CustomerPortal</fullName>
                 <default>false</default>
-                <label>BFL</label>
+                <isActive>false</isActive>
+                <label>CustomerPortal</label>
             </value>
             <value>
-                <fullName>BRANCH EMAIL</fullName>
+                <fullName>Disbursement Related</fullName>
                 <default>false</default>
-                <label>BRANCH EMAIL</label>
+                <isActive>false</isActive>
+                <label>Disbursement Related</label>
             </value>
             <value>
-                <fullName>Walk in- Branch</fullName>
+                <fullName>GEmail</fullName>
                 <default>false</default>
-                <label>Walk in- Branch</label>
+                <isActive>false</isActive>
+                <label>GEmail</label>
             </value>
             <value>
-                <fullName>Walk in to Branch</fullName>
+                <fullName>Gmail</fullName>
                 <default>false</default>
-                <label>Walk in to Branch</label>
+                <isActive>false</isActive>
+                <label>Gmail</label>
             </value>
             <value>
-                <fullName>Branch walk in</fullName>
+                <fullName>IVR - No Email</fullName>
                 <default>false</default>
-                <label>Branch walk in</label>
+                <isActive>false</isActive>
+                <label>IVR - No Email</label>
             </value>
             <value>
-                <fullName>Branch Letter</fullName>
+                <fullName>IVR-Inbound</fullName>
                 <default>false</default>
-                <label>Branch Letter</label>
+                <isActive>false</isActive>
+                <label>IVR-Inbound</label>
             </value>
             <value>
-                <fullName>Branch Courier</fullName>
+                <fullName>Not IVR-No Email</fullName>
                 <default>false</default>
-                <label>Branch Courier</label>
+                <isActive>false</isActive>
+                <label>Not IVR-No Email</label>
             </value>
             <value>
-                <fullName>Email- CEO Escalation</fullName>
+                <fullName>Not RM-No Email</fullName>
                 <default>false</default>
-                <label>Email- CEO Escalation</label>
+                <isActive>false</isActive>
+                <label>Not RM-No Email</label>
             </value>
             <value>
-                <fullName>Email- IRDAI Escalation</fullName>
+                <fullName>Payment Lounge</fullName>
                 <default>false</default>
-                <label>Email- IRDAI Escalation</label>
+                <isActive>false</isActive>
+                <label>Payment Lounge</label>
             </value>
             <value>
-                <fullName>IRDAI/Ombudsman</fullName>
+                <fullName>Payment Portal</fullName>
                 <default>false</default>
-                <label>IRDAI/Ombudsman</label>
-            </value>
-            <value>
-                <fullName>NCH</fullName>
-                <default>false</default>
-                <label>NCH</label>
-            </value>
-            <value>
-                <fullName>Senior Management Escalation</fullName>
-                <default>false</default>
-                <label>Senior Management Escalation</label>
-            </value>
-            <value>
-                <fullName>Litigation</fullName>
-                <default>false</default>
-                <label>Litigation</label>
-            </value>
-            <value>
-                <fullName>Carehead email ID</fullName>
-                <default>false</default>
-                <label>Carehead email ID</label>
-            </value>
-            <value>
-                <fullName>CPGRAMS</fullName>
-                <default>false</default>
-                <label>CPGRAMS</label>
-            </value>
-            <value>
-                <fullName>Grievance Repeat</fullName>
-                <default>false</default>
-                <label>Grievance Repeat</label>
-            </value>
-            <value>
-                <fullName>GRO email ID</fullName>
-                <default>false</default>
-                <label>GRO email ID</label>
-            </value>
-            <value>
-                <fullName>Senior citizen email id</fullName>
-                <default>false</default>
-                <label>Senior citizen email id</label>
-            </value>
-            <value>
-                <fullName>Grievance</fullName>
-                <default>false</default>
-                <label>Grievance</label>
-            </value>
-            <value>
-                <fullName>DRM team</fullName>
-                <default>false</default>
-                <label>DRM team</label>
-            </value>
-            <value>
-                <fullName>AHandroid</fullName>
-                <default>false</default>
-                <label>AHandroid</label>
-            </value>
-            <value>
-                <fullName>AHios</fullName>
-                <default>false</default>
-                <label>AHios</label>
-            </value>
-            <value>
-                <fullName>AHweb</fullName>
-                <default>false</default>
-                <label>AHweb</label>
-            </value>
-            <value>
-                <fullName>App</fullName>
-                <default>false</default>
-                <label>App</label>
-            </value>
-            <value>
-                <fullName>IVR Voice BOT</fullName>
-                <default>false</default>
-                <label>IVR Voice BOT</label>
-            </value>
-            <value>
-                <fullName>Phone</fullName>
-                <default>false</default>
-                <label>Phone</label>
-            </value>
-            <value>
-                <fullName>Follow-up</fullName>
-                <default>false</default>
-                <label>Follow-up</label>
-            </value>
-            <value>
-                <fullName>Service Assurance team</fullName>
-                <default>false</default>
-                <label>Service Assurance team</label>
-            </value>
-            <value>
-                <fullName>Outbound – NPS</fullName>
-                <default>false</default>
-                <label>Outbound – NPS</label>
-            </value>
-            <value>
-                <fullName>Welcome</fullName>
-                <default>false</default>
-                <label>Welcome</label>
-            </value>
-            <value>
-                <fullName>Welcome Call BOT</fullName>
-                <default>false</default>
-                <label>Welcome Call BOT</label>
-            </value>
-            <value>
-                <fullName>Claims</fullName>
-                <default>false</default>
-                <label>Claims</label>
-            </value>
-            <value>
-                <fullName>Claim Email</fullName>
-                <default>false</default>
-                <label>Claim Email</label>
+                <isActive>false</isActive>
+                <label>Payment Portal</label>
             </value>
             <value>
                 <fullName>Phone Inbound</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Phone Inbound</label>
+            </value>
+            <value>
+                <fullName>Pre-Closure/Closure</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pre-Closure/Closure</label>
+            </value>
+            <value>
+                <fullName>RM - No Email</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RM - No Email</label>
+            </value>
+            <value>
+                <fullName>Repayment Related</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Repayment Related</label>
+            </value>
+            <value>
+                <fullName>Source</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Source</label>
+            </value>
+            <value>
+                <fullName>Waiver / Refund</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Waiver / Refund</label>
             </value>
             <value>
                 <fullName>Walk-In</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Walk-In</label>
             </value>
             <value>
-                <fullName>Email - Call Centre</fullName>
+                <fullName>Webfo</fullName>
                 <default>false</default>
-                <label>Email - Call Centre</label>
+                <isActive>false</isActive>
+                <label>Webfo</label>
             </value>
             <value>
-                <fullName>Email - Branch</fullName>
+                <fullName>^%$#@#$GHBJHjyg99886</fullName>
                 <default>false</default>
-                <label>Email - Branch</label>
+                <isActive>false</isActive>
+                <label>^%$#@#$GHBJHjyg99886</label>
             </value>
             <value>
-                <fullName>Branch Walk-In</fullName>
+                <fullName>eBOT</fullName>
                 <default>false</default>
-                <label>Branch Walk-In</label>
+                <isActive>false</isActive>
+                <label>eBOT</label>
             </value>
             <value>
-                <fullName>Phone - Call Centre</fullName>
+                <fullName>hgj$125</fullName>
                 <default>false</default>
-                <label>Phone - Call Centre</label>
+                <isActive>false</isActive>
+                <label>hgj$125</label>
             </value>
             <value>
-                <fullName>Phone - Branch</fullName>
+                <fullName>hgj*125</fullName>
                 <default>false</default>
-                <label>Phone - Branch</label>
+                <isActive>false</isActive>
+                <label>hgj*125</label>
             </value>
             <value>
-                <fullName>SEBI</fullName>
+                <fullName>hgj125</fullName>
                 <default>false</default>
-                <label>SEBI</label>
+                <isActive>false</isActive>
+                <label>hgj125</label>
             </value>
             <value>
-                <fullName>AMFI</fullName>
+                <fullName>hgju125</fullName>
                 <default>false</default>
-                <label>AMFI</label>
+                <isActive>false</isActive>
+                <label>hgju125</label>
             </value>
             <value>
-                <fullName>Online Dispute Resolution (ODR)</fullName>
+                <fullName>hgy6765</fullName>
                 <default>false</default>
-                <label>Online Dispute Resolution (ODR)</label>
+                <isActive>false</isActive>
+                <label>hgy6765</label>
             </value>
             <value>
-                <fullName>Letter</fullName>
+                <fullName>kjkh</fullName>
                 <default>false</default>
-                <label>Letter</label>
-            </value>
-            <value>
-                <fullName>Service2Sales</fullName>
-                <default>false</default>
-                <label>Service2Sales</label>
-            </value>
-            <value>
-                <fullName>Transaction Remediation</fullName>
-                <default>false</default>
-                <label>Transaction Remediation</label>
-            </value>
-            <value>
-                <fullName>Internal Request</fullName>
-                <default>false</default>
-                <label>Internal Request</label>
-            </value>
-            <value>
-                <fullName>ABCD App</fullName>
-                <default>false</default>
-                <label>ABCD App</label>
-            </value>
-            <value>
-                <fullName>IVR-Bot</fullName>
-                <default>false</default>
-                <label>IVR-Bot</label>
-            </value>
-            <value>
-                <fullName>ABC_Servicing_App</fullName>
-                <default>false</default>
-                <label>ABC_Servicing_App</label>
+                <isActive>false</isActive>
+                <label>kjkh</label>
             </value>
         </valueSetDefinition>
     </valueSet>
