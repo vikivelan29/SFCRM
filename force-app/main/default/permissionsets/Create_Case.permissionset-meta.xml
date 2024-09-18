@@ -4709,6 +4709,24 @@
         <object>PE_Logger__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+     <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Claim__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+     <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Survey_Response__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <pageAccesses>
         <apexPage>ASF_BulkDownloadCSV_VF</apexPage>
         <enabled>true</enabled>

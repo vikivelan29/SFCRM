@@ -1836,6 +1836,16 @@
         <field>Claim__c.VCM_Service_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.Member_First_Inception_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.CumulativeBonus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHI Integration PS</label>
     <objectPermissions>
