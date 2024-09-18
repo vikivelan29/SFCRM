@@ -2,7 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-25-2024
+ * @last modified on  : 09-18-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseMovementHelper {
     
@@ -191,6 +192,8 @@ public class ASF_CaseMovementHelper {
                             resultWrapper.ownerId = nextStage.ownerId;
                             // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGN TEAM ON CASE ASSIGNMENT
                             resultWrapper.ownerName = nextStage.ownerName;
+                            // VIRENDRA - 8 JUNE 2024 - ENDS HERE.
+                            System.debug('@@@ Virendra - Coming here -- '+nextStage.ownerName);
                         }
                         updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
                     	updatedCase.MoveToNext__c = false;
@@ -1043,7 +1046,6 @@ public class ASF_CaseMovementHelper {
             if(resultWrapper.defaultOwnerId == null){
                 resultWrapper.defaultOwnerId = currentStageConfig != null ? currentStageConfig.Default_Queue__c : null;
                 // VIRENDRA - 9 JUNE 2024 - ADDED DEFAULTOWNERNAME to store the QUEUE NAME ON CASE.
-                //System.debug('currentStageConfig.Default_Queue__c '+currentStageConfig.Default_Queue__c+ 'currentStageConfig.Default_Queue_user_Name__c -'+currentStageConfig.Default_Queue_user_Name__c);
                 resultWrapper.defaultOwnerName = currentStageConfig != null ? currentStageConfig.Default_Queue_user_Name__c : null;
             }
             if(resultWrapper.defaultErrorOwnerId == null){
@@ -1123,6 +1125,12 @@ public class ASF_CaseMovementHelper {
                 Boolean afterPreviousStage = false;
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
                     if(currentStageConfig != null && currentStageConfig.Order__c < config.Order__c){
+                        //Added by Nikhil EY- PR970457-2176 (Not to go back to previous stage if user done backword movement of stage and again try to forward the stage)
+                        boolean isStageSkip = config.Case_Category_Config__r.isStageSkip__c;
+                        if(isStageSkip){
+                            caseRec.Previous_Stage__c = config.StageName__c;
+                        }
+			// End
                         if(afterPreviousStage){
                             // If Not Optional, Allot to Next Stage and Break
                             if(config.Optional_Stage__c){
@@ -1280,7 +1288,9 @@ public class ASF_CaseMovementHelper {
 
         for(Case caseRec : currentCases){
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                system.debug('externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)---->'+externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c));
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                    system.debug('config---->'+config);
                     if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
                         caseIdToNextStageConfigMap.put(caseRec.Id, config);
                         CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
@@ -1328,7 +1338,7 @@ public class ASF_CaseMovementHelper {
                 }
                 caseIdToCaseRuleMap.get(caseRec.Id).addAll(externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c+nextStage));
             }
-                                }
+        }
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
         Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};

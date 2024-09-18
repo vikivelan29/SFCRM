@@ -278,6 +278,36 @@ if(businessUnit == 'ABFL'){
                 }
             }
         }
+        ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
+        ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage((Map<Id, Case>)newItems,(Map<Id, Case>)oldItems);
+        ABSLI_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        ABSLAMC_CaseAssignmentHelper.updateAssignmentOnStageChange((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        ABSLAMC_CaseAssignmentHelper.updateCaseStage((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        // check the backword movement for AMC 3 to1 for Journey 5.
+        ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        ABHI_IGMSHelperMethods.associateAssetIgms((List<Case>)newItems.values());
+        abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate');
+    }
+
+    /**
+     * @description  Executes before the ASF code runs in after update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
+    public override void executeBeforeASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        ABCL_CommonCLass.populateResolutionCommentOnCaseDetail((List<Case>)newItems.values(), (Map<Id, Case>)oldItems);
+    }
+
+    /**
+     * @description  Executes after the ASF code runs in after update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
+    public override void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), (List<Case>)oldItems.values());
+        ABSLIG_CaseDetailHelperClass absligCaseDetaHelpObj = new ABSLIG_CaseDetailHelperClass();
+        ABHI_CaseDetailHelper abhilCaseDetailHelperObj = new ABHI_CaseDetailHelper();
         
     }
     
