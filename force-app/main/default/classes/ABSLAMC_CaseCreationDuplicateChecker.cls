@@ -37,7 +37,8 @@ public class ABSLAMC_CaseCreationDuplicateChecker {
                     String newKey = newCase.CCC_External_Id__c + '|' + newCase.Type_text__c  + '|' + newCase.Sub_Type_Text__c + '|' + newCase.AccountId + '|' + newCase.AssetId;
                     if (caseKeyToCases.containsKey(newKey)) {
                         for (Case existingCase : caseKeyToCases.get(newKey)) {
-                            newCase.addError(errorMsg+' '+existingCase.Source__c);
+                            errorMsg = errorMsg.replace('<CaseNumber>', existingCase.CaseNumber).replace('<SOURCE>', existingCase.Source__c);
+                            newCase.addError(errorMsg);
                         }
                     }
                 }
