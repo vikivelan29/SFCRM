@@ -1301,18 +1301,19 @@ public class ASF_CaseMovementHelper {
                 }
             }
         }
-
-        for(Case caseRec : casesFromBackward){
-            if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
-                system.debug('externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)---->'+externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c));
-                for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
-                    system.debug('config---->'+config);
-                    if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
-                        caseIdToNextStageConfigMap.put(caseRec.Id, config);
-                        CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
-                        resultWrapper.manualApprovalStage = config.Manual_Approval__c;
-                        resultWrapperMap.put(caseRec.Id, resultWrapper);
-                        break;
+        if(casesFromBackward!=null){
+            for(Case caseRec : casesFromBackward){
+                if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                    system.debug('externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)---->'+externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c));
+                    for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                        system.debug('config---->'+config);
+                        if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                            CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
+                            resultWrapper.manualApprovalStage = config.Manual_Approval__c;
+                            resultWrapperMap.put(caseRec.Id, resultWrapper);
+                            break;
+                        }
                     }
                 }
             }
