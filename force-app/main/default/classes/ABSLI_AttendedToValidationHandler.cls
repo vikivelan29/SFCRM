@@ -9,7 +9,8 @@ public with sharing class ABSLI_AttendedToValidationHandler {
     
     public static final Map<String,String> caseExtFields = new Map<String,String>{'Type_of_Disposal__c'=>'Type of Disposal',
         'Resolution_Comments__c'=>'Resolution Comments',
-        'Claim_Received_Amount__c'=>'Claim Received Amount'};
+        'Claim_Received_Amount__c'=>'Claim Received Amount',
+        'Is_Complainant_Informed__c'=>'Is Complainant Informed'};
             
             public static void validateAttendedToNonEscalated(Case caseRecord,
                                                               ASF_IntegrationsController.IntegrationWrapper result)
