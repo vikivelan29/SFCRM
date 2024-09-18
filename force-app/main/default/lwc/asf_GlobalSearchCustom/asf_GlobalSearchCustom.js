@@ -56,7 +56,8 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     ];
     cols_Lead = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
-        { label: 'Name', fieldName: 'Name', type: 'text' }
+        { label: 'Email', fieldName: 'Email', type: 'text' },
+        { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
     ]
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
