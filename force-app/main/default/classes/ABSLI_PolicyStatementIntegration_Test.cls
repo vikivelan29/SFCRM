@@ -1,7 +1,7 @@
 /**
  * @description Unit Test Class for Policy Account Statement Integration
  *
- * @author Abinash Panigrahi
+ * @author Abinash Panigrahi, Salesforce
  * @date 2024-05-17
  */
 @isTest
@@ -66,6 +66,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				Asset.Policy_No__c,
@@ -124,6 +125,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				Asset.Policy_No__c,
