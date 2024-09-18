@@ -139,7 +139,7 @@ public class ASF_CaseFrameworkHelper_Test {
         //User testUser = ASF_TestDataFactory.createCS60UserWithPermissions();
         //System.runAs(testUser){
         List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Approval');
-        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, pending_clarification__c,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
+        List<Case> caseList = [select Id,LOB__c, CCC_External_Id__c, Stage__c, pending_clarification__c,PAY_Payment_Detail__c,SLA_Target_1__c, PAY_Payment_Detail__r.Payment_mode__c,
                           CSAT__c, DB_Hours__c, has_CheckLists__c, Has_Open_Tasks__c from case LIMIT 1];
         System.debug('@@@caseRuleList'+caseRuleList);
         Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
@@ -157,7 +157,7 @@ public class ASF_CaseFrameworkHelper_Test {
     @isTest
     private static void addChecklistsTest() {
         List<ASF_Case_Rule__c> caseRuleList = ASF_CaseFrameworkHelper_Test.queryData('Checklists');
-        List<Case> caseList = [select Id, CCC_External_Id__c, Stage__c, CSAT__c, pending_clarification__c, Business_Unit__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
+        List<Case> caseList = [select Id, LOB__c,CCC_External_Id__c, Stage__c, CSAT__c, pending_clarification__c, Business_Unit__c from case where CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         Map<Id, List<ASF_Case_Rule__c>> allCaseRules = new Map<Id, List<ASF_Case_Rule__c>>();
         for(case caseRec : caseList){
              allCaseRules.put(caseRec.Id, caseRuleList);
