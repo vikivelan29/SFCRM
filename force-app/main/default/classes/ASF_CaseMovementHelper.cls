@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 02-29-2024
+ * @last modified on  : 09-18-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseMovementHelper {
@@ -713,7 +713,7 @@ public class ASF_CaseMovementHelper {
             }
             else if(areIntegrationsCompletePerCase.containsKey(caseRec.Id) && areIntegrationsCompletePerCase.get(caseRec.Id) != 'Success'){
                 resultWrapper.status  = 'Error';
-                resultWrapper.errorMessage = areIntegrationsCompletePerCase.get(caseRec.Id);
+                resultWrapper.errorMessage = areIntegrationsCompletePerCase.get(caseRec.Id) + ' '+ System.Label.ASF_Integration_Mandatory_Error;
             }
 
             if(resultWrapper.status != 'Error'){
