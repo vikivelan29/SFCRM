@@ -51,8 +51,8 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
                 caseRecord.ABHI_Case_Detail__r.get('Receipt_Number__c') == '')
                && ABSLI_Constants.RECEIPT_NO_REQ_COMP_TYPE_CD.contains(caseRecord.IGMS_Complaint_Type_Code__c))
             {
-                errorMessage +='Receipt Number, ';
-                bErrorOccured = true;                
+                //errorMessage +='Receipt Number, ';
+                //bErrorOccured = true;                
             }
             if(String.isBlank(caseRecord.Account?.PersonMobilePhone)){
                 errorMessage = 'Customer Mobile Number is mandatory for IGMS Complaint Registration. Kindly reach out to your admin for further help., ';
