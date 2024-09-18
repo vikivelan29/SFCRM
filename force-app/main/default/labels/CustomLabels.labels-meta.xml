@@ -1169,7 +1169,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
-        <value>Duplicate case: A case with same criteria is already open with source as</value>
+        <value>Duplicate case: A case &lt;CaseNumber&gt; with same criteria is already open with source as &lt;SOURCE&gt;.</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
