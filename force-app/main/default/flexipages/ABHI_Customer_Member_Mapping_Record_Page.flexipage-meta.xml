@@ -175,12 +175,6 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.MemberId__r.SuperNcbAmount__c</fieldItem>
-                <identifier>RecordMemberId_rSuperNcbAmount_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>none</value>
@@ -396,4 +390,4 @@
         <name>flexipage:recordHomeSingleColTemplateDesktop</name>
     </template>
     <type>RecordPage</type>
-</FlexiPage> 
+</FlexiPage>
