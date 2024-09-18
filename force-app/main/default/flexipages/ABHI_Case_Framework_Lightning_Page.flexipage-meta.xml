@@ -36,15 +36,6 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
                                 </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>ABHI Partner Base Profile</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Account.Name}</leftValue>
-                                    <operator>NE</operator>
-                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
@@ -117,16 +108,6 @@
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>ABHI Partner Base Profile</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>ABHI Partner Base Profile</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
