@@ -1192,4 +1192,11 @@
         <shortDescription>ABHI Create Case Validation</shortDescription>
         <value>You do not have access to create complaint case.Complaint case can only be created by grievance user.</value>
     </labels>
+    <labels>
+        <fullName>ASF_Integration_Mandatory_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Integration Mandatory Error</shortDescription>
+        <value>is mandatory for current stage</value>
+    </labels>
 </CustomLabels>

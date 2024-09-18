@@ -157,6 +157,13 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
     public void processResponse(ASF_Case_Integration__c caseInteg){
         Boolean integrationFailure = true;
         System.debug(caseInteg.Response__c);
+        
+        ASF_Case_Integration__c caseIntegration = new ASF_Case_Integration__c(Id = caseInteg.Id);
+        caseIntegration.Is_Validation_Success__c = true;
+        ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
+        update caseIntegration;
+        ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
+        
         if(caseInteg.Status__c==ABSLI_Constants.SUCCESS){
             rqServiceResponseWrapper response = (rqServiceResponseWrapper) JSON.deserialize(
                     caseInteg.Response__c,
@@ -214,12 +221,6 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
                     if(!Test.IsRunningTest()){
                     	update caseExt;    
                     }
-                    
-                    ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c(Id = caseInteg.Id);
-                    caseInt.Is_Validation_Success__c = true;
-                    ASF_TriggerSkipperUtility.markTriggerRun('ASF_Case_Integration__c');
-                    update caseInt;
-                    ASF_TriggerSkipperUtility.resetTriggerRun('ASF_Case_Integration__c');
                 } 
             }
             else{	
