@@ -1251,4 +1251,11 @@
         <shortDescription>ASF Integration Mandatory Error</shortDescription>
         <value>is mandatory for current stage</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_BackStageSatisfactoryReolyType</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_BackStageSatisfactoryReolyType</shortDescription>
+        <value>Reply Type cannot be Satisfactory while moving to Pending With CAMS Stage</value>
+    </labels>
 </CustomLabels>
