@@ -65,7 +65,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         if(this.isRecatRequest){
             return 'Recategorize Approval Request - ' + this.caseNumber;
         }else{
-            return 'Approval for Service Request ' + this.caseNumber;
+            return 'Approval for Case ' + this.caseNumber;
         }
     }
     @wire(getRecord, { recordId: '$recordId', fields: [CASENUM, CASESTAGE, CASE_BUSINESSUNIT] })
