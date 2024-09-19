@@ -1329,7 +1329,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
-                    <value>10</value>
+                    <value>5</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
@@ -1365,7 +1365,7 @@
                             <value>L3_Driver__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Primary_Question_NPS__c</value>
+                            <value>NPS_Score_Rating__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Trigger_Name__c</value>
