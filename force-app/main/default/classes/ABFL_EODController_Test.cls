@@ -98,6 +98,7 @@ public class ABFL_EODController_Test{
         Test.stopTest();
         Assert.isTrue(res.statusCode == 200, 'Status Code should not be equal to 200');
         Assert.isTrue(String.isNotBlank(res.payload), 'Payload should not be blank');
+        ABFL_SOQL_Util.getFiscalYear(10,1);
     }
     
     @isTest
