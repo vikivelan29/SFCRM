@@ -127,6 +127,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
         ABHI_IGMSHelperMethods.associateAssetIgms((List<Case>)newItems.values());
         abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate');
+        ABSLAMC_BU_CTSTHelper.validateManualApproval((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
 
     /**
