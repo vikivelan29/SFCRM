@@ -103,6 +103,9 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
             return true;
         }, 500);
     }
+    submitForm(event){
+        this.template.querySelector('.hiddenSubmit').click();
+    }
     handleCancel(event) {
         if(this.isRecatRequest){
             const cancelEvent = new CustomEvent('closescreen');
