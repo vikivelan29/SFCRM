@@ -256,6 +256,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
+    isNoActionStage = false;
+    saveDataOnBack = false;
         
 
     get eligibleForBU(){
@@ -351,7 +353,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * User clicked on Edit Details button
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c && !this.isNoActionStage;
     }
 
     get displayBackButton() {
@@ -904,7 +906,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             if(this.stagesData[i].hasOwnProperty('No_Action_stage__c')
                             && this.stagesData[i].No_Action_stage__c == true){
                         console.log('inside hide actions')
-                        this.hideActionsForCams = true;
+                        this.isNoActionStage = true;
                        // this.openEditMode = false;
                         }
                         if(this.stagesData[i].hasOwnProperty('Save_Data_On_Back__c')
