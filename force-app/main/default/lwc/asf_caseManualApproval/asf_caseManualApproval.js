@@ -1,7 +1,7 @@
 import { LightningElement, wire, api } from 'lwc';
 import { getRecord, getFieldValue, getRecordNotifyChange, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/ASF_Case_Approv__c.Approver_01__c';
-import { modalStates, errorCodes, staticFields } from "./caseManualApprovalUtility.js";
+import { modalStates, errorCodes, getBUSpecificStaticFields } from "./caseManualApprovalUtility.js";
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 import currentUserId from '@salesforce/user/Id';
@@ -74,6 +74,8 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
             this.caseNumber = data.fields.CaseNumber.value;
             this.caseStage = data.fields.Stage__c.value;
             this.businessUnit =data.fields.Business_Unit__c.value;
+            let staticFields = getBUSpecificStaticFields(this.businessUnit);
+            this.arr_Statisfields = staticFields.APPROVALSTATISFIELDS;
         }
     }
 
@@ -90,7 +92,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         this.approver4 = !this.isRecatRequest ? APPROVER4.fieldApiName : RECAT_APPROVER4.fieldApiName;
         this.approver5 = !this.isRecatRequest ? APPROVER5.fieldApiName : RECAT_APPROVER5.fieldApiName;
         this.arr_fields = !this.isRecatRequest ? modalStates.CASE_APPROVAL_FIELDS : modalStates.RECAT_APPROVAL_FIELDS;
-        this.arr_Statisfields = staticFields.APPROVALSTATISFIELDS;
+        
         this.isLoadedInCommunity();
     }
     renderedCallback() {
