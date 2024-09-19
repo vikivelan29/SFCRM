@@ -1185,8 +1185,50 @@
         <fullName>ASF_UIActionDelay</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
-        <value>2000</value>
+        <shortDescription>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</shortDescription>
+        <value>Reply Type can only be Satisfactory while resolving a Case.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CAMSMandatoryFieldsErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CAMSMandatoryFieldsErrorMsg</shortDescription>
+        <value>Please fill in the mandatory fields:</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseAssignmentQueueNames</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseAssignmentQueueNames</shortDescription>
+        <value>ABSLAMC MF Issue Management Unit</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Litmus_Allowed_CallerTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Litmus Allowed CallerTypes</shortDescription>
+        <value>Investor</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Litmus_Allowed_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Litmus Allowed Sources</shortDescription>
+        <value>Phone - Call Centre;Email – Call Centre;Branch Walk-In;Email - Branch</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
+        <value>Duplicate case: A case (&lt;CaseNumber&gt;) with same criteria is already open with source as &lt;SOURCE&gt;.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
+        <value>Active</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
