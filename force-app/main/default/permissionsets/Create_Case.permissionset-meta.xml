@@ -2895,6 +2895,11 @@
         <field>Asset.Loan_Disbursement_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
+        <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.LocationId</field>
