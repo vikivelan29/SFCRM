@@ -222,11 +222,11 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                    && String.isNotBlank(caseDetailRec.CAMS_Ticket_Reference_Number__c)){
                        
                        // check if cams status is closed, make ticket number empty
-                       if(caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS){
-                           caseDetailRec.CAMS_Ticket_Reference_Number__c = '';
+                    //    if(caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS){
+                    //        caseDetailRec.CAMS_Ticket_Reference_Number__c = '';
                            
-                           caseDetailToUpdate.put(caseDetailRec.Id,caseDetailRec);
-                       }
+                    //        caseDetailToUpdate.put(caseDetailRec.Id,caseDetailRec);
+                    //    }
                        // check if case previous stage was 2, then increment by 1
                        if(oldCase.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS){
                            caseDetailRec.No_of_iterations__c = (caseDetailRec.No_of_iterations__c != null) ? caseDetailRec.No_of_iterations__c + 1 : 1;
