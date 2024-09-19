@@ -37,6 +37,10 @@
 .successBtn{
   --slds-c-icon-color-foreground:#4BC980;
 }
-.custom-hidden{
+
+.date-format-hide .slds-form-element__help{
   display: none;
+}
+.date-format-hide .slds-show{
+  display:block;
 }
