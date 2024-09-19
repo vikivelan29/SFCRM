@@ -22,7 +22,7 @@ import CASE_ASSET_POLICY_NUMBER from '@salesforce/schema/Case.Asset.Policy_No__c
 import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
-import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
