@@ -22,8 +22,7 @@ import CASE_ASSET_POLICY_NUMBER from '@salesforce/schema/Case.Asset.Policy_No__c
 import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
-import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
-import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 import Recat_Approval_Required_BU_label from '@salesforce/label/c.ASF_Recat_Approval_Required_BU';
@@ -41,6 +40,7 @@ import updateCaseRecord from '@salesforce/apex/ASF_RecategoriseCaseController.up
 import updateRequestedCCC from '@salesforce/apex/ASF_RecategoriseCaseController.updateRequestedCCC';
 import fetchCCCDetails from '@salesforce/apex/ASF_RecategoriseCaseController.fetchCCCDetails';
 import callEbotFeedbackApi from '@salesforce/apex/ABCL_EBotFeedback.callEbotFeedbackApi';
+import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
 
 
 
@@ -194,6 +194,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD,CCC_FIELD,CASE_ASSET_LAN_NUMBER,BSLI_ISSUE_TYPE,CASE_ASSET_POLICY_NUMBER] })
     wiredRecord({ error, data }) {
         if (data) {
+            const case_Bu = getFieldValue(data, CASE_BU_FIELD);
             //Show Bot Feedback checkbox if Case source is Email and for specific BU
             const email_Bot_BU = Email_Bot_BU_label.includes(';') ? Email_Bot_BU_label.split(';') : [Email_Bot_BU_label];
             if(getFieldValue(data, SENTTOBOT_FIELD) === true && email_Bot_BU.includes(getFieldValue(data, CASE_BU_FIELD))){
@@ -202,7 +203,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
-            if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU){
+            // if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU){
+            if(BU_TO_HIDE_EBOT_FEEDBACK.includes(case_Bu)){    
                 this.showBotFeedbackDropdown = false;
             }
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);
