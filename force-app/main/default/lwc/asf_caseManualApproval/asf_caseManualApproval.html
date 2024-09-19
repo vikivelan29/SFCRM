@@ -78,6 +78,7 @@
                                     <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
                                         variant="label-stacked" onchange={handleInputFieldChange}
                                         required={infoField.requiredField}
+                                        value={infoField.defaulSelectedOption} disabled={infoField.readOnly}
                                         class={infoField.fieldClassList}></lightning-input-field>
                                     <div class="slds-form-element__help slds-text-color_destructive"
                                         data-error-help-for-field={infoField.fieldAPIName}></div>
