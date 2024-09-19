@@ -1252,31 +1252,24 @@
         <value>Claim Details</value>
     </labels>
     <labels>
-        <fullName>ABSLI_READY_RECK_IV</fullName>
+        <fullName>ABSLAMC_MandatoryApprovalRequired</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_READY_RECK_IV</shortDescription>
-        <value>8549708501325472</value>
+        <shortDescription>ABSLAMC_MandatoryApprovalRequired</shortDescription>
+        <value>The latest approval record must be approved for mandatory approval stages.</value>
     </labels>
     <labels>
-        <fullName>ABSLI_READY_RECK_KEY</fullName>
+        <fullName>ABSLAMC_NoApprovalRecordsFound</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_READY_RECK_KEY</shortDescription>
-        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+        <shortDescription>ABSLAMC_NoApprovalRecordsFound</shortDescription>
+        <value>Mandatory approval stage requires at least one approval record.</value>
     </labels>
     <labels>
-        <fullName>ABSLI_READY_RECK_USR</fullName>
+        <fullName>ABSLAMC_NonMandatoryAppErrMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_READY_RECK_USR</shortDescription>
-        <value>RQSFDC</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_Ready_Reck_URL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
-        <value>http://10.155.8.204:94/rtpWS/rcase=</value>
+        <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
+        <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
     </labels>
 </CustomLabels>
