@@ -263,11 +263,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     //added for PR1030924-43, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
-    get eligibleForAMSLAMC(){
+    get optionalResComment(){
         const listOfBUs = this.UnresolvedCommentsNotReqBUs.split(',');
         if(listOfBUs.includes(this.caseBusinessUnit)){
-    return false;
-        } else return true;
+            return false;
+        } else{
+            return true;
+        }
         
     }
     get showRejectPanel() {
@@ -813,6 +815,26 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             return;
         }
         this.loading = true;
+        if(this.saveDataOnBack){
+           this.saveDataOnBackStage();
+        }else{
+            let caseRecord;
+            caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
+            caseRecord['Stage__c'] = this.selectedStage;
+            caseRecord['Pending_Clarification__c'] = true;
+            caseRecord['moved_back__c'] = true;
+            caseRecord['Is_Manual_Moved__c'] = false;
+            if (this.caseObj.Technical_Source__c == 'API') {
+                caseRecord['Technical_Source__c'] = 'LWC';
+            }
+            this.saveCase(caseRecord);
+            }
+       
+    }
+
+    saveDataOnBackStage(){
+        //get case record as object from lightning-record-edit-form
+         console.log('asmita inside saveDataOnBackStage method');
         let caseRecord;
         caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
         caseRecord['Stage__c'] = this.selectedStage;
@@ -879,6 +901,18 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             else {
                                 this.boolSaveReassignButton = false;
                             }
+                            if(this.stagesData[i].hasOwnProperty('No_Action_stage__c')
+                            && this.stagesData[i].No_Action_stage__c == true){
+                        console.log('inside hide actions')
+                        this.hideActionsForCams = true;
+                       // this.openEditMode = false;
+                        }
+                        if(this.stagesData[i].hasOwnProperty('Save_Data_On_Back__c')
+                            && this.stagesData[i].Save_Data_On_Back__c == true){
+                        console.log('asmita inside save data boolean')
+                        this.saveDataOnBack = true;
+                       // this.openEditMode = false;
+                        }
                         }
                     }
                 }

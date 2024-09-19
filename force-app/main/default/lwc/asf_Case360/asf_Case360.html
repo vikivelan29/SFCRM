@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 09-02-2024
+  @last modified on  : 07-31-2024
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -137,7 +137,7 @@
                                                 <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
                                                 <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
                                                 <lightning-input-field id={ccfield.FieldAPINAme}
-                                                    field-name={ccfield.FieldAPINAme} class="slds-hide custom-hidden"
+                                                    field-name={ccfield.FieldAPINAme} class="slds-hide"
                                                     onchange={handleHiddenFieldChange}> </lightning-input-field>
                                                 <c-asf_searchable-picklist multiselect=false objectname="Case"
                                                     fieldname={ccfield.FieldAPINAme} fieldlabel={ccfield.FieldLabelName}
@@ -150,7 +150,7 @@
                                                 <!--bSearchablePicklist : true : show searchable picklist with multiselect value as true-->
                                                 <!--Important : for Multi-Select searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
                                                 <lightning-input-field id={ccfield.FieldAPINAme}
-                                                    field-name={ccfield.FieldAPINAme} class="slds-hide custom-hidden"
+                                                    field-name={ccfield.FieldAPINAme} class="slds-hide"
                                                     onchange={handleHiddenFieldChange}> </lightning-input-field>
                                                 <c-asf_searchable-picklist multiselect=true objectname="Case"
                                                     fieldname={ccfield.FieldAPINAme} fieldlabel={ccfield.FieldLabelName}
@@ -211,7 +211,7 @@
                                                     <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
                                                     <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
                                                     <lightning-input-field id={ccfield.FieldAPINAme}
-                                                        field-name={ccfield.FieldAPINAme} class="slds-hide custom-hidden"
+                                                        field-name={ccfield.FieldAPINAme} class="slds-hide"
                                                         onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
                                                     </lightning-input-field>
                                                     <c-asf_searchable-picklist multiselect=false
@@ -225,7 +225,7 @@
                                                     <!--bSearchablePicklist : true : show searchable picklist with multiselect value as true-->
                                                     <!--Important : for Multi-Select searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
                                                     <lightning-input-field id={ccfield.FieldAPINAme}
-                                                        field-name={ccfield.FieldAPINAme} class="slds-hide custom-hidden" 
+                                                        field-name={ccfield.FieldAPINAme} class="slds-hide"
                                                         onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
                                                     </lightning-input-field>
                                                     <c-asf_searchable-picklist multiselect=true
@@ -323,7 +323,7 @@
                                     <!-- NEERAJ - MADE THE REQUIRED ATTRIBUTE DYNAMIC TO MAKE IT NON-REQUIRED || PR1030924-43-->
                                     <template lwc:if={eligibleForBU}>
                                         <template lwc:if={showRejectPanel}>
-                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={eligibleForAMSLAMC}
+                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={optionalResComment}
                                                 label="Close Unresolved Details" variant="label-stacked"
                                                 value={rejectedReason} onchange={setRejectedReason}
                                                 placeholder="type here..."></lightning-textarea>
@@ -461,7 +461,7 @@
                     <h2 class="slds-text-heading_small">New SR Rejection: {complainLevel} Complaint</h2>
                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
                         title="Close" onclick={hideRejModal}>
-                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
                             size="small"></lightning-icon>
                         <span class="slds-assistive-text">Close</span>
                     </button>
