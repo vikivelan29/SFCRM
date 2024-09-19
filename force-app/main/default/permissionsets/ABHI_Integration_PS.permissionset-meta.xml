@@ -2093,6 +2093,11 @@
         <field>Asset.SerialNumber</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.Super_Ncb_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHI Integration PS</label>
     <objectPermissions>
