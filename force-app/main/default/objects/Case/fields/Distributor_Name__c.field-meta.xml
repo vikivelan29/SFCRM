@@ -7,6 +7,8 @@
     <label>Distributor Name</label>
     <lookupFilter>
         <active>true</active>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <errorMessage>Distributor should belong to the LOB of the case.</errorMessage>
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>contains</operation>
