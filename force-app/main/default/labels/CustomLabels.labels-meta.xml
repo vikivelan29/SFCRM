@@ -970,4 +970,11 @@
         <shortDescription>ABSLI BU</shortDescription>
         <value>ABSLI</value>
     </labels>
+        <labels>
+        <fullName>BUsToHideEbotFeedbackInRecat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
+        <value>ABSLAMC;ABSLIG;Payments</value>
+    </labels>
 </CustomLabels>
