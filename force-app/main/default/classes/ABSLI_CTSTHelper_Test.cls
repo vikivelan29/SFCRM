@@ -25,6 +25,7 @@ public class ABSLI_CTSTHelper_Test {
         ASF_Case_Category_Config__c ccc = [SELECT id,IGMS_Code__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1];
         ccc.IGMS_Code__c = '#N/A';
         ccc.CCC_External_Id__c = 'PEMT024';
+        ccc.Allowed_Issue_Types__c = 'example1';
         update ccc;
         
         //Create Asset
@@ -46,7 +47,7 @@ public class ABSLI_CTSTHelper_Test {
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABSLI_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
-       // caseRecList[0].Business_Unit__c = 'ABSLI';
+        caseRecList[0].Business_Unit__c = 'ABSLI';
         
         
        	caseRecList[1].AssetId = astRec1.Id;
@@ -55,11 +56,13 @@ public class ABSLI_CTSTHelper_Test {
         caseRecList[1].CCC_External_Id__c = ccc.CCC_External_Id__c;
         caseRecList[1].Business_Unit__c = 'ABSLI';
         
+        
         caseRecList[2].AssetId = astRec1.Id;
         caseRecList[2].ABSLI_Case_Detail__c = caseDetail.Id;
         caseRecList[2].AccountId = accRec.Id;
         caseRecList[2].CCC_External_Id__c = ccc.CCC_External_Id__c;
         caseRecList[2].Business_Unit__c = 'ABSLI';
+        
         //caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         
         update caseRecList;
@@ -102,10 +105,25 @@ public class ABSLI_CTSTHelper_Test {
        }
     @IsTest
     static void testABSLI_RequestResolutionBeforeStage(){
-        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,ABSLI_Case_Detail__r.Outcome__c,ABSLI_Case_Detail__r.Resolution__c  from Case limit 1];
+        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,AssetId,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,ABSLI_Case_Detail__r.Outcome__c,ABSLI_Case_Detail__r.Resolution__c  from Case limit 1];
+         Task taskRecord = new Task(
+            WhatId = caseRecord.Id,
+            Status = 'Not Started', 
+            Subject = 'Test Task for Validation'
+        );
+        insert taskRecord;
         //Assertion
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABSLI_RequestResolutionBeforeStage.beforeStageMovement(new List<Case>{caseRecord});
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABSLI_RequestResolutionBeforeStage.afterStageMovement(new List<Case>{caseRecord});
+        System.assertEquals('Error',retCls.get(caseRecord.Id).Status,'Field is empty');
+        //for surivial cert validation
+        caseRecord.CCC_External_Id__c = ABSLI_Constants.SURVIVALCTST;
+        update caseRecord;
+        //for open bank validation
+        List<Case> caseRecords = [Select id,Stage__c,CCC_External_Id__c,AssetId,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,ABSLI_Case_Detail__r.Outcome__c,ABSLI_Case_Detail__r.Resolution__c  from Case];
+        caseRecords[1].CCC_External_Id__c = 'PNFT034';
+        update caseRecords;
+        Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls2 =  ABSLI_RequestResolutionBeforeStage.beforeStageMovement(new List<Case>{caseRecord});
         System.assertEquals('Error',retCls.get(caseRecord.Id).Status,'Field is empty');
     }
     
@@ -150,6 +168,11 @@ public class ABSLI_CTSTHelper_Test {
     @IsTest
     static void testABSLI_ComplaintsResolveStageBefore(){
         Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Technical_Source__c,ABSLI_Case_Detail__r.IGMS_Complaint_Status__c,ABSLI_Case_Detail__r.Resolve_case__c,ABSLI_Case_Detail__r.Resolution_Comments__c,ABSLI_Case_Detail__r.Investigation_Comment__c,ABSLI_Case_Detail__r.Acknowledgement_contacted__c  from Case limit 1];
+        Task taskRecord = new Task(
+            WhatId = caseRecord.Id,  
+            Status = 'Not Started',  
+            Subject = 'Test Task for Validation'
+        );
         //Assertion
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls =  ABSLI_ComplaintsResolveStageBefore.beforeStageMovement(new List<Case>{caseRecord});
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls1 =  ABSLI_ComplaintsResolveStageBefore.afterStageMovement(new List<Case>{caseRecord});
@@ -167,4 +190,17 @@ public class ABSLI_CTSTHelper_Test {
         caseRecord.Technical_Source__c = 'LWC';
 		update CaseRecord;
     }
+    
+     @IsTest
+    static void testvalidateOpenStageFieldForReinstatement(){
+        List<Case> caseRecords = [Select id,Stage__c,CCC_External_Id__c,ABSLI_Case_Detail__r.PX_Response__c,AssetId  from Case limit 1];
+        Map<Id, ABSLI_CTSTHelper.FieldValidationResult> resultsMap1 = new Map<Id, ABSLI_CTSTHelper.FieldValidationResult>();
+        resultsMap1= ABSLI_CTSTHelper.validateOpenStageFieldForReinstatement(caseRecords);
+        System.assertEquals(true, resultsMap1.get(caseRecords[0].Id).result);
+        
+        Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
+        
+        ABSLI_CTSTHelper.checkIfOpenBankUpdateCase(caseRecords,resultMap);
+    }
+    
 }
