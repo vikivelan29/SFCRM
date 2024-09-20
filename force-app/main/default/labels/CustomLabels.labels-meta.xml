@@ -1099,7 +1099,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments</value>
+        <value>ABSLAMC;ABSLIG;Payments;ABHI</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_Back_Stage_Movement_Error</fullName>
