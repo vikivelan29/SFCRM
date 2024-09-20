@@ -5,7 +5,7 @@
     <displayedFields>
         <field>FirstName</field>
         <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
     </displayedFields>
     <displayedFields>
         <field>LastName</field>
@@ -25,7 +25,7 @@
     <displayedFields>
         <field>MobilePhone</field>
         <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
     </displayedFields>
     <displayedFields>
         <field>PANNO__c</field>
