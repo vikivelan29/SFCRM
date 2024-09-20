@@ -20,7 +20,7 @@
     <displayedFields>
         <field>MobilePhone</field>
         <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
+        <isRequired>true</isRequired>
     </displayedFields>
     <displayedFields>
         <field>Proposal_Number__c</field>
