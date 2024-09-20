@@ -1064,6 +1064,62 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-f69f70aa-0fea-4fec-aed3-c8468967b388</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Omnidocs</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-be8cf508-ddc2-4ed7-9bee-09dc21e92106</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Claims</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Health Assesment Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-f60ec8d4-027f-4b42-9988-22a4d88ece83</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Insured Person Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
