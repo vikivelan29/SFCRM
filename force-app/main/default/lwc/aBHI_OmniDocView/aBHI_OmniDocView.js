@@ -104,7 +104,7 @@ export default class ABHI_OmniDocView extends LightningElement {
         console.log('row: ', event.detail.row);
         switch (event.detail.action.name) {
             case 'docPrev':
-                window.open(this.customLabel.omniDocUrl + '&Docid=' + event.detail.row.OmniDocIndex + '&userdbid=' + event.detail.row.VID, '_blank');
+                window.open(this.customLabel.omniDocUrl + '&DocumentId=' + event.detail.row.OmniDocIndex + '&Userdbid=' + event.detail.row.VID, '_blank');
                 break;
             case 'cmpEmail':
                 this.currentRow = event.detail.row;
