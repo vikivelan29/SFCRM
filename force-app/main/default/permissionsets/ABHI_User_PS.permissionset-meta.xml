@@ -2795,17 +2795,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.SubType_Text_2__c</field>
+        <field>Previous_Policy_Details__c.Customer__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Sub_Type_Text__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Subject</field>
+        <editable>false</editable>
+        <field>Previous_Policy_Details__c.DateOfFirstEnrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
