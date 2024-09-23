@@ -9,6 +9,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -37,9 +38,9 @@
                 <label>Pending Customer Confirmation/documentation</label>
             </value>
             <value>
-                <fullName>Out-of-Scope Request</fullName>
+                <fullName>Out of Scope Request</fullName>
                 <default>false</default>
-                <label>Out-of-Scope Request</label>
+                <label>Out of Scope Request</label>
             </value>
             <value>
                 <fullName>Customer Non Contactable</fullName>
@@ -65,6 +66,11 @@
                 <fullName>Duplicate</fullName>
                 <default>false</default>
                 <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Out-of-Scope Request</fullName>
+                <default>false</default>
+                <label>Out-of-Scope Request</label>
             </value>
         </valueSetDefinition>
     </valueSet>

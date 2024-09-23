@@ -323,7 +323,7 @@
                                     <!-- NEERAJ - MADE THE REQUIRED ATTRIBUTE DYNAMIC TO MAKE IT NON-REQUIRED || PR1030924-43-->
                                     <template lwc:if={eligibleForBU}>
                                         <template lwc:if={showRejectPanel}>
-                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={optionalResComment}
+                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={eligibleForAMSLAMC}
                                                 label="Close Unresolved Details" variant="label-stacked"
                                                 value={rejectedReason} onchange={setRejectedReason}
                                                 placeholder="type here..."></lightning-textarea>
@@ -339,6 +339,13 @@
                                                 label="Resolution Remarks" variant="label-stacked"
                                                 value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
                                                 placeholder="type here..."></lightning-textarea>
+                                            <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON.-->
+                                            <lightning-combobox
+                                                class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
+                                                value={selectedReason} label="Close Resolved Reason" options={resolveReasonLOV}
+                                                placeholder='Close Resolved Reason' onchange={handleRejReasonChange}
+                                                required>
+                                            </lightning-combobox>
                                         </template>
                                     </template>
                                     
