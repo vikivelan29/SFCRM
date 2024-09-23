@@ -83,7 +83,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                         if(caseRec.Sub_Type_Text__c == ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE){
                             if(!caseRec.Is_STP__c && (caseDetail.Requested_Loan_Amount__c < ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT || caseDetail.Requested_Loan_Amount__c > ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT)){
                                 caseRec.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_NONSTP;
-                            } else if(caseRec.Is_STP__c && caseDetail.Requested_Loan_Amount__c >= ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT){
+                            } else if(caseRec.Is_STP__c && caseDetail.Requested_Loan_Amount__c > ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT){
                                 caseRec.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_STP;
                             }
                         }
