@@ -8,9 +8,10 @@ public class ABSLAMC_CaseCreationDuplicateChecker {
         string errorMsg = Label.ABSLAMC_Duplicate_Case_Error_Message; 
         Map<String, List<Case>> caseKeyToCases = new Map<String, List<Case>>();
         List<Case> existingCases = [
-            SELECT Id, CaseNumber, CCC_External_Id__c, Type_text__c , Sub_Type_Text__c, AccountId, AssetId, Status,Source__c
+            SELECT Id, CaseNumber, CCC_External_Id__c, Type_text__c , Sub_Type_Text__c, AccountId, AssetId, Status,Source__c,Business_Unit__c
             FROM Case
             WHERE Status IN ('New', 'In Progress')
+            AND Business_Unit__c =: ABSLAMC_Constants.ABSLAMCBU
             AND AccountId != null
             AND AssetId != null
             AND CCC_External_Id__c != null
@@ -36,7 +37,8 @@ public class ABSLAMC_CaseCreationDuplicateChecker {
                     String newKey = newCase.CCC_External_Id__c + '|' + newCase.Type_text__c  + '|' + newCase.Sub_Type_Text__c + '|' + newCase.AccountId + '|' + newCase.AssetId;
                     if (caseKeyToCases.containsKey(newKey)) {
                         for (Case existingCase : caseKeyToCases.get(newKey)) {
-                            newCase.addError(errorMsg+' '+existingCase.Source__c);
+                            errorMsg = errorMsg.replace('<CaseNumber>', existingCase.CaseNumber).replace('<SOURCE>', existingCase.Source__c);
+                            newCase.addError(errorMsg);
                         }
                     }
                 }

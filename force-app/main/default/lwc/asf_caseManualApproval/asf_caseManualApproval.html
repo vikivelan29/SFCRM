@@ -1,122 +1,126 @@
 <!-- sldsValidatorIgnore -->
 <template>
 
-    <lightning-quick-action-panel header={headerTitle} class="slds-modal_large">
-        <template if:false={loaded}>
-            <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
-        </template>
+    <lightning-quick-action-panel header={headerTitle} class="slds-is-relative">
+        <div style="min-height:500px; height:auto">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
+            </template>
 
-        <lightning-record-edit-form object-api-name={recordEditObjectName} onsuccess={handleSucess}
-            onsubmit={handleSubmit} onerror={handleError}>
-            <lightning-messages></lightning-messages>
-            <div class="slds-grid slds-wrap slds-scrollable">
-                
-                <template for:each={arr_fields} for:item="infoField">
-                    <div key={infoField.fieldAPIName} class="slds-size_1-of-2 slds-p-around_xx-small">
+            <lightning-record-edit-form object-api-name={recordEditObjectName} onsuccess={handleSucess}
+                onsubmit={handleSubmit} onerror={handleError}>
+                <lightning-messages></lightning-messages>
+                <div class="slds-grid slds-wrap slds-scrollable">
+                    
+                    <template for:each={arr_fields} for:item="infoField">
+                        <div key={infoField.fieldAPIName} class="slds-size_1-of-2 slds-p-around_xx-small">
 
 
-                        <span class={infoField.classDisplay}>
-                            <!--<label class="slds-form-element__label" for={infoField.id}>
+                            <span class={infoField.classDisplay}>
+                                <!--<label class="slds-form-element__label" for={infoField.id}>
+                                        <abbr class="slds-required" title="required">*
+                                        </abbr>{infoField.fieldlabel}</label>-->
+                                <!--<span class="slds-form-element__label">{infoField.fieldlabel}</span>-->
+                                <div class="slds-form-element__control">
+                                    <template if:true={infoField.displayType.radioButton}>
+                                        <lightning-radio-group name="radioGroup" label={infoField.fieldlabel}
+                                            options={infoField.options} id={infoField.id} required type="radio"
+                                            data-field-name-custom={infoField.fieldAPIName}
+                                            variant="label-hidden"></lightning-radio-group>
+                                    </template>
+                                    <template if:true={infoField.displayType.input}>
+                                        <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
+                                            variant="label-stacked" onchange={handleInputFieldChange}
+                                            required={infoField.requiredField} value=''></lightning-input-field>
+                                        <div class="slds-form-element__help slds-text-color_destructive"
+                                            data-error-help-for-field={infoField.fieldAPIName}></div>
+
+                                    </template>
+
+                                </div>
+                                <div>
+                                    <template if:false={isRecatRequest}>
+                                        <a onclick={handleAnchorClick} data-button={infoField.anchorAddAction.action}
+                                            data-fieldname={infoField.fieldAPIName}
+                                            if:true={infoField.anchorAddAction.isVisible}><lightning-icon
+                                                class="slds-p-around_xx-small" icon-name="utility:add"
+                                                size="xx-small"></lightning-icon></a>
+                                        <a onclick={handleAnchorClick} data-button={infoField.anchorRemoveAction.action}
+                                            data-fieldname={infoField.fieldAPIName}
+                                            if:true={infoField.anchorRemoveAction.isVisible}><lightning-icon
+                                                icon-name="utility:delete" size="xx-small"></lightning-icon></a>
+                                    </template>
+                                </div>
+                            </span>
+
+
+
+                        </div>
+                    </template>
+                </div>
+                <div class="slds-grid slds-wrap">
+                    <template for:each={arr_Statisfields} for:item="infoField">
+                        <div key={infoField.fieldAPIName} class="slds-size_1-of-1 slds-p-around_xx-small">
+
+
+                            <span class={infoField.classDisplay}>
+                                <!--<label class="slds-form-element__label" for={infoField.id}>
                                     <abbr class="slds-required" title="required">*
                                     </abbr>{infoField.fieldlabel}</label>-->
-                            <!--<span class="slds-form-element__label">{infoField.fieldlabel}</span>-->
-                            <div class="slds-form-element__control">
-                                <template if:true={infoField.displayType.radioButton}>
-                                    <lightning-radio-group name="radioGroup" label={infoField.fieldlabel}
-                                        options={infoField.options} id={infoField.id} required type="radio"
-                                        data-field-name-custom={infoField.fieldAPIName}
-                                        variant="label-hidden"></lightning-radio-group>
-                                </template>
-                                <template if:true={infoField.displayType.input}>
-                                    <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
-                                        variant="label-stacked" onchange={handleInputFieldChange}
-                                        required={infoField.requiredField} value=''></lightning-input-field>
-                                    <div class="slds-form-element__help slds-text-color_destructive"
-                                        data-error-help-for-field={infoField.fieldAPIName}></div>
+                                <!--<span class="slds-form-element__label">{infoField.fieldlabel}</span>-->
+                                <div class="slds-form-element__control">
+                                    <template if:true={infoField.displayType.radioButton}>
+                                        <lightning-radio-group name="radioGroup" label={infoField.fieldlabel}
+                                            options={infoField.options} id={infoField.id} required type="radio"
+                                            data-field-name-custom={infoField.fieldAPIName}
+                                            variant="label-hidden"></lightning-radio-group>
+                                    </template>
+                                    <template if:true={infoField.displayType.input}>
+                                        <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
+                                            variant="label-stacked" onchange={handleInputFieldChange}
+                                            required={infoField.requiredField}
+                                            value={infoField.defaulSelectedOption} disabled={infoField.readOnly}
+                                            class={infoField.fieldClassList}></lightning-input-field>
+                                        <div class="slds-form-element__help slds-text-color_destructive"
+                                            data-error-help-for-field={infoField.fieldAPIName}></div>
 
-                                </template>
+                                    </template>
 
-                            </div>
-                            <div>
-                                <template if:false={isRecatRequest}>
+                                </div>
+                                <div>
                                     <a onclick={handleAnchorClick} data-button={infoField.anchorAddAction.action}
                                         data-fieldname={infoField.fieldAPIName}
                                         if:true={infoField.anchorAddAction.isVisible}><lightning-icon
-                                            class="slds-p-around_xx-small" icon-name="utility:add"
-                                            size="xx-small"></lightning-icon></a>
+                                            icon-name="utility:add" size="xx-small"
+                                            class={fieldClassList}></lightning-icon></a>
                                     <a onclick={handleAnchorClick} data-button={infoField.anchorRemoveAction.action}
                                         data-fieldname={infoField.fieldAPIName}
                                         if:true={infoField.anchorRemoveAction.isVisible}><lightning-icon
                                             icon-name="utility:delete" size="xx-small"></lightning-icon></a>
-                                </template>
-                            </div>
-                        </span>
-
-
-
-                    </div>
-                </template>
-            </div>
-            <div class="slds-grid slds-wrap">
-                <template for:each={arr_Statisfields} for:item="infoField">
-                    <div key={infoField.fieldAPIName} class="slds-size_1-of-1 slds-p-around_xx-small">
-
-
-                        <span class={infoField.classDisplay}>
-                            <!--<label class="slds-form-element__label" for={infoField.id}>
-                                <abbr class="slds-required" title="required">*
-                                </abbr>{infoField.fieldlabel}</label>-->
-                            <!--<span class="slds-form-element__label">{infoField.fieldlabel}</span>-->
-                            <div class="slds-form-element__control">
-                                <template if:true={infoField.displayType.radioButton}>
-                                    <lightning-radio-group name="radioGroup" label={infoField.fieldlabel}
-                                        options={infoField.options} id={infoField.id} required type="radio"
-                                        data-field-name-custom={infoField.fieldAPIName}
-                                        variant="label-hidden"></lightning-radio-group>
-                                </template>
-                                <template if:true={infoField.displayType.input}>
-                                    <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
-                                        variant="label-stacked" onchange={handleInputFieldChange}
-                                        required={infoField.requiredField}
-                                        class={infoField.fieldClassList}></lightning-input-field>
-                                    <div class="slds-form-element__help slds-text-color_destructive"
-                                        data-error-help-for-field={infoField.fieldAPIName}></div>
-
-                                </template>
-
-                            </div>
-                            <div>
-                                <a onclick={handleAnchorClick} data-button={infoField.anchorAddAction.action}
-                                    data-fieldname={infoField.fieldAPIName}
-                                    if:true={infoField.anchorAddAction.isVisible}><lightning-icon
-                                        icon-name="utility:add" size="xx-small"
-                                        class={fieldClassList}></lightning-icon></a>
-                                <a onclick={handleAnchorClick} data-button={infoField.anchorRemoveAction.action}
-                                    data-fieldname={infoField.fieldAPIName}
-                                    if:true={infoField.anchorRemoveAction.isVisible}><lightning-icon
-                                        icon-name="utility:delete" size="xx-small"></lightning-icon></a>
-                            </div>                       
-                        </span>
-                    </div>
-                </template>
-                <template if:true={showSendButton}>
-                    <lightning-button class="slds-p-around_xx-small" type="submit" label="Send" disabled={isClicked}
-                        variant="brand"></lightning-button>
-                </template>
-            </div>
-            <div class="custom-footer" >
-                <!--style="height: 100%;width:100%;position:sticky;" -->
-                <div class="slds-m-around_medium slds-float_right">
-                    <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}
-                        class="slds-p-around_xx-small"></lightning-button>
-                    <lightning-button class="slds-p-around_xx-small" type="submit" label="Send" disabled={isClicked}
-                        variant="brand"></lightning-button>
-
+                                </div>                       
+                            </span>
+                        </div>
+                    </template>
+                    <template if:true={showSendButton}>
+                        <lightning-button class="slds-p-around_xx-small" type="submit" label="Send" disabled={isClicked}
+                            variant="brand"></lightning-button>
+                    </template>
                 </div>
+                <lightning-button class="hiddenSubmit" type="submit" label="Send" style="display: none;"
+                        variant="brand"></lightning-button>
+            </lightning-record-edit-form>
+            
+        </div>
+        <div slot="footer">
+            <!--style="height: 100%;width:100%;position:sticky;" -->
+            <div class="slds-m-around_medium slds-float_right">
+                <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}
+                    ></lightning-button>
+                
+                <lightning-button label="Send" disabled={isClicked} class="slds-m-left_medium"
+                    variant="brand" onclick={submitForm}></lightning-button>
             </div>
-
-        </lightning-record-edit-form>
-
+        </div>
     </lightning-quick-action-panel>
 
 </template>

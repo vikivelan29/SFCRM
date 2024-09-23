@@ -142,41 +142,11 @@
         <value>5</value>
     </labels>
     <labels>
-        <fullName>ABFL_DMSPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMSPageSize</shortDescription>
-        <value>5</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMSPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMSPageSize</shortDescription>
-        <value>5</value>
-    </labels>
-    <labels>
         <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABFL_LegacyPageSize</shortDescription>
         <value>10</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_Manual_Sync_Threshold</fullName>
-        <categories>ABFL DMS</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
-        <value>5</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_Manual_Sync_Threshold</fullName>
-        <categories>ABFL DMS</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
-        <value>5</value>
     </labels>
     <labels>
         <fullName>ABFL_LegacyPageSize</fullName>
@@ -331,62 +301,6 @@
         <protected>false</protected>
         <shortDescription>ASF_CaseEndStatuses</shortDescription>
         <value>Closed,Resolved,Rejected</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
-        <value>1214</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Documents_Of</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
-        <value>1202</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Masking_Status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
-        <value>1215</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
-        <value>1205</value>
-    </labels>
-        <labels>
-        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
-        <value>1214</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Documents_Of</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
-        <value>1202</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Masking_Status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
-        <value>1215</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
-        <value>1205</value>
     </labels>
     <labels>
         <fullName>ASF_Case_In_Queue_Long</fullName>
@@ -1185,7 +1099,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments</value>
+        <value>ABSLAMC;ABSLIG;Payments;ABHI</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_Back_Stage_Movement_Error</fullName>
@@ -1255,7 +1169,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
-        <value>Duplicate case: A case with same criteria is already open with source as</value>
+        <value>Duplicate case: A case (&lt;CaseNumber&gt;) with same criteria is already open with source as &lt;SOURCE&gt;.</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
@@ -1270,5 +1184,47 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
         <value>Email - Call Centre,Phone - Call Centre</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation</shortDescription>
+        <value>You do not have access to create complaint case.Complaint case can only be created by grievance user.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Integration_Mandatory_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Integration Mandatory Error</shortDescription>
+        <value>is mandatory for current stage</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_BackStageSatisfactoryReolyType</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_BackStageSatisfactoryReolyType</shortDescription>
+        <value>Reply Type cannot be Satisfactory while moving to Pending With CAMS Stage</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_MandatoryApprovalRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_MandatoryApprovalRequired</shortDescription>
+        <value>The latest approval record must be approved for mandatory approval stages.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_NoApprovalRecordsFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_NoApprovalRecordsFound</shortDescription>
+        <value>Mandatory approval stage requires at least one approval record.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_NonMandatoryAppErrMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
+        <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
     </labels>
 </CustomLabels>

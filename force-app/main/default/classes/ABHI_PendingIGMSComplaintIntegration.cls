@@ -111,14 +111,20 @@ public with sharing class ABHI_PendingIGMSComplaintIntegration implements ASF_In
                 List<sObject> dmlRecords = new List<sObject>();
                 String errorCodes = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.ERROR_CODES;
                 String irdaTokenNumber = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.IRDA_TOKEN_NUMBER;
+                String entity_Complaint_Ref_Number = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.ENTITY_COMPLAINT_REF_NUMBER;
                if (String.isEmpty(errorCodes) && (!String.isEmpty(irdaTokenNumber))) {
                     if(caseRecord.ABHI_Case_Detail__c != null){
+                       	Group queue = [SELECT Id FROM Group WHERE Developername = 'ABHI_Grievance' AND Type = 'Queue' LIMIT 1];
                         ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
                         caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
                         caseExt.Pending_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '3';
                         dmlRecords.add(caseExt);
                         caseRecord.MoveToNext__c = true;
+                        caseRecord.Entity_Reference_No__c  = entity_Complaint_Ref_Number;
+                        if(caseRecord.Technical_Source__c  != 'LWC' && queue.Id != null){
+                        	caseRecord.OwnerId = queue.Id; 
+                        }
                         dmlRecords.add(caseRecord);
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
@@ -201,7 +207,7 @@ public with sharing class ABHI_PendingIGMSComplaintIntegration implements ASF_In
             this.Ack_Officer_Designation= '';
             this.Ack_Officer_Name= 'SM';
             this.BOC_Or_Collection_Number= '';
-            this.Branch_Code= 'MU01';
+            //this.Branch_Code= 'MU01';
             this.Cheque_Number= '';
             this.Claim_Clsr_Additional_Info= '';
             this.Claim_Received_Amount= '';

@@ -110,31 +110,33 @@ public with sharing class ABSLI_WithdrawalPolicyIntegration implements ASF_Integ
             requestJSON.action = ABSLI_Constants.ACTION_WITHDRAWAL;
             requestJSON.FT_Amount_BR = '0';
             requestJSON.TDS_Ind = caseRecord.ABSLI_Case_Detail__r.TDS_Indicator__c == 'Y'?'true':'false';
-            String surrenderAmount = '1';
-            if(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c != null){
-                surrenderAmount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c.intValue());
+            String surrenderAmount = '0';
+            if(caseRecord.ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c != null){
+                surrenderAmount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c.round());
             }
             requestJSON.surrenderamount = surrenderAmount;
 
             string requestBody = JSON.serialize(requestJSON);
             for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
-                ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
-                caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
-                caseInteg.Case__c = caseRecord.Id;
-                caseInteg.Status__c = ABSLI_Constants.PENDING;
-                caseInteg.Request__c = requestBody;
-                caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
-                caseInteg.Is_Validation_Success__c = true;
-                newCaseIntegrations.add(caseInteg);
-                
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
-                caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
-                caseIntOut.Request_Payload__c = requestBody;
-                caseIntOut.Integration_Name__c = ABSLI_Constants.WITHDRAWAL_POLICY_SRV_NAME;
-                caseIntOut.ServiceName__c = ABSLI_Constants.WITHDRAWAL_POLICY_SRV_NAME;
-                peMap.put(index, caseIntOut);
-                indexToCaseId.put(index, caseRecord.Id);
-                index++;
+                if(intSpec.Processing_Class__c == ABSLI_WithdrawalPolicyIntegration.class.getName()){
+                    ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+                    caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+                    caseInteg.Case__c = caseRecord.Id;
+                    caseInteg.Status__c = ABSLI_Constants.PENDING;
+                    caseInteg.Request__c = requestBody;
+                    caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInteg.Is_Validation_Success__c = true;
+                    newCaseIntegrations.add(caseInteg);
+                    
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
+                    caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
+                    caseIntOut.Request_Payload__c = requestBody;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.WITHDRAWAL_POLICY_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.WITHDRAWAL_POLICY_SRV_NAME;
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRecord.Id);
+                    index++;
+                }
             }
         }
             

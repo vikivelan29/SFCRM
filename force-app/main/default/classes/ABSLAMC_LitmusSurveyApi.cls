@@ -29,7 +29,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         Account accountWithCases = [SELECT id, 
                                         (SELECT id, CaseNumber, Status,CCC_External_Id__c, Source__c, ABSLAMC_Case_Detail__r.Caller_Type__c 
                                         FROM Cases 
-                                        WHERE Stage__c !=: ABSLAMC_Constants.RESOLVED_STAGE AND Id != :caseId) 
+                                        WHERE Stage__c NOT IN (:ABSLAMC_Constants.RESOLVED_STAGE, :ABSLAMC_Constants.UNRESOLVED_STAGE) AND Id != :caseId) 
                                     FROM Account 
                                     WHERE Id=:accountId
                                     WITH SECURITY_ENFORCED];
@@ -78,6 +78,11 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
 
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         result.status = 'Error';
+        System.debug('all cases.. '+allCasesClosed);
+        System.debug('caseDetails.Stage__c '+caseDetails.Stage__c);
+        System.debug('caseDetails.ABSLAMC_Case_Detail__r.Caller_Type__c '+caseDetails.ABSLAMC_Case_Detail__r.Caller_Type__c);
+        System.debug('caseDetails.source__c ' +caseDetails.source__c);
+        System.debug('cccRec => '+cccRec);
 
         if( allCasesClosed && cccRec!=null && caseDetails.Stage__c == ABSLAMC_Constants.RESOLVED_STAGE
             && litmusAllowedCallerTypesList.contains( caseDetails.ABSLAMC_Case_Detail__r.Caller_Type__c) 
@@ -86,6 +91,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
             result.status = 'Success';
             result.response = 'Litmus Api submitted successfully';
         }
+        System.debug('from evaluate -> result => '+result);
         return result;
 
     }

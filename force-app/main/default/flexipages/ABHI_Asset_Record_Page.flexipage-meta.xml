@@ -1073,13 +1073,13 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Policy_number_Formula__c</value>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Member_Id__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Member_Name__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Member_Status__c</value>
@@ -1250,7 +1250,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>OmniDoc</value>
+                    <value>Omnidocs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>

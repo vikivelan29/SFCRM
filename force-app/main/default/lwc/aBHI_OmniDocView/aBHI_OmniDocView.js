@@ -88,10 +88,12 @@ export default class ABHI_OmniDocView extends LightningElement {
                         response.SearchResponse[i].policyNumber = this.policyNumber;
                         response.SearchResponse[i].rowUniqueId = Math.random().toString(16).slice(2,13);
                         if(response.SearchResponse[i].Error){
-                            for(let j = 0; j < response.SearchResponse[i].Error.length; j++){
-                                if(response.SearchResponse[i].Error[j].Description != 'SUCCESS'){
-                                    this.boolShowNoRec = true;
-                                    noRecordsAvailable = response.SearchResponse[i].Error[j].Description;
+                            if(Array.isArray(response.SearchResponse[i].Error)){
+                                for(let j = 0; j < response.SearchResponse[i].Error.length; j++){
+                                    if(response.SearchResponse[i].Error[j].Description != 'SUCCESS'){
+                                        this.boolShowNoRec = true;
+                                        this.noRecordsAvailable = response.SearchResponse[i].Error[j].Description;
+                                    }
                                 }
                             }
                         }
@@ -117,7 +119,7 @@ export default class ABHI_OmniDocView extends LightningElement {
         this.currentRow = event.detail.row;
         switch (event.detail.action.name) {
             case 'docPrev':
-                window.open(this.customLabel.omniDocUrl + '&Docid=' + event.detail.row.OmniDocIndex + '&userdbid=' + event.detail.row.VID, '_blank');
+                window.open(this.customLabel.omniDocUrl + '&DocumentId=' + event.detail.row.OmniDocIndex + '&Userdbid=' + event.detail.row.VID, '_blank');
                 break;
             case 'cmpEmail':
                 if(this.objASFRecord.has(event.detail.row.rowUniqueId)){

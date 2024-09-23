@@ -51,8 +51,8 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
                 caseRecord.ABHI_Case_Detail__r.get('Receipt_Number__c') == '')
                && ABSLI_Constants.RECEIPT_NO_REQ_COMP_TYPE_CD.contains(caseRecord.IGMS_Complaint_Type_Code__c))
             {
-                errorMessage +='Receipt Number, ';
-                bErrorOccured = true;                
+                //errorMessage +='Receipt Number, ';
+                //bErrorOccured = true;                
             }
             if(String.isBlank(caseRecord.Account?.PersonMobilePhone)){
                 errorMessage = 'Customer Mobile Number is mandatory for IGMS Complaint Registration. Kindly reach out to your admin for further help., ';
@@ -190,7 +190,7 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
                 List<sObject> dmlRecords = new List<sObject>();
                 String irdaTokenNumber = jsonMap.Body.RegisterComplaintResponse.RegisterComplaintResult.RESULT.COMPLAINTDETAILS.IRDA_TOKEN_NUMBER;
                 system.debug('irdaTokenNumberas '+irdaTokenNumber);
-				String entity_Complaint_Ref_Number = jsonMap.Body.RegisterComplaintResponse.RegisterComplaintResult.RESULT.COMPLAINTDETAILS.ENTITY_COMPLAINT_REF_NUMBER;
+                String entity_Complaint_Ref_Number = jsonMap.Body.RegisterComplaintResponse.RegisterComplaintResult.RESULT.COMPLAINTDETAILS.ENTITY_COMPLAINT_REF_NUMBER;
                 if (irdaTokenNumber != null ) {
                     if(caseRecord.ABHI_Case_Detail__c != null){
                         System.debug(caseRecord.ABHI_Case_Detail__c);
@@ -326,7 +326,7 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
             this.Ack_Officer_Designation= '';
             this.Ack_Officer_Name= 'SM';
             this.BOC_Or_Collection_Number= '';
-            this.Branch_Code= 'MU01';
+            //this.Branch_Code= 'MU01';
             this.Cheque_Number= '';
             this.Claim_Clsr_Additional_Info= '';
             this.Claim_Received_Amount= '';

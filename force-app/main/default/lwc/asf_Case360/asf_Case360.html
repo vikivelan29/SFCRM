@@ -323,7 +323,7 @@
                                     <!-- NEERAJ - MADE THE REQUIRED ATTRIBUTE DYNAMIC TO MAKE IT NON-REQUIRED || PR1030924-43-->
                                     <template lwc:if={eligibleForBU}>
                                         <template lwc:if={showRejectPanel}>
-                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={eligibleForAMSLAMC}
+                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={optionalResComment}
                                                 label="Close Unresolved Details" variant="label-stacked"
                                                 value={rejectedReason} onchange={setRejectedReason}
                                                 placeholder="type here..."></lightning-textarea>
