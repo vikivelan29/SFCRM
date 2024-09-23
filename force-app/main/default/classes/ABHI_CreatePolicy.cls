@@ -204,8 +204,7 @@ public without sharing class ABHI_CreatePolicy {
         //<---------- Customer data ends ------>
         
         //Creating LAN mapping for policy & master customer
-	//Commenting to be sync with data load
-        /*if(masterPolicy != null && !masterPolicy.isEmpty()) {	
+        if(masterPolicy != null && !masterPolicy.isEmpty()) {	
             lanMap = new LAN_Mapping__c(Customer__c = masterPolicy[0].AccountId, LAN__r = refPolicy, Business_Unit__c = ABHI_Constants.ABHI, 
                                         UniqueKey__c = ABHI_Constants.ABHI+masterPolicy[0].Account.LOB_Client_Code__c+policyMap.get('ProposalNumber').toString(),
                                         Source_System__c = ABHI_Constants.JARVIS);
@@ -407,7 +406,7 @@ public without sharing class ABHI_CreatePolicy {
                 }  
             } 
             prevPolicy.put('Policy__c', policy.Id);
-            prevPolicy.putSObject('Customer__r', new Account(LOB_Client_Code__c = policy.Account.LOB_Client_Code__c ));
+            prevPolicy.put('Customer__c', policy.AccountId);
             listPrevPolicy.add(prevPolicy);
         }
         
