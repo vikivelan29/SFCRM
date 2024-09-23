@@ -803,31 +803,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     Case updatedCase = casesToUpdate.get(caseId);
                     updatedCase.BusinessHoursId  = caseRec.BusinessHoursId;
                     System.debug('BH'+updatedCase.BusinessHoursId);
-                    //if(resultMap != null && resultMap.containsKey(index)){
-                        //only if owner is changing , touch business hrs. else not need. 
-                        /*  Stage change need not be owner change. Example : When stage is changed to approvalstage,
-                        then ownership retains with previous ownrr. so owner change is not happenig.
-                        Same with integration stages also.
-                        Concept is , in parking stages , there is no owner change. but stage change.
-                        owner change can be to user or queue. and then business hrs changes
-                        */
-                        // if(newCases.get(caseId).ownerId != oldCases.get(caseId).ownerId ){
-                        //     if(String.valueOf(newCases.get(caseId).ownerId).startsWith('005')){
-                        //         String userBusinessHrs = resultMap.get(index).caseUserOwnerBusinessHoursMap;
-                        //         if(userBusinessHrs!=null){
-                        //             updatedCase.BusinessHoursId = userBusinessHrs;
-                        //             System.debug('BH'+updatedCase.BusinessHoursId);
-                        //         } 
-                        //     }
-                        //     else {
-                        //         String queueBusinessHrs = resultMap.get(index).caseQueueOwnerBusinessHourMap;
-                        //         if(queueBusinessHrs!=null){
-                        //             updatedCase.BusinessHoursId = queueBusinessHrs;
-                        //             System.debug('BH'+updatedCase.BusinessHoursId);
-                        //         }
-                        //     }
-                        // }
-                    //}
                     index++;
                 }
             }
@@ -863,8 +838,19 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     closeSlaSec = slaMap.get('caseClosureSLA');
                 }
                 long slaIdentifier = 3600000;
-                
-
+                //HANDLE EMPTY SLA BLOCKS - STARTS
+                if(oldCases.get(caseRec.id).Stage__c != newCases.get(caseRec.id).Stage__c){
+                    //If the stage sla are not configured, empty the field
+                    if(sla1Sec == null){
+                        updatedCase.Stage_SLA_1__c = null;
+                    } 
+                    if(sla2Sec == null){
+                        updatedCase.Stage_SLA_2__c = null;
+                    }
+                    if(sla3Sec == null){
+                        updatedCase.Stage_SLA_3__c = null;
+                    }
+                }
                 if(oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
                     //If the overallsla is not configured, empty the field
                     if(closeSlaSec == null){
@@ -896,10 +882,8 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                         }
                     }
                 }
+                //HANDLE EMPTY SLA BLOCKS - ENDS
 
-                // updatedCase.Stage_SLA_1__c = null; 
-                // updatedCase.Stage_SLA_2__c = null; 
-                // updatedCase.Stage_SLA_3__c = null; 
                 String businessHrsusedForcalcuation ; 
                 
                 //owner change or Stage change . enter
