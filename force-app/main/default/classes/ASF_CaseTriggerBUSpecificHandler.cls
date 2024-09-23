@@ -20,7 +20,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert((List<Case>)newItems);
         }
     }
-      
+       
      /**
      * @description - Executes after the ASF code runs in before insert context
      * @param newItems - list of new cases
