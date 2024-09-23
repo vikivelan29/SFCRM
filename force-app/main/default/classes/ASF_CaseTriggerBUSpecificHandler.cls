@@ -18,7 +18,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
             ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert((List<Case>)newItems);
-            ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber((List<Case>)newItems);
         }
     }
       
@@ -127,7 +126,6 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABSLAMC_CaseAssignmentHelper.updateCaseStage((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
         // check the backword movement for AMC 3 to1 for Journey 5.
         ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
-        ABHI_IGMSHelperMethods.associateAssetIgms((List<Case>)newItems.values());
         abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate');
         ABSLAMC_BU_CTSTHelper.validateManualApproval((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
