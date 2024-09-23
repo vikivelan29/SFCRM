@@ -195,6 +195,10 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
                         if (fieldsToShow[arrEle].isRequied) {
                             ele.required = fieldsToShow[arrEle].isRequied;
                         }
+                        let staticField = this.arr_Statisfields.find((field)=>{return fieldsToShow[arrEle].fieldAPIName == field.fieldAPIName});
+                        if(staticField && staticField.defaulSelectedOption){
+                            ele.value = staticField.defaulSelectedOption;
+                        }
                     }
                 }
             }
