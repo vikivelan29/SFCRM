@@ -26,11 +26,12 @@ public class ASF_CaseTriggerBUSpecificHandler {
             }
         }
     }
-    public void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
-
-        ABHI_BusinessLogic_Helper abhiBusLogicHelperObj = new ABHI_BusinessLogic_Helper();
-        Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems);
-        Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
+       
+     /**
+     * @description - Executes after the ASF code runs in before insert context
+     * @param newItems - list of new cases
+     */
+    public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             if(mRecordTypeVsCases.get(frameworkRTId).size()>0){

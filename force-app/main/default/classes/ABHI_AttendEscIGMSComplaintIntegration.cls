@@ -307,10 +307,11 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
             this.Trans_Login_Id = 'ABHICADMIN1';
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
-           //this.Insurer_Resolution_Letter_date  = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
-            //this.Claim_Payment_Cheque_Date =  ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
-            //this.Claim_Payment_Cheque_Number  = '123333';
-            //this.Claim_Payment_Date  =  ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Additional_Closure_Information= ' closing the case';
+			this.Insurer_Resolution_Letter_date  = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Claim_Payment_Cheque_Date =  ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Claim_Payment_Cheque_Number  = '123333';
+            this.Claim_Payment_Date  =  ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
         }
     }
     /**
