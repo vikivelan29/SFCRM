@@ -81,7 +81,7 @@ public with sharing class ABHI_CreatePolicy {
             //ABHI_Policy_Id__c is based on Policy no
             refMasterPolicy = new Asset(LAN__c = masterPolicyNumber);
             //Get master account Id
-            masterPolicy = [SELECT Id,OwnerClientCode__c, OwnerClientCode__r.LOB_Client_Code__c FROM Asset WHERE LAN__c = :masterPolicyNumber];
+            masterPolicy = [SELECT Id,AccountId, Account.LOB_Client_Code__c FROM Asset WHERE LAN__c = :masterPolicyNumber];
            
         }    
         //<-------- Customer data starts ------>
@@ -153,8 +153,8 @@ public with sharing class ABHI_CreatePolicy {
         
         //Creating LAN mapping for policy & master customer
         if(masterPolicy != null && !masterPolicy.isEmpty()) {	
-            lanMap = new LAN_Mapping__c(Customer__c = masterPolicy[0].OwnerClientCode__c, LAN__r = refPolicy, Business_Unit__c = ABHI_Constants.ABHI, 
-                                        UniqueKey__c = ABHI_Constants.ABHI+masterPolicy[0].OwnerClientCode__r.LOB_Client_Code__c+policyMap.get('ProposalNumber').toString(),
+            lanMap = new LAN_Mapping__c(Customer__c = masterPolicy[0].AccountId, LAN__r = refPolicy, Business_Unit__c = ABHI_Constants.ABHI, 
+                                        UniqueKey__c = ABHI_Constants.ABHI+masterPolicy[0].Account.LOB_Client_Code__c+policyMap.get('ProposalNumber').toString(),
                                         Source_System__c = ABHI_Constants.JARVIS);
             listLanMap.add(lanMap);
         }    
@@ -349,6 +349,7 @@ public with sharing class ABHI_CreatePolicy {
                 }  
             } 
             prevPolicy.put('Policy__c', policy.Id);
+            prevPolicy.put('Customer__c', policy.AccountId);
             listPrevPolicy.add(prevPolicy);
         }
         

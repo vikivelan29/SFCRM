@@ -21,7 +21,7 @@ public with sharing class ABSLI_RequestResolutionBeforeStage implements ASF_Case
         }
         List<Case> validateResolutionCases = new List<Case>();
         for(Case caseRec : caseRecords){
-            if(caseRec.Technical_Source__c != 'API' && (UserInfo.getName() != System.Label.ABCL_Integration_UserName) ){
+            if(caseRec.Technical_Source__c != 'API' && (UserInfo.getName() != System.Label.ABCL_Integration_UserName) && caseRec.FTR__c == false){
                validateResolutionCases.add(caseRec);
             }
 		}
