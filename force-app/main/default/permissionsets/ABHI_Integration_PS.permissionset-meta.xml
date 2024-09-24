@@ -178,22 +178,12 @@
     </classAccesses>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.ABHI_isSecondStageAcknowledgementSent__c</field>
+        <field>ABHI_Case_Detail__c.Policy__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Aadhar_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Acccount_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Account_Type__c</field>
+        <editable>false</editable>
+        <field>Survey_Response__c.NPS_Score_Rating__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
