@@ -2,8 +2,8 @@
  * @description       : Test class for ABSLI_CTSTHelper
  * @author            : dhinesh.t@salesforce.com
  * @group             : 
- * @last modified on  : 06-03-2024
- * @last modified by  : dhinesh.t@salesforce.com
+ * @last modified on  : 09-24-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   06-05-2024   dhinesh.t@salesforce.com   Initial Version
@@ -26,6 +26,7 @@ public class ABSLI_CTSTHelper_Test {
         ccc.IGMS_Code__c = '#N/A';
         ccc.CCC_External_Id__c = 'PEMT024';
         ccc.Allowed_Issue_Types__c = 'example1';
+        ccc.Litmus_Trigger__c = TRUE;
         update ccc;
         
         //Create Asset
@@ -48,6 +49,7 @@ public class ABSLI_CTSTHelper_Test {
         caseRecList[0].ABSLI_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
         caseRecList[0].Business_Unit__c = 'ABSLI';
+        caseRecList[0].AccountId = accRec.Id;
         
         
        	caseRecList[1].AssetId = astRec1.Id;
@@ -105,6 +107,7 @@ public class ABSLI_CTSTHelper_Test {
        }
     @IsTest
     static void testABSLI_RequestResolutionBeforeStage(){
+        Test.startTest();
         Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,AssetId,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,ABSLI_Case_Detail__r.Outcome__c,ABSLI_Case_Detail__r.Resolution__c  from Case limit 1];
          Task taskRecord = new Task(
             WhatId = caseRecord.Id,
@@ -125,14 +128,14 @@ public class ABSLI_CTSTHelper_Test {
         update caseRecords;
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls2 =  ABSLI_RequestResolutionBeforeStage.beforeStageMovement(new List<Case>{caseRecord});
         System.assertEquals('Error',retCls.get(caseRecord.Id).Status,'Field is empty');
+        Test.stopTest();
     }
     
     @isTest
     public static void validateFromDateToDateTest(){
-        Case caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, ABSLI_Case_Detail__c, CCC_External_Id__c,Business_Unit__c,ABSLI_Case_Detail__r.To_Date__c,ABSLI_Case_Detail__r.From_Date__c,Asset.Issue_Date__c,Status FROM Case WHERE Business_Unit__c='ABSLI' Limit 1];
+        Case caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, ABSLI_Case_Detail__c, CCC_External_Id__c,Business_Unit__c,ABSLI_Case_Detail__r.To_Date__c,ABSLI_Case_Detail__r.From_Date__c,Asset.Issue_Date__c,Status FROM Case WHERE Business_Unit__c='ABSLI' and CCC_External_Id__c ='PEMT024' Limit 1];
         ABSLI_Case_Detail__c caseDetail = [SELECT id,Complaint_Category__c FROM ABSLI_Case_Detail__c where id =: caseList.ABSLI_Case_Detail__c];
         caseDetail.To_Date__c = Date.newInstance(2023, 5, 6);
-        
         update caseDetail;
         Test.startTest();
         try {
@@ -141,7 +144,15 @@ public class ABSLI_CTSTHelper_Test {
         } catch (DmlException e) {
             System.assert(e.getMessage().contains('To Date/From Date should be greater than or equal to the Policy Issued Date'));
         }
-        
+        //From Date Greater than to date
+        caseDetail.From_date__c = Date.newInstance(2024, 5, 6);
+        update caseDetail;
+        try {
+            Update caseList;
+            System.assert(false, 'Expected DmlException was not thrown');
+        } catch (DmlException e) {
+            System.assert(e.getMessage().contains('From Date should not be greater than To Date'));
+        }
         //checkComplaintApplicabilityTest
         caseList.Nature__c = 'Complaint';
         caseList.Technical_Source__c = 'LWC';
@@ -157,6 +168,16 @@ public class ABSLI_CTSTHelper_Test {
         //restrictComplaintRejectionTest
         caseList.IRDAI_Token_Number__c = '12312312';
         caseList.Stage__c = 'Unresolved';
+        try {
+            Update caseList;
+            System.assert(false, 'Expected DmlException was not thrown');
+        } catch (DmlException e) {
+        }
+        
+        //3PM test
+		caseList.CCC_External_Id__c = 'PNFT042';
+		caseDetail.Branch_Receive_Date__c = Date.Today() + 1;  
+        caseDetail.Before_3_PM__c = 'Yes';
         try {
             Update caseList;
             System.assert(false, 'Expected DmlException was not thrown');
@@ -201,6 +222,19 @@ public class ABSLI_CTSTHelper_Test {
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         
         ABSLI_CTSTHelper.checkIfOpenBankUpdateCase(caseRecords,resultMap);
+    }
+    
+    @IsTest
+    static void testABSLI_LitmusIntegration(){
+        Test.startTest();
+        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,AccountId,Business_Unit__c,AssetId,ABSLI_Case_Detail__c  from Case where CCC_External_Id__c = 'PEMT024' limit 1];
+        ABSLI_Case_Detail__c caseDetail = [SELECT id,Complaint_Category__c,Source_Request_submitted_by__c FROM ABSLI_Case_Detail__c where id =: caseRecord.ABSLI_Case_Detail__c];
+        caseDetail.Source_Request_submitted_by__c = 'Customer';
+        update caseDetail;
+        caseRecord.Status = 'Resolved';
+        caseRecord.Stage__c = 'Resolved';
+        update caseRecord;
+        Test.stopTest(); 
     }
     
 }
