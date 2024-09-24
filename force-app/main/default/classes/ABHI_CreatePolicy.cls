@@ -407,7 +407,8 @@ public without sharing class ABHI_CreatePolicy {
                 }  
             } 
             prevPolicy.put('Policy__c', policy.Id);
-            prevPolicy.putSObject('Customer__r', new Account(LOB_Client_Code__c = policy.Account.LOB_Client_Code__c ));
+            prevPolicy.putSObject('Customer__r', new Account(LOB_Client_Code__c = ABHI_Constants.ABHI+'_'+policy.Account.Client_Code__c ));
+            System.debug('@@@listPrevPolicy'+policy.Account.Client_Code__c );
             listPrevPolicy.add(prevPolicy);
         }
         
