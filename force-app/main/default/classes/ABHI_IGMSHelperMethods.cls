@@ -13,14 +13,56 @@ public class ABHI_IGMSHelperMethods {
         List<Case> abhiCases = new List<Case>();
         List<Case> updateCase = new List<Case>();
         Set<String> phoneNumbers = new Set<String>();
-        for(Case recCs: cases){
-            if(recCs.Business_Unit__c == 'ABHI'
-               && recCs.Technical_Source__c == 'API'
-               && recCs.SuppliedPhone != null && recCs.SuppliedPhone != ''
-               && recCs.AccountId == null)
-            {
-                abhiCases.add(recCs);
-                phoneNumbers.add(recCs.SuppliedPhone);
+        try{
+            for(Case recCs: cases){
+                if(recCs.Business_Unit__c == 'ABHI'
+                   && recCs.Technical_Source__c == 'API'
+                   && recCs.SuppliedPhone != null && recCs.SuppliedPhone != ''
+                   && recCs.AccountId == null)
+                {
+                    abhiCases.add(recCs);
+                    phoneNumbers.add(recCs.SuppliedPhone);
+                }
+            }
+            Map<String,List<Id>> mAccWithSamePhNum = new Map<String,List<Id>>();
+            if(phoneNumbers.size()>0){
+                String searchTerms = '';
+                integer iCount = 0;
+                for(String phoneNum : phoneNumbers){
+                    if(iCount == (phoneNumbers.size() -1)){
+                        searchTerms +='\''+phoneNum+'\'';
+                    }
+                    else{
+                        searchTerms +='\''+phoneNum+'\' OR ';
+                    }
+                    iCount++;
+                }
+                List<List<SObject>> searchList  = Search.query('FIND :searchTerms  IN PHONE FIELDS RETURNING Contact (Id, Name,AccountId,MobilePhone WHERE MobilePhone IN :phoneNumbers AND Account.Business_Unit__c =\'ABHI\')');
+                List<Contact> contactList = searchList[0];
+     
+                for(Contact con : contactList)
+                {
+                    if(!mAccWithSamePhNum.containsKey(con.MobilePhone))
+                    {
+                        mAccWithSamePhNum.put(con.MobilePhone, new List<Id>());
+                    }
+                    if(!mAccWithSamePhNum.get(con.MobilePhone).contains(con.AccountId)){
+                        mAccWithSamePhNum.get(con.MobilePhone).add(con.AccountId);
+                    }
+                }
+                for(Case cs : abhiCases){
+                    if(mAccWithSamePhNum.containsKey(cs.SuppliedPhone)){
+                        List<Id> accounts = mAccWithSamePhNum.get(cs.SuppliedPhone);
+                        if(accounts.size() == 1){
+                            Case  objCase = new Case (Id = cs.Id );
+                            objCase.AccountId = accounts.get(0);
+                            updateCase.add(objCase);
+                        }
+                    }
+                }
+                if(!updateCase.isEmpty()){
+                    update updateCase;
+                }
             }
         }
         Map<String,List<Id>> mAccWithSamePhNum = new Map<String,List<Id>>();
