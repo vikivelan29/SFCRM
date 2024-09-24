@@ -5156,14 +5156,6 @@
         <field>User.Team__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <classAccesses>
-        <apexClass>ASF_redirectToCaseApprovalVFController</apexClass>   
-        <enabled>false</enabled>
-    </classAccesses>
-    <pageAccesses>
-        <apexPage>ASF_redirectToCaseApprovalVF</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
     <layoutAssignments>
         <layout>ABFL_Case_Detail__c-ABFL Case Detail Layout</layout>
     </layoutAssignments>
