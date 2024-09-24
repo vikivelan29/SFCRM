@@ -348,6 +348,10 @@
         <apexClass>Asf_NpsIndicatiorController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_redirectToCaseApprovalVFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>HideCaseWithProspect</name>
@@ -6149,6 +6153,10 @@
         <object>Survey_Response__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <pageAccesses>
+        <apexPage>ASF_redirectToCaseApprovalVF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <recordTypeVisibilities>
         <recordType>Account.ABSLAMC_Non_Individual_Distributor</recordType>
         <visible>true</visible>
