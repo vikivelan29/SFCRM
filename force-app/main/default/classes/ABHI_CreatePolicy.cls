@@ -5,16 +5,10 @@
 *Last Modified:  10/03/2024
 *@description :  This class creates CRM Policy
 *********************************************************/
-public without sharing class ABHI_CreatePolicy {
+public with sharing class ABHI_CreatePolicy {
     private static Id memberRecordTypeId = Schema.SObjectType.Customer_Member_Mapping__c.getRecordTypeInfosByDeveloperName().get('Customer_Member').getRecordTypeId();
     public ABHI_CreatePolicyWrapper createPolicyWrapper {get; set;}
-    /*Used for Kavach policy*/
-    public static ABHI_CreatePolicyWrapper createPolicyWrappers {get; set;}
-	   
-    /**
-    * @param req - ABHI_CreatePolicyWrapper
-    * @description - This constructor calls parseObjects
-    */
+	    
     public ABHI_CreatePolicy(String req) {
         createPolicyWrapper = (ABHI_CreatePolicyWrapper)JSON.deserialize(req, ABHI_CreatePolicyWrapper.class);
         parseObjects(createPolicyWrapper);
