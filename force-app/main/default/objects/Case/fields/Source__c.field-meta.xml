@@ -538,6 +538,11 @@
                 <label>Walk-In</label>
             </value>
             <value>
+                <fullName>CEO Escalation</fullName>
+                <default>false</default>
+                <label>CEO Escalation</label>
+            </value>
+            <value>
                 <fullName>Email - Call Centre</fullName>
                 <default>false</default>
                 <label>Email - Call Centre</label>
