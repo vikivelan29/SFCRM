@@ -8,7 +8,7 @@ public class ABHI_IGMSHelperMethods {
      /**
      * @description  to populate the account from the mobile no when case is created from IGMS
      * @param cases - Case list
-     */
+     ***/
     public static void associateCustomerForAPIFromPhoneNumber(List<Case> cases){
         List<Case> abhiCases = new List<Case>();
         List<Case> updateCase = new List<Case>();
@@ -54,7 +54,7 @@ public class ABHI_IGMSHelperMethods {
                     if(mAccWithSamePhNum.containsKey(cs.SuppliedPhone)){
                         List<Id> accounts = mAccWithSamePhNum.get(cs.SuppliedPhone);
                         if(accounts.size() == 1){
-                        	Case  objCase = new Case (Id = cs.Id );
+                            Case  objCase = new Case (Id = cs.Id );
                             objCase.AccountId = accounts.get(0);
                             updateCase.add(objCase);
                         }
