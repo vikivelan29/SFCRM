@@ -1952,10 +1952,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>CEO Escalation</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>CPGRAMS</fullName>
             <default>false</default>
         </values>
@@ -1974,20 +1970,12 @@
         <values>
             <fullName>Carehead email ID</fullName>
             <default>false</default>
-        </values> 
+        </values>
         <values>
             <fullName>Chatbot</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Claim Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Claims</fullName>
-            <default>false</default>
-        </values>
-        <values>
+                <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
@@ -2052,15 +2040,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Escalations</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Fax</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Follow-up</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2177,6 +2157,10 @@
         </values>
         <values>
             <fullName>Litigation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NCH</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2309,10 +2293,6 @@
         </values>
         <values>
             <fullName>Senior citizen email id</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service Assurance team</fullName>
             <default>false</default>
         </values>
         <values>
