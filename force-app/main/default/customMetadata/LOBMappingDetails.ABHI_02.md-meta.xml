@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>New_Source__c</field>
-        <value xsi:type="xsd:string">Email- CEO Escalation,Email- IRDAI Escalation,IRDAI/Ombudsman,NCH,Senior Management Escalation,Letters,Litigation,Carehead email ID,CEO Escalation,CPGRAMS,Grievance Repeat,GRO email ID,IGMS,Senior citizen email id,Grievance</value>
+        <value xsi:type="xsd:string">Email- CEO Escalation,Email- IRDAI Escalation,IRDAI/Ombudsman,NCH,Senior Management Escalation,Letter,Litigation,Carehead email ID,CEO Escalation,CPGRAMS,Grievance Repeat,GRO email ID,IGMS,Senior citizen email id,Grievance</value>
     </values>
     <values>
         <field>Source_Code__c</field>
