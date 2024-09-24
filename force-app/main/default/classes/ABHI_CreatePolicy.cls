@@ -6,8 +6,8 @@
 *@description :  This class creates CRM Policy
 *********************************************************/
 public with sharing class ABHI_CreatePolicy {
-    public ABHI_CreatePolicyWrapper createPolicyWrapper {get; set;}
     private static Id memberRecordTypeId = Schema.SObjectType.Customer_Member_Mapping__c.getRecordTypeInfosByDeveloperName().get('Customer_Member').getRecordTypeId();
+    public ABHI_CreatePolicyWrapper createPolicyWrapper {get; set;}
 	    
     public ABHI_CreatePolicy(String req) {
         createPolicyWrapper = (ABHI_CreatePolicyWrapper)JSON.deserialize(req, ABHI_CreatePolicyWrapper.class);
@@ -22,7 +22,7 @@ public with sharing class ABHI_CreatePolicy {
         Account refAccount = null;
         Account acc = null;
         Asset refMasterPolicy = null;
-        Contact con = null;
+       // Contact con = null;
         Customer_Member_Mapping__c cusMemMapping = null;
         LAN_Mapping__c lanMap = null;
         Sobject refObject = null;
@@ -224,9 +224,6 @@ public with sharing class ABHI_CreatePolicy {
     private static Asset createAsset(Map<String,Object> policyMap, Map<String, String> policyObjectFieldMapping) {
         Sobject policyRefs = null;
         Asset policy = new Asset();
-        Account accountRef = new Account();
-        Boolean nullFlag = false;
-        Date nullDate = null;
         for(String policyMapping : policyObjectFieldMapping.keyset()) {
             switch on policyMapping.split('_')[2] {
                 when 'Double' {
@@ -283,7 +280,6 @@ public with sharing class ABHI_CreatePolicy {
     private static List<Policy_Nominee__c> createNominees(List<Map<String,Object>> nomineeList, Map<String, String> nomineeFieldMapping, Asset policy, Boolean policyCreated) {
         List<Policy_Nominee__c> listPolicyNominee = new List<Policy_Nominee__c>();
         Policy_Nominee__c  policyNominee = null;
-        Account acc = new Account();
         //Policy exists(not created) - need to delete existing nominees
         if(!policyCreated) {
             List<Policy_Nominee__c> existingNomineeList = [SELECT ID FROM Policy_Nominee__c WHERE Policy_Number__c = :policy.Id];
@@ -349,7 +345,8 @@ public with sharing class ABHI_CreatePolicy {
                 }  
             } 
             prevPolicy.put('Policy__c', policy.Id);
-            prevPolicy.put('Customer__c', policy.AccountId);
+            prevPolicy.putSObject('Customer__r', new Account(LOB_Client_Code__c = ABHI_Constants.ABHI+'_'+policy.Account.Client_Code__c ));
+            System.debug('@@@listPrevPolicy'+policy.Account.Client_Code__c );
             listPrevPolicy.add(prevPolicy);
         }
         
