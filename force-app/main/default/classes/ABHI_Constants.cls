@@ -66,11 +66,5 @@ public with sharing class ABHI_Constants {
     public static final String OMNIRES_SUCCESS = 'Success';
     public static final String OMNIRES_FAILURE = 'Failure';
     public static final String OMNIRES_PENDING = 'Pending';
-    public static final String ERROR_MISSING_LEAD_FOR_CANCELLED = 'Not processed-Missing Lead ID';
-    public static final String OMNIDOC_FILE_TRANSFER_SOURCE = 'SFDC';
-    public static final String OMNIDOC_FILE_TRANSFER_CATEGORYID = '1007';
-    public static final String OMNIDOC_FILE_TRANSFER_DOCSEARCHPARAMID_CASE = '17';
-    public static final String OMNIDOC_FILE_TRANSFER_LOGICALID = 'CRM';
-    public static final String OMNIDOC_FILE_TRANSFER_TASKID = 'Attachments';
 
 }
