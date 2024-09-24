@@ -103,6 +103,13 @@
             <operator>contains</operator>
             <value>PPCT013,PPCT001,PPCT002,PPCT016,PPCT017,NNOP004,PFTT016,PFTT010,PFTT013,PFTT012,PFTT011,ENAC11011,ESIA01,PNFT008,PNFT007,PNFT009,PEMT024,PEMT042,PNFT019,PNFT017,PCPT028,EPRPCC01,PBRCP004,PBRPY007,PCPT001,PCPT005,PCPT006,PCPT007,PCPT011,PCPT016,PCPT020,PCPT021,PCPT025,PCPT026,PFTT017,RPSP010,CTST0003,CTST001,CTST0002,PCPT029,PCPT031,PCPT030,PCPT012,CSST04082021002,NBFL004,PNFT013,PMRO002,PNFT015,PNFT016,PNFT022,PNFT018,DOB001,MCRGGN2005,PNFT030,PIMF004,PIMF005,PIWRR003,PMRO001,PNFT001,PNFT035,NBRF0117,PEMT055,PNFT010,PFC180123,EXTDISNEWULIP,PREI0010,CSST04082021003,PREI006,BSLI2606191,PREI002,PRAT002,PREI007,PRAT004,CTST0004,NBFL001,PPCT014,NBRF00118,PNFT027,PCPT033,WPOPTIN,PRNPN01,PCPT015,PNFT031,PNFT034,PREI001,PPCT027,PNFT042,PPAY001,PCPT017,PPAY008</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Closed,Closed Duplicate,Unresolved</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
     <name>CC + EMT Open Cases</name>
@@ -115,6 +122,8 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
+    <sortColumn>Case$ABSLI_Case_Detail__c.Resolution__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>Case$Case_SLA_Threshold_1__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
