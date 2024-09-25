@@ -172,7 +172,7 @@ public without sharing class ABHFL_CTSTHelper {
         Map<Id, Case> casesToUpdate = new Map<Id, Case>();    // added by vikas
         RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
         for(Case c: caseList){
-	IdvsCase.put(c.Id,c);            // added by vikas
+	IdvsCase.put(c.Id,c);       // added by vikas
             if(c.Business_Unit__c=='ABHFL' && 
                		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
                 	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
@@ -228,7 +228,7 @@ public without sharing class ABHFL_CTSTHelper {
                             if(lanVsCases.containsKey(c.AssetId)){
 				if(c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ){
                                 ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase,oldCaseMap);         // added by vikas, After recategorisation, ovarall SLA should changed before marked as closed duplicate.
-                                }
+				}
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = ASF_Constants.DUPLICATESTAGE;
                                     c.Status = ASF_Constants.DUPLICATESTATUS;
@@ -269,8 +269,7 @@ public without sharing class ABHFL_CTSTHelper {
         	}
     	}
 	}
- 
- //This is changes related to CR[PR970457-2388,PR970457-2288] made by Yogesh
+//This is changes related to CR[PR970457-2388,PR970457-2288] made by Yogesh
  //skipOpenStageforAPIcases: It will impact cases which created from API for mentioned CTSTs
  //This method applicable to ABHFL BU only. It is used to skip open stage at the time of case creation through API. 
      public static void skipOpenStageforAPIcases(List<Case> caseList) {
