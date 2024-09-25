@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ServicingBranchName__c</fullName>
-    <description>ABHI</description>
+    <fullName>Claim_Amount__c</fullName>
     <externalId>false</externalId>
-    <label>Intermediary Branch</label>
-    <length>100</length>
+    <label>Claim Amount</label>
+    <precision>16</precision>
     <required>false</required>
+    <scale>0</scale>
     <trackHistory>false</trackHistory>
-    <type>Text</type>
-    <unique>false</unique>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
 </CustomField>
