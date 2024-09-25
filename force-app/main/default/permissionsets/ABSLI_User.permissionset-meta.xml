@@ -21,6 +21,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABSLI_IssueTypeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABSLI_CasDeDupeCheck</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -120,6 +124,31 @@
         <enabled>true</enabled>
         <flow>ABFL_Update_Preferred_Name</flow>
     </flowAccesses>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.ProductCode</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Product_Mix__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Product_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.IRDA_Categorization__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Segment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Category_Config__c.IGMS_Code__c</field>

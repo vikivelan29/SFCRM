@@ -4,7 +4,7 @@
         <name>Navigate_to_Lead_Record</name>
         <label>Navigate to Lead Record</label>
         <locationX>182</locationX>
-        <locationY>1490</locationY>
+        <locationY>1382</locationY>
         <actionName>c:asf_navigateToRecord</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -39,7 +39,7 @@
         <name>Assign_Values_to_Lead_Record</name>
         <label>Assign Values to Lead Record</label>
         <locationX>182</locationX>
-        <locationY>1274</locationY>
+        <locationY>1166</locationY>
         <assignmentItems>
             <assignToReference>leadRecord.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -303,6 +303,32 @@
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>leadSubStageDisqualified</name>
+        <dataType>String</dataType>
+        <displayField>SubStage__c</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ABSLI</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Stage__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Disqualified</stringValue>
+            </value>
+        </filters>
+        <object>ASF_Lead_Stage_Substage_Master__mdt</object>
+        <outputAssignments>
+            <assignToReference>leadRecord.Lead_Sub_Stage__c</assignToReference>
+            <field>SubStage__c</field>
+        </outputAssignments>
+        <valueField>SubStage__c</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>leadSubStagePicklistValues</name>
         <dataType>String</dataType>
         <displayField>SubStage__c</displayField>
@@ -318,7 +344,33 @@
             <field>Stage__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>selectedLeadStage</elementReference>
+                <stringValue>Open</stringValue>
+            </value>
+        </filters>
+        <object>ASF_Lead_Stage_Substage_Master__mdt</object>
+        <outputAssignments>
+            <assignToReference>leadRecord.Lead_Sub_Stage__c</assignToReference>
+            <field>SubStage__c</field>
+        </outputAssignments>
+        <valueField>SubStage__c</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>leadSubStageQualified</name>
+        <dataType>String</dataType>
+        <displayField>SubStage__c</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ABSLI</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Stage__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Qualified</stringValue>
             </value>
         </filters>
         <object>ASF_Lead_Stage_Substage_Master__mdt</object>
@@ -478,7 +530,7 @@
         <name>Create_Lead_1</name>
         <label>Create Lead</label>
         <locationX>182</locationX>
-        <locationY>1382</locationY>
+        <locationY>1274</locationY>
         <connector>
             <targetReference>Navigate_to_Lead_Record</targetReference>
         </connector>
@@ -525,12 +577,6 @@
             <field>Application_Number__c</field>
             <value>
                 <elementReference>Application_No</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Asset__c</field>
-            <value>
-                <elementReference>Policy</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -680,13 +726,13 @@
         <inputAssignments>
             <field>Target_LOBs__c</field>
             <value>
-                <elementReference>targetBUValue</elementReference>
+                <elementReference>Target_BU_LOB.topValue</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Target_Sub_LOBs__c</field>
             <value>
-                <elementReference>targetLOBValue</elementReference>
+                <elementReference>Target_BU_LOB.middleValue</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -777,7 +823,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Dependent_Fields_Screen</targetReference>
+            <targetReference>Assign_Values_to_Lead_Record</targetReference>
         </connector>
         <fields>
             <name>Basic_Information</name>
@@ -838,6 +884,16 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>recordId</leftValueReference>
+                            <operator>IsNull</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <fields>
                     <name>Product</name>
@@ -1219,6 +1275,14 @@
                     </isDisabled>
                     <isRequired>false</isRequired>
                 </fields>
+                <fields>
+                    <name>PAN</name>
+                    <dataType>String</dataType>
+                    <fieldText>PAN</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
@@ -1231,12 +1295,61 @@
                 <name>Lead_Process_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>PAN</name>
+                    <name>Lead_Sub_Stage_Open</name>
+                    <choiceReferences>leadSubStagePicklistValues</choiceReferences>
                     <dataType>String</dataType>
-                    <fieldText>PAN</fieldText>
-                    <fieldType>InputField</fieldType>
+                    <fieldText>Lead Sub-Stage</fieldText>
+                    <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Lead_Stage</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Open</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>Lead_Sub_Stage_Qualified</name>
+                    <choiceReferences>leadSubStageQualified</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Lead Sub-Stage</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Lead_Stage</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Qualified</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>Lead_Sub_Stage_Disqualified</name>
+                    <choiceReferences>leadSubStageDisqualified</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Lead Sub-Stage</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Lead_Stage</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Disqualified</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -1363,107 +1476,6 @@
                 </conditions>
             </visibilityRule>
         </fields>
-        <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Dependent_Fields_Screen</name>
-        <label>Dependent Fields Screen</label>
-        <locationX>182</locationX>
-        <locationY>1166</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Assign_Values_to_Lead_Record</targetReference>
-        </connector>
-        <fields>
-            <name>Dependent_Fields_Screen_Section1</name>
-            <fieldType>RegionContainer</fieldType>
-            <fields>
-                <name>Dependent_Fields_Screen_Section1_Column1</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>selected_account</name>
-                    <fieldText>&lt;p&gt;Customer : {!selectedAccountName}&lt;/p&gt;</fieldText>
-                    <fieldType>DisplayText</fieldType>
-                </fields>
-                <fields>
-                    <name>Policy</name>
-                    <choiceReferences>PoliciesForCustomer</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Policies</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>selectedAccount</leftValueReference>
-                            <operator>IsNull</operator>
-                            <rightValue>
-                                <booleanValue>false</booleanValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Dependent_Fields_Screen_Section1_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>selected_stage</name>
-                    <fieldText>&lt;p&gt;Lead Stage : {!selectedLeadStage}&lt;/p&gt;</fieldText>
-                    <fieldType>DisplayText</fieldType>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>selectedLeadStage</leftValueReference>
-                            <operator>IsNull</operator>
-                            <rightValue>
-                                <booleanValue>false</booleanValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <name>Lead_Sub_Stage</name>
-                    <choiceReferences>leadSubStagePicklistValues</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Lead Sub-Stage</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>selectedLeadStage</leftValueReference>
-                            <operator>IsNull</operator>
-                            <rightValue>
-                                <booleanValue>false</booleanValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
-        </fields>
         <nextOrFinishButtonLabel>Create Lead</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -1472,7 +1484,7 @@
         <name>Error_Screen</name>
         <label>Error Screen</label>
         <locationX>578</locationX>
-        <locationY>1490</locationY>
+        <locationY>1382</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
