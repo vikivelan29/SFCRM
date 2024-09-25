@@ -1038,6 +1038,8 @@
                 <identifier>lst_dynamicRelatedList5</identifier>
             </componentInstance>
         </itemInstances>
+        <name>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</name>
+        <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
@@ -1124,7 +1126,7 @@
                 <identifier>lst_dynamicRelatedList6</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</name>
+        <name>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d8</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
