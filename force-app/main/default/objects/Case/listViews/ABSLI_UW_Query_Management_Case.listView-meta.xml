@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLI_UW_Query_Management_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABSLI UW Query Management</label>
+    <queue>ABSLI_UW_Query_Management</queue>
+    <sharedTo>
+        <group>ABSLI_UW_Query_Management_G</group>
+    </sharedTo>
+</ListView>
