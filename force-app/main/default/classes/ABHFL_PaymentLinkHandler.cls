@@ -121,21 +121,23 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
                            Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,ABHFL_Case_Detail__r.EMI_Tenure__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
-        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c 
+        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c,GST__c 
                                                 FROM Doc_Charge__mdt WHERE CCC_External_Id__c =:cccExternalId];
         Boolean callPaymentLink = false;        
         string smsTemplate = '';    
         String emailTemplate = '';   
-        String paymentCode = '';           
+        String paymentCode = '';
+        Decimal GST;
         if(docChargeMdtLst.size() > 0){
             emailTemplate = docChargeMdtLst[0].Email_Template__c;
             smsTemplate = docChargeMdtLst[0].SMS_Template__c;
             callPaymentLink = docChargeMdtLst[0].Call_Payment_Link__c;
             paymentCode = docChargeMdtLst[0].Payment_Code__c;
+            GST= docChargeMdtLst[0].GST__c;
         }         
         String integrationResponse = ABHFL_Constants.FAILURE;
 
-        PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord);
+        PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord,GST);
         paytmRequestWrapper.paymentCode = paymentCode;
         paytmRequestWrapper.ParentcaseID = caseRecord.Id;
         string paytmRequestBody = JSON.serialize(paytmRequestWrapper);
@@ -245,7 +247,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     * @Description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInt){} 
- /*
+    /*
         Ticket: PR970457-1883
         Modified By: Ishan Khichadia 
         Description: Added 2 new variables called as impactType and salesId and populated it with caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c and caseRecord.Asset.Loan_Id__c respectively. Also the LAN is now populated with caseRecord.Asset.LAN__c and not with caseRecord.Asset.Loan_Id__c
@@ -262,7 +264,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public Integer impactType;
         public string salesId;
 
-        public PaytmRequestWrapper(Case caseRecord){
+        public PaytmRequestWrapper(Case caseRecord,Decimal GST){
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
             this.custname = caseRecord.Customer_name_formula__c;
             this.LAN = caseRecord.Asset.LAN__c;
@@ -270,8 +272,10 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?/*caseRecord.Account.Office_Email__c*/(con.size()>0?con[0].Email:''):caseRecord.Account.PersonEmail;
             this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
-            this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c);
-            
+            // GST calculation for PR970457-2177
+            Decimal amountWithGST = caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c * (1 + (GST / 100));
+            Decimal formattedAmount = amountWithGST.setScale(2, System.RoundingMode.HALF_UP);
+            this.Amount = String.valueof(formattedAmount);
             String emiTenure = caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c;
             System.debug('emiTenure: ' + emiTenure);
             if(emiTenure == 'EMI'){
