@@ -43,6 +43,7 @@ public with sharing class ABHI_ClickPSSCommController {
     public static ClientResponseWrapper doCommunication(String objectName, String recordId, String formData){
         try {
             String integrationName = 'ABHI_PSSCommunication';
+            
             // RecordType rt = [SELECT Id from RecordType where DeveloperName = 'PSS'];
             String requestString = createRequest(objectName, recordId, formData);
             System.debug('requestString>>>'+requestString);
@@ -93,11 +94,22 @@ public with sharing class ABHI_ClickPSSCommController {
         try {
             formWrapper formDataWrap = (formWrapper) JSON.deserialize(formData, formWrapper.class);
             PSSRequestWrapper reqWrap = new PSSRequestWrapper();
-            Asset ass = [SELECT Policy_No__c, Next_Premium_Date__c, SerialNumber, Account.Phone, Account.Office_Email__c from Asset where id=: recordId];
-            reqWrap.PolicyID = ass.Policy_No__c;
-            reqWrap.AppNo = ass.SerialNumber;
-            reqWrap.mobileno = formDataWrap.phoneNumber != ''? formDataWrap.phoneNumber : ass.Account.Phone;
-            reqWrap.emailId = formDataWrap.emailId != ''? formDataWrap.emailId : ass.Account.Office_Email__c;
+            ABHI_PSSCommunicationConfig__mdt mtdt = [SELECT TemplateName__c, Email_Field__c, Alert_Code__c, Phone_Field__c, ALERTV1__c, ALERTV2__c, ALERTV3__c, ALERTV4__c, ALERTV5__c, ALERTV6__c, ALERTV7__c, ALERTV8__c, ALERTV9__c, ALERTV10__c, ALERTV11__c, ALERTV12__c, ALERTV13__c, ALERTV14__c, ALERTV15__c, ALERTV16__c, ALERTV17__c, ALERTV18__c, ALERTV19__c, ALERTV20__c, ALERTV21__c, ALERTV22__c, ALERTV23__c, ALERTV24__c, ALERTV25__c, ALERTV26__c, ALERTV27__c, ALERTV28__c, ALERTV29__c, ALERTV30__c, ALERTV31__c, ALERTV32__c, ALERTV33__c, ALERTV34__c, ALERTV35__c, ALERTV36__c, ALERTV37__c, ALERTV38__c, ALERTV39__c, ALERTV40__c from ABHI_PSSCommunicationConfig__mdt where TemplateId__c =: formDataWrap.template AND Entity__c =: objectName AND CommunicationType__c =:formDataWrap.commType ];
+            String query = 'SELECT Policy_No__c, Next_Premium_Date__c, SerialNumber, AccountId, Account.Phone, Account.Office_Email__c';
+            // query = mtdt.Email_Field__c != null? query+', '+mtdt.Email_Field__c : query;
+            // query = mtdt.Phone_Field__c != null? query+', '+mtdt.Phone_Field__c : query;
+            for(Integer i=1;i<41;i++){
+                query = mtdt.get('ALERTV'+i+'__c') != null? query+', '+ mtdt.get('ALERTV'+i+'__c') : query;
+            }
+            query += ' from Asset where id=:recordId';
+            Sobject sobj = Database.query(query);
+            System.debug('sobj>>'+sobj);
+            //Asset ass = [SELECT Policy_No__c, Next_Premium_Date__c, SerialNumber, Account.Phone, Account.Office_Email__c, AccountId from Asset where id=: recordId];
+            reqWrap.PolicyID = String.valueOf(sobj.get('Policy_No__c'));
+            ABCL_IntegrationCallout.accountId = String.valueOf(sobj.get('AccountId'));
+            reqWrap.AppNo = String.valueOf(sobj.get('SerialNumber'));
+            reqWrap.mobileno = formDataWrap.phoneNumber != ''? formDataWrap.phoneNumber : String.valueOf(sobj.getSobject('Account').get('Phone'));
+            reqWrap.emailId = formDataWrap.emailId != ''? formDataWrap.emailId : String.valueOf(sobj.getSobject('Account').get('Office_Email__c'));
             reqWrap.channel_ID = 'SFCRM';
             reqWrap.Req_Id = '5696';
             reqWrap.Alert_Mode = formDataWrap.alertCode;
@@ -105,7 +117,23 @@ public with sharing class ABHI_ClickPSSCommController {
             reqWrap.field1 = 'NA';
             reqWrap.field2 = 'NA';
             reqWrap.field3 = 'NA';
-            return JSON.serialize(reqWrap);
+            String reqWrapString = JSON.serialize(reqWrap);
+            Map<String,Object> obj =  (Map<String,Object>) JSON.deserializeUntyped(reqWrapString);
+            
+            for(Integer i=1;i<41;i++){
+                String field = '';
+                if(mtdt.get('ALERTV'+i+'__c') != null && String.valueOf(mtdt.get('ALERTV'+i+'__c')).contains('.')){
+                    field = String.valueOf(sobj.getSobject(String.valueOf(mtdt.get('ALERTV'+i+'__c')).split('\\.')[0]).get(String.valueOf(mtdt.get('ALERTV'+i+'__c')).split('\\.')[1]));
+                }
+                else if(mtdt.get('ALERTV'+i+'__c') != null){
+                    field=String.valueOf(sobj.get(String.valueOf(mtdt.get('ALERTV'+i+'__c'))));
+                }
+                else field = '';
+                Object ov = (Object) field;
+                obj.put('AlertV'+i, ov);
+            }
+            System.debug('obj>>>>'+obj);
+            return JSON.serialize(obj);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -159,11 +187,6 @@ public with sharing class ABHI_ClickPSSCommController {
         public String Alert_Mode;
         public String mobileno;
         public String EmailId;
-        public String AlertV1;
-        public String AlertV2;
-        public String AlertV3;
-        public String AlertV4;
-        public String AlertV5;
         public String field1;
         public String field2;
         public String field3;
