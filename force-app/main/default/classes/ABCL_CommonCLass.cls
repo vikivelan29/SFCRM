@@ -18,6 +18,7 @@ public with sharing class ABCL_CommonCLass {
 
         List<Case> newCaseList = (List<Case>)newItems;
         prepopulateCaseFldsOnBasisOfBussinessUnit(newCaseList);
+        populateCreatedDateRange(newCaseList);
     }
 
     /****************************************************************************************************************
@@ -37,14 +38,14 @@ public with sharing class ABCL_CommonCLass {
                 if(csRec.Business_Unit__c == 'ABWM'){
                   String bussUnit = 'ABFL'; 
                     if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                    } 
+                    	setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                	} 
                 }
                 else{
-                    String bussUnit = csRec.Business_Unit__c; 
-                    if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                	String bussUnit = csRec.Business_Unit__c; 
+                	if(!setOfCaseBusinessUnit.contains(bussUnit)) {
                     setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                    } 
+                	} 
                 }
             }
         }
@@ -67,8 +68,11 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
                 }
-                else if(bussHrName.containsIgnoreCase('ABSLI')) {
+               else if(bussHrName.containsIgnoreCase('ABSLI')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ABSLAMC')){
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLAMC', bh);
                 }
                 else if(bussHrName.containsIgnoreCase('ABHI')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABHI', bh);
@@ -79,10 +83,10 @@ public with sharing class ABCL_CommonCLass {
                 if(String.isNotBlank(csRec.Business_Unit__c)) {
                     String busshrId ='';
                     if(csRec.Business_Unit__c == 'ABWM'){
-                         busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
+                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
                     }
                     else{
-                         busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
+                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
                     }
                     csRec.BusinessHoursId = busshrId;
                 }
@@ -103,12 +107,13 @@ public with sharing class ABCL_CommonCLass {
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
 
         List<SObject> recordsToUpdate = new List<SObject>();
+        Map<Id,SObject> recordmap = new Map<Id,SObject>();
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
                 if(caseRec.ABFL_Case_Detail__c != null){
                     ABFL_Case_Detail__c detRec = new ABFL_Case_Detail__c(Id=caseRec.ABFL_Case_Detail__c);
                     detRec.Resolution_Comments__c = caseRec.Resolution_Comments__c;
-                    recordsToUpdate.add(detRec);
+                    recordmap.put(detRec.Id,detRec);                
                 }
                 if(caseRec.ABHFL_Case_Detail__c != null){
                     ABHFL_Case_Detail__c detRec = new ABHFL_Case_Detail__c(Id=caseRec.ABHFL_Case_Detail__c);
@@ -116,6 +121,7 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
+            recordsToUpdate.addAll(recordmap.values());
         }
         
         if(!recordsToUpdate.isEmpty()){
@@ -137,5 +143,65 @@ public with sharing class ABCL_CommonCLass {
             return true;
         }
         return result;
+    }
+
+    /**
+     * @Function - populateCreatedDateRange
+     * @param newItems -  map of Case from trigger.new.
+     * @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
+    **/
+    public void populateCreatedDateRange(List<Case> newItems) {
+
+        Datetime currentDatetime = System.now();
+        Integer currentHour = currentDatetime.hour();
+        Integer currentMinute = currentDatetime.minute();
+        Integer timeInMinutes =  currentHour*60 + currentMinute;
+        String businessUnitCheck = System.label.Business_Unit_Check_For_SLA_Override ?? '';
+
+        for(Case caseRec : newItems){
+            String caseBusinessUnit = caseRec?.Business_Unit__c ?? '';
+
+            if(businessUnitCheck.containsIgnoreCase(caseBusinessUnit)) {
+                caseRec.Created_Date_Range__c = calculateSlaOverwriteIdentifier(timeInMinutes);    
+            }
+        }
+    }
+
+    /**
+     * @Function - populateCreatedDateRange
+     * @param calculateMinutes -  Time in minutes.
+     * @return - String
+     * @description - Method to calculate the SLA Overwrite Identifier
+    **/
+    @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
+    public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
+        
+        String slaOverwriteIdentifier = '';
+       if(calculateMinutes > 0 && calculateMinutes <= 900) {
+            slaOverwriteIdentifier = '1';
+        }
+        else if(calculateMinutes > 900 && calculateMinutes <= 960) {
+            slaOverwriteIdentifier = '2';
+        }
+        else if(calculateMinutes > 960 && calculateMinutes <= 1020) {
+            slaOverwriteIdentifier = '3';
+        }
+        else if(calculateMinutes > 1020 && calculateMinutes <= 1080) {
+            slaOverwriteIdentifier = '4';
+        }
+        else if(calculateMinutes > 1080 && calculateMinutes <= 1140) {
+            slaOverwriteIdentifier = '5';
+        }
+        else if(calculateMinutes > 1140 && calculateMinutes <= 1200) {
+            slaOverwriteIdentifier = '6';
+        }
+        else if(calculateMinutes > 1200 && calculateMinutes <= 1260) {
+            slaOverwriteIdentifier = '7';
+        }
+        else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
+            slaOverwriteIdentifier = '8';
+        }
+        
+        return slaOverwriteIdentifier;
     }
 }
