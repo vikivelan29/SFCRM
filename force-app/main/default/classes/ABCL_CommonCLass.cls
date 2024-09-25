@@ -68,6 +68,15 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
                 }
+               else if(bussHrName.containsIgnoreCase('ABSLI')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ABSLAMC')){
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLAMC', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ABHI')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABHI', bh);
+                }
             }
             
             for(Case csRec : newCaseLst) {  
@@ -96,16 +105,17 @@ public with sharing class ABCL_CommonCLass {
         
         //if not bulk processing, do nothing, return;
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
-		Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();
+
         List<SObject> recordsToUpdate = new List<SObject>();
+       Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();    // added by vikas
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
                 if(caseRec.ABFL_Case_Detail__c != null){
                     ABFL_Case_Detail__c detRec = new ABFL_Case_Detail__c(Id=caseRec.ABFL_Case_Detail__c);
                     detRec.Resolution_Comments__c = caseRec.Resolution_Comments__c;
-                     //recordsToUpdate.add(detRec);
-                     recordupdateABFLcaseDetail.put(caseRec.ABFL_Case_Detail__c,detRec);
-                     
+                    //recordmap.put(detRec.Id,detRec);      
+			recordupdateABFLcaseDetail.put(caseRec.ABFL_Case_Detail__c,detRec);          //added by vikas
+
                 }
                 if(caseRec.ABHFL_Case_Detail__c != null){
                     ABHFL_Case_Detail__c detRec = new ABHFL_Case_Detail__c(Id=caseRec.ABHFL_Case_Detail__c);
@@ -113,14 +123,13 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
+            recordsToUpdate.addAll(recordupdateABFLcaseDetail.values());        // added by vikas
         }
-        
-        recordsToUpdate.addAll(recordupdateABFLcaseDetail.values());
         
         if(!recordsToUpdate.isEmpty()){
             
            // update recordsToUpdate;
-           Database.update(recordsToUpdate, false);
+	   Database.update(recordsToUpdate, false);               // added by vikas
         }
         
     }
@@ -171,7 +180,7 @@ public with sharing class ABCL_CommonCLass {
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         
         String slaOverwriteIdentifier = '';
-        if(calculateMinutes <= 900) {
+       if(calculateMinutes > 0 && calculateMinutes <= 900) {
             slaOverwriteIdentifier = '1';
         }
         else if(calculateMinutes > 900 && calculateMinutes <= 960) {
@@ -195,9 +204,7 @@ public with sharing class ABCL_CommonCLass {
         else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
             slaOverwriteIdentifier = '8';
         }
-        else if(calculateMinutes > 1320 && calculateMinutes <= 1440) {
-            slaOverwriteIdentifier = '1';
-        }
+        
         return slaOverwriteIdentifier;
     }
 }
