@@ -29,64 +29,6 @@
             <value>
                 <fullName>Others</fullName>
                 <default>false</default>
-                <label>Others</label>
-            </value>
-            <value>
-                <fullName>Sales</fullName>
-                <default>false</default>
-                <label>Sales</label>
-            </value>
-            <value>
-                <fullName>App Issue</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>App Issue</label>
-            </value>
-            <value>
-                <fullName>Cancellation</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Cancellation</label>
-            </value>
-            <value>
-                <fullName>HA/AHC</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>HA/AHC</label>
-            </value>
-            <value>
-                <fullName>HR</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>HR</label>
-            </value>
-            <value>
-                <fullName>Incomplete Information</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Incomplete Information</label>
-            </value>
-            <value>
-                <fullName>Issued without concent</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Issued without concent</label>
-            </value>
-            <value>
-                <fullName>Policy not issued</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Policy not issued</label>
-            </value>
-            <value>
-                <fullName>Portability not given</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Portability not given</label>
-            </value>
-            <value>
-                <fullName>Refund</fullName>
-                <default>false</default>
                 <isActive>false</isActive>
                 <label>Refund</label>
             </value>
@@ -95,6 +37,11 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Renewal</label>
+            </value>
+            <value>
+                <fullName>Sales</fullName>
+                <default>false</default>
+                <label>Sales</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
