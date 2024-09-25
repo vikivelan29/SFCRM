@@ -1167,7 +1167,21 @@
         <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
-	    <labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseAssignmentQueueNames</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseAssignmentQueueNames</shortDescription>
+        <value>ABSLAMC MF Issue Management Unit</value>
+    </labels>
+	<labels>
         <fullName>ABSLI_Min_Loan_Amount</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1208,5 +1222,12 @@
         <protected>false</protected>
         <shortDescription>ASF Integration Mandatory Error</shortDescription>
         <value>is mandatory for current stage</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
     </labels>
 </CustomLabels>
