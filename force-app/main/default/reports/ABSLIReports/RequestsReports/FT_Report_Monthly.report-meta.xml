@@ -25,6 +25,9 @@
         <field>Case$ClosedDate</field>
     </columns>
     <columns>
+        <field>Case$Account.Customer_Segment__c</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.RCA_Comments__c</field>
     </columns>
     <columns>
@@ -41,7 +44,7 @@
         <field>Case$ABSLI_Case_Detail__c.Claim_Requested_Amount__c</field>
     </columns>
     <columns>
-        <field>Case$Asset.Bank_Branch_Name__c</field>
+        <field>Case$Asset.Branch__c.Name</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>

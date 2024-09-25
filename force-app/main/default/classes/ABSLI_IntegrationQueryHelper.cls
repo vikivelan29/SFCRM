@@ -1,7 +1,7 @@
 /**
- * @description       : 
+ * @description       :
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
+ * @group             :
  * @last modified on  : 08-02-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
@@ -37,6 +37,7 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				Source__c,
 				CreatedById,
 				ABSLI_Case_Detail__c,
+                ABSLI_Case_Detail__r.Requested_Loan_Amount__c,
 				Stage__c
 			FROM Case
 			WHERE Id = :caseId
@@ -61,7 +62,8 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				Resolved_Case_Email_Template__c,
 				Additional_Email_Templates__c,
 				Additional_SMS_Metadata__c,
-				Resolved_Case_SMS_Metadata__c
+				Resolved_Case_SMS_Metadata__c,
+                DMS_Folder_Id__c
 			FROM ASF_Case_Category_Config__c
 			WHERE CCC_External_Id__c = :configExternalID
 		];
@@ -133,28 +135,27 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 
 	public static Map<Id, Case> getCases(Set<Id> caseIdSet) {
         Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
-
         if(caseIdSet?.size() > 0) {
             Map<Id, Case> caseIdToRecordMap = new Map<Id, Case> ([SELECT Id, Status, IsClosed, FTR__c,
-                                                                  CaseNumber, AccountId, AssetId, LAN__c,CreatedDate,LastModifiedDate, 
-                                                                  ClosedDate, Business_Unit__c, Stage__c, 
-                                                                  Nature__c, Type_Text__c, Sub_Type_Text__c, 
+                                                                  CaseNumber, AccountId, AssetId, LAN__c,CreatedDate,LastModifiedDate,
+                                                                  ClosedDate, Business_Unit__c, Stage__c,
+                                                                  Nature__c, Type_Text__c, Sub_Type_Text__c,
                                                                   CCC_External_Id__c, LOB__c, Source__c,Channel__c,
-                                                                  Owner.Name, 
+                                                                  Owner.Name,
                                                                   ABSLI_Case_Detail__r.Source_Request_submitted_by__c,
-                                                                  Account.RecordType.Name, Account.IsPersonAccount, 
-                                                                  Account.Name, Account.Full_Name__pc, 
-                                                                  Account.PersonMobilePhone, Account.Phone, 
-                                                                  Account.PersonEmail, Account.Office_Email__c, 
-                                                                  Account.City__c, Account.Client_Code__c, 
+                                                                  Account.RecordType.Name, Account.IsPersonAccount,
+                                                                  Account.Name, Account.Full_Name__pc,
+                                                                  Account.PersonMobilePhone, Account.Phone,
+                                                                  Account.PersonEmail, Account.Office_Email__c,
+                                                                  Account.City__c, Account.Client_Code__c,
                                                                   Asset.Product2.Name, Asset.LAN__c,Asset.Policy_No__c,
                                                                   Asset.Issue_Date__c,Asset.Status,Asset.Type__c,Asset.Channel__c,
                                                                   Asset.Advisor__c,Asset.Advisor__r.Advisor_Code__c,Asset.Advisor__r.Advisor_Status__c,
                                                                   Asset.Advisor__r.Agent_Sub_Category__c,
                                                                   Account.Nationality__pc,Account.Customer_Segment__c,
                                                                   Account.PersonBirthdate,Account.Occupation__c,Account.PersonGenderIdentity
-                                                                  FROM Case 
-                                                                  WHERE Id 
+                                                                  FROM Case
+                                                                  WHERE Id
                                                                   IN :caseIdSet
                                                                   WITH SYSTEM_MODE]);
             caseMapToReturn = caseIdToRecordMap;
@@ -186,6 +187,4 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 
         return caseIdToCaseIntMap;
     }
-                                                                  
 }
-

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Case$CaseNumber</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.FederationIdentifier</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Manager</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Department</field>
+    </columns>
+    <format>Tabular</format>
+    <name>STP- Dynamic links</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Case_With_Policy_and_Branch_Masters__c</reportType>
+    <scope>user</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Case$Case_SLA_Threshold_1__c</dateColumn>
+        <interval>INTERVAL_CURRENT</interval>
+    </timeFrameFilter>
+</Report>

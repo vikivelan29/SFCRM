@@ -1,0 +1,62 @@
+<template>
+    <div class="slds-modal__content modalBody">
+        <template if:true={loading}>
+            <lightning-spinner alternative-text="Loading" size="medium" class="spinnerClass"></lightning-spinner>
+        </template>
+        <div class="slds-form_large" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <div class="slds-form-element slds-m-horizontal_small">
+                            <lightning-record-picker object-api-name="ASF_Case_Category_Config__c"
+                                placeholder="Search..." label="Case Type/Sub Type Search" matching-info={matchingInfo}
+                                display-info={displayInfo} filter={recordPickerFilter}
+                                onchange={handleRecordPickerChange}>
+                            </lightning-record-picker>
+                        </div>
+
+                        <template if:true={fieldsMetadata}>
+                            <lightning-record-edit-form data-id="CaseForm" object-api-name="Case">
+                                <lightning-layout multiple-rows>
+                                    <template for:each={fieldsMetadata} for:item="field">
+                                        <template if:true={field.isCase}>
+                                            <lightning-layout-item size={field.layoutItemSize} key={field}
+                                                padding="around-small">
+                                                <lightning-input-field field-name={field.FieldAPINAme}
+                                                    required={field.Required}
+                                                    variant="label-stacked"></lightning-input-field>
+                                            </lightning-layout-item>
+                                        </template>
+                                    </template>
+                                </lightning-layout>
+                            </lightning-record-edit-form>
+
+                            <template if:true={caseRelObjName}>
+                                <lightning-record-edit-form data-id="caseRelObjForm" object-api-name={caseRelObjName}>
+                                    <lightning-layout multiple-rows>
+                                        <template for:each={fieldsMetadata} for:item="field">
+                                            <template if:false={field.isCase}>
+                                                <lightning-layout-item size={field.layoutItemSize} key={field}
+                                                    padding="around-small">
+                                                    <lightning-input-field field-name={field.FieldAPINAme}
+                                                        required={field.Required}
+                                                        variant="label-stacked"></lightning-input-field>
+                                                </lightning-layout-item>
+                                            </template>
+                                        </template>
+                                    </lightning-layout>
+                                </lightning-record-edit-form>
+                            </template>
+
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-modal__footer slds-m-horizontal_small">
+            <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+                onclick={invokeCloseModal}>Cancel</button>
+            <button class="slds-button slds-button_brand" onclick={handleSubmit} disabled={submitButtonDisabled}>Instant Close</button>
+        </div>
+    </div>
+</template>

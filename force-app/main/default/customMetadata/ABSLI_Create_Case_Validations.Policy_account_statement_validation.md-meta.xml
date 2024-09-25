@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Asset_Values__c</field>
-        <value xsi:type="xsd:string">PREMIUM PAYING:PREMIUM WAIVER OR PAYOR DEATH:PAID-UP LIFE:PAID-UP ANNUITY/EXTENDED TERM:SURRENDERED - PAYOUT PENDING:PAID-UP ANNUITY/EXTENDED TERM-ULIP</value>
+        <value xsi:type="xsd:string">PREMIUM PAYING:WAIVER:PAID-UP LIFE:PAID-UP ANNUITY/EXTENDED TERM:SURRENDERED - PAYOUT PENDING:PAID-UP ANNUITY/EXTENDED TERM-ULIP</value>
     </values>
     <values>
         <field>Business_Unit__c</field>

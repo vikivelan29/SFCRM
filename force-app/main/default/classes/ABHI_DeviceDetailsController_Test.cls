@@ -103,7 +103,7 @@ public class ABHI_DeviceDetailsController_Test {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
-      String s = '{\"Content\":\"AFfSJT4iV7UwdIQNseRlld21/nfM5HBD7kBnemXTIql8LCdgZzwwnNgxdYxVgXtn8bq4bQvZZVN9ZxGZxvLw4A==\",\"StatusCode\":\"1001\",\"Message\":\"DeviceDetailsFailure\"}';
+			String s = '{\"Content\":\"AFfSJT4iV7UwdIQNseRlld21/nfM5HBD7kBnemXTIql8LCdgZzwwnNgxdYxVgXtn8bq4bQvZZVN9ZxGZxvLw4A==\",\"StatusCode\":\"1001\",\"Message\":\"DeviceDetailsFailure\"}';
             res.setBody(s);
             res.setStatusCode(400);
             return res;

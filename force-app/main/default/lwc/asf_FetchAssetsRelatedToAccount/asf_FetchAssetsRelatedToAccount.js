@@ -51,12 +51,6 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
             this.populateLwcDatatableData();
             this.totalNoOfRecordsInDatatable = data.assetRecords.length;
 
-            //PR1030924-55 Asset records should be auto-selected for manual case creation for accounts with only a single asset.
-            if(this.totalNoOfRecordsInDatatable == 1 && this.customLabel.autoSelectAssetBUList.split(",").includes(getFieldValue(this.account.data, BUSINESS_UNIT_FIELD))) {
-                this.preSelectedRows = [data.assetRecords[0].Id];
-                this.infoObject.isAsset = "true";
-                this.setFieldMaapingOnCase(data.assetRecords[0]);
-            }
 
             this.accBusinessUnit = data.accBusinessUnit;
             this.setInfoObj();
@@ -64,6 +58,13 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
             if(this.assetRecords.length > 0 && this.columns.length > 0) {
                 this.fieldMappingForCase = data.fieldMappingForCase;
                 this.isRenderDatatable = true;
+            }
+
+            //PR1030924-55 Asset records should be auto-selected for manual case creation for accounts with only a single asset.
+            if(this.totalNoOfRecordsInDatatable == 1 && this.customLabel.autoSelectAssetBUList.split(",").includes(getFieldValue(this.account.data, BUSINESS_UNIT_FIELD))) {
+                this.preSelectedRows = [data.assetRecords[0].Id];
+                this.infoObject.isAsset = "true";
+                this.setFieldMaapingOnCase(data.assetRecords[0]);
             }
 
             this.paginationHelper(); // call helper menthod to update pagination logic
@@ -100,6 +101,9 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
                 
             }
             if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].LAN__c){
+                tempAssetRec.assetLanRecLink = assetRecordLink;
+            } 
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].Policy_No__c){
                 tempAssetRec.assetLanRecLink = assetRecordLink;
             } 
 
@@ -147,6 +151,7 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
         }
 
         if(checkboxAction === "rowDeselect" || checkboxAction === "deselectAllRows") {
+            this.infoObject.isAsset = "false"; //ABSLAMC UAT-B-19 - Show CTST with folio madatory = false when user has deselected all rows
             this.fieldToBeStampedOnCase = {};
             return;
         }

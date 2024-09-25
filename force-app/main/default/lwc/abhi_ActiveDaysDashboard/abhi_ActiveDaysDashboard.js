@@ -3,6 +3,8 @@ import getActiveDaysDashboard from '@salesforce/apex/ABHI_ActiveDaysDashboardCon
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
+import { loadStyle } from 'lightning/platformResourceLoader';
+import styles from '@salesforce/resourceUrl/ASF_RemoveDateFormatStyle';
 const fields = [CLIENT_CODE_FIELD];   
 export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track startDate = '';
@@ -30,6 +32,7 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
     @track scoresList = []; // Store the 
     customerID;
     @api recordId;
+    @track apiFailure ='';
 
     @wire(getRecord, {
         recordId: "$recordId",
@@ -77,6 +80,10 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             toDate: this.endDate 
         })
         .then((result) => {
+            console.log('result----> ' + JSON.stringify(result));
+            if(result.message){
+                this.apiFailure=result.message;
+            }
             this.isLoading = false;
             this.showDataTable = true;
             if(result.serviceMessages[0].businessDesc==='Has active dayz'){
@@ -100,13 +107,18 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             //this.endDate = '';     
            })
         .catch((error) => {
+            console.log('Error----> ',JSON.stringify(error));
             this.isLoading = false;
             this.showDataTable = false;
-            this.errorDisplay = 'Error: ' + error.body.message;
-            this.showDataTable = false;
-            this.errorMessage =   error.body.message;
             this.displayError = true;
-           console.log('Error----> ' + JSON.stringify(error));
+            if ( error.body != null) {
+                this.errorMessage =   error.body.message;
+            } else if(this.apiFailure){
+                this.errorMessage = this.apiFailure;
+            }
+            else{
+                this.errorMessage = 'An unknown error occured, please contact your admin'
+            }
 
         });
     }
@@ -156,12 +168,13 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
                 totalScoreForSteps: resultsList.totalScoreForSteps,
                 totalScoreForPeriod: resultsList.totalScoreForPeriod,
             }];
-            const scoresList = resultsList.scores;
+            let scoresList = resultsList.scores;
+            scoresList = scoresList.sort((a, b) => new Date(a.activeDate) - new Date(b.activeDate));
 
             this.scoresList = scoresList.flatMap(score => 
                 score.activities.map(activity => ({
-                    //eventDate: score.activeDate,
-                    eventDate: new Date(score.activeDate).toISOString().split('T')[0],
+                    eventDate: score.activeDate,
+                    //eventDate: new Date(score.activeDate).toISOString().split('T')[0],
                     isScored: score.isScored === 'true' ? "True" : "False",
                     caloriesActivity: activity.name === "Calories Activity" ? this.formatNumber(activity.value || 0) : '',
                     Steps_Activity: activity.name === "Step Activity" ? this.formatNumber(activity.value || 0) : '',
@@ -242,7 +255,14 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             this.displayErrorSearch = false; // Hide error if one of the dates is missing
         }
     }
-    get isEndDateDisabled() {
-        return !this.startDate;
+    renderedCallback(){
+        Promise.all([
+            loadStyle(this, styles) //specified filename
+        ]).then(() => {
+            console.log('Files loaded.');
+        }).catch(error => {
+           console.log("Error " + error.body.message);
+        });
     }
+
 }

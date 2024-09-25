@@ -4,7 +4,7 @@
  * This Case is always STP Case meaning, whenever case is created from API, it is always going to invoke Purpose of Issuance API
  *
  * @author Abinash Panigrahi
- * @date 2024-05-17 
+ * @date 2024-05-17
  */
 public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_IntegrationInvocable {
 	/**
@@ -31,10 +31,15 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 				.Message__c;
 
 			//TODO: Add Condition Check if Criteria Condition is Matched
-
-			if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'LWC') {
-				result.status = ABSLI_Constants.SUCCESS;
-			}
+			//Customer Portal and Status_Valid_For_STP__c is false
+            if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+				if (caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c || caseRecord.Technical_Source__c == 'LWC') {
+                    result.status = ABSLI_Constants.SUCCESS;
+                }
+            }
 
 			resultMap.put(caseRecord.Id, result);
 		}
@@ -206,9 +211,6 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 				);
 
 				if (jsonMap.MESSAGE == ABSLI_Constants.PURPOSEISSUANCE_SUCCESS_RESPONSE) {
-					//On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-					sendoutEmailSMSNotification(caseRecord);
-
 					caseRecord.MoveToNext__c = true;
 					Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 				}
@@ -220,31 +222,6 @@ public with sharing class ABSLI_PurposeIssuanceIntegration implements ASF_Integr
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
-	}
-
-	/**
-	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-	 *
-	 * @param caseRecord - Case record from the framework
-	 */
-	public void sendoutEmailSMSNotification(Case caseRecord) {
-		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-			caseRecord.CCC_External_Id__c
-		);
-
-		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_Email_Templates__c
-		);
-		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_SMS_Metadata__c
-		);
-
-		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-			caseRecord,
-			emailTemplateMap.get('Resolved'),
-			smsMetadataMap.get('Resolved'),
-			true
-		);
 	}
 
 	/**
