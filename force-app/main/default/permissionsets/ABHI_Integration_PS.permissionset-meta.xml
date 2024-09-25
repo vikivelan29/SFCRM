@@ -837,11 +837,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Asset.IsCrossSell__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
