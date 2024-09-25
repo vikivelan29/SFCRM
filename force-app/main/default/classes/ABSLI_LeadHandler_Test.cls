@@ -1,19 +1,18 @@
-@isTest
-public class ABSLI_DtoCLeadIntegrationTest {
-    @isTest
-    public static void invokeIntegration(){
+/**
+ * @description       : Test class for ABSLI_LeadHandler
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 16-Sep-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
+@IsTest
+public class ABSLI_LeadHandler_Test {
+	@isTest
+    static void testafterInsertLogic() {
+        
+        Test.startTest();
         Id salesLeadRecordTypeId = [SELECT Id, DeveloperName FROM RecordType WHERE SObjectType = 'Lead' AND DeveloperName='Sales'].Id;
-        
-        Asset policy = new Asset();
-        policy.Name = '000000001';
-        policy.Policy_No__c = '000000001';
-        policy.LAN__c = 'ABSLI_000000001';
-        policy.Business_Unit__c = 'ABSLI';
-        policy.Channel__c = 'DM';
-        insert policy;
-        
-        
-        Lead ld = new Lead();
+ 		Lead ld = new Lead();
         ld.FirstName= 'MyFirstName';
         ld.LastName= 'MyLastName';
         ld.MobilePhone = '1234567890';
@@ -21,9 +20,8 @@ public class ABSLI_DtoCLeadIntegrationTest {
         ld.ABSLI_Lead_Type__c = 'Contact Centre';
         ld.RecordTypeId = salesLeadRecordTypeId;
         ld.Business_Unit__c = 'ABSLI';
-        ld.Asset__c = policy.Id;
         
         insert ld;
+        Test.stopTest();
     }
-
 }
