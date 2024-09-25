@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Letter_Pending_Document_Required__c</fullName>
+    <externalId>false</externalId>
+    <label>Letter Pending Document Required</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Query letter</fullName>
+                <default>false</default>
+                <label>Query letter</label>
+            </value>
+            <value>
+                <fullName>Approval letter</fullName>
+                <default>false</default>
+                <label>Approval letter</label>
+            </value>
+            <value>
+                <fullName>settlement letter</fullName>
+                <default>false</default>
+                <label>settlement letter</label>
+            </value>
+            <value>
+                <fullName>Denial letter</fullName>
+                <default>false</default>
+                <label>Denial letter</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
