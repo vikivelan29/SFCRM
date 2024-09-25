@@ -12,6 +12,7 @@ import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 
 import hasSalesProspectPermission from "@salesforce/customPermission/ShowSalesProspect";
 import hideCaseWithProspect from "@salesforce/customPermission/HideCaseWithProspect";
+import hasShowCreateLeadPermission from "@salesforce/customPermission/ShowCreateLead";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { lanLabels } from 'c/asf_ConstantUtility';
 
@@ -40,6 +41,7 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     error;
     createCaseWithNewProspect;
     createSalesProspectLabel;
+    @track showProspectFlow = false;
 
 
     cols_Customer = [
@@ -140,8 +142,13 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         this.dupeLead = null;
         this.showDupeList = false;
         this.isInternalCase = false;
+        this.showProspectFlow = false;
     }
-
+    handleStatusChange(event) {
+        if(event.detail.status === 'FINISHED'){
+            this.hideModalCreateCase(event);
+        }
+    }
 
     /* Sales Prospect Code Starts Here */
     async handleSalesProspet(event) {
@@ -207,13 +214,29 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     }
     
     isInputValid() {
-        this.template.querySelectorAll("lightning-input-field").forEach(field => {
-            field.reportValidity();
-        });
-        return [...this.template.querySelectorAll("lightning-input-field")].reduce((validSoFar, field) => {
+        let isValid = true;
+        let inputFields = this.template.querySelectorAll('lightning-input-field');
+        inputFields.forEach(inputField => {
+            //if (inputField.value != null && inputField.value != undefined) {
 
-            return (validSoFar && field.reportValidity());
-        }, true);
+            if (inputField.required == true) {
+                if (inputField.value != null && inputField != undefined) {
+                    if (inputField.value.trim() == '') {
+                        inputField.value = '';
+                        inputField.reportValidity();
+                        isValid = false;
+                    }
+                    
+                }
+                else{
+                    inputField.reportValidity();
+                    isValid = false;
+                }
+
+            }
+
+        });
+        return isValid;
     }
     
     showError(variant, title, error) {
@@ -244,6 +267,14 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     }
     get isCaseWithProspectHidden() {
         return hideCaseWithProspect;
+    }
+    
+    get isCreateLeadVisible() {
+        return hasShowCreateLeadPermission;
+    }
+
+    handleShowFlow(event){
+        this.showProspectFlow = true;
     }
 
 

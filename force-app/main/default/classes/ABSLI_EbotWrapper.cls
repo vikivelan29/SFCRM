@@ -26,7 +26,7 @@ public class ABSLI_EbotWrapper {
     
     public class StaticAttachmentWrapper {
 		public String AttachmentName;
-		public String For_Registered_Customer;
+		public Boolean For_Registered_Customer;
 	}
 
 }

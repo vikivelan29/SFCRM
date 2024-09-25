@@ -142,26 +142,11 @@
         <value>5</value>
     </labels>
     <labels>
-        <fullName>ABFL_DMSPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMSPageSize</shortDescription>
-        <value>5</value>
-    </labels>
-    <labels>
         <fullName>ABFL_LITMUS_PROJECT_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABFL_LegacyPageSize</shortDescription>
         <value>10</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_Manual_Sync_Threshold</fullName>
-        <categories>ABFL DMS</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
-        <value>5</value>
     </labels>
     <labels>
         <fullName>ABFL_LegacyPageSize</fullName>
@@ -309,34 +294,6 @@
         <protected>false</protected>
         <shortDescription>ASF_CaseEndStatuses</shortDescription>
         <value>Closed,Resolved,Rejected</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Aadhaar_Flag</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Aadhaar_Flag</shortDescription>
-        <value>1214</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Documents_Of</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Documents_Of</shortDescription>
-        <value>1202</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Masking_Status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Masking_Status</shortDescription>
-        <value>1215</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_DMS_Subcontentcode_Desc_Index_Id</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_DMS_Subcontentcode_Desc_Index_Id</shortDescription>
-        <value>1205</value>
     </labels>
     <labels>
         <fullName>ASF_Case_In_Queue_Long</fullName>
@@ -883,14 +840,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_key</shortDescription>
-        <value>B@fGhHTcE707w!z%C*F-ZAe4wJdVgUkX</value>
+        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
     </labels>
     <labels>
         <fullName>ABSLI_Ivkey</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Ivkey</shortDescription>
-        <value>8149208531345452</value>
+        <value>8549708501325472</value>
     </labels>
     <labels>
         <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
@@ -1210,7 +1167,21 @@
         <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
-	    <labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseAssignmentQueueNames</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseAssignmentQueueNames</shortDescription>
+        <value>ABSLAMC MF Issue Management Unit</value>
+    </labels>
+	<labels>
         <fullName>ABSLI_Min_Loan_Amount</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1230,5 +1201,61 @@
         <protected>false</protected>
         <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
         <value>2000</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
+        <value>Email - Call Centre,Phone - Call Centre</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation</shortDescription>
+        <value>You do not have access to create complaint case.Complaint case can only be created by grievance user.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Integration_Mandatory_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Integration Mandatory Error</shortDescription>
+        <value>is mandatory for current stage</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_IV</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_IV</shortDescription>
+        <value>8549708501325472</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_KEY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_KEY</shortDescription>
+        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_USR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_USR</shortDescription>
+        <value>RQSFDC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ready_Reck_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
+        <value>http://10.155.8.204:94/rtpWS/rcase=</value>
     </labels>
 </CustomLabels>

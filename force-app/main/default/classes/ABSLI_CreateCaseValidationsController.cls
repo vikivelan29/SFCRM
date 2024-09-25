@@ -154,7 +154,13 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                		GenFundResponseWrapper responseWrapper = (GenFundResponseWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundResponseWrapper.class);
                     if(responseWrapper.BFID_RESPONSE.ProcessCode=='00'){
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id=String.valueOf(jsonMap.get('ABSLI_Case_Detail__c')));
-                        if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT033'){
+                        if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT021'){
+                         	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>5000 && !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
+                                caseExt.Max_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE);
+                            }else{
+                                return 'Maximum loan amount should be equal to or greater than 5000.';
+                            }  
+                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT033'){
                          	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
                                 caseExt.Max_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE);
                             }else{
@@ -191,9 +197,16 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                     }else{
             			return 'Policy is not eligible.';         	   
                     }
+                }else if(String.isNotBlank(genFundResponse.responseBody)){
+                    system.debug('genFundResponse.responseBody:'+genFundResponse.responseBody);
+                    system.debug('genFundResponse:'+genFundResponse);
+                    GenFundFailureResponseBodyWrapper failureResponseWrapper = (GenFundFailureResponseBodyWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundFailureResponseBodyWrapper.class);
+                    if(failureResponseWrapper!=null && (failureResponseWrapper.Fault)!=null && !String.isBlank(failureResponseWrapper.Fault.FaultMessage)){
+                        return 'API Error: '+failureResponseWrapper.Fault.FaultMessage;
+                    }
                 }
             }
-        	return 'User is not eligible';
+        	return 'An error occurred while processing your request. Please try again later.';
         }catch (Exception e) {
             System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
@@ -202,6 +215,15 @@ public without sharing class ABSLI_CreateCaseValidationsController {
             ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
         }
+    }
+
+    public class GenFundFailureResponseBodyWrapper{
+        public FaultBody Fault{get;set;}
+    }
+
+    public class FaultBody{
+        public String FaultCode{get;set;}
+        public String FaultMessage{get;set;}
     }
 
     //AM-PR970457-2002 - nominee change pre case creation validation from UI
@@ -233,13 +255,25 @@ public without sharing class ABSLI_CreateCaseValidationsController {
     public static String duplicatePolicyPrintingValidation(String caseRecord){
         try {
             Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
+            Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
+            system.debug('Aditya ccc'+String.valueOf(jsonMap.get('CCC_External_Id__c')));
             if(policy!=null && policy.Issue_Date__c!=null){
                 Date issueDate = Date.newInstance(policy.Issue_Date__c.year(), policy.Issue_Date__c.month(), policy.Issue_Date__c.day());
-                Date oneYearAfterIssueDate = issueDate.addYears(1);
-                if(Date.Today() <= oneYearAfterIssueDate){
-                    return 'Success';
-                }else{
-                    return 'Policy is not eligible.';
+                if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='DUP002'){
+                 	Date oneYearAfterIssueDate = issueDate.addYears(1);
+                    if(Date.Today() <= oneYearAfterIssueDate){
+                        return 'Success';
+                    }else{
+                        return 'Policy is not eligible.';
+                    }   
+                }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PNFT019'){
+                    Date today = Date.today();
+                    Date oneYearBeforeToday = today.addYears(-1);
+                    if(issueDate <= oneYearBeforeToday){
+                        return 'Success';
+                    }else{
+                        return 'Policy is not eligible.';
+                    }
                 }
             }
             return 'User is not eligible';

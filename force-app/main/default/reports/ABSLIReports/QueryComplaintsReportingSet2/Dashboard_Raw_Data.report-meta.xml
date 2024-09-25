@@ -60,10 +60,7 @@
         <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Advisor_Code__c</field>
-    </columns>
-    <columns>
-        <field>Case$Account.Advisor_Status__c</field>
+        <field>Case$Asset.Advisor__c.Advisor_Status__c</field>
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Name</field>
@@ -78,7 +75,7 @@
         <field>Case$Asset.Issue_Date__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Owner.Account</field>
+        <field>Case$Asset.Advisor__c.Advisor_Code__c</field>
     </columns>
     <columns>
         <field>Case$Account.Client_Code__c</field>
@@ -100,7 +97,7 @@
         <field>Case$ABSLI_Case_Detail__c.Investigation_Comment__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Resolution__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Resolution_Comments__c</field>
     </columns>
     <columns>
         <field>Case$Asset.Application_Number__c</field>
@@ -157,7 +154,7 @@
         <field>Case$Account.ShippingPostalCode</field>
     </columns>
     <columns>
-        <field>Case$Account.Owner.MobilePhone</field>
+        <field>Case$Account.PersonContact.Mobile__c</field>
     </columns>
     <columns>
         <field>Case$Contact.GenderIdentity</field>
