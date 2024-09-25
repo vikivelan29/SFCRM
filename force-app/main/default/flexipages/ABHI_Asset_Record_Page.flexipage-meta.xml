@@ -1074,6 +1074,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+<<<<<<< WI-001029
                     <value>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1082,6 +1083,7 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab5</identifier>
+=======
                     <value>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1090,6 +1092,7 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab7</identifier>
+>>>>>>> UAT_V4
             </componentInstance>
         </itemInstances>
         <name>maintabs</name>
