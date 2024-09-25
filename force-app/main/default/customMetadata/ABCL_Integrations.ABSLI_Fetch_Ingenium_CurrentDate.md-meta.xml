@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>EnableMockResponse__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>EndPoint__c</field>
@@ -56,6 +56,10 @@
     </values>
     <values>
         <field>Timeout__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>URL_Parameters__c</field>
         <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

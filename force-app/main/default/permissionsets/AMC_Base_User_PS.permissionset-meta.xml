@@ -348,6 +348,10 @@
         <apexClass>Asf_NpsIndicatiorController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_redirectToCaseApprovalVFController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>HideCaseWithProspect</name>
@@ -1454,6 +1458,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Stage_Config__c.Manager_Escalation_Levels__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Stage_Config__c.Mandatory_Approval__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

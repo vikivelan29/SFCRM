@@ -15,7 +15,7 @@
                 <field>Lead__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
-            <quickActionLayoutItems>  
+            <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>Ageing_Number_Of_Days__c</field>
                 <uiBehavior>Readonly</uiBehavior>
@@ -71,6 +71,11 @@
                 <emptySpace>false</emptySpace>
                 <field>Is_Duplicate__c</field>
                 <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Assigned_Team__c</field>
+                <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>
     </quickActionLayout>

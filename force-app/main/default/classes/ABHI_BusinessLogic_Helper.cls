@@ -37,7 +37,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
     public void policyIsMandatory(){
         
         for(Case cs : abhiNewCaseList) {
-            if(String.isNotBlank(cs.AccountId) && String.isBlank(cs.AssetId)) {
+            if(String.isNotBlank(cs.AccountId) && String.isBlank(cs.AssetId)&& cs.Source__c != 'IGMS') {
                 cs.addError(ABHI_Constants.POLICY_IS_MANDATORY_ON_CUSTOMER);
             }
         }
