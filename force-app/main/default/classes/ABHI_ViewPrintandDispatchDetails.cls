@@ -5,25 +5,19 @@
 *Last Modified:  05/09/2024
 *@description :  This class used as a outBound API call and a controller for abhi_ViewPrintandDispatchDetails component.
 ***************************************/
-@SuppressWarnings('PMD.ExcessivePublicCount')
 public with sharing class ABHI_ViewPrintandDispatchDetails {
     
-     /**********
-     Method Name - GetViewPrintDetails
-     @description :  Method returns IntegrationResponse, when assetId is passed on the Asset page.
-     ***********/
-    @SuppressWarnings('PMD.MethodNamingConventions')
     @AuraEnabled
     public static IntegrationResponseWrapper GetViewPrintDetails(String assetId){ 
 
-        //Boolean hasError = false;
+        Boolean hasError = false;
         String customerId;
        Map<String,String> urlParam = new Map<String,String>();
         
         try{
             string integrationName = 'ABHI_ViewPrintandDispatchDetails';
             String policyNumber = '';
-            Asset assets = [SELECT Policy_No__c,AccountId from Asset where Id=: assetId WITH SYSTEM_MODE];
+            Asset assets = [SELECT Policy_No__c,AccountId from Asset where Id=: assetId];
         if (assets!= null && assets.Policy_No__c != null){
                 policyNumber = assets.Policy_No__c;
                 customerId = assets.AccountId;
@@ -43,11 +37,6 @@ public with sharing class ABHI_ViewPrintandDispatchDetails {
     
     
     //Response Wrapper class
-      /**********
-     @Class - IntegrationResponseWrapper
-     @description :  Request wrapper
-     ***********/
-    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.VariableNamingConventions')
     public class IntegrationResponseWrapper{
         
       @AuraEnabled 
@@ -56,11 +45,6 @@ public with sharing class ABHI_ViewPrintandDispatchDetails {
       public responseWrapper response; 
     }
     
-    /**********
-     @Class - IntegrationResponseWrapper
-     @description :  Response Wrapper class
-     ***********/
-       @SuppressWarnings('PMD.ExcessivePublicCount,PMD.ClassNamingConventions,PMD.TooManyFields')
     public class vendorPrintWrapper{
         @AuraEnabled 
         public String flag;
@@ -106,22 +90,12 @@ public with sharing class ABHI_ViewPrintandDispatchDetails {
         public List<basicdetailAttributeList> basicdetailAttribute;    
         
     }
-    /**********
-     @Class - IntegrationResponseWrapper
-     @description :  Response Wrapper class
-     ***********/
-       @SuppressWarnings('PMD.ClassNamingConventions')
     public class basicdetailAttributeList{
         @AuraEnabled 
         public String name;
         @AuraEnabled 
         public String value;   
     }
-    /**********
-     @Class - IntegrationResponseWrapper
-     @description :  Response Wrapper class
-     ***********/
-       @SuppressWarnings('PMD.ClassNamingConventions')
     public class responseWrapper{
          @AuraEnabled 
         public String responseCode;
@@ -130,11 +104,6 @@ public with sharing class ABHI_ViewPrintandDispatchDetails {
         @AuraEnabled 
         public List<messageWrapper> messages;  
     }
-    /**********
-     @Class - IntegrationResponseWrapper
-     @description :  Response Wrapper class
-     ***********/
-       @SuppressWarnings('PMD.ClassNamingConventions')
     public class messageWrapper{
         @AuraEnabled 
         public String messageCode;

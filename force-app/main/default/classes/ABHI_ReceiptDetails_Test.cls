@@ -1,10 +1,3 @@
-/***************************************
-*Class        :  ABHI_ReceiptDetails_Test
-*Author       :  Kuldeep Mishra
-*Created Date :  09/09/2024
-*Last Modified:  09/09/2024
-*@description :  This class used as Test class for ABHI_ReceiptDetails.
-***************************************/
 @isTest
 public with sharing class ABHI_ReceiptDetails_Test {
     
@@ -25,15 +18,13 @@ public with sharing class ABHI_ReceiptDetails_Test {
         //Set up mock for the integration callout
         Test.setMock(HttpCalloutMock.class, new ABCL_IntegrationCalloutMockSuccess());
 
-       //Call the method to test
-        Test.startTest();
+        //Call the method to test
         ABHI_ReceiptDetails.IntegrationResponseWrapper response = ABHI_ReceiptDetails.GetReceiptDetails(testAsset.Id);
-        Test.stopTest();
 
         //Assert the response
         System.assertNotEquals(null, response, 'Response should not be null');
         System.assertEquals(1, response.ResponseObj.size(), 'ResponseObj size should be 1');
-        System.assertEquals(1, response.ResponseObj[0].Code, 'Response Code should be 01');
+        System.assertEquals(01, response.ResponseObj[0].Code, 'Response Code should be 200');
         System.assertEquals('Success', response.ResponseObj[0].Message, 'Response Message should be "Success"');
         System.assertNotEquals(null, response.Response, 'Response should not be null');
     }
@@ -47,23 +38,15 @@ public with sharing class ABHI_ReceiptDetails_Test {
     }
       
     
-     /*************
-     @Class -     : ABCL_IntegrationCalloutMockSuccess
-     @description : Mock class for the integration Success callout and returns http response.
-     **************/
+    // Mock class for the integration callout
     private class ABCL_IntegrationCalloutMockSuccess implements HttpCalloutMock {
-            /***********
-            * @Description  HTTP response mocking
-            * @ Set all param req 
-            ** @return HTTPResponse
-            ************/
         public HTTPResponse respond(HTTPRequest req) {
             // Create a mock response
             HTTPResponse res = new HTTPResponse();
             res.setStatusCode(200);
             res.setStatus('OK');
             // Mock response body
-            String jsonResponse = '{"ResponseObj":[{"Code":1,"Message":"Success"}],"Response":[{"ReceiptNumber":"REC123","ReceiptDate":"2024-09-23","PayerName":"John Doe","CollectionMode":"Online","InstrumentNumber":"INST123","InstrumentDate":"2024-09-22","Status":"Completed","ReceiptAmount":"100.00"}]}';
+            String jsonResponse = '{"ResponseObj":[{"Code":01,"Message":"Success"}],"Response":[{"ReceiptNumber":"REC123","ReceiptDate":"2024-09-23","PayerName":"John Doe","CollectionMode":"Online","InstrumentNumber":"INST123","InstrumentDate":"2024-09-22","Status":"Completed","ReceiptAmount":"100.00"}]}';
             res.setBody(jsonResponse);
             return res;
         }
