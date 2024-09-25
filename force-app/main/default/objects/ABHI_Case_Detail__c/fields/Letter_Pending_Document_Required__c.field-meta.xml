@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Letter_Pending_Document_Required__c</fullName>
+    <externalId>false</externalId>
     <label>Letter Pending Document Required</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
@@ -23,7 +24,7 @@
             <value>
                 <fullName>settlement letter</fullName>
                 <default>false</default>
-                <label>Settlement letter</label>
+                <label>settlement letter</label>
             </value>
             <value>
                 <fullName>Denial letter</fullName>
