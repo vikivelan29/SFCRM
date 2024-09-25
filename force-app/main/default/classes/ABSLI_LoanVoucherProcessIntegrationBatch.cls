@@ -7,7 +7,7 @@
  */
 public with sharing class ABSLI_LoanVoucherProcessIntegrationBatch implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts, Schedulable {
 	public string strQuery = '';
-    public String subType = ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE;
+	public String subType = ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE;
 
 	public ABSLI_LoanVoucherProcessIntegrationBatch(String strQuery) {
 		this.strQuery = strQuery;
@@ -18,33 +18,34 @@ public with sharing class ABSLI_LoanVoucherProcessIntegrationBatch implements Da
 			'SELECT Id, ABSLI_Case_Detail__r.Voucher_Number__c, ABSLI_Case_Detail__r.Voucher_Approval_Date__c, ' +
 			'ABSLI_Case_Detail__r.Requested_Loan_Amount__c FROM Case ' +
 			'WHERE (ABSLI_Case_Detail__r.Voucher_Number__c = null OR ABSLI_Case_Detail__r.Voucher_Approval_Date__c = null) ' +
-            'AND CreatedDate = LAST_N_DAYS:10 AND ABSLI_Case_Detail__r.Status_Valid_For_STP__c = true ' +
-            'AND IsClosed = false AND Sub_Type_Text__c =: subType';
+			'AND CreatedDate = LAST_N_DAYS:10 AND ABSLI_Case_Detail__r.Status_Valid_For_STP__c = true ' +
+			'AND IsClosed = false AND Sub_Type_Text__c =: subType';
 	}
 
 	public Database.QueryLocator start(Database.BatchableContext bc) {
-        ABCL_IntegrationCallout.IntegrationResponseWrapper ingeniumResponse = ABCL_IntegrationCallout.executeCallout(
-				ABSLI_Constants.FETCH_INGENIUM_CURRENTDATE_INTEGRATION_METADATA,
-				null,
-				null
+		ABCL_IntegrationCallout.IntegrationResponseWrapper ingeniumResponse = ABCL_IntegrationCallout.executeCallout(
+			ABSLI_Constants.FETCH_INGENIUM_CURRENTDATE_INTEGRATION_METADATA,
+			null,
+			null
+		);
+		if (ingeniumResponse.statusCode == 200 && String.isNotBlank(ingeniumResponse.responseBody)) {
+			FICResponseWrapper response = (FICResponseWrapper) JSON.deserialize(
+				ingeniumResponse.responseBody,
+				FICResponseWrapper.class
 			);
-			if (ingeniumResponse.statusCode == 200 && String.isNotBlank(ingeniumResponse.responseBody)) {
-				FICResponseWrapper response = (FICResponseWrapper) JSON.deserialize(
-					ingeniumResponse.responseBody,
-					FICResponseWrapper.class
-				);
-                Date ingeniumCurrentDate = Date.valueOf(response.BTCH_PRCES_DT);
-                if(Date.valueOf(response.BTCH_PRCES_DT) == System.now().date() || Test.isRunningTest()){
-                    return Database.getQueryLocator(strQuery);
-                }
+			Date ingeniumCurrentDate = Date.valueOf(response.BTCH_PRCES_DT);
+			System.debug(ingeniumCurrentDate);
+			if (Date.valueOf(response.BTCH_PRCES_DT) == System.now().date() || Test.isRunningTest()) {
+				return Database.getQueryLocator(strQuery);
 			}
+		}
 		return Database.getQueryLocator(strQuery + ' LIMIT 0');
-        //return Database.getQueryLocator(strQuery);
+		//return Database.getQueryLocator(strQuery);
 	}
 
 	public void execute(Database.BatchableContext bc, List<Case> caseRecords) {
 		try {
-            Map<String, ASF_Integration__c> integrationMasterConfigs = ABSLI_IntegrationQueryHelper.getIntegrationInfo(
+			Map<String, ASF_Integration__c> integrationMasterConfigs = ABSLI_IntegrationQueryHelper.getIntegrationInfo(
 				new Set<String>{
 					ABSLI_LoanApprovalIntegration.class.getName(),
 					ABSLI_LoanRegisterIntegration.class.getName()
@@ -56,37 +57,52 @@ public with sharing class ABSLI_LoanVoucherProcessIntegrationBatch implements Da
 			List<Case> eligibleApprovalRecs = new List<Case>();
 			Map<Id, List<ASF_Integration__c>> loanApprovalInt = new Map<Id, List<ASF_Integration__c>>();
 
-            List<Case> caseToMoveInProgress = new List<Case>();
-            List<ABSLI_Case_Detail__c> caseMarkNonSTP = new List<ABSLI_Case_Detail__c>();
+			List<Case> caseToMoveInProgress = new List<Case>();
+			List<ABSLI_Case_Detail__c> caseMarkNonSTP = new List<ABSLI_Case_Detail__c>();
 
 			for (Case caseRecord : caseRecords) {
-                if(caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c <= ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT){
-                    if (caseRecord.ABSLI_Case_Detail__r.Voucher_Number__c == null) {
-                        eligibleRegisterRecs.add(caseRecord);
-                        loanRegisterInt.put(
-                            caseRecord.Id,
-                            new List<ASF_Integration__c>{
-                                integrationMasterConfigs.get(ABSLI_LoanRegisterIntegration.class.getName())
-                            }
-                        );
-                    } else if (caseRecord.ABSLI_Case_Detail__r.Voucher_Approval_Date__c == null) {
-                        eligibleApprovalRecs.add(caseRecord);
-                        loanApprovalInt.put(
-                            caseRecord.Id,
-                            new List<ASF_Integration__c>{
-                                integrationMasterConfigs.get(ABSLI_LoanApprovalIntegration.class.getName())
-                            }
-                        );
-                    }
-                } else if(caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c > ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT){
-                    caseToMoveInProgress.add(new Case(Id = caseRecord.Id, Is_STP__c = false, MoveToNext__c = true, Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_STP));
-                    caseMarkNonSTP.add(new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c, Status_Valid_For_STP__c = false));
-                }
+				if (caseRecord.ABSLI_Case_Detail__r.Voucher_Number__c == null) {
+					eligibleRegisterRecs.add(caseRecord);
+					loanRegisterInt.put(
+						caseRecord.Id,
+						new List<ASF_Integration__c>{
+							integrationMasterConfigs.get(ABSLI_LoanRegisterIntegration.class.getName())
+						}
+					);
+				} else if (
+					caseRecord.ABSLI_Case_Detail__r.Voucher_Approval_Date__c == null &&
+					caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c <=
+					ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT
+				) {
+					eligibleApprovalRecs.add(caseRecord);
+					loanApprovalInt.put(
+						caseRecord.Id,
+						new List<ASF_Integration__c>{
+							integrationMasterConfigs.get(ABSLI_LoanApprovalIntegration.class.getName())
+						}
+					);
+				} else if (
+					caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c >
+					ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT &&
+					caseRecord.ABSLI_Case_Detail__r.Voucher_Number__c != null
+				) {
+					caseToMoveInProgress.add(
+						new Case(
+							Id = caseRecord.Id,
+							Is_STP__c = false,
+							MoveToNext__c = true,
+							Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_STP
+						)
+					);
+					caseMarkNonSTP.add(
+						new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c, Status_Valid_For_STP__c = false)
+					);
+				}
 			}
 
-            // Above 1 Lakh Loan Amount STP
-            Database.update(caseMarkNonSTP, false, AccessLevel.SYSTEM_MODE);
-            Database.update(caseToMoveInProgress, false, AccessLevel.SYSTEM_MODE);
+			// Above 1 Lakh Loan Amount STP
+			Database.update(caseMarkNonSTP, false, AccessLevel.SYSTEM_MODE);
+			Database.update(caseToMoveInProgress, false, AccessLevel.SYSTEM_MODE);
 
 			if (!eligibleRegisterRecs.isEmpty()) {
 				ASF_IntegrationsController.runIntegration(loanRegisterInt, eligibleRegisterRecs);
@@ -107,8 +123,10 @@ public with sharing class ABSLI_LoanVoucherProcessIntegrationBatch implements Da
 	}
 
 	public void execute(SchedulableContext sc) {
-        Database.executeBatch(new ABSLI_LoanVoucherProcessIntegrationBatch(), ABSLI_Constants.LOANVOUCHERPROCESS_BATCH_SIZE);
-
+		Database.executeBatch(
+			new ABSLI_LoanVoucherProcessIntegrationBatch(),
+			ABSLI_Constants.LOANVOUCHERPROCESS_BATCH_SIZE
+		);
 	}
 
 	public void schedule() {

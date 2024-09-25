@@ -208,6 +208,76 @@ public with sharing class ABSLI_LoanRegisterIntegration_Test {
 		Test.stopTest();
 	}
 
+    @IsTest
+	static void testBatchExecute2() {
+        ASF_Integration__c integ = new ASF_Integration__c();
+		integ.External_Id__c = 'ABSLI_LA';
+		integ.Display_Name__c = 'Loan Approval';
+		integ.Query_Fields__c = 'Id, Status, LAN__c, AssetId, Asset.Policy_No__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Voucher_Number__c, ABSLI_Case_Detail__r.Voucher_Date__c, Business_Unit__c, CCC_External_Id__c';
+		integ.Processing_Class__c = 'ABSLI_LoanApprovalIntegration';
+		integ.When_to_Appear__c = 'Stage Entry';
+		integ.Type__c = ''; // Type will be blank so no button
+		integ.Auto_Run_on_Load__c = true;
+		insert integ;
+
+        ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
+		detailRec.Requested_Loan_Amount__c = 999999;
+        detailRec.Voucher_Number__c = 'Test';
+        detailRec.Status_Valid_For_STP__c = true;
+		insert detailRec;
+
+        Case caseRec2 = ASF_TestDataFactory.createInteractionCaseRecords()[0];
+		caseRec2.Source__c = 'Email';
+		caseRec2.Business_Unit__c = 'ABSLI';
+		caseRec2.Status = 'Open';
+		caseRec2.AssetId = [SELECT Id FROM Asset LIMIT 1].Id;
+		caseRec2.ABSLI_Case_Detail__c = detailRec.Id;
+		caseRec2.AccountId = [SELECT Id FROM Account LIMIT 1].Id;
+		caseRec2.CCC_External_Id__c = 'ABSLI_LA';
+        caseRec2.Is_STP__c = true;
+        caseRec2.Sub_Type_Text__c = ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE;
+		update caseRec2;
+
+		Test.startTest();
+		Database.executeBatch(new ABSLI_LoanVoucherProcessIntegrationBatch(), 2);
+		Test.stopTest();
+	}
+
+    @IsTest
+	static void testBatchExecute3() {
+        ASF_Integration__c integ = new ASF_Integration__c();
+		integ.External_Id__c = 'ABSLI_LA';
+		integ.Display_Name__c = 'Loan Approval';
+		integ.Query_Fields__c = 'Id, Status, LAN__c, AssetId, Asset.Policy_No__c, ABSLI_Case_Detail__c, ABSLI_Case_Detail__r.Voucher_Number__c, ABSLI_Case_Detail__r.Voucher_Date__c, Business_Unit__c, CCC_External_Id__c';
+		integ.Processing_Class__c = 'ABSLI_LoanApprovalIntegration';
+		integ.When_to_Appear__c = 'Stage Entry';
+		integ.Type__c = ''; // Type will be blank so no button
+		integ.Auto_Run_on_Load__c = true;
+		insert integ;
+
+        ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
+		detailRec.Requested_Loan_Amount__c = 1999999;
+        detailRec.Voucher_Number__c = 'Test';
+        detailRec.Status_Valid_For_STP__c = true;
+		insert detailRec;
+
+        Case caseRec2 = ASF_TestDataFactory.createInteractionCaseRecords()[0];
+		caseRec2.Source__c = 'Email';
+		caseRec2.Business_Unit__c = 'ABSLI';
+		caseRec2.Status = 'Open';
+		caseRec2.AssetId = [SELECT Id FROM Asset LIMIT 1].Id;
+		caseRec2.ABSLI_Case_Detail__c = detailRec.Id;
+		caseRec2.AccountId = [SELECT Id FROM Account LIMIT 1].Id;
+		caseRec2.CCC_External_Id__c = 'ABSLI_LA';
+        caseRec2.Is_STP__c = true;
+        caseRec2.Sub_Type_Text__c = ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE;
+		update caseRec2;
+
+		Test.startTest();
+		Database.executeBatch(new ABSLI_LoanVoucherProcessIntegrationBatch(), 2);
+		Test.stopTest();
+	}
+
 	@IsTest
 	static void testBatchExecuteFail() {
 		Test.startTest();
