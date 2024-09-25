@@ -3,7 +3,7 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                 <componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
