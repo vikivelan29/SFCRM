@@ -52,9 +52,7 @@ export default class Abhi_RefundDetails extends LightningElement {
         .then(result => {
             this.result=result;
             console.log('Response Data:', JSON.stringify(result));
-            //const responseObj = result.ResponseObj[0] || {};
-            const responseObj = result.ResponseObj || {};
-            console.log('response obj',JSON.stringify(responseObj));
+            const responseObj = result.ResponseObj[0] || {};
             const StatusCode = responseObj.Code;
             const RespMessage = responseObj.Message;
             this.ApiFailure = RespMessage;
