@@ -24,12 +24,12 @@ public with sharing class ABSLI_EscalatedIGMSComplaintIntegration implements ASF
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABSLI_Constants.SUCCESS;
             result.response = ABSLI_Constants.EVALUATION_SUCCESS;            
-            if (caseRecord.ABSLI_Case_Detail__r.Resolved_Date__c == null)
+            /*if (caseRecord.ABSLI_Case_Detail__r.Resolved_Date__c == null)
             {
                 result.status = ABSLI_Constants.ERROR;
                 String evaluationErrorMetadataName = ABSLI_Constants.IGMS_ESCALATECOMPLAINT_EVAL_ERROR;
                 result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
-            }
+            }*/
 
             if(caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
                 result.status = ABSLI_Constants.ERROR;
