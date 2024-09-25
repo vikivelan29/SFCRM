@@ -121,7 +121,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
                            Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,ABHFL_Case_Detail__r.EMI_Tenure__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
-        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c 
+        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c,GST__c 
                                                 FROM Doc_Charge__mdt WHERE CCC_External_Id__c =:cccExternalId];
         Boolean callPaymentLink = false;        
         string smsTemplate = '';    
@@ -137,7 +137,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         }         
         String integrationResponse = ABHFL_Constants.FAILURE;
 
-        PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord);
+        PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord,GST);
         paytmRequestWrapper.paymentCode = paymentCode;
         paytmRequestWrapper.ParentcaseID = caseRecord.Id;
         string paytmRequestBody = JSON.serialize(paytmRequestWrapper);
@@ -247,7 +247,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     * @Description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInt){} 
-        /*
+    /*
         Ticket: PR970457-1883
         Modified By: Ishan Khichadia 
         Description: Added 2 new variables called as impactType and salesId and populated it with caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c and caseRecord.Asset.Loan_Id__c respectively. Also the LAN is now populated with caseRecord.Asset.LAN__c and not with caseRecord.Asset.Loan_Id__c
