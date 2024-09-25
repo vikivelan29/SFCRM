@@ -275,7 +275,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             Decimal amountWithGST = caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c * (1 + (GST / 100));
             Decimal formattedAmount = amountWithGST.setScale(2, System.RoundingMode.HALF_UP);
             this.Amount = String.valueof(formattedAmount);
-            //this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c*(1+(GST/100)));
+
             String emiTenure = caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c;
             System.debug('emiTenure: ' + emiTenure);
             if(emiTenure == 'EMI'){
