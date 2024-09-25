@@ -1,0 +1,20 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="margin-right: 4px; margin-left: 4px; text-align:justify">Dear {{{Recipient.Salutation}}} {{{Recipient.Name}}},<br />
+&nbsp;<br />
+Please find the attached {{{Asset.Plan_Name__c}}}&nbsp;as requested.<br />
+<br />
+Continue to use our digital journeys for enhanced experience like Active Health App, WhatsApp and<br />
+Web wherein you can track your policy details, health reports, claim status and much more.<br />
+<br />
+Thank you for choosing Aditya Birla Health Insurance where we empower you to lead an healthier<br />
+life.<br />
+<br />
+Regards,<br />
+{{{Sender.Name}}}<br />
+<strong><span>Aditya Birla Health Insurance Co. Ltd.</span></strong></div>
+WhatsApp Service: <a href="https://activhealth.page.link/XCtq">Click here</a> | App Service: <a href="https://www.adityabirlacapital.com/healthinsurance/activ-health-app?utm_source=contact%20centre&amp;utm_campaign=app%20download&amp;utm_id=contact%20centre">Click here</a> | Website: <a href="https://www.adityabirlacapital.com/healthinsurance/homepage?utm_source=email&amp;utm_medium=email%20footer%20reply%20from%20cc&amp;utm_id=contact%20centre">Click here</a></body>
+</html>

@@ -2,7 +2,7 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear {{{Recipient.Name}}},<br />
+<body style="height: auto; min-height: auto;">Dear {{{Case.Account}}} {{{Case.Lead__c}}} ,<br />
 <br />
 Greetings from Aditya Birla Health Insurance!<br />
 This is with reference to your Complaint received against policy number - {{{Case.LAN__c}}}<br />
@@ -19,5 +19,5 @@ For any further assistance please feel free to call us on 1800-270-7000 or write
 abhi.grievance@adityabirlacapital.com<br />
 <br />
 Thanks &amp; Regards,<br />
-<strong><span style="color:#ca1f34;">Aditya Birla Health Insurance Co. Ltd.</span></strong></body>
+<strong>Aditya Birla Health Insurance Co. Ltd.</strong></body>
 </html>

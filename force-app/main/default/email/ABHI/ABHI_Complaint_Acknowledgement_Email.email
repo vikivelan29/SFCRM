@@ -2,12 +2,15 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear {{{Recipient.Name}}},
-<p>We acknowledge the receipt of your complaint through {{{Case.Type_Text__c}}} complaint number&nbsp;-{{{Case.IRDAI_Token_Number__c}}}.</p>
+<body style="height: auto; min-height: auto;">Dear {{{Case.Account}}} {{{Case.Lead__c}}} ,
+<p>We acknowledge the receipt of your complaint through {{{Case.Type_Text__c}}}<br />
+complaint number&nbsp;-{{{Case.IRDAI_Token_Number__c}}}.</p>
 
-<p>Your complaint is registered with us with complaint number {{{Case.CaseNumber}}}.&nbsp; Kindly note the same for your reference.</p>
+<p>Your complaint is registered with us with complaint number {{{Case.CaseNumber}}}.&nbsp;<br />
+Kindly note the same for your reference.</p>
 
-<p>We would like to inform you that we are working on your concern and will respond to you within 2 weeks from the receipt of the complaint.</p>
+<p>We would like to inform you that we are working on your concern and will respond to you<br />
+within 2 weeks from the receipt of the complaint.</p>
 
 <p>If you do not get a response within the stipulated time, please write to us on the below escalation matrix.<br />
 &nbsp;</p>
@@ -15,7 +18,7 @@
   border:1px solid black;
 }
 </style>
-<table style="width:100%">
+<table>
 	
 		<tr>
 			<th>Levels</th>
@@ -49,5 +52,5 @@ Please find attached the list of Ombudsman Office for your reference.</p>
 <br />
 <br />
 Thanks &amp; Regards,<br />
-<strong><span style="color:#ca1f34;">Aditya Birla Health Insurance Co. Ltd.</span></strong></body>
+<strong>Aditya Birla Health Insurance Co. Ltd.</strong></body>
 </html>
