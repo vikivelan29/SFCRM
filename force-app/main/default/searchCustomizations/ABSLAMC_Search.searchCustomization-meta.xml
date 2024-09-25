@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SearchCustomization xmlns="http://soap.sforce.com/2006/04/metadata">
+    <channel>GlobalSearch</channel>
+    <masterLabel>ABSLAMC_Search</masterLabel>
+    <objectOverride>
+        <objectApiName>WorkBadge</objectApiName>
+        <searchable>false</searchable>
+    </objectOverride>
+    <objectOverride>
+        <objectApiName>WorkStepTemplate</objectApiName>
+        <searchable>false</searchable>
+    </objectOverride>
+    <objectOverride>
+        <objectApiName>AuthorizationFormText</objectApiName>
+        <searchable>false</searchable>
+    </objectOverride>
+    <objectOverride>
+        <objectApiName>AuthorizationFormConsent</objectApiName>
+        <searchable>false</searchable>
+    </objectOverride>
+    <objectOverride>
+        <objectApiName>AuthorizationForm</objectApiName>
+        <searchable>false</searchable>
+    </objectOverride>
+    <objectOverride>
+        <objectApiName>AuthorizationFormDataUse</objectApiName>
+        <searchable>false</searchable>
+    </objectOverride>
+    <objectOverride>
+        <objectApiName>WorkBadgeDefinition</objectApiName>
+        <searchable>false</searchable>
+    </objectOverride>
+    <objectToAlwaysSearch>Account</objectToAlwaysSearch>
+    <objectToAlwaysSearch>Asset</objectToAlwaysSearch>
+    <objectToAlwaysSearch>Case</objectToAlwaysSearch>
+    <objectToAlwaysSearch>Lead</objectToAlwaysSearch>
+    <objectToAlwaysSearch>User</objectToAlwaysSearch>
+    <profile>abslamc base user</profile>
+</SearchCustomization>
