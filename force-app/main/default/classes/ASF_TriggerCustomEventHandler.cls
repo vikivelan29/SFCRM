@@ -15,5 +15,6 @@ public virtual class ASF_TriggerCustomEventHandler {
     // AFTER UPDATE CONTEXT        
     public virtual void executeBeforeASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
     public virtual void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
+    public virtual void executeBeforeCaseDMLInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){}
 
 }

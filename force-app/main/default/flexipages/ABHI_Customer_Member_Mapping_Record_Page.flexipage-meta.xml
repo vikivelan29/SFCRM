@@ -32,28 +32,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListContainer</componentName>
-                <identifier>force_relatedListContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>relatedTabContent</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -65,22 +43,8 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Member_Name__c</fieldItem>
-                <identifier>RecordMember_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Relation__c</fieldItem>
-                <identifier>RecordRelation_cField</identifier>
+                <fieldItem>Record.MemberId__r.Relation__c</fieldItem>
+                <identifier>RecordMemberId_rRelation_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -123,12 +87,8 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Sum_Insured__c</fieldItem>
-                <identifier>RecordSum_Insured_cField</identifier>
+                <fieldItem>Record.MemberId__r.SumInsured__c</fieldItem>
+                <identifier>RecordMemberId_rSumInsured_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -151,12 +111,8 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Upfront_Discount__c</fieldItem>
-                <identifier>RecordUpfront_Discount_cField</identifier>
+                <fieldItem>Record.MemberId__r.UpfrontDiscount__c</fieldItem>
+                <identifier>RecordMemberId_rUpfrontDiscount_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -166,27 +122,7 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Health_Return__c</fieldItem>
-                <identifier>RecordHealth_Return_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Relation__c</fieldItem>
-                <identifier>RecordRelation__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Chronic_Condition__c</fieldItem>
-                <identifier>RecordChronic_Condition__cField</identifier>
+                <identifier>RecordHealth_Return_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e25d4426-f623-4803-bc78-fd389a4a700d</name>
@@ -195,8 +131,12 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.MemberId__r.Name</fieldItem>
-                <identifier>RecordMemberId_rNameField</identifier>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Member_Name__c</fieldItem>
+                <identifier>RecordMember_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -211,42 +151,26 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Pre_Existing_Disease_Waiting_Period__c</fieldItem>
-                <identifier>RecordPre_Existing_Disease_Waiting_Period_cField</identifier>
+                <fieldItem>Record.MemberId__r.Age__c</fieldItem>
+                <identifier>RecordMemberId_rAge_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Riders_Opted__c</fieldItem>
-                <identifier>RecordRiders_Opted_cField</identifier>
+                <fieldItem>Record.MemberId__r.PEDWaitingPeriod__c</fieldItem>
+                <identifier>RecordMemberId_rPEDWaitingPeriod_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Total_NCB__c</fieldItem>
-                <identifier>RecordTotal_NCB_cField</identifier>
+                <fieldItem>Record.MemberId__r.Is_Chronic__c</fieldItem>
+                <identifier>RecordMemberId_rIs_Chronic_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Health_Assessment__c</fieldItem>
-                <identifier>RecordHealth_Assessment_cField</identifier>
+                <fieldItem>Record.MemberId__r.Rider_Opted__c</fieldItem>
+                <identifier>RecordMemberId_rRider_Opted_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -395,20 +319,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>relatedTabContent</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>relatedListsTab</identifier>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

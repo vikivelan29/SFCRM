@@ -2,7 +2,7 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 07-01-2024
+* @last modified on  : 08-16-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public without sharing class ASF_CaseSLAHandlerV1 {    
@@ -86,7 +86,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 if(slaValues.get('caseOverride') != null){
                     closeSlaSec =  slaValues.get('caseOverride') * slaIdentifier;  
                 }
-                else if (externalIdStageNameCaseStageConfigMap != null) {
+                else if (externalIdStageNameCaseStageConfigMap != null && s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c != null) { // Added null check on 
                     closeSlaSec =  Integer.valueOf( s.externalIdStageNameCaseStageConfigMap.get(mapKey).Case_Category_Config__r.Overall_Case_Closure_SLA__c) * slaIdentifier;
                 }
                 //Stage SLA 1 overirde
@@ -192,8 +192,6 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     sla3Sec = slaMap.get('sla3');
                     closeSlaSec = slaMap.get('caseClosureSLA');
                     
-                    updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, system.now(), closeSlaSec);
-
                     /*
                     Percentage is to calculate fields which is available in List view.
                     Example if Over all Case closure is 31-Dec , then we get calculate what s
@@ -201,9 +199,13 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     Since we are using businss hrs , we cannot use case age in list view.
                     Hence this work around. agents will pick cases which are closure for SLA.
                     More of proactove way of selecting cases to work on and avoiding SLA breach
-
                     */
+
+                    // Added null check on closeSlaSec
+                    if(closeSlaSec != null) {
+                        updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, system.now(), closeSlaSec);
                         percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,system.now(),updatedCase);
+                    }
                     
                     if(sla1Sec != null){
                         updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, system.now(), sla1Sec);
@@ -510,7 +512,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
         for(Id userId : assignedUserIdToCaseIdsMap.keySet()){
             allCaseIds.addAll(assignedUserIdToCaseIdsMap.get(userId));
         }
-        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c from Case where Id IN : allCaseIds]){
+        for(Case caseRec : [Select Id, OwnerId, SkipModifyingSLAHistory__c, BusinessHoursId from Case where Id IN : allCaseIds]){
             caseRec.Last_Owner_Change_Date__c = System.now();
             cases.add(caseRec);
         }
@@ -773,7 +775,7 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                 Case updatedCase = new Case(Id=newCases.get(i).Id,Case_Stage_Change_Date__c=newCases.get(i).Case_Stage_Change_Date__c);
                 resetSLAFields(newCases.get(i),oldCases.get(i),updatedCase);
                 casesToUpdate.put(newCases.get(i).Id, updatedCase);
-                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved' && newCases.get(i).Stage__c != 'Unresolved')){
+                if(newCases.get(i).CCC_External_Id__c != null &&  (newCases.get(i).Stage__c != 'Closed' && newCases.get(i).Stage__c != 'Rejected' && newCases.get(i).Stage__c != 'Resolved' && newCases.get(i).Stage__c != 'Unresolved' && newCases.get(i).Stage__c != 'Duplicate')){
                     externalIdList.add(newCases.get(i).CCC_External_Id__c);    
                     caseNewStatusList.add(newCases.get(i).Stage__c);
                     changedCaseList.add(newCases.get(i)); 
@@ -861,16 +863,37 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                     closeSlaSec = slaMap.get('caseClosureSLA');
                 }
                 long slaIdentifier = 3600000;
-             
-                if(closeSlaSec != null && oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
-                    //When case is recategorizzed. Take difference between Case created date.
-                    //this is slightly different during case insert where we take systemnow
-                    //when external id is changed , case can get changed after 2 days , so take 
-                    //created date,.
-                    updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
-                    if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
-                        updatedCase.SLA_Broken__c = true;
-                        updatedCase.SLA_Broken_DateTime__c = System.now();
+                
+
+                if(oldCases.get(caseRec.id).CCC_External_Id__c != newCases.get(caseRec.id).CCC_External_Id__c ){
+                    //If the overallsla is not configured, empty the field
+                    if(closeSlaSec == null){
+                        updatedCase.Overall_Case_Closure_SLA__c = null;
+                        updatedCase.Overall_SLA_plus_X_days__c = null;
+                        updatedCase.Case_SLA_Threshold_1__c = null;
+                        updatedCase.Case_SLA_Threshold_2__c = null;
+                        updatedCase.Case_SLA_Threshold_3__c = null;
+                    }
+                    //If the stage sla are not configured, empty the field
+                    if(sla1Sec == null){
+                        updatedCase.Stage_SLA_1__c = null;
+                    } 
+                    if(sla2Sec == null){
+                        updatedCase.Stage_SLA_2__c = null;
+                    }
+                    if(sla3Sec == null){
+                        updatedCase.Stage_SLA_3__c = null;
+                    }
+                    if(closeSlaSec != null){
+                        //When case is recategorizzed. Take difference between Case created date.
+                        //this is slightly different during case insert where we take systemnow
+                        //when external id is changed , case can get changed after 2 days , so take 
+                        //created date,.
+                        updatedCase.Overall_Case_Closure_SLA__c =BusinessHours.add(updatedCase.BusinessHoursId, caseRec.CreatedDate, closeSlaSec);
+                        if(ASF_RecategoriseCaseController.requestFromRecat == true && updatedCase.Overall_Case_Closure_SLA__c <= system.now()){
+                            updatedCase.SLA_Broken__c = true;
+                            updatedCase.SLA_Broken_DateTime__c = System.now();
+                        }
                     }
                 }
 

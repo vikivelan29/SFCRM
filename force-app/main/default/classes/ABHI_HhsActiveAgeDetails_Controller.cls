@@ -1,3 +1,11 @@
+/**************
+*Class        :  ABHI_HhsActiveAgeDetails_Controller
+*Author       :  Kuldeep Mishra
+*Created Date :  12/08/2024
+*Last Modified:  15/08/2024
+*@description  :  This class is used as controller for the abhi_HHS_Active Component and for calling ActiveHealthdetails API
+***************/
+
 public class ABHI_HhsActiveAgeDetails_Controller {
     
     
@@ -5,12 +13,12 @@ public class ABHI_HhsActiveAgeDetails_Controller {
     public static IntegrationResponseWrapper GetHhsActiveAge(string customerId) {
     try{
         String integrationName = 'ABHI_HHS_ActiveAge_Details';
-        String activAge = '1187714';
+        //String activAge = '1187714';
         ABCL_IntegrationCallout.accountId = customerId;
         Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
         Map<String, String> urlParams = new Map<String, String>();
         urlParams.put('customerId', acc.Client_Code__c);
-        urlParams.put('activAge',activAge);
+        //urlParams.put('activAge',activAge);
         system.debug('customerId' +acc.Client_Code__c);
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
         system.debug('IntegrationResp Code' +integrationResp.statuscode);
@@ -23,7 +31,7 @@ public class ABHI_HhsActiveAgeDetails_Controller {
         }
     }
     
-    
+    // wrapper class for Integration Response
     public class IntegrationResponseWrapper {
         
        @AuraEnabled public HHSDetailsWrapper HHSDetails;     

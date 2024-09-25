@@ -21,22 +21,36 @@ public class ABSLI_SurvivalUpdateIntegration implements ASF_IntegrationInvocable
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
-        
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABSLI_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('ABSLI_SurvivalUpdateIntegration_ERR1').Message__c;
-            if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API'){
-                if(String.isBlank(caseRecord.Asset.Policy_No__c)){
-                    result.response = Custom_Messages__mdt.getInstance('ABSLI_SurvivalUpdateIntegration_ERR2').Message__c;
-                }else{
-                	result.status = ABSLI_Constants.SUCCESS;    
-                }
-            }else if(caseRecord.Technical_Source__c=='LWC'){
-                result.status = ABSLI_Constants.SUCCESS;
+            
+            //Customer Portal and Status_Valid_For_STP__c is false 
+            if(ABSLI_Constants.STP_SOURCES.contains(caseRecord.Source__c) && caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == false){
+            	result.status = ABSLI_Constants.ERROR;
+            	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
+            }else{
+            	if(caseRecord.ABSLI_Case_Detail__r.Status_Valid_For_STP__c == true && caseRecord.Technical_Source__c=='API'){
+                    String policyNo = (caseRecord.AssetId != null ? caseRecord.Asset.Policy_No__c : ((caseRecord.LAN__c != null && caseRecord.LAN__c != 'NA') ? caseRecord.LAN__c:''));
+                    if(String.isBlank(policyNo)){
+                        result.response = Custom_Messages__mdt.getInstance('ABSLI_SurvivalUpdateIntegration_ERR2').Message__c;
+                    }else{
+                        result.status = ABSLI_Constants.SUCCESS;    
+                    }
+                }else if(caseRecord.Technical_Source__c=='LWC'){
+                    result.status = ABSLI_Constants.SUCCESS;
+                }    
             }
+            
             resultMap.put(caseRecord.Id, result);
         }
+        
+        // CHECK IF THERE EXISTS ANY OPEN BANK UPDATE CASE AGAINST THE SAME CUSTOMER.
+        if(caseRecords.size()>0){
+            ABSLI_CTSTHelper.checkIfOpenBankUpdateCase(caseRecords,resultMap);
+        }
+        
         return resultMap;
     }
     
@@ -94,7 +108,7 @@ public class ABSLI_SurvivalUpdateIntegration implements ASF_IntegrationInvocable
             for(ASF_Integration__c integ : integs.get(caseRecord.Id)){
                 if(integ.Processing_Class__c == ABSLI_SurvivalUpdateIntegration.class.getName()){
                     String source = System.label.ABSLI_ESB_SOURCE_VAL ;
-                    String policyNumber = String.valueOf(caseRecord.Asset.Policy_No__c);
+                    String policyNumber = (caseRecord.AssetId != null ? caseRecord.Asset.Policy_No__c : ((caseRecord.LAN__c != null && caseRecord.LAN__c != 'NA') ? caseRecord.LAN__c:''));
                     
                     ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
                     caseInt.Case__c  = caseRecord.Id;
