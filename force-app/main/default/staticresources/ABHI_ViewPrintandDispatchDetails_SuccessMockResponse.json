@@ -1,0 +1,107 @@
+{
+    "vendorPrintDispatchDetails": {
+        "flag": null,
+        "productCode": "7200",
+        "productName": "Activ One",
+        "userCode": null,
+        "policyBranch": "20DLDEL12",
+        "policyTermUnit": "G",
+        "policyInceptionDate": "09/08/2024",
+        "premiumDepositMode": null,
+        "policyStatus": "05",
+        "policySubStatus": null,
+        "premiumFrequency": null,
+        "proposalNumber": "Q0001141038",
+        "policyNumber": "31-24-0086714-00",
+        "policyExpiryDate": "08/08/2026",
+        "policyTerm": "2.0",
+        "baseCurrencyRate": null,
+        "baseCurrency": null,
+        "premiumCurrencyRate": null,
+        "premiumCurrency": null,
+        "entityType": null,
+        "suppressFlag": null,
+        "basicdetailAttribute": [
+            {
+                "name": "Go Green",
+                "value": "Yes",
+                "multisetAttribute": null
+            },
+            {
+                "name": "Communication Trigger Date",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Communication Mode",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Recipient email/Mobile No",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Communication Delivery Status",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Communication Delivery Date",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Communication_Name",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Dispatch Date",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "AWB No",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Courier Name",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Delivery Status",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Delivered Date",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Undelivered Date",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Undelivered Reason",
+                "value": null,
+                "multisetAttribute": null
+            },
+            {
+                "name": "Document_Name",
+                "value": null,
+                "multisetAttribute": null
+            }
+        ]
+    },
+    "response": {
+        "responseCode": "200",
+        "responseMessage": "Result fetched successfully.",
+        "messages": null
+    }
+}
