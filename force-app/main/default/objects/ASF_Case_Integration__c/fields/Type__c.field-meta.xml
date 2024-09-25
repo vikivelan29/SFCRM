@@ -47,6 +47,16 @@
                 <label>Payment</label>
             </value>
             <value>
+                <fullName>CreateCRMPolicy</fullName>
+                <default>false</default>
+                <label>CreateCRMPolicy</label>
+            </value>
+            <value>
+                <fullName>OmniDoc</fullName>
+                <default>false</default>
+                <label>OmniDoc</label>
+            </value>
+            <value>
                 <fullName>NPSFEEDBACK</fullName>
                 <default>false</default>
                 <label>NPSFEEDBACK</label>

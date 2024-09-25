@@ -38,6 +38,7 @@ export default class Absli_FetchBankDetails extends LightningElement {
     @track showSpinner = false;
     @track showUpdate = false;
     @track disableFields = true;
+    @track isIFSCInvalid = true;
 
     @wire(CurrentPageReference) pageRef;
 
@@ -216,8 +217,23 @@ export default class Absli_FetchBankDetails extends LightningElement {
     }
     handleIFSC(event){
         let val = event.target.value;
-        this.IFSC_Code =  val;
+        const ifscInput = event.target;
+
         console.log('Inside IFSC',this.IFSC_Code);
+        // Regular expression to match exactly 11 alphanumeric characters (no special characters).
+        const ifscRegex = /^[A-Za-z0-9]{11}$/;
+
+        if (ifscRegex.test(val)) {
+            ifscInput.setCustomValidity('');
+            this.IFSC_Code = val;
+            this.isIFSCInvalid = false;
+        } else {
+            ifscInput.setCustomValidity('The IFSC Code must be 11 characters long and contain only letters and numbers.');
+            this.isIFSCInvalid = true;
+            this.showUpdate = false;
+        }
+        ifscInput.reportValidity();
+        console.log('Inside IFSC', this.IFSC_Code);
     }
     handleMICR(event){
         let val = event.target.value;
