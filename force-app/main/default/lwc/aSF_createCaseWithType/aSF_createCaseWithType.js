@@ -288,6 +288,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             
             if (this.caseRec.fields.AssetId.value) {
                 this.showFAmsg = false;
+                this.assetId = this.caseRec.fields.AssetId.value;
             }
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;

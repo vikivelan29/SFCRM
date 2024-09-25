@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Asset_Values__c</field>
-        <value xsi:type="xsd:string">LAPSED:ETI,PAID-UP ENDOWMENT,TERM OR ANNUITY</value>
+        <value xsi:type="xsd:string">LAPSED:PAID-UP ANNUITY/EXTENDED TERM</value>
     </values>
     <values>
         <field>Business_Unit__c</field>

@@ -10,7 +10,7 @@
                             <value>Account.Update_Fields_ViaFlow</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Account.New_Lead</value>
+                            <value>Account.Create_Sales_Lead</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -234,6 +234,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>absli_legacyCasesView</componentName>
+                <identifier>c_absli_legacyCasesView</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-0c7a7c18-1f67-4489-9732-dc6590ddc2ee</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</value>
@@ -314,6 +324,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0c7a7c18-1f67-4489-9732-dc6590ddc2ee</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Legacy Cases</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

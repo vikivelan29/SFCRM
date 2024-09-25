@@ -1,8 +1,16 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 09-06-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public with sharing class ABSLI_AttendedToValidationHandler {
     
     public static final Map<String,String> caseExtFields = new Map<String,String>{'Type_of_Disposal__c'=>'Type of Disposal',
         'Resolution_Comments__c'=>'Resolution Comments',
-        'Claim_Received_Amount__c'=>'Claim Received Amount'};
+        'Claim_Received_Amount__c'=>'Claim Received Amount',
+        'Is_Complainant_Informed__c'=>'Is Complainant Informed'};
             
             public static void validateAttendedToNonEscalated(Case caseRecord,
                                                               ASF_IntegrationsController.IntegrationWrapper result)
@@ -59,7 +67,7 @@ public with sharing class ABSLI_AttendedToValidationHandler {
             if(String.isBlank(caseRecord.Issue_Type__c)){
                 List<ASF_Case_Category_Config__c> caseConfigRecord = [Select id,Allowed_Issue_Types__c from ASF_Case_Category_Config__c where CCC_External_Id__c =: caseRecord.CCC_External_Id__c Limit 1];
                 if(caseConfigRecord.size() > 0 && String.isNotBlank(caseConfigRecord[0].Allowed_Issue_Types__c)){
-                    errorText = 'Issue Type is Mandatory for this Case Type. Kindly use the Button';
+                    errorText = 'Issue Type is Mandatory for this Case Type. Kindly use the "Update Issue Type" Button';
                     bErrored = true;
                 }
             }

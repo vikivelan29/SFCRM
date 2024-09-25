@@ -918,6 +918,42 @@
                 <default>false</default>
                 <label>Spurious calls -Caller posed as IRDA person - policy has been purchased</label>
             </value>
+            <value>
+                <fullName>Initial</fullName>
+                <default>false</default>
+                <label>Initial</label>
+            </value>
+            <value>
+                <fullName>Renewal</fullName>
+                <default>false</default>
+                <label>Renewal</label>
+            </value>
+            <value>
+                <fullName>Null &amp; Void Letter</fullName>
+                <default>false</default>
+                <label>Null &amp; Void Letter</label>
+            </value>
+            <value>
+                <fullName>Show Cause Letter</fullName>
+                <default>false</default>
+                <label>Show Cause Letter</label>
+            </value>
+            <value>
+                <fullName>PPC</fullName>
+                <default>false</default>
+                <label>PPC</label>
+            </value>
+            <value>
+                <fullName>FV</fullName>
+                <default>false</default>
+                <label>FV</label>
+            </value>
+            <value>
+                <fullName>Dishonored charges deducted by bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dishonored charges deducted by bank</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -51,11 +51,6 @@
         <label>Tax Planning</label>
     </customValue>
     <customValue>
-        <fullName>P</fullName>
-        <default>false</default>
-        <label>Third Party</label>
-    </customValue>
-    <customValue>
         <fullName>W</fullName>
         <default>false</default>
         <label>Wealth Creation</label>
