@@ -15,6 +15,21 @@
                 <default>false</default>
                 <label>Inter Departmental Delay</label>
             </value>
+            <value>
+                <fullName>System Issue</fullName>
+                <default>false</default>
+                <label>System Issue</label>
+            </value>
+            <value>
+                <fullName>Procedural Delay</fullName>
+                <default>false</default>
+                <label>Procedural Delay</label>
+            </value>
+            <value>
+                <fullName>External Delay</fullName>
+                <default>false</default>
+                <label>External Delay</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

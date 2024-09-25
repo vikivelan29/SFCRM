@@ -56,4 +56,9 @@
         <default>false</default>
         <label>ABSLI Email</label>
     </standardValue>
+    <standardValue>
+        <fullName>ABSLIG Email</fullName>
+        <default>false</default>
+        <label>ABSLIG Email</label>
+    </standardValue>
 </StandardValueSet>

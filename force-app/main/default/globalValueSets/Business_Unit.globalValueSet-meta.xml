@@ -20,6 +20,11 @@
         <default>false</default>
         <label>ABWM</label>
     </customValue>
+    <customValue>
+        <fullName>ABSLIG</fullName>
+        <default>false</default>
+        <label>ABSLIG</label>
+    </customValue>
     <masterLabel>Business Unit</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

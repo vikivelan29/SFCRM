@@ -1209,12 +1209,18 @@ public class ASF_CaseMovementHelper {
     * Includes Checklists, Tasks, Approvals and Integrations
     * Bulkified
     */
-    public static Map<Id, CaseAdditionalData> getCaseAdditionalDataForNextStage(List<Case> currentCases, Map<Id, String> caseIdToNextStageMap){
+    public static Map<Id, CaseAdditionalData> getCaseAdditionalDataForNextStage(List<Case> currentCases, Map<Id, String> caseIdToNextStageMap, List<Case> casesFromBackward){
         Map<Id, CaseAdditionalData> resultWrapperMap = new Map<Id, CaseAdditionalData>();
 
         Set<String> externalIds = new Set<String>();
         Set<Id> caseIds = new Set<Id>();
-        for(Case caseRec : currentCases){
+        List<Case> combinedCaseList = new List<Case>();
+        combinedCaseList.addAll(currentCases);
+        if(casesFromBackward != null && !casesFromBackward.isEmpty()){
+            combinedCaseList.addAll(casesFromBackward);
+        }
+        
+        for(Case caseRec : combinedCaseList){
             externalIds.add(caseRec.CCC_External_Id__c);
             caseIds.add(caseRec.Id);
             CaseAdditionalData resultWrapper = new CaseAdditionalData();
@@ -1257,7 +1263,7 @@ public class ASF_CaseMovementHelper {
             externalIdToCaseRulesMap.get(rule.C3ExternalId__c+rule.Stage_Name__c).add(rule);
         }
 
-        for(Case caseRec : currentCases){
+        for(Case caseRec : combinedCaseList){
             String nextStage = caseIdToNextStageMap.get(caseRec.Id);
             if(externalIdToCaseRulesMap.containsKey(caseRec.CCC_External_Id__c+nextStage)){
                 if(!caseIdToCaseRuleMap.containsKey(caseRec.Id)){
@@ -1278,10 +1284,18 @@ public class ASF_CaseMovementHelper {
         List<Case> queriedCaseRecords = ASF_CaseQueryHandler.getCaseRecordWithQueryFields(allFields, caseIds);
         ASF_CaseQueryHandler.refreshRecords = false;
         Map<Id,Case> queriesCasesMap = new Map<Id,Case>(queriedCaseRecords);
+        List<Case> currentQueriedCaseList = new List<Case>();
+        Map<Id,Case> currentCasesMap = new Map<Id,Case>(currentCases);
         
-        Map<Id, List<ASF_Case_Approv__c>> approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(queriedCaseRecords, caseIdToCaseRuleMap);
-        Map<Id, List<ASF_Checklist__c>> checklistToInsert = ASF_CaseFrameworkHelper.addChecklists(queriedCaseRecords, caseIdToCaseRuleMap);
-        Map<Id, List<Task>> tasksToInsert = ASF_CaseFrameworkHelper.addTasks(queriedCaseRecords, caseIdToCaseRuleMap);
+        for(Case caseRec : queriedCaseRecords){
+            if(currentCasesMap.containsKey(caseRec.Id)){
+                currentQueriedCaseList.add(caseRec);
+            }
+        }
+        
+        Map<Id, List<ASF_Case_Approv__c>> approvalsToInsert = ASF_CaseFrameworkHelper.addApprovals(currentQueriedCaseList, caseIdToCaseRuleMap);
+        Map<Id, List<ASF_Checklist__c>> checklistToInsert = ASF_CaseFrameworkHelper.addChecklists(currentQueriedCaseList, caseIdToCaseRuleMap);
+        Map<Id, List<Task>> tasksToInsert = ASF_CaseFrameworkHelper.addTasks(currentQueriedCaseList, caseIdToCaseRuleMap);
         Map<Id, Map<string,long>> slaCaseAndStageOverrideValues = ASF_CaseFrameworkHelper.addSLA(queriedCaseRecords, caseIdToCaseRuleMap);
 
         for(Case caseRec : currentCases){
@@ -1293,6 +1307,14 @@ public class ASF_CaseMovementHelper {
             resultWrapper.allIntegrations = caseIdToNextStageConfigMap.containsKey(caseRec.Id)?caseIdToNextStageConfigMap.get(caseRec.Id).ASF_Integrations__r:null;
             resultWrapper.status = 'Success';
             resultWrapperMap.put(caseRec.Id, resultWrapper);
+        }
+        if(casesFromBackward != null && !casesFromBackward.isEmpty()){
+            for(Case caseRec : casesFromBackward){
+                CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
+                resultWrapper.slaCaseAndStageOverrideValues = slaCaseAndStageOverrideValues.get(caseRec.Id);
+                resultWrapper.status = 'Success';
+                resultWrapperMap.put(caseRec.Id, resultWrapper);
+        	}
         }
         return resultWrapperMap;
     }

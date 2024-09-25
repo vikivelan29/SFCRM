@@ -9,7 +9,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.createProspectWithCaseExtnAndCase';
 import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
-
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -49,7 +49,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     strNoDataMessage = '';
     boolAllChannelVisible = false;
     boolAllSourceVisible = false;
+    boolSourceComboboxDisabled = false;
     createCaseWithAll = false;
+    boolNoAutoComm = true;
     isNotSelected = true;
     isAllNature = false;
     isAllSource = false;
@@ -72,7 +74,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @track loggedInUserBusinessUnit = '';
     noAutoCommOptions = [];
     noAutoCommValue = [];
-
+    isPhoneInbound = false;
 
 
     cols = [
@@ -127,6 +129,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }, this.doneTypingInterval);
     }
     SearchAccountHandler() {
+
+        this.removeSelection();
+        
         getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
@@ -193,9 +198,28 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if (selected[SOURCE_FIELD.fieldApiName] == "All") {
                 this.isAllSource = true;
             }
+            if (this.loggedInUserBusinessUnit === ABSLIG_BU) {
+                this.boolAllChannelVisible = false;
+                this.boolNoAutoComm = false;
+
+                if(this.sourceFldOptions.length === 1) {
+                    this.boolSourceComboboxDisabled = true;
+                }
+            }
             this.disbleNextBtn = false;
         }
+        // added by sunil 03/09/2024
+        this.checkTrackIdCondition();
     }
+
+    // Method Description - Deselect all selection from lightning datatable
+    removeSelection() {
+        let dataTableRecords = this.template.querySelector('lightning-datatable');
+        if(dataTableRecords) {
+            dataTableRecords.selectedRows = [];
+        }
+     }
+
     async createCaseHandler(event) {
         this.handleLeadSubmit(event);
         //this.template.querySelector('lightning-record-edit-form[data-id="leadCreateForm"]').submit();
@@ -354,7 +378,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         caseRecord[NATURE_FIELD.fieldApiName] = this.natureVal;
         caseRecord[SOURCE_FIELD.fieldApiName] = this.sourceFldValue;
         caseRecord[CHANNEL_FIELD.fieldApiName] = this.strChannelValue;
-        caseRecord[TRACK_ID.fieldApiName] = this.trackId;
+        if(this.trackId != null && this.trackId != undefined && this.trackId != ""){
+            caseRecord[TRACK_ID.fieldApiName] = this.trackId;
+        }
         caseRecord[NOAUTOCOMM_FIELD.fieldApiName] = this.noAutoCommValue.join(';');
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
         caseRecord["sobjectType"] = "Case";
@@ -430,6 +456,33 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
     handleSource(event) {
         this.sourceFldValue = event.target.value;
+        //code added by sunil - 03/09/2024
+        this.checkTrackIdCondition();
+    }
+    checkTrackIdCondition(){
+        if(this.boolAllSourceVisible){
+            if(this.loggedInUserBusinessUnit === 'ABHFL'){
+                if(this.sourceFldValue === 'Call Center'){
+                    this.isPhoneInbound = true;
+                }
+                else{
+                    this.isPhoneInbound = false;
+                }
+            }
+            else if(this.loggedInUserBusinessUnit === 'ABFL'){
+                if(this.sourceFldValue === 'Phone-Inbound' || this.sourceFldValue === 'Inbound Nodal Desk' || this.sourceFldValue === 'Phone-Outbound'){
+                    this.isPhoneInbound = true;
+                }
+                else{
+                    this.isPhoneInbound = false;
+                }
+            }
+        }
+    }
+
+    //method code added by sunil- 03/09/2024
+    handleTrackId(event){
+        this.trackId = event.target.value;
     }
       
 }

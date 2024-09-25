@@ -69,11 +69,12 @@
                                     onchange={handleChangeChannel} placeholder={strDefaultChannel} required>
                                 </lightning-combobox>
                             </template>
-
-                            <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
-                                label="No Auto Communication" options={noAutoCommOptions} value={noAutoCommValue}
-                                onchange={handleAutoCommChange}>
-                            </lightning-checkbox-group>
+                            <template if:true={boolNoAutoComm}>
+                                <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
+                                    label="No Auto Communication" options={noAutoCommOptions} value={noAutoCommValue}
+                                    onchange={handleAutoCommChange}>
+                                </lightning-checkbox-group>
+                            </template>
                         </template>
 
 

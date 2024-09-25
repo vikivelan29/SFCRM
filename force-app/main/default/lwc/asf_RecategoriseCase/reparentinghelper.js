@@ -5,6 +5,8 @@ import validateAccountAndLeadWithCTST from '@salesforce/apex/ASF_RecategoriseCas
 import updateCRN from '@salesforce/apex/ASF_CaseUIController.updateCRN';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
+import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 const getCurrentCustomer = (event, parentJS) => {
     parentJS.preSelectedRows = [];
@@ -80,7 +82,11 @@ const setSelectedAsset= async (event,parentJS)=>{
     parentJS.selectedAsset = row[0];
     parentJS.selectedAssetId = row[0].Id;
     parentJS.assetId = row[0].Id;
-    parentJS.selectedLoanAccNumber = row[0].LAN__c;
+    if(parentJS.businessUnit === ABSLI_BU || parentJS.businessUnit === ABSLIG_BU){
+        parentJS.selectedLoanAccNumber = row[0].Policy_No__c;
+    }else{
+        parentJS.selectedLoanAccNumber = row[0].LAN__c;
+    }
     parentJS.assetLOB = row[0].LOB__c;
     //console.log('sekectd asset--'+JSON.stringify(parentJS.selectedAsset));
     if(parentJS.selectedAsset != undefined && parentJS.selectedAsset != null){

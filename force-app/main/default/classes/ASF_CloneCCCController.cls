@@ -340,7 +340,9 @@ public with sharing class ASF_CloneCCCController {
                     treeRequest += '"'+fieldName+'" : "' + strDateString + '"' + ',';
                 }
                 else if(configRec.get(fieldName) != null && configRec.get(fieldName) != ''){
-                    treeRequest += '"'+fieldName+'" :' +  '"' + configRec.get(fieldName) + '"' + ',';
+                    String val = String.valueOf(configRec.get(fieldName));
+                    val = val.replaceAll('"', '\'');
+                    treeRequest += '"'+fieldName+'" :' +  '"' + val + '"' + ',';
                 }
             }
         }

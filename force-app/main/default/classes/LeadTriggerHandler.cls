@@ -11,4 +11,19 @@ public with sharing class LeadTriggerHandler extends ASF_VTriggerHandler {
             LeadTriggerHelper.sendLeadToCRM((Map<Id,Lead>)newItems); 
         } 
     }
+
+  @SuppressWarnings('PMD.ApexDoc, PMD.MethodNamingConventions')
+  /*********************************************************
+  * @Function - BeforeInsert
+  * @param - newItems
+  * @return - void
+  * @description -  Sending Leads to LeadTriggerHelper Class
+  */
+  public override void BeforeInsert(List<SObject> newItems){
+
+    if(!triggerDisabled){
+      LeadTriggerHelper leadTriggerHelperObj = new LeadTriggerHelper();
+      leadTriggerHelperObj.populateLeadFields((List<Lead>) newItems); 
+    }
+  }
 }

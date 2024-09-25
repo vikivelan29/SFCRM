@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 07-17-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class ASF_CaseFrameworkHelper {
     
     /**
@@ -106,10 +113,10 @@ public without sharing class ASF_CaseFrameworkHelper {
                         caseRule.Case_Rule_Entries__r,
                         caseRec);
                         if (result == true){
-                            slaMap.put('caseOverride',caseRule.Overall_SLA_Closure__c.longValue());
-                            slaMap.put('stageSLA1Override',caseRule.Stage_SLA_Override_1__c.longValue());
-                            slaMap.put('stageSLA2Override',caseRule.Stage_SLA_Override_2__c.longValue());
-                            slaMap.put('stageSLA3Override',caseRule.Stage_SLA_Override_3__c.longValue());    
+                            slaMap.put('caseOverride',caseRule.Overall_SLA_Closure__c?.longValue() ?? null);
+                            slaMap.put('stageSLA1Override',caseRule.Stage_SLA_Override_1__c?.longValue() ?? null);
+                            slaMap.put('stageSLA2Override',caseRule.Stage_SLA_Override_2__c?.longValue() ?? null);
+                            slaMap.put('stageSLA3Override',caseRule.Stage_SLA_Override_3__c?.longValue() ?? null);    
                             break;
                         }
                     }

@@ -62,6 +62,11 @@
                 <default>false</default>
                 <label>Cancelled</label>
             </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

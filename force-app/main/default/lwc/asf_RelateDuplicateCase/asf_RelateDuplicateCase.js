@@ -16,6 +16,7 @@ import OWNER_FIELD from '@salesforce/schema/Case.OwnerId';
 import BUSINESS_UNIT_FIELD from '@salesforce/schema/Case.Business_Unit__c'
 import IS_DUPLICATE_FIELD from '@salesforce/schema/Case.Is_Duplicate__c'
 import USER_ID from '@salesforce/user/Id';
+import { lanLabels } from 'c/asf_ConstantUtility';
 
 export default class Asf_RelateDeduplicateCase extends LightningElement {
     @api recordId;
@@ -23,13 +24,16 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
     loaded = false;
     showPage = false;
     @api parentCaseId;
+    businessUnit;
     @wire(CurrentPageReference) pageRef;
     wiredParentRec;
     wiredCurrentRec;
     userId = USER_ID;
     errorMessage = 'You do not have access. Only case owner is allowed to mark the case as Relate/ Duplicate';
+    lanErrorMessage;
     @api caseFields = [LAN_FIELD, ISCLOSED_FIELD, PARENTCASEID_FIELD, CATEGORY_FIELD, TYPE_FIELD, SUBTYPE_FIELD, OWNER_FIELD, BUSINESS_UNIT_FIELD, IS_DUPLICATE_FIELD];
     
+    //wire to get the current case details
     @wire(getRecord, { recordId: '$recordId', fields: '$caseFields' })
     wiredRecord({ error, data }) {
         if (data) {
@@ -44,11 +48,14 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
                     IsDuplicate : getFieldValue(data, IS_DUPLICATE_FIELD)
             };
             this.parentCaseId = getFieldValue(data, PARENTCASEID_FIELD);
+            this.businessUnit = getFieldValue(data, BUSINESS_UNIT_FIELD);
+            this.lanErrorMessage = lanLabels[this.businessUnit].RELATE_DUP_LAN_ERRORMSG != null? lanLabels[this.businessUnit].RELATE_DUP_LAN_ERRORMSG : lanLabels["DEFAULT"].RELATE_DUP_LAN_ERRORMSG;
             this.ownerValidation();
         } else if (error) {
             console.error('Error loading record', error);
         }
     }  
+    //wire to get the parent case details
     @wire(getRecord, { recordId: '$parentCaseId', fields: '$caseFields' })
     wiredParentRecord({ error, data }) {
         if (data) {
@@ -64,7 +71,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
         } else if (error) {
             console.error('Error loading parent record', error);
         }
-    }  
+    }
     ownerValidation(){
         this.loaded = true;
         if(this.wiredCurrentRec.Owner === this.userId){
@@ -108,7 +115,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
         else if(this.wiredCurrentRec.Lan && this.wiredCurrentRec.Lan != null && this.wiredCurrentRec.Lan != 'NA' && this.wiredCurrentRec.Lan != ''
                 && this.wiredCurrentRec.Lan != this.wiredParentRec.Lan){
             isValid = false;
-            this.showToastMessage('Error!', 'Parent case should belong to same LAN as current case', 'error');
+            this.showToastMessage('Error!', this.lanErrorMessage, 'error');
         }
         else if(this.wiredCurrentRec.Category != this.wiredParentRec.Category || this.wiredCurrentRec.Type != this.wiredParentRec.Type 
             || this.wiredCurrentRec.SubType != this.wiredParentRec.SubType){

@@ -69,6 +69,22 @@
     <businessHours>
         <active>true</active>
         <default>false</default>
+        <fridayEndTime>23:00:00.000Z</fridayEndTime>
+        <fridayStartTime>15:00:00.000Z</fridayStartTime>
+        <mondayEndTime>23:00:00.000Z</mondayEndTime>
+        <mondayStartTime>15:00:00.000Z</mondayStartTime>
+        <name>ABSLIG</name>
+        <thursdayEndTime>23:00:00.000Z</thursdayEndTime>
+        <thursdayStartTime>15:00:00.000Z</thursdayStartTime>
+        <timeZoneId>Asia/Kolkata</timeZoneId>
+        <tuesdayEndTime>23:00:00.000Z</tuesdayEndTime>
+        <tuesdayStartTime>15:00:00.000Z</tuesdayStartTime>
+        <wednesdayEndTime>23:00:00.000Z</wednesdayEndTime>
+        <wednesdayStartTime>15:00:00.000Z</wednesdayStartTime>
+    </businessHours>
+    <businessHours>
+        <active>true</active>
+        <default>false</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
         <fridayStartTime>09:30:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>

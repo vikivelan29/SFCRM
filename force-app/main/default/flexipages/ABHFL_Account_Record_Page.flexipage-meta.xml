@@ -531,10 +531,16 @@
                     <name>adminFilters</name>
                     <valueList>
                         <valueListItems>
-                            <value>Stage__c|EQUALS|[&quot;Open&quot;]</value>
+                            <value>Stage__c|EQUALS|[&quot;Open&quot;]</value>   
                         </valueListItems>
                         <valueListItems>
                             <value>Nature__c|EQUALS|[&quot;Complaint&quot;]</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CLOSED|EQUALS|false</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Stage__c|NOT_EQUAL|[&quot;Resolved&quot;]</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -642,6 +648,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abfl_LegacyCases</componentName>
+                <identifier>c_abfl_LegacyCases</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d2f5b44d-3bab-4e66-adc6-5cb7d3da2498</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</value>
@@ -708,6 +724,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-d2f5b44d-3bab-4e66-adc6-5cb7d3da2498</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Legacy View</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

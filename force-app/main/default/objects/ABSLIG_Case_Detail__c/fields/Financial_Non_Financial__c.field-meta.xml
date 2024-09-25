@@ -16,9 +16,14 @@
                 <label>Financial</label>
             </value>
             <value>
-                <fullName>Non-Financial</fullName>
+                <fullName>Non Financial</fullName>
                 <default>false</default>
-                <label>Non-Financial</label>
+                <label>Non Financial</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
             </value>
         </valueSetDefinition>
     </valueSet>

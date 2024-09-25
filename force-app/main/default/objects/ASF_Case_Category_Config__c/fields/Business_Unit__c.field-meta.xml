@@ -24,6 +24,11 @@
                 <default>false</default>
                 <label>Payments</label>
             </value>
+            <value>
+                <fullName>ABSLIG</fullName>
+                <default>false</default>
+                <label>ABSLIG</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

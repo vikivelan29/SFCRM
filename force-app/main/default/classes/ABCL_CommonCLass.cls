@@ -18,6 +18,7 @@ public with sharing class ABCL_CommonCLass {
 
         List<Case> newCaseList = (List<Case>)newItems;
         prepopulateCaseFldsOnBasisOfBussinessUnit(newCaseList);
+        populateCreatedDateRange(newCaseList);
     }
 
     /****************************************************************************************************************
@@ -64,6 +65,9 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('Payments')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('Payments', bh);
                 }
+                else if(bussHrName.containsIgnoreCase('ABSLIG')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
+                }
             }
         
             for(Case csRec : newCaseLst) {  
@@ -73,7 +77,7 @@ public with sharing class ABCL_CommonCLass {
                     	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
                     }
                     else{
-                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : '';
+                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
                     }
                     csRec.BusinessHoursId = busshrId;
                 }
@@ -128,5 +132,67 @@ public with sharing class ABCL_CommonCLass {
             return true;
         }
         return result;
+    }
+
+    /**
+     * @Function - populateCreatedDateRange
+     * @param newItems -  map of Case from trigger.new.
+     * @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
+    **/
+    public void populateCreatedDateRange(List<Case> newItems) {
+
+        Datetime currentDatetime = System.now();
+        Integer currentHour = currentDatetime.hour();
+        Integer currentMinute = currentDatetime.minute();
+        Integer timeInMinutes =  currentHour*60 + currentMinute;
+        String businessUnitCheck = System.label.Business_Unit_Check_For_SLA_Override ?? '';
+
+        for(Case caseRec : newItems){
+            String caseBusinessUnit = caseRec?.Business_Unit__c ?? '';
+
+            if(businessUnitCheck.containsIgnoreCase(caseBusinessUnit)) {
+                caseRec.Created_Date_Range__c = calculateSlaOverwriteIdentifier(timeInMinutes);    
+            }
+        }
+    }
+
+    /**
+     * @Function - populateCreatedDateRange
+     * @param calculateMinutes -  Time in minutes.
+     * @return - String
+     * @description - Method to calculate the SLA Overwrite Identifier
+    **/
+    @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
+    public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
+        
+        String slaOverwriteIdentifier = '';
+        if(calculateMinutes <= 900) {
+            slaOverwriteIdentifier = '1';
+        }
+        else if(calculateMinutes > 900 && calculateMinutes <= 960) {
+            slaOverwriteIdentifier = '2';
+        }
+        else if(calculateMinutes > 960 && calculateMinutes <= 1020) {
+            slaOverwriteIdentifier = '3';
+        }
+        else if(calculateMinutes > 1020 && calculateMinutes <= 1080) {
+            slaOverwriteIdentifier = '4';
+        }
+        else if(calculateMinutes > 1080 && calculateMinutes <= 1140) {
+            slaOverwriteIdentifier = '5';
+        }
+        else if(calculateMinutes > 1140 && calculateMinutes <= 1200) {
+            slaOverwriteIdentifier = '6';
+        }
+        else if(calculateMinutes > 1200 && calculateMinutes <= 1260) {
+            slaOverwriteIdentifier = '7';
+        }
+        else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
+            slaOverwriteIdentifier = '8';
+        }
+        else if(calculateMinutes > 1320 && calculateMinutes <= 1440) {
+            slaOverwriteIdentifier = '1';
+        }
+        return slaOverwriteIdentifier;
     }
 }

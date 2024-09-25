@@ -51,4 +51,54 @@ public class ABHFL_LeadCreationAPI_Test {
         
         Test.stopTest();
     }
+
+    @isTest
+    static void testByPassTriggerMethod() {
+               
+        // Create a permission set that includes the custom permission
+        PermissionSet abslig_UserPS = new PermissionSet(
+            Name = 'Test_ABSLIG_User',
+            Label = 'Test ABSLIG User'
+        );
+        insert abslig_UserPS;
+
+        SetupEntityAccess sea = new SetupEntityAccess(
+            ParentId = abslig_UserPS.Id,
+            SetupEntityId = [
+            SELECT Id
+            FROM CustomPermission
+            WHERE DeveloperName = 'By_Pass_Trigger'
+            LIMIT 1
+            ].Id
+        );
+        insert sea;
+
+        // Create a user with the permission set
+        Profile p = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
+        User u = new User(Alias = 'testuser', Email = 'testuser@example.com',
+            EmailEncodingKey = 'UTF-8', LastName = 'User', LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US', ProfileId = p.Id, TimeZoneSidKey = 'America/Los_Angeles',
+            UserName = 'test_user123@example.com');
+        insert u;
+        
+        // Assign the permission set to the user
+        PermissionSetAssignment psa = new PermissionSetAssignment(
+            AssigneeId = u.Id,
+            PermissionSetId = abslig_UserPS.Id
+        );
+        insert psa;
+
+        System.runAs(u)
+        {
+            Lead byPassLeadTrigger = new Lead(
+                FirstName = 'Test',
+                LastName = 'Lead',
+                Business_Unit__c = 'ABSLIG'
+            );
+
+            insert byPassLeadTrigger;
+        }
+        // Verify that the custom permission was checked correctly
+        System.assertEquals(false, FeatureManagement.checkPermission('By_Pass_Trigger'));
+    }
 }
