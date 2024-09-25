@@ -28,11 +28,12 @@ public with sharing class ABHI_Constants {
     public static final String ABHI = 'ABHI';
     public static final String JARVIS = 'JARVIS';
     public static final String PERMANENT = 'Permanent';
+    public static final String OTHER = 'other';
     public static final String INDIVIDUAL = 'Individual';
     public static final String NON_INDIVIDUAL = 'Non-Individual';
     public static final String POLICY_IS_MANDATORY_ON_Customer = 'Policy is mandatory on customer.';
     public static final String BUSINESS_UNIT_API = 'Business_Unit__c';
-    public static final List<String> POLICY_ALL_OBJECT = new List<String>{'Account','Asset','Customer_Member_Mapping', 'Nominee'};
+    public static final List<String> POLICY_ALL_OBJECT = new List<String>{'Account','Asset','Customer_Member_Mapping', 'Nominee', 'Previous_Policy_Details'};
 
     //omnidocs
     public static final String EMAIL_TEMPLATE_DEVELOPER_NAME = 'OMNI_DOC_SEND_EMAIL_1724913452870';
