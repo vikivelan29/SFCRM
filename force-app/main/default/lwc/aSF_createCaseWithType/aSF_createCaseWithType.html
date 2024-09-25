@@ -2,11 +2,11 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 01-16-2025
-  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  @last modified on  : 08-16-2024
+  @last modified by  : rsinghnagar@salesforce.com 
   Modifications Log
   Ver   Date         Author                       Modification
-  1.0   12-04-2024   rsinghnagar@salesforce.com   Initial Version
+  1.0   08-16-2024   rsinghnagar@salesforce.com   Initial Version
 -->
 <template>
     <lightning-card title="">
@@ -15,12 +15,10 @@
             <template if:true={showOnCustomerTagging}>
                 <lightning-button class="slds-m-right_x-small" label={withFALabel} variant="brand" onclick={showModal}>
                 </lightning-button>&nbsp;
-                <template if:true={showCreateCaseWOCustomer}>
-                    <!-- Create Case for Customer : TO BE VISIBLE WHEN CUSTOMER TAGGED TO CASE.-->
-                    <lightning-button class="slds-m-left_x-small slds-m-right_x-small" label={withoutFALabel}
-                        variant="brand" onclick={showModalWitoutFA}>
-                    </lightning-button>
-                </template>
+                <!-- Create Case for Customer : TO BE VISIBLE WHEN CUSTOMER TAGGED TO CASE.-->
+                <lightning-button class="slds-m-left_x-small slds-m-right_x-small" label={withoutFALabel}
+                    variant="brand" onclick={showModalWitoutFA}>
+                </lightning-button>
             </template>
             <!-- Create Case without Customer : SHOW ALWAYS-->
             <template if:false={showOnCustomerTagging}>
@@ -209,7 +207,7 @@
                                         <lightning-layout-item padding="around-small" size="12">
                                             <lightning-layout-item padding="around-small" size="6">
                                                 <template if:true={displayRejectionReason}>
-                                                    <lightning-textarea name="rejectedDetails" required={optionalResComment}
+                                                    <lightning-textarea name="rejectedDetails" required
                                                         label="Close Unresolved Details" variant="label-stacked"
                                                         value={rejectedDetails} onchange={setRejectedDetails}
                                                         placeholder="type here..."></lightning-textarea>

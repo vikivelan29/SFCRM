@@ -38,7 +38,6 @@ import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
 import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
-import ABCD_TrackId_Source from '@salesforce/label/c.ABCD_TrackId_Source';
 import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
@@ -100,9 +99,10 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @api bsliRecTypeId;
     isPhoneInbound = false;
     currentObj = CASE_OBJECT.objectApiName;
+
     //ABHI
     abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
-    natureVal = '';
+
     cols;
     //oneabc
     selectedCccBu = '';
@@ -279,7 +279,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if ((selected) && (this.loggedInUserBusinessUnit === ABSLI_BU || this.loggedInUserBusinessUnit == ABHI_BU || this.loggedInUserBusinessUnit === ABCD_BU)) {
+        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU || this.loggedInUserBusinessUnit == ABHI_BU)) {
             this.boolNoAutoComm = false;
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -657,11 +657,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             }
             if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
                 this.isPhoneInbound = true;
-            }
-            if(this.loggedInUserBusinessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
-                this.aniRequired = false;
-                this.isPhoneInbound = true;
-                this.showAniNumber = true;
             }
         }
         //code added by sunil - 03/09/2024
