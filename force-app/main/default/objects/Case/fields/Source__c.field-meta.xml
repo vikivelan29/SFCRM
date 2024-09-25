@@ -68,6 +68,11 @@
                 <label>Inbound ABC</label>
             </value>
             <value>
+                <fullName>Grievance Form</fullName>
+                <default>false</default>
+                <label>Grievance Form</label>
+            </value>
+            <value>
                 <fullName>Inbound call</fullName>
                 <default>false</default>
                 <label>Inbound call</label>
@@ -81,6 +86,11 @@
                 <fullName>Inbound ConnectQ</fullName>
                 <default>false</default>
                 <label>Inbound ConnectQ</label>
+            </value>
+            <value>
+                <fullName>Insurance Repositary website</fullName>
+                <default>false</default>
+                <label>Insurance Repositary website</label>
             </value>
             <value>
                 <fullName>Insurance Repository</fullName>
@@ -528,156 +538,74 @@
                 <label>Walk-In</label>
             </value>
             <value>
-                <fullName>$%^&amp;</fullName>
+                <fullName>Email - Call Centre</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>$%^&amp;</label>
+                <label>Email - Call Centre</label>
             </value>
             <value>
-                <fullName>....</fullName>
+                <fullName>Email - Branch</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>....</label>
+                <label>Email - Branch</label>
             </value>
             <value>
-                <fullName>123</fullName>
+                <fullName>Branch Walk-In</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>123</label>
+                <label>Branch Walk-In</label>
             </value>
             <value>
-                <fullName>BOT</fullName>
+                <fullName>Phone - Call Centre</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>BOT</label>
+                <label>Phone - Call Centre</label>
             </value>
             <value>
-                <fullName>Branch,Bureau,Call- in,Chatbot,Customer Portal,Email,Inbound Nodal Desk,Internal RM - Collection,IVR,IVR-No Email,Letter / Snail Mail,MOBILEAPP,Phone-Inbound,Phone-Outbound,RM,RM-No Email,Social Media,Walkin,WhatsApp</fullName>
+                <fullName>Phone - Branch</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Branch,Bureau,Call- in,Chatbot,Customer Portal,Email,Inbound Nodal Desk,Internal RM - Collection,IVR,IVR-No Email,Letter / Snail Mail,MOBILEAPP,Phone-Inbound,Phone-Outbound,RM,RM-No Email,Social Media,Walkin,WhatsApp</label>
+                <label>Phone - Branch</label>
             </value>
             <value>
-                <fullName>Call</fullName>
+                <fullName>SEBI</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Call</label>
+                <label>SEBI</label>
             </value>
             <value>
-                <fullName>Call Centre</fullName>
+                <fullName>AMFI</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Call Centre</label>
+                <label>AMFI</label>
             </value>
             <value>
-                <fullName>Customer
-Portal</fullName>
+                <fullName>Online Dispute Resolution (ODR)</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Customer
-Portal</label>
+                <label>Online Dispute Resolution (ODR)</label>
             </value>
             <value>
-                <fullName>CustomerPortal</fullName>
+                <fullName>Letter</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>CustomerPortal</label>
+                <label>Letter</label>
             </value>
             <value>
-                <fullName>Disbursement Related</fullName>
+                <fullName>Service2Sales</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Disbursement Related</label>
+                <label>Service2Sales</label>
             </value>
             <value>
-                <fullName>GEmail</fullName>
+                <fullName>Transaction Remediation</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>GEmail</label>
+                <label>Transaction Remediation</label>
             </value>
             <value>
-                <fullName>Gmail</fullName>
+                <fullName>Internal Request</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Gmail</label>
+                <label>Internal Request</label>
             </value>
             <value>
-                <fullName>IVR - No Email</fullName>
+                <fullName>ABCD App</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>IVR - No Email</label>
+                <label>ABCD App</label>
             </value>
             <value>
-                <fullName>IVR-Inbound</fullName>
+                <fullName>IVR-Bot</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>IVR-Inbound</label>
-            </value>
-            <value>
-                <fullName>Not IVR-No Email</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Not IVR-No Email</label>
-            </value>
-            <value>
-                <fullName>Not RM-No Email</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Not RM-No Email</label>
-            </value>
-            <value>
-                <fullName>Payment Lounge</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Payment Lounge</label>
-            </value>
-            <value>
-                <fullName>Payment Portal</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Payment Portal</label>
-            </value>
-            <value>
-                <fullName>Pre-Closure/Closure</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Pre-Closure/Closure</label>
-            </value>
-            <value>
-                <fullName>RM - No Email</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>RM - No Email</label>
-            </value>
-            <value>
-                <fullName>Repayment Related</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Repayment Related</label>
-            </value>
-            <value>
-                <fullName>Source</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Source</label>
-            </value>
-            <value>
-                <fullName>Waiver / Refund</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Waiver / Refund</label>
-            </value>
-            <value>
-                <fullName>Webfo</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Webfo</label>
-            </value>
-            <value>
-                <fullName>eBOT</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>eBOT</label>
+                <label>IVR-Bot</label>
             </value>
             <value>
                 <fullName>ABC_Servicing_App</fullName>

@@ -2,8 +2,8 @@
  * @description       : Test Class for ABHI_FAHistoryDetailsController
  * @author            : Amrit Preet Singh
  * @group             : 
- * @last modified on  : 06/08/2024
- * @last modified by  : Amrit Preet Singh
+ * @last modified on  : 06/08/2024 
+ * @last modified by  : Amrit Preet Singh 1
  * Modifications Log
  * Ver   Date         Author                            Modification
  * 1.0   08-06-2024   amritpreet.singh@salesforce.com   Initial Version
@@ -114,7 +114,7 @@ public class ABHI_FAHistoryDetailsController_Test {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
-			String s = '{\"ReturnCode\":\"2\",\"ReturnMessage\":\"Nodatafound\"}';
+            String s = '{\"ReturnCode\":\"2\",\"ReturnMessage\":\"Nodatafound\"}';
             res.setBody(s);
             res.setStatusCode(400);
             return res;

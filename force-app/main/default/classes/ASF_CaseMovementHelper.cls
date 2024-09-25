@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 02-29-2024
+ * @last modified on  : 09-18-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseMovementHelper {
@@ -38,7 +38,8 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+            allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -135,8 +136,9 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -342,8 +344,9 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -508,8 +511,9 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -709,7 +713,7 @@ public class ASF_CaseMovementHelper {
             }
             else if(areIntegrationsCompletePerCase.containsKey(caseRec.Id) && areIntegrationsCompletePerCase.get(caseRec.Id) != 'Success'){
                 resultWrapper.status  = 'Error';
-                resultWrapper.errorMessage = areIntegrationsCompletePerCase.get(caseRec.Id);
+                resultWrapper.errorMessage = areIntegrationsCompletePerCase.get(caseRec.Id) + ' '+ System.Label.ASF_Integration_Mandatory_Error;
             }
 
             if(resultWrapper.status != 'Error'){
@@ -826,8 +830,9 @@ public class ASF_CaseMovementHelper {
             stageIdToCaseRulesMap.get(rule.Case_Stage_Config__c).add(rule);
         }
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -859,6 +864,8 @@ public class ASF_CaseMovementHelper {
                             else{
                                 continue;
                             }
+                        } else if(config.Gateway_Stage__c){
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
                         }
                         // If Manual, Continue ahead
                         else if(config.Manual_Stage__c){
@@ -980,8 +987,9 @@ public class ASF_CaseMovementHelper {
             externalIdToStageConfigsMap.get(config.Case_Category_Config__r.CCC_External_Id__c).add(config);
         }
 
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(Case caseRec : currentCases){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(Case caseRec : currentCases){
             System.debug('Check here ---> '+caseRec.Id+ ' --> '+externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c));
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
@@ -1123,7 +1131,7 @@ public class ASF_CaseMovementHelper {
                         if(isStageSkip){
                             caseRec.Previous_Stage__c = config.StageName__c;
                         }
-			   // End
+			// End
                         if(afterPreviousStage){
                             // If Not Optional, Allot to Next Stage and Break
                             if(config.Optional_Stage__c){
@@ -1317,8 +1325,9 @@ public class ASF_CaseMovementHelper {
         }
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }

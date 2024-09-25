@@ -1,3 +1,10 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-12-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
 <template>
     <template if:true={noMobileNum}>
         <div class="slds-text-heading_small slds-text-color_error slds-text-align_center">Mobile number is not present for this record.</div>
@@ -124,6 +131,13 @@
             <template if:true={selectedPolicyId}>
                 <button class="slds-button slds-button_brand" onclick={handleQuickLink}>Next To QuickLink</button>
             </template>
+        </template>
+        <template if:false={validRPJ}>
+            <div class="slds-box slds-theme_error slds-m-top_medium">
+                <p>
+                    This policy is not Eligible for Retention Incentive, kindly refer to the Policy level flag.
+                </p>
+            </div>
         </template>
         <template if:true={showGenerateLink}>
             <button class="slds-button slds-button_brand" onclick={handleGenerateLinkPrev}>Generate Link &

@@ -15,6 +15,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
             ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert((List<Case>)newItems);
+            ABHFL_CTSTHelper.skipOpenStageforAPIcases(mRecordTypeVsCases1.get(frameworkRTId));
         }
     }
       
@@ -62,8 +63,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
         	//AM-Validating case creation for different CTSTs against policy statuses for ABSLI.
         	ABSLI_AfterInsertLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId)); 
-            ABSLI_AfterInsertLogic.executeAfterInsertLogic((List<Case>)newItems.values());   
-        }
+        ABSLI_AfterInsertLogic.executeAfterInsertLogic((List<Case>)newItems.values());
+    }
     }
 
     /**
@@ -81,7 +82,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
         //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
-
+        
         // Create Comment if the case is closed while creation.[through api]
         ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
         ctstHelperObj.ICAndPICEvaluationOnApiCall((List<Case>)newItems.values());
@@ -115,6 +116,9 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage((Map<Id, Case>)newItems,(Map<Id, Case>)oldItems);
         ABSLI_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        ABSLAMC_CaseAssignmentHelper.updateAssignmentOnStageChange((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        // Restrict Backward Stage movement from Stage 3 to Stage 1 - ABSLAMC Journey 5
+        ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
 
     /**
@@ -156,5 +160,16 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         
         ABSLI_AfterUpdateLogic.executeAfterInsertLogic((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);
         abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.values());
+        //ABSLAMC_CaseAssignmentHelper.dummyMethod((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
+        ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFields((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
+    }
+   
+    /**
+     * @description  Executes before the Case DML code runs in after update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
+    public override void executeBeforeCaseDMLInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);
     }
 }
