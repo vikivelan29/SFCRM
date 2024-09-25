@@ -104,13 +104,13 @@ public with sharing class ABCL_CommonCLass {
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
         
         List<SObject> recordsToUpdate = new List<SObject>();
-       Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();       // added by vikas
+       Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();         // added by vikas
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
                 if(caseRec.ABFL_Case_Detail__c != null){
                     ABFL_Case_Detail__c detRec = new ABFL_Case_Detail__c(Id=caseRec.ABFL_Case_Detail__c);
                     detRec.Resolution_Comments__c = caseRec.Resolution_Comments__c;
-                    //recordmap.put(detRec.Id,detRec);      
+                   //recordmap.put(detRec.Id,detRec);      
 		    recordupdateABFLcaseDetail.put(caseRec.ABFL_Case_Detail__c,detRec);          //added by vikas
                 }
                 if(caseRec.ABHFL_Case_Detail__c != null){
@@ -119,13 +119,12 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
-            recordsToUpdate.addAll(recordupdateABFLcaseDetail.values());          // added by vikas
+            recordsToUpdate.addAll(recordupdateABFLcaseDetail.values()); // added by vikas
         }
         
         if(!recordsToUpdate.isEmpty()){
            // update recordsToUpdate;
 	   Database.update(recordsToUpdate, false);                    // added by vikas
-        }
         }
         
     }
