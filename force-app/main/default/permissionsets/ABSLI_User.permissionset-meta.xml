@@ -3640,6 +3640,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.ANI_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.API_Error_Fields__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4113,6 +4118,10 @@
     </objectPermissions>
     <recordTypeVisibilities>
         <recordType>PersonAccount.ABSLI_Advisor</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Lead.Sales</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
