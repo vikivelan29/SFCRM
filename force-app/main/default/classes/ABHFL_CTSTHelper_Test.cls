@@ -1,3 +1,4 @@
+
 /**
  * @description       : 
  * @author            : ABHFL Team
@@ -273,6 +274,7 @@ public class ABHFL_CTSTHelper_Test {
         Map<Id, Case> updatedCase1 = ABHFL_CTSTHelper.assignCaseCollateralDocs(new List<Case>{caseRecord});
         System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
     }
+
 
  @IsTest 
     static void testskipOpenStageforAPIcases(){
