@@ -1223,4 +1223,11 @@
         <shortDescription>ASF Integration Mandatory Error</shortDescription>
         <value>is mandatory for current stage</value>
     </labels>
+    <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
 </CustomLabels>
