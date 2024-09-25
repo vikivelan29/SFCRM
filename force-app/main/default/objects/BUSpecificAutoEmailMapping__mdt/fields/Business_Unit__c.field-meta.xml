@@ -26,19 +26,19 @@
                 <label>ABFL</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
+                <fullName>ABWM</fullName>
                 <default>false</default>
-                <label>ABSLIG</label>
-            </value>
-            <value>
-                <fullName>ABSLI</fullName>
-                <default>false</default>
-                <label>ABSLI</label>
+                <label>ABWM</label>
             </value>
             <value>
                 <fullName>ABSLIG</fullName>
                 <default>false</default>
                 <label>ABSLIG</label>
+            </value>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
             </value>
         </valueSetDefinition>
     </valueSet>
