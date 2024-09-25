@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
+        <apexClass>ABHI_OmniDocViewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_OmniDocViewController_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_ClickPSSCommController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>  
+  <classAccesses>
         <apexClass>ABHI_ActiveDayEventsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -25,7 +37,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABHI_HealthAssesmentDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHI_HhsActiveAgeDetails_Controller</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_ResponseWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -41,11 +61,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Asf_NpsIndicatiorController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Asf_DmsViewDataTableController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Asf_NpsIndicatiorController</apexClass>
+        <apexClass>ABHI_ActiveDaysDashboardController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_ActiveDayEventsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <description>Permission set for ABHI.</description>
@@ -1022,6 +1050,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Previous_Policy_Details__c.CumulativeBonus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Previous_Policy_Details__c.Customer__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
