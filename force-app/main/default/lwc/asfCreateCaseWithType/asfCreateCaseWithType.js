@@ -673,9 +673,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false;
         if(selected.Validation_method_during_creation__c){
-            console.log('invoing validator');
+            console.log('invoking validator');
             let methodName = selected.Validation_method_during_creation__c;
-            let validationResult = await validator[methodName](caseRecord);
+            let validationResult = await validator[methodName](caseRecord,'account');
             console.log('returned with dynamic method '+JSON.stringify(validationResult));
             if(validationResult.isSuccess == false){
                 this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
