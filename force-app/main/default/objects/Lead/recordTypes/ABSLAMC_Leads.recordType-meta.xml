@@ -3,6 +3,7 @@
     <fullName>ABSLAMC_Leads</fullName>
     <active>true</active>
     <businessProcess>ABSLAMC Lead Process</businessProcess>
+    <compactLayoutAssignment>ABSLAMC_Lead_Compact_Layout</compactLayoutAssignment>
     <label>ABSLAMC Leads</label>
     <picklistValues>
         <picklist>ABHFL_Prospect_Type__c</picklist>

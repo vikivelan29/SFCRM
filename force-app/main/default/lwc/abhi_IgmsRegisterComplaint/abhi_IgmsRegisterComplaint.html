@@ -59,6 +59,13 @@
 
             </div>
         </template>
+        <template if:true={integrationFailure}>
+            <div class="slds-text-align_center">
+                <marquee width="60%" direction="left" height="100px">
+                    <p><b><span style="color:#ca1f34;">Integration failed, please check the Asf Case Integration record for log or you can retry by clicking submit button.</span></b></p>
+                </marquee>
+            </div>
+        </template>
         <footer class="slds-grid slds-modal__footer slds-grid_align-center">
             <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
             <button class="slds-button slds-button_brand" onclick={submit} disabled={submitDisabled}

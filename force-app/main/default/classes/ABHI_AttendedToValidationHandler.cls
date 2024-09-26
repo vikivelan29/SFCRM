@@ -3,6 +3,8 @@ public with sharing class ABHI_AttendedToValidationHandler {
     public static final Map<String,String> caseExtFields = new Map<String,String>{'Type_of_Disposal__c'=>'Type of Disposal',
         'Resolution_Comments__c'=>'Resolution Comments',
         'Claim_Received_Amount__c'=>'Claim Received Amount'};
+        //'AccountId'=>'Customer',
+        //'AssetId'=>'Asset'};
             
             public static void validateAttendedToNonEscalated(Case caseRecord,
                                                               ASF_IntegrationsController.IntegrationWrapper result)
@@ -28,8 +30,11 @@ public with sharing class ABHI_AttendedToValidationHandler {
             }
 
             for(String fieldName : caseExtFields.keySet()){
-                if(caseRecord.ABHI_Case_Detail__r.get(fieldName) == null || caseRecord.ABHI_Case_Detail__r.get(fieldName) == '')
-                {
+              /*  if (String.isBlank(caseRecord.AccountId) || String.isBlank(caseRecord.AssetId)) {
+                    errorText = 'Customer and Asset';
+                    bErrored = true;
+                }    */   
+                if(caseRecord.ABHI_Case_Detail__r.get(fieldName) == null || caseRecord.ABHI_Case_Detail__r.get(fieldName) == ''){
                     if(!(caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4') && fieldName == 'Claim_Received_Amount__c'){
                         //
                     } else if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c == '3' && fieldName == 'Claim_Received_Amount__c'){
@@ -41,12 +46,13 @@ public with sharing class ABHI_AttendedToValidationHandler {
                     }
                     
                 }
-                
+              
             }
+          
 
             if(String.isNotBlank(errorText)){
                 errorText = errorText.removeEnd(', ');
-                errorText += ' fields are mandatory in the Attended to section.';
+                errorText += ' fields are mandatory for Attended to IGMS button.';
             }
             fieldSpecificValidation(caseRecord);
 

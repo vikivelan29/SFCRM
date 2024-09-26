@@ -114,13 +114,22 @@ public with sharing class ABHI_PendingIGMSComplaintIntegration implements ASF_In
                 String entity_Complaint_Ref_Number = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.ENTITY_COMPLAINT_REF_NUMBER;
                if (String.isEmpty(errorCodes) && (!String.isEmpty(irdaTokenNumber))) {
                     if(caseRecord.ABHI_Case_Detail__c != null){
+                        Group queue = [SELECT Id FROM Group WHERE Developername = 'ABHI_Grievance' AND Type = 'Queue' LIMIT 1];
                         ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
                         caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
                         caseExt.Pending_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '3';
+                        caseExt.Sync_Status__c = 'Yes';
+                        if(caseRecord.Technical_Source__c  == 'API'){
+                            caseExt.IGMS_Case__c = 'Yes';
+                        }
                         dmlRecords.add(caseExt);
                         caseRecord.MoveToNext__c = true;
                         caseRecord.Entity_Reference_No__c  = entity_Complaint_Ref_Number;
+                        if(caseRecord.Technical_Source__c  == 'API' && queue.Id != null){
+                            caseRecord.OwnerId = queue.Id; 
+                           
+                        }
                         dmlRecords.add(caseRecord);
                         Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
