@@ -4,12 +4,7 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Asset.Send_Communication</value>
-                        </valueListItems>
-                    </valueList>
+                    <name>actionNames</name>                 
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -29,7 +24,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
-                    <value>2</value>
+                    <value>0</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
