@@ -221,7 +221,7 @@ public without sharing class ABHI_OmniDocViewController{
                         Messaging.SendEmailResult[] sendResults = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {objEmail}, true);
                         return sendResults.iterator().next().isSuccess();
                     }else{
-
+			throw callException(null,false,ABHI_Constants.ERROR_OMNISUCCESSLONG);
                     }
                 }else if(lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_FAILURE){
                     throw callException(null,false,ABHI_Constants.ERROR_OMNIRESFAIL);
