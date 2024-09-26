@@ -56,12 +56,12 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                     && caseRec.Stage__c != oldMapCase.get(caseRec.Id).Stage__c 
                     && caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE) 
                 {
-                    if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
+                                        if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
                         && caseSources.contains(caseRec.Source__c)) {
                             caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
                             caseIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_ASSIGNMENT});
                         }
-                        else if (caseSlaHistoryMap.containsKey(caseRec.Id)) {
+                    else if (caseSlaHistoryMap.containsKey(caseRec.Id)) {
                         // Assign to last owner of open stage
                         for (ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseRec.Id)) {
                             if (history.Stage__c == ABSLAMC_Constants.OPEN_STAGE) {
@@ -72,7 +72,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                     }
                 }
             }
-
+            
             if(!caseIdToSkipperFlag.isEmpty()){
                 ASF_CaseTriggerModularHelper.setManualSkipperFlags(caseIdToSkipperFlag, null);
             }

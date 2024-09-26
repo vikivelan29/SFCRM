@@ -69,6 +69,11 @@
                 <default>false</default>
                 <label>ABSLIG Email</label>
             </value>
+            <value>
+                <fullName>ABHI Email</fullName>
+                <default>false</default>
+                <label>ABHI Email</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

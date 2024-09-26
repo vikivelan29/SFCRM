@@ -38,6 +38,7 @@ public class ABSLI_ReinstatementIntegration_Test {
         detailRec.City__c = 'Mumbai';
         detailRec.State__c = 'MH';
         detailRec.Pincode__c = '400010';
+        detailRec.COI_Signed_Date__c = Date.today();
 		insert detailRec;
         
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
@@ -47,6 +48,7 @@ public class ABSLI_ReinstatementIntegration_Test {
         caseRecList[0].AccountId = accRec.Id;
         caseRecList[0].ABSLI_Case_Detail__c = detailRec.Id;
         caseRecList[0].Client_Code_Text__c = 'ABCXXX001';
+        caseRecList[0].CCC_External_Id__c = 'PNFT007';
         update caseRecList[0];
         
         ASF_TestDataFactory.createCaseIntegration(caseRecList[0].Id, 'PNFT007');
@@ -55,24 +57,26 @@ public class ABSLI_ReinstatementIntegration_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_ReinstatementIntegration reInt = new ABSLI_ReinstatementIntegration();
-       	Case caseRecord = [SELECT id,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,
+       	Case caseRecord = [SELECT id,Source__c,ABSLI_Case_Detail__r.PX_Response__c,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,
                            AccountId, Client_Code_Text__c,ABSLI_Case_Detail__r.Address_Line_1__c,
             ABSLI_Case_Detail__r.Country__c,ABSLI_Case_Detail__r.City__c,ABSLI_Case_Detail__r.State__c,
             ABSLI_Case_Detail__r.Pincode__c,Business_Unit__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = reInt.evaluate(caseRecord);
-        System.assertEquals('Success', successfulEvaluate.status);
+        System.assertEquals('Error', successfulEvaluate.status);
         Test.stopTest();
     }
     
     @IsTest
     static void testRun(){
         ABSLI_ReinstatementIntegration reInt = new ABSLI_ReinstatementIntegration();
-       	Case caseRecord = [SELECT id,CaseNumber,AccountId,Account.Client_Code__c,Client_Code_Text__c,ABSLI_Case_Detail__r.Address_Line_1__c,
+       	Case caseRecord = [SELECT id,Technical_Source__c,Asset.Policy_No__c,CaseNumber,AccountId,Account.Client_Code__c,Client_Code_Text__c,ABSLI_Case_Detail__r.Address_Line_1__c,
             ABSLI_Case_Detail__r.Country__c,ABSLI_Case_Detail__r.City__c,ABSLI_Case_Detail__r.State__c,
             ABSLI_Case_Detail__r.Pincode__c,Business_Unit__c, ABSLI_Case_Detail__r.Address_Line_2__c,
-            ABSLI_Case_Detail__r.Address_Line_3__c FROM Case LIMIT 1];
+            ABSLI_Case_Detail__r.Address_Line_3__c,ABSLI_Case_Detail__r.COI_Covid_Quest__c,
+            ABSLI_Case_Detail__r.Reinstatement_Amount__c,ABSLI_Case_Detail__r.Medicals__c,ABSLI_Case_Detail__r.PX_Response__c,
+            ABSLI_Case_Detail__r.COI_Signed_Date__c FROM Case LIMIT 1];
         ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();

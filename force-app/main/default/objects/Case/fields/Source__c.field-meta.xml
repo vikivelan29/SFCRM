@@ -68,6 +68,11 @@
                 <label>Inbound ABC</label>
             </value>
             <value>
+                <fullName>Grievance Form</fullName>
+                <default>false</default>
+                <label>Grievance Form</label>
+            </value>
+            <value>
                 <fullName>Inbound call</fullName>
                 <default>false</default>
                 <label>Inbound call</label>
@@ -531,6 +536,11 @@
                 <fullName>Walk-In</fullName>
                 <default>false</default>
                 <label>Walk-In</label>
+            </value>
+            <value>
+                <fullName>CEO Escalation</fullName>
+                <default>false</default>
+                <label>CEO Escalation</label>
             </value>
             <value>
                 <fullName>Email - Call Centre</fullName>

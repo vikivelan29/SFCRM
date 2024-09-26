@@ -982,7 +982,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
-        <value>8080808080808080</value>
+        <value>tDgbshCSrQpi8fqLBcFWN9Sx55GaRWKo</value>
     </labels>
     <labels>
         <fullName>ABSLI_ARS_IV_VALUE</fullName>
@@ -990,7 +990,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
-        <value>8080808080808080</value>
+        <value>OmEpJ51QoM98ZIJ5</value>
     </labels>
     <labels>
         <fullName>ABSLI_ARS_URL</fullName>
@@ -1050,7 +1050,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments</value>
+        <value>ABSLAMC;ABSLIG;Payments;ABHI</value>
     </labels>
     <labels>
         <fullName>ABHI_FitnessAppDetails</fullName>
@@ -1167,7 +1167,42 @@
         <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
-	    <labels>
+    <labels>
+        <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</shortDescription>
+        <value>Reply Type can only be Satisfactory while resolving a Case.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CAMSMandatoryFieldsErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CAMSMandatoryFieldsErrorMsg</shortDescription>
+        <value>Please fill in the mandatory fields:</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Litmus_Allowed_CallerTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Litmus Allowed CallerTypes</shortDescription>
+        <value>Investor</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Litmus_Allowed_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Litmus Allowed Sources</shortDescription>
+        <value>Phone - Call Centre;Email – Call Centre;Branch Walk-In;Email - Branch</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+	<labels>
         <fullName>ABSLI_Min_Loan_Amount</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1185,8 +1220,8 @@
         <fullName>ASF_UIActionDelay</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Delay Time for UI Action in Milliseconds</shortDescription>
-        <value>2000</value>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
@@ -1194,5 +1229,68 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
         <value>Email - Call Centre,Phone - Call Centre</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation</shortDescription>
+        <value>You do not have access to create complaint case.Complaint case can only be created by grievance user.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Integration_Mandatory_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Integration Mandatory Error</shortDescription>
+        <value>is mandatory for current stage</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_IV</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_IV</shortDescription>
+        <value>8549708501325472</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_KEY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_KEY</shortDescription>
+        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_USR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_USR</shortDescription>
+        <value>RQSFDC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ready_Reck_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
+        <value>http://10.155.8.204:94/rtpWS/rcase=</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
+        <value>Duplicate case: A case with same criteria is already open with source as</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
+        <value>Active</value>
     </labels>
 </CustomLabels>
