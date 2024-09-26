@@ -66,6 +66,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				Asset.Policy_No__c,
@@ -124,6 +125,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				Asset.Policy_No__c,
