@@ -199,7 +199,7 @@ blankSourcePresent = true;
                 if(String.isBlank(caseRec.Subject)){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
-                if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c){
+                if(!isUpdate || (isUpdate && caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
             
                     //Fill all common fields irrespective of source
                     caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
