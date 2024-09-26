@@ -43,7 +43,6 @@ import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
-import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
 import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
@@ -100,8 +99,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @api bsliRecTypeId;
     isPhoneInbound = false;
     currentObj = CASE_OBJECT.objectApiName;
-    //ABHI
-    abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
     natureVal = '';
     cols;
     //oneabc
@@ -263,7 +260,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.trackId = '';
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         if (selected) {
-            this.selectedCccBu = selected.Business_Unit__c;
             this.natureVal = selected.Nature__c;
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
@@ -542,18 +538,14 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseRecord[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
         }
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
-        
-        if(this.loggedInUserBusinessUnit === ABCD_BU){
-            caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.selectedCccBu;
-        }
-        
-         const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
+
+        const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
 
         caseRecord["sobjectType"] = "Case"; 
         this.noAutoCommValue = [];
 
-        // this.loaded = false;
-        //console.log('validation--'+selected.Validation_method_during_creation__c);
+        this.loaded = false;
+        console.log('validation--'+selected.Validation_method_during_creation__c);
         if(selected.Validation_method_during_creation__c){
             console.log('invoking validator');
             let methodName = selected.Validation_method_during_creation__c;
@@ -562,15 +554,18 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if(validationResult.isSuccess == false){
                 this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
                 this.loaded = true;
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
                 this.disableCreateBtn = true;
                 this.selectedCTSTFromProspect = null;
-                this.resetFields();
+                this.boolShowNoData = true;
+                this.searchKey = undefined;
+                this.isPhoneInbound = false;
                 return;
             }
             console.log('ending validator');
-        } 
-       // this.loaded = false;
-       
+        }
+        this.loaded = false;
         
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {
