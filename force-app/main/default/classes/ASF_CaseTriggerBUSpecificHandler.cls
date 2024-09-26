@@ -126,6 +126,7 @@ abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.valu
         ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
         ABHI_IGMSHelperMethods.associateAssetIgms((List<Case>)newItems.values());
         abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate');
+        ABSLAMC_BU_CTSTHelper.validateManualApproval((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
 
     /**

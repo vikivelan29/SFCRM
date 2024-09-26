@@ -1252,6 +1252,27 @@
         <value>Reply Type cannot be Satisfactory while moving to Pending With CAMS Stage</value>
     </labels>
     <labels>
+        <fullName>ABSLAMC_MandatoryApprovalRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_MandatoryApprovalRequired</shortDescription>
+        <value>The latest approval record must be approved for mandatory approval stages.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_NoApprovalRecordsFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_NoApprovalRecordsFound</shortDescription>
+        <value>Mandatory approval stage requires at least one approval record.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_NonMandatoryAppErrMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
+        <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
+    </labels>
+    <labels>
         <fullName>ABHI_Claim_Details_Header</fullName>
         <language>en_US</language>
         <protected>false</protected>

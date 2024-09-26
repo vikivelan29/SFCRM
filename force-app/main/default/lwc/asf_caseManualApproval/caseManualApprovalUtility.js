@@ -515,15 +515,12 @@ export const errorCodes={
     WARNINGAPPROVALREMOVAL : 'Before removing approver field, please remove garbage values from '
 }
 
-//override static field settings for BUs
+//override staticFields variable for BUs
 export function getBUSpecificStaticFields(buValue){
-    console.log('buValue',buValue);
     if(buValue == 'ABSLAMC'){
-        console.log('matched',buValue);
         staticFields.APPROVALSTATISFIELDS[0].readOnly = true;
         staticFields.APPROVALSTATISFIELDS[0].defaulSelectedOption = 'Sequential';
     }
-    console.log(JSON.stringify(staticFields));
     return staticFields;
 }
 
