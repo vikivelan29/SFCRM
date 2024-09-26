@@ -15,10 +15,12 @@ public class ABSLAMC_BusinessLogic_HelperClass {
      ***********************************************************/
     public static void prePopulateFieldsBeforeInsert(List<Lead> newLeadList) {
         Map<Id, Lead> abslamcLeadMap = new Map<Id, Lead>();
+
+        List<User> userList = [SELECT Id, LOB__c FROM User WHERE Id =:UserInfo.getUserId() LIMIT 1];
         
         for (Lead leadRecord : newLeadList){
             if (leadRecord.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
-                leadRecord.Line_Of_Business__c = leadRecord.LOB__c; //populate Line_Of_Business__c field
+                leadRecord.Line_Of_Business__c = userList[0].LOB__c; //populate Line_Of_Business__c field
                 abslamcLeadMap.put(leadRecord.Id, leadRecord);
             }
         }

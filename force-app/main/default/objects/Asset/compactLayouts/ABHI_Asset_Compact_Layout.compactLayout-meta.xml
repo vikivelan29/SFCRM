@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABHI_Asset_Compact_Layout</fullName>
+    <fields>Policy_No__c</fields>
+    <fields>PolicyType__c</fields>
+    <fields>AccountId</fields>
+    <fields>Policy_Term__c</fields>
+    <fields>Owner_Client_Code__c</fields>
+    <fields>Status</fields>
+    <label>ABHI Asset Compact Layout</label>
+</CompactLayout>

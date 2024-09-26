@@ -80,8 +80,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 Set<String> currentSkippers = skipperFlagMap.get(recId);
                 currentSkippers.addAll(recIdToSkipperFlag.get(recId));
                 skipperFlagMap.put(recId, currentSkippers);
-            }
-        }    
+        }
+    }
     }
     
     /****************************************************************************************************************
@@ -214,6 +214,8 @@ blankSourcePresent = true;
                 caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                 caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
                 caseRec.Activity__c = appliedCCC.Activity__c;
+                //mapping Line_of_Business__c on caseRec
+                caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
                 // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
                 if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
                     caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
@@ -221,6 +223,7 @@ blankSourcePresent = true;
                 caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
                 caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
                 caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
+                caseRec.Run_Assignment_Rule_on_Bulk_Create__c = appliedCCC.Run_Assignment_Rule_on_Bulk_Create__c;
                 if((!isUpdate) || (isUpdate && oldMap.get(caseRec.Id).Categorization_Date__c == null)){
                     caseRec.Categorization_Date__c = system.now();     
                 }
@@ -274,7 +277,8 @@ blankSourcePresent = true;
         String relObjectName;
         for(Case caseRec : newMap.values()){
             if(ASF_BulkCaseProcessorUtility.isBulkProcessing && String.isNotBlank(caseRec.Bulk_CaseDetail_JSON__c)
-               && (oldMap != null && oldMap.get(caseRec.Id).Bulk_CaseDetail_JSON__c != caseRec.Bulk_CaseDetail_JSON__c)){
+               && (oldMap == null || 
+                   (oldMap != null && oldMap.get(caseRec.Id).Bulk_CaseDetail_JSON__c != caseRec.Bulk_CaseDetail_JSON__c))){
                    eligibleCases.add(caseRec);
                }
         }
@@ -481,6 +485,7 @@ blankSourcePresent = true;
             
             // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
             Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+                allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
                 for(ASF_Case_Stage_Config__c config: allStageConfigs){
                     if(config.Query_Fields__c != null){
                         allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -903,7 +908,7 @@ blankSourcePresent = true;
         List<Case> eligibleLWCCases = new List<Case>();
         
         for(Case caseRec : newMap.values()){
-            if(caseRec.Technical_Source__c == 'API'){
+            if(caseRec.Technical_Source__c == 'API' || (ASF_BulkCaseProcessorUtility.isBulkProcessing && caseRec.Run_Assignment_Rule_on_Bulk_Create__c)){
                 caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                 eligibleCases.add(caseRec);
             }

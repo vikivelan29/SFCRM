@@ -196,7 +196,8 @@ public class ASF_RecategoriseCaseControllerTest {
             LastName = 'Lead',
             Company = 'Test Company',
             mobilephone = '1234567890',
-            Business_Unit__c = 'Payments'
+            Business_Unit__c = 'Payments',
+            PANNO__c = 'ABCDE1234E'
         );
         insert testLead;
         config.Business_Unit__c = 'Payments';

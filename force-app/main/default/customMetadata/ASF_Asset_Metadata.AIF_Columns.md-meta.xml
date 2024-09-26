@@ -9,9 +9,8 @@
     <values>
         <field>Fields_to_Fetch__c</field>
         <value xsi:type="xsd:string">LOB:LAN__r.LOB__c,
-Folio No:LAN__r.LAN__c:url,
+Folio No.:LAN__r.LAN__c:url,
 Folio Creation Date:LAN__r.Folio_Creation_Date__c:date,
-Loan End Date:LAN__r.Loan_End_Date__c:date,
 2nd Holder:LAN__r.X2nd_Holder__c,
 3rd Holder:LAN__r.X3rd_Holder__c,
 Broker Name:LAN__r.Broker_Name__c</value>

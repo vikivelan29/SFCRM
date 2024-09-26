@@ -70,7 +70,7 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
 			string requestBody = JSON.serialize(
 				new LRRequestWrapper(
 					caseRecord.LAN__c == null ? caseRecord.Asset?.Policy_No__c : caseRecord.LAN__c,
-					ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd/MM/YYYY'),
+					ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY'),
 					String.valueOf(caseRecord.ABSLI_Case_Detail__r?.Requested_Loan_Amount__c)
 				)
 			);
@@ -214,6 +214,7 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
 				Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 
 				caseRecord.MoveToNext__c = true;
+                caseRecord.Is_STP__c = false;
 				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 			}
 		} catch (Exception e) {
@@ -283,58 +284,8 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
 	 * @description Loan Register (LR) Wrapper Class to follow through Response Body JSON
 	 */
 	public class LRResponseWrapper {
-		public String MIR_BNK_ACCT_TYP_CD { get; set; }
 		public String LSIR_RETURN_CD { get; set; }
-		public String MIR_SBSDRY_CO_ID_T { get; set; }
-		public String MIR_CLI_ADDR_LN_3_TXT { get; set; }
-		public String MIR_BNK_NM { get; set; }
-		public String MIR_CLI_CTRY_CD { get; set; }
-		public String MORE_MESSAGES_IND { get; set; }
-		public String MIR_RETRN_CD { get; set; }
-		public String Page { get; set; }
-		public String MIR_SUPRES_CNFRM_IND { get; set; }
-		public String MIR_CHQ_PAYE_NM_T { get; set; }
-		public String MIR_PAY_TYPE { get; set; }
-		public String MIR_ACCT_CRNT_LOC_CD_T { get; set; }
-		public String MIR_ACCT_ISS_LOC_CD_T { get; set; }
-		public String MIR_POL_PREM_SUSP_AMT { get; set; }
-		public String MIR_ACCT_BASE_ID_T { get; set; }
-		public String MIR_CLI_CRNT_LOC_CD { get; set; }
-		public String MIR_DV_POL_LOAN_CR_AMT_T { get; set; }
-		public String MIR_CLI_ADDR_LN_1_TXT { get; set; }
-		public String MIR_POL_CLI_REL_TYP_CD { get; set; }
-		public String MIR_DV_CHQ_DESC_TXT_T { get; set; }
-		public String MIR_CLI_CITY_NM_TXT { get; set; }
-		public String MIR_CLI_ADDR_LN_2_TXT { get; set; }
-		public String MIR_DV_REQ_NEFT_IND { get; set; }
-		public String MIR_BNK_BR_NM { get; set; }
-		public String MIR_BNK_ACCT_ID { get; set; }
-		public String MIR_DV_ACCT_DR_AMT_T { get; set; }
-		public String MIR_DV_TAX_OVRID_IND { get; set; }
-		public String MIR_DV_DEPT_DESC_TXT_T { get; set; }
-		public String MIR_POL_OS_DISB_AMT { get; set; }
-		public String MIR_POL_MISC_SUSP_AMT { get; set; }
-		public String MIR_CLI_PSTL_CD { get; set; }
-		public String MIR_DV_CHQ_AMT { get; set; }
-		public String MIR_BR_OR_DEPT_ID_T { get; set; }
-		public String MIR_DV_OD_ACCT_DESC_TXT_T { get; set; }
 		public String MESSAGES { get; set; }
-		public String MIR_DV_AGT_REASN_CD_T { get; set; }
-		public String MIR_CLI_RES_NUM { get; set; }
-		public String MIR_DV_POL_LOAN_DR_AMT_T { get; set; }
-		public String MIR_LOAN_AMT { get; set; }
-		public String MIR_OD_SBSDRY_CO_ID_T { get; set; }
-		public String MIR_LOAN_DT { get; set; }
-		public String MIR_NO_OF_IFSC_REC { get; set; }
-		public String MIR_SEQ_NUM { get; set; }
-		public String MIR_DV_TAX_VERIF_AMT { get; set; }
-		public String MIR_IFSC_CD { get; set; }
 		public String MIR_ACT_CHQ_VCHR_NUM { get; set; }
-		public String MIR_AGT_ID_T { get; set; }
-		public String MIR_DV_ACCT_DESC_TXT_T { get; set; }
-		public String MIR_PAY_MODE { get; set; }
-		public String MIR_OD_ACCT_BASE_ID_T { get; set; }
-		public String MIR_DV_ACCT_CR_AMT_T { get; set; }
-		public String MIR_DV_OWN_CLI_NM { get; set; }
 	}
 }

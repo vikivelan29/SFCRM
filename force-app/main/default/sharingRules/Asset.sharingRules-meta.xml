@@ -43,6 +43,58 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ABSLAMC_PMS_Assets_Share_to_PMS_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC PMS Assets Share to PMS Users</label>
+        <sharedTo>
+            <group>ABSLAMC_PMS_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>LOB__c</field>
+            <operation>equals</operation>
+            <value>PMS</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_RE_Assets_Share_to_RE_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC RE Assets Share to RE Users</label>
+        <sharedTo>
+            <group>ABSLAMC_RE_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>LOB__c</field>
+            <operation>equals</operation>
+            <value>RE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLIG_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLIG Asset Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLIG</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ABSLI_Asset_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABSLI Asset Sharing</label>
@@ -82,16 +134,16 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABSLIG_Asset_Sharing</fullName>
+        <fullName>ABHI_Asset_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABSLIG Asset Sharing</label>
+        <label>ABHI Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLIG</value>
+            <value>ABHI</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -130,44 +182,6 @@
             <field>LOB__c</field>
             <operation>equals</operation>
             <value>MF</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_PMS_Assets_Share_to_PMS_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC PMS Assets Share to PMS Users</label>
-        <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>PMS</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_RE_Assets_Share_to_RE_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC RE Assets Share to RE Users</label>
-        <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>RE</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

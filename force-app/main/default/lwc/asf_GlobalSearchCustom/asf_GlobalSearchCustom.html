@@ -53,7 +53,11 @@
                                 title="Create Case with new Prospect" onclick={handleSalesProspet}
                                 class="slds-m-left_x-small"></lightning-button>
                             </template>
-                            
+                            <template if:true={isCreateLeadVisible}>
+                                <lightning-button variant="brand" label="Create Lead"
+                                    title="Create Lead" onclick={handleShowFlow}
+                                    class="slds-m-left_x-small"></lightning-button>
+                            </template>
                             <!--<lightning-button variant="brand" label="Create Internal Case"
                             title="Create Internal Case" onclick={handleInternalCaseCreation}
                             class="slds-m-left_x-small"></lightning-button>-->
@@ -143,6 +147,34 @@
 
     </template>
 
+    <!-- Create Lead : Flow -->
+
+    <template if:true={showProspectFlow}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-lead-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={hideModalCreateCase}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-lead-02" class="slds-text-heading_medium slds-hyphenate">{headerName}
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-lead-2">
+                    <lightning-flow flow-api-name='ABCL_Lead_Creation_Flow' onstatuschange={handleStatusChange}></lightning-flow>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+
+    </template>
+    <!-- Create Lead Process - Flow -->
+
     <template if:true={showModal}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
             aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
@@ -151,7 +183,7 @@
                 <header class="slds-modal__header">
                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
                         title="Close" onclick={hideModalCreateCase}>
-                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
                             size="small"></lightning-icon>
                         <span class="slds-assistive-text">Close</span>
                     </button>
@@ -177,7 +209,7 @@
                 <header class="slds-modal__header">
                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
                         title="Close" onclick={hideModalCreateCase}>
-                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
                             size="small"></lightning-icon>
                         <span class="slds-assistive-text">Close</span>
                     </button>

@@ -45,7 +45,7 @@ public class ABSLI_PanUpdateIntegration_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_PanUpdateIntegration panInt = new ABSLI_PanUpdateIntegration();
-       	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Technical_Source__c FROM Case LIMIT 1];
+       	Case caseRecord = [SELECT id,CaseNumber,CCC_External_Id__c,Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Technical_Source__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = panInt.evaluate(caseRecord);

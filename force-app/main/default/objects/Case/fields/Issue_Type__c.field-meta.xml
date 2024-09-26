@@ -918,6 +918,181 @@
                 <default>false</default>
                 <label>Spurious calls -Caller posed as IRDA person - policy has been purchased</label>
             </value>
+            <value>
+                <fullName>Initial</fullName>
+                <default>false</default>
+                <label>Initial</label>
+            </value>
+            <value>
+                <fullName>Renewal</fullName>
+                <default>false</default>
+                <label>Renewal</label>
+            </value>
+            <value>
+                <fullName>Null &amp; Void Letter</fullName>
+                <default>false</default>
+                <label>Null &amp; Void Letter</label>
+            </value>
+            <value>
+                <fullName>Show Cause Letter</fullName>
+                <default>false</default>
+                <label>Show Cause Letter</label>
+            </value>
+            <value>
+                <fullName>PPC</fullName>
+                <default>false</default>
+                <label>PPC</label>
+            </value>
+            <value>
+                <fullName>FV</fullName>
+                <default>false</default>
+                <label>FV</label>
+            </value>
+            <value>
+                <fullName>GST invoice</fullName>
+                <default>false</default>
+                <label>GST invoice</label>
+            </value>
+            <value>
+                <fullName>Tax certificate</fullName>
+                <default>false</default>
+                <label>Tax certificate</label>
+            </value>
+            <value>
+                <fullName>Policy account statement</fullName>
+                <default>false</default>
+                <label>Policy account statement</label>
+            </value>
+            <value>
+                <fullName>Bonus Statement</fullName>
+                <default>false</default>
+                <label>Bonus Statement</label>
+            </value>
+            <value>
+                <fullName>Capital / Gain statement</fullName>
+                <default>false</default>
+                <label>Capital / Gain statement</label>
+            </value>
+            <value>
+                <fullName>Surrender certificate</fullName>
+                <default>false</default>
+                <label>Surrender certificate</label>
+            </value>
+            <value>
+                <fullName>Rate Up</fullName>
+                <default>false</default>
+                <label>Rate Up</label>
+            </value>
+            <value>
+                <fullName>Reject</fullName>
+                <default>false</default>
+                <label>Reject</label>
+            </value>
+            <value>
+                <fullName>Declined/Postponed</fullName>
+                <default>false</default>
+                <label>Declined/Postponed</label>
+            </value>
+            <value>
+                <fullName>Restricted SA</fullName>
+                <default>false</default>
+                <label>Restricted SA</label>
+            </value>
+            <value>
+                <fullName>Medical Test Related</fullName>
+                <default>false</default>
+                <label>Medical Test Related</label>
+            </value>
+            <value>
+                <fullName>Alternate Test or Medial Waiver</fullName>
+                <default>false</default>
+                <label>Alternate Test or Medial Waiver</label>
+            </value>
+            <value>
+                <fullName>Video FMR Eligibility</fullName>
+                <default>false</default>
+                <label>Video FMR Eligibility</label>
+            </value>
+            <value>
+                <fullName>Ops Certification Approval</fullName>
+                <default>false</default>
+                <label>Ops Certification Approval</label>
+            </value>
+            <value>
+                <fullName>Tagging of Non-medical requirement</fullName>
+                <default>false</default>
+                <label>Tagging of Non-medical requirement</label>
+            </value>
+            <value>
+                <fullName>Tagging of Underwriter</fullName>
+                <default>false</default>
+                <label>Tagging of Underwriter</label>
+            </value>
+            <value>
+                <fullName>UW decision follow-up</fullName>
+                <default>false</default>
+                <label>UW decision follow-up</label>
+            </value>
+            <value>
+                <fullName>NRI-Overseas Medicals Approval</fullName>
+                <default>false</default>
+                <label>NRI-Overseas Medicals Approval</label>
+            </value>
+            <value>
+                <fullName>Additional information provided after issuance</fullName>
+                <default>false</default>
+                <label>Additional information provided after issuance</label>
+            </value>
+            <value>
+                <fullName>Policy Reversal</fullName>
+                <default>false</default>
+                <label>Policy Reversal</label>
+            </value>
+            <value>
+                <fullName>NRI- Residency opinion</fullName>
+                <default>false</default>
+                <label>NRI- Residency opinion</label>
+            </value>
+            <value>
+                <fullName>AML queries</fullName>
+                <default>false</default>
+                <label>AML queries</label>
+            </value>
+            <value>
+                <fullName>Pilot-Financial or Medical Opinion</fullName>
+                <default>false</default>
+                <label>Pilot-Financial or Medical Opinion</label>
+            </value>
+            <value>
+                <fullName>Customer unable to deposit maturity  benefit cheque</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Customer unable to deposit maturity  benefit cheque</label>
+            </value>
+            <value>
+                <fullName>Dishonored charges deducted by bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dishonored charges deducted by bank</label>
+            </value>
+            <value>
+                <fullName>Loan Not processed</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Loan Not processed</label>
+            </value>
+            <value>
+                <fullName>Surrender value not process</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Surrender value not process</label>
+            </value>
+            <value>
+                <fullName>Survival benefit not proceed/ Delay</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Survival benefit not proceed/ Delay</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

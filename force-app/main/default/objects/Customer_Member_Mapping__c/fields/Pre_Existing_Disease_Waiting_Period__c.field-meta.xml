@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Pre_Existing_Disease_Waiting_Period__c</fullName>
     <externalId>false</externalId>
-    <label>Pre Existing Disease Waiting Period</label>
+    <label>Pre-existing Disease</label>
     <length>1000</length>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
