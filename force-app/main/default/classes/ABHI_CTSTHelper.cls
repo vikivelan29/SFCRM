@@ -84,8 +84,8 @@ public with sharing class ABHI_CTSTHelper {
                 validation.result = true;
             }*/
             if(String.isBlank(caseR.ABHI_Case_Detail__r.Resolution_Comments__c)) {
-                validation.blankFields.add(resolutionCommentsField.getLabel());
-                validation.result = true;
+              //  validation.blankFields.add(resolutionCommentsField.getLabel());
+                //validation.result = true;
             }
             /*if(String.isBlank(caseR.ABHI_Case_Detail__r.Investigation_Comment__c)) {
                 validation.blankFields.add(investigationCommentsField.getLabel());

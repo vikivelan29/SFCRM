@@ -953,7 +953,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>No_Auto_Communication__c</picklist> 
+        <picklist>No_Auto_Communication__c</picklist>
         <values>
             <fullName>Email</fullName>
             <default>false</default>
@@ -1007,6 +1007,10 @@
         </values>
         <values>
             <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABHI Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1172,6 +1176,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CEO Escalation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPGRAMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Call Center</fullName>
             <default>false</default>
         </values>
@@ -1180,10 +1192,14 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Chatbot</fullName>
+            <fullName>Carehead email ID</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Chatbot</fullName>
+            <default>false</default>
+        </values>
+                <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
@@ -1212,7 +1228,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Email- CEO Escalation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email- IRDAI Escalation</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Fax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GRO email ID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grievance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grievance Repeat</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1221,6 +1257,10 @@
         </values>
         <values>
             <fullName>IGMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IRDAI%2FOmbudsman</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1293,6 +1333,14 @@
         </values>
         <values>
             <fullName>Letters and Faxes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Litigation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NCH</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1373,6 +1421,14 @@
         </values>
         <values>
             <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Senior Management Escalation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Senior citizen email id</fullName>
             <default>false</default>
         </values>
         <values>
