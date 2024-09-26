@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Email_Addresses_Allowed_Long__c</field>
-        <value xsi:type="xsd:string">ABFL,ABHFL,Payments,ABSLI,ABSLIG</value>
+        <value xsi:type="xsd:string">ABFL,ABHFL,Payments,ABSLIG,Wellness</value>
     </values>
 </CustomMetadata>

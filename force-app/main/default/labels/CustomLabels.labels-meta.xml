@@ -1108,4 +1108,11 @@
         <shortDescription>MCRM_GymNameLocation</shortDescription>
         <value>No Partner data available for display.</value>
     </labels>
+    <labels>
+        <fullName>Wellness_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness BU</shortDescription>
+        <value>Wellness</value>
+    </labels>
 </CustomLabels>

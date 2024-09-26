@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Business_Unit__c</fullName>
+    <externalId>false</externalId>
     <label>Business Unit</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
@@ -24,24 +25,14 @@
                 <label>Payments</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
-                <default>false</default>
-                <label>ABSLI</label>
-            </value>
-            <value>
-                <fullName>ABHI</fullName>
-                <default>false</default>
-                <label>ABHI</label>
-            </value>
-            <value>
-                <fullName>ABSLAMC</fullName>
-                <default>false</default>
-                <label>ABSLAMC</label>
-            </value>
-            <value>
                 <fullName>ABSLIG</fullName>
                 <default>false</default>
                 <label>ABSLIG</label>
+            </value>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
             </value>
         </valueSetDefinition>
     </valueSet>

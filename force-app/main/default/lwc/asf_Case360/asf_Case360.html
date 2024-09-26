@@ -2,8 +2,8 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 09-02-2024
-  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  @last modified on  : 09-25-2024
+  @last modified by  : rsinghnagar@salesforce.com
 -->
 <template>
     <div class="slds-box">
@@ -339,13 +339,16 @@
                                                 label="Resolution Remarks" variant="label-stacked"
                                                 value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
                                                 placeholder="type here..."></lightning-textarea>
-                                            <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON.-->
-                                            <lightning-combobox
-                                                class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
-                                                value={selectedReason} label="Close Resolved Reason" options={resolveReasonLOV}
-                                                placeholder='Close Resolved Reason' onchange={handleRejReasonChange}
-                                                required>
-                                            </lightning-combobox>
+                                            <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON - Start-->
+                                            <template lwc:if={showResolvedReasons}>
+                                                <lightning-combobox
+                                                    class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
+                                                    value={selectedReason} label="Close Resolved Reason" options={resolveReasonLOV}
+                                                    placeholder='Close Resolved Reason' onchange={handleRejReasonChange}
+                                                    required>
+                                                </lightning-combobox>
+                                            </template>
+                                            <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON - End-->
                                         </template>
                                     </template>
                                     

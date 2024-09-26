@@ -58,6 +58,7 @@ import { setPicklistFieldValue, conditionalRenderingPicklist, renderingPicklistO
 import {BUSpecificCloseCasePopupHandler} from 'c/asf_Case360JSUtility';
 //Label added for PR1030924-43
 import UnresolvedCommentsNotReqBUs from '@salesforce/label/c.ABAMC_NonMandatoryUnresCommentsBUs';
+import ResolvedReasonsRequired from '@salesforce/label/c.ABC_ResolvedReasonsRequired';
 
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -259,10 +260,20 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
+    ResolvedReasonsRequired = ResolvedReasonsRequired;
         
 
     get eligibleForBU(){
         return !(this.caseBusinessUnit == 'ABSLI');
+    }
+
+    get showResolvedReasons(){
+        const listOfBUs = this.ResolvedReasonsRequired.split(',');
+        if(listOfBUs.includes(this.caseBusinessUnit)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     //added for PR1030924-43, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
@@ -2567,8 +2578,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     //PR1030924-224: ZAHED : Added filter condition for wellness case - Start
     showRejectModal() {       
-        if(this.caseBusinessUnit=='Wellness'){           
-            // console.log('showRejectModal if ->');
+        if(this.showResolvedReasons){           
+            console.log('***showResolvedReasons->');
             getSrBUReasons({ cccExternalId: this.cccExternalId }).then(result => {               
                 result.forEach(item => {
                     if(item.Type__c == 'Reject'){
@@ -2584,10 +2595,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                         };
                         this.resolveReasonLOV.push(optionVal);
                     }    
-                });
-                this.showRejModal = true;
-                // console.log('this.resolveReasonLOV-->',JSON.stringify(this.resolveReasonLOV));
-                // console.log('this.reasonLOV-->',JSON.stringify(this.reasonLOV));
+                });                
+                // this.showRejModal = true;
             }).catch(error => {
                 console.log('Error: ' + JSON.stringify(error));
                 this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
@@ -2663,7 +2672,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     
     fetchRejectionReason() {
         getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
-            console.log('getSrRejectReasons -->',result);
+            console.log('fetchRejectionReason:getSrRejectReasons -->',result);
             this.reasonLOV = [];
             result.forEach(reason => {
                 const optionVal = {
