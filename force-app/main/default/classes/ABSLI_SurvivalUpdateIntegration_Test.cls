@@ -44,7 +44,7 @@ public class ABSLI_SurvivalUpdateIntegration_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_SurvivalUpdateIntegration surInt = new ABSLI_SurvivalUpdateIntegration();
-       	Case caseRecord = [SELECT id,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,
+       	Case caseRecord = [SELECT id,Technical_Source__c,Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,
                            Asset.Policy_No__c,Business_Unit__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();

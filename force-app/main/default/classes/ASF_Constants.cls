@@ -135,7 +135,7 @@ public with sharing class ASF_Constants {
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
     /* Map to Store Case Origin Vs Business Unit */
-    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG'};
+    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG','ABHI Email' => 'ABHI'};
     
     /* Map to Store Case Origin Vs Source */
     public static final Map<String,String> mCaseOriginVsSource= new Map<String,String>{'ABFL WM CHAT' =>'Chatbot'};
@@ -150,7 +150,7 @@ public with sharing class ASF_Constants {
     public static final List<String> VALIDATION_BYPASS_PROFILES = new List<String>{'System Administrator','Salesforce API Only System Integrations'};
     public static final String DMS_FILE_TRANSFER_SOURCE = 'SFDC';
     public static Boolean bypassOwnerChangeValidation = false;
-    public static final List<String> BU_WITHOUT_LOB = new List<String>{'ABHFL','ABSLI','ABSLIG'};
+    public static final List<String> BU_WITHOUT_LOB = new List<String>{'ABHFL','ABSLI','ABSLIG','ABHI'};
         
     /* Asset ExternalId fields per Business Unit */
     public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG'};

@@ -1,17 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
+        <field>Case$CaseNumber</field>
+    </columns>
+    <columns>
+        <field>Case$Type_Text__c</field>
+    </columns>
+    <columns>
         <field>Case$Sub_Type_Text__c</field>
     </columns>
+    <columns>
+        <field>Case$Asset.Issue_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedDate</field>
+    </columns>
     <customDetailFormulas>
-        <calculatedFormula>(Case.Asset.Issue_Date__c - DATEVALUE(Case.CreatedDate)) / 30</calculatedFormula>
-        <dataType>Double</dataType>
-        <description>ABSLI - Query &amp; Complaints Reporting Set - 2</description>
+        <calculatedFormula>IF(
+  ISBLANK(Case.Asset.Issue_Date__c),
+  &quot;Issue Date Empty&quot;,
+  IF(
+    FLOOR(
+      12 * (YEAR(DATEVALUE(Case.CreatedDate)) - YEAR(Case.Asset.Issue_Date__c)) + 
+      (MONTH(DATEVALUE(Case.CreatedDate)) - MONTH(Case.Asset.Issue_Date__c))
+    ) &gt; 60,
+    &quot;More than 60 Months&quot;,
+    CASE(
+      FLOOR(
+        12 * (YEAR(DATEVALUE(Case.CreatedDate)) - YEAR(Case.Asset.Issue_Date__c)) + 
+        (MONTH(DATEVALUE(Case.CreatedDate)) - MONTH(Case.Asset.Issue_Date__c))
+      ),
+      0, &quot;A) 0 to 1 Months&quot;,
+      1, &quot;A) 0 to 1 Months&quot;,
+      2, &quot;C) 3 to 6 Months&quot;,
+      3, &quot;C) 3 to 6 Months&quot;,
+      4, &quot;C) 3 to 6 Months&quot;,
+      5, &quot;C) 3 to 6 Months&quot;,
+      6, &quot;D) 6 to 12 Months&quot;,
+      7, &quot;D) 6 to 12 Months&quot;,
+      8, &quot;D) 6 to 12 Months&quot;,
+      9, &quot;D) 6 to 12 Months&quot;,
+      10, &quot;D) 6 to 12 Months&quot;,
+      11, &quot;D) 6 to 12 Months&quot;,
+      12, &quot;E) 12 to 36 Months&quot;,
+      13, &quot;E) 12 to 36 Months&quot;,
+      14, &quot;E) 12 to 36 Months&quot;,
+      15, &quot;E) 12 to 36 Months&quot;,
+      16, &quot;E) 12 to 36 Months&quot;,
+      17, &quot;E) 12 to 36 Months&quot;,
+      18, &quot;E) 12 to 36 Months&quot;,
+      19, &quot;E) 12 to 36 Months&quot;,
+      20, &quot;E) 12 to 36 Months&quot;,
+      21, &quot;E) 12 to 36 Months&quot;,
+      22, &quot;E) 12 to 36 Months&quot;,
+      23, &quot;E) 12 to 36 Months&quot;,
+      24, &quot;E) 12 to 36 Months&quot;,
+      25, &quot;E) 12 to 36 Months&quot;,
+      26, &quot;E) 12 to 36 Months&quot;,
+      27, &quot;E) 12 to 36 Months&quot;,
+      28, &quot;E) 12 to 36 Months&quot;,
+      29, &quot;E) 12 to 36 Months&quot;,
+      30, &quot;E) 12 to 36 Months&quot;,
+      31, &quot;E) 12 to 36 Months&quot;,
+      32, &quot;E) 12 to 36 Months&quot;,
+      33, &quot;E) 12 to 36 Months&quot;,
+      34, &quot;E) 12 to 36 Months&quot;,
+      35, &quot;E) 12 to 36 Months&quot;,
+      36, &quot;F) 36 to 60 Months&quot;,
+      37, &quot;F) 36 to 60 Months&quot;,
+      38, &quot;F) 36 to 60 Months&quot;,
+      39, &quot;F) 36 to 60 Months&quot;,
+      40, &quot;F) 36 to 60 Months&quot;,
+      41, &quot;F) 36 to 60 Months&quot;,
+      42, &quot;F) 36 to 60 Months&quot;,
+      43, &quot;F) 36 to 60 Months&quot;,
+      44, &quot;F) 36 to 60 Months&quot;,
+      45, &quot;F) 36 to 60 Months&quot;,
+      46, &quot;F) 36 to 60 Months&quot;,
+      47, &quot;F) 36 to 60 Months&quot;,
+      48, &quot;F) 36 to 60 Months&quot;,
+      49, &quot;F) 36 to 60 Months&quot;,
+      50, &quot;F) 36 to 60 Months&quot;,
+      51, &quot;F) 36 to 60 Months&quot;,
+      52, &quot;F) 36 to 60 Months&quot;,
+      53, &quot;F) 36 to 60 Months&quot;,
+      54, &quot;F) 36 to 60 Months&quot;,
+      55, &quot;F) 36 to 60 Months&quot;,
+      56, &quot;F) 36 to 60 Months&quot;,
+      57, &quot;F) 36 to 60 Months&quot;,
+      58, &quot;F) 36 to 60 Months&quot;,
+      59, &quot;F) 36 to 60 Months&quot;,
+      60, &quot;F) 36 to 60 Months&quot;,
+      &quot;Others&quot;
+    )
+  )
+)</calculatedFormula>
+        <dataType>Text</dataType>
         <developerName>CDF1</developerName>
-        <label>Created Issuance</label>
+        <label>Issuance - Case Created Date</label>
         <scale>2</scale>
     </customDetailFormulas>
     <description>ABSLI - Query &amp; Complaints Reporting Set - 2</description>
+    <filter>
+        <criteriaItems>
+            <column>Case$Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABSLI</value>
+        </criteriaItems>
+    </filter>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
@@ -30,7 +128,7 @@
     </params>
     <reportType>Case_With_Policy_and_Branch_Masters__c</reportType>
     <scope>organization</scope>
-    <showDetails>false</showDetails>
+    <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>

@@ -34,7 +34,7 @@ public class ABSLI_IssueTypeControllerTest {
         insert caseDetail;
        
         //Create Case
-        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(3);
+        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(2);
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABSLI_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();

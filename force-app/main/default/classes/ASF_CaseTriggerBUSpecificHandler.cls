@@ -2,6 +2,7 @@
  * @description Case trigger handler class for BU specific
  */
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
+public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
     /**
      * @description - Executes befor the ASF code runs in before insert context
      * @param newItems - list of new cases
@@ -15,6 +16,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
             ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
             ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert((List<Case>)newItems);
+            ABHFL_CTSTHelper.skipOpenStageforAPIcases(mRecordTypeVsCases1.get(frameworkRTId));
         }
     }
       
@@ -108,6 +110,9 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      * @param oldItems - map of old cases
      */
     public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+
+        Map<String,List<Case>> mapOfBUToNewCs = initializeBUSpecificCases((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        
         if(Label.ABHFL_Case_Dedupe_Active=='Active'){
             ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
         }
@@ -118,6 +123,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABSLAMC_CaseAssignmentHelper.updateAssignmentOnStageChange((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
         // Restrict Backward Stage movement from Stage 3 to Stage 1 - ABSLAMC Journey 5
         ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate');
     }
 
     /**
@@ -162,7 +168,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         //ABSLAMC_CaseAssignmentHelper.dummyMethod((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
         ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFields((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
     }
-   
+
     /**
      * @description  Executes before the Case DML code runs in after update context
      * @param newItems - map of new cases
@@ -170,5 +176,40 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      */
     public override void executeBeforeCaseDMLInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);
+        
+    }
+
+    /**
+     * @description  handler method for interaction Cases
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
+    public void beforeUpdateInteractionCases(Map<Id,Case> newItems, Map<Id, Case> oldItems){
+        
+        Map<String,List<Case>> mapOfBUToNewCs = initializeBUSpecificCases(newItems, oldItems);
+        abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, oldItems, 'AfterASFCodeBeforeUpdate');
+    }
+
+    /**
+     * @description  initialize BU specific Cases
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     * @return mapOfBUToCases - map of BU to Cases
+     */
+    public Map<String,List<Case>> initializeBUSpecificCases(Map<Id,Case> newItems, Map<Id, Case> oldItems){
+
+        Map<String,List<Case>> mapOfBUToCases = new Map<String,List<Case>>();
+
+        for(Case newCs : newItems.values()) {
+            String businessUnit = newCs?.Business_Unit__c;
+
+            if(mapOfBUToCases.containsKey(businessUnit)) {
+                mapOfBUToCases.get(businessUnit).add(newCs);
+            }
+            else {
+                mapOfBUToCases.put(businessUnit, new List<Case>{newCs});
+            }
+        }
+        return mapOfBUToCases;
     }
 }
