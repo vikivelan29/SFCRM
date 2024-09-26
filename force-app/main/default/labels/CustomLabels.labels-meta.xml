@@ -1252,13 +1252,6 @@
         <value>Reply Type cannot be Satisfactory while moving to Pending With CAMS Stage</value>
     </labels>
     <labels>
-        <fullName>ABHI_Claim_Details_Header</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI Claim Details Header</shortDescription>
-        <value>Claim Details</value>
-    </labels>
-    <labels>
         <fullName>ABSLAMC_MandatoryApprovalRequired</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1278,6 +1271,34 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
         <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_IV</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_IV</shortDescription>
+        <value>8549708501325472</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_KEY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_KEY</shortDescription>
+        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_USR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_USR</shortDescription>
+        <value>RQSFDC</value>
     </labels>
     <labels>
         <fullName>ABSLI_Ready_Reck_URL</fullName>
