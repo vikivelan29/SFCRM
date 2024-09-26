@@ -246,7 +246,7 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
                     if(caseRecord.ABHI_Case_Detail__c != null){
                         ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
                         caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
-                        caseExt.Final_Resolution_Date__c = System.Today();
+                        caseExt.Final_Resolution_Date__c = datetime.now();
                         caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
                         caseRecord.Stage__c = 'Resolved';
@@ -295,6 +295,9 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
         public string Mode{get;set;}
         public string Remarks{get;set;}
         public string Original_IRDA_Token_Num{get;set;}
+        public string Additional_Closure_Information{get;set;}
+       
+
 
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
@@ -305,6 +308,11 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
             this.Trans_Login_Id = 'ABHICADMIN1';
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
+            this.Additional_Closure_Information= ' closing the case';
+			this.Insurer_Resolution_Letter_date  = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Claim_Payment_Cheque_Date =  ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Claim_Payment_Cheque_Number  = '123333';
+            this.Claim_Payment_Date  =  ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
         }
     }
     /**

@@ -19,7 +19,7 @@ public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessL
             ABHFL_CTSTHelper.skipOpenStageforAPIcases(mRecordTypeVsCases1.get(frameworkRTId));
         }
     }
-      
+       
      /**
      * @description - Executes after the ASF code runs in before insert context
      * @param newItems - list of new cases
