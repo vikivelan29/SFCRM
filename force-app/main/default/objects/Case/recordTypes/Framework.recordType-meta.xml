@@ -1490,6 +1490,10 @@
             <fullName>Open</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>In Progress with SA</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Sub_Source__c</picklist>
