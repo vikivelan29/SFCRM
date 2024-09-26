@@ -48,7 +48,7 @@ public with sharing class ABSLI_DtoCLeadIntegration {
             cls.LeadQualified = '';
             cls.JunkLead = '';
             cls.CId = ld.External_Lead_ID__c+','+ld.Rating;
-            cls.Gclid = ld.City__c;
+            cls.Gclid = ld.City__c != null ? ld.City__c : 'NA';
             cls.ApplicationNumber = ld.PIN_Code__c;
             cls.SmokerNonSmoker = '';
             cls.Nationality = '';
