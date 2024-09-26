@@ -81,6 +81,10 @@
                 <behavior>Edit</behavior>
                 <field>Is_Conversion_Tracked__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Lead_Number__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
