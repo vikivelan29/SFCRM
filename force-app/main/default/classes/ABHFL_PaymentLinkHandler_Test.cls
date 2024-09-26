@@ -15,6 +15,7 @@ public class ABHFL_PaymentLinkHandler_Test {
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
         caseDetail.As_On_Date__c = date.today();
+        caseDetail.Payable_Charges__c=1000;
         insert caseDetail;
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
         caseRecList[0].AssetId = astRec.Id;

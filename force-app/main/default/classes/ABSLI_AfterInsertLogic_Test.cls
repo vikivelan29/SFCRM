@@ -1,7 +1,6 @@
-@IsTest
-public class ABSLI_IssueTypeControllerTest {
-
-     @TestSetup
+@isTest
+public class ABSLI_AfterInsertLogic_Test {
+	 @TestSetup
     static void testData(){
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
@@ -15,7 +14,7 @@ public class ABSLI_IssueTypeControllerTest {
         ASF_TestDataFactory.createCaseCategoryConfig();
         ASF_Case_Category_Config__c ccc = [SELECT id,IGMS_Code__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1];
         ccc.IGMS_Code__c = '#N/A';
-        ccc.CCC_External_Id__c = 'PEMT024';
+        ccc.CCC_External_Id__c = 'PPAY008';
         ccc.Allowed_Issue_Types__c = 'example1';
         update ccc;
         
@@ -34,11 +33,12 @@ public class ABSLI_IssueTypeControllerTest {
         insert caseDetail;
        
         //Create Case
-        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(2);
+        List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(3);
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABSLI_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
-       // caseRecList[0].Business_Unit__c = 'ABSLI';
+        caseRecList[0].Business_Unit__c = 'ABSLI';
+        caseRecList[0].Technical_Source__c = 'LWC';
         
         
        	caseRecList[1].AssetId = astRec1.Id;
@@ -92,25 +92,18 @@ public class ABSLI_IssueTypeControllerTest {
         slaThreshold.Case_SLA_Threshold_2__c = .75;
         slaThreshold.Case_SLA_Threshold_3__c = 1;
         upsert slaThreshold SLA_Threshold_Warning__c.Id;
-
-       }
-     @IsTest
-    static void testGetIssueTypeforCCC_ValidCase() {
-        // Fetch the test case record
-        Case testCase = [SELECT Id FROM Case where ccc_external_id__c = 'PEMT024' LIMIT 1];
-
-        // Call the method and assert the expected result
-        List<String> issueTypes = ABSLI_IssueTypeController.getIssueTypeforCCC(testCase.Id);
-        List<String> expected = new List<String>{'example1'}; 
-        System.assertEquals(expected,issueTypes,'Issue Types are not same');
-        
-        ASF_Case_Category_Config__c ccc = [SELECT id,IGMS_Code__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c where CCC_External_Id__c= 'PEMT024' LIMIT 1];
-        ccc.Allowed_Issue_Types__c = null;
-        update ccc;
-        Case testCase2 = [SELECT Id FROM Case where ccc_external_id__c = 'PEMT024' LIMIT 1];
-        List<String> expected2 = new List<String>{}; 
-        List<String> issueTypes2 = ABSLI_IssueTypeController.getIssueTypeforCCC(testCase2.Id);
-        System.assertEquals(expected2,issueTypes2,'Issue Types are not same');
-        ABSLI_IssueTypeController.updateIssueType(testCase2.Id,'Leakage Salvage');
     }
+    @IsTest
+    static void testAfterInsert(){
+        List<Case> caseRecords = [Select id,Stage__c,CCC_External_Id__c,ABSLI_Case_Detail__c,CaseNumber,AssetId,Technical_Source__c,Entity_Reference_No__c,Business_Unit__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,ABSLI_Case_Detail__r.Outcome__c,
+                                  ABSLI_Case_Detail__r.Resolution__c,AccountId,ABSLI_Case_Detail__r.PAN__c,Account.PAN__c,Asset.TDS_Indicator__c,ABSLI_Case_Detail__r.TDS_Indicator__c
+                                  from Case where CCC_External_Id__c = 'PPAY008'  Limit 1];
+        ABSLI_AfterInsertLogic.executeAfterInsertLogic(caseRecords);
+        caseRecords[0].Technical_Source__c = 'LWC';
+        update caseRecords;
+        ABSLI_AfterInsertLogic.checkCreateCaseValidations(caseRecords);
+        System.assertEquals(caseRecords[0].Account.PAN__c,caseRecords[0].ABSLI_Case_Detail__r.PAN__c,'Not Populated');
+        System.assertEquals(caseRecords[0].Asset.TDS_Indicator__c,caseRecords[0].ABSLI_Case_Detail__r.TDS_Indicator__c,'Not Populated');
+    }
+    
 }
