@@ -536,6 +536,12 @@
                         <valueListItems>
                             <value>Nature__c|EQUALS|[&quot;Complaint&quot;]</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CLOSED|EQUALS|false</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Stage__c|NOT_EQUAL|[&quot;Resolved&quot;]</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>

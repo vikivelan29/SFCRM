@@ -26,6 +26,11 @@
                 <default>false</default>
                 <label>Accepted</label>
             </value>
+            <value>
+                <fullName>Rejected Non IO</fullName>
+                <default>false</default>
+                <label>Rejected Non IO</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

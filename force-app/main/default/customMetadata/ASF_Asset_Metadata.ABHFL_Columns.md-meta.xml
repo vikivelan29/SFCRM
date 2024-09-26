@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Fields_to_Fetch__c</field>
-        <value xsi:type="xsd:string">Loan Account number:LAN__r.LAN__c:url,Product:LAN__r.ProductCode,Applicant Type:Applicant_Type__c,Loan Status:LAN__r.Account_Status__c,Disbursal Status:LAN__r.Loan_Disbursement_Status__c,Disbursed Amount:LAN__r.Loan_Amount__c:currency,Sanctioned Amount:LAN__r.Sanction_Amount__c:currency,VAN:LAN__r.VAN__c,Branch Name:LAN__r.Branch__r.Name,Scheme:LAN__r.Scheme__c,Sub scheme:LAN__r.Sub_scheme__c,Deal Number:LAN__r.Deal_No__c</value>
+        <value xsi:type="xsd:string">Loan Account number:LAN__r.LAN__c:url,DA Transaction:LAN__r.DA_Transaction__c, Product:LAN__r.ProductCode,Applicant Type:Applicant_Type__c,Loan Status:LAN__r.Account_Status__c,Disbursal Status:LAN__r.Loan_Disbursement_Status__c,Disbursed Amount:LAN__r.Loan_Amount__c:currency,Sanctioned Amount:LAN__r.Sanction_Amount__c:currency,VAN:LAN__r.VAN__c,Branch Name:LAN__r.Branch__r.Name,Scheme:LAN__r.Scheme__c,Sub scheme:LAN__r.Sub_scheme__c,Deal Number:LAN__r.Deal_No__c</value>
     </values>
     <values>
         <field>Line_Of_Business__c</field>
