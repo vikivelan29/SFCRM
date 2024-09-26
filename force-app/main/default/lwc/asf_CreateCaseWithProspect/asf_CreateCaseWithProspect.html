@@ -86,7 +86,7 @@
                                 </lightning-checkbox-group>
                             </template>
                         </template>
-                        <div class="slds-grid slds-grid_vertical">
+                        <div class="slds-grid slds-grid_vertical slds-var-p-top_small">
                             <div class="slds-col slds-size_2-of-8">
                                 <template if:true={isPhoneInbound}>
                                     <lightning-input class="validate" type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
@@ -157,7 +157,7 @@
                         <div class="slds-grid slds-wrap slds-m-around_small">
                             <template if:true={fields}>
                                 <template for:each={fields} for:item="f">
-                                    <div key={f.Id} class="slds-col slds-size_1-of-2">
+                                    <div key={f.FieldName} class="slds-col slds-size_1-of-2">
                                         <lightning-input-field field-name={f.FieldName} required={f.required}>
                                         </lightning-input-field>
                                     </div>

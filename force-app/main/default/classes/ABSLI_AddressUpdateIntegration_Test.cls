@@ -5,7 +5,7 @@ public class ABSLI_AddressUpdateIntegration_Test {
 		ASF_Integration__c integ = new ASF_Integration__c();
 		integ.External_Id__c = 'PNFT007';
 		integ.Display_Name__c = 'Address Update';
-		integ.Query_Fields__c = 'ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,Business_Unit__c,'+
+		integ.Query_Fields__c = 'ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Source__c,CaseNumber,Business_Unit__c,'+
             'Technical_Source__c,AccountId,Client_Code_Text__c,ABSLI_Case_Detail__r.Address_Line_1__c,'+
             'ABSLI_Case_Detail__r.Country__c,ABSLI_Case_Detail__r.City__c,ABSLI_Case_Detail__r.State__c,'+
             'ABSLI_Case_Detail__r.Pincode__c';
@@ -55,7 +55,7 @@ public class ABSLI_AddressUpdateIntegration_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_AddressUpdateIntegration addInt = new ABSLI_AddressUpdateIntegration();
-       	Case caseRecord = [SELECT id,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,
+       	Case caseRecord = [SELECT id,Technical_Source__c,Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,
                            AccountId, Client_Code_Text__c,ABSLI_Case_Detail__r.Address_Line_1__c,
             ABSLI_Case_Detail__r.Country__c,ABSLI_Case_Detail__r.City__c,ABSLI_Case_Detail__r.State__c,
             ABSLI_Case_Detail__r.Pincode__c,Business_Unit__c FROM Case LIMIT 1];

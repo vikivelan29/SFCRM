@@ -272,10 +272,10 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?/*caseRecord.Account.Office_Email__c*/(con.size()>0?con[0].Email:''):caseRecord.Account.PersonEmail;
             this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
+            // GST calculation for PR970457-2177
             Decimal amountWithGST = caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c * (1 + (GST / 100));
             Decimal formattedAmount = amountWithGST.setScale(2, System.RoundingMode.HALF_UP);
             this.Amount = String.valueof(formattedAmount);
-            //this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c*(1+(GST/100)));
             String emiTenure = caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c;
             System.debug('emiTenure: ' + emiTenure);
             if(emiTenure == 'EMI'){
