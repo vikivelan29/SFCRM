@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 08-09-2024
+  @last modified on  : 09-24-2024
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -52,7 +52,7 @@
                 <button class="slds-button slds-button_neutral" onclick={closeParentPopup}
                     title="Cancel">Cancel</button>
                 <template if:false={showFetchResponse}>
-                    <button class="slds-button slds-button_neutral" onclick={handleFetchDetails} title="Fetch Details">Fetch Details</button>
+                    <button class="slds-button slds-button_neutral" onclick={handleFetchDetails} title="Fetch Details" disabled={isIFSCInvalid}>Fetch Details</button>
                 </template>
                 <template if:true={showUpdate}>
                     <button class="slds-button slds-button_neutral" onclick={handleUpdateFromFieldPopUp} title="Update">Update</button>

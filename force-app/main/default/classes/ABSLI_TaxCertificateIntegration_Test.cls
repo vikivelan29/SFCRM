@@ -68,6 +68,7 @@ public with sharing class ABSLI_TaxCertificateIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				FTR__c,
 				AssetId,
@@ -131,6 +132,7 @@ public with sharing class ABSLI_TaxCertificateIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				FTR__c,
 				AssetId,
