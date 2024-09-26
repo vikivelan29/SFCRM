@@ -40,6 +40,7 @@ import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
     @track loaded = true;
@@ -95,7 +96,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @api bsliRecTypeId;
     isPhoneInbound = false;
     currentObj = CASE_OBJECT.objectApiName;
-
+    natureVal = '';
     cols;
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
@@ -230,6 +231,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.trackId = '';
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         if (selected) {
+            this.natureVal = selected.Nature__c;
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
             this.selectedCTSTFromProspect = selected;
@@ -483,9 +485,34 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseRecord[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
         }
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
-        caseRecord["sobjectType"] = "Case";
-        
+
+        const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
+
+        caseRecord["sobjectType"] = "Case"; 
         this.noAutoCommValue = [];
+
+        this.loaded = false;
+        console.log('validation--'+selected.Validation_method_during_creation__c);
+        if(selected.Validation_method_during_creation__c){
+            console.log('invoking validator');
+            let methodName = selected.Validation_method_during_creation__c;
+            let validationResult = await validator[methodName](caseRecordforVal,'prospect');
+            console.log('returned with dynamic method '+JSON.stringify(validationResult));
+            if(validationResult.isSuccess == false){
+                this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
+                this.loaded = true;
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
+                this.disableCreateBtn = true;
+                this.selectedCTSTFromProspect = null;
+                this.boolShowNoData = true;
+                this.searchKey = undefined;
+                this.isPhoneInbound = false;
+                return;
+            }
+            console.log('ending validator');
+        }
+        this.loaded = false;
         
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {

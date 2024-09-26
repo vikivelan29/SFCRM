@@ -14,7 +14,7 @@ import abhiCaseValidation from '@salesforce/apex/ABHI_BusinessLogic_Helper.abhiC
  * @param {*} input 
  * @returns instance of ValidationWrapper
  */
-const genFundApiValidation = async (input) => {
+const genFundApiValidation = async (input,reqFrom) => {
     try{
         let result = await genFundApiValidationCallout({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -32,7 +32,7 @@ const genFundApiValidation = async (input) => {
     }
 }
 
-const nomineeChangeValidation = async (input) => {
+const nomineeChangeValidation = async (input,reqFrom) => {
     try{
         let result = await nomineeChangeCaseCreationValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -50,7 +50,7 @@ const nomineeChangeValidation = async (input) => {
     }
 }
 
-const duplicatePolicyPrinting = async (input) => {
+const duplicatePolicyPrinting = async (input,reqFrom) => {
     try{
         let result = await duplicatePolicyPrintingValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -68,7 +68,7 @@ const duplicatePolicyPrinting = async (input) => {
     }
 }
 
-const performUINapiCallout = async (input) => {
+const performUINapiCallout = async (input,reqFrom) => {
     try{
         let result = await performUINapiCalloutValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -86,7 +86,7 @@ const performUINapiCallout = async (input) => {
     }
 }
 
-const penalInterestPayoutSaralHealth = async (input) => {
+const penalInterestPayoutSaralHealth = async (input,reqFrom) => {
     try{
         let result = await penalInterestPayoutSaralHealthValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -104,7 +104,7 @@ const penalInterestPayoutSaralHealth = async (input) => {
     }
 }
 
-const assignmentIssueType = async (input) => {
+const assignmentIssueType = async (input,reqFrom) => {
     try{
         let result = await assignmentIssueTypeValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -122,7 +122,7 @@ const assignmentIssueType = async (input) => {
     }
 }
 
-const changeInInvestorProfile = async (input) => {
+const changeInInvestorProfile = async (input,reqFrom) => {
     try{
         let result = await changeInInvestorProfileValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -140,7 +140,7 @@ const changeInInvestorProfile = async (input) => {
     }
 }
 
-const interestWaiverForHO = async (input) => {
+const interestWaiverForHO = async (input,reqFrom) => {
     try{
         let result = await interestWaiverForHOValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -158,7 +158,7 @@ const interestWaiverForHO = async (input) => {
     }
 }
 
-const reinstatementVal = async (input) => {
+const reinstatementVal = async (input,reqFrom) => {
     try{
         let result = await reinstatementValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
@@ -175,7 +175,7 @@ const reinstatementVal = async (input) => {
         return new ValidationWrapper(false, error.message.body);//error response
     }
 }
-const abhiNatureCaseVal = async (input) => {
+const abhiNatureCaseVal = async (input,reqFrom) => {
     try{
         let result = await abhiCaseValidation({caseRecord:JSON.stringify(input.fields)});
         if(result){
