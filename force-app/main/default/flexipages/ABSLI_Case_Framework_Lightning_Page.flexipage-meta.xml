@@ -39,7 +39,7 @@
                         <valueListItems>
                             <value>Case.Manual_Approval</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -47,6 +47,11 @@
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.is_Manual_Approval__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.AmIOwner__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
                                 </criteria>
@@ -181,6 +186,20 @@
                                     <leftValue>{!Record.IsEscalated}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Customer_Tagging</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
+                                    <operator>NE</operator>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Client_Code__c}</leftValue>
+                                    <operator>EQUAL</operator>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
