@@ -54,7 +54,7 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
             returnWrapper.put(caseRec.Id, retCls);
         }
         
-        /* Added by Nikhil, JIRA ID- PR970457-2151 
+        /* Start by Nikhil, JIRA ID- PR970457-2151 
            Add conditions For the case if the tagged abhfl case details have the source of funds as 
           'Settlement/Auction' OR 'Mature' OR 'Loan Cancellation' - checklist TAB should not be mandatory. */
        Set<Id> caseIds = new Set<Id>();
@@ -92,7 +92,8 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
                    }
             }
             returnWrapper.put(caseRec.Id, retCls);
-        }        
+        }    
+	// End by EY-Nikhil, JIRA ID- PR970457-2151 
         return returnWrapper;
     }
      public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){
