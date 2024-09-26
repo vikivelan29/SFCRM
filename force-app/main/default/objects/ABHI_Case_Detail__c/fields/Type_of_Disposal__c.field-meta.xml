@@ -13,11 +13,6 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>9</fullName>
-                <default>false</default>
-                <label>Duplicate</label>
-            </value>
-            <value>
                 <fullName>1</fullName>
                 <default>false</default>
                 <label>Infavor</label>
@@ -31,6 +26,11 @@
                 <fullName>Rejected</fullName>
                 <default>false</default>
                 <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>9</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
             </value>
         </valueSetDefinition>
     </valueSet>

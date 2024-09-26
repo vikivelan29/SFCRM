@@ -1302,6 +1302,23 @@ public class ASF_CaseMovementHelper {
                 }
             }
         }
+        if(casesFromBackward!=null){
+            for(Case caseRec : casesFromBackward){
+                if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                    system.debug('externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)---->'+externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c));
+                    for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                        system.debug('config---->'+config);
+                        if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                            CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
+                            resultWrapper.manualApprovalStage = config.Manual_Approval__c;
+                            resultWrapperMap.put(caseRec.Id, resultWrapper);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
         List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(externalIds);
