@@ -5,8 +5,8 @@
 *********************************************************/
 @RestResource(urlMapping='/CreateCRMPolicy/*')
 global with sharing class ABHI_CreateCRMPolicy {
+    public static String proposalNumber;
     public class ABHI_CreateCRMPolicyException extends Exception {}
-	public static String proposalNumber;
     /**
     * @param 
     * @return - String 
@@ -19,7 +19,7 @@ global with sharing class ABHI_CreateCRMPolicy {
         integrationResponse.requestBody = RestContext.request.requestBody.toString();
         ASF_Case_Integration__c caseIntg = new ASF_Case_Integration__c(Type__c = 'CreateCRMPolicy');
         try {
-            ABHI_CreatePolicy policy = new ABHI_CreatePolicy(integrationResponse.requestBody);
+            new ABHI_CreatePolicy(integrationResponse.requestBody);
             ABHI_ResponseWrapper resp = new ABHI_ResponseWrapper('200',ABHI_Constants.SUCCESS, Custom_Messages__mdt.getInstance('ABHI_CRMPolicySuccess').Message__c);
             resp.ProposalNumber = proposalNumber; 
             integrationResponse.responseBody = JSON.serialize(resp, true);

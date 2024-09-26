@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Super_Ncb_Amount__c</fullName>
     <externalId>false</externalId>
-    <label>Super Ncb Amount</label>
+    <label>Super NCB Amount</label>
     <precision>17</precision>
     <required>false</required>
     <scale>2</scale>
