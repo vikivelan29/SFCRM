@@ -569,7 +569,7 @@ public without sharing class ABHFL_CTSTHelper {
                  if((caseRec.CCC_External_Id__c == 'hfl060' && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
-                       ||(caseRec.CCC_External_Id__c != cccExternalId)){
+                       ||(caseRec.CCC_External_Id__c != 'hfl060')){
   		  //End By Ey-Nikhil
                     if (payment.Realization_Status__c == null) {
                         returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
