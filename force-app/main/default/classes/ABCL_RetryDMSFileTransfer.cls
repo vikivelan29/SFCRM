@@ -80,7 +80,7 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                     if(noOfAttempts <= 2){
                         if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(dms.Business_Unit__c)) {
                             abflRetryDMSRecords.add(ABFL_DMSSync_Orchestrator.prepareDMSRecord(dms, null, null));
-                        }else if(dms.Business_Unit__c == 'ABHI'){
+                        }else if(dms.Business_Unit__c == ABHI_Constants.ABHI){
                             //for OmniDoc ABHI retry functionality - Arshad 20 Sept 24
                             if(relatedCaseRecords.containsKey(dms.Case__c)){
                                 if(!lstCaseIds.contains(dms.Case__c)) lstCaseIds.add(dms.Case__c);
