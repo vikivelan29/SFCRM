@@ -1094,20 +1094,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-be8cf508-ddc2-4ed7-9bee-09dc21e92106</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Claims</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
