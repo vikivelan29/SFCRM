@@ -1,0 +1,24 @@
+<template>
+    <lightning-card variant="narrow" icon-name="standard:asset_object">
+        <h3 slot="title">{label.claimDetails}</h3>
+        <div slot="actions">
+            <lightning-button-icon slot="actions" class="slds-m-right_xx-small" onclick={handleRefresh} icon-name="utility:refresh" size="medium"
+                alternative-text="Refresh"></lightning-button-icon>
+        </div>
+
+        <div lwc:if={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </div>
+        <template if:true={displayError}>
+            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                <span style="font-size: 0.90rem;">{displayError}</span>
+            </div>
+        
+        </template> 
+        <template if:true={claimsData}>
+            <c-abfl_-data-table-with-pagination columns={columns} table-data={claimsData} page-size={label.pageSize}
+                onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+        </template>
+    </lightning-card>
+</template>

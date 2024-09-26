@@ -68,6 +68,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				CaseNumber,
 				AssetId,
@@ -133,6 +134,7 @@ public with sharing class ABSLI_PurposeIssuanceIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				CaseNumber,
 				AssetId,

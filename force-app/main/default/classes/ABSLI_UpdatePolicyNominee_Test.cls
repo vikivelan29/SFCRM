@@ -65,7 +65,7 @@ public class ABSLI_UpdatePolicyNominee_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_UpdatePolicyNomineeIntegration updateNomInt = new ABSLI_UpdatePolicyNomineeIntegration();
-       	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Asset.Policy_No__c,Technical_Source__c
+       	Case caseRecord = [SELECT id,CaseNumber,Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Asset.Policy_No__c,Technical_Source__c
                            FROM Case WHERE Source__c='Email' LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();

@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>PED__c</fullName>
     <externalId>false</externalId>
-    <label>PED</label>
+    <label>Pre Existing Disease</label>
     <length>1000</length>
     <trackFeedHistory>false</trackFeedHistory>
     <type>LongTextArea</type>
