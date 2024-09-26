@@ -30,10 +30,15 @@ public with sharing class ABHI_PSSReportController {
                 return resp;
             }
             else{
-                ReportResponseWrapper resp = new ReportResponseWrapper();
-                resp.StatusCode = integrationResponse.StatusCode;
-                resp.Message = Custom_Messages__mdt.getInstance('ABHI_PSS_Comm_Failure').Message__c;
-                return resp;
+                try {
+                    ReportResponseWrapper resp = (ReportResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ReportResponseWrapper.class);
+                    return resp;
+                } catch (Exception e) {
+                    ReportResponseWrapper resp = new ReportResponseWrapper();
+                    resp.StatusCode = integrationResponse.StatusCode;
+                    resp.Message = Custom_Messages__mdt.getInstance('ABHI_PSS_Comm_Failure').Message__c;
+                    return resp;
+                }
             }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
