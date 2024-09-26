@@ -360,6 +360,11 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
 
                 }
             }
+            if(fdName == "Requestor_Comments__c" ){
+                if(val || val==undefined || val==''){ // check is used to enable the Send button when we received the "text too long" error
+                    this.isClicked = false;
+                }
+            }
         })
         /*if (fdName == this.approver1 || fdName == this.approver2 || fdName == this.approver3 || fdName == this.approver4 || fdName == this.approver5) {
             console.log('Inside approvers comp',fdName);
@@ -391,13 +396,16 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         } else if (allApprovers.indexOf(val) > -1 && val) {
             errorMessage = errorCodes.APPROVERALREADYSELECTED;
             console.log('1',errorMessage);
+        }else{
+            errorMessage = '';
         }
 
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
             if ([this.approver1, this.approver2, this.approver3, this.approver4, this.approver5].includes(ele.fieldName)) {
                 this.template.querySelectorAll(`[data-error-help-for-field="${ele.fieldName}"]`).forEach(errorEle => {
-                    errorEle.innerText = '';
-                    console.log('Cleared:', errorEle);
+                    //commented below 2 line to keep the error message(s) to the respective fields
+                    //errorEle.innerText = '';
+                    //console.log('Cleared:', errorEle);
                 });
             }
         });
@@ -406,6 +414,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         this.template.querySelectorAll(`[data-error-help-for-field="${fdName}"]`).forEach(errorEle => {
             errorEle.innerText = errorMessage;
             console.log('Set Error:', errorEle);
+            this.isClicked = errorEle.innerText? true :false;
         });
     
         if (fdName == APPROVALTYPE.fieldApiName) {
