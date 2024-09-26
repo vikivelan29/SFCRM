@@ -1,0 +1,19 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <template lwc:if={boolLoad}>
+        <div class="exampleHolder">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+    </template>
+    <template lwc:else>
+        <lightning-datatable 
+            key-field="Id" 
+            columns={columns} 
+            data={data} 
+            onrowaction={handleRowAction}
+            hide-checkbox-column>
+        </lightning-datatable>
+        <!--<c-a-b-h-i-_create-email-omni-doc if:true={showEmailComposer} record-id={recordId} loading="false" show-component="true" onclosemodal={handleCloseEmail} record={emailComposerWrapRecord}></c-a-b-h-i-_create-email-omni-doc>-->
+        <c-a-b-h-i-_-omni-doc-await-documents if:true={showAwaitDoc} record-id={recordId} obj-row={currentRow} strplanname={planName} straccountid={accountId} straccountemail={accountEmail} obj-a-s-f-rec={objASFRecord} oncloseawaitscreen={handleCustomEvent} onfailedawaitscreen={handleAwaitScreenFailure} onawaittimeout={handleAwaitScreenTimeout}></c-a-b-h-i-_-omni-doc-await-documents>
+    </template>
+</template>

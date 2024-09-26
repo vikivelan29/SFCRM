@@ -29,7 +29,7 @@ public class ABSLI_PopulateRegionalEmailSMS_Test {
                 ccc.Business_Unit__c = 'ABSLI';
                 ccc.Send_FTR_communications__c = true;
             }
-            ASF_Case_Email_Config__c  regRec = new ASF_Case_Email_Config__c(Type__c = 'Canned Response',Language__c = 'Hindi', Case_Category_Config__c = cccRecords[0].Id,
+            ASF_Case_Email_Config__c  regRec = new ASF_Case_Email_Config__c(Type__c = 'Regional Template',Language__c = 'Hindi', Case_Category_Config__c = cccRecords[0].Id,
                                                                                        FTR_Email_Template__c = 'Hindi_Template', Regional_Template_External_ID__c = 'REG-HINDI-TEST');
             insert regRec;
             List<ASF_CustomerEmailInvocable.EmailInputWrapper> wrappers = new List<ASF_CustomerEmailInvocable.EmailInputWrapper>();

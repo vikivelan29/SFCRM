@@ -680,6 +680,26 @@
         <apexClass>TriggerDispatcher</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>LeadTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LeadTriggerHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Asf_DmsViewDataTableController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Asf_NpsIndicatiorController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_IntegrationCallout</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>Customer_Notification_Config__mdt</name>
@@ -2893,6 +2913,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Loan_Disbursement_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+        <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.LAN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

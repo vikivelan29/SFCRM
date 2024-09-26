@@ -1,11 +1,14 @@
 /**
- * @description       : 
+ * @description       :
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
+ * @group             :
  * @last modified on  : 05-Jul-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
+    
+    public static Boolean requestFromBulkUpdate = false;
+    
     /**
      * @description This method is called from the ASF_BulkCaseProcessorUtility while performing bulk update via csv upload
      * @param jsonRows
@@ -22,7 +25,6 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
-            System.debug('eachJSON'+eachJSON);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
             if(String.isNotBlank(keyValueMap.get('Case number'))){
                 caseNumbers.add(keyValueMap.get('Case number').trim());
@@ -41,6 +43,7 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
             String claimDecision = String.isNotBlank(keyValueMap.get('Claim Decision'))?keyValueMap.get('Claim Decision').trim():keyValueMap.get('Claim Decision');
             String remarks = String.isNotBlank(keyValueMap.get('Remarks'))?keyValueMap.get('Remarks').trim():keyValueMap.get('Remarks');
             String subStatus = String.isNotBlank(keyValueMap.get('Sub Status'))?keyValueMap.get('Sub Status').trim():keyValueMap.get('Sub Status');
+			String closeCase = String.isNotBlank(keyValueMap.get('Close Case'))?keyValueMap.get('Close Case').trim():keyValueMap.get('Close Case');
             
             if(caseNumber == null || caseNumber.trim() == ''){
                 keyValueMap.put('Result', 'FAILURE');
@@ -77,7 +80,7 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(caseNumberToCaseMap.get(caseNumber).RecordTypeId == ASF_Constants.RT_INTERACTION 
+            if(caseNumberToCaseMap.get(caseNumber).RecordTypeId == ASF_Constants.RT_INTERACTION
             && (caseNumberToCaseMap.get(caseNumber).AccountId == null || caseNumberToCaseMap.get(caseNumber).CCC_External_Id__c == null)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Case does not have Account tagged or Issue Type Code tagged');
@@ -106,9 +109,16 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
             }
             if(String.isNotBlank(subStatus)){
                 caseDetRec.Sub_Status__c = subStatus;
-            } 
-            system.debug('json rel object--'+JSON.serialize(caseDetRec));
-            
+            }
+            if(closeCase.toLowerCase().equals('true')){
+                ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate = true;
+                caseRec.Stage__c = 'Resolved';
+                caseRec.Status = 'Resolved';
+                caseRec.Pending_Clarification__c = false;
+                caseRec.moved_back__c = false;
+                caseRec.Is_Manual_Moved__c = true;
+            }
+
             caseRec.Bulk_CaseDetail_JSON__c = JSON.serialize(caseDetRec);
             //Any other BU specific checks - add here
             resultWrapper.resultRecords.put(lineItemId, caseRec);
@@ -128,13 +138,15 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
             'CaseNumber'=>'Case number',
             'ABSLI_Case_Detail__r.Claim_decision__c'=>'Claim Decision',
             'ABSLI_Case_Detail__r.Remarks__c'=>'Remarks',
-            'ABSLI_Case_Detail__r.Sub_Status__c'=>'Sub Status'
+            'ABSLI_Case_Detail__r.Sub_Status__c'=>'Sub Status',
+            'IsClosed' => 'Close Case'
         };
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'Case number'=>'CaseNumber',
             'Claim Decision'=>'ABSLI_Case_Detail__r.Claim_decision__c',
             'Remarks'=>'ABSLI_Case_Detail__r.Remarks__c',
-            'Sub Status'=>'ABSLI_Case_Detail__r.Sub_Status__c'
+            'Sub Status'=>'ABSLI_Case_Detail__r.Sub_Status__c',
+            'Close Case' => 'IsClosed'
         };
         List<String> fieldNames = new List<String>();
         for(String columnName : columnNames){
@@ -142,7 +154,6 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
                 fieldNames.add(mapOfColumnNameToFieldApi.get(columnName));
             }
         }
-        System.debug('fieldNames'+fieldNames);
         String strFinalQuery;
         if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
@@ -152,22 +163,20 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
         else if(listViewId != null){
             String strFields = String.join(fieldNames, ',');
             String listViewQuery = ASF_BulkCsvDownloadHelper.getListViewSOQL(objectName, listViewId);
-            System.debug('listViewQuery'+listViewQuery);
             String strWhere = '';
             if(listViewQuery.contains('WHERE')){
                 strWhere = ' WHERE '+listViewQuery.substringAfter('WHERE');
             }
-            
+
             String strScope = '';
             if(listViewQuery.contains('USING SCOPE')){
                 strScope = ' USING SCOPE ' + listViewQuery.substringBetween('SCOPE ',' ') + ' ';
             }
-            strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ' + String.escapeSingleQuotes(objectName) + String.escapeSingleQuotes(strScope) + strWhere;     
+            strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ' + String.escapeSingleQuotes(objectName) + String.escapeSingleQuotes(strScope) + strWhere;
         }
 
         if(String.isNotBlank(strFinalQuery)){
             strFinalQuery = strFinalQuery + ' LIMIT 50000';
-            System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
@@ -176,14 +185,14 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
                     if(fieldName.contains('.') && obj.getSobject((fieldName.split('\\.'))[0]) != null){
                         fieldValue = (String)obj.getSobject(fieldName.split('\\.')[0]).get(fieldName.split('\\.')[1]);
                     }else if(!fieldName.contains('.')){
-                        fieldValue = (String)obj.get(fieldName);
+                        fieldValue = String.valueOf(obj.get(fieldName));
                     }
                     fieldValue = fieldValue==null?' ':fieldValue;
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);
             }
-        } 
+        }
 
         return listOfRecordsAsMap;
     }
