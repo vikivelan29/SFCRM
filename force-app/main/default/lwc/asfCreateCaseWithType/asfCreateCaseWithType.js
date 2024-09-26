@@ -56,14 +56,10 @@ import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension'
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
-import MCRM_BU from '@salesforce/label/c.Wellness_BU'; // PR970457-117 added MCRM_BU
-import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
-import ABHI_BU from '@salesforce/label/c.ABHI_BU'; 
-import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
-import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU';
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
 import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
-import ABCD_TrackId_Source from '@salesforce/label/c.ABCD_TrackId_Source';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 import * as validator from 'c/asf_CreateCaseValidations';
@@ -171,10 +167,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
 
     //ABHI
     abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
-    
-    //ABCD
-    selectedCccBu;
-    aniRequired = true;
 
     
     //utility method
@@ -430,7 +422,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 }
                 this.populateSubSourceFld();
             }
-            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU || this.businessUnit === ABHI_BU || this.businessUnit === ABCD_BU){
+            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU || this.businessUnit === ABHI_BU){
                 this.showAutoCommunication = false;
             }
             if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
@@ -984,12 +976,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
                 btnActive = false;
                 this.isPhoneInbound = true;
-            }
-            if(this.businessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
-                btnActive = false;
-                this.aniRequired = false;
-                this.isPhoneInbound = true;
-                this.showAniNumber = true;
             }
         } else {
             btnActive = false;
