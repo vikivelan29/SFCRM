@@ -65,10 +65,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABHI_OmniDocViewController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABHI_PendingIGMSComplaintIntegration</apexClass>
         <enabled>true</enabled>
     </classAccesses>
