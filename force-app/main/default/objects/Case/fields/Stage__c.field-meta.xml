@@ -265,6 +265,11 @@
                 <default>false</default>
                 <label>Reply Received from CAMS</label>
             </value>
+            <value>
+                <fullName>In Progress with SA</fullName>
+                <default>false</default>
+                <label>In Progress with SA</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
