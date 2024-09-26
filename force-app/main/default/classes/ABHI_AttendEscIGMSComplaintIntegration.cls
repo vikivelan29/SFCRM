@@ -91,7 +91,7 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
         requestJSON.Original_IRDA_Token_Num = caseRecord.ABHI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
             }
             if(caseRecord.IGMS_Complaint_Type_Code__c == '14'){
-                requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ?(caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c).format():null;
+                requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c, 'dd-MM-YYYY'):null;
                //requestJSON.Claim_Received_Amount = String.valueOf(caseRecord.ABHI_Case_Detail__r.Claim_Received_Amount__c);
               //requestJSON.Claim_Received_Amount = '32233';
                 if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c != '3'){

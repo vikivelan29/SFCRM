@@ -68,18 +68,10 @@ public class ABHI_IGMSHelperMethods {
         List<Case> abhiCases = new List<Case>();
         Set<String> proposalClaimNo = new Set<String>();
         Boolean updatedCase = false; // Tracking if an update has occurred
-        Set<Id> caseDeatilId = new Set<Id>();
-        for(Case cs : cases){
-            system.debug('ABHIDetails--> '+cs.ABHI_Case_Detail__c) ;
-            caseDeatilId.add(cs.ABHI_Case_Detail__c);
-            system.debug('caseDeatilId--> '+caseDeatilId) ;
-        }
-        if(caseDeatilId.size()>0) {
-        	Map<Id, ABHI_Case_Detail__c> mapCaseDetailMap = new Map<Id, ABHI_Case_Detail__c>(
-        	[SELECT Id, Policy_Proposal_Cert_Claim_Number__c,Proposal_Or_Cover_Note_Number__c ,Claim_No__c FROM ABHI_Case_Detail__c WHERE Id IN: caseDeatilId]);
-        //List<Case> fetchedCases = [SELECT ID,Business_Unit__c,Technical_Source__c,AccountId,AssetId,ABHI_Case_Detail__c,ABHI_Case_Detail__r.Policy_Proposal_Cert_Claim_Number__c,ABHI_Case_Detail__r.Proposal_Or_Cover_Note_Number__c,ABHI_Case_Detail__r.Claim_No__c FROM CASE WHERE ID IN:cases];
-      //  system.debug('casess '+ cases );
-            for(Case recCs: cases){
+        List<Case> fetchedCases = [SELECT ID,Business_Unit__c,Technical_Source__c,AccountId,AssetId,ABHI_Case_Detail__c,ABHI_Case_Detail__r.Policy_Proposal_Cert_Claim_Number__c,ABHI_Case_Detail__r.Proposal_Or_Cover_Note_Number__c,ABHI_Case_Detail__r.Claim_No__c FROM CASE WHERE ID IN:cases];
+        system.debug('casess '+ cases );
+        try{
+            for(Case recCs: fetchedCases){
                 if(recCs.Business_Unit__c == 'ABHI'
                    && recCs.Technical_Source__c == 'API'
                    && recCs.AccountId == null && recCs.AssetId == null && mapCaseDetailMap.containsKey(recCs.ABHI_Case_Detail__c))
@@ -103,21 +95,23 @@ public class ABHI_IGMSHelperMethods {
                 List<Case> updateCase = new List<Case>();
                 List<Asset> foundAsset = [SELECT ID, SerialNumber,AccountId FROM ASSET WHERE SerialNumber =:  proposalClaimNo AND Business_Unit__c = 'ABHI' LIMIT 1];
                 if(!foundAsset.isEmpty()){
-                    for(Case cs : cases){
-                       // Case  objCase = new Case (Id = cs.Id );
-                        cs.AccountId = foundAsset[0].AccountId;
-                        cs.AssetID  = foundAsset[0].Id;
-                        //updateCase.add(objCase);
+                    for(Case cs : abhiCases){
+                        Case  objCase = new Case (Id = cs.Id );
+                        objCase.AccountId = foundAsset[0].AccountId;
+                        objCase.AssetID  = foundAsset[0].Id;
+                        objCase.typeSubTypeMismatch__c =false;
+                        updateCase.add(objCase);
                     }
                 }
                 else {
                     List<Claim__c > foundAssetClaim = [SELECT ID, Policy_Number__c,Policy_Number__r.AccountID , Name  FROM Claim__c WHERE Name =:  proposalClaimNo LIMIT 1];
                     if(!foundAssetClaim.isEmpty()){
-                        for(Case cs : cases){
-                           // Case  objCase = new Case (Id = cs.Id );
-                            cs.AccountId = foundAssetClaim[0].Policy_Number__r.AccountID;
-                            cs.AssetID  = foundAssetClaim[0].Policy_Number__c;
-                           // updateCase.add(objCase);
+                        for(Case cs : abhiCases){
+                            Case  objCase = new Case (Id = cs.Id );
+                            objCase.AccountId = foundAssetClaim[0].Policy_Number__r.AccountID;
+                            objCase.AssetID  = foundAssetClaim[0].Policy_Number__c;
+                            objCase.typeSubTypeMismatch__c =false;
+                            updateCase.add(objCase);
                         }
                     }
                 }
@@ -125,7 +119,10 @@ public class ABHI_IGMSHelperMethods {
                     system.debug('updateCaseas '+updateCase);
                     update updateCase;
                     updatedCase = true;
-                } */
+                }
+            }
+            if (!updatedCase) {
+                associateCustomerForAPIFromPhoneNumber(cases);
             }
            
         }
