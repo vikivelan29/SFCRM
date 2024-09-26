@@ -110,6 +110,9 @@ public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessL
      * @param oldItems - map of old cases
      */
     public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+
+        Map<String,List<Case>> mapOfBUToNewCs = initializeBUSpecificCases((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        
         if(Label.ABHFL_Case_Dedupe_Active=='Active'){
             ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
         }
@@ -173,5 +176,39 @@ public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessL
      */
     public override void executeBeforeCaseDMLInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);
+    }
+
+    /**
+     * @description  handler method for interaction Cases
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
+    public void beforeUpdateInteractionCases(Map<Id,Case> newItems, Map<Id, Case> oldItems){
+        
+        Map<String,List<Case>> mapOfBUToNewCs = initializeBUSpecificCases(newItems, oldItems);
+        abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, oldItems, 'AfterASFCodeBeforeUpdate');
+    }
+
+    /**
+     * @description  initialize BU specific Cases
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     * @return mapOfBUToCases - map of BU to Cases
+     */
+    public Map<String,List<Case>> initializeBUSpecificCases(Map<Id,Case> newItems, Map<Id, Case> oldItems){
+
+        Map<String,List<Case>> mapOfBUToCases = new Map<String,List<Case>>();
+
+        for(Case newCs : newItems.values()) {
+            String businessUnit = newCs?.Business_Unit__c;
+
+            if(mapOfBUToCases.containsKey(businessUnit)) {
+                mapOfBUToCases.get(businessUnit).add(newCs);
+            }
+            else {
+                mapOfBUToCases.put(businessUnit, new List<Case>{newCs});
+            }
+        }
+        return mapOfBUToCases;
     }
 }
