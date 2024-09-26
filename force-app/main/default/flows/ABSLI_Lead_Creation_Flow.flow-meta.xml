@@ -436,12 +436,12 @@
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
-        <name>StatePicklist</name>
+        <name>StatePicklistSet</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
         <picklistField>State__c</picklistField>
-        <picklistObject>ABSLI_Case_Detail__c</picklistObject>
+        <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>TargetBU</name>
@@ -1049,7 +1049,7 @@
                 </fields>
                 <fields>
                     <name>State</name>
-                    <choiceReferences>StatePicklist</choiceReferences>
+                    <choiceReferences>StatePicklistSet</choiceReferences>
                     <dataType>String</dataType>
                     <defaultValue>
                         <elementReference>customerRecord.State__c</elementReference>

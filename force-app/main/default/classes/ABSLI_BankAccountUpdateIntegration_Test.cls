@@ -47,6 +47,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration_Test {
 		caseRec.AccountId = accRec.Id;
 		caseRec.CCC_External_Id__c = 'ABSLI_PAS';
         caseRec.LAN__c = '8895335596';
+        caseRec.Technical_Source__c = 'API';
 		update caseRec;
 
 		ASF_TestDataFactory.createCaseIntegration(caseRec.Id, 'ABSLI_PAS');
@@ -70,6 +71,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				AssetId,
@@ -141,6 +143,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				AssetId,
