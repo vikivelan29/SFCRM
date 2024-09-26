@@ -1199,8 +1199,8 @@
         <fullName>ABHI_OmniDocURL</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI_OmniDocURL</shortDescription>
-        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
+        <value>Duplicate case: A case &lt;CaseNumber&gt; with same criteria is already open with source as &lt;SOURCE&gt;.</value>
     </labels>
 	<labels>
         <fullName>ABSLI_Min_Loan_Amount</fullName>
