@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Business_Unit__c</fullName>
+    <fullName>CustomerType__c</fullName>
+    <description>Used in Multiply CRM</description>
     <externalId>false</externalId>
-    <label>Business Unit</label>
+    <label>Customer Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Picklist</type>
@@ -11,39 +12,44 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Payments</fullName>
+                <fullName>100000000</fullName>
                 <default>false</default>
-                <label>Payments</label>
+                <label>Retail Floating</label>
             </value>
             <value>
-                <fullName>ABHFL</fullName>
+                <fullName>9</fullName>
                 <default>false</default>
-                <label>ABHFL</label>
+                <label>Group Customer</label>
             </value>
             <value>
-                <fullName>ABFL</fullName>
+                <fullName>5</fullName>
                 <default>false</default>
-                <label>ABFL</label>
+                <label>Agent</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
+                <fullName>6</fullName>
                 <default>false</default>
-                <label>ABWM</label>
+                <label>Health Provider</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
-                <default>false</default>
-                <label>ABSLIG</label>
+                <fullName>1</fullName>
+                <default>true</default>
+                <label>Prospect</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
+                <fullName>10</fullName>
                 <default>false</default>
-                <label>ABSLI</label>
+                <label>Member Customer</label>
             </value>
             <value>
-                <fullName>Wellness</fullName>
+                <fullName>11</fullName>
                 <default>false</default>
-                <label>Wellness</label>
+                <label>Dependent Customer</label>
+            </value>
+            <value>
+                <fullName>3</fullName>
+                <default>false</default>
+                <label>Customer</label>
             </value>
         </valueSetDefinition>
     </valueSet>
