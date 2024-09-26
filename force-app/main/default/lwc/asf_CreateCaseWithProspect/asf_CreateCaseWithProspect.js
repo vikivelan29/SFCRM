@@ -11,6 +11,7 @@ import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.c
 import { getObjectInfo, getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
@@ -98,9 +99,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @api bsliRecTypeId;
     isPhoneInbound = false;
     currentObj = CASE_OBJECT.objectApiName;
+
     //ABHI
     abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
     natureVal = '';
+
     cols;
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
@@ -241,6 +244,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.selectedCTSTFromProspect = selected;
             if(this.showFromGlobalSearch == false){
                 this.disableCreateBtn = false;
+            }
+            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         if ((selected) && (this.loggedInUserBusinessUnit == 'ABFL')) {

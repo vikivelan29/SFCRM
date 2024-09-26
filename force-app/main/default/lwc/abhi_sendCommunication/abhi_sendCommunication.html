@@ -1,3 +1,10 @@
+<!--
+  @description       : Component to show Send Communication component on Asset page Quick Action 
+  @author            : amritpreet.singh@salesforce.com
+  @group             : ABHI
+  @last modified on  : 20-09-2024
+  @last modified by  : amritpreet.singh@salesforce.com
+-->
 <template>
     <lightning-modal-header label="Send Communication"></lightning-modal-header>
     <lightning-modal-body class="slds-is-relative">
@@ -27,11 +34,13 @@
                         <div lwc:if={checkedToggle} class="slds-col">
                             <lightning-input type="tel" label="Registered phone number" name="phone1"
                                 value={recordDetails.Phone} readonly></lightning-input>
-
                         </div>
-                        <div lwc:else class="slds-col slds-size_1-of-2 slds-p-right_small">
+                        <div lwc:else class="slds-col slds-size_1-of-2 slds-p-right_small tel_inp">
                             <lightning-input type="tel" label="Enter a valid number to Send SMS" name="phone"
                                 onchange={handleInputChange}></lightning-input>
+                        </div>
+                        <div lwc:if={validation.showValidation} class="slds-col slds-text-color_error slds-text-body_small">
+                            {validation.validationMessage}
                         </div>
                     </div>
                     <div lwc:if={showContact.showEmail} class="slds-grid slds-grid_vertical">

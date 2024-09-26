@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Claim Intimation</fullName>
+                <default>false</default>
+                <label>Claim Intimation</label>
+            </value>
+            <value>
+                <fullName>Status inquiry</fullName>
+                <default>false</default>
+                <label>Status inquiry</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
