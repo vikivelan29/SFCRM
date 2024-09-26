@@ -1245,6 +1245,13 @@
         <value>is mandatory for current stage</value>
     </labels>
     <labels>
+        <fullName>ABSLAMC_BackStageSatisfactoryReolyType</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_BackStageSatisfactoryReolyType</shortDescription>
+        <value>Reply Type cannot be Satisfactory while moving to Pending With CAMS Stage</value>
+    </labels>
+    <labels>
         <fullName>ABHI_Claim_Details_Header</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1284,7 +1291,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
-        <value>Duplicate case: A case with same criteria is already open with source as</value>
+        <value>Duplicate case: A case (&lt;CaseNumber&gt;) with same criteria is already open with source as &lt;SOURCE&gt;.</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
