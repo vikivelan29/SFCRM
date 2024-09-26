@@ -563,10 +563,18 @@ public without sharing class ABHFL_CTSTHelper {
             if(paymentsMap.containsKey(caseRec.Id)){
                 // Check if every payment record has Realization_Status__c equal to 'Cleared'
                 for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
+		  /*added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
+                      Jira id-PR970457-2176
+                      Added By Ey-Nikhil  */
+                    if((caseRec.CCC_External_Id__c == 'hfl060' && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
+                        && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
+                        && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
+                       ||(caseRec.CCC_External_Id__c != 'hfl060')){
                     if (payment.Realization_Status__c == null) {
                         returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
                         break;
                     }
+		  }
                 }
             }
         }
