@@ -1279,4 +1279,18 @@
         <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
         <value>http://10.155.8.204:94/rtpWS/rcase=</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
+        <value>Duplicate case: A case with same criteria is already open with source as</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
 </CustomLabels>
