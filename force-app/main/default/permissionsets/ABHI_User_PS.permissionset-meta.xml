@@ -90,7 +90,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABSLI_AckIGMSComplaintIntegration</apexClass>
-        <apexClass>ABHI_BusinessLogic_Helper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
