@@ -62,8 +62,8 @@
         <label>ABSLIG Email</label>
     </standardValue>
     <standardValue>
-        <fullName>ABHI Email</fullName>
+        <fullName>Wellness Email</fullName>
         <default>false</default>
-        <label>ABHI Email</label>
+        <label>Wellness Email</label>
     </standardValue>
 </StandardValueSet>
