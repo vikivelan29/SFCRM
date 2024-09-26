@@ -3853,6 +3853,11 @@
             <field>ABSLI_Case_Detail__c.Screening_Date__c</field>
             <table>Case</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Litmus_Triggered__c</field>
+            <table>Case</table>
+        </columns>
         <masterLabel>Cases</masterLabel>
     </sections>
 </ReportType>

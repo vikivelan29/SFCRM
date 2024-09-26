@@ -1,0 +1,54 @@
+{
+"ResponseObj": [
+{
+"Code": "01",
+"Message": "Success"
+}
+],
+"Response": [
+{
+"vchPolicyNumber": "GHI-AX-22-2000742",
+"vchStatus": "IF",
+"BranchName": "10MHMUM01",
+"PolicyType": "Family Floater",
+"BusinessType": "Renewal",
+"ChronicType": "NO",
+"PolicyOwnerID": "0005423679034",
+"PolicyOwnerName": "Nitush Das .",
+"NoofMembers": "3",
+"ProposalNumber": "8100079988/00742",
+"ProposalIssueDate": "08/09/2022",
+"ProposalType": "RUG",
+"Product": "5211",
+"Scheme": "",
+"Suminssured": "500000",
+"PolicyStartDate": "08/09/2022",
+"dtPolicyEndDate": "07/09/2023",
+"PolicyTenure": "1",
+"PolicyVariant": "Family Floater",
+"FamilyType": "FLOATER",
+"NextPremiumDate": "07/09/2023",
+"PolicySource": "",
+"PolicyZone": "Zone - III",
+"ServicingBranchName": "10MHMUM01",
+"PolicyTPA": "",
+"PolicyCancelRemark": "",
+"CounterOfferReason": "",
+"BasicPremium": "",
+"NetPremium": "12119.49",
+"LoadingDiscount": "",
+"ServiceTax": "2181.51",
+"GrossPremium": "14301.0",
+"ProposerMobile": "9101373083",
+"ProposerEmail": "nitushdasdhemaji@gmail.com",
+"IVRStatus": "Issued",
+"auto_debit_flag":"",
+"collection_mode":"",
+"premium_for_optional_cover":"",
+"registration_status":"",
+"EMIApplicability":"",
+"PaymentStatus":""
+
+}
+]
+}
