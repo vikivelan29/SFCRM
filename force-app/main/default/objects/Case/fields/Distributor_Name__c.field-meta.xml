@@ -14,6 +14,16 @@
             <operation>contains</operation>
             <value>Distributor</value>
         </filterItems>
+        <filterItems>
+            <field>$Source.Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <valueField>Account.Line_of_Business__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>$Source.Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <valueField>Account.Line_of_Business__pc</valueField>
+        </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Account</referenceTo>

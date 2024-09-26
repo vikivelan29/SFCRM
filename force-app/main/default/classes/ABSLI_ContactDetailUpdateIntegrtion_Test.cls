@@ -70,6 +70,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				CaseNumber,
@@ -139,6 +140,7 @@ public with sharing class ABSLI_ContactDetailUpdateIntegrtion_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				CaseNumber,

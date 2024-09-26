@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>ABSLI IGMS Document</label>
+    <label>IGMS Document</label>
     <nameField>
         <displayFormat>IGMS-DOC-{000000}</displayFormat>
         <label>Number</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>ABSLI IGMS Docuements</pluralLabel>
+    <pluralLabel>IGMS Docuements</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

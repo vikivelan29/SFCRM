@@ -21,7 +21,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         Map<String, Id> queueMap = new Map<String, Id>(); 
         List<ASF_Case_SLA_History__c> caseSLAHistories = new List<ASF_Case_SLA_History__c>();
         Map<Id, Set<String>> caseIdToSkipperFlag = new Map<Id, Set<String>>();
-
+        
         for(Case caseRec : newMapCase.values()){
             if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
                 amcSpecificCases.put(caseRec.Id,caseRec);
@@ -56,12 +56,12 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                     && caseRec.Stage__c != oldMapCase.get(caseRec.Id).Stage__c 
                     && caseRec.Stage__c == ABSLAMC_Constants.OPEN_STAGE) 
                 {
-                    if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
+                                        if (queueMap.containsKey(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT) 
                         && caseSources.contains(caseRec.Source__c)) {
                             caseRec.OwnerId = queueMap.get(ABSLAMC_Constants.ISSUE_MANAGEMENT_UNIT);
                             caseIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_ASSIGNMENT});
                         }
-                        else if (caseSlaHistoryMap.containsKey(caseRec.Id)) {
+                    else if (caseSlaHistoryMap.containsKey(caseRec.Id)) {
                         // Assign to last owner of open stage
                         for (ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseRec.Id)) {
                             if (history.Stage__c == ABSLAMC_Constants.OPEN_STAGE) {
@@ -72,7 +72,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                     }
                 }
             }
-
+            
             if(!caseIdToSkipperFlag.isEmpty()){
                 ASF_CaseTriggerModularHelper.setManualSkipperFlags(caseIdToSkipperFlag, null);
             }
@@ -170,13 +170,13 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
 *****************************************************************************************************************/  
     public Static void updateCaseExtensionFieldsForCams(Map<Id,Case> newMapCase,Map<Id,Case> oldMapCase){
         Set<String> statusToCheck = new Set<String>{ABSLAMC_Constants.CAMSPENDINGSTATUS,ABSLAMC_Constants.REPLYFROMCAMS,ABSLAMC_Constants.RESOLVED_STAGE};
-            Map<Id,Case> amcCAMSSpecificCases = new Map<Id,Case>();
+        Map<Id,Case> amcCAMSSpecificCases = new Map<Id,Case>();
         Set<String> caseDetailIds = new Set<String>();
         Map<Id, ABSLAMC_Case_Detail__c> caseToCaseDetailMap = new Map<Id, ABSLAMC_Case_Detail__c>();
         Map<Id, ABSLAMC_Case_Detail__c> caseDetailMap = new Map<Id, ABSLAMC_Case_Detail__c>();
         Map<Id,ABSLAMC_Case_Detail__c> caseDetailToUpdate = new Map<Id,ABSLAMC_Case_Detail__c>();
         Set<String> validReplyTypeForResolveStage = new Set<String>{ABSLAMC_Constants.SATISFACTORYREPLYTYPE};
-            String mandatoryFieldsErrMsg = label.ABSLAMC_CAMSMandatoryFieldsErrorMsg;
+        String mandatoryFieldsErrMsg = label.ABSLAMC_CAMSMandatoryFieldsErrorMsg;
         String replyTypeErrorMsg = label.ABSLAMC_ClosureReplyTypeForCAMSErrorMsg;
         String backStageReplyTypeError = label.ABSLAMC_BackStageSatisfactoryReolyType; 
         

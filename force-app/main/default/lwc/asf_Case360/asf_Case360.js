@@ -838,15 +838,30 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         //get case record as object from lightning-record-edit-form
          console.log('asmita inside saveDataOnBackStage method');
         let caseRecord;
-        caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-        caseRecord['Stage__c'] = this.selectedStage;
-        caseRecord['Pending_Clarification__c'] = true;
-        caseRecord['moved_back__c'] = true;
-        caseRecord['Is_Manual_Moved__c'] = false;
-        if (this.caseObj.Technical_Source__c == 'API') {
-            caseRecord['Technical_Source__c'] = 'LWC';
+        let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
+        if (caseElement) {
+            let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
+            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
+            caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
+            caseRecord['Stage__c'] = this.selectedStage;
+            caseRecord['Pending_Clarification__c'] = true;
+            caseRecord['moved_back__c'] = true;
+            caseRecord['Is_Manual_Moved__c'] = false;
+            if (this.caseObj.Technical_Source__c == 'API') {
+                caseRecord['Technical_Source__c'] = 'LWC';
+            }
         }
-        this.saveCase(caseRecord);
+
+        //get case extn record as object from lightning-record-edit-form
+        let caseExtnRecord;
+        let caseExtnElement = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
+        if (caseExtnElement) {
+            let inputFields = [...caseExtnElement.querySelectorAll('lightning-input-field')];
+            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
+            caseExtnRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseExtensionRecord.Id]]);
+            caseExtnRecord["sobjectType"] = caseExtnElement.objectApiName;
+        }
+        this.saveCaseWithExtension(caseRecord, caseExtnRecord);
     }
 
     saveManualCaseStage(event) {
