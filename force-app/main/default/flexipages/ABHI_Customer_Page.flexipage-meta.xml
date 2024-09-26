@@ -237,8 +237,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PAN__c</fieldItem>
-                <identifier>RecordPAN_cField</identifier>
+                <fieldItem>Record.PAN_Number__c</fieldItem>
+                <identifier>RecordPAN_Number_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
