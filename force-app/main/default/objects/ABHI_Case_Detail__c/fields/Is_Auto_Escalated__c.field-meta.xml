@@ -9,16 +9,16 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
+        <restricted>false</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>True</fullName>
+                <fullName>Y</fullName>
                 <default>false</default>
                 <label>YES</label>
             </value>
             <value>
-                <fullName>False</fullName>
+                <fullName>N</fullName>
                 <default>true</default>
                 <label>NO</label>
             </value>
