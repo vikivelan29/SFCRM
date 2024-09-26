@@ -8,6 +8,7 @@ import assignmentIssueTypeValidation from '@salesforce/apex/ABSLI_CreateCaseVali
 import changeInInvestorProfileValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.changeInInvestorProfileValidation';
 import interestWaiverForHOValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.interestWaiverForHOValidation';
 import reinstatementValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.reinstatementValidation';
+import abhiCaseValidation from '@salesforce/apex/ABHI_BusinessLogic_Helper.abhiCaseValidation';
 /**
  * Gen Fund validation method with Apex invocation
  * @param {*} input 
@@ -192,12 +193,28 @@ const reinstatementVal = async (input) => {
         return new ValidationWrapper(false, error.message.body);//error response
     }
 }
-
+const abhiNatureCaseVal = async (input,reqFrom) => {
+    try{
+        let result = await abhiCaseValidation({caseRecord:JSON.stringify(input.fields)});
+        if(result){
+            //if result is as expected, then
+            if(result=='Success'){
+                return new ValidationWrapper(true, result);
+            }else{
+                return new ValidationWrapper(false, result);
+            }
+           //success response
+        }
+    } catch(error){
+        console.log('abhiNatureCaseVal'+JSON.stringify(error));
+        return new ValidationWrapper(false, error.message.body);//error response
+    }
+}
 
 //include new validation methods inside method export block
 export {
     genFundApiValidation,nomineeChangeValidation,duplicatePolicyPrinting,performUINapiCallout,penalInterestPayoutSaralHealth,
-    assignmentIssueType,changeInInvestorProfile,interestWaiverForHO,reinstatementVal
+    assignmentIssueType,changeInInvestorProfile,interestWaiverForHO,reinstatementVal,abhiNatureCaseVal
 }
 
 //---------------FRAMEWORK CODE - DO NOT TOUCH--------------//
