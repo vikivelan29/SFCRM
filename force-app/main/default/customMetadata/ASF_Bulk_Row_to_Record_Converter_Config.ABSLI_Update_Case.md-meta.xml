@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>Fields_Name__c</field>
-        <value xsi:type="xsd:string">Case number,Claim Decision,Remarks,Sub Status</value>
+        <value xsi:type="xsd:string">Case number,Claim Decision,Remarks,Sub Status,Close Case</value>
     </values>
     <values>
         <field>Max_File_Size__c</field>

@@ -84,16 +84,6 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.External_Lead_ID__c</fieldItem>
-                <identifier>RecordExternal_Lead_ID_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.OwnerId</fieldItem>
@@ -142,16 +132,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Employee_Name__c</fieldItem>
                 <identifier>RecordEmployee_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Employee_ADID__c</fieldItem>
-                <identifier>RecordEmployee_ADID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a61fe10e-f957-47cf-a51c-77193f592796</name>
