@@ -1090,6 +1090,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhi_ViewPrintandDispatchDetails</componentName>
+                <identifier>c_abhi_ViewPrintandDispatchDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-8f8ce5d9-d05f-4479-bbf2-1609da4b6a1e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                     <valueList>
@@ -1099,7 +1109,32 @@
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>adminFilters</name>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_RefundDetails</componentName>
+                <identifier>c_abhi_RefundDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-35c9f572-3815-4bd8-85ac-3d631dcca097</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_ReceiptDetails</componentName>
+                <identifier>c_abhi_ReceiptDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_PolicyDetails</componentName>
+                <identifier>c_abhi_PolicyDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-59529461-ba81-4eb7-a66a-258e6d9c9a71</name>
+        <type>Facet</type>
+    </flexiPageRegions>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
@@ -1304,14 +1339,14 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-f60ec8d4-027f-4b42-9988-22a4d88ece83</value>
+                    <value>Facet-8f8ce5d9-d05f-4479-bbf2-1609da4b6a1e</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Insured Person Details</value>
+                    <value>View Print and Dispatch Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
+                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1326,6 +1361,34 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-35c9f572-3815-4bd8-85ac-3d631dcca097</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Refunds</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-59529461-ba81-4eb7-a66a-258e6d9c9a71</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Payment Receipts</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab10</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
