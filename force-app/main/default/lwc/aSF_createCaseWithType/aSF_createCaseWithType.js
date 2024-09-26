@@ -19,6 +19,7 @@ import ACOUNNTRECORDTYPE from '@salesforce/schema/Case.Account.RecordType.Name';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
 
 //tst strt
@@ -459,7 +460,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.fetchRejectionReason(cccExternalId);
         }
 
-        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU
+        && this.businessUnit != ABHI_BU){
             this.showAutoComm = true;
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){

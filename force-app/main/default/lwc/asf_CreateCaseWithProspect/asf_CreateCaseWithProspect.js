@@ -36,10 +36,12 @@ import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
 import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
@@ -96,6 +98,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @api bsliRecTypeId;
     isPhoneInbound = false;
     currentObj = CASE_OBJECT.objectApiName;
+    //ABHI
+    abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
     natureVal = '';
     cols;
     dupeLeadCols = [
@@ -243,7 +247,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU)) {
+        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU || this.loggedInUserBusinessUnit == ABHI_BU)) {
             this.boolNoAutoComm = false;
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -251,6 +255,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
+        }
+        if((selected) && this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+            this.isPhoneInbound = true;
         }
         if((selected) && selected.Allowed_Issue_Types__c && this.loggedInUserBusinessUnit === ABSLI_BU){
             
@@ -550,6 +557,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 this.selectedCTSTFromProspect = null;
                 this.boolShowNoData = true;
                 this.searchKey = undefined;
+                this.isPhoneInbound = false;
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
@@ -559,6 +567,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 this.disableCreateBtn = false;
                 this.boolShowNoData = true;
                 this.searchKey = undefined;
+                this.isPhoneInbound = false;
                 this.showError('error', 'Oops! Error occured', error);
 
 
@@ -592,6 +601,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if(this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
+            }
+            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         //code added by sunil - 03/09/2024
