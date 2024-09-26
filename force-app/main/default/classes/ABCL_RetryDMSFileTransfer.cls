@@ -3,7 +3,15 @@
  * @author              : sjaitly@salesforce.com
  * @last modified on    : 05-10-2024
  * @last modified by    : udit.singhal@salesforce.com
+ * 
+ * /* MODIFICATION LOG
+ * Developer                                Date               Description
+ * -----------------------------------------------------------------------------------------------------
+ * Arshad(msharieff@salesforce.com)        24/09/2024         ABHI OmniDoc FileTransfer Retry flow, ABHI_OmniDocUploadCtrlTestClass
+ * 
+ * ***********************************************************************************************
  */
+
 @SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity')
 public with sharing class ABCL_RetryDMSFileTransfer {
     /****************************************************************************************************************
@@ -59,6 +67,9 @@ public with sharing class ABCL_RetryDMSFileTransfer {
 
         List<DMS_Files__c> retryDMSRecords = new List<DMS_Files__c>();
         List<DMS_Files__c> abflRetryDMSRecords = new List<DMS_Files__c>();
+        List<DMS_Files__c> lstABHIRetryDMSFiles = new List<DMS_Files__c>();
+        List<Id> lstCaseIds = new List<Id>();
+
         for(DMS_Files__c dms : dmsRecords){
             if(dms.Case__c != null && ASF_Constants.RETRY_ENABLEDSTATUESES.contains(dms.Status__c)){
                 String tempKey = dms.Case__c+'_'+dms.ContentVersionId__c;
@@ -69,7 +80,13 @@ public with sharing class ABCL_RetryDMSFileTransfer {
                     if(noOfAttempts <= 2){
                         if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(dms.Business_Unit__c)) {
                             abflRetryDMSRecords.add(ABFL_DMSSync_Orchestrator.prepareDMSRecord(dms, null, null));
-                        } else {
+                        }else if(dms.Business_Unit__c == 'ABHI'){
+                            //for OmniDoc ABHI retry functionality - Arshad 20 Sept 24
+                            if(relatedCaseRecords.containsKey(dms.Case__c)){
+                                if(!lstCaseIds.contains(dms.Case__c)) lstCaseIds.add(dms.Case__c);
+                                lstABHIRetryDMSFiles.add(dms);
+                            }
+                        }else {
                             retryDMSRecords.add(dms);
                         }
                     }
@@ -87,6 +104,10 @@ public with sharing class ABCL_RetryDMSFileTransfer {
 
                 ABFL_DMSSync_Orchestrator.prepareEventsAndPublish(abflRetryDMSRecords, relatedCaseRecords);
             }
+        }
+
+        if(lstABHIRetryDMSFiles.size() > 0) {
+            ABHI_OmniDocUploadController.retryFileTransferToOmniDoc(lstABHIRetryDMSFiles, lstCaseIds);
         }
 
         if(dmsRecords.size() > 0){
