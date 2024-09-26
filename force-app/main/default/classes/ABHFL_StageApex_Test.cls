@@ -8,7 +8,6 @@ public class ABHFL_StageApex_Test {
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
-        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
@@ -110,10 +109,14 @@ public class ABHFL_StageApex_Test {
         System.assertEquals('Success',retCls.get(caseRecord.Id).Status,'Done');
         //for stage Hub location
         caseRecord.Stage__c='Hub Location';
+        caseRecord.Stage__c='Branch';
+        caseRecord.Stage__c='AOM/ROM';
         update caseRecord;
+        
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> retCls2 =  ABHFL_PreClosureStageApex.beforeStageMovement(new List<Case>{caseRecord});
         System.assertEquals('Success',retCls2.get(caseRecord.Id).Status,'Done');
 	}
+    
     @IsTest
     static void testReqResolvedStageApexClass(){
         Case caseRecord = [Select id,Stage__c,CCC_External_Id__c  from Case limit 1];
