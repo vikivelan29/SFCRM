@@ -815,66 +815,6 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Customer_Member_Mappings__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>NAME</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>DOB__c</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Customer Member Mappings</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>__DEFAULT__</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Default</value>
-                </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>New</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>adminFilters</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Asset.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
                     <value>PolicyNumber__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1002,8 +942,23 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhi_ViewClaimDetails_LWC</componentName>
+                <identifier>c_abhi_ViewClaimDetails_LWC</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-be8cf508-ddc2-4ed7-9bee-09dc21e92106</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>New</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
@@ -1018,7 +973,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Customer_Member_Mappings__r</value>
+                    <value>Claims__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListDisplayType</name>
@@ -1028,38 +983,44 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Policy_number_Formula__c</value>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Claim_Amount__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Claim_Status__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Claim_Sub_Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Hospital_Name__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Claim_Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Co_Payment__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Member_Name__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>NAME</value>
+                            <value>Beneficiary_Name__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Member_Status__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Relation__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>DOB__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Age__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>App_Download_Status__c</value>
+                            <value>Customer_Member_Mapping__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Customer Member Mappings</value>
+                    <value>Claims</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
@@ -1070,10 +1031,10 @@
                     <value>Default</value>
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList5</identifier>
+                <identifier>lst_dynamicRelatedList6</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-f60ec8d4-027f-4b42-9988-22a4d88ece83</name>
+        <name>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1113,14 +1074,28 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-f60ec8d4-027f-4b42-9988-22a4d88ece83</value>
+                    <value>Facet-be8cf508-ddc2-4ed7-9bee-09dc21e92106</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Insured Person Details</value>
+                    <value>Claims</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
+                <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>VCM</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab7</identifier>
             </componentInstance>
         </itemInstances>
         <name>maintabs</name>

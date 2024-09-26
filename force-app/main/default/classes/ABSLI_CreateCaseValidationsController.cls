@@ -154,7 +154,13 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                		GenFundResponseWrapper responseWrapper = (GenFundResponseWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundResponseWrapper.class);
                     if(responseWrapper.BFID_RESPONSE.ProcessCode=='00'){
                         ABSLI_Case_Detail__c caseExt = new ABSLI_Case_Detail__c(Id=String.valueOf(jsonMap.get('ABSLI_Case_Detail__c')));
-                        if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT033'){
+                        if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT021'){
+                         	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>5000 && !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
+                                caseExt.Max_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE);
+                            }else{
+                                return 'Maximum loan amount should be equal to or greater than 5000.';
+                            }  
+                        }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT033'){
                          	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
                                 caseExt.Max_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE);
                             }else{
@@ -195,7 +201,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                     system.debug('genFundResponse.responseBody:'+genFundResponse.responseBody);
                     system.debug('genFundResponse:'+genFundResponse);
                     GenFundFailureResponseBodyWrapper failureResponseWrapper = (GenFundFailureResponseBodyWrapper)JSON.deserialize(genFundResponse.responseBody,GenFundFailureResponseBodyWrapper.class);
-                    if(!String.isBlank(failureResponseWrapper.Fault.FaultMessage)){
+                    if(failureResponseWrapper!=null && (failureResponseWrapper.Fault)!=null && !String.isBlank(failureResponseWrapper.Fault.FaultMessage)){
                         return 'API Error: '+failureResponseWrapper.Fault.FaultMessage;
                     }
                 }

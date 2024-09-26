@@ -179,16 +179,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Super_Ncb_Amount__c</fieldItem>
-                <identifier>RecordSuper_Ncb_Amount_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Healty_Heart_Score__c</fieldItem>
                 <identifier>RecordHealty_Heart_Score_cField</identifier>
             </fieldInstance>
@@ -201,6 +191,36 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.App_Download_Status__c</fieldItem>
                 <identifier>RecordApp_Download_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CumulativeBonus__c</fieldItem>
+                <identifier>RecordCumulativeBonus_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Super_Ncb_Amount__c</fieldItem>
+                <identifier>RecordSuper_Ncb_Amount_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Member_First_Inception_Date__c</fieldItem>
+                <identifier>RecordMember_First_Inception_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-87f63cf5-2cae-4ed6-a5d4-166606510381</name>

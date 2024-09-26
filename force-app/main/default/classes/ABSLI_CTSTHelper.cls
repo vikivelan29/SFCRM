@@ -68,11 +68,11 @@ public with sharing class ABSLI_CTSTHelper {
         
         for(Case caseR : caseRecs){
             FieldValidationResult validation = resultsMap.get(caseR.Id);
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Outcome__c)) {
+            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Outcome__c) && !(ASF_BulkCaseProcessorUtility.isBulkProcessing == TRUE && ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate == TRUE)) {
                 validation.blankFields.add(caseOutcomeField.getLabel());
                 validation.result = true;
             }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution__c)) {
+            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution__c) && !(ASF_BulkCaseProcessorUtility.isBulkProcessing == TRUE && ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate == TRUE)) {
                 validation.blankFields.add(caseResolutionField.getLabel());
                 validation.result = true;
             }
@@ -284,7 +284,7 @@ public with sharing class ABSLI_CTSTHelper {
                                                                                      IsClosed = False AND AssetId =:assetIds
                                                                                      GROUP BY AssetID]);
             for(Case caseRecord : caseRecs){
-                if(mAggregateResults.containsKey(caseRecord.AccountId) && resultMap.get(caseRecord.Id).status == ABSLI_Constants.SUCCESS){
+                if(mAggregateResults.containsKey(caseRecord.AssetID)){ // &&  resultMap.get(caseRecord.Id).status == ABSLI_Constants.SUCCESS){
                     ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
                     result.status = ABSLI_Constants.ERROR;
                     result.response = Custom_Messages__mdt.getInstance('ABSLI_SurvivalUpdateIntegration_ERR3').Message__c;

@@ -105,8 +105,8 @@ public class ABSLI_CaseIntegrationHelper {
             for(ABSLI_EbotWrapper.EmailDetailsWrapper emailWrapper : ebotResponse.Email_Details){
                 List<String> staticAttachmentList = new List<String>();
                 if(emailWrapper.Static_Attachment.size()>0){
-                    for(String attachment: emailWrapper.Static_Attachment){
-                        staticAttachmentList.add(attachment);
+                    for(ABSLI_EbotWrapper.StaticAttachmentWrapper attachment: emailWrapper.Static_Attachment){
+                        staticAttachmentList.add(attachment.AttachmentName);
                     }
                 }
                 String staticAttachmentIds = String.join(staticAttachmentList,',');
@@ -233,20 +233,22 @@ public class ABSLI_CaseIntegrationHelper {
             }
         }
         if(String.isNotBlank(ebotResponse.ClientId)){
-            List<Account> customerList = [Select Id from Account where Client_Code__c =: ebotResponse.ClientId];
+            caseRecord.Client_Code_Text__c = ebotResponse.ClientId;
+            /*List<Account> customerList = [Select Id from Account where Client_Code__c =: ebotResponse.ClientId];
             if(customerList.size() > 0){
                 caseRecord.AccountId = customerList[0].Id;
-            }
+            }*/
         }else{
             caseRecord.AccountId = NULL;
             caseRecord.ContactId = NULL;
             caseRecord.Client_Code_Text__c = NULL;
         }
         if(String.isNotBlank(ebotResponse.PolicyNo)){
-            List<Asset> policyList = [Select Id from Asset where Policy_No__c =: ebotResponse.PolicyNo];
+            caseRecord.LAN__c = ebotResponse.PolicyNo;
+            /*List<Asset> policyList = [Select Id from Asset where Policy_No__c =: ebotResponse.PolicyNo];
             if(policyList.size() > 0){
                 caseRecord.AssetId = policyList[0].Id;
-            }
+            }*/
         }else{
             caseRecord.AssetId = NULL;
         }

@@ -54,7 +54,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.ABSLI_Lead_Type__c</fieldItem>
                 <identifier>RecordABSLI_Lead_Type_cField</identifier>
@@ -64,7 +64,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Account__c</fieldItem>
                 <identifier>RecordAccount_cField</identifier>
@@ -74,30 +74,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Campaign_Name__c</fieldItem>
                 <identifier>RecordCampaign_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Product_LK__c</fieldItem>
-                <identifier>RecordProduct_LK_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.External_Lead_ID__c</fieldItem>
-                <identifier>RecordExternal_Lead_ID_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -118,7 +98,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Source_Code__c</fieldItem>
                 <identifier>RecordSource_Code_cField</identifier>
@@ -128,17 +108,17 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Asset__c</fieldItem>
-                <identifier>RecordAsset_cField</identifier>
+                <fieldItem>Record.Product_LK__c</fieldItem>
+                <identifier>RecordProduct_LK_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Campaign_Code__c</fieldItem>
                 <identifier>RecordCampaign_Code_cField</identifier>
@@ -152,16 +132,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Employee_Name__c</fieldItem>
                 <identifier>RecordEmployee_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Employee_ADID__c</fieldItem>
-                <identifier>RecordEmployee_ADID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-a61fe10e-f957-47cf-a51c-77193f592796</name>
@@ -206,7 +176,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.City__c</fieldItem>
                 <identifier>RecordCity_cField2</identifier>
@@ -216,7 +186,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.State__c</fieldItem>
                 <identifier>RecordState_cField</identifier>
@@ -226,7 +196,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.PIN_Code__c</fieldItem>
                 <identifier>RecordPIN_Code_cField</identifier>
@@ -240,7 +210,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Email</fieldItem>
                 <identifier>RecordEmailField2</identifier>
@@ -250,7 +220,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.MobilePhone</fieldItem>
                 <identifier>RecordMobilePhoneField</identifier>
@@ -260,7 +230,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Address_Line_1__c</fieldItem>
                 <identifier>RecordAddress_Line_1_cField</identifier>
@@ -270,7 +240,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Address_Line_2__c</fieldItem>
                 <identifier>RecordAddress_Line_2_cField</identifier>
@@ -280,7 +250,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Address_Line_3__c</fieldItem>
                 <identifier>RecordAddress_Line_3_cField</identifier>
@@ -318,7 +288,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Rating</fieldItem>
                 <identifier>RecordRatingField</identifier>
@@ -328,7 +298,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Application_Number__c</fieldItem>
                 <identifier>RecordApplication_Number_cField</identifier>
@@ -338,7 +308,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.ANI_Number__c</fieldItem>
                 <identifier>RecordANI_Number_cField</identifier>
@@ -352,7 +322,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Expected_Premium__c</fieldItem>
                 <identifier>RecordExpected_Premium_cField</identifier>
@@ -362,7 +332,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Remarks__c</fieldItem>
                 <identifier>RecordRemarks_cField</identifier>
@@ -372,7 +342,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Track_ID__c</fieldItem>
                 <identifier>RecordTrack_ID_cField</identifier>
@@ -410,7 +380,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Lead_Stage__c</fieldItem>
                 <identifier>RecordLead_Stage_cField</identifier>
@@ -420,7 +390,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.PANNO__c</fieldItem>
                 <identifier>RecordPANNO_cField</identifier>
@@ -434,7 +404,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Lead_Sub_Stage__c</fieldItem>
                 <identifier>RecordLead_Sub_Stage_cField</identifier>
@@ -472,7 +442,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Location__c</fieldItem>
                 <identifier>RecordLocation_cField</identifier>
@@ -506,7 +476,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Target_LOBs__c</fieldItem>
                 <identifier>RecordTarget_LOBs_cField</identifier>
@@ -516,7 +486,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Target_Sub_LOBs__c</fieldItem>
                 <identifier>RecordTarget_Sub_LOBs_cField</identifier>
@@ -557,6 +527,58 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-3b7bc28a-665b-4919-9855-847462cd9afa</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Create_Lead_To_CRM_Status__c</fieldItem>
+                <identifier>RecordCreate_Lead_To_CRM_Status_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-b33423f6-9cd8-4aeb-a19e-a7b733c3eb30</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.API_Response_Message__c</fieldItem>
+                <identifier>RecordAPI_Response_Message_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-60dd630e-32bb-44b0-93a0-f56307fdc134</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-b33423f6-9cd8-4aeb-a19e-a7b733c3eb30</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-60dd630e-32bb-44b0-93a0-f56307fdc134</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d9fdba0c-60da-4a92-a3ad-1a8038a54588</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -713,6 +735,24 @@
                         <rightValue>Service to Sales- NBO</rightValue>
                     </criteria>
                 </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-d9fdba0c-60da-4a92-a3ad-1a8038a54588</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>API Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
