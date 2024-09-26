@@ -15,7 +15,7 @@
             <value>
                 <fullName>I</fullName>
                 <default>true</default>
-                <label>I</label>
+                <label>Individual</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -7,7 +7,7 @@ public with sharing class ABHI_AttendedToValidationHandler {
             public static void validateAttendedToNonEscalated(Case caseRecord,
                                                               ASF_IntegrationsController.IntegrationWrapper result)
         {
-            if (caseRecord.Stage__c <> 'Resolved' && caseRecord.ABHI_Case_Detail__r.Reopened_Date__c == null && caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '3')
+            if (caseRecord.Stage__c <> 'Resolved' && caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '3')
             {
                 result.status = ABSLI_Constants.SUCCESS;
                 result.response = ABSLI_Constants.EVALUATION_SUCCESS;
@@ -46,7 +46,7 @@ public with sharing class ABHI_AttendedToValidationHandler {
 
             if(String.isNotBlank(errorText)){
                 errorText = errorText.removeEnd(', ');
-                errorText += ' fields are mandatory in the Attended to section.';
+                errorText += ' fields are mandatory for Attended to IGMS button.';
             }
             fieldSpecificValidation(caseRecord);
 
@@ -67,13 +67,14 @@ public with sharing class ABHI_AttendedToValidationHandler {
         }
     }
 
-    public static final Map<String,String> caseExtFieldsEscalated = new Map<String,String>{'Final_Resolution_Remark__c'=>'Final Resolution Remark',
-    'Re_Open_Comments__c'=>'Re-Open Comments',
-    'Date_of_Honoring_Service__c'=>'Date of Honoring Service',
-    'TAT_Crossed_Remark__c'=>'TAT Crossed Remark'};
+    public static final Map<String,String> caseExtFieldsEscalated = new Map<String,String>{'Final_Resolution_Remark__c'=>'Final Resolution Remark'
+   // 'Date_of_Honoring_Service__c'=>'Date of Honoring Service',
+   // 'TAT_Crossed_Remark__c'=>'TAT Crossed Remark'
+   };
 
     public static void validateAttendedToEscalated(Case caseRecord,ASF_IntegrationsController.IntegrationWrapper result){
-        if (caseRecord.ABHI_Case_Detail__r.Reopened_Date__c != null && caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
+        //if (caseRecord.ABHI_Case_Detail__r.Reopened_Date__c != null && caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
+            if ( caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
             result.status = ABSLI_Constants.SUCCESS;
             result.response = ABSLI_Constants.EVALUATION_SUCCESS;
         }

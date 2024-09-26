@@ -1,6 +1,5 @@
-public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_IntegrationInvocable{
-
-    /**
+public with sharing class ABHI_ReopenedIGMSComplaintIntegration  implements ASF_IntegrationInvocable{
+   /**
     * @description Invoked from the ASF_IntegrationsController class, this method evaluates whether integration should be fired or not
     *
     * @param caseRec - Case record from the framework
@@ -24,11 +23,16 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             
             result.status = ABSLI_Constants.ERROR;
-            String evaluationErrorMetadataName = ABSLI_Constants.IGMS_ATTCOMPLAINT_EVAL_ERROR;
+            String evaluationErrorMetadataName = ABSLI_Constants.IGMS_REOPENEDCOMPLAINT_EVAL_ERROR;
             
             result.response = Custom_Messages__mdt.getInstance(evaluationErrorMetadataName).Message__c;
-
-            ABHI_AttendedToValidationHandler.validateAttendedToNonEscalated(caseRecord, result);
+            
+            if (caseRecord.ABHI_Case_Detail__r.Escalated_Date__c != null )
+//&& caseRecord.Technical_Source__c == 'LWC')
+            {
+                result.status = ABSLI_Constants.SUCCESS;
+                result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+            }
             
             resultMap.put(caseRecord.Id, result);
         }
@@ -80,40 +84,18 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
         Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
         
         for (Case caseRecord : caseRecords) {
-            String policyNumberText = '';
             objReq requestJSON = new objReq();
             
             /* ALL REQUIRED ATTRIBUTES HERE */
             requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
             requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
             requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
-            if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c != '3' && (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
-                requestJSON.Claim_Received_Amount = String.valueof(caseRecord.ABHI_Case_Detail__r.Claim_Received_Amount__c.round(System.RoundingMode.UNNECESSARY));
-            }
-            requestJSON.Remarks = caseRecord.ABHI_Case_Detail__r.Resolution_Comments__c;
-            requestJSON.Type_of_disposal = caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c;
-            if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c == '9'){
-        requestJSON.Original_IRDA_Token_Num = caseRecord.ABHI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
-            }
-            //Recategorization Changes
-            /*requestJSON.IsComplaint_Change_By_Insurer = '1';
-            requestJSON.Insurer_Policy_Number = '111111';
-            requestJSON.Insurer_Policy_Type_Id = '13';
-            requestJSON.Insurer_Complaint_Type_Id = '1';
-            requestJSON.Insurer_Complaint_Desc_Type_Id = '2';*/
-            /*requestJSON.Policy_Number = '111111';
-            requestJSON.Policy_Type_Id = '13';
-            requestJSON.Complaint_Type_Id = '1';
-            requestJSON.Complaint_Description_Id  = '2';*/
-            
-            
+
             string requestBody = JSON.serialize(requestJSON);
-            System.debug('requestBody--> '+requestBody);
-            System.debug('requestBody--> '+integs);
-            System.debug('caseRecord.Id--> '+caseRecord.Id);
+            
             for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
                 System.debug('intSpec.Processing_Class__c --> '+intSpec.Processing_Class__c);
-                if (intSpec.Processing_Class__c == ABHI_AttendedIGMSComplaintIntegration.class.getName()) {
+                if (intSpec.Processing_Class__c == ABHI_ReopenedIGMSComplaintIntegration.class.getName()) {
                     ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
                     caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
                     caseInteg.Case__c = caseRecord.Id;
@@ -194,7 +176,7 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
         Set<String> intIds = new Set<String>();
         for (Case caseRec : caseRecs) {
             for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-                if (integ.Processing_Class__c == ABHI_AttendedIGMSComplaintIntegration.class.getName()) {
+                if (integ.Processing_Class__c == ABHI_ReopenedIGMSComplaintIntegration.class.getName()) {
                     intIds.add(integ.External_Id__c);
                 }
             }
@@ -232,39 +214,36 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
             if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
                 Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
                 
-               ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper jsonMap = (ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper) JSON.deserialize(
+                 ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper jsonMap = (ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper) JSON.deserialize(
                     caseInteg.Response__c,
                     ABHI_AckIGMSComplaintIntegration.UpdateComplaintResponseWrapper.class
                 );
                 List<sObject> dmlRecords = new List<sObject>();
                 String errorCodes = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.ERROR_CODES;
                 String irdaTokenNumber = jsonMap.Body.UpdateComplaintResponse.UpdateComplaintResult.RESULT.COMPLAINTDETAILS.IRDA_TOKEN_NUMBER;
+                System.debug('irdaTokenNumberAS '+irdaTokenNumber);
                if (String.isEmpty(errorCodes) && (!String.isEmpty(irdaTokenNumber))) {
+                    System.debug('irdaTokenNumberAS '+irdaTokenNumber);
                     if(caseRecord.ABHI_Case_Detail__c != null){
-                        ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
+                        ABHI_Case_Detail__c  caseExt = new ABHI_Case_Detail__c (Id = caseRecord.ABHI_Case_Detail__c );
                         caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
-                        caseExt.Resolved_Date__c = System.Today();
-                        caseExt.Final_Resolution_Date__c = System.Today();
-                        caseExt.IGMS_Complaint_Status__c = '4';
+                        caseExt.Reopened_Date__c = System.Today();
+                        caseExt.IGMS_Complaint_Status__c = '6';
                         dmlRecords.add(caseExt);
-                        caseRecord.MoveToNext__c = true;
-                        dmlRecords.add(caseRecord);
-                        Database.SaveResult[] results = Database.update(dmlRecords, true);
                     }
-                    
+                    Database.SaveResult[] results = Database.update(dmlRecords, true);
                 }
             }
         } catch (Exception e) {
             System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
             ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABHI_AttendEscIGMSComplaintIntegration.processResponse');
+            ABCL_Logger.push('ABHI_ReopenedIGMSComplaintIntegration.processResponse');
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
         }
     }
-
     /**
-    * @description IGMS Attended Case Wrapper Class to build Integration Request Body JSON
+    * @description IGMS Reopened Case Wrapper Class to build Integration Request Body JSON
     */
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
     public class objReq {
@@ -273,46 +252,29 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
         public string IRDA_Token_Number {get;set;}
         public string Entity_Complaint_Ref_Number {get;set;}
         public string Complaint_Status_Id {get;set;}
-        public string Claim_Received_Amount{get;set;}
         public String Addressed_To_Insurer { get; set; }
         public String Trans_Login_Id { get; set; }
         public string Option{get;set;}
         public string Mode{get;set;}
-        public string Remarks{get;set;}
-        public string Type_of_disposal {get;set;}
-        // VIRENDRA - 19 JULY 2024 
-        public string Original_IRDA_Token_Num{get;set;}
-        // Testing Recategorization
-        /*public string IsComplaint_Change_By_Insurer{get;set;}
-        public string Insurer_Policy_Number{get;set;}
-        public string Insurer_Policy_Type_Id{get;set;}
-        public string Insurer_Complaint_Type_Id{get;set;}
-        public string Insurer_Complaint_Desc_Type_Id{get;set;}*/
-        /*public string Policy_Number{get;set;}
-        public string Policy_Type_Id{get;set;}
-        public string Complaint_Type_Id{get;set;}
-        public string Complaint_Description_Id{get;set;}*/
         
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
-            this.Complaint_Status_Id = '4';
+            this.Complaint_Status_Id = '6';
             this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
-            this.Claim_Received_Amount = '0';
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
             this.Trans_Login_Id = 'ABHICADMIN1';
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
-            
         }
     }
     /**
-    @description IGMS Attended Case Class to follow through Response Body JSON
+    @description IGMS Reopened Case Class to follow through Response Body JSON
     */
-    @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
-    public class AttendedComplaintResponseWrapper {
+   /* @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+    public class ReopenedComplaintResponseWrapper {
         public String ReturnMessage { get; set; }
         public String ReturnCode { get; set; }
         public String IRDA_TOKEN_NUMBER { get; set; }
         public String ENTITY_COMPLAINT_REF_NUMBER { get; set; }
-    }
+    }*/
 }

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>PED__c</fullName>
+    <fullName>Proposal_Number__c</fullName>
     <externalId>false</externalId>
-    <label>Pre Existing Disease</label>
-    <length>1000</length>
+    <label>Proposal Number</label>
+    <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <type>LongTextArea</type>
-    <visibleLines>3</visibleLines>
+    <type>TextArea</type>
 </CustomField>

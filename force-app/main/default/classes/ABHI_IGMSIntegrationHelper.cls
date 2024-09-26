@@ -40,7 +40,8 @@ public with sharing class ABHI_IGMSIntegrationHelper {
             requestJSON.Complaint_Details = caseRecord.Description.left(4000);
             requestJSON.Complaint_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
             requestJSON.Complaint_Receipt_Date = ABCL_IntegrationCommonUtility.dateFormat(Date.ValueOf(caseRecord.CreatedDate), 'dd-MM-YYYY');
-            requestJSON.Policy_Type_Id = caseRecord.ABHI_Case_Detail__r.IGMS_type_of_policy__c;
+            //requestJSON.Policy_Type_Id = caseRecord.ABHI_Case_Detail__r.IGMS_type_of_policy__c;
+            requestJSON.Policy_Type_Id = '5';
             requestJSON.Complaint_Type_Id = caseRecord.IGMS_Complaint_Type_Code__c;
             requestJSON.Complaint_Description_Id = caseRecord.CCC_External_Id__c;
             
@@ -146,7 +147,7 @@ public with sharing class ABHI_IGMSIntegrationHelper {
             
             /* ALL REQUIRED ATTRIBUTES HERE */
             requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
-          	requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
+            requestJSON.IRDAI_Token_Number = caseRecord.IRDAI_Token_Number__c;
             requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
             
             string requestBody = JSON.serialize(requestJSON);
