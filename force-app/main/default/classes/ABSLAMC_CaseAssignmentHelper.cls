@@ -20,7 +20,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         List<String> caseSources = new List<String>(Label.ABSLAMC_CaseSourcesforAssignment.split(','));
         Map<String, Id> queueMap = new Map<String, Id>(); 
         List<ASF_Case_SLA_History__c> caseSLAHistories = new List<ASF_Case_SLA_History__c>();
-                Map<Id, Set<String>> caseIdToSkipperFlag = new Map<Id, Set<String>>();
+        Map<Id, Set<String>> caseIdToSkipperFlag = new Map<Id, Set<String>>();
         
         for(Case caseRec : newMapCase.values()){
             if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
@@ -157,7 +157,8 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         for (Case caseRec : newMapCase.values()) {
             if (caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && caseRec.FTR__c != oldMapCase.get(caseRec.Id).FTR__c &&
                 caseRec.FTR__c == TRUE && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.OPEN_STAGE)
-            {
+            {   
+                caseRec.Status = ABSLAMC_Constants.RESOLVED_STAGE;
                 caseRec.Stage__c = ABSLAMC_Constants.RESOLVED_STAGE;
             }
         }
@@ -177,6 +178,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         Set<String> validReplyTypeForResolveStage = new Set<String>{ABSLAMC_Constants.SATISFACTORYREPLYTYPE};
         String mandatoryFieldsErrMsg = label.ABSLAMC_CAMSMandatoryFieldsErrorMsg;
         String replyTypeErrorMsg = label.ABSLAMC_ClosureReplyTypeForCAMSErrorMsg;
+        String backStageReplyTypeError = label.ABSLAMC_BackStageSatisfactoryReolyType; 
         
         
         for(Case caseRec : newMapCase.values()){
@@ -222,11 +224,11 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                    && String.isNotBlank(caseDetailRec.CAMS_Ticket_Reference_Number__c)){
                        
                        // check if cams status is closed, make ticket number empty
-                       if(caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS){
-                           caseDetailRec.CAMS_Ticket_Reference_Number__c = '';
+                    //    if(caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS){
+                    //        caseDetailRec.CAMS_Ticket_Reference_Number__c = '';
                            
-                           caseDetailToUpdate.put(caseDetailRec.Id,caseDetailRec);
-                       }
+                    //        caseDetailToUpdate.put(caseDetailRec.Id,caseDetailRec);
+                    //    }
                        // check if case previous stage was 2, then increment by 1
                        if(oldCase.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS){
                            caseDetailRec.No_of_iterations__c = (caseDetailRec.No_of_iterations__c != null) ? caseDetailRec.No_of_iterations__c + 1 : 1;
@@ -235,8 +237,16 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                            caseDetailToUpdate.put(caseDetailRec.Id,caseDetailRec);
                        }
                        
-                   }
-                
+                   } 
+                //clearing values for Additional_Remarks_for_CAMS__c,Reply_Type_for_CAMS__c when moved to stage 3
+                if(caseRec.Stage__c!= oldCase.Stage__c 
+                             && caseRec.Stage__c == ABSLAMC_Constants.REPLYFROMCAMS 
+                             && OldCase.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS){
+                                 caseDetailRec.Additional_Remarks_for_CAMS__c = '';
+                                 caseDetailRec.Reply_Type_for_CAMS__c = '';
+                                 caseDetailToUpdate.put(caseDetailRec.Id,caseDetailRec);
+                             }
+       
                 if(caseRec.Stage__c != oldCase.Stage__c
                    && oldCase.Stage__c == ABSLAMC_Constants.REPLYFROMCAMS
                    && caseRec.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS){
@@ -264,6 +274,14 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
                        if(!validReplyTypeForResolveStage.contains(caseDetailRec.Reply_Type_for_CAMS__c)){
                            caseRec.addError(replyTypeErrorMsg);  
                        } 
+                   }
+                
+                //validating if moving from stage 3-2,reply type should not be Satisfactory
+                if(caseRec.Stage__c != oldCase.Stage__c
+                   && oldCase.Stage__c == ABSLAMC_Constants.REPLYFROMCAMS
+                   && caseRec.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS
+                   && caseDetailRec.Reply_Type_for_CAMS__c == ABSLAMC_Constants.SATISFACTORYREPLYTYPE){
+                       caseRec.addError(backStageReplyTypeError);  
                    }
                 
                 
