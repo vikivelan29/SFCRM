@@ -275,12 +275,16 @@ public with sharing class ASF_CloneCaseActionController {
             wrap.caseRecord = cloneCaseRecord;
             wrap.resultFlag = true;
             return wrap;
-        } catch (Exception e) {
-            AuraHandledException ex = new AuraHandledException(e.getMessage());
-            ex.setMessage(e.getMessage());
-            throw ex;
+        } catch (DMLException e) { 
+            String errMsg = '';
+             for (Integer i = 0; i < e.getNumDml(); i++) {
+               AuraHandledException ex = new AuraHandledException(e.getDmlMessage(i));
+               errMsg += e.getDmlMessage(i);
+               ex.setMessage(errMsg);
+               throw ex;
+            }
+            throw e;
         }
-
     }    
 
     @AuraEnabled(Cacheable=true)

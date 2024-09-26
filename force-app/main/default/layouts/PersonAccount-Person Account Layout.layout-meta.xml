@@ -167,6 +167,10 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <relatedList>Survey_Response__c.Client_Code__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>LAN__c</fields>
         <relatedList>LAN_Mapping__c.Customer__c</relatedList>
     </relatedLists>

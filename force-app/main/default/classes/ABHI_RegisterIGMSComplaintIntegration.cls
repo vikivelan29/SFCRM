@@ -51,8 +51,8 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
                 caseRecord.ABHI_Case_Detail__r.get('Receipt_Number__c') == '')
                && ABSLI_Constants.RECEIPT_NO_REQ_COMP_TYPE_CD.contains(caseRecord.IGMS_Complaint_Type_Code__c))
             {
-                errorMessage +='Receipt Number, ';
-                bErrorOccured = true;                
+                //errorMessage +='Receipt Number, ';
+                //bErrorOccured = true;                
             }
             if(String.isBlank(caseRecord.Account?.PersonMobilePhone)){
                 errorMessage = 'Customer Mobile Number is mandatory for IGMS Complaint Registration. Kindly reach out to your admin for further help., ';
@@ -188,11 +188,14 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
                     RegisterComplaintResponseWrapper.class
                 );
                 List<sObject> dmlRecords = new List<sObject>();
-                if (jsonMap.ReturnCode == ABSLI_Constants.IGMS_REGCOMPLAINT_SUCCESS_RET_CD) {
+                String irdaTokenNumber = jsonMap.Body.RegisterComplaintResponse.RegisterComplaintResult.RESULT.COMPLAINTDETAILS.IRDA_TOKEN_NUMBER;
+                system.debug('irdaTokenNumberas '+irdaTokenNumber);
+                String entity_Complaint_Ref_Number = jsonMap.Body.RegisterComplaintResponse.RegisterComplaintResult.RESULT.COMPLAINTDETAILS.ENTITY_COMPLAINT_REF_NUMBER;
+                if (irdaTokenNumber != null ) {
                     if(caseRecord.ABHI_Case_Detail__c != null){
                         System.debug(caseRecord.ABHI_Case_Detail__c);
                         ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
-                        caseExt.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
+                        caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
                         caseExt.New_Registration_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Registration_Date__c = System.Today();
                         caseExt.Next_Integration_Name__c = 'ABHI_AckIGMSComplaintIntegration';
@@ -200,7 +203,8 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
                         dmlRecords.add(caseExt);
                         
                     }
-                    caseRecord.IRDAI_Token_Number__c = jsonMap.IRDA_TOKEN_NUMBER;
+                    caseRecord.IRDAI_Token_Number__c = irdaTokenNumber;
+                    caseRecord.Entity_Reference_No__c  = entity_Complaint_Ref_Number;
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, true);
                     
@@ -299,7 +303,7 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
         public string Branch_Code{get;set;}                 
         public string Cheque_Number{get;set;}                 
         public string Claim_Clsr_Additional_Info{get;set;}    
-       	public string Claim_Received_Amount{get;set;}                 
+        public string Claim_Received_Amount{get;set;}                 
         public string Claim_Requested_Amount{get;set;}                 
         public string Is_Complainant_Informed{get;set;}                 
         public string Others_Clsr_Additional_Info{get;set;}                 
@@ -318,11 +322,11 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_REGISTER;
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
-            this.Trans_Login_Id = 'abhiadmin';
+            this.Trans_Login_Id = 'ABHICADMIN1';
             this.Ack_Officer_Designation= '';
             this.Ack_Officer_Name= 'SM';
             this.BOC_Or_Collection_Number= '';
-            this.Branch_Code= 'MU01';
+            //this.Branch_Code= 'MU01';
             this.Cheque_Number= '';
             this.Claim_Clsr_Additional_Info= '';
             this.Claim_Received_Amount= '';
@@ -336,11 +340,38 @@ public with sharing class ABHI_RegisterIGMSComplaintIntegration implements ASF_I
     /**
 * @description Contact Detail Update Wrapper Class to follow through Response Body JSON
 */
-    @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+   /* @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
     public class RegisterComplaintResponseWrapper {
         public String ReturnMessage { get; set; }
         public String ReturnCode { get; set; }
         public String IRDA_TOKEN_NUMBER { get; set; }
         public String ENTITY_COMPLAINT_REF_NUMBER { get; set; }
+    }*/
+    @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
+    public class RegisterComplaintResponseWrapper {
+        public RegisterComplaintResponseBody Body { get; set; }
+        public String TRANSFORMED_ERROR_MESSAGE { get; set; }
+    }
+    
+    public class RegisterComplaintResponseBody {
+        public RegisterComplaintResponse RegisterComplaintResponse { get; set; }
+    }
+    
+    public class RegisterComplaintResponse {
+        public RegisterComplaintResult RegisterComplaintResult { get; set; }
+    }
+    
+    public class RegisterComplaintResult {
+        public Result RESULT { get; set; }
+    }
+    
+    public class Result {
+        public ComplaintDetails COMPLAINTDETAILS { get; set; }
+    }
+    
+    public class ComplaintDetails {
+        public String IRDA_TOKEN_NUMBER { get; set; }
+        public String ENTITY_COMPLAINT_REF_NUMBER { get; set; }
+        public String ERROR_CODES { get; set; }
     }
 }

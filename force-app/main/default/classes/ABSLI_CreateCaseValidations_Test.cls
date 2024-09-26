@@ -21,7 +21,7 @@ public class ABSLI_CreateCaseValidations_Test {
         Asset assetRec = ASF_TestDataFactory.createAsset(accRec.Id, 'Loans');
         assetRec.Policy_No__c = '1234';
         assetRec.Effective_Date__c = Date.today();
-        assetRec.Issue_Date__c = Date.today().addYears(-2);
+        assetRec.Issue_Date__c = Date.today().addMonths(-6);
         assetRec.Business_Unit__c = ABSLI_Constants.BUSINESS_UNIT;
         assetRec.Plan_Name__c = 'BSLI Saral Health FAV';
         assetRec.Type__c = 'ULIP';
@@ -131,7 +131,8 @@ public class ABSLI_CreateCaseValidations_Test {
         Asset asset = [SELECT Id FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         
         Map<String, Object> caseRecordMap = new Map<String, Object>{
-            'AssetId' => asset.Id
+            'AssetId' => asset.Id,
+            'CCC_External_Id__c' => 'DUP002'
         };
         String caseRecord = JSON.serialize(caseRecordMap);
         

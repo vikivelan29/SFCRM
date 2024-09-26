@@ -121,6 +121,7 @@ public class ABSLI_AttendedIGMSComplaint_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Issue_Type__c,
 				Status,
 				OwnerId,
 				CaseNumber,
@@ -147,6 +148,7 @@ public class ABSLI_AttendedIGMSComplaint_Test {
             	ABSLI_Case_Detail__r.Acknowledgement_contacted__c,
             	ABSLI_Case_Detail__r.Type_of_Disposal__c,
             	ABSLI_Case_Detail__r.Claim_Received_Amount__c,
+            	ABSLI_Case_Detail__r.Is_Complainant_Informed__c,
 				Technical_Source__c,
             	Is_STP__c,
             	IGMS_Complaint_Type_Code__c,
@@ -217,6 +219,7 @@ public class ABSLI_AttendedIGMSComplaint_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Issue_Type__c,
 				Status,
 				OwnerId,
 				CaseNumber,
@@ -243,6 +246,7 @@ public class ABSLI_AttendedIGMSComplaint_Test {
             	ABSLI_Case_Detail__r.Acknowledgement_contacted__c,
             	ABSLI_Case_Detail__r.Type_of_Disposal__c,
             	ABSLI_Case_Detail__r.Claim_Received_Amount__c,
+            	ABSLI_Case_Detail__r.Is_Complainant_Informed__c,
 				Technical_Source__c,
             	Is_STP__c,
             	IGMS_Complaint_Type_Code__c,
