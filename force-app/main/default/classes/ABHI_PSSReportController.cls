@@ -32,6 +32,7 @@ public with sharing class ABHI_PSSReportController {
             else{
                 try {
                     ReportResponseWrapper resp = (ReportResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ReportResponseWrapper.class);
+                    resp.StatusCode = integrationResponse.StatusCode;
                     return resp;
                 } catch (Exception e) {
                     ReportResponseWrapper resp = new ReportResponseWrapper();
