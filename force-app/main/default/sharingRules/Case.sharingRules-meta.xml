@@ -1,155 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>ABFL_Cases_to_ABFL_Users</fullName>
+        <fullName>Wellness_Case_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABFL Cases to ABFL Users</label>
+        <label>Wellness Case Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
-        </sharedTo>
-        <booleanFilter>1 OR 2</booleanFilter>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABFL</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABWM</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Share_ABHFL_Cases_to_ABHFL_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>Share ABHFL Cases to ABHFL Users</label>
-        <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <role>Wellness_Service_Agent</role>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABHFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Share_Payment_Cases_to_Payment_Users</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Share Payment Cases to Payment Users</label>
-        <sharedTo>
-            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-     <sharingCriteriaRules>
-        <fullName>ABSLI_Case_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLI Case Sharing</label>
-        <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_AIF_Cases_Share_to_AIF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC AIF Cases Share to AIF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Line_Of_Business__c</field>
-            <operation>equals</operation>
-            <value>AIF</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_MF_Case_Share_to_MF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC MF Case Share to MF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Line_Of_Business__c</field>
-            <operation>equals</operation>
-            <value>MF</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_PMS_Cases_Share_to_PMS_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC PMS Cases Share to PMS Users</label>
-        <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Line_Of_Business__c</field>
-            <operation>equals</operation>
-            <value>PMS</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_RE_Cases_Share_to_RE_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC RE Cases Share to RE Users</label>
-        <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Line_Of_Business__c</field>
-            <operation>equals</operation>
-            <value>RE</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABHI_Case_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABHI Case Sharing</label>
-        <sharedTo>
-            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHI</value>
+            <value>Wellness</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

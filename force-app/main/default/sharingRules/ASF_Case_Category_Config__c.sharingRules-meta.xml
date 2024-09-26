@@ -1,206 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>ABFL_CCC_Extended_Sharing_Rule</fullName>
+        <fullName>Wellness_CCC_Extended_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Read/Write access on CCC records</description>
-        <label>ABFL CCC Extended Sharing Rule</label>
+        <label>Wellness CCC Extended Sharing</label>
         <sharedTo>
-            <group>ABFL_LOB_Admins_G</group>
+            <group>Wellness_LOB_Admin_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABFL</value>
+            <value>Wellness</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABFL_CCC_Sharing_Rule</fullName>
+        <fullName>Wellness_Case_Category_Config_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Sharing access for CCC records.</description>
-        <label>ABFL CCC Sharing Rule</label>
+        <label>Wellness Case Category Config Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <role>Wellness_Service_Agent</role>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABHFL_CCC_Extended_Sharing_Rule</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>ABHFL CCC Extended Sharing Rule</label>
-        <sharedTo>
-            <group>ABHFL_LOB_Admins</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABHFL_CCC_Sharing_Rules</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABHFL CCC Sharing Rules</label>
-        <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABHI_CCC_Sharing_Rule</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABHI CCC Sharing Rule</label>
-        <sharedTo>
-            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_AIF_CCC_Share_to_AIF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC AIF CCC Share to AIF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>AIF</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLIG_CCC_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLIG CCC Sharing</label>
-        <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLIG</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLI_CCC_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLI CCC Sharing</label>
-        <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Payments_CCC_Extended_Sharing_Rule</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Payments CCC Extended Sharing Rule</label>
-        <sharedTo>
-            <group>Payment_LOB_Admin</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Payments_CCC_Sharing_Rules</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>Payments CCC Sharing Rules</label>
-        <sharedTo>
-            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_MF_CCC_Share_to_MF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC MF CCC Share to MF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>MF</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_PMS_CCC_Share_to_PMS_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC PMS CCC Share to PMS Users</label>
-        <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>PMS</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_RE_CCC_Share_to_RE_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC RE CCC Share to RE Users</label>
-        <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>RE</value>
+            <value>Wellness</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
