@@ -14,6 +14,15 @@
         <scale>2</scale>
     </customDetailFormulas>
     <description>Synopsis of CC + EMT Open Requests</description>
+    <filter>
+        <criteriaItems>
+            <column>Case$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Closed,Closed Duplicate,Unresolved</value>
+        </criteriaItems>
+    </filter>
     <format>Matrix</format>
     <groupingsAcross>
         <dateGranularity>Day</dateGranularity>
