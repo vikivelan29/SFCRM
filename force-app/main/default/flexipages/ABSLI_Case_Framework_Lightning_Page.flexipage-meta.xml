@@ -198,8 +198,9 @@
                                     <operator>NE</operator>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!Record.Client_Code__c}</leftValue>
+                                    <leftValue>{!Record.Stage__c}</leftValue>
                                     <operator>EQUAL</operator>
+                                    <rightValue>In Progress with SA</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

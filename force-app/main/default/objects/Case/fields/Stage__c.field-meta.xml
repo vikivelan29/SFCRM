@@ -225,6 +225,26 @@
                 <default>false</default>
                 <label>Final Closure</label>
             </value>
+            <value>
+                <fullName>Reply Received from App Support</fullName>
+                <default>false</default>
+                <label>Reply Received from App Support</label>
+            </value>
+            <value>
+                <fullName>Pending with CAMS</fullName>
+                <default>false</default>
+                <label>Pending with CAMS</label>
+            </value>
+            <value>
+                <fullName>Reply Received from CAMS</fullName>
+                <default>false</default>
+                <label>Reply Received from CAMS</label>
+            </value>
+            <value>
+                <fullName>In Progress with SA</fullName>
+                <default>false</default>
+                <label>In Progress with SA</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
