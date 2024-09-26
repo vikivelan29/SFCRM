@@ -269,43 +269,48 @@ public without sharing class ABHFL_CTSTHelper {
         	}
     	}
 	}
- //This is changes related to CR made by Yogesh[EY_PR970457-2388]
- //skipOpenStageforAPIcases: It will impact cases which created from API
-public static void skipOpenStageforAPIcases(List<Case> caseList, Map<Id, Case> oldCaseMap) {
-    // List of valid subTypes
-    	Set<String> caseDetailIds = new Set<String>();
+//This is changes related to CR[PR970457-2388,PR970457-2288] made by Yogesh
+ //skipOpenStageforAPIcases: It will impact cases which created from API for mentioned CTSTs
+ //This method applicable to ABHFL BU only. It is used to skip open stage at the time of case creation through API. 
+     public static void skipOpenStageforAPIcases(List<Case> caseList) {
+                Set<String> caseDetailIds = new Set<String>();
 		Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
 		List<Case>updatedcases=new List<case>();
-		List<String> validSubTypes = new List<String>{'hfl003'};
+           // List of valid subTypes
+		List<String> validSubTypes = new List<String>{'hfl003','hfl045','hfl023'};
         for(Case caseRec : caseList){
-            if(caseRec.Business_Unit__c=='ABHFL'){
+            if(caseRec.Business_Unit__c=='ABHFL' && validSubTypes.contains(caseRec.CCC_External_Id__c)){
             	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);   
             }
         }
         if(!caseDetailIds.isEmpty()){
-        for(ABHFL_Case_Detail__c cd : [SELECT Id, Mode_of_Change_of_Address__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
+        for(ABHFL_Case_Detail__c cd : [SELECT Id, Mode_of_Change_of_Address__c,New_Mobile_Number__c,New_Email_ID__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
             caseToDetailMap.put(cd.Id, cd);
         }
 		}
     	for (Case caseRecord : caseList) {
-        	Case originalCase = oldCaseMap.get(caseRecord.Id);
-                string modeofchangeofaddress=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).Mode_of_Change_of_Address__c;
-        	String previousStage = originalCase.Stage__c;	
-        	String currentStage = caseRecord.Stage__c;
+		  if(caseRecord.Business_Unit__c == 'ABHFL' && validSubTypes.contains(caseRecord.CCC_External_Id__c)){
+        	Boolean conditionsatisfied=false;
         	String subType = caseRecord.CCC_External_Id__c;
-
-        // Check if the previous stage was not 'Open', the current stage is 'Open',
-        // and the sub_Type_Text__c is one of the valid subTypes
-        	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK && caseRecord.channel__c=='API' && 'VKYC'.equals(modeofchangeofaddress)) {
-            	     caseRecord.movetonext__c=true;
-				updatedcases.add(caseRecord);
+            string modeofchangeofaddress=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).Mode_of_Change_of_Address__c;
+            string NewMobileNumber=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).New_Mobile_Number__c;
+            string NewEmailID=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).New_Email_ID__c;
+              if('VKYC'.equals(modeofchangeofaddress) && 'hfl003'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              else if((NewMobileNumber!='' && NewMobileNumber!=null) && 'hfl045'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              else if((NewEmailID!='' && !String.isBlank(NewEmailID)) && 'hfl023'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              
+        	if (validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK && caseRecord.Technical_Source__c=='API' && conditionsatisfied==true) {
+            	caseRecord.movetonext__c=true;
         	}
+			}
     	}
-		if(!updatedcases.isEmpty()){
-		    update updatedcases; 
-		}
 	}
-    
 
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
