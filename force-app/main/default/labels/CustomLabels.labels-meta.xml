@@ -1038,7 +1038,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
-        <value>8080808080808080</value>
+        <value>tDgbshCSrQpi8fqLBcFWN9Sx55GaRWKo</value>
     </labels>
     <labels>
         <fullName>ABSLI_ARS_IV_VALUE</fullName>
@@ -1046,7 +1046,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
-        <value>8080808080808080</value>
+        <value>OmEpJ51QoM98ZIJ5</value>
     </labels>
     <labels>
         <fullName>ABSLI_ARS_URL</fullName>
@@ -1233,5 +1233,47 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
         <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Track_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Track Sources</shortDescription>
+        <value>Phone-Inbound,Phone-Outbound</value>
+    </labels>
+     <labels>
+        <fullName>ABHI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI BU</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_IV</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_IV</shortDescription>
+        <value>8549708501325472</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_KEY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_KEY</shortDescription>
+        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_USR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_USR</shortDescription>
+        <value>RQSFDC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ready_Reck_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
+        <value>http://10.155.8.204:94/rtpWS/rcase=</value>
     </labels>
 </CustomLabels>
