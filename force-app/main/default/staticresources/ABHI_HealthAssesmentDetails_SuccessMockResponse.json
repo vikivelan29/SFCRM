@@ -1,0 +1,24 @@
+{
+    "Response": [
+      {
+        "AHCdate": "",
+        "EligibiltytoearnHRAHC": "YES",
+        "EligibiltytoearnHRDHA": "YES",  
+        "EligibiltytoearnHRHA": "YES", 
+        "HHSDHA": "NO", 
+        "HHSExpiredDateDHA": "", 
+        "HHSExpiredDateHA": "", 
+        "HHSHA": "NO", 
+        "HealthAssesmentStatusAHC": "NO", 
+        "HealthAssesmentStatusDHA": "NO", 
+        "HealthAssesmentStatusHA": "NO", 
+        "Name": "Senthilkumar  As",     
+        "vchPolicyNumber": "21-17-0001919-08"
+  
+      }
+    
+    ],
+    "StatusCode": 1000,
+    "message": "Success"
+  }
+  

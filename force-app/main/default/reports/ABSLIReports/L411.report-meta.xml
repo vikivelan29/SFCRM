@@ -13,7 +13,7 @@
         <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$ASF_Issue_Code__c</field>
+        <field>Case$CCC_External_Id__c</field>
     </columns>
     <columns>
         <field>Case$Channel__c</field>
@@ -53,9 +53,6 @@
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Name</field>
-    </columns>
-    <columns>
-        <field>Case$Asset.Branch__c.Branch_Code__c</field>
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Zone__c</field>

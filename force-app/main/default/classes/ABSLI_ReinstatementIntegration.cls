@@ -295,12 +295,15 @@ public with sharing class ABSLI_ReinstatementIntegration implements ASF_Integrat
         // IF COI IS NOT NULL AND REINSTATEMENTAMOUT > 0
         // 
         boolean bCroppedSignatured = false;
-        for(ASF_Checklist__c checklist : checklists){
-            if(checklist.Status__c == 'Signature Not Cropped' ){
-                bCroppedSignatured = true;
-                break;
+        if(checklists != null){
+            for(ASF_Checklist__c checklist : checklists){
+                if(checklist.Status__c == 'Signature Not Cropped' ){
+                    bCroppedSignatured = true;
+                    break;
+                }
             }
         }
+        
         
         if(String.isNotBlank(COI) && reinstatementAmount > 0){
             // RCD Condition

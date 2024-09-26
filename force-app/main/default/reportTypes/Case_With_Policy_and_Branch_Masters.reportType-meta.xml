@@ -2878,6 +2878,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Account.PersonContact.Email</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Account.Phone</field>
             <table>Case</table>
         </columns>
@@ -3743,12 +3748,32 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy.Manager.Manager.Manager</field>
+            <field>Filter_Date__c</field>
             <table>Case</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy.FederationIdentifier</field>
+            <field>Asset.Loyalty_Service_Agent_Name__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Asset.Loyalty_Service_Agent_Id__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Contact.Mobile__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Approver_Remarks__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Manager</field>
             <table>Case</table>
         </columns>
         <columns>
@@ -3758,7 +3783,42 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy.Manager</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy.Department</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Cash_Surrender_Value__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.FederationIdentifier</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Manager.Manager.Manager</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Asset.Life_Insured__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Asset.Advisor__c.Agent_Sub_Category__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Type__c</field>
             <table>Case</table>
         </columns>
         <columns>
@@ -3770,6 +3830,26 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Account.PersonContact.Birthdate</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account.PersonContact.Mobile__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account.PersonContact.MobilePhone</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Screening_Date__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Litmus_Triggered__c</field>
             <table>Case</table>
         </columns>
         <masterLabel>Cases</masterLabel>

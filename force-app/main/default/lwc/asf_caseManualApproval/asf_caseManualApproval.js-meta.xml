@@ -4,20 +4,10 @@
   <isExposed>true</isExposed>
   <targets>
     <target>lightning__RecordAction</target>
-    <target>lightningCommunity__Page</target>
-    <target>lightningCommunity__Default</target>
   </targets>
   <targetConfigs>
     <targetConfig targets="lightning__RecordAction">
       <actionType>ScreenAction</actionType>
-    </targetConfig>
-    <targetConfig targets="lightningCommunity__Default">
-      <property
-        name="recordId"
-        type="String"
-        label="Record Id"
-        description="Pass the page's record id to the component variable"
-        default="{!recordId}" />
     </targetConfig>
   </targetConfigs>
 </LightningComponentBundle>
