@@ -195,7 +195,7 @@ export class asf_Utility {
             const caseRecordForValidation = { apiName: CASE_OBJECT.objectApiName, fields: fields };
             console.log('invoing validator'+JSON.stringify(caseRecordForValidation));
             let methodName = selected.Validation_method_during_creation__c;
-            let validationResult = await validator[methodName](caseRecordForValidation);
+            let validationResult = await validator[methodName](caseRecordForValidation,'account');
             console.log('returned with dynamic method '+JSON.stringify(validationResult));
             if(validationResult.isSuccess == false){
                 parentJS.dispatchEvent(
