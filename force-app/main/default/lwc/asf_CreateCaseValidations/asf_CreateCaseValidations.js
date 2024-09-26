@@ -16,15 +16,17 @@ import abhiCaseValidation from '@salesforce/apex/ABHI_BusinessLogic_Helper.abhiC
  */
 const genFundApiValidation = async (input,reqFrom) => {
     try{
-        let result = await genFundApiValidationCallout({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await genFundApiValidationCallout({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('genFundApiValidation'+JSON.stringify(error));
@@ -34,15 +36,17 @@ const genFundApiValidation = async (input,reqFrom) => {
 
 const nomineeChangeValidation = async (input,reqFrom) => {
     try{
-        let result = await nomineeChangeCaseCreationValidation({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await nomineeChangeCaseCreationValidation({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('nomineeChangeValidation'+JSON.stringify(error));
@@ -52,15 +56,17 @@ const nomineeChangeValidation = async (input,reqFrom) => {
 
 const duplicatePolicyPrinting = async (input,reqFrom) => {
     try{
-        let result = await duplicatePolicyPrintingValidation({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await duplicatePolicyPrintingValidation({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('duplicatePolicyPrintingValidation'+JSON.stringify(error));
@@ -70,15 +76,17 @@ const duplicatePolicyPrinting = async (input,reqFrom) => {
 
 const performUINapiCallout = async (input,reqFrom) => {
     try{
-        let result = await performUINapiCalloutValidation({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await performUINapiCalloutValidation({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('performUINapiCalloutValidation'+JSON.stringify(error));
@@ -88,15 +96,17 @@ const performUINapiCallout = async (input,reqFrom) => {
 
 const penalInterestPayoutSaralHealth = async (input,reqFrom) => {
     try{
-        let result = await penalInterestPayoutSaralHealthValidation({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await penalInterestPayoutSaralHealthValidation({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('penalInterestPayoutSaralHealthValidation'+JSON.stringify(error));
@@ -106,15 +116,17 @@ const penalInterestPayoutSaralHealth = async (input,reqFrom) => {
 
 const assignmentIssueType = async (input,reqFrom) => {
     try{
-        let result = await assignmentIssueTypeValidation({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await assignmentIssueTypeValidation({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('assignmentIssueTypeValidation'+JSON.stringify(error));
@@ -124,15 +136,17 @@ const assignmentIssueType = async (input,reqFrom) => {
 
 const changeInInvestorProfile = async (input,reqFrom) => {
     try{
-        let result = await changeInInvestorProfileValidation({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await changeInInvestorProfileValidation({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('changeInInvestorProfileValidation'+JSON.stringify(error));
@@ -142,15 +156,17 @@ const changeInInvestorProfile = async (input,reqFrom) => {
 
 const interestWaiverForHO = async (input,reqFrom) => {
     try{
-        let result = await interestWaiverForHOValidation({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await interestWaiverForHOValidation({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('interestWaiverForHOValidation'+JSON.stringify(error));
@@ -160,15 +176,17 @@ const interestWaiverForHO = async (input,reqFrom) => {
 
 const reinstatementVal = async (input,reqFrom) => {
     try{
-        let result = await reinstatementValidation({caseRecord:JSON.stringify(input.fields)});
-        if(result){
-            //if result is as expected, then
-            if(result=='Success'){
-                return new ValidationWrapper(true, result);
-            }else{
-                return new ValidationWrapper(false, result);
+        if(reqFrom=='account'){
+            let result = await reinstatementValidation({caseRecord:JSON.stringify(input.fields)});
+            if(result){
+                //if result is as expected, then
+                if(result=='Success'){
+                    return new ValidationWrapper(true, result);
+                }else{
+                    return new ValidationWrapper(false, result);
+                }
+            //success response
             }
-           //success response
         }
     } catch(error){
         console.log('reinstatementValidation'+JSON.stringify(error));
