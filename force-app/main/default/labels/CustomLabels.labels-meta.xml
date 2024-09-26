@@ -1115,4 +1115,11 @@
         <shortDescription>Wellness BU</shortDescription>
         <value>Wellness</value>
     </labels>
+    <labels>
+        <fullName>MCRMSupressCTSTs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRMSupressCTSTs</shortDescription>
+        <value>MLQRJUNK</value>
+    </labels>
 </CustomLabels>

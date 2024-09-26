@@ -43,14 +43,9 @@
                 <label>ABSLIG</label>
             </value>
             <value>
-                <fullName>ABHI</fullName>
+                <fullName>Wellness</fullName>
                 <default>false</default>
-                <label>ABHI</label>
-            </value>
-            <value>
-                <fullName>ABSLAMC</fullName>
-                <default>false</default>
-                <label>ABSLAMC</label>
+                <label>Wellness</label>
             </value>
             <value>
                 <fullName>Payment</fullName>
