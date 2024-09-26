@@ -1,7 +1,7 @@
 import { LightningElement, wire, api } from 'lwc';
 import { getRecord, getFieldValue, getRecordNotifyChange, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/ASF_Case_Approv__c.Approver_01__c';
-import { modalStates, errorCodes, staticFields } from "./caseManualApprovalUtility.js";
+import { modalStates, errorCodes, getBUSpecificStaticFields } from "./caseManualApprovalUtility.js";
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 import currentUserId from '@salesforce/user/Id';
@@ -74,6 +74,8 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
             this.caseNumber = data.fields.CaseNumber.value;
             this.caseStage = data.fields.Stage__c.value;
             this.businessUnit =data.fields.Business_Unit__c.value;
+            let staticFields = getBUSpecificStaticFields(this.businessUnit);
+            this.arr_Statisfields = staticFields.APPROVALSTATISFIELDS;
         }
     }
 
@@ -90,7 +92,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         this.approver4 = !this.isRecatRequest ? APPROVER4.fieldApiName : RECAT_APPROVER4.fieldApiName;
         this.approver5 = !this.isRecatRequest ? APPROVER5.fieldApiName : RECAT_APPROVER5.fieldApiName;
         this.arr_fields = !this.isRecatRequest ? modalStates.CASE_APPROVAL_FIELDS : modalStates.RECAT_APPROVAL_FIELDS;
-        this.arr_Statisfields = staticFields.APPROVALSTATISFIELDS;
+        
         this.isLoadedInCommunity();
     }
     renderedCallback() {
@@ -100,6 +102,9 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         window.setTimeout(() => {
             return true;
         }, 500);
+    }
+    submitForm(event){
+        this.template.querySelector('.hiddenSubmit').click();
     }
     handleCancel(event) {
         if(this.isRecatRequest){
@@ -189,6 +194,10 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
                         ele.parentElement.parentElement.classList.remove(clsName);
                         if (fieldsToShow[arrEle].isRequied) {
                             ele.required = fieldsToShow[arrEle].isRequied;
+                        }
+                        let staticField = this.arr_Statisfields.find((field)=>{return fieldsToShow[arrEle].fieldAPIName == field.fieldAPIName});
+                        if(staticField && staticField.defaulSelectedOption){
+                            ele.value = staticField.defaulSelectedOption;
                         }
                     }
                 }
@@ -360,6 +369,11 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
 
                 }
             }
+            if(fdName == "Requestor_Comments__c" ){
+                if(val || val==undefined || val==''){ // check is used to enable the Send button when we received the "text too long" error
+                    this.isClicked = false;
+                }
+            }
         })
         /*if (fdName == this.approver1 || fdName == this.approver2 || fdName == this.approver3 || fdName == this.approver4 || fdName == this.approver5) {
             console.log('Inside approvers comp',fdName);
@@ -391,13 +405,16 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         } else if (allApprovers.indexOf(val) > -1 && val) {
             errorMessage = errorCodes.APPROVERALREADYSELECTED;
             console.log('1',errorMessage);
+        }else{
+            errorMessage = '';
         }
 
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
             if ([this.approver1, this.approver2, this.approver3, this.approver4, this.approver5].includes(ele.fieldName)) {
                 this.template.querySelectorAll(`[data-error-help-for-field="${ele.fieldName}"]`).forEach(errorEle => {
-                    errorEle.innerText = '';
-                    console.log('Cleared:', errorEle);
+                    //commented below 2 line to keep the error message(s) to the respective fields
+                    //errorEle.innerText = '';
+                    //console.log('Cleared:', errorEle);
                 });
             }
         });
@@ -406,6 +423,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         this.template.querySelectorAll(`[data-error-help-for-field="${fdName}"]`).forEach(errorEle => {
             errorEle.innerText = errorMessage;
             console.log('Set Error:', errorEle);
+            this.isClicked = errorEle.innerText? true :false;
         });
     
         if (fdName == APPROVALTYPE.fieldApiName) {
