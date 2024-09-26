@@ -82,6 +82,7 @@ public class ABSLI_WhatsAppOptOutandOptIn_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				CaseNumber,
@@ -150,6 +151,7 @@ public class ABSLI_WhatsAppOptOutandOptIn_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				CaseNumber,
