@@ -123,6 +123,7 @@ public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessL
         ABSLAMC_CaseAssignmentHelper.updateAssignmentOnStageChange((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
         // Restrict Backward Stage movement from Stage 3 to Stage 1 - ABSLAMC Journey 5
         ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+        ABHI_IGMSHelperMethods.associateAssetIgms((List<Case>)newItems.values());
         abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate');
     }
 

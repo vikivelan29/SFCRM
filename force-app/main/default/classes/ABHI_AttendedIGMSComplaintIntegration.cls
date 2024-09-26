@@ -244,6 +244,7 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
                         ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
                         caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
                         caseExt.Resolved_Date__c = System.Today();
+                        caseExt.Final_Resolution_Date__c = System.Today();
                         caseExt.IGMS_Complaint_Status__c = '4';
                         dmlRecords.add(caseExt);
                         caseRecord.MoveToNext__c = true;
