@@ -183,7 +183,7 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
 	 */
 	public void processResponse(ASF_Case_Integration__c caseInteg) {
 		try {
-            Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
+			Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
 			ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
 			// Succesful Transaction
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
@@ -197,7 +197,13 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
 					// Update NEFT Ref Number
 					caseDetail.Voucher_Number__c = jsonMap.MIR_ACT_CHQ_VCHR_NUM;
 					caseDetail.Voucher_Date__c = System.today();
-					caseDetail.Next_Integration_Name__c = ABSLI_LoanApprovalIntegration.class.getName();
+					if (
+						caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c <=
+						ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT
+					) {
+						caseDetail.Next_Integration_Name__c = ABSLI_LoanApprovalIntegration.class.getName();
+					}
+
 					Database.SaveResult result = Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 
 					if (result.isSuccess()) {
@@ -214,7 +220,7 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
 				Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 
 				caseRecord.MoveToNext__c = true;
-                caseRecord.Is_STP__c = false;
+				caseRecord.Is_STP__c = false;
 				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 			}
 		} catch (Exception e) {
