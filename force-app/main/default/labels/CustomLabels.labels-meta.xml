@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ABHI_AllowOmniDeletion</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_AllowOmniDeletion</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
         <fullName>ABFL_Manual_Sync_Threshold</fullName>
         <categories>ABFL DMS</categories>
         <language>en_US</language>
@@ -1168,6 +1176,21 @@
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
     <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+    <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1306,33 +1329,5 @@
         <protected>false</protected>
         <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
         <value>http://10.155.8.204:94/rtpWS/rcase=</value>
-    </labels>
-    <labels>
-        <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
-        <value>Duplicate case: A case (&lt;CaseNumber&gt;) with same criteria is already open with source as &lt;SOURCE&gt;.</value>
-    </labels>
-    <labels>
-        <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
-        <value>Active</value>
-    </labels>
-    <labels>
-        <fullName>ABHI_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI BU</shortDescription>
-        <value>ABHI</value>
-    </labels>
- <labels>
-        <fullName>ABHI_Track_Sources</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI_Track_Sources</shortDescription>
-        <value>Phone-Inbound,Phone-Outbound</value>
     </labels>
 </CustomLabels>
