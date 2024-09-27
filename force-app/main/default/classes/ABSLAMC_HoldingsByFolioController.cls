@@ -1,6 +1,6 @@
 public with sharing class ABSLAMC_HoldingsByFolioController {
     
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static resultWrapper getSIPResponse(String folioId) {
         
         resultWrapper wrap = new resultWrapper();
@@ -19,7 +19,7 @@ public with sharing class ABSLAMC_HoldingsByFolioController {
         return wrap;
     }
     
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static resultWrapper getHoldingsResponse(String folioId) {
         
         resultWrapper wrap = new resultWrapper();
