@@ -747,9 +747,6 @@
                             <value>Relation__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Contract_No__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>ContractStatus__c</value>
                         </valueListItems>
                     </valueList>

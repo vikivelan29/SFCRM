@@ -2783,9 +2783,6 @@
         <recordType>Account.Non_Individual</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Asset-Wellness Asset Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Case-Wellness Feed Layout</layout>
         <recordType>Case.Framework</recordType>
     </layoutAssignments>
