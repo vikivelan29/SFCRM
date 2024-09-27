@@ -1320,4 +1320,11 @@
         <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
         <value>You do not have access to update/delete this comment</value>
     </labels>
+     <labels>
+        <fullName>Wellness_CaseComment_add_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness CaseComment add Err Msg</shortDescription>
+        <value>You cannot perform this action as You are not the owner of case</value>
+    </labels>
 </CustomLabels>
