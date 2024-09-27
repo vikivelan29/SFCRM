@@ -132,12 +132,12 @@ public with sharing class  ASF_CaseUIController {
                 String customerType = customer.RecordType.Name == 'ABSLI Advisor' ? 'Advisor' : 'Customer';
                 String panValue = customer.Business_Unit__c == ABHI_Constants.ABHI ? customer.PAN_Number__c : customer.PAN__c;
                 if(customer.IsPersonAccount){
-                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),panValue,customer.RecordType.Name,customer.Advisor_Code__c,customer.Business_Unit__c);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),panValue,customer.RecordType.Name,customer.Advisor_Code__c);
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
 
-                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,panValue,customer.RecordType.Name,customer.Advisor_Code__c,customer.Business_Unit__c);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,panValue,customer.RecordType.Name,customer.Advisor_Code__c);
                 }
                 
                 lstResponse.add(custResp);
