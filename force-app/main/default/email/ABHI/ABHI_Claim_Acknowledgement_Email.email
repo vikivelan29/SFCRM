@@ -1,0 +1,19 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+</style>
+Dear Sir/Mam,<br />
+<br />
+Thank you for contacting CRM Claims.<br />
+<br />
+The Request has been logged on your behalf pertaining to your request, details of which are as follows. We shall update you within 24-48 hours.<br />
+<br />
+Service Request: {{{Case.CaseNumber}}}<br />
+<br />
+Regards,<br />
+<br />
+CRM Claims</body>
+</html>
