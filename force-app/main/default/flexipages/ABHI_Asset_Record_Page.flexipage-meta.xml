@@ -1104,6 +1104,7 @@
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -1438,4 +1439,3 @@
     </template>
     <type>RecordPage</type>
 </FlexiPage>
-
