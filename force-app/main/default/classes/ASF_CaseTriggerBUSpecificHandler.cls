@@ -62,10 +62,12 @@ public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessL
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
         Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems.values());
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
-        	//AM-Validating case creation for different CTSTs against policy statuses for ABSLI.
-        	ABSLI_AfterInsertLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId)); 
-        ABSLI_AfterInsertLogic.executeAfterInsertLogic((List<Case>)newItems.values());
-    }
+            //AM-Validating case creation for different CTSTs against policy statuses for ABSLI.
+            ABSLI_AfterInsertLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId)); 
+            ABSLI_AfterInsertLogic.executeAfterInsertLogic((List<Case>)newItems.values());
+            ABHI_IGMSHelperMethods.associateAssetIgms((List<Case>)newItems.values());  
+
+        }
     }
 
     /**
@@ -88,7 +90,7 @@ ABHI_CaseDetailHelper abhilCaseDetailHelperObj = new ABHI_CaseDetailHelper();
         ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
         ctstHelperObj.ICAndPICEvaluationOnApiCall((List<Case>)newItems.values());
         absligCaseDetHelperObj.populateABSLIGCaseDetailFields((List<Case>)newItems.values());
-abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.values());
+        abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.values());
     }
     // INSERT CONTEXT - ENDS HERE
     
@@ -124,7 +126,6 @@ abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.valu
         ABSLAMC_CaseAssignmentHelper.updateCaseStage((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
         // check the backword movement for AMC 3 to1 for Journey 5.
         ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
-        ABHI_IGMSHelperMethods.associateAssetIgms((List<Case>)newItems.values());
         abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate');
         ABSLAMC_BU_CTSTHelper.validateManualApproval((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
     }
@@ -214,5 +215,4 @@ abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.valu
         }
         return mapOfBUToCases;
     }
-        }
-            
+}
