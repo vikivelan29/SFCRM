@@ -113,8 +113,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
                     
                     if (approvals != null && !approvals.isEmpty()) {
                         for (ASF_Case_Approv__c approval : approvals) {
-                            if (approval.Approval_Status__c == ABSLAMC_Constants.APPROVEDSTATUS || 
-                                approval.Approval_Status__c == ABSLAMC_Constants.REJECTEDSTATUS) {
+                            if (approval.Approval_Status__c == ABSLAMC_Constants.APPROVEDSTATUS) {
                                     validApprovalExists = true;
                                     break;
                                 }
