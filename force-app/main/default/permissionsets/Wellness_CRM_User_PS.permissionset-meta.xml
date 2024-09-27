@@ -2659,6 +2659,11 @@
         <field>WellnessCaseDetail__c.Resolution_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WellnessCaseDetail__c.Resolution_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <flowAccesses>
         <enabled>true</enabled>
         <flow>ABFL_Update_Preferred_Name</flow>
