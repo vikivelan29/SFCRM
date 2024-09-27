@@ -9,7 +9,7 @@
         <filterItems>
             <field>Product2.Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLI</value>
+            <valueField>$User.Business_Unit__c</valueField>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
