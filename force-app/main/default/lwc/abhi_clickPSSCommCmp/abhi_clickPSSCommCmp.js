@@ -45,6 +45,11 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
                 this.showRecords = true;
                 this.isLoading = false;
             }
+            else{
+                this.isLoading = false;
+                this.displayError = true;
+                this.displayMessage='No Policies are present for this record';
+            }
             this.paginationHelper(); // call helper method to update pagination logic
         } else if (error) {
             this.isLoading = false;
