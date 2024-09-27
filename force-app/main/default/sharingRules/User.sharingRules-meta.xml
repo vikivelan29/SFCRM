@@ -5,7 +5,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC - Share AIF Users</label>
         <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
             <roleAndSubordinatesInternal>ABSLAMC_AIF_Executive_Leadership</roleAndSubordinatesInternal>
@@ -16,7 +16,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC - Share MF Users</label>
         <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
+            <group>ABSLAMC_MF_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
             <roleAndSubordinatesInternal>ABSLAMC_MF_Executive_Leadership</roleAndSubordinatesInternal>
@@ -27,7 +27,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC - Share PMS Users</label>
         <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
             <roleAndSubordinatesInternal>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinatesInternal>
@@ -38,7 +38,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC - Share RE Users</label>
         <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
+            <group>ABSLAMC_RE_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
             <roleAndSubordinatesInternal>ABSLAMC_RE_Executive_Leadership</roleAndSubordinatesInternal>
