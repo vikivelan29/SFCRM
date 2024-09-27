@@ -197,7 +197,7 @@ blankSourcePresent = true;
                 //If the incoming subject of the case is not blank, system will no longer overwrite it, 
                 //irrespective of origin/source of the case. PR970457-1880
                 if(String.isBlank(caseRec.Subject)){
-                    caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                    caseRec.Subject = 'Case - '+appliedCCC.Type__c;
                 }
                 if(!isUpdate || (isUpdate && caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
             
