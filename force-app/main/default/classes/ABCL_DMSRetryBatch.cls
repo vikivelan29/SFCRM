@@ -145,7 +145,6 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             DateTime currentDateTime = System.now();
             fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
             fileRec.File_Extension__c = fileVersion.FileExtension;
-            fileRec.Next_Retry__c = System.now().addMinutes(15);
             if(String.isBlank(leadId) && !isABSLIBusiness && !isABHI){
                 fileRec.Status__c = ABHFL_Constants.CANCELED;
                 fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
@@ -158,6 +157,7 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             fileRec.DMS_Folder_Id__c = isABSLIBusiness ? dmsFolderId : '';
             fileRec.Application_ID__c = isABSLIBusiness ? applicationId : relatedCase.Asset.LAN__c;
             fileRec.Policy_No__c = isABSLIBusiness ? policyNumber : '';
+            fileRec.Next_Retry__c = isABSLIBusiness ? null : System.now().addMinutes(15);
             fileRecList.add(fileRec);
         }
 

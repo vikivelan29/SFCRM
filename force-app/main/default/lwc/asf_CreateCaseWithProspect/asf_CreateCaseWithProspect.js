@@ -513,13 +513,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if(validationResult.isSuccess == false){
                 this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
                 this.loaded = true;
-                this.isNotSelected = true;
-                this.createCaseWithAll = false;
                 this.disableCreateBtn = true;
                 this.selectedCTSTFromProspect = null;
-                this.boolShowNoData = true;
-                this.searchKey = undefined;
-                this.isPhoneInbound = false;
+                this.resetFields();
                 return;
             }
             console.log('ending validator');
@@ -555,30 +551,32 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 //tst end
                 this.dispatchEvent(new CloseActionScreenEvent());
 
-
-                this.isNotSelected = true;
-                this.createCaseWithAll = false;
                 this.disableCreateBtn = true;
                 this.selectedCTSTFromProspect = null;
-                this.boolShowNoData = true;
-                this.searchKey = undefined;
-                this.isPhoneInbound = false;
+                this.resetFields();
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
                 this.loaded = true;
-                this.isNotSelected = true;
-                this.createCaseWithAll = false;
                 this.disableCreateBtn = false;
-                this.boolShowNoData = true;
-                this.searchKey = undefined;
-                this.isPhoneInbound = false;
+                this.resetFields();
                 this.showError('error', 'Oops! Error occured', error);
 
 
             })
 
 
+    }
+    resetFields(){
+        this.boolShowNoData = true;
+        this.createCaseWithAll = false;
+        this.searchKey = undefined;
+        this.isPhoneInbound = false;
+        this.showIssueType = false;
+        this.showFtr = false;
+        this.showAniNumber = false;
+        this.showCategoryType = false;
+        this.isNotSelected = true;
     }
 
     connectedCallback(){
