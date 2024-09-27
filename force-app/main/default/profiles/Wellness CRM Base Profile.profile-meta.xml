@@ -2616,11 +2616,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>LAN_Mapping__c.Contract_No__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>LAN_Mapping__c.Customer_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
