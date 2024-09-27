@@ -995,6 +995,20 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>showChecklistColumn</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>aSF_DMSViewDatatable</componentName>
+                <identifier>c_aSF_DMSViewDatatable</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-6d19d990-35b5-4b90-ad8d-c8c9631f1c47</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -1108,6 +1122,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-6d19d990-35b5-4b90-ad8d-c8c9631f1c47</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>DMS</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab8</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e7bcca42-aed9-4e90-9237-2ca2da3244a5</name>
