@@ -350,7 +350,6 @@ public with sharing class ABCL_IntegrationCommonUtility {
                     DateTime currentDateTime = System.now();
                     fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
                     fileRec.File_Extension__c = fileVersion.FileExtension;
-                    fileRec.Next_Retry__c = System.now().addMinutes(15);
                     if(String.isBlank(leadId) && !isABSLIBusiness){
                         fileRec.Status__c = ABHFL_Constants.CANCELED;
                         fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
