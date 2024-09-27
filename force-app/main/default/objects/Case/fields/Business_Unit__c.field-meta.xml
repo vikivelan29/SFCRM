@@ -43,15 +43,25 @@
                 <label>ABSLIG</label>
             </value>
             <value>
-                <fullName>Wellness</fullName>
+                <fullName>ABHI</fullName>
                 <default>false</default>
-                <label>Wellness</label>
+                <label>ABHI</label>
+            </value>
+            <value>
+                <fullName>ABSLAMC</fullName>
+                <default>false</default>
+                <label>ABSLAMC</label>
             </value>
             <value>
                 <fullName>Payment</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Payment</label>
+            </value>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
             </value>
         </valueSetDefinition>
     </valueSet>
