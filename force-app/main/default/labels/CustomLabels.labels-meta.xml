@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ABHI_AllowOmniDeletion</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_AllowOmniDeletion</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
         <fullName>ABFL_Manual_Sync_Threshold</fullName>
         <categories>ABFL DMS</categories>
         <language>en_US</language>
@@ -1131,6 +1139,7 @@
     </labels>
     <labels>
         <fullName>ABHI_OmniDocURL</fullName>
+        <categories>ABHI</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_OmniDocURL</shortDescription>
