@@ -26,9 +26,14 @@
                 <label>ABFL</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
+                <fullName>ABSLIG</fullName>
                 <default>false</default>
-                <label>ABWM</label>
+                <label>ABSLIG</label>
+            </value>
+            <value>
+                <fullName>ABSLI</fullName>
+                <default>false</default>
+                <label>ABSLI</label>
             </value>
             <value>
                 <fullName>ABSLIG</fullName>
