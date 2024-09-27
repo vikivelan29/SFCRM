@@ -33,3 +33,73 @@
     <masterLabel>Business Unit</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ABFL</fullName>
+        <default>false</default>
+        <label>ABFL</label>
+    </customValue>
+    <customValue>
+        <fullName>ABHFL</fullName>
+        <default>false</default>
+        <label>ABHFL</label>
+    </customValue>
+    <customValue>
+        <fullName>Payments</fullName>
+        <default>false</default>
+        <label>Payments</label>
+    </customValue>
+    <customValue>
+        <fullName>ABWM</fullName>
+        <default>false</default>
+        <label>ABWM</label>
+    </customValue>
+    <customValue>
+        <fullName>ABSLIG</fullName>
+        <default>false</default>
+        <label>ABSLIG</label>
+    </customValue>
+    <customValue>
+        <fullName>Wellness</fullName>
+        <default>false</default>
+        <label>Wellness</label>
+    </customValue>
+    <masterLabel>Business Unit</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ABFL</fullName>
+        <default>false</default>
+        <label>ABFL</label>
+    </customValue>
+    <customValue>
+        <fullName>ABHFL</fullName>
+        <default>false</default>
+        <label>ABHFL</label>
+    </customValue>
+    <customValue>
+        <fullName>Payments</fullName>
+        <default>false</default>
+        <label>Payments</label>
+    </customValue>
+    <customValue>
+        <fullName>ABWM</fullName>
+        <default>false</default>
+        <label>ABWM</label>
+    </customValue>
+    <customValue>
+        <fullName>ABSLIG</fullName>
+        <default>false</default>
+        <label>ABSLIG</label>
+    </customValue>
+    <customValue>
+        <fullName>Wellness</fullName>
+        <default>false</default>
+        <label>Wellness</label>
+    </customValue>
+    <masterLabel>Business Unit</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
