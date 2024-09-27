@@ -255,52 +255,52 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>Clarification required on query raised</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>Insured asked to apply for reimbursement</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>Claim Settled / Claim within TAT</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>Delay in submission</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
             <controllingFieldValue>Others</controllingFieldValue>
             <valueName>Others</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Others</controllingFieldValue>
+            <controllingFieldValue>Service</controllingFieldValue>
             <valueName>Renewal</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Others</controllingFieldValue>
+            <controllingFieldValue>Service</controllingFieldValue>
             <valueName>Refund</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Others</controllingFieldValue>
+            <controllingFieldValue>Service</controllingFieldValue>
             <valueName>HR</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Others</controllingFieldValue>
+            <controllingFieldValue>Service</controllingFieldValue>
             <valueName>HA/AHC</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Others</controllingFieldValue>
+            <controllingFieldValue>Service</controllingFieldValue>
             <valueName>Cancellation</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Others</controllingFieldValue>
+            <controllingFieldValue>Service</controllingFieldValue>
             <valueName>App Issue</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Others</controllingFieldValue>
+            <controllingFieldValue>Service</controllingFieldValue>
             <valueName>Policy not issued</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Clarification required on query raised</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Insured asked to apply for reimbursement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Claim Settled / Claim within TAT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Delay in submission</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Sales</controllingFieldValue>
