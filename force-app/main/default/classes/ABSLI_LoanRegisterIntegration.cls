@@ -204,14 +204,29 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
 						caseDetail.Next_Integration_Name__c = ABSLI_LoanApprovalIntegration.class.getName();
 					}
 
-					Database.SaveResult result = Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
+                    if(caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c >
+					ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT ){
+                        caseRecord.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_STP;
+                        caseRecord.Is_STP__c = false;
+                        caseDetail.Status_Valid_For_STP__c = false;
+                        caseRecord.MoveToNext__c = true;
+
+                        Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+                    }
+
+                    Database.SaveResult result = Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 
 					if (result.isSuccess()) {
-						ASF_Integration__c loanApprovalInt = ABSLI_IntegrationQueryHelper.getIntegrationInfo(
-								new Set<String>{ ABSLI_LoanApprovalIntegration.class.getName() }
-							)
-							.get(ABSLI_LoanApprovalIntegration.class.getName());
-						ASF_IntegrationsController.runIntegration(loanApprovalInt, caseRecord);
+						if (
+							caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c <=
+							ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT
+						) {
+							ASF_Integration__c loanApprovalInt = ABSLI_IntegrationQueryHelper.getIntegrationInfo(
+									new Set<String>{ ABSLI_LoanApprovalIntegration.class.getName() }
+								)
+								.get(ABSLI_LoanApprovalIntegration.class.getName());
+							ASF_IntegrationsController.runIntegration(loanApprovalInt, caseRecord);
+						}
 					}
 				}
 			}
