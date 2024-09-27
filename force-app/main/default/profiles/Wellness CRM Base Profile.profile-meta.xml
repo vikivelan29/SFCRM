@@ -69,10 +69,6 @@
         <apexClass>MCRM_SuppressEmailHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>MCRM_ValidateRequireFieldOnResolvedStage</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
         <editable>false</editable>
