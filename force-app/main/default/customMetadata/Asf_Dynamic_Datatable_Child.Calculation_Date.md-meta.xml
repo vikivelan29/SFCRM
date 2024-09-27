@@ -4,22 +4,18 @@
     <protected>false</protected>
     <values>
         <field>Api_Name__c</field>
-        <value xsi:type="xsd:string">CalculationDate</value>
+        <value xsi:type="xsd:string">calculationDate</value>
     </values>
     <values>
         <field>Asf_Dynamic_Datatable_Parent__c</field>
-        <value xsi:type="xsd:string">ABHI_ActiveAgeDetails</value>
+        <value xsi:type="xsd:string">MCRM_Assessments_Active_Age</value>
     </values>
     <values>
         <field>Data_Type__c</field>
-        <value xsi:type="xsd:string">Text</value>
+        <value xsi:type="xsd:string">date</value>
     </values>
     <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">5.0</value>
-    </values>
-    <values>
-        <field>Type_Attributes__c</field>
-        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

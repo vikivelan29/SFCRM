@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>Wellness_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Wellness Asset Sharing</label>
+        <sharedTo>
+            <role>Wellness_Service_Agent</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Wellness</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ABFL_Asset_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABFL Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -19,7 +33,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABFL Asset Sharing with Service Agent</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Service_Agent</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -33,12 +47,26 @@
         <accessLevel>Read</accessLevel>
         <label>ABHFL Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHI_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABHI Asset Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ABHI_Service_Manager</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHI</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -58,6 +86,25 @@
             <field>LOB__c</field>
             <operation>equals</operation>
             <value>AIF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_MF_Assets_Share_to_MF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC MF Assets Share to MF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_MF_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>LOB__c</field>
+            <operation>equals</operation>
+            <value>MF</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -104,7 +151,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLIG Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -118,7 +165,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLI Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -149,39 +196,6 @@
             <field>Loyalty_Service_Agent_Name__c</field>
             <operation>notEqual</operation>
             <value></value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABHI_Asset_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABHI Asset Sharing</label>
-        <sharedTo>
-            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_MF_Assets_Share_to_MF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC MF Assets Share to MF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>MF</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
