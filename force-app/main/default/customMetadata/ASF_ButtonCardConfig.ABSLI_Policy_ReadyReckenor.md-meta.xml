@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABSLI_Policy_ReadyReckenor</label>
+    <protected>false</protected>
+    <values>
+        <field>Business_Unit__c</field>
+        <value xsi:type="xsd:string">ABSLI</value>
+    </values>
+    <values>
+        <field>Button_Label__c</field>
+        <value xsi:type="xsd:string">Redirect to Ready Reckenor</value>
+    </values>
+    <values>
+        <field>ObjectApiName__c</field>
+        <value xsi:type="xsd:string">Asset</value>
+    </values>
+    <values>
+        <field>On_Click_Invoke_ApexClass__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>On_Click_Invoke_LWC__c</field>
+        <value xsi:type="xsd:string">c/ABSLI_redirectToReadyReckenor</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">12.0</value>
+    </values>
+    <values>
+        <field>SLDS_Icon__c</field>
+        <value xsi:type="xsd:string">utility:guidance</value>
+    </values>
+</CustomMetadata>

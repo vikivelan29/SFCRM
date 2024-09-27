@@ -98,19 +98,19 @@ public class ABSLI_WithdrawalUpdateIntegration_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_WithdrawalPolicyIntegration surInt = new ABSLI_WithdrawalPolicyIntegration();
-       	Case caseRecord = [SELECT id,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,
+       	Case caseRecord = [SELECT id,Source__c,Technical_Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,CaseNumber,
                            Asset.Policy_No__c,Business_Unit__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = surInt.evaluate(caseRecord);
-        System.assertEquals('Error', successfulEvaluate.status);
+        System.assertEquals('Success', successfulEvaluate.status);
         Test.stopTest();
     }
     
     @IsTest
     static void testRun(){
         ABSLI_WithdrawalPolicyIntegration surInt = new ABSLI_WithdrawalPolicyIntegration();
-       	Case caseRecord = [SELECT id,ABSLI_Case_Detail__r.TDS_Indicator__c,Account.PAN__c,CaseNumber,Asset.Policy_No__c,ABSLI_Case_Detail__r.IFSC_Code__c,ABSLI_Case_Detail__r.MICR_Code__c,ABSLI_Case_Detail__r.Account_Number__c,ABSLI_Case_Detail__r.Bank_Name__c,ABSLI_Case_Detail__r.Branch_Name__c,Asset.Zone__c,ABSLI_Case_Detail__r.Account_Type__c,ABSLI_Case_Detail__r.Fund_Tranfer_Amount__c,Business_Unit__c FROM Case LIMIT 1];
+       	Case caseRecord = [SELECT id,ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c,ABSLI_Case_Detail__r.TDS_Indicator__c,Account.PAN__c,CaseNumber,Asset.Policy_No__c,ABSLI_Case_Detail__r.IFSC_Code__c,ABSLI_Case_Detail__r.MICR_Code__c,ABSLI_Case_Detail__r.Account_Number__c,ABSLI_Case_Detail__r.Bank_Name__c,ABSLI_Case_Detail__r.Branch_Name__c,Asset.Zone__c,ABSLI_Case_Detail__r.Account_Type__c,ABSLI_Case_Detail__r.Fund_Tranfer_Amount__c,Business_Unit__c FROM Case LIMIT 1];
         ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();

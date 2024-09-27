@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html style="overflow-y: hidden;">
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="border:1px solid #000000;" width="620">
+	<tbody>
+		<tr>
+			<td style="padding-top:0px; padding-right:0px; padding-bottom:0px; padding-left:0px;">
+			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tbody>
+					<tr>
+						<td style="padding-top:10px; padding-right:0px; padding-bottom:20px; padding-left:0px;">
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>
+								<tr>
+									<td align="left" valign="top" width="50">&nbsp;</td>
+									<td align="left" valign="top" width="520">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										<tbody>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom"><br />
+												Dear Sir / Madam,</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 25px;font-style:normal;" valign="bottom">Greetings from Aditya Birla Sun Life AMC Ltd - Investment Managers to Alternative Investment Fund!</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We sincerely apologize for the delay in addressing your concern under case ID <span style="font-weight:normal;">{{{Case.Type__c}}} </span>Please be assured that our dedicated team is actively working on resolving this and will provide you an update shortly.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We regret the inconvenience caused to you in this regard, and truly appreciate your patience.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">In case of any further assistance, you can also contact us on our Toll Free Number 1800 270 7000. (9am to 9 pm) or write to us on care.aif@adityabirlacapital.com.</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom"><br />
+												Warm regards,<br />
+												Client Relations<br />
+												Aditya Birla Sun Life Mutual Fund.<br />
+												&ndash; Investment Managers to Alternate Investment Fund</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">&nbsp;</td>
+											</tr>
+										</tbody>
+									</table>
+									</td>
+									<td align="left" valign="top" width="50">&nbsp;</td>
+								</tr>
+							</tbody>
+						</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</body>
+</html>

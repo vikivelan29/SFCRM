@@ -233,20 +233,22 @@ public class ABSLI_CaseIntegrationHelper {
             }
         }
         if(String.isNotBlank(ebotResponse.ClientId)){
-            List<Account> customerList = [Select Id from Account where Client_Code__c =: ebotResponse.ClientId];
+            caseRecord.Client_Code_Text__c = ebotResponse.ClientId;
+            /*List<Account> customerList = [Select Id from Account where Client_Code__c =: ebotResponse.ClientId];
             if(customerList.size() > 0){
                 caseRecord.AccountId = customerList[0].Id;
-            }
+            }*/
         }else{
             caseRecord.AccountId = NULL;
             caseRecord.ContactId = NULL;
             caseRecord.Client_Code_Text__c = NULL;
         }
         if(String.isNotBlank(ebotResponse.PolicyNo)){
-            List<Asset> policyList = [Select Id from Asset where Policy_No__c =: ebotResponse.PolicyNo];
+            caseRecord.LAN__c = ebotResponse.PolicyNo;
+            /*List<Asset> policyList = [Select Id from Asset where Policy_No__c =: ebotResponse.PolicyNo];
             if(policyList.size() > 0){
                 caseRecord.AssetId = policyList[0].Id;
-            }
+            }*/
         }else{
             caseRecord.AssetId = NULL;
         }

@@ -8,9 +8,10 @@ public class ABHI_IGMSHelperMethods {
      /**
      * @description  to populate the account from the mobile no when case is created from IGMS
      * @param cases - Case list
-     */
-	public static void associateCustomerForAPIFromPhoneNumber(List<Case> cases){
+     ***/
+    public static void associateCustomerForAPIFromPhoneNumber(List<Case> cases){
         List<Case> abhiCases = new List<Case>();
+        List<Case> updateCase = new List<Case>();
         Set<String> phoneNumbers = new Set<String>();
         try{
             for(Case recCs: cases){
@@ -53,9 +54,14 @@ public class ABHI_IGMSHelperMethods {
                     if(mAccWithSamePhNum.containsKey(cs.SuppliedPhone)){
                         List<Id> accounts = mAccWithSamePhNum.get(cs.SuppliedPhone);
                         if(accounts.size() == 1){
-                            cs.AccountId = accounts.get(0);
+                            Case  objCase = new Case (Id = cs.Id );
+                            objCase.AccountId = accounts.get(0);
+                            updateCase.add(objCase);
                         }
                     }
+                }
+                if(!updateCase.isEmpty()){
+                    update updateCase;
                 }
             }
         }
@@ -71,7 +77,8 @@ public class ABHI_IGMSHelperMethods {
     public static void associateAssetIgms(List<Case> cases){
         List<Case> abhiCases = new List<Case>();
         Set<String> proposalClaimNo = new Set<String>();
-        List<Case> fetchedCases = [SELECT ID,Business_Unit__c,Technical_Source__c,AccountId,AssetId,ABHI_Case_Detail__c,ABHI_Case_Detail__r.Policy_Proposal_Cert_Claim_Number__c FROM CASE WHERE ID IN:cases];
+        Boolean updatedCase = false; // Tracking if an update has occurred
+        List<Case> fetchedCases = [SELECT ID,Business_Unit__c,Technical_Source__c,AccountId,AssetId,ABHI_Case_Detail__c,ABHI_Case_Detail__r.Policy_Proposal_Cert_Claim_Number__c,ABHI_Case_Detail__r.Proposal_Or_Cover_Note_Number__c,ABHI_Case_Detail__r.Claim_No__c FROM CASE WHERE ID IN:cases];
         system.debug('casess '+ cases );
         try{
             for(Case recCs: fetchedCases){
@@ -80,29 +87,50 @@ public class ABHI_IGMSHelperMethods {
                    && recCs.AccountId == null && recCs.AssetId == null)
                 {
                     abhiCases.add(recCs);
-                    proposalClaimNo.add(recCs.ABHI_Case_Detail__r.Policy_Proposal_Cert_Claim_Number__c);
-                            system.debug('proposalClaimNosss '+ proposalClaimNo );
-
+                    if(recCs.ABHI_Case_Detail__r.Policy_Proposal_Cert_Claim_Number__c != null){
+                        proposalClaimNo.add(recCs.ABHI_Case_Detail__r.Policy_Proposal_Cert_Claim_Number__c);
+                    }
+                    else if(recCs.ABHI_Case_Detail__r.Proposal_Or_Cover_Note_Number__c != null){
+                        proposalClaimNo.add(recCs.ABHI_Case_Detail__r.Proposal_Or_Cover_Note_Number__c);
+                    }
+                    else if(recCs.ABHI_Case_Detail__r.Claim_No__c != null){
+                        proposalClaimNo.add(recCs.ABHI_Case_Detail__r.Claim_No__c);
+                    }
+                     system.debug('proposalClaimNosss '+ proposalClaimNo );
                 }
             }
             if(proposalClaimNo.size()>0){
-				List<Asset> foundAsset = [SELECT ID, SerialNumber FROM ASSET WHERE SerialNumber =:  proposalClaimNo AND Business_Unit__c = 'ABHI' LIMIT 1];
+                List<Case> updateCase = new List<Case>();
+                List<Asset> foundAsset = [SELECT ID, SerialNumber,AccountId FROM ASSET WHERE SerialNumber =:  proposalClaimNo AND Business_Unit__c = 'ABHI' LIMIT 1];
                 if(!foundAsset.isEmpty()){
                     for(Case cs : abhiCases){
-                    	cs.LAN__c  = foundAsset[0].SerialNumber;
+                        Case  objCase = new Case (Id = cs.Id );
+                        objCase.AccountId = foundAsset[0].AccountId;
+                        objCase.AssetID  = foundAsset[0].Id;
+                        objCase.typeSubTypeMismatch__c =false;
+                        updateCase.add(objCase);
                     }
                 }
                 else {
-                	List<Claim__c > foundAssetClaim = [SELECT ID, Policy_Number__c , Name  FROM Claim__c WHERE Name =:  proposalClaimNo LIMIT 1];
-                    if(!foundAsset.isEmpty()){
+                    List<Claim__c > foundAssetClaim = [SELECT ID, Policy_Number__c,Policy_Number__r.AccountID , Name  FROM Claim__c WHERE Name =:  proposalClaimNo LIMIT 1];
+                    if(!foundAssetClaim.isEmpty()){
                         for(Case cs : abhiCases){
-                            cs.LAN__c  = foundAssetClaim[0].Policy_Number__c;
+                            Case  objCase = new Case (Id = cs.Id );
+                            objCase.AccountId = foundAssetClaim[0].Policy_Number__r.AccountID;
+                            objCase.AssetID  = foundAssetClaim[0].Policy_Number__c;
+                            objCase.typeSubTypeMismatch__c =false;
+                            updateCase.add(objCase);
                         }
                     }
                 }
+                if(!updateCase.isEmpty()){
+                    system.debug('updateCaseas '+updateCase);
+                    update updateCase;
+                    updatedCase = true;
+                }
             }
-            else {
-               // associateCustomerForAPIFromPhoneNumber(cases);
+            if (!updatedCase) {
+                associateCustomerForAPIFromPhoneNumber(cases);
             }
         }
           catch(Exception e){

@@ -228,6 +228,7 @@ public with sharing class ABHI_ReopenedIGMSComplaintIntegration  implements ASF_
                         ABHI_Case_Detail__c  caseExt = new ABHI_Case_Detail__c (Id = caseRecord.ABHI_Case_Detail__c );
                         caseExt.IRDAI_Token_Number__c = irdaTokenNumber;
                         caseExt.Reopened_Date__c = System.Today();
+                        caseExt.Final_Resolution_Date__c = null;
                         caseExt.IGMS_Complaint_Status__c = '6';
                         dmlRecords.add(caseExt);
                     }
