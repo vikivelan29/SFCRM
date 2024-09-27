@@ -210,11 +210,10 @@ public with sharing class ABSLI_LoanRegisterIntegration implements ASF_Integrati
                         caseRecord.Is_STP__c = false;
                         caseDetail.Status_Valid_For_STP__c = false;
                         caseRecord.MoveToNext__c = true;
-
-                        Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
                     }
 
                     Database.SaveResult result = Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
+                    Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 
 					if (result.isSuccess()) {
 						if (
