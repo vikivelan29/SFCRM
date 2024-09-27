@@ -514,7 +514,18 @@ export const errorCodes={
     GARBAGEVALUEINLOOKUP : 'Select an option from the picklist or remove the search term',
     WARNINGAPPROVALREMOVAL : 'Before removing approver field, please remove garbage values from '
 }
-export const staticFields={
+
+//override staticFields variable for BUs
+export function getBUSpecificStaticFields(buValue){
+    if(buValue == 'ABSLAMC'){
+        staticFields.APPROVALSTATISFIELDS[0].readOnly = true;
+        staticFields.APPROVALSTATISFIELDS[0].defaulSelectedOption = 'Sequential';
+    }
+    return staticFields;
+}
+
+//This is the default settings for Approval fields - status and comments
+let staticFields={
     APPROVALSTATISFIELDS:[
         {
             fieldAPIName : APPROVALTYPE.fieldApiName,

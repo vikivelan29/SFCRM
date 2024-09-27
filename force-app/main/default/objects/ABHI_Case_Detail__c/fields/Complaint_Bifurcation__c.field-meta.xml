@@ -28,59 +28,14 @@
                 <label>Service</label>
             </value>
             <value>
-                <fullName>Renewal</fullName>
-                <default>false</default>
-                <label>Renewal</label>
-            </value>
-            <value>
-                <fullName>Refund</fullName>
-                <default>false</default>
-                <label>Refund</label>
-            </value>
-            <value>
-                <fullName>HR</fullName>
-                <default>false</default>
-                <label>HR</label>
-            </value>
-            <value>
-                <fullName>HA/AHC</fullName>
-                <default>false</default>
-                <label>HA/AHC</label>
-            </value>
-            <value>
-                <fullName>Cancellation</fullName>
-                <default>false</default>
-                <label>Cancellation</label>
-            </value>
-            <value>
-                <fullName>App Issue</fullName>
-                <default>false</default>
-                <label>App Issue</label>
-            </value>
-            <value>
-                <fullName>Policy not issued</fullName>
-                <default>false</default>
-                <label>Policy not issued</label>
-            </value>
-            <value>
-                <fullName>Incomplete Information</fullName>
-                <default>false</default>
-                <label>Incomplete Information</label>
-            </value>
-            <value>
-                <fullName>Issued without concent</fullName>
-                <default>false</default>
-                <label>Issued without concent</label>
-            </value>
-            <value>
-                <fullName>Portability not given</fullName>
-                <default>false</default>
-                <label>Portability not given</label>
-            </value>
-            <value>
                 <fullName>Others</fullName>
                 <default>false</default>
                 <label>Others</label>
+            </value>
+            <value>
+                <fullName>Sales</fullName>
+                <default>false</default>
+                <label>Sales</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -93,8 +48,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Claims</controllingFieldValue>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <controllingFieldValue>Sales</controllingFieldValue>
             <valueName>Others</valueName>
         </valueSettings>
         <valueSettings>
@@ -102,44 +55,8 @@
             <valueName>Service</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>Renewal</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>Refund</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>HR</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>HA/AHC</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>Cancellation</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>App Issue</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Service</controllingFieldValue>
-            <valueName>Policy not issued</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Sales</controllingFieldValue>
-            <valueName>Incomplete Information</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Sales</controllingFieldValue>
-            <valueName>Issued without concent</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Sales</controllingFieldValue>
-            <valueName>Portability not given</valueName>
+            <valueName>Sales</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
