@@ -362,6 +362,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                     fileRec.DMS_Folder_Id__c = isABSLIBusiness ? dmsFolderId : '';
                     fileRec.Application_ID__c = isABSLIBusiness ? applicationId : caseRecord.Asset.LAN__c;
                     fileRec.Policy_No__c = isABSLIBusiness ? policyNumber : '';
+                    fileRec.Next_Retry__c = isABSLIBusiness ? null : System.now().addMinutes(15);
                     fileRecList.add(fileRec);
                 }
                 if(fileRecList.size() > 0 && Schema.sObjectType.DMS_Files__c.isCreateable()){
