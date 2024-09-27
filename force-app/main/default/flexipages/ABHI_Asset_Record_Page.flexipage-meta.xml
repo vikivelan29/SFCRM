@@ -1491,6 +1491,7 @@
                     <value>Facet-e4f461c2-843a-4957-8e80-72cbd9e4c428</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -1976,4 +1977,3 @@
     </template>
     <type>RecordPage</type>
 </FlexiPage>
-
