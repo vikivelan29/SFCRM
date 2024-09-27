@@ -9311,6 +9311,26 @@
         <field>User.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Branch_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Branch_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>User.Zone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>User.Region__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
         <field>Customer_Member_Mapping__c.Relation__c</field>

@@ -2,7 +2,7 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear {{{Case.Account}}} {{{Case.Lead__c}}} ,
+<body style="height: auto; min-height: auto;">Dear {{{Case.Customer_name_formula__c}}} {{{Case.Lead__c}}} ,
 <p>We acknowledge the receipt of your complaint through {{{Case.Type_Text__c}}}<br />
 complaint number&nbsp;-{{{Case.IRDAI_Token_Number__c}}}.</p>
 

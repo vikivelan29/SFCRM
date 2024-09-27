@@ -193,37 +193,41 @@ blankSourcePresent = true;
                 }
             }
             if(appliedCCC != null){ 
-                //Fill all common fields irrespective of source
-                caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
-                
-                // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
-                if(frameworkRecordTypeId == caseRec.RecordTypeId){
-                    caseRec.Stage__c = appliedCCC.First_Stage__c;
-                }
-                caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
-                // VIRENDRA - 24 JUN 2024 - ADDED IGMS_Complaint_Type_Code__c  to CaseRecord.
-                caseRec.IGMS_Complaint_Type_Code__c = appliedCCC.IGMS_Code__c;
-                caseRec.Type_Text__c = appliedCCC.Type__c;
+
                 //If the incoming subject of the case is not blank, system will no longer overwrite it, 
                 //irrespective of origin/source of the case. PR970457-1880
                 if(String.isBlank(caseRec.Subject)){
                     caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
                 }
-                caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
-                caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
-                caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
-                caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
-                caseRec.Activity__c = appliedCCC.Activity__c;
-                //mapping Line_of_Business__c on caseRec
-                caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
-                // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
-                if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
-                    caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
+                if(!isUpdate || (isUpdate && caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
+            
+                    //Fill all common fields irrespective of source
+                    caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
+                    
+                    // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
+                    if(frameworkRecordTypeId == caseRec.RecordTypeId){
+                        caseRec.Stage__c = appliedCCC.First_Stage__c;
+                    }
+                    caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
+                    // VIRENDRA - 24 JUN 2024 - ADDED IGMS_Complaint_Type_Code__c  to CaseRecord.
+                    caseRec.IGMS_Complaint_Type_Code__c = appliedCCC.IGMS_Code__c;
+                    caseRec.Type_Text__c = appliedCCC.Type__c;
+                    caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
+                    caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
+                    caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
+                    caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
+                    caseRec.Activity__c = appliedCCC.Activity__c;
+                    //mapping Line_of_Business__c on caseRec
+                    caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
+                    // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
+                    if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
+                        caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
+                    }
+                    caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
+                    caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
+                    caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
+                    caseRec.Run_Assignment_Rule_on_Bulk_Create__c = appliedCCC.Run_Assignment_Rule_on_Bulk_Create__c;
                 }
-                caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
-                caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
-                caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
-                caseRec.Run_Assignment_Rule_on_Bulk_Create__c = appliedCCC.Run_Assignment_Rule_on_Bulk_Create__c;
                 if((!isUpdate) || (isUpdate && oldMap.get(caseRec.Id).Categorization_Date__c == null)){
                     caseRec.Categorization_Date__c = system.now();     
                 }
@@ -1051,7 +1055,7 @@ blankSourcePresent = true;
             }
                 addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
                 addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
-            }
+                }
             List<Case> integCaseList = new List<Case>();
             Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
             
@@ -1763,7 +1767,7 @@ User will now be forced to go recategorize.
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
                     if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null && caseRec.Business_Unit__c != ASF_Constants.ABSLIG_BU
-                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null)){
+                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null) && !(caseRec.Business_Unit__c == 'ABHI' && caseRec.Source__c == 'IGMS')){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  
