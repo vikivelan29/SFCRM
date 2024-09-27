@@ -66,4 +66,9 @@
         <default>false</default>
         <label>ABHI Email</label>
     </standardValue>
+    <standardValue>
+        <fullName>ABSLAMC Email</fullName>
+        <default>false</default>
+        <label>ABSLAMC Email</label>
+    </standardValue>
 </StandardValueSet>
