@@ -1362,20 +1362,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-8f8ce5d9-d05f-4479-bbf2-1609da4b6a1e</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>View Print and Dispatch Details</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-35c9f572-3815-4bd8-85ac-3d631dcca097</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
