@@ -55,7 +55,7 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
         } else if (error) {
             this.isLoading = false;
             this.displayError = true;
-            this.displayMessage='No Policies are present for this record. Atleast 1 Policy is required to initiate Communication';
+            this.displayMessage='No Policies are present for this record';
             console.error('Error inside--'+error);
         }
     }
