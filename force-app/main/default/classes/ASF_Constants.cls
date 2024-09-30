@@ -135,7 +135,7 @@ public with sharing class ASF_Constants {
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
     /* Map to Store Case Origin Vs Business Unit */
-    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG', 'ABSLAMC Email' => 'ABSLAMC'};
+    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG','ABHI Email' => 'ABHI', 'ABSLAMC Email' => 'ABSLAMC'};
     
     /* Map to Store Case Origin Vs Source */
     public static final Map<String,String> mCaseOriginVsSource= new Map<String,String>{'ABFL WM CHAT' =>'Chatbot'};
