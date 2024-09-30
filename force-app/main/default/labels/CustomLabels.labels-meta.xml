@@ -206,13 +206,6 @@
         <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
     </labels>
     <labels>
-        <fullName>ABFL_Retail_Int_Failed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
-        <value>Active</value>
-    </labels>
-    <labels>
         <fullName>ABHFL_Complaint_Investigation_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -522,13 +515,6 @@
         <value>1</value>
     </labels>
     <labels>
-        <fullName>ASF_Recat_Approval_Required_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF Recat Approval Required BU</shortDescription>
-        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
-    </labels>
-    <labels>
         <fullName>ASF_SLA_NoReplyAdress</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -627,20 +613,6 @@
         <value>Abctsl Crmteam-noreply</value>
     </labels>
     <labels>
-        <fullName>ASF_default_no_reply_email_address</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_default_no_reply_email_address</shortDescription>
-        <value>Abctsl Crmteam-noreply</value>
-    </labels>
-    <labels>
-        <fullName>DMS_File_Name</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DMS_File_Name</shortDescription>
-        <value>File Name</value>
-    </labels>
-    <labels>
         <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -704,13 +676,6 @@
         <value>https://uatbpmdms.adityabirlafinance.com/IntegrationDMS/odencrequestDecrypt.jsp?Application=DOC_VIEW&amp;cabinetName=abfl&amp;sessionIndexSet=false&amp;</value>
     </labels>
     <labels>
-        <fullName>EmailRelayThreshold</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
-    </labels>
-    <labels>
         <fullName>EndUserProfiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -746,13 +711,6 @@
         <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
     </labels>
     <labels>
-        <fullName>Impact_Field_Error</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Impact Field Error</shortDescription>
-        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
-    </labels>
-    <labels>
         <fullName>Incomplete_Checklist_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -779,20 +737,6 @@
         <protected>false</protected>
         <shortDescription>Maker_Owner_Error_Message</shortDescription>
         <value>This user cannot be assigned as the user has worked on the Case in the Maker stage.</value>
-    </labels>
-    <labels>
-        <fullName>Manual_Synching</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Manual_Synching</shortDescription>
-        <value>Manual Synching</value>
-    </labels>
-    <labels>
-        <fullName>No_DMS_File</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No DMS File</shortDescription>
-        <value>No file available for syncing.</value>
     </labels>
     <labels>
         <fullName>Owner_Change_Validation_Message</fullName>
@@ -943,13 +887,6 @@
         <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
     <labels>
-        <fullName>ABSLIG_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG BU</shortDescription>
-        <value>ABSLIG</value>
-    </labels>
-    <labels>
         <fullName>ABSLIG_E2C</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -964,17 +901,318 @@
         <value>ABSLIG</value>
     </labels>
     <labels>
-        <fullName>ABSLI_BU</fullName>
+        <fullName>ABHI_Active_Days</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI BU</shortDescription>
-        <value>ABSLI</value>
+        <shortDescription>ABHI Active Days</shortDescription>
+        <value>Active Days</value>
     </labels>
-        <labels>
+    <labels>
+        <fullName>ABHI_Devices</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Abhi_Devices</shortDescription>
+        <value>Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Fitness_Appointment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Fitness_Appointment</shortDescription>
+        <value>FA Appointment</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Fitness_Level</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Fitness_Level</shortDescription>
+        <value>Fitness Level</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_KEY</fullName>
+        <categories>ux8634W2FczDqtFDscbDdFxroSbukNmm</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
+        <value>tDgbshCSrQpi8fqLBcFWN9Sx55GaRWKo</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_VALUE</fullName>
+        <categories>uQB5hR_562PPG5Nn</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
+        <value>OmEpJ51QoM98ZIJ5</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_URL</fullName>
+        <categories>https://servace.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_URL</shortDescription>
+        <value>https://ikshauat.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Communication_Link</fullName>
+        <categories>http://10.155.1.214/DTS/ViewPolicyReport.aspx</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Communication_Link</shortDescription>
+        <value>http://10.155.1.214/DTS/ViewPolicyReport.aspx</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_HHS_Active_Age</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_HHS_Active_Age</shortDescription>
+        <value>HHS &amp; Active Age</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OtherDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OtherDevice</shortDescription>
+        <value>Other Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_RecommendedDevice</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_RecommendedDevice</shortDescription>
+        <value>Recommended Devices</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_FitnessAppDetails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_FitnessAppDetails</shortDescription>
+        <value>Fitness Assessment Appointment History</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_App_Reg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HAPP</shortDescription>
+        <value>Health Return &amp; App Reg</value>
+    </labels>
+    <labels>
         <fullName>BUsToHideEbotFeedbackInRecat</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments</value>
+        <value>ABSLAMC;ABSLIG;Payments;ABHI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Back_Stage_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Back Stage Movement Error</shortDescription>
+        <value>You Can not go directly to the &quot;Open&quot; Stage.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Forward_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
+        <value>Movement to this stage can only be done through CAMS</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</shortDescription>
+        <value>Reply Type can only be Satisfactory while resolving a Case.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CAMSMandatoryFieldsErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CAMSMandatoryFieldsErrorMsg</shortDescription>
+        <value>Please fill in the mandatory fields:</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseAssignmentQueueNames</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseAssignmentQueueNames</shortDescription>
+        <value>ABSLAMC MF Issue Management Unit</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Litmus_Allowed_CallerTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Litmus Allowed CallerTypes</shortDescription>
+        <value>Investor</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Litmus_Allowed_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Litmus Allowed Sources</shortDescription>
+        <value>Phone - Call Centre;Email – Call Centre;Branch Walk-In;Email - Branch</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
+        <value>Duplicate case: A case (&lt;CaseNumber&gt;) with same criteria is already open with source as &lt;SOURCE&gt;.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
+        <value>Email - Call Centre,Phone - Call Centre</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation</shortDescription>
+        <value>You do not have access to create complaint case.Complaint case can only be created by grievance user.</value>
+    </labels>
+    <labels>
+        <fullName>ASF_Integration_Mandatory_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Integration Mandatory Error</shortDescription>
+        <value>is mandatory for current stage</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_BackStageSatisfactoryReolyType</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_BackStageSatisfactoryReolyType</shortDescription>
+        <value>Reply Type cannot be Satisfactory while moving to Pending With CAMS Stage</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_MandatoryApprovalRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_MandatoryApprovalRequired</shortDescription>
+        <value>The latest approval record must be approved for mandatory approval stages.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_NoApprovalRecordsFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_NoApprovalRecordsFound</shortDescription>
+        <value>Mandatory approval stage requires at least one approval record.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_NonMandatoryAppErrMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
+        <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Track_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Track Sources</shortDescription>
+        <value>Phone-Inbound,Phone-Outbound</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI BU</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_IV</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_IV</shortDescription>
+        <value>8549708501325472</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_KEY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_KEY</shortDescription>
+        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_USR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_USR</shortDescription>
+        <value>RQSFDC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ready_Reck_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
+        <value>http://10.155.8.204:94/rtpWS/rcase=</value>
+    </labels>
+    <labels>
+        <fullName>MCRMSupressCTSTs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRMSupressCTSTs</shortDescription>
+        <value>MLQRJUNK</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_GymNameLocation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_GymNameLocation</shortDescription>
+        <value>No Partner data available for display.</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness BU</shortDescription>
+        <value>Wellness</value>
+    </labels>
+    <labels>
+        <fullName>ABC_ResolvedReasonsRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABC_ResolvedReasonsRequired</shortDescription>
+        <value>Wellness</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_CaseComment_add_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness CaseComment add Err Msg</shortDescription>
+        <value>You cannot perform this action as You are not the owner of case</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Bitly_LOB</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL_Bitly_LOB</shortDescription>
+        <value>HFLABC</value>
     </labels>
 </CustomLabels>
