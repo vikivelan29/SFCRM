@@ -1,0 +1,79 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVASATXSRCINF007",
+            "businessCode": "SATXSRCINF007",
+            "businessDesc": "Has active dayz",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-09-04T14:09:42.129+05:30"
+        },
+        {
+            "systemCode": "JAVASATXSRCINF001",
+            "businessCode": "SATXSRCINF001",
+            "businessDesc": "Result found",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-09-04T14:09:42.130+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": {
+            "transformedEntityId": "4291889",
+            "totalScoreForPeriod": 3.00,
+            "totalScoreForGym": 0,
+            "totalScoreForSteps": 0,
+            "totalScoreForCalories": 0,
+            "totalScoreForEvents": 0,
+            "scores": [
+                {
+                    "activeDate": "2024-07-23T00:00:00.000+05:30",
+                    "isScored": "true",
+                    "activities": [
+                        {
+                            "name": "Step Activity",
+                            "value": "13610",
+                            "score": 1.00,
+                            "eventDate": "2024-07-23T00:00:00.230+05:30"
+                        },
+                        {
+                            "name": "Step Activity",
+                            "value": "2139",
+                            "score": 0.00,
+                            "eventDate": "2024-07-23T00:00:00.230+05:30"
+                        }
+                    ]
+                },
+                {
+                    "activeDate": "2024-07-22T00:00:00.000+05:30",
+                    "isScored": "true",
+                    "activities": [
+                        {
+                            "name": "Step Activity",
+                            "value": "10388",
+                            "score": 1.00,
+                            "eventDate": "2024-07-22T00:00:00.230+05:30"
+                        }
+                    ]
+                },
+                {
+                    "activeDate": "2024-07-24T00:00:00.000+05:30",
+                    "isScored": "true",
+                    "activities": [
+                        {
+                            "name": "Step Activity",
+                            "value": "10554",
+                            "score": 0.00,
+                            "eventDate": "2024-07-24T00:00:00.230+05:30"
+                        },
+                        {
+                            "name": "Step Activity",
+                            "value": "10435",
+                            "score": 1.00,
+                            "eventDate": "2024-07-24T00:00:00.230+05:30"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

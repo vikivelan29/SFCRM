@@ -93,6 +93,10 @@
             <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
@@ -1015,6 +1019,10 @@
         </values>
         <values>
             <fullName>ABHI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
