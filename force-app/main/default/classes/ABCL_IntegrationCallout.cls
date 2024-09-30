@@ -36,7 +36,7 @@ public with sharing class ABCL_IntegrationCallout {
         request.setMethod(integrationMdt.Protocol__c);
         request.setEndPoint(endPointURL);
         
-        //Check for Payload
+        // Check for Payload
         if(!String.isBlank(payload)){
             request.setBody(payload);
             integrationResponse.requestBody = payload;
