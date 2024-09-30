@@ -108,8 +108,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
     ]
 
-
-
     //To get No Auto Communication and category picklist values
     @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
     objectInfos({ error, data}) {
