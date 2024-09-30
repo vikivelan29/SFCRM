@@ -89,6 +89,10 @@
             <fullName>ABHI</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
