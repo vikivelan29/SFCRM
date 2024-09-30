@@ -104,8 +104,6 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         if (data) {
             const businessUnitValue = getFieldValue(data, BUSINESS_UNIT);
             this.isAbhfl = businessUnitValue === 'ABHFL';
-            this.isWellness = businessUnitValue === 'Wellness';
-            this.isOther = (businessUnitValue !== 'ABHFL' && businessUnitValue !== 'Wellness');
             this.customerBU = businessUnitValue ?? '';
             this.loadNpsScore();
         } else if (error) {
