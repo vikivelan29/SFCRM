@@ -961,7 +961,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email</value>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABSLAMC Email</value>
     </labels>
     <labels>
         <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
@@ -1284,5 +1284,54 @@
         <protected>false</protected>
         <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
         <value>http://10.155.8.204:94/rtpWS/rcase=</value>
+    </labels>
+    <labels>
+        <fullName>MCRMSupressCTSTs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRMSupressCTSTs</shortDescription>
+        <value>MLQRJUNK</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_GymNameLocation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_GymNameLocation</shortDescription>
+        <value>No Partner data available for display.</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness BU</shortDescription>
+        <value>Wellness</value>
+    </labels>
+    <labels>
+        <fullName>ABC_ResolvedReasonsRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABC_ResolvedReasonsRequired</shortDescription>
+        <value>Wellness</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
+    </labels>
+    <labels>
+        <fullName>ABHFL_Bitly_LOB</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL_Bitly_LOB</shortDescription>
+        <value>HFLABC</value>
+    </labels>
+     <labels>
+        <fullName>Wellness_CaseComment_add_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness CaseComment add Err Msg</shortDescription>
+        <value>You cannot perform this action as You are not the owner of case</value>
     </labels>
 </CustomLabels>
