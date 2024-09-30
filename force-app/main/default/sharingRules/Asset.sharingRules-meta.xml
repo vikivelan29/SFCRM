@@ -167,25 +167,6 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABSLAMC_AIF_Assets_Share_to_AIF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC AIF Assets Share to AIF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>LOB__c</field>
-            <operation>equals</operation>
-            <value>AIF</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
         <fullName>ABSLAMC_MF_Assets_Share_to_MF_Users</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC MF Assets Share to MF Users</label>

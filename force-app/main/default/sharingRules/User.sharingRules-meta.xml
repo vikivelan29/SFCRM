@@ -101,15 +101,4 @@
             <roleAndSubordinates>ABSLAMC_RE_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>ABSLAMC_Share_PMS_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC - Share PMS Users</label>
-        <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
-        </sharedTo>
-        <sharedFrom>
-            <roleAndSubordinates>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinates>
-        </sharedFrom>
-    </sharingOwnerRules>
 </SharingRules>
