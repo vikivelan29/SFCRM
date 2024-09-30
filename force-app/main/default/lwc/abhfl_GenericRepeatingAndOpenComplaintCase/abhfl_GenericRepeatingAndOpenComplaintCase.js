@@ -31,6 +31,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     nps = undefined;
     isAccount = false;
     showCustomerNPSbyNumber;
+    customerBU = '';
 
     loadNpsScore() {
         getNpsScore({ customerId: this.recordId })
@@ -46,18 +47,18 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     
     claculateNPSRating() {
 
-        this.showCustomerNPSbyNumber = '';
-        if(this.nps) {
-            if(Object.keys(this.nps).length){
-                this.businessUnit = Object.keys(this.nps)[0];
-                this.showCustomerNPSbyNumber = Number(this.nps[this.businessUnit]);
-            } else {
-                this.showCustomerNPSbyNumber =  "❌";
-            }
+        this.showCustomerNPSbyNumber = undefined;
+
+        if(JSON.stringify(this.nps) !== "{}") {
+            this.businessUnit = Object.keys(this.nps)[0];
+            this.showCustomerNPSbyNumber = this.nps[this.businessUnit];
+        }
+        else {
+            this.businessUnit = this.customerBU;
         }
 
         if(this.businessUnit && (this.businessUnit !== lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
-            if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined || this.showCustomerNPSbyNumber == Nan) {
+            if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined) {
                 this.showCustomerNPSbyNumber =  "❌";
             }
             else if(this.showCustomerNPSbyNumber > 0 && this.showCustomerNPSbyNumber <= 3){
@@ -101,6 +102,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         if (data) {
             const businessUnitValue = getFieldValue(data, BUSINESS_UNIT);
             this.isAbhfl = businessUnitValue === 'ABHFL';
+            this.customerBU = businessUnitValue ?? '';
+            this.loadNpsScore();
         } else if (error) {
             console.error('Error occured in  retrieving business unit', error);
         }
@@ -119,7 +122,6 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     connectedCallback() {
         this.getCaseRecord();
         this.getCaseRecordNps();
-        this.loadNpsScore();
     }
 
     async getCaseRecord() {
