@@ -79,6 +79,7 @@ public with sharing class ABCL_IntegrationCallout {
     public static ABCL_Integrations__mdt  getIntegrationMetadata(string integrationName){
         List<ABCL_Integrations__mdt> integrationMetadata = [Select  EndPoint__c,HTTP_Headers__c,EnableMockResponse__c,
                                                                     Mock_Status_Code__c,Timeout__c,Mock_Response_Resource__c,
+                                                            		DeveloperName,
                                                                     Full_Log__c,Exception_Log__c,StoreAsAttachment__c,Protocol__c 
                                                                     from ABCL_Integrations__mdt where DeveloperName =: integrationName];
         return integrationMetadata[0];
