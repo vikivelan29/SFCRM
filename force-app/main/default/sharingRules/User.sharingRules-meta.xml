@@ -76,7 +76,7 @@
             <group>ABSLAMC_MF_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinatesInternal>ABSLAMC_MF_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLAMC_MF_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -87,7 +87,7 @@
             <group>ABSLAMC_PMS_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinatesInternal>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
