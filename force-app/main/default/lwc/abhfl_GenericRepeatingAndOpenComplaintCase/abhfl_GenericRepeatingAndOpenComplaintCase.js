@@ -48,8 +48,12 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
         this.showCustomerNPSbyNumber = '';
         if(this.nps) {
-            this.businessUnit = Object.keys(this.nps)[0];
-            this.showCustomerNPSbyNumber = Number(this.nps[this.businessUnit]);
+            if(Object.keys(this.nps).length){
+                this.businessUnit = Object.keys(this.nps)[0];
+                this.showCustomerNPSbyNumber = Number(this.nps[this.businessUnit]);
+            } else {
+                this.showCustomerNPSbyNumber =  "❌";
+            }
         }
 
         if(this.businessUnit && (this.businessUnit !== lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
