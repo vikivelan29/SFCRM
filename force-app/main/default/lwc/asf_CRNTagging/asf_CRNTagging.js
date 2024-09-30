@@ -14,7 +14,6 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
 
-
 // VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
 import CUSTOMERPROSPECTSEARCH from "./asf_CRNTagging.html";
 import PROSPECTCREATION from "./asf_ProspectTagging.html";
@@ -46,6 +45,7 @@ export default class Asf_CRNTagging extends LightningElement {
     @track loggedInUserBusinessUnit = '';
     @track dupeLead=[];
     @track showDupeList=false;
+    @track selectedCustomerData;
     disableCreateBtn = false;
     isDisabledUpdateCaseButton = true;
     accountCrn;
@@ -181,6 +181,7 @@ export default class Asf_CRNTagging extends LightningElement {
     handleAccAction(event) {
         this.isDisabledUpdateCaseButton = false;
         const row = event.detail.selectedRows;
+        this.selectedCustomerData = row[0];
         this.selectedCustomer = row[0].recordId;
         this.showLANForCustomer = false;
         if(row[0].objectType == 'Customer'){
