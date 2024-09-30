@@ -1692,6 +1692,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ASF_Case_Integration__c.Do_Not_Retry_Integration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Rule_Entry__c.Data_Type__c</field>
         <readable>true</readable>
@@ -2893,6 +2898,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Integration__c.Do_Not_Retry_Integration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Work_Item__c.Assigned_Queue__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3494,6 +3504,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.CSAT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Case_Details_JSON__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

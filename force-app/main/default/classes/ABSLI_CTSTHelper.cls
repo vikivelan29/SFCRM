@@ -181,21 +181,23 @@ public with sharing class ABSLI_CTSTHelper {
         
         for(Case caseR : caseRecs){
             FieldValidationResult validation = resultsMap.get(caseR.Id);
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolve_case__c)) {
-                validation.blankFields.add(resolveCaseField.getLabel());
-                validation.result = true;
-            }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution_Comments__c)) {
-                validation.blankFields.add(resolutionCommentsField.getLabel());
-                validation.result = true;
-            }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Investigation_Comment__c)) {
-                validation.blankFields.add(investigationCommentsField.getLabel());
-                validation.result = true;
-            }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Acknowledgement_contacted__c)) {
-                validation.blankFields.add(acknowledgementConField.getLabel());
-                validation.result = true;
+            if(caseR.ABSLI_Case_Detail__r.Is_Auto_Escalated__c != 'Y'){
+                if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolve_case__c)) {
+                    validation.blankFields.add(resolveCaseField.getLabel());
+                    validation.result = true;
+                }
+                if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution_Comments__c)) {
+                    validation.blankFields.add(resolutionCommentsField.getLabel());
+                    validation.result = true;
+                }
+                if(String.isBlank(caseR.ABSLI_Case_Detail__r.Investigation_Comment__c)) {
+                    validation.blankFields.add(investigationCommentsField.getLabel());
+                    validation.result = true;
+                }
+                if(String.isBlank(caseR.ABSLI_Case_Detail__r.Acknowledgement_contacted__c)) {
+                    validation.blankFields.add(acknowledgementConField.getLabel());
+                    validation.result = true;
+                }
             }
             List<Task> openTasks = [SELECT id,Status FROM Task WHERE WhatId =: caseR.Id];
             for(Task relatedtask : openTasks){
