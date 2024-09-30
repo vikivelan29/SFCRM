@@ -199,16 +199,6 @@
                 <identifier>RecordLAN_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Calculator__c</fieldItem>
-                <identifier>RecordCalculator_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1180,16 +1170,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abhi_HealthReturnDetails</componentName>
-                <identifier>c_abhi_HealthReturnDetails</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-e4f461c2-843a-4957-8e80-72cbd9e4c428</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentName>abhi_healthAssesmentDetails</componentName>
                 <identifier>c_abhi_healthAssesmentDetails2</identifier>
             </componentInstance>
@@ -1198,20 +1178,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-e4f461c2-843a-4957-8e80-72cbd9e4c428</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Dashboard</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab5</identifier>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -1490,7 +1456,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Print and Dispatch</value>
+                    <value>View Print and Dispatch Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
