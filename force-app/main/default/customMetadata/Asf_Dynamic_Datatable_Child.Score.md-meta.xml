@@ -4,18 +4,18 @@
     <protected>false</protected>
     <values>
         <field>Api_Name__c</field>
-        <value xsi:type="xsd:string">Score</value>
+        <value xsi:type="xsd:string">score</value>
     </values>
     <values>
         <field>Asf_Dynamic_Datatable_Parent__c</field>
-        <value xsi:type="xsd:string">ABHI_ActivedaysActivity</value>
+        <value xsi:type="xsd:string">MCRM_ActiveDays</value>
     </values>
     <values>
         <field>Data_Type__c</field>
-        <value xsi:type="xsd:string">String</value>
+        <value xsi:type="xsd:string">Text</value>
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">6.0</value>
+        <value xsi:type="xsd:double">5.0</value>
     </values>
 </CustomMetadata>

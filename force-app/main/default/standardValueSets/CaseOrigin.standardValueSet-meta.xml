@@ -71,4 +71,9 @@
         <default>false</default>
         <label>ABSLAMC Email</label>
     </standardValue>
+    <standardValue>
+        <fullName>Wellness Email</fullName>
+        <default>false</default>
+        <label>Wellness Email</label>
+    </standardValue>
 </StandardValueSet>
