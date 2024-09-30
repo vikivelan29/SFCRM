@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>HHS Expired Date DHA</label>
+    <label>ABHI_HealthReturnDetails</label>
     <protected>false</protected>
     <values>
-        <field>Api_Name__c</field>
-        <value xsi:type="xsd:string">HHSExpiredDateDHA</value>
+        <field>Cache_Time__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Asf_Dynamic_Datatable_Parent__c</field>
-        <value xsi:type="xsd:string">ABHI_HealthAssesmentDetailsView</value>
+        <field>DMS_Case_SOQL_Fields__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Data_Type__c</field>
-        <value xsi:type="xsd:string">Text</value>
+        <field>DMS_Files_SOQL_Fields__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Order__c</field>
+        <field>DMS_Retry_Interval__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Page_Size__c</field>
         <value xsi:type="xsd:double">10.0</value>
     </values>
     <values>
-        <field>Type_Attributes__c</field>
+        <field>Query__c</field>
         <value xsi:nil="true"/>
     </values>
 </CustomMetadata>
