@@ -33,6 +33,7 @@ public with sharing class ABHFL_Constants {
     public static final String FAILURE = 'Failure';
     public static final String COMPLETED = 'Completed';
     public static final String RESOLVED = 'Resolved';
+    public static final String REJECTED = 'Rejected';
     public static final String QUEUE= 'Queue';
     public static final String BRANCH = 'Branch';
     public static final String CRM = 'CRM';
@@ -139,6 +140,7 @@ public with sharing class ABHFL_Constants {
     public static String DSRA_LIEN_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String ESCROW_STATEMENT_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String NOC_REQUIRED_EMAIL = 'Sharing_NOC_copy_with_customer_on_receipt_of_payment_1707970074046';
+    public static String ADDRESSCHANGE_REJECTION_EMAIL = 'ABHFL_AddressChange_Status_Email_1727254483228';
     //Constants for SMS.
     public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
     public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
@@ -146,6 +148,7 @@ public with sharing class ABHFL_Constants {
     public static String DSRA_LIEN_SMS = 'ABHFL_Query_Case_Closure';
     public static String ESCROW_STATEMENT_SMS = 'ABHFL_Query_Case_Closure';
     public static String NOC_REQUIRED_SMS = 'ABHFL_NOC_Required';
+    public static String ADDRESSCHANGE_REJECTION_SMS = 'ABHFL_AddressChange_SMS_1727259602449';
     
     //CCC External Id Constants
     public static String GST_INVOICE_ID = 'HFCRARGI';
@@ -153,7 +156,8 @@ public with sharing class ABHFL_Constants {
     public static String ESCROW_STATEMENT_ID = 'hfl029';
     public static String NOC_REQUIRED_ID = 'hfl050';
 
-
+	//restrict recurssion
+	public static boolean isProcessing = true;
     
 
     @AuraEnabled(cacheable=true)
