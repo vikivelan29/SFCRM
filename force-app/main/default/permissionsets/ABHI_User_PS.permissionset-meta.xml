@@ -346,6 +346,11 @@
         <field>Asset.GrossPremium__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>	
+    	 <editable>false</editable>
+    	 <field>Asset.Intermediary_Branch_Code__c</field>
+    	 <readable>true</readable>
+	</fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.IntermediaryCode__c</field>

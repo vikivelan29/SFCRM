@@ -1067,6 +1067,11 @@
         <field>Asset.GrossPremium__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>	
+    	 <editable>true</editable>
+    	 <field>Asset.Intermediary_Branch_Code__c</field>
+    	 <readable>true</readable>
+	</fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.IntermediaryCode__c</field>
