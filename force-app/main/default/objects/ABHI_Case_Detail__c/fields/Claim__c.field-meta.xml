@@ -5,8 +5,7 @@
     <inlineHelpText>Please enter Policy Number to view list of available claims</inlineHelpText>
     <label>Claim Number</label>
     <lookupFilter>
-        <active>true</active>
-        <errorMessage>Please select the appropriate claim associated with the policy.</errorMessage>
+        <active>false</active>
         <filterItems>
             <field>Claim__c.Policy_Number__c</field>
             <operation>equals</operation>
