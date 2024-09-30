@@ -19,7 +19,13 @@
         <field>Case$Source__c</field>
     </columns>
     <columns>
+        <field>Case$CCC_External_Id__c</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.Litmus_Triggered__c</field>
+    </columns>
+    <columns>
+        <field>Case$Status</field>
     </columns>
     <filter>
         <criteriaItems>
