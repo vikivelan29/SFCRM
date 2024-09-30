@@ -20,7 +20,13 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
     **/
     public override void beforeInsert(list<sObject> newItems) {
         for(ASF_Case_Integration__c caseInteg : (List<ASF_Case_Integration__c>)newItems){
-            caseInteg.Next_Retry__c = System.now().addMinutes(15);
+            if(caseInteg.Do_Not_Retry_Integration__c){
+                caseInteg.Retry__c = false;
+            }
+            else{
+                caseInteg.Next_Retry__c = System.now().addMinutes(15);
+            }
+            
         }
     }
     
