@@ -19,6 +19,7 @@ public class ABSLAMC_BulkAssignCaseConverterUtility implements ASF_BulkCSVToReco
         Set<String> caseNumbers = new Set<String>();
         Set<String> ownerTeamNames = new Set<String>();
         Set<String> ownerADIds = new Set<String>();
+        String ABSLAMCBU = ABSLAMC_Constants.ABSLAMCBU;
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
@@ -45,7 +46,7 @@ public class ABSLAMC_BulkAssignCaseConverterUtility implements ASF_BulkCSVToReco
         for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and DeveloperName LIKE 'ABSLAMC_%' and name IN: ownerTeamNames]){
             queueUserNameIdMap.put(queueRec.name, queueRec.Id);
         }
-        for(User userRec : [select Id, FederationIdentifier from User where FederationIdentifier IN: ownerADIds]){
+        for(User userRec : [select Id, FederationIdentifier from User where FederationIdentifier IN: ownerADIds AND  IsActive = true AND Business_Unit__c =:ABSLAMCBU]){
             userAdIdMap.put(userRec.FederationIdentifier, userRec.Id);
         }
         for(Id lineItemId : rows.keySet()){

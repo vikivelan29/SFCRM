@@ -50,11 +50,12 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
         Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
         Map<String, Id> queueUserNameIdMap = new Map<String, Id>();
         Map<String, Id> userAdIdMap = new Map<String, Id>();
-        for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans and Business_Unit__c = 'ABSLAMC']){
+        String ABSLAMCBU = ABSLAMC_Constants.ABSLAMCBU;
+        for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans and Business_Unit__c=:ABSLAMCBU]){
             lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
         }
         
-        for(Account accRec : [SELECT Id, LOB_Client_Code__c from Account where LOB_Client_Code__c IN: clientCodes]){
+        for(Account accRec : [SELECT Id, LOB_Client_Code__c from Account where LOB_Client_Code__c IN: clientCodes and Business_Unit__c=:ABSLAMCBU]){
             clientCodeToAccountIdMap.put(accRec.LOB_Client_Code__c, accRec.Id);
         }
 
@@ -65,7 +66,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
         for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and DeveloperName LIKE 'ABSLAMC_%' and name IN: ownerTeamNames]){
             queueUserNameIdMap.put(queueRec.name, queueRec.Id);
         }
-        for(User userRec : [select Id, FederationIdentifier from User where FederationIdentifier IN: ownerADIds]){
+        for(User userRec : [select Id, FederationIdentifier from User where FederationIdentifier IN: ownerADIds AND  IsActive = true AND Business_Unit__c =:ABSLAMCBU]){
             userAdIdMap.put(userRec.FederationIdentifier, userRec.Id);
         }
         for(Id lineItemId : rows.keySet()){

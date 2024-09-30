@@ -21,6 +21,7 @@ public with sharing class ABSLAMC_BulkAssignLeadConverterUtility implements ASF_
         Map<String, Id> userFedIdToUserMap = new Map<String,Id>();
         Map<String, Id> queueUserNameIdMap = new Map<String, Id>();
         Set<String> assignedTeamNames = new Set<String>();
+        String ABSLAMCBU = ABSLAMC_Constants.ABSLAMCBU;
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
@@ -40,7 +41,7 @@ public with sharing class ABSLAMC_BulkAssignLeadConverterUtility implements ASF_
         for(Lead leadRec : [Select Id, Lead_Number__c from Lead where Lead_Number__c IN :leadNumbers WITH SYSTEM_MODE]){
             leadNumberToLeadMap.put(leadRec.Lead_Number__c, leadRec);
         }
-        for(User usr :[Select Id, FederationIdentifier from User where FederationIdentifier IN :federationIds]){
+        for(User usr :[Select Id, FederationIdentifier from User where FederationIdentifier IN :federationIds AND  IsActive = true AND Business_Unit__c =:ABSLAMCBU]){
             userFedIdToUserMap.put(usr.FederationIdentifier, usr.Id);
         }
         for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and DeveloperName LIKE 'ABSLAMC_%' and name IN: assignedTeamNames]){
