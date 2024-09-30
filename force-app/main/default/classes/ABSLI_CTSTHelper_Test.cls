@@ -188,7 +188,7 @@ public class ABSLI_CTSTHelper_Test {
     
     @IsTest
     static void testABSLI_ComplaintsResolveStageBefore(){
-        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Technical_Source__c,ABSLI_Case_Detail__r.IGMS_Complaint_Status__c,ABSLI_Case_Detail__r.Resolve_case__c,ABSLI_Case_Detail__r.Resolution_Comments__c,ABSLI_Case_Detail__r.Investigation_Comment__c,ABSLI_Case_Detail__r.Acknowledgement_contacted__c  from Case limit 1];
+        Case caseRecord = [Select id,Stage__c,CCC_External_Id__c,Technical_Source__c,ABSLI_Case_Detail__r.IGMS_Complaint_Status__c,ABSLI_Case_Detail__r.Resolve_case__c,ABSLI_Case_Detail__r.Resolution_Comments__c,ABSLI_Case_Detail__r.Is_Auto_Escalated__c,ABSLI_Case_Detail__r.Investigation_Comment__c,ABSLI_Case_Detail__r.Acknowledgement_contacted__c  from Case limit 1];
         Task taskRecord = new Task(
             WhatId = caseRecord.Id,  
             Status = 'Not Started',  
