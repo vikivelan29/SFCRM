@@ -11,7 +11,6 @@ import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.c
 import { getObjectInfo, getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
-import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
@@ -42,6 +41,7 @@ import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
@@ -98,17 +98,17 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @api bsliRecTypeId;
     isPhoneInbound = false;
     currentObj = CASE_OBJECT.objectApiName;
-
     //ABHI
     abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
     natureVal = '';
-
     cols;
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
         { label: 'Email', fieldName: 'Email', type: 'text' },
         { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
     ]
+
+
 
     //To get No Auto Communication and category picklist values
     @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
@@ -243,9 +243,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.selectedCTSTFromProspect = selected;
             if(this.showFromGlobalSearch == false){
                 this.disableCreateBtn = false;
-            }
-            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
-                this.isPhoneInbound = true;
             }
         }
         if ((selected) && (this.loggedInUserBusinessUnit == 'ABFL')) {
@@ -416,6 +413,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 console.log('Data:' + JSON.stringify(result));
                 if (result) {
                     this.fields = result.Fields;
+                    console.log('fields--'+JSON.stringify(this.fields));
                     this.error = undefined;
                 }
             }).catch(error => {
@@ -513,9 +511,13 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if(validationResult.isSuccess == false){
                 this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
                 this.loaded = true;
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
                 this.disableCreateBtn = true;
                 this.selectedCTSTFromProspect = null;
-                this.resetFields();
+                this.boolShowNoData = true;
+                this.searchKey = undefined;
+                this.isPhoneInbound = false;
                 return;
             }
             console.log('ending validator');
@@ -551,32 +553,30 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 //tst end
                 this.dispatchEvent(new CloseActionScreenEvent());
 
+
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
                 this.disableCreateBtn = true;
                 this.selectedCTSTFromProspect = null;
-                this.resetFields();
+                this.boolShowNoData = true;
+                this.searchKey = undefined;
+                this.isPhoneInbound = false;
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
                 this.loaded = true;
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
                 this.disableCreateBtn = false;
-                this.resetFields();
+                this.boolShowNoData = true;
+                this.searchKey = undefined;
+                this.isPhoneInbound = false;
                 this.showError('error', 'Oops! Error occured', error);
 
 
             })
 
 
-    }
-    resetFields(){
-        this.boolShowNoData = true;
-        this.createCaseWithAll = false;
-        this.searchKey = undefined;
-        this.isPhoneInbound = false;
-        this.showIssueType = false;
-        this.showFtr = false;
-        this.showAniNumber = false;
-        this.showCategoryType = false;
-        this.isNotSelected = true;
     }
 
     connectedCallback(){
