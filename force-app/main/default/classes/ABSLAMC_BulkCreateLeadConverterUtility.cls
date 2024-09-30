@@ -9,6 +9,9 @@
 
 public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
+        //Each row will be
+        //{'LOB':'MF',Folio':'1234566899', 'CLIENT CODE (LOB + PAN/PEKRN)' : 'MF-22344', 'PAN' : 'EH12458590', 'PERKN': 'EhG78794','Customer Type - Prospect / Existing customer' : 'Existing Customer',
+        //'First Name':'TestLead','Last Name': 'TestlastName', 'Lead Category': 'Winback','Lead Type':'MF Transaction Related Outcall','Lead Sub-Type': 'Activity - TRO SIP Expiry','Comments/Remarks': 'someComments','Lead Status': 'Open','Assigned User - AD ID' : '12345'}
        ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
         resultWrapper.resultJSONRows = new Map<Id, String>();
@@ -18,6 +21,7 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
         Set<String> clientCodes = new Set<String>();
         Set<String> federationIds = new Set<String>();
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
+        String ABSLAMCBU = ABSLAMC_Constants.ABSLAMCBU;
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
             System.debug('eachJSON'+eachJSON);
@@ -41,10 +45,10 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
         for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans and Business_Unit__c = 'ABSLAMC']){
             lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
         }
-        for(Account accRec : [SELECT Id, LOB_Client_Code__c from Account where LOB_Client_Code__c IN: clientCodes]){
+        for(Account accRec : [SELECT Id, LOB_Client_Code__c from Account where LOB_Client_Code__c IN: clientCodes AND Business_Unit__c = 'ABSLAMC' ]){
             clientCodeToAccountIdMap.put(accRec.LOB_Client_Code__c, accRec.Id);
         }
-        for(User usr :[Select Id, FederationIdentifier from User where FederationIdentifier IN :federationIds]){
+        for(User usr :[Select Id, FederationIdentifier from User where FederationIdentifier IN :federationIds AND  IsActive = true AND Business_Unit__c =:ABSLAMCBU]){
             userFedIdToUserMap.put(usr.FederationIdentifier, usr.Id);
         }
         for(Id lineItemId : rows.keySet()){
