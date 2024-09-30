@@ -17,8 +17,6 @@ export default class Abhi_HealthReturnDetails extends LightningElement {
     @track columns;
     @track healthReturnData;
     @track healthReturnFormData = {};
-    healthReturnColumns;
-    @track healthReturnAggData=[];
 
     displayError;
     isLoading = false;
@@ -69,28 +67,6 @@ export default class Abhi_HealthReturnDetails extends LightningElement {
                         cellAttributes: { alignment: 'left' }
                     })),
                 ];
-                this.getAggregateColumns();
-            })
-            .catch(error => {
-                console.error('Error in getColumnsData>>>', error);
-                this.displayError = `Error: ${JSON.stringify(error)}`;
-                this.isLoading = false;
-                this.showTitle = true;
-            });
-        
-    }
-
-    getAggregateColumns(){
-        getColumns({ configName: 'ABHI_HealthReturnAggregateDetails' })
-            .then(result => {
-                this.healthReturnColumns = [
-                    ...result.map(col => ({
-                        label: col.MasterLabel,
-                        fieldName: col.Api_Name__c,
-                        type: col.Data_Type__c,
-                        cellAttributes: { alignment: 'left' }
-                    })),
-                ];
                 this.fetchHealthReturn_Data();
             })
             .catch(error => {
@@ -114,7 +90,7 @@ export default class Abhi_HealthReturnDetails extends LightningElement {
                 if (statusCode === 1000) {
                     this.displayError = "";
                     this.healthReturnData = result?.Response;
-                    this.healthReturnAggData = this.initHealthReturnFormData();
+                    this.healthReturnFormData = this.initHealthReturnFormData();
                 }
                 else {
                     this.displayError = `Error: ${result?.Message}`;
@@ -131,34 +107,19 @@ export default class Abhi_HealthReturnDetails extends LightningElement {
 
     initHealthReturnFormData() {
 
-        let recordArr = [];
-        let memberArr = [];
+        let result = {};
         for (let record of this.healthReturnData) {
-            
-            if(memberArr.includes(record.vchClientCode)){
-                recordArr.forEach(element => {
-                    if(element.vchClientCode == record.vchClientCode){
-                        element.TotalActiveDays = (element.TotalActiveDays || 0) + parseInt(record.ActiveDays);
-                        element.TotalHealthReturnsTMEarned = (element.TotalHealthReturnsTMEarned || 0) + parseFloat(record.TotalHealthReturnsTMEarned);
-                        element.TotalHealthReturnsTMBurnt = (element.TotalHealthReturnsTMBurnt || 0) + parseFloat(record.TotalHealthReturnsTMBurnt);
-                        const difference = parseFloat(record.TotalHealthReturnsTMEarned) - parseFloat(record.TotalHealthReturnsTMBurnt);
-                        element.BalanceHealthReturns = (element.BalanceHealthReturns || 0) + difference;
-                    }
-                });
-            }
-            else{
-                recordArr.push({
-                    "TotalActiveDays": parseInt(record.ActiveDays),
-                    "vchClientCode": record.vchClientCode,
-                    "Name": record.Name,
-                    "TotalHealthReturnsTMEarned": parseFloat(record.TotalHealthReturnsTMEarned),
-                    "TotalHealthReturnsTMBurnt": parseFloat(record.TotalHealthReturnsTMBurnt),
-                    "BalanceHealthReturns": parseFloat(record.TotalHealthReturnsTMEarned) - parseFloat(record.TotalHealthReturnsTMBurnt)
-                });
-                memberArr.push(record.vchClientCode);
-            }
+            result.vchClientCode = record.vchClientCode;
+            result.Name = record.Name;
+
+            result.TotalActiveDays = (result.TotalActiveDays || 0) + parseInt(record.ActiveDays);
+            result.TotalHealthReturnsTMEarned = (result.TotalHealthReturnsTMEarned || 0) + parseFloat(record.TotalHealthReturnsTMEarned);
+            result.TotalHealthReturnsTMBurnt = (result.TotalHealthReturnsTMBurnt || 0) + parseFloat(record.TotalHealthReturnsTMBurnt);
+
+            const difference = parseFloat(record.TotalHealthReturnsTMEarned) - parseFloat(record.TotalHealthReturnsTMBurnt);
+            result.BalanceHealthReturns = (result.BalanceHealthReturns || 0) + difference;
         }
-        return recordArr;
+        return result;
     }
 
     handleRefresh() {
