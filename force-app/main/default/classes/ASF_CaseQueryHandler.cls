@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 07-17-2024
+ * @last modified on  : 09-30-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public without sharing class ASF_CaseQueryHandler {
@@ -154,7 +154,7 @@ public without sharing class ASF_CaseQueryHandler {
                                  Approval_Rejected_Fields_to_Update__c,Approval_Style__c,Approval_SuccessStageMovement__c FROM Case_Rules__r),
                                 (SELECT ID, Auto_Run_on_Load__c ,Run_Integration_From_LWC__c,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c, Priority__c, CAMS_Message_Code__c,CAMS_Target_Code__c  FROM ASF_Integrations__r)
+                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c, Priority__c, CAMS_Message_Code__c,CAMS_Target_Code__c,Do_Not_Retry_Integration__c  FROM ASF_Integrations__r)
                                 FROM ASF_Case_Stage_Config__c
                                 WHERE Case_Category_Config__r.CCC_External_Id__c = :cccExternalId WITH SYSTEM_MODE
                                 ORDER BY Case_Category_Config__c, Order__c];
@@ -358,7 +358,7 @@ public without sharing class ASF_CaseQueryHandler {
 
         return [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
                                  External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c,Query_Fields__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId WITH SYSTEM_MODE];
+                                 UI_Component__c ,Visibility_Class__c ,When_to_Appear__c,Query_Fields__c,Do_Not_Retry_Integration__c  FROM ASF_Integration__c WHERE External_Id__c =: integrationExtnId WITH SYSTEM_MODE];
     }
 
     /**
