@@ -144,6 +144,7 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
                                                                                   addressLine1,addressLine2,addressLine3,
                                                                                   area,city,state,postalCode));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInt.Do_Not_Retry_Integration__c = integ.Do_Not_Retry_Integration__c;
                     newCaseIntegrations.add(caseInt);
                     
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
