@@ -107,7 +107,7 @@ public class ABSLAMC_BusinessLogic_HelperClass {
             }
 
             for (Lead leadRecord : newLeadMap.values()){
-                String leadKey = leadRecord.Line_Of_Business__c + '|' + leadRecord.Lead_Type__c + '|' + leadRecord.Lead_Subtype__c;
+                String leadKey = leadRecord.LOB__c + '|' + leadRecord.Lead_Type__c + '|' + leadRecord.Lead_Subtype__c;
 
                 if (typeSubtypeKeyToLeadMetadataMap.containsKey(leadKey)) {
                     leadRecord.Is_Conversion_Tracked__c = typeSubtypeKeyToLeadMetadataMap.get(leadKey).Track_conversion__c; //populate Is_Conversion_Tracked__c field
