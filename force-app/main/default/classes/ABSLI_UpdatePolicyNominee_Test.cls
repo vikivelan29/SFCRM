@@ -81,7 +81,7 @@ public class ABSLI_UpdatePolicyNominee_Test {
                             Technical_Source__c FROM Case WHERE Source__c = 'Branch' LIMIT 1];
        	Case caseRecord2 = [SELECT id,CaseNumber,Asset.Policy_No__c,Business_Unit__c,ABSLI_Case_Detail__c,Stage__c,CCC_External_Id__c
                            FROM Case WHERE Source__c = 'Email' LIMIT 1];
-        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c FROM ASF_Integration__c LIMIT 1];
 		
         Test.startTest();
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord1.Id => caseRecord1 };

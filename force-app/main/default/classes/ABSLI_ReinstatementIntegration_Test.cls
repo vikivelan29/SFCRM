@@ -77,7 +77,7 @@ public class ABSLI_ReinstatementIntegration_Test {
             ABSLI_Case_Detail__r.Address_Line_3__c,ABSLI_Case_Detail__r.COI_Covid_Quest__c,
             ABSLI_Case_Detail__r.Reinstatement_Amount__c,ABSLI_Case_Detail__r.Medicals__c,ABSLI_Case_Detail__r.PX_Response__c,
             ABSLI_Case_Detail__r.COI_Signed_Date__c FROM Case LIMIT 1];
-        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c FROM ASF_Integration__c LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulRun = reInt.run(integ,caseRecord);
