@@ -75,6 +75,7 @@ public with sharing class ABSLI_LoanRepaymentIntegration implements ASF_Integrat
                     caseInteg.Status__c = ABSLI_Constants.PENDING;
                     caseInteg.Request__c = requestBody;
                     caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInteg.Do_Not_Retry_Integration__c = intSpec.Do_Not_Retry_Integration__c;
                     caseInteg.Is_Validation_Success__c = true;
                     newCaseIntegrations.add(caseInteg);
                     

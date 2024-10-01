@@ -80,7 +80,7 @@ public with sharing class ABSLI_LoanRegisterIntegration_Test {
 	static void run_Test_Method() {
 		ABSLI_LoanRegisterIntegration integrationObj = new ABSLI_LoanRegisterIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];
@@ -121,7 +121,7 @@ public with sharing class ABSLI_LoanRegisterIntegration_Test {
 	static void run_Test_MethodBulk() {
 		ABSLI_LoanRegisterIntegration integrationObj = new ABSLI_LoanRegisterIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];

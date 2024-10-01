@@ -116,6 +116,7 @@ public without sharing class ABSLI_EmailUpdateIntegration implements ASF_Integra
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
 					caseInteg.Is_Validation_Success__c = true;
+                    caseInteg.Do_Not_Retry_Integration__c = intSpec.Do_Not_Retry_Integration__c;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
