@@ -156,7 +156,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
         List<Case> caseToUpdateList = new List<Case>();
         for (Case caseRec : newMapCase.values()) {
             if (caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && caseRec.FTR__c != oldMapCase.get(caseRec.Id).FTR__c &&
-                caseRec.FTR__c == TRUE && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.OPEN_STAGE)
+                caseRec.FTR__c == TRUE && oldMapCase.get(caseRec.Id).Stage__c == ABSLAMC_Constants.OPEN_STAGE && caseRec.MoveToNext__c == TRUE)
             {   
                 caseRec.Status = ABSLAMC_Constants.RESOLVED_STAGE;
                 caseRec.Stage__c = ABSLAMC_Constants.RESOLVED_STAGE;
