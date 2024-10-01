@@ -26,7 +26,7 @@ public with Sharing class ABSLAMC_Constants {
     public static final String ABSLAMC_DISTRIBUTOR_STRING= 'Distributor';
     public static final String CREATEWFINT = 'CAMS-CreateWorkflow'; 
     public static final String UPDATEWFINT = 'CAMS-UpdateWorkflow'; 
-    public static final String BIRLACRM = 'BIRLACRM'; 
+    public static final String BIRLACRM = 'BIRLACRMSF'; 
     public static final String CAMSWEB = 'CAMSWEB'; 
     public static final String CAMS = 'CAMS'; 
     public static final String CAMSCREATEWFAPI = 'ABSLAMC CAMS-CreateWF API'; 
@@ -38,4 +38,5 @@ public with Sharing class ABSLAMC_Constants {
     public static final String CAMSAPPROVALSTAGE = 'Approval';
     public static final String APPROVEDSTATUS = 'Approved';
     public static final String RECALLEDSTATUS = 'Recalled';
+    public static final String REJECTEDSTATUS = 'Rejected';
 }
