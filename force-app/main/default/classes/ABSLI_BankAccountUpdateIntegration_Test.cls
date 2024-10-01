@@ -103,7 +103,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration_Test {
 	static void run_Test_Method() {
 		ABSLI_BankAccountUpdateIntegration integrationObj = new ABSLI_BankAccountUpdateIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c,Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];
@@ -177,7 +177,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration_Test {
 	static void run_Test_MethodBulk() {
 		ABSLI_BankAccountUpdateIntegration integrationObj = new ABSLI_BankAccountUpdateIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c,Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];
@@ -242,7 +242,7 @@ public with sharing class ABSLI_BankAccountUpdateIntegration_Test {
 			LIMIT 1
 		];
 		ASF_Case_Integration__c caseIntegRec = [
-			SELECT Id, Case__c, Business_External_Id__c, Status__c, Response__c, CreatedById
+			SELECT Id, Case__c, Business_External_Id__c, Status__c, Response__c, CreatedById,Do_Not_Retry_Integration__c
 			FROM ASF_Case_Integration__c
 			LIMIT 1
 		];

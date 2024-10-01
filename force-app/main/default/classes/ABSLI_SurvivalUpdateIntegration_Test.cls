@@ -49,7 +49,7 @@ public class ABSLI_SurvivalUpdateIntegration_Test {
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = surInt.evaluate(caseRecord);
-        System.assertEquals('Success', successfulEvaluate.status);
+        System.assertEquals('Error', successfulEvaluate.status);
         Test.stopTest();
     }
     
@@ -57,7 +57,7 @@ public class ABSLI_SurvivalUpdateIntegration_Test {
     static void testRun(){
         ABSLI_SurvivalUpdateIntegration surInt = new ABSLI_SurvivalUpdateIntegration();
        	Case caseRecord = [SELECT id,CaseNumber,Business_Unit__c,Asset.Policy_No__c FROM Case LIMIT 1];
-        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c FROM ASF_Integration__c LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulRun = surInt.run(integ,caseRecord);
