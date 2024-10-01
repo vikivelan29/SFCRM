@@ -154,6 +154,13 @@ public without sharing class ASF_EmailMessageHelper {
                                   // else create new case and reparent EmailMessage
                                   Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
                                   oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
+                                  String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
+                                   newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
+                                   if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
+                                       ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
+                                       //newCase.Sent_to_EBOT__c = onEmailMdt.Send_to_EBOT__c;
+                                       newCase.Origin = onEmailMdt.Case_Origin__c ;
+                                   }
                                   //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                                   // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
                                   bNewCaseByReplyToCloseCase = true;
@@ -239,16 +246,19 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.SuppliedName = closedCase.SuppliedName;
         //newCase.Business_Unit__c = closedCase.Business_Unit__c;
         return newCase;
-    }   
-    
+    }  
+
     private static boolean buSpecificReopenCheck(Case caseRec){
         boolean returnVal = caseRec.Is_Reopen_Allowed__c; // default value
-        
-        if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint'){
+
+        if((caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint')){
+            return false;
+        }
+        else if(caseRec.Business_Unit__c == ABHI_Constants.ABHI){
             return false;
         }
         return returnVal;
-        
+
     }
     
 }
