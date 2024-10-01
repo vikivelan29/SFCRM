@@ -1,0 +1,12 @@
+<template> 
+    <template if:true={isIndividalAccount}> 
+        <c-r-n-w-l_-individual-acc-renewal-details
+            opportunity-id={recordId}
+        ></c-r-n-w-l_-individual-acc-renewal-details>
+    </template>
+    <template if:false={isIndividalAccount}> 
+        <c-r-n-w-l_-non-individual-acc-renewal-details
+            opportunity-id={recordId}
+        ></c-r-n-w-l_-non-individual-acc-renewal-details>
+    </template>
+</template>
