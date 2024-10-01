@@ -45,4 +45,95 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLI_Prospect_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Lead with Business Unit ABSLI to ABSLI Role Hierarchy</description>
+        <label>ABSLI Prospect Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_AIF_Lead_Share_to_AIF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC AIF Lead Share to AIF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>AIF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_MF_Lead_Share_to_MF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC MF Lead Share to MF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_MF_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>MF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_PMS_Lead_Share_to_PMS_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC PMS Lead Share to PMS Users</label>
+        <sharedTo>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>PMS</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_RE_Lead_Share_to_RE_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC RE Lead Share to RE Users</label>
+        <sharedTo>
+            <group>ABSLAMC_RE_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>RE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>
