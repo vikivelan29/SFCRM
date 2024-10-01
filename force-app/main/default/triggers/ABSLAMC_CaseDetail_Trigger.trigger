@@ -6,6 +6,6 @@
  * Ver      Date           Author            Modification
  * 1.0      02-09-2024     Neeraj Kumar      Initial Version
 **/
-trigger ABSLAMC_CaseDetail_Trigger on ABSLAMC_Case_Detail__c (after insert,after update) {
+trigger ABSLAMC_CaseDetail_Trigger on ABSLAMC_Case_Detail__c (after update) {
     TriggerDispatcher.Run(new ABSLAMC_CaseDetailTriggerHandler());
 }

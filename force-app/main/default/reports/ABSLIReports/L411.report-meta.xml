@@ -55,6 +55,9 @@
         <field>Case$Asset.Branch__c.Name</field>
     </columns>
     <columns>
+        <field>Case$Asset.Branch__c.Branch_Code__c</field>
+    </columns>
+    <columns>
         <field>Case$Asset.Branch__c.Zone__c</field>
     </columns>
     <columns>

@@ -137,7 +137,7 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
                 
         string serviceType = (caseRecord.Nature__c == 'Request') ? 'R' : ((caseRecord.Nature__c == 'Query') ? 'Q': 'C');
         CAMSCreateWfReqWrapper CAMSCreateWfReqWrapperObj = new CAMSCreateWfReqWrapper();      
-        CAMSCreateWfReqWrapperObj.messsagefrom = ABSLAMC_Constants.CAMSWEB;
+        CAMSCreateWfReqWrapperObj.messagefrom = ABSLAMC_Constants.CAMSWEB;
         CAMSCreateWfReqWrapperObj.foliono = caseRecord.LAN__c;
         CAMSCreateWfReqWrapperObj.source = ABSLAMC_Constants.BIRLACRM;
         CAMSCreateWfReqWrapperObj.serviceType = serviceType;
@@ -174,7 +174,7 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
     }
     
      public class CAMSCreateWfReqWrapper{
-		public string messsagefrom;
+		public string messagefrom;
         public string foliono;
         public string source;
         public string serviceType;

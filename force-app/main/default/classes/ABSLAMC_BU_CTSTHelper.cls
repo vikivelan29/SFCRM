@@ -32,7 +32,7 @@ public with sharing class ABSLAMC_BU_CTSTHelper {
 * @description - this method is used to validate if the case is in mandatory approval stage or not
 */
 public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case> oldMapCase) {
-    
+
     Set<String> statusToCheck = new Set<String>{ABSLAMC_Constants.CAMSPENDINGSTATUS};
     Map<Id, Case> amcCAMSApprovalSpecificCases = new Map<Id, Case>();
     Set<Id> caseIds = new Set<Id>();
@@ -42,6 +42,8 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
     string mandatoryAppErrMsg = label.ABSLAMC_MandatoryApprovalRequired;
     string nonMandatoryAppErrMsg = label.ABSLAMC_NonMandatoryAppErrMsg;
     string atleastOneApprRecordErrMsg = label.ABSLAMC_NoApprovalRecordsFound;
+    string approvalReqErrMsg = 'Approval is required, but no approved or rejected records found';
+    Set<Id> relatedCaseDetailRecordIds = new Set<Id>();
     
     for (Case caseRec : newMapCase.values()) {
         Case oldCaseRec = oldMapCase.get(caseRec.Id);
@@ -50,17 +52,24 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
         if (caseRec.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS && oldCaseRec.Stage__c == ABSLAMC_Constants.CAMSAPPROVALSTAGE && 
             caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && 
             statusToCheck.contains(caseRec.Stage__c)) {
-            
-            amcCAMSApprovalSpecificCases.put(caseRec.Id, caseRec); 
-            if (String.isNotBlank(caseRec.CCC_External_Id__c)) {
-                caseIdToCCCMap.put(caseRec.Id, caseRec.CCC_External_Id__c); 
+                
+                amcCAMSApprovalSpecificCases.put(caseRec.Id, caseRec); 
+                if (String.isNotBlank(caseRec.CCC_External_Id__c)) {
+                    caseIdToCCCMap.put(caseRec.Id, caseRec.CCC_External_Id__c); 
+                }
+                if (caseRec.ABSLAMC_Case_Detail__c != null) { 
+                    relatedCaseDetailRecordIds.add(caseRec.ABSLAMC_Case_Detail__c);
+                }
             }
-        }
     }
-
-
+    Map<Id, ABSLAMC_Case_Detail__c> relatedBRecordsMap = new Map<Id, ABSLAMC_Case_Detail__c>([
+        SELECT Id, Approval_Required__c 
+        FROM ABSLAMC_Case_Detail__c 
+        WHERE Id IN :relatedCaseDetailRecordIds
+    ]);
+    
     if (!caseIdToCCCMap.isEmpty()) {
-        // Fetch the relevant stage configuration records
+
         List<ASF_Case_Stage_Config__c> stageConfigs = [
             SELECT Id, Mandatory_Approval__c, Case_Category_Config__r.CCC_External_Id__c, StageName__c, Is_Approval_Stage__c 
             FROM ASF_Case_Stage_Config__c  
@@ -75,7 +84,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
                 FROM ASF_Case_Approv__c
                 WHERE SR__c IN :caseIdToCCCMap.keySet()
                 ORDER BY CreatedDate DESC
-            ];  
+            ];   
             
             for (ASF_Case_Approv__c approval : approvalRecords) {
                 if (!caseApprovalsMap.containsKey(approval.SR__c)) {
@@ -84,7 +93,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
                 caseApprovalsMap.get(approval.SR__c).add(approval);
             }
         }
-        
+             
         for (ASF_Case_Stage_Config__c stageConfig : stageConfigs) {
             Id caseId = null;
             for (Id id : caseIdToCCCMap.keySet()) {
@@ -95,9 +104,25 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
             }
             
             Case caseRec = amcCAMSApprovalSpecificCases.get(caseId);
-         
+
             if (caseRec != null) {
                 List<ASF_Case_Approv__c> approvals = caseApprovalsMap.get(caseRec.Id);
+                ABSLAMC_Case_Detail__c relatedBRec = relatedBRecordsMap.get(caseRec.ABSLAMC_Case_Detail__c);
+                if (relatedBRec != null && relatedBRec.Approval_Required__c == 'Yes') {
+                    Boolean validApprovalExists = false;
+                    
+                    if (approvals != null && !approvals.isEmpty()) {
+                        ASF_Case_Approv__c latestApproval = approvals[0];
+                            
+                        if (latestApproval.Approval_Status__c == ABSLAMC_Constants.APPROVEDSTATUS){
+                            validApprovalExists = true;
+                        }
+                    }
+                    
+                    if (!validApprovalExists) {
+                        caseRec.addError(approvalReqErrMsg);
+                    }
+                }
                 
                 if (approvals != null && !approvals.isEmpty()) {
                     ASF_Case_Approv__c latestApproval = approvals[0];
@@ -112,7 +137,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
                         if (latestApproval.Approval_Status__c != ABSLAMC_Constants.APPROVEDSTATUS && latestApproval.Approval_Status__c != ABSLAMC_Constants.RECALLEDSTATUS) {
                             caseRec.addError(nonMandatoryAppErrMsg);
                         } else { 
-                        caseIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_APPROVAL_CHECKS});}
+                            caseIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_APPROVAL_CHECKS});}
                     }
                 } else {
                     if (stageConfig.Mandatory_Approval__c && stageConfig.Is_Approval_Stage__c) {
@@ -121,7 +146,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
                     }
                 }
             }
-             if(!caseIdToSkipperFlag.isEmpty()){
+            if(!caseIdToSkipperFlag.isEmpty()){
                 ASF_CaseTriggerModularHelper.setManualSkipperFlags(caseIdToSkipperFlag, null);
             }
         }
