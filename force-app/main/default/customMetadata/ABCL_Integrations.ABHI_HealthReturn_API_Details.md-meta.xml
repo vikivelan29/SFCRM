@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>ABHI NPS FEEDBACK INBOUND</label>
+    <label>ABHI_HealthReturn_API_Details</label>
     <protected>false</protected>
     <values>
         <field>Description__c</field>
@@ -8,15 +8,15 @@
     </values>
     <values>
         <field>EnableMockResponse__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>EndPoint__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abhi/policydetailsinformation</value>
     </values>
     <values>
         <field>Exception_Log__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Full_Log__c</field>
@@ -40,15 +40,15 @@
     </values>
     <values>
         <field>Mock_Response_Resource__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">ABHI_HealthReturn_Success_Response</value>
     </values>
     <values>
         <field>Mock_Status_Code__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">1000.0</value>
     </values>
     <values>
         <field>Protocol__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">POST</value>
     </values>
     <values>
         <field>StoreAsAttachment__c</field>
