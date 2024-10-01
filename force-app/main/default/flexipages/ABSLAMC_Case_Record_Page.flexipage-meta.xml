@@ -9,7 +9,7 @@
                         <valueListItems>
                             <value>Case.Manual_Approval</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND (4 OR 5)</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -24,16 +24,6 @@
                                     <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.AmIOwner__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>CONTAINS</operator>
-                                    <rightValue>Admin</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -199,7 +189,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
-                    <value>ADVGRID</value>
+                    <value>NONE</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>rowsToDisplay</name>
@@ -207,7 +197,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
                 <identifier>force_relatedListSingleContainer6</identifier>
