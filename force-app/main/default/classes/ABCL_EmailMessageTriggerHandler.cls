@@ -53,6 +53,8 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         
         // US- PR970457-575(ABWM chat originated cases) WEALTHCHATGENERATED CASES UPDATE SUPPLIED EMAIL WHICH IS ETRACTED FROM EMAIL BODY
         ABFL_WealthChatGeneratedCases.execute(newEmails.values());
+        ABSLIG_SendCaseCreationEmail.sendEmailOnCaseCreation(newEmails.values());
+        ABFL_WealthChatGeneratedCases.sendEmailWhenNotRegisteredCustomer(newEmails.values());
         // ABFL_EmailCase_Logic.updateIncomingEmailCount(sEMIds);
         if(sEMIds.size()>0){
             Async_Transaction_Event__e ate = new Async_Transaction_Event__e(
