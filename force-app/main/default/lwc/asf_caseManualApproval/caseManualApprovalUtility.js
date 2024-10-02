@@ -537,7 +537,7 @@ export const staticFields={
                 isVisible: false
             },
             classDisplay:"slds-hide",
-            defaulSelectedOption:"Parallel",
+            defaulSelectedOption:"Parallel - All to approve",
             showError:true,
             errorMessage:"",
             fieldClassList : "slds-p-around_xx-small"
