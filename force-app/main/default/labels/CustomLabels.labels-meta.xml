@@ -1348,4 +1348,18 @@
         <shortDescription>ABHI_Health_Return_View</shortDescription>
         <value>Health Return View</value>
     </labels>
+    <labels>
+        <fullName>ASF_RetryInterval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_RetryInterval</shortDescription>
+        <value>15</value>
+    </labels>
+    <labels>
+        <fullName>ASF_RetryNumbers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_RetryNumbers</shortDescription>
+        <value>2</value>
+    </labels>
 </CustomLabels>
