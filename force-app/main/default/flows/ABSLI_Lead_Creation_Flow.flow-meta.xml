@@ -1023,7 +1023,11 @@
                     <fieldText>First Name</fieldText>
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
+                    <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;First Name cannot have space or special characters&lt;/p&gt;</errorMessage>
+                        <formulaExpression>REGEX({!First_Name}, &quot;^[a-zA-Z]+$&quot;)</formulaExpression>
+                    </validationRule>
                 </fields>
                 <fields>
                     <name>Last_Name</name>
@@ -1035,6 +1039,10 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;Last Name cannot have space or special characters&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>REGEX({!Last_Name}, &quot;^[a-zA-Z]+$&quot;)</formulaExpression>
+                    </validationRule>
                 </fields>
                 <fields>
                     <name>City_2</name>

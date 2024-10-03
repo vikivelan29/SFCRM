@@ -96,7 +96,7 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
                     caseInt.Case__c  = caseRecord.Id;
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
                     caseInt.Status__c = ABSLI_Constants.PENDING;
-                    //caseInt.Is_Validation_Success__c = true;
+                    caseInt.Is_Validation_Success__c = true;
                     caseInt.Request__c  =  JSON.serialize(new RQServiceRequest(source,policyNumber));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     newCaseIntegrations.add(caseInt);
