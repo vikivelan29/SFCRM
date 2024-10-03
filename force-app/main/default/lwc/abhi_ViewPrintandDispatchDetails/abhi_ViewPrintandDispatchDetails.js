@@ -125,13 +125,17 @@ export default class Abhi_ViewPrintandDispatchDetails extends LightningElement {
         'Courier Name'
     ];
 
+    const nameMapping = {
+        'Communication_Name': 'Communication Name'
+    };
+
     // Filter the attributes to include only those in the desiredAttributes list
     const filteredAttributes = attributes.filter(attr => desiredAttributes.includes(attr.name));
 
 // Map the attributes to tableData directly
         this.tableData = filteredAttributes.map(attr => ({
-    attributeCode: attr.name || 'Unnamed Attribute',
-    attributeValue: attr.value || 'N/A'
+    attributeCode: nameMapping[attr.name] || attr.name || 'Unnamed Attribute',
+    attributeValue: attr.value !== null ? attr.value : ''   //attr.value || 'N/A'
     }));
     this.totalNoOfRecordsInDatatable = this.tableData.length;
     this.updatePagination();
