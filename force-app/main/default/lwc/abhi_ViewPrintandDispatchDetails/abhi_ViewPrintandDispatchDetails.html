@@ -1,6 +1,6 @@
 <template>
     <lightning-card variant="narrow">
-    <h1 slot="title">View Print and Dispatch Details</h1> 
+    <h1 slot="title">Print and Dispatch Details</h1> 
         <div lwc:if={isLoading} >
             <div class="slds-backdrop" role="presentation"></div>
                 <div class="slds-fade-in-open slds-modal_large">
@@ -32,7 +32,7 @@
             </tbody>
         </table>
          <!-- Pagination Controls -->
-         <div class="slds-align_absolute-center" style="height:5rem">
+         <!-- <div class="slds-align_absolute-center" style="height:5rem">
             <lightning-button 
                 disabled={bDisableFirst} 
                 icon-name="utility:jump_to_left" 
@@ -70,7 +70,8 @@
                 onclick={lastPage} 
                 icon-position="right">
             </lightning-button>
-        </div>
+        </div> -->
+        <br/>
     </template>
         <div slot="actions"  onkeyup={handleKeyUp} class="slds-p-horizontal_small slds-m-bottom_small slds-clearfix" style="width: 200px;">
             <div class="slds-float_right slds-grid">
