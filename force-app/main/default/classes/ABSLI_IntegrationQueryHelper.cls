@@ -124,7 +124,8 @@ public with sharing class ABSLI_IntegrationQueryHelper {
 				STP_Config_External_Id__c,
 				STP_Template__c,
                 Query_Fields__c,
-                Priority__c
+                Priority__c,
+                Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			WHERE Processing_Class__c = :className
 		]) {
