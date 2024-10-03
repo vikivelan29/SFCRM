@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>RNWL PayOnlineUpsellMultiyear</label>
+    <protected>false</protected>
+    <values>
+        <field>Is_Connected__c</field>
+        <value xsi:type="xsd:string">Yes</value>
+    </values>
+    <values>
+        <field>L1__c</field>
+        <value xsi:type="xsd:string">Promise to Pay</value>
+    </values>
+    <values>
+        <field>L2__c</field>
+        <value xsi:type="xsd:string">PTP- Online/CP/Wallet</value>
+    </values>
+    <values>
+        <field>L3__c</field>
+        <value xsi:type="xsd:string">Will Renew with Upsell &amp; multiyear</value>
+    </values>
+    <values>
+        <field>Priority__c</field>
+        <value xsi:type="xsd:double">18.0</value>
+    </values>
+</CustomMetadata>
