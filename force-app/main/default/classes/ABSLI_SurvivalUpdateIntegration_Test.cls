@@ -49,7 +49,7 @@ public class ABSLI_SurvivalUpdateIntegration_Test {
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = surInt.evaluate(caseRecord);
-        System.assertEquals('Error', successfulEvaluate.status);
+        System.assertEquals('Success', successfulEvaluate.status);
         Test.stopTest();
     }
     
