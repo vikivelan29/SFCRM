@@ -1262,14 +1262,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_READY_RECK_IV</shortDescription>
-        <value>8549708501325472</value>
+        <value>36RD4KJ6POc7ynS7</value>
     </labels>
     <labels>
         <fullName>ABSLI_READY_RECK_KEY</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_READY_RECK_KEY</shortDescription>
-        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+        <value>WbFXJcygjVCWr5T9</value>
     </labels>
     <labels>
         <fullName>ABSLI_READY_RECK_USR</fullName>
@@ -1283,7 +1283,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
-        <value>http://10.155.8.204:94/rtpWS/rcase=</value>
+        <value>http://10.155.8.204:94/rtpWS/?rcase=</value>
     </labels>
     <labels>
         <fullName>MCRMSupressCTSTs</fullName>
@@ -1347,5 +1347,19 @@
         <protected>false</protected>
         <shortDescription>ABHI_Health_Return_View</shortDescription>
         <value>Health Return View</value>
+    </labels>
+    <labels>
+        <fullName>ASF_RetryInterval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_RetryInterval</shortDescription>
+        <value>15</value>
+    </labels>
+    <labels>
+        <fullName>ASF_RetryNumbers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_RetryNumbers</shortDescription>
+        <value>2</value>
     </labels>
 </CustomLabels>
