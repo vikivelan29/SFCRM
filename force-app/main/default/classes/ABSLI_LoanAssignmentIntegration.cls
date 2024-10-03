@@ -187,6 +187,8 @@ public with sharing class ABSLI_LoanAssignmentIntegration implements ASF_Integra
 	 */
 	public void processResponse(ASF_Case_Integration__c caseInteg) {
 		try {
+            Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
+            ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
 				LAResponseWrapper jsonMap = (LAResponseWrapper) JSON.deserialize(
 					caseInteg.Response__c,
@@ -194,13 +196,19 @@ public with sharing class ABSLI_LoanAssignmentIntegration implements ASF_Integra
 				);
 
                 if(jsonMap.LSIR_RETURN_CD == '00'){
-                    Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
-                    ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
                     caseDetail.Amount_Paid__c = caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c;
                     caseRecord.MoveToNext__c = true;
                     Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
                     Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
                 }
+			}
+            if (caseInteg.Status__c == ABSLI_Constants.FAILURE) {
+				caseDetail.Status_Valid_For_STP__c = false;
+				Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
+
+				caseRecord.MoveToNext__c = true;
+				caseRecord.Is_STP__c = false;
+				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
