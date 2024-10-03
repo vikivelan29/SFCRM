@@ -561,16 +561,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ServicingBranchName__c</fieldItem>
-                <identifier>RecordServicingBranchName_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.IntermediaryMobileNumber__c</fieldItem>
                 <identifier>RecordIntermediaryMobileNumber_cField</identifier>
             </fieldInstance>
@@ -1490,7 +1480,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>View Print and Dispatch Details</value>
+                    <value>Print and Dispatch</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
