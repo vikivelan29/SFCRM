@@ -174,18 +174,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABHIL_Constants</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABHIL_FAHistoryDetailsController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABHIL_ViewPolicyInformation_Controller</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABSLIG_BulkCloseCaseConverterUtility</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -674,6 +662,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ASF_TestDataFactory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_customPicklistUtility</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -698,10 +690,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>JSONParser</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>LeadTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -714,15 +702,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>RNWL_IndividualAccRenewalController_Test</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>RNWL_NonIndAccountRenewalController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>RNWL_NonIndAccountRenewalControllerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -754,19 +734,11 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>RNWL_TestDataFactory</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>RNWL_UbonaCalloutWrapper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RNWL_UbonaIntegrationController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ReadJson</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>
@@ -1733,11 +1705,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ABSLI_IGMS_Document__c.Attachment_Source__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABSLI_IGMS_Document__c.Business_Unit__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3132,11 +3099,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.bofc__BOFC_ACC_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.e_Insurance_Account__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3458,11 +3420,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ContractIssueDate__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ContractNo__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6270,7 +6227,7 @@
         <field>Disposition_Priority__mdt.Priority__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.AgentDialTime__c</field>
         <readable>false</readable>
@@ -6284,7 +6241,7 @@
         <editable>false</editable>
         <field>Dispositions__c.AgentTalkTime__c</field>
         <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions-->
     <fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.Agent_Name__c</field>
@@ -6305,16 +6262,11 @@
         <field>Dispositions__c.Calling_Unit__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.CustomerTalkTime__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.Disposition_Code__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions-->
     <fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.Disposition_L1__c</field>
@@ -6350,11 +6302,11 @@
         <field>Dispositions__c.Disposition_L7__c</field>
         <readable>false</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--fieldPermissions>
         <editable>true</editable>
         <field>Dispositions__c.Msisdn__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions-->
     <fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.Next_Call_Back_Date_Time__c</field>
@@ -6380,7 +6332,7 @@
         <field>Dispositions__c.Renewal_Request__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+    <!--fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.Status__c</field>
         <readable>false</readable>
@@ -6459,7 +6411,7 @@
         <editable>true</editable>
         <field>Dispositions__c.waittime__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions-->
     <fieldPermissions>
         <editable>false</editable>
         <field>Health_Intent__c.Active_on_Social_Media__c</field>
@@ -6483,11 +6435,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Health_Intent__c.Frequency_in_a_month__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Health_Intent__c.HealthIntentExternalId__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6547,22 +6494,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Health_Provider__c.Last_updated_date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Health_Provider__c.Network_Type__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Health_Provider__c.Provider_Affiliated__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Health_Provider__c.Provider_BlackListed__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6573,16 +6505,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Health_Provider__c.Provider_Landline_No__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Health_Provider__c.Provider_Network__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Health_Provider__c.Provider_Specialty__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6606,14 +6528,39 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.AccountId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Amount</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Calling_Source__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.CampaignId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Cancel_Call_Response__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.ContractId</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Description</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6632,6 +6579,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.ExpectedRevenue</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.Grace_Period_End__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -6639,6 +6591,21 @@
         <editable>false</editable>
         <field>Opportunity.Grace_Period_Start__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.IsPrivate</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.LeadSource</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.NextStep</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6666,9 +6633,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Opportunity.Preferred_Flag__c</field>
-        <readable>false</readable>
+        <editable>true</editable>
+        <field>Opportunity.Probability</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6692,8 +6659,13 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity.Status__c</field>
+        <field>Opportunity.TotalOpportunityQuantity</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Type</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6809,9 +6781,6 @@
         <layout>Claim__c-Claim Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Collections__c-Collection Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>ContentVersion-Content Version</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6847,6 +6816,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Account</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Contact</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -6929,6 +6907,11 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Opportunity.HI_Renewals</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <default>false</default>
         <recordType>PersonAccount.ABSLI_Advisor</recordType>
         <visible>false</visible>
@@ -6978,6 +6961,10 @@
     <tabVisibilities>
         <tab>standard-Case</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>standard-Opportunity</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>
