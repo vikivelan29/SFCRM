@@ -3,10 +3,6 @@
     <label>Send Lead To CRM</label>
     <protected>false</protected>
     <values>
-        <field>Description__c</field>
-        <value xsi:type="xsd:string">This is required while send lead to crm</value>
-    </values>
-    <values>
         <field>EnableMockResponse__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -27,18 +23,6 @@
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Int_IV__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>Int_Key__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>Merchant_Id__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>Mock_Response_Resource__c</field>
         <value xsi:type="xsd:string">SendLeadToCRM</value>
     </values>
@@ -54,7 +38,7 @@
         <field>StoreAsAttachment__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
-    <values>
+     <values>
         <field>Timeout__c</field>
         <value xsi:type="xsd:double">120000.0</value>
     </values>
