@@ -7,6 +7,7 @@
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity')
 public class ABSLI_LitmusIntegration {
+    public static Map<Id,Boolean> isExecuted = new Map<Id,Boolean>();
     public Static void evaluateCasesForLitmus(Map<Id, Case> newCaseMap, Map<Id, Case> oldCaseMap){
         Set<Id> setExpectedLogic = new Set<Id>();
         Set<String> cccExternalIdSet = new Set<String>();
@@ -23,8 +24,11 @@ public class ABSLI_LitmusIntegration {
             if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && 
                ((caseRec.IsClosed == true && (oldCaseMap.get(caseRec.Id).IsClosed != true) && ASF_Constants.RESOLVEDSTAGES.contains(caseRec.Status)) || 
                ASF_Constants.RESOLVEDSTAGES.contains(caseRec.Stage__c)) ){
-                   setExpectedLogic.add(caseRec.Id);
-                   cccExternalIdSet.add(caseRec.CCC_External_Id__c);
+                   if(!isExecuted.containskey(caseRec.Id)){
+                       setExpectedLogic.add(caseRec.Id);
+                   		cccExternalIdSet.add(caseRec.CCC_External_Id__c);
+                       isExecuted.put(caseRec.Id,true);
+                   }
                } 
         }
         
