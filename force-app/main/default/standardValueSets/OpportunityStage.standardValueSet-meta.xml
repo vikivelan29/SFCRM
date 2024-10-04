@@ -39,12 +39,4 @@
         <probability>0</probability>
         <won>false</won>
     </standardValue>
-    <standardValue>
-        <fullName>Paid</fullName>
-        <default>false</default>
-        <label>Paid</label>
-        <closed>false</closed>
-        <forecastCategory>Omitted</forecastCategory>
-        <won>false</won>
-    </standardValue>
 </StandardValueSet>

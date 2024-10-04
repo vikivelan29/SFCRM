@@ -30,12 +30,13 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         
         Test.startTest();
         Opportunity objOpportunity = RNWL_TestDataFactory.createOpportunityRecords(acc.Id, asset.Id);
-        RNWL_OpportunityDataController.updateOpportunityRecords(jsonObject);//String result = 
+        String result = RNWL_OpportunityDataController.updateOpportunityRecords(jsonObject);
         Test.stopTest();
-        //Assert.areNotEqual('Success!', result, 'Opportunity Update Failed');       
+                
+        Assert.areEqual('Success!', result, 'Opportunity Update Failed');
+       
     }
-
-    @isTest
+       @isTest
     public static void test_oppUpdateFailure(){
         Account acc = [Select Id FROM Account LIMIT 1];
         Asset asset = [Select Id FROM Asset LIMIT 1];
@@ -50,8 +51,11 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         
         Test.startTest();
         Opportunity objOpportunity = RNWL_TestDataFactory.createOpportunityRecords(acc.Id, asset.Id);
-        RNWL_OpportunityDataController.updateOpportunityRecords(jsonObject);//String result = 
+        String result = RNWL_OpportunityDataController.updateOpportunityRecords(jsonObject);
         Test.stopTest();
-        //Assert.areNotEqual('Failed!', result, 'Opportunity Update Success');
+                
+        Assert.areNotEqual('Success!', result, 'Opportunity Update Success');
+       
     }
+
 }

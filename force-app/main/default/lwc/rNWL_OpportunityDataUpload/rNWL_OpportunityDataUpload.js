@@ -4,33 +4,19 @@ import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadScript } from 'lightning/platformResourceLoader';
 import sheetjs from '@salesforce/resourceUrl/SheetJS';
-import template from '@salesforce/resourceUrl/RNWL_BulkUploadTemplate';
+
 let XLS = {};
-const columns = [
-    { label: 'Renewal Request Name', fieldName: 'oppId', type: 'url',typeAttributes: {label: { fieldName: 'oppName' }, target: '_blank'},
-            sortable: true},
-    { label: 'Policy Number', fieldName: 'policyNumber'},
-    { label: 'Status', fieldName: 'status' },
-    { label: 'Error Message', fieldName: 'response'}
-];
 
 export default class OpportunityDataUpload extends NavigationMixin(LightningElement) {
     @track acceptedFormats = ['.xls', '.xlsx'];
-    label ={
-    template
-    };
+
     filesUploaded = [];
     fileName;
     parsedData;
     file;
     isLoading = false;
-    recordStatus = false;
+    recordStatus;
     fileReader;
-    @track errorRecords = {}
-    data = [];
-    columns = columns;
-    
-    columnHeader = ['Policy Number', 'Final Eligibility', 'Propensity to Pay', 'Renewal Calling Flag', 'Calling Source', 'Upsell SI 1', 'Upsell SI 2', 'Upsell SI 3', 'Upsell SI 4', 'Upsell SI 5', 'Max Upsell', 'Bucket', 'Error Message']
     MAX_FILE_SIZE = 1500000;
 
     async connectedCallback() {
@@ -42,19 +28,13 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
 
     }
 
-    handleReset(){
-        this.fileName = '';
-        this.parsedData = '';
-        this.recordStatus = false;
-    }
-
     handleUploadFinished(event) {
         const uploadedFiles = event.detail.files;
         console.log('uploadedFiles ' + uploadedFiles);
         if (uploadedFiles.length > 0) {
             this.excelToJSON(uploadedFiles[0])
             this.filesUploaded = uploadedFiles;
-            this.fileName = 'Selected file: ' + uploadedFiles[0].name;
+            this.fileName = uploadedFiles[0].name;
         }
     }
 
@@ -107,95 +87,46 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
             );
             return;
         }
+
         this.isLoading = true;
         this.saveToFile();
     }
 
     saveToFile() {
-       // this.recordStatus = undefined;
+        this.recordStatus = undefined;
         console.log('this.parsedData '+this.parsedData);
         updateOpportunityRecords({ oppData: this.parsedData?.replaceAll('\\', '') })
-        .then(result => {
-            this.filesUploaded = '';
-            this.fileName = '';
-            if (result) {
-                let hasAtleastOneError = false; 
-                // let recordStatus = JSON.stringify(result);
-                    //console.log('recordStatus '+recordStatus);
-                    this.errorRecords = result;
-                    this.data = result;
-                for (let i=0;i<result.length; i++) {
-                    console.log('result[i] '+JSON.stringify(result[i]));
-                    if (result[i].status != 'Success') {
-                        
-                        hasAtleastOneError = true;
-                        this.recordStatus = true;
-                        
+            .then(result => {
+                this.filesUploaded = '';
+                this.fileName = '';
+                if (result) {
+                    let hasAtleastOneError = false;
+                    let recordStatus = JSON.parse(result);
+                    for (let each in recordStatus) {
+                        if (recordStatus[each] != 'Success!') {
+                            hasAtleastOneError = true;
+                        }
                     }
+                    if (hasAtleastOneError) {
+                        this.recordStatus = recordStatus;
+                        this.showMessage(this.recordStatus, 'warning');
+                    } else {
                     
-                }
-                if (hasAtleastOneError) {
-                    //this.recordStatus = recordStatus;
-                    console.log('errorRecords '+this.errorRecords);
-                    let doc = '<table>';
-                    
-                    // Add all the Table Headers
-                    doc += '<tr>';
-                    this.columnHeader.forEach(element => {            
-                    doc += '<th>'+ element +'</th>'           
-                    });
-                    doc += '</tr>';
-                    this.errorRecords.forEach(record => {
-                    if(record.status =='Error'){
-                        console.log('record '+record.status);
-                    doc += '<tr>';
-                    doc += '<th>'+record.policyNumber+'</th>'; 
-                    doc += '<th>'+record.finalEligibilityFlag+'</th>'; 
-                    doc += '<th>'+record.propensityToPay+'</th>'; 
-                    doc += '<th>'+record.renewalCallingFlag+'</th>';
-                    doc += '<th>'+record.callingSource+'</th>';
-                    doc += '<th>'+record.upsellSI1+'</th>';
-                    doc += '<th>'+record.upsellSI2+'</th>';
-                    doc += '<th>'+record.upsellSI3+'</th>';
-                    doc += '<th>'+record.upsellSI4+'</th>';
-                    doc += '<th>'+record.upsellSI5+'</th>';
-                    doc += '<th>'+record.maxUpsell+'</th>';
-                    doc += '<th>'+record.bucket+'</th>';
-                    doc += '<th>'+record.response+'</th>'; 
-                    doc += '</tr>';
+                        this.showMessage('All fleet rows were uploaded successfully','success');
                     }
-                });
-                    doc += '</table>';
-                    var element = 'data:application/vnd.ms-excel,' + encodeURIComponent(doc);
-                    let downloadElement = document.createElement('a');
-                    downloadElement.href = element;
-                    downloadElement.target = '_self';
-                    downloadElement.download = 'OpportunityUploadErrorFile.xls'; 
-                    document.body.appendChild(downloadElement);
-                    downloadElement.click();
-
-                    this.showMessage('Opportunity rows were updated partially!', 'warning', 'Warning!');
-                } else {
-                    this.recordStatus = true;
-                    this.showMessage('All Opportunity rows were updated successfully!!', 'success', 'Success!');
                 }
-            }
-            this.isLoading = false;
-        })
-        .catch(error => {
-            console.log(error);
-            let message = error.body.message;
-            if (message.includes('Duplicate')) {
-                message = 'Your file has duplicates. Please remove duplicates and reupload it';
-            }
-            this.showMessage(message, 'error', 'Error!');
-            this.isLoading = false;
-        });
+                this.isLoading = false;
+            })
+            .catch(error => {
+                console.log(error);
+                this.showMessage(error, 'error');
+                this.isLoading = false;
+            });
     }
 
-    showMessage(message, variant, title) {
+    showMessage(message, variant) {
         const event = new ShowToastEvent({
-            title: title,
+            title: '',
             variant: variant,
             mode: 'dismissable',
             message: message

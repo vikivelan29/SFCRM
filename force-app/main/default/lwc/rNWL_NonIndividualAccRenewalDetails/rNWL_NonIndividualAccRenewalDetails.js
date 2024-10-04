@@ -4,31 +4,15 @@ import getDetails from '@salesforce/apex/RNWL_NonIndAccountRenewalController.get
 export default class RNWL_NonIndividualAccRenewalDetails extends LightningElement {
     @api opportunityId;  // coming from parent component
     @track data=[];
-    hasError = false;
-    showSpinner = false;
-    errorMessage;
-    
     connectedCallback(){
-        this.showSpinner = true;
-
         getDetails({opportunityId : this.opportunityId})
         .then(result=>{
             if(result){
-               if(!result.hasError && !result.errorMessage){
-                    this.fetchData(result);
-               }else if(result.hasError && result.errorMessage){
-                    this.hasError = true;
-                    this.errorMessage   = result.errorMessage;
-               }
+                this.fetchData(result);
             }
         })
         .catch(error=>{
             console.log('error--'+error);
-            this.hasError = true;
-            this.errorMessage   = 'There might be some internal error, Please contact to your administrator';
-        })
-        .finally(()=>{
-            this.showSpinner = false;
         });
     }
 
@@ -61,10 +45,10 @@ export default class RNWL_NonIndividualAccRenewalDetails extends LightningElemen
             sectionLabel : 'Premium Details' , 
             headres : [
                 { label: 'Certificate Number',      fieldName: 'Certificate_number' , wrapText: true},
-                { label: 'Upsell Net Premium',      cellAttributes: { alignment: 'left' }, fieldName: 'Upsell_Net_Premium' , wrapText: true , type: 'currency'},
-                { label: 'Upsell Gross Premium',    cellAttributes: { alignment: 'left' }, fieldName: 'Upsell_Gross_Premium' , wrapText: true , type: 'currency'},
-                { label: 'Renewal Net Premium',     cellAttributes: { alignment: 'left' }, fieldName: 'Renewal_Net_Premium' , wrapText: true , type: 'currency'},
-                { label: 'Renewal Gross Premium',   cellAttributes: { alignment: 'left' }, fieldName: 'Renewal_Gross_Premium', wrapText: true , type: 'currency'},
+                { label: 'Upsell Net Premium',      fieldName: 'Upsell_Net_Premium' , wrapText: true , type: 'currency'},
+                { label: 'Upsell Gross Premium',    fieldName: 'Upsell_Gross_Premium' , wrapText: true , type: 'currency'},
+                { label: 'Renewal Net Premium',     fieldName: 'Renewal_Net_Premium' , wrapText: true , type: 'currency'},
+                { label: 'Renewal Gross Premium',   fieldName: 'Renewal_Gross_Premium', wrapText: true , type: 'currency'},
             ],
             records : jsonData.premiumDetails,
             sectionAvailable : jsonData.premiumDetails.length > 0,
@@ -81,13 +65,11 @@ export default class RNWL_NonIndividualAccRenewalDetails extends LightningElemen
                 { label: 'Email',               fieldName: 'Email' , wrapText: true},
                 { label: 'Mobile Number',       fieldName: 'Mobile_Number' , wrapText: true},
                 { label: 'Relation',            fieldName: 'Relation' , wrapText: true},
-                { label: 'Chronic Disease',     fieldName: 'Chronic_Disease' , wrapText: true},
-                { label: 'Disease Disclose',    fieldName: 'Disease_Disclose' , wrapText: true},
-                { label: 'Sum Insured',         cellAttributes: { alignment: 'left' }, fieldName: 'SumInsured' , wrapText: true , type: 'currency'},
-                { label: 'Net Premium',         cellAttributes: { alignment: 'left' }, fieldName: 'NetPremium' , wrapText: true , type: 'currency'},
-                { label: 'New Premium U',       cellAttributes: { alignment: 'left' }, fieldName: 'NetPremium_U' , wrapText: true , type: 'currency'},
-                { label: 'CB',                  cellAttributes: { alignment: 'left' }, fieldName: 'CB' , wrapText: true , type: 'currency'},
-                { label: 'HR Amount',           cellAttributes: { alignment: 'left' }, fieldName: 'Hr_Amount' , wrapText: true , type: 'currency'},
+                { label: 'Sum Insured',         fieldName: 'SumInsured' , wrapText: true , type: 'currency'},
+                { label: 'Net Premium',         fieldName: 'NetPremium' , wrapText: true , type: 'currency'},
+                { label: 'New Premium U',       fieldName: 'NetPremium_U' , wrapText: true , type: 'currency'},
+                { label: 'CB',                  fieldName: 'CB' , wrapText: true , type: 'currency'},
+                { label: 'HR Amount',           fieldName: 'Hr_Amount' , wrapText: true , type: 'currency'},
             ],
             records : jsonData.memberDetails,
             sectionAvailable : jsonData.memberDetails.length > 0,
@@ -137,30 +119,7 @@ export default class RNWL_NonIndividualAccRenewalDetails extends LightningElemen
             ],
             records : jsonData.combiDetails,
             sectionAvailable : true,
-            message :  jsonData.combiDetails && jsonData.combiDetails.length == 0 ? 'No combi-policies to display' : ''
-        };
-
-        let combiDispositionsSection = {
-            sectionLabel : 'Related Dispositions' , 
-            headres : [
-                { label: 'Disposition Name',  fieldName: 'Disposition_Url' , wrapText: true , type: 'url',
-                    typeAttributes: {label: { fieldName: 'Disposition_Name' }, target: '_blank'}
-                },
-                { label: 'Combi Policy Number',         fieldName: 'Combi_Policy_Number' , wrapText: true},
-                { label: 'Next Call Back Date Time',    fieldName: 'Next_CallBack_Datetime' , wrapText: true},
-                { label: 'Disposition L1',              fieldName: 'Disostion_L1' , wrapText: true},
-                { label: 'Disposition L2',              fieldName: 'Disostion_L2' , wrapText: true},
-                { label: 'Disposition L3',              fieldName: 'Disostion_L3' , wrapText: true},
-                { label: 'Call Date/Time',              fieldName: 'Call_DateTime' , wrapText: true},
-                { label: 'Agent Name',                  fieldName: 'Agent_Name' , wrapText: true},
-                { label: 'Remarks',                     fieldName: 'Remark' , wrapText: true},
-                { label: 'Calling Unit',                fieldName: 'Calling_Unit' , wrapText: true},
-                { label: 'Calling Mode',                fieldName: 'Calling_Mode' , wrapText: true},
-
-            ],
-            records : jsonData.combiDispositionDetails,
-            sectionAvailable : true,
-            message :  jsonData.combiDetails && jsonData.combiDetails.length == 0 ? 'No dispositions to show' : ''
+            message : 'No combi-policies to display'
         };
 
         this.data.push (policyDetailSections, 
@@ -168,11 +127,7 @@ export default class RNWL_NonIndividualAccRenewalDetails extends LightningElemen
                         memberDetailSections, 
                         nomineeDetailSections, 
                         renewalInfoSections,
-                        combiPolicySection,
-                        combiDispositionsSection ); 
+                        combiPolicySection ); 
         console.log('========>>>',JSON.stringify(this.data));
-
-        this.hasError = false;
-        this.errorMessage = null;
     }
 }

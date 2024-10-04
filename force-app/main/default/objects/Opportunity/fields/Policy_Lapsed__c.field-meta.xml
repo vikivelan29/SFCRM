@@ -5,7 +5,6 @@
     <formula>IF(TODAY() &gt;  Grace_Period_End__c , &apos;Deep Lapsed&apos;, IF(TODAY() &gt;  Policy_Lapse_Date__c , &apos;Lapsed&apos;, &apos;No&apos;))</formula>
     <label>Policy Lapsed</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

@@ -18,8 +18,4 @@
         <fullName>Open</fullName>
         <default>false</default>
     </values>
-    <values>
-        <fullName>Paid</fullName>
-        <default>false</default>
-    </values>
 </BusinessProcess>
