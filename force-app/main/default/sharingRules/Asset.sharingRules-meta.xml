@@ -1,3 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>ABFL_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABFL Asset Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABFL_Asset_Sharing_with_Service_Agent</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABFL Asset Sharing with Service Agent</label>
+        <sharedTo>
+            <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHFL_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABHFL Asset Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLIG_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLIG Asset Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLIG</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLI_Asset_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLI Asset Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLI_Asset_Sharing_with_VRM</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLI Asset Sharing with VRM</label>
+        <sharedTo>
+            <role>ABSLI_Virtual_Relationship_Manager</role>
+        </sharedTo>
+        <booleanFilter>1 OR 2 OR 3</booleanFilter>
+        <criteriaItems>
+            <field>Assign_to_DM__c</field>
+            <operation>equals</operation>
+            <value>Yes</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Channel__c</field>
+            <operation>equals</operation>
+            <value>DM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Loyalty_Service_Agent_Name__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>
