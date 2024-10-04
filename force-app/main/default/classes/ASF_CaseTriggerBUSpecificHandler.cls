@@ -14,7 +14,7 @@ public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessL
         Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
-            ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
+            //ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
             ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert((List<Case>)newItems);
             ABHFL_CTSTHelper.skipOpenStageforAPIcases(mRecordTypeVsCases1.get(frameworkRTId));
         }
