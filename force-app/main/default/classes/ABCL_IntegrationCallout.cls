@@ -6,9 +6,7 @@
 *Description  :  Outbound Callout Logger
 *********************************************************/
 public with sharing class ABCL_IntegrationCallout {
-    public static string caseId; 
-    public static string accountId;
-
+    public static string caseId;
     /****************************************************************************************************************
     * @LOB - ABHFL
     * @Function - executeCallout
@@ -16,8 +14,7 @@ public with sharing class ABCL_IntegrationCallout {
     * payload - request body, urlParameters - Map of URL parameters
     * @return - IntegrationResponseWrapper
     * @Description - Makes the callout and logs the response in ASF_Case_Integration__c
-    *****************************************************************************************************************/
-    @AuraEnabled       
+    *****************************************************************************************************************/       
     public static IntegrationResponseWrapper executeCallout( String integrationName, 
                                                           string payload, 
                                                           Map<String,String> urlParameters){
@@ -25,23 +22,24 @@ public with sharing class ABCL_IntegrationCallout {
         HttpResponse response = new HttpResponse();
         IntegrationResponseWrapper integrationResponse = new IntegrationResponseWrapper();
         Boolean hasError = false;
+        
         //Fetch Integration Metadata Record
         ABCL_Integrations__mdt  integrationMdt = getIntegrationMetadata(integrationName);
         
         //Build Endpoint URL using provided parameters
         string endPointURL = integrationMdt.EndPoint__c;
         if(urlParameters != null){
-           endPointURL= buildURLParameters(urlParameters,integrationMdt.EndPoint__c);                                                  
+            buildURLParameters(urlParameters,integrationMdt.EndPoint__c);                                                  
         }                                              
         
         //Build HttpRequest
         request.setMethod(integrationMdt.Protocol__c);
         request.setEndPoint(endPointURL);
-	if(integrationMdt.Timeout__c != null){
+        if(integrationMdt.Timeout__c != null){
             request.setTimeout(Integer.valueof(integrationMdt.Timeout__c));
         }
-
-        //Check for Payload
+        
+        // Check for Payload
         if(!String.isBlank(payload)){
             request.setBody(payload);
             integrationResponse.requestBody = payload;
@@ -56,7 +54,7 @@ public with sharing class ABCL_IntegrationCallout {
         }                                                      
         
         system.debug(request);
-        // Execute the callout
+        //Execute the callout
         try{
             if(!integrationMdt.EnableMockResponse__c){
                 response = new Http().send(request);    
@@ -79,7 +77,6 @@ public with sharing class ABCL_IntegrationCallout {
     public static ABCL_Integrations__mdt  getIntegrationMetadata(string integrationName){
         List<ABCL_Integrations__mdt> integrationMetadata = [Select  EndPoint__c,HTTP_Headers__c,EnableMockResponse__c,
                                                                     Mock_Status_Code__c,Timeout__c,Mock_Response_Resource__c,
-                                                            		DeveloperName,
                                                                     Full_Log__c,Exception_Log__c,StoreAsAttachment__c,Protocol__c 
                                                                     from ABCL_Integrations__mdt where DeveloperName =: integrationName];
         return integrationMetadata[0];
@@ -125,9 +122,6 @@ public with sharing class ABCL_IntegrationCallout {
         if(integrationMdt.Full_Log__c || (integrationMdt.Exception_Log__c && hasError)){
             if(String.isNotBlank(caseId)){
                 integrationLog.Case__c = caseId;
-            }
-            if(String.isNotBlank(accountId)){
-                integrationLog.Account__c  = accountId;
             }
             if(String.isnotBlank(integrationResponse.requestBody)){
                 integrationLog.Request__c = integrationResponse.requestBody;
@@ -177,8 +171,8 @@ public with sharing class ABCL_IntegrationCallout {
     }
     
     public class IntegrationResponseWrapper{
-        @AuraEnabled public string responseBody;
-        @AuraEnabled public integer statusCode;
-        @AuraEnabled public string requestBody;
+        public string responseBody;
+        public integer statusCode;
+        public string requestBody;
     }
 }
