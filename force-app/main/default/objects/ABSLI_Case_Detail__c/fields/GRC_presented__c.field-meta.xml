@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GRC_presented__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Complaints Resolution Field</description>
+    <externalId>false</externalId>
+    <label>GRC presented</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

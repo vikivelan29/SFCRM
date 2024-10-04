@@ -1,0 +1,64 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-24-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+        class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 class="slds-modal__title slds-hyphenate">
+                    Fetch Bank Details</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium">
+                <div class="slds-m-top_medium slds-m-bottom_x-large">
+                    <!-- Default/basic -->
+                    <div class="slds-p-around_medium lgc-bg slds-grid">
+                        <lightning-layout multiple-rows="true">
+                                <lightning-layout-item padding="around-small" size="12">
+                                    <lightning-input type="text" label="IFSC Code" value={IFSC_Code}
+                                        disabled={showFetchResponse} required onchange={handleIFSC}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12">
+                                    <lightning-input type="text" label="MICR Code" value='0000000000'
+                                            disabled onchange={handleMICR}></lightning-input>
+                                </lightning-layout-item>
+                                 <lightning-layout-item padding="around-small" size="12">
+                                        <lightning-input type="text" label="Bank Name" value={BANK_NAME}
+                                            disabled onchange={handleBANKNAME}> </lightning-input>
+                                 </lightning-layout-item>
+                                 <lightning-layout-item padding="around-small" size="12">
+                                        <lightning-input type="text" label="Bank Branch" value={BANK_BRANCH}
+                                            disabled onchange={handleBANKBRANCH}></lightning-input>
+                                 </lightning-layout-item>
+                              
+                                
+                            
+                            <template if:true={showErrorMsg}>
+                                <p>{errorMessage}</p>
+                            </template>
+                            <template if:true={showSpinner}>
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </template>
+
+                        </lightning-layout>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-grid slds-modal__footer slds-grid_align-center">
+                <button class="slds-button slds-button_neutral" onclick={closeParentPopup}
+                    title="Cancel">Cancel</button>
+                <template if:false={showFetchResponse}>
+                    <button class="slds-button slds-button_neutral" onclick={handleFetchDetails} title="Fetch Details" disabled={isIFSCInvalid}>Fetch Details</button>
+                </template>
+                <template if:true={showUpdate}>
+                    <button class="slds-button slds-button_neutral" onclick={handleUpdateFromFieldPopUp} title="Update">Update</button>
+                </template>
+            </footer>
+        </div>
+    </section>
+
+</template>

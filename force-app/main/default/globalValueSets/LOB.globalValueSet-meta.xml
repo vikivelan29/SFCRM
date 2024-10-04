@@ -60,6 +60,11 @@
         <default>false</default>
         <label>ABSLIG</label>
     </customValue>
+    <customValue>
+        <fullName>ABSLI</fullName>
+        <default>false</default>
+        <label>ABSLI</label>
+    </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

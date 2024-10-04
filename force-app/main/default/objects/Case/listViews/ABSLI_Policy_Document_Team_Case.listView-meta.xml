@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLI_Policy_Document_Team_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABSLI Policy Document Team</label>
+    <queue>ABSLI_Policy_Document_Team</queue>
+    <sharedTo>
+        <group>ABSLI_Policy_Document_Team_G</group>
+    </sharedTo>
+</ListView>

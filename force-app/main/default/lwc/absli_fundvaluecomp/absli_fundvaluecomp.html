@@ -1,0 +1,83 @@
+<template>
+    <template if:false={showPreview}>
+        <div class="slds-form_large" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <div class="slds-text-title_caps slds-m-bottom_small">
+                            <lightning-icon icon-name="utility:info" alternative-text="info"></lightning-icon>
+                            <span class="slds-m-left_xx-small">Fund Value is only applicable for ULIP. Only ULIP Policies are displayed here</span>
+                        </div>
+                        <template if:true={showSearchInput}>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="searchInput">Search Policy</label>
+                                <div class="slds-form-element__control">
+                                    <input type="text" id="searchInput" class="slds-input" placeholder="Enter Policy" oninput={handleSearchInputChange}/>
+                                </div>
+                            </div>
+                        </template>
+                        <!--Result Table-->
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <template if:true={recordsToDisplay}>
+                                    <lightning-datatable
+                                        key-field="Id"
+                                        data={recordsToDisplay}
+                                        columns={columns}
+                                        onrowselection={handleRowSelection}
+                                        selected-rows={selectedRows}
+                                        >
+                                    </lightning-datatable>
+                                </template>
+                            </div>
+                            <!--PAGE NAVIGATION-->
+                            <template if:true={showPagination}>
+                                <div class="slds-align_absolute-center" style="height:5rem">
+                                    <lightning-button disabled={bDisableFirst} icon-name="utility:jump_to_left" label="First" class="slds-p-horizontal_x-small" alternative-text="first page" onclick={firstPage}></lightning-button>
+                                    <lightning-button disabled={bDisableFirst} icon-name="utility:chevronleft" label="Previous" alternative-text="Previous" onclick={previousPage}></lightning-button>
+                                    &nbsp;
+                                    <span class="slds-badge">Showing {pageNumber} &nbsp;of&nbsp; {totalPages} &nbsp;&nbsp;Page(s)</span>
+                                    &nbsp;
+                                    <lightning-button disabled={bDisableLast} icon-name="utility:chevronright" label="Next" alternative-text="Next" onclick={nextPage} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+                                    <lightning-button disabled={bDisableLast} icon-name="utility:jump_to_right" label="Last" alternative-text="last page" onclick={lastPage} icon-position="right"></lightning-button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={showPreview}> 
+        <div class="slds-form">
+            <div class="slds-form-element slds-form-element_stacked">
+                <label class="slds-form-element__label" for="stacked-input-id-01">SMS Preview</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-theme_shade slds-p-around_small slds-m-top_medium">
+                        <lightning-formatted-rich-text value={templateBody}></lightning-formatted-rich-text>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </template>
+    <template if:true={showLoading}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>
+    <div class="slds-modal__footer">
+        <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+            onclick={invokeCloseModal}>Cancel</button>
+            <template if:false={showPreview}>
+                <template if:true={selectedPolicyId}>
+                    <button class="slds-button slds-button_brand" onclick={handlePrevSend}>Preview & Send</button>
+                </template>
+            </template>
+        <template if:true={showPreview}>
+            <button class="slds-button slds-button_neutral" onclick={handleBack}>Back</button>
+        </template>
+        <template if:true={showSendButton}>
+            <button class="slds-button slds-button_brand" onclick={handleSend}>Send</button>
+        </template>
+
+    </div>
+</template>

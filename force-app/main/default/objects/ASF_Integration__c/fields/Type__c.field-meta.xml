@@ -30,6 +30,16 @@
                 <default>false</default>
                 <label>Validation</label>
             </value>
+            <value>
+                <fullName>UI Action</fullName>
+                <default>false</default>
+                <label>UI Action</label>
+            </value>
+            <value>
+                <fullName>Process Sequential</fullName>
+                <default>false</default>
+                <label>Process Sequential</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

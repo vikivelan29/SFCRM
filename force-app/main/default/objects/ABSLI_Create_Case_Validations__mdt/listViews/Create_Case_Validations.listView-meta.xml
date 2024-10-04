@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Create_Case_Validations</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Business_Unit__c</columns>
+    <columns>Issue_Code__c</columns>
+    <columns>Operator__c</columns>
+    <columns>Asset_Values__c</columns>
+    <columns>Error_Message__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Create Case Validations</label>
+</ListView>

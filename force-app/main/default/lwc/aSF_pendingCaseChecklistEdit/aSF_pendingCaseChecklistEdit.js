@@ -24,6 +24,10 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     listRecords = {};
     @track hasRecord = false;
     isDisabled = true;
+    checklistStatuses = new Map();
+    statusVal;
+    
+
     get isAnyStageMatchChecklistPresent(){
         let output = false;
         if(this.accData){
@@ -38,11 +42,16 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     }
     @api realFormData;
 
-    get options() {
+    defaultOptions(){
         return [
             { label: 'Pending', value: 'Pending' },
             { label: 'Completed', value: 'Completed' },
         ];
+    }
+
+    get options() {
+        return this.statusVal;
+        
     }
     @wire(getRecord, { recordId: '$recordId', fields })
     gAcc({ data, error }) {
@@ -58,14 +67,50 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         this.wiredAccountsResult = result;
         this.realFormData = { ... this.wiredAccountsResult.data };
         if (result.data) {
-            this.accData = result.data;
-            this.hasRecord = this.accData && this.accData.length > 0;
+            let tempAccData = result.data
+            this.hasRecord = tempAccData && tempAccData.length > 0;
+            let arr_tempProp = [];
+
+            for(var i = 0;i<tempAccData.length;i++){
+                let record = tempAccData[i];
+                let tempProp = {};
+                for(var k in  record){
+                    tempProp[k] = record[k];
+                }
+                
+                let arr_Status = tempAccData[i].Status_Picklist_Options__c != null ? tempAccData[i].Status_Picklist_Options__c.split(';') : [];
+                let statusOptions = [];
+                if(arr_Status.length > 0){
+                    arr_Status.forEach(element => {
+                        let a=  { label: element, value: element };
+                        statusOptions.push(a);
+                    });
+                    this.checklistStatuses[record.Id] = statusOptions;
+                    tempProp['StatusOptions']=statusOptions;
+                }
+                else{
+                    tempProp['StatusOptions']=this.defaultOptions();
+                }
+                arr_tempProp.push(tempProp);
+            }
+            this.accData = arr_tempProp;
         }
         else if (result.error) {
             this.error = result.error;
             this.hasRecord = false;
             this.accounts = undefined;
         }
+    }
+    handleOptionValues(event){
+        debugger;
+        let checklistId = event.target.getAttribute('data-id');
+        if(this.checklistStatuses[checklistId] != undefined){
+            this.statusVal =  this.checklistStatuses[checklistId];
+        }
+        else{
+            this.statusVal =  this.defaultOptions();
+        }
+
     }
     connectedCallback() {
 

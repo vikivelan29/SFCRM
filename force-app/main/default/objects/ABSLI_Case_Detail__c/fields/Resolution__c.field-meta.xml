@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resolution__c</fullName>
+    <externalId>false</externalId>
+    <label>Resolution Comments</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Outcome__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cheque payout processed and would be dispatched within next 4 working days</fullName>
+                <default>false</default>
+                <label>Cheque payout processed and would be dispatched within next 4 working days</label>
+            </value>
+            <value>
+                <fullName>Email sent to Customer</fullName>
+                <default>false</default>
+                <label>Email sent to Customer</label>
+            </value>
+            <value>
+                <fullName>Informatory email/letter</fullName>
+                <default>false</default>
+                <label>Informatory email/letter</label>
+            </value>
+            <value>
+                <fullName>Letter sent to customer</fullName>
+                <default>false</default>
+                <label>Letter sent to customer</label>
+            </value>
+            <value>
+                <fullName>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</fullName>
+                <default>false</default>
+                <label>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</label>
+            </value>
+            <value>
+                <fullName>Policy has been reinstated</fullName>
+                <default>false</default>
+                <label>Policy has been reinstated</label>
+            </value>
+            <value>
+                <fullName>Request has been processed</fullName>
+                <default>false</default>
+                <label>Request has been processed</label>
+            </value>
+            <value>
+                <fullName>Age Proof- Unclear</fullName>
+                <default>false</default>
+                <label>Age Proof- Unclear</label>
+            </value>
+            <value>
+                <fullName>Age Proof- Not Submitted</fullName>
+                <default>false</default>
+                <label>Age Proof- Not Submitted</label>
+            </value>
+            <value>
+                <fullName>Assignment form- Incomplete</fullName>
+                <default>false</default>
+                <label>Assignment form- Incomplete</label>
+            </value>
+            <value>
+                <fullName>Assignment form- Signature missing</fullName>
+                <default>false</default>
+                <label>Assignment form- Signature missing</label>
+            </value>
+            <value>
+                <fullName>Assignment form- Missing</fullName>
+                <default>false</default>
+                <label>Assignment form- Missing</label>
+            </value>
+            <value>
+                <fullName>Assignment- MWP policy not applicable</fullName>
+                <default>false</default>
+                <label>Assignment- MWP policy not applicable</label>
+            </value>
+            <value>
+                <fullName>Bank Details - Mismatch</fullName>
+                <default>false</default>
+                <label>Bank Details - Mismatch</label>
+            </value>
+            <value>
+                <fullName>Board resolution- not received</fullName>
+                <default>false</default>
+                <label>Board resolution- not received</label>
+            </value>
+            <value>
+                <fullName>Cancelled Cheque-Unclear</fullName>
+                <default>false</default>
+                <label>Cancelled Cheque-Unclear</label>
+            </value>
+            <value>
+                <fullName>Cancelled Cheque-Not Submitted</fullName>
+                <default>false</default>
+                <label>Cancelled Cheque-Not Submitted</label>
+            </value>
+            <value>
+                <fullName>Investigation pending -Grievance Team</fullName>
+                <default>false</default>
+                <label>Investigation pending -Grievance Team</label>
+            </value>
+            <value>
+                <fullName>Certificate of Insurability</fullName>
+                <default>false</default>
+                <label>Certificate of Insurability</label>
+            </value>
+            <value>
+                <fullName>Cheque already encashed</fullName>
+                <default>false</default>
+                <label>Cheque already encashed</label>
+            </value>
+            <value>
+                <fullName>COVID Questionnaire-Unclear</fullName>
+                <default>false</default>
+                <label>COVID Questionnaire-Unclear</label>
+            </value>
+            <value>
+                <fullName>COVID Questionnaire- Not Submitted</fullName>
+                <default>false</default>
+                <label>COVID Questionnaire- Not Submitted</label>
+            </value>
+            <value>
+                <fullName>Decline</fullName>
+                <default>false</default>
+                <label>Decline</label>
+            </value>
+            <value>
+                <fullName>Deed of Relinquishment</fullName>
+                <default>false</default>
+                <label>Deed of Relinquishment</label>
+            </value>
+            <value>
+                <fullName>Details already available</fullName>
+                <default>false</default>
+                <label>Details already available</label>
+            </value>
+            <value>
+                <fullName>Certificate of Insurability-Discrepancy</fullName>
+                <default>false</default>
+                <label>Certificate of Insurability-Discrepancy</label>
+            </value>
+            <value>
+                <fullName>DOB mismatch-Photo Id/DOB Proof</fullName>
+                <default>false</default>
+                <label>DOB mismatch-Photo Id/DOB Proof</label>
+            </value>
+            <value>
+                <fullName>Duplicate request received</fullName>
+                <default>false</default>
+                <label>Duplicate request received</label>
+            </value>
+            <value>
+                <fullName>Incomplete NRI details</fullName>
+                <default>false</default>
+                <label>Incomplete NRI details</label>
+            </value>
+            <value>
+                <fullName>Incomplete requirements</fullName>
+                <default>false</default>
+                <label>Incomplete requirements</label>
+            </value>
+            <value>
+                <fullName>KYC address not clear</fullName>
+                <default>false</default>
+                <label>KYC address not clear</label>
+            </value>
+            <value>
+                <fullName>KYC address proof not clear</fullName>
+                <default>false</default>
+                <label>KYC address proof not clear</label>
+            </value>
+            <value>
+                <fullName>KYC address proof not submitted</fullName>
+                <default>false</default>
+                <label>KYC address proof not submitted</label>
+            </value>
+            <value>
+                <fullName>KYC id proof not clear</fullName>
+                <default>false</default>
+                <label>KYC id proof not clear</label>
+            </value>
+            <value>
+                <fullName>KYC id proof not submitted</fullName>
+                <default>false</default>
+                <label>KYC id proof not submitted</label>
+            </value>
+            <value>
+                <fullName>Life insured is minor</fullName>
+                <default>false</default>
+                <label>Life insured is minor</label>
+            </value>
+            <value>
+                <fullName>NACH FORM - Not clear</fullName>
+                <default>false</default>
+                <label>NACH FORM - Not clear</label>
+            </value>
+            <value>
+                <fullName>Name mismatch</fullName>
+                <default>false</default>
+                <label>Name mismatch</label>
+            </value>
+            <value>
+                <fullName>NEFT rejection/IMPS failed</fullName>
+                <default>false</default>
+                <label>NEFT rejection/IMPS failed</label>
+            </value>
+            <value>
+                <fullName>Not Eligible</fullName>
+                <default>false</default>
+                <label>Not Eligible</label>
+            </value>
+            <value>
+                <fullName>PAN required</fullName>
+                <default>false</default>
+                <label>PAN required</label>
+            </value>
+            <value>
+                <fullName>Pb/Ac statement-Not submitted(new ac).</fullName>
+                <default>false</default>
+                <label>Pb/Ac statement-Not submitted(new ac).</label>
+            </value>
+            <value>
+                <fullName>Policy Document is not submitted</fullName>
+                <default>false</default>
+                <label>Policy Document is not submitted</label>
+            </value>
+            <value>
+                <fullName>Policy has exited or invalid status</fullName>
+                <default>false</default>
+                <label>Policy has exited or invalid status</label>
+            </value>
+            <value>
+                <fullName>Revival- Policy Inactive/postponed</fullName>
+                <default>false</default>
+                <label>Revival- Policy Inactive/postponed</label>
+            </value>
+            <value>
+                <fullName>Policy Service request form-Incomplete</fullName>
+                <default>false</default>
+                <label>Policy Service request form-Incomplete</label>
+            </value>
+            <value>
+                <fullName>Policy Service request form-Missing</fullName>
+                <default>false</default>
+                <label>Policy Service request form-Missing</label>
+            </value>
+            <value>
+                <fullName>Postpone</fullName>
+                <default>false</default>
+                <label>Postpone</label>
+            </value>
+            <value>
+                <fullName>Credit awaited- Outstation Cheque</fullName>
+                <default>false</default>
+                <label>Credit awaited- Outstation Cheque</label>
+            </value>
+            <value>
+                <fullName>Reject</fullName>
+                <default>false</default>
+                <label>Reject</label>
+            </value>
+            <value>
+                <fullName>Requirement- income details</fullName>
+                <default>false</default>
+                <label>Requirement- income details</label>
+            </value>
+            <value>
+                <fullName>Required funds not available</fullName>
+                <default>false</default>
+                <label>Required funds not available</label>
+            </value>
+            <value>
+                <fullName>Revised NACH Form required</fullName>
+                <default>false</default>
+                <label>Revised NACH Form required</label>
+            </value>
+            <value>
+                <fullName>Shortage amount for renewal premium.</fullName>
+                <default>false</default>
+                <label>Shortage amount for renewal premium.</label>
+            </value>
+            <value>
+                <fullName>Shortage- Premium and COI</fullName>
+                <default>false</default>
+                <label>Shortage- Premium and COI</label>
+            </value>
+            <value>
+                <fullName>Signature mismatch</fullName>
+                <default>false</default>
+                <label>Signature mismatch</label>
+            </value>
+            <value>
+                <fullName>Top up- COI not received/incomplete</fullName>
+                <default>false</default>
+                <label>Top up- COI not received/incomplete</label>
+            </value>
+            <value>
+                <fullName>Top up-Renewal Premium pending</fullName>
+                <default>false</default>
+                <label>Top up-Renewal Premium pending</label>
+            </value>
+            <value>
+                <fullName>Unpaid due premiums required</fullName>
+                <default>false</default>
+                <label>Unpaid due premiums required</label>
+            </value>
+            <value>
+                <fullName>Valid identity proof not received</fullName>
+                <default>false</default>
+                <label>Valid identity proof not received</label>
+            </value>
+            <value>
+                <fullName>Age Proof not clear</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Age Proof not clear</label>
+            </value>
+            <value>
+                <fullName>Age Proof not submitted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Age Proof not submitted</label>
+            </value>
+            <value>
+                <fullName>Assignment for a MWP policy not allowed</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Assignment for a MWP policy not allowed</label>
+            </value>
+            <value>
+                <fullName>Assignment form is incomplete</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Assignment form is incomplete</label>
+            </value>
+            <value>
+                <fullName>Assignment form is not duly signed by the witness</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Assignment form is not duly signed by the witness</label>
+            </value>
+            <value>
+                <fullName>Assignment form not submitted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Assignment form not submitted</label>
+            </value>
+            <value>
+                <fullName>Assignment is not for a MWP policy</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Assignment is not for a MWP policy</label>
+            </value>
+            <value>
+                <fullName>Bank Account Details in cheque/passbook and request form is not matching</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bank Account Details in cheque/passbook and request form is not matching</label>
+            </value>
+            <value>
+                <fullName>Board resolution is not received</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Board resolution is not received</label>
+            </value>
+            <value>
+                <fullName>COVID Questionnaire is not clear</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>COVID Questionnaire is not clear</label>
+            </value>
+            <value>
+                <fullName>COVID Questionnaire is not submitted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>COVID Questionnaire is not submitted</label>
+            </value>
+            <value>
+                <fullName>Cancelled cheque not clear</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancelled cheque not clear</label>
+            </value>
+            <value>
+                <fullName>Cancelled cheque not submitted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancelled cheque not submitted</label>
+            </value>
+            <value>
+                <fullName>Case pending for investigation with grievance team, resolution will be provided by the grievance t</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Case pending for investigation with grievance team, resolution will be provided by the grievance t</label>
+            </value>
+            <value>
+                <fullName>Certificate of Insurability for Top up is not submitted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Certificate of Insurability for Top up is not submitted</label>
+            </value>
+            <value>
+                <fullName>DOB on the Photo id proof and the DOB proof submitted does not match</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DOB on the Photo id proof and the DOB proof submitted does not match</label>
+            </value>
+            <value>
+                <fullName>Deed of Relinquishment is incomplete/not received</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Deed of Relinquishment is incomplete/not received</label>
+            </value>
+            <value>
+                <fullName>Discrepancy in Certificate of Insurability</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Discrepancy in Certificate of Insurability</label>
+            </value>
+            <value>
+                <fullName>Mismatch in Name on cheque/passbook and our records</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mismatch in Name on cheque/passbook and our records</label>
+            </value>
+            <value>
+                <fullName>NACH form is not clear</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>NACH form is not clear</label>
+            </value>
+            <value>
+                <fullName>NEFT payout to be credited in 5 days</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>NEFT payout to be credited in 5 days</label>
+            </value>
+            <value>
+                <fullName>Name on cheque/passbook not matching with our records</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Name on cheque/passbook not matching with our records</label>
+            </value>
+            <value>
+                <fullName>Not eligible as per administrative guidelines</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Not eligible as per administrative guidelines</label>
+            </value>
+            <value>
+                <fullName>Not eligible as per guidelines</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Not eligible as per guidelines</label>
+            </value>
+            <value>
+                <fullName>Passbook/Account statement is not submitted for new account</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Passbook/Account statement is not submitted for new account</label>
+            </value>
+            <value>
+                <fullName>Policy Service request form is incomplete</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Policy Service request form is incomplete</label>
+            </value>
+            <value>
+                <fullName>Policy Service request form not submitted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Policy Service request form not submitted</label>
+            </value>
+            <value>
+                <fullName>Policy is not active or postponed at revival</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Policy is not active or postponed at revival</label>
+            </value>
+            <value>
+                <fullName>Pre-printed cheque or passbook copy or Bank statement not submitted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pre-printed cheque or passbook copy or Bank statement not submitted</label>
+            </value>
+            <value>
+                <fullName>Premium is Received Vide Outstation Cheque, credit is awaited</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Premium is Received Vide Outstation Cheque, credit is awaited</label>
+            </value>
+            <value>
+                <fullName>Require Pre-printed cheque or Passbook copy or Bank statement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Require Pre-printed cheque or Passbook copy or Bank statement</label>
+            </value>
+            <value>
+                <fullName>Shortage amount for renewal premium</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Shortage amount for renewal premium</label>
+            </value>
+            <value>
+                <fullName>Shortage of premium amount &amp; Certificate of Insurability</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Shortage of premium amount &amp; Certificate of Insurability</label>
+            </value>
+            <value>
+                <fullName>Signature on Service Request form does not match with signature in our records</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Signature on Service Request form does not match with signature in our records</label>
+            </value>
+            <value>
+                <fullName>Top up Certificate of Insurability is not received/incomplete</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Top up Certificate of Insurability is not received/incomplete</label>
+            </value>
+            <value>
+                <fullName>Top up not processed as renewal premium was pending</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Top up not processed as renewal premium was pending</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Resolved</controllingFieldValue>
+            <valueName>Cheque payout processed and would be dispatched within next 4 working days</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Resolved</controllingFieldValue>
+            <valueName>Email sent to Customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Resolved</controllingFieldValue>
+            <valueName>Informatory email/letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Resolved</controllingFieldValue>
+            <valueName>Letter sent to customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Resolved</controllingFieldValue>
+            <valueName>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Resolved</controllingFieldValue>
+            <valueName>Policy has been reinstated</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Resolved</controllingFieldValue>
+            <valueName>Request has been processed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Age Proof- Unclear</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Age Proof- Not Submitted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Assignment form- Incomplete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Assignment form- Signature missing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Assignment form- Missing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Assignment- MWP policy not applicable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Bank Details - Mismatch</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Board resolution- not received</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Cancelled Cheque-Unclear</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Cancelled Cheque-Not Submitted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Investigation pending -Grievance Team</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Certificate of Insurability</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Cheque already encashed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>COVID Questionnaire-Unclear</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>COVID Questionnaire- Not Submitted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Decline</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Deed of Relinquishment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Details already available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Certificate of Insurability-Discrepancy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>DOB mismatch-Photo Id/DOB Proof</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Duplicate request received</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Incomplete NRI details</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Incomplete requirements</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>KYC address not clear</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>KYC address proof not clear</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>KYC address proof not submitted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>KYC id proof not clear</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>KYC id proof not submitted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Life insured is minor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>NACH FORM - Not clear</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Name mismatch</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>NEFT rejection/IMPS failed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Not Eligible</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>PAN required</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Pb/Ac statement-Not submitted(new ac).</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Policy Document is not submitted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Policy has exited or invalid status</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Revival- Policy Inactive/postponed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Policy Service request form-Incomplete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Policy Service request form-Missing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Postpone</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Credit awaited- Outstation Cheque</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Reject</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Requirement- income details</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Required funds not available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Revised NACH Form required</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Shortage amount for renewal premium.</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Shortage- Premium and COI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Signature mismatch</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Top up- COI not received/incomplete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Top up-Renewal Premium pending</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Unpaid due premiums required</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresolved</controllingFieldValue>
+            <valueName>Valid identity proof not received</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

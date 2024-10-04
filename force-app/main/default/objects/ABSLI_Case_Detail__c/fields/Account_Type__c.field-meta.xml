@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Account Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Savings Account</fullName>
+                <default>false</default>
+                <label>Savings Account</label>
+            </value>
+            <value>
+                <fullName>Current Account</fullName>
+                <default>false</default>
+                <label>Current Account</label>
+            </value>
+            <value>
+                <fullName>NRO Account</fullName>
+                <default>false</default>
+                <label>NRO Account</label>
+            </value>
+            <value>
+                <fullName>NRE</fullName>
+                <default>false</default>
+                <label>NRE</label>
+            </value>
+            <value>
+                <fullName>Cash Credit</fullName>
+                <default>false</default>
+                <label>Cash Credit</label>
+            </value>
+            <value>
+                <fullName>Key Account</fullName>
+                <default>false</default>
+                <label>Key Account</label>
+            </value>
+            <value>
+                <fullName>Overdraft</fullName>
+                <default>false</default>
+                <label>Overdraft</label>
+            </value>
+            <value>
+                <fullName>Personal Chequing Account</fullName>
+                <default>false</default>
+                <label>Personal Chequing Account</label>
+            </value>
+            <value>
+                <fullName>True Chequing Account</fullName>
+                <default>false</default>
+                <label>True Chequing Account</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

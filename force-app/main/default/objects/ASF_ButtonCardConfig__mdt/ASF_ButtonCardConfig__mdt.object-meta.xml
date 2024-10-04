@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Custom Metadata is use for creating group of Buttons and define the dynamic LWC to be invoked based on it.</description>
+    <label>ASF_ButtonCardConfig</label>
+    <pluralLabel>ASF_ButtonCardConfigs</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

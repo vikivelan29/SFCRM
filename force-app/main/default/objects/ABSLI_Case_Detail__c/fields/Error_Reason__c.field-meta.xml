@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Error_Reason__c</fullName>
+    <description>Complaints Resolution Field</description>
+    <externalId>false</externalId>
+    <label>Error Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>RCA_department__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Advisor Servicing related</fullName>
+                <default>false</default>
+                <label>Advisor Servicing related</label>
+            </value>
+            <value>
+                <fullName>Asking for bribe</fullName>
+                <default>false</default>
+                <label>Asking for bribe</label>
+            </value>
+            <value>
+                <fullName>Backdated NAV</fullName>
+                <default>false</default>
+                <label>Backdated NAV</label>
+            </value>
+            <value>
+                <fullName>Batch Run</fullName>
+                <default>false</default>
+                <label>Batch Run</label>
+            </value>
+            <value>
+                <fullName>Branch servicing/behaviour related</fullName>
+                <default>false</default>
+                <label>Branch servicing/behaviour related</label>
+            </value>
+            <value>
+                <fullName>CC agent servicing/behaviour related</fullName>
+                <default>false</default>
+                <label>CC agent servicing/behaviour related</label>
+            </value>
+            <value>
+                <fullName>Cheque pick up not done</fullName>
+                <default>false</default>
+                <label>Cheque pick up not done</label>
+            </value>
+            <value>
+                <fullName>Client Id merger related</fullName>
+                <default>false</default>
+                <label>Client Id merger related</label>
+            </value>
+            <value>
+                <fullName>Communication not sent</fullName>
+                <default>false</default>
+                <label>Communication not sent</label>
+            </value>
+            <value>
+                <fullName>Communication not sent for rejected / requirement raised / closed cases - not received by customer</fullName>
+                <default>false</default>
+                <label>Communication not sent for rejected / requirement raised / closed cases - not received by customer</label>
+            </value>
+            <value>
+                <fullName>Communication not sent for rejected case / requirement raised / Resolved cases</fullName>
+                <default>false</default>
+                <label>Communication not sent for rejected case / requirement raised / Resolved cases</label>
+            </value>
+            <value>
+                <fullName>Communication not sent\delayed</fullName>
+                <default>false</default>
+                <label>Communication not sent\delayed</label>
+            </value>
+            <value>
+                <fullName>Complaint withdrawn</fullName>
+                <default>false</default>
+                <label>Complaint withdrawn</label>
+            </value>
+            <value>
+                <fullName>Court order</fullName>
+                <default>false</default>
+                <label>Court order</label>
+            </value>
+            <value>
+                <fullName>Customer wants refund of all the premiums paid</fullName>
+                <default>false</default>
+                <label>Customer wants refund of all the premiums paid</label>
+            </value>
+            <value>
+                <fullName>Data Entry Error</fullName>
+                <default>false</default>
+                <label>Data Entry Error</label>
+            </value>
+            <value>
+                <fullName>Data Entry\Data capture Error</fullName>
+                <default>false</default>
+                <label>Data Entry\Data capture Error</label>
+            </value>
+            <value>
+                <fullName>Delay / Case not created/Erroneous Case creation</fullName>
+                <default>false</default>
+                <label>Delay / Case not created/Erroneous Case creation</label>
+            </value>
+            <value>
+                <fullName>Delay in accounting premium\ Submitting the request</fullName>
+                <default>false</default>
+                <label>Delay in accounting premium\ Submitting the request</label>
+            </value>
+            <value>
+                <fullName>Delay in intimating the third party payment</fullName>
+                <default>false</default>
+                <label>Delay in intimating the third party payment</label>
+            </value>
+            <value>
+                <fullName>Delay in processing</fullName>
+                <default>false</default>
+                <label>Delay in processing</label>
+            </value>
+            <value>
+                <fullName>Delay in Response</fullName>
+                <default>false</default>
+                <label>Delay in Response</label>
+            </value>
+            <value>
+                <fullName>Delay/Erroneous case creation</fullName>
+                <default>false</default>
+                <label>Delay/Erroneous case creation</label>
+            </value>
+            <value>
+                <fullName>Delay\Case not created\ Erroneous Case creation</fullName>
+                <default>false</default>
+                <label>Delay\Case not created\ Erroneous Case creation</label>
+            </value>
+            <value>
+                <fullName>ECS/DDCC/SI/SD wrongly deducted\Not deducted</fullName>
+                <default>false</default>
+                <label>ECS/DDCC/SI/SD wrongly deducted\Not deducted</label>
+            </value>
+            <value>
+                <fullName>Error received while paying premium</fullName>
+                <default>false</default>
+                <label>Error received while paying premium</label>
+            </value>
+            <value>
+                <fullName>Errorneous refund to incorrect customer</fullName>
+                <default>false</default>
+                <label>Errorneous refund to incorrect customer</label>
+            </value>
+            <value>
+                <fullName>Freelook request received post free-look period</fullName>
+                <default>false</default>
+                <label>Freelook request received post free-look period</label>
+            </value>
+            <value>
+                <fullName>Hoax Call</fullName>
+                <default>false</default>
+                <label>Hoax Call</label>
+            </value>
+            <value>
+                <fullName>Holding letter on status update not sent / sent but not received</fullName>
+                <default>false</default>
+                <label>Holding letter on status update not sent / sent but not received</label>
+            </value>
+            <value>
+                <fullName>IGMS/NCH/DRPG</fullName>
+                <default>false</default>
+                <label>IGMS/NCH/DRPG</label>
+            </value>
+            <value>
+                <fullName>Incomplete details updated in CRM</fullName>
+                <default>false</default>
+                <label>Incomplete details updated in CRM</label>
+            </value>
+            <value>
+                <fullName>Incomplete/Incorrect information provided</fullName>
+                <default>false</default>
+                <label>Incomplete/Incorrect information provided</label>
+            </value>
+            <value>
+                <fullName>Incomplete/Incorrect request accepted</fullName>
+                <default>false</default>
+                <label>Incomplete/Incorrect request accepted</label>
+            </value>
+            <value>
+                <fullName>Incomplete\incorrect details updated in system</fullName>
+                <default>false</default>
+                <label>Incomplete\incorrect details updated in system</label>
+            </value>
+            <value>
+                <fullName>Incomplete\Incorrect documents collected</fullName>
+                <default>false</default>
+                <label>Incomplete\Incorrect documents collected</label>
+            </value>
+            <value>
+                <fullName>Incomplete\Incorrect information provided</fullName>
+                <default>false</default>
+                <label>Incomplete\Incorrect information provided</label>
+            </value>
+            <value>
+                <fullName>Incorrect/Incomplete resolution provided</fullName>
+                <default>false</default>
+                <label>Incorrect/Incomplete resolution provided</label>
+            </value>
+            <value>
+                <fullName>Investigators asking bribe</fullName>
+                <default>false</default>
+                <label>Investigators asking bribe</label>
+            </value>
+            <value>
+                <fullName>Low returns</fullName>
+                <default>false</default>
+                <label>Low returns</label>
+            </value>
+            <value>
+                <fullName>Misappropriation of premium</fullName>
+                <default>false</default>
+                <label>Misappropriation of premium</label>
+            </value>
+            <value>
+                <fullName>Misselling</fullName>
+                <default>false</default>
+                <label>Misselling</label>
+            </value>
+            <value>
+                <fullName>NA</fullName>
+                <default>false</default>
+                <label>NA</label>
+            </value>
+            <value>
+                <fullName>New policy issued without customer&apos;s consent</fullName>
+                <default>false</default>
+                <label>New policy issued without customer&apos;s consent</label>
+            </value>
+            <value>
+                <fullName>Not satisfied with Repudiation</fullName>
+                <default>false</default>
+                <label>Not satisfied with Repudiation</label>
+            </value>
+            <value>
+                <fullName>Not Satisfied with the claim amount</fullName>
+                <default>false</default>
+                <label>Not Satisfied with the claim amount</label>
+            </value>
+            <value>
+                <fullName>Notices not sent to the customer</fullName>
+                <default>false</default>
+                <label>Notices not sent to the customer</label>
+            </value>
+            <value>
+                <fullName>Notices sent but not received by the customer</fullName>
+                <default>false</default>
+                <label>Notices sent but not received by the customer</label>
+            </value>
+            <value>
+                <fullName>Ombudsman</fullName>
+                <default>false</default>
+                <label>Ombudsman</label>
+            </value>
+            <value>
+                <fullName>Online Term plan purchase- Error received/ uploading issue</fullName>
+                <default>false</default>
+                <label>Online Term plan purchase- Error received/ uploading issue</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Payment confirmation for online payments</fullName>
+                <default>false</default>
+                <label>Payment confirmation for online payments</label>
+            </value>
+            <value>
+                <fullName>Payouts made through cheque instead of RTGS/NEFT</fullName>
+                <default>false</default>
+                <label>Payouts made through cheque instead of RTGS/NEFT</label>
+            </value>
+            <value>
+                <fullName>Policy bond not dispatched</fullName>
+                <default>false</default>
+                <label>Policy bond not dispatched</label>
+            </value>
+            <value>
+                <fullName>Policy bond not received- delivery details available</fullName>
+                <default>false</default>
+                <label>Policy bond not received- delivery details available</label>
+            </value>
+            <value>
+                <fullName>Policy bond not received- delivery details not available</fullName>
+                <default>false</default>
+                <label>Policy bond not received- delivery details not available</label>
+            </value>
+            <value>
+                <fullName>Policy bond not received post retention</fullName>
+                <default>false</default>
+                <label>Policy bond not received post retention</label>
+            </value>
+            <value>
+                <fullName>Policy bond was sent to Branch instead of Customer&apos;s address</fullName>
+                <default>false</default>
+                <label>Policy bond was sent to Branch instead of Customer&apos;s address</label>
+            </value>
+            <value>
+                <fullName>Policy charges too high</fullName>
+                <default>false</default>
+                <label>Policy charges too high</label>
+            </value>
+            <value>
+                <fullName>Policy doc given to agent, not received by BSLI</fullName>
+                <default>false</default>
+                <label>Policy doc given to agent, not received by BSLI</label>
+            </value>
+            <value>
+                <fullName>Policy doc given to agent, not received by customer</fullName>
+                <default>false</default>
+                <label>Policy doc given to agent, not received by customer</label>
+            </value>
+            <value>
+                <fullName>Policy doc not received- delivered by branch(Ack available)</fullName>
+                <default>false</default>
+                <label>Policy doc not received- delivered by branch(Ack available)</label>
+            </value>
+            <value>
+                <fullName>Policy doc not received- delivered by branch(Ack not available)</fullName>
+                <default>false</default>
+                <label>Policy doc not received- delivered by branch(Ack not available)</label>
+            </value>
+            <value>
+                <fullName>Policy issuance in-spite of rejection</fullName>
+                <default>false</default>
+                <label>Policy issuance in-spite of rejection</label>
+            </value>
+            <value>
+                <fullName>Premium paid not accounted/ confirmation not received</fullName>
+                <default>false</default>
+                <label>Premium paid not accounted/ confirmation not received</label>
+            </value>
+            <value>
+                <fullName>Refund cheque not received- delivery details available</fullName>
+                <default>false</default>
+                <label>Refund cheque not received- delivery details available</label>
+            </value>
+            <value>
+                <fullName>Refund cheque not received- delivery details not available</fullName>
+                <default>false</default>
+                <label>Refund cheque not received- delivery details not available</label>
+            </value>
+            <value>
+                <fullName>Refund cheque not received-delivery details available</fullName>
+                <default>false</default>
+                <label>Refund cheque not received-delivery details available</label>
+            </value>
+            <value>
+                <fullName>Refund cheque not received-delivery details not available</fullName>
+                <default>false</default>
+                <label>Refund cheque not received-delivery details not available</label>
+            </value>
+            <value>
+                <fullName>Refund of complete maturity amount</fullName>
+                <default>false</default>
+                <label>Refund of complete maturity amount</label>
+            </value>
+            <value>
+                <fullName>Renewal Premium paid but not accounted</fullName>
+                <default>false</default>
+                <label>Renewal Premium paid but not accounted</label>
+            </value>
+            <value>
+                <fullName>Renewal Premium paid but was not accounted into the policy</fullName>
+                <default>false</default>
+                <label>Renewal Premium paid but was not accounted into the policy</label>
+            </value>
+            <value>
+                <fullName>Request incorrectly failed / processed</fullName>
+                <default>false</default>
+                <label>Request incorrectly failed / processed</label>
+            </value>
+            <value>
+                <fullName>Request Incorrectly Failed/processed</fullName>
+                <default>false</default>
+                <label>Request Incorrectly Failed/processed</label>
+            </value>
+            <value>
+                <fullName>Request processed as per request submitted by customer</fullName>
+                <default>false</default>
+                <label>Request processed as per request submitted by customer</label>
+            </value>
+            <value>
+                <fullName>Request received from third party</fullName>
+                <default>false</default>
+                <label>Request received from third party</label>
+            </value>
+            <value>
+                <fullName>Requirement comunication not received by customer</fullName>
+                <default>false</default>
+                <label>Requirement comunication not received by customer</label>
+            </value>
+            <value>
+                <fullName>Requirement comunication not sent to customer</fullName>
+                <default>false</default>
+                <label>Requirement comunication not sent to customer</label>
+            </value>
+            <value>
+                <fullName>Requirements not communicated</fullName>
+                <default>false</default>
+                <label>Requirements not communicated</label>
+            </value>
+            <value>
+                <fullName>rude/ behaviour</fullName>
+                <default>false</default>
+                <label>rude/ behaviour</label>
+            </value>
+            <value>
+                <fullName>Signature Forgery</fullName>
+                <default>false</default>
+                <label>Signature Forgery</label>
+            </value>
+            <value>
+                <fullName>Spurious Call</fullName>
+                <default>false</default>
+                <label>Spurious Call</label>
+            </value>
+            <value>
+                <fullName>Surrender before lockin period\surrender of terminated policy</fullName>
+                <default>false</default>
+                <label>Surrender before lockin period\surrender of terminated policy</label>
+            </value>
+            <value>
+                <fullName>System Issue</fullName>
+                <default>false</default>
+                <label>System Issue</label>
+            </value>
+            <value>
+                <fullName>Termination reversal</fullName>
+                <default>false</default>
+                <label>Termination reversal</label>
+            </value>
+            <value>
+                <fullName>Unable to complete transaction</fullName>
+                <default>false</default>
+                <label>Unable to complete transaction</label>
+            </value>
+            <value>
+                <fullName>Unable to pay premium</fullName>
+                <default>false</default>
+                <label>Unable to pay premium</label>
+            </value>
+            <value>
+                <fullName>Unable to switch in fund</fullName>
+                <default>false</default>
+                <label>Unable to switch in fund</label>
+            </value>
+            <value>
+                <fullName>Unable to update contact details</fullName>
+                <default>false</default>
+                <label>Unable to update contact details</label>
+            </value>
+            <value>
+                <fullName>Unhappy with the Fund value/Fund Performance</fullName>
+                <default>false</default>
+                <label>Unhappy with the Fund value/Fund Performance</label>
+            </value>
+            <value>
+                <fullName>Website too slow</fullName>
+                <default>false</default>
+                <label>Website too slow</label>
+            </value>
+            <value>
+                <fullName>Wrong policy number mentioned</fullName>
+                <default>false</default>
+                <label>Wrong policy number mentioned</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Court order</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Ombudsman</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <controllingFieldValue>Vendors</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Underwriting</controllingFieldValue>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <controllingFieldValue>Claims</controllingFieldValue>
+            <valueName>Delay in processing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Underwriting</controllingFieldValue>
+            <valueName>Incomplete\incorrect details updated in system</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Underwriting</controllingFieldValue>
+            <controllingFieldValue>Revenue Assurance</controllingFieldValue>
+            <valueName>Request Incorrectly Failed/processed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Underwriting</controllingFieldValue>
+            <valueName>Requirement comunication not received by customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Underwriting</controllingFieldValue>
+            <valueName>Requirement comunication not sent to customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Misselling Only</controllingFieldValue>
+            <controllingFieldValue>Hoax Call</controllingFieldValue>
+            <valueName>Hoax Call</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Misselling Only</controllingFieldValue>
+            <valueName>Misselling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Misselling Only</controllingFieldValue>
+            <valueName>Spurious Call</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>NA</controllingFieldValue>
+            <valueName>NA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Client Id merger related</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Error received while paying premium</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Online Term plan purchase- Error received/ uploading issue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Premium paid not accounted/ confirmation not received</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Unable to complete transaction</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Unable to pay premium</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Unable to switch in fund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Unable to update contact details</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Website too slow</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <valueName>Communication not sent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <valueName>Data Entry\Data capture Error</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <valueName>Errorneous refund to incorrect customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <valueName>Policy bond not dispatched</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Policy bond not received- delivery details available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Policy bond not received- delivery details not available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <valueName>Policy bond was sent to Branch instead of Customer&apos;s address</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <valueName>Refund cheque not received- delivery details available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Refund cheque not received- delivery details not available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Issuance</controllingFieldValue>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Request incorrectly failed / processed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Communication not sent for rejected / requirement raised / closed cases - not received by customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Communication not sent for rejected case / requirement raised / Resolved cases</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>ECS/DDCC/SI/SD wrongly deducted\Not deducted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Notices not sent to the customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Payouts made through cheque instead of RTGS/NEFT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Refund cheque not received-delivery details available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Policy Servicing</controllingFieldValue>
+            <valueName>Renewal Premium paid but was not accounted into the policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Revenue Assurance</controllingFieldValue>
+            <valueName>Cheque pick up not done</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Revenue Assurance</controllingFieldValue>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <controllingFieldValue>EMT</controllingFieldValue>
+            <controllingFieldValue>Service Assurance</controllingFieldValue>
+            <valueName>Incomplete/Incorrect information provided</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Advisor Servicing related</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Asking for bribe</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Data Entry Error</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Delay in accounting premium\ Submitting the request</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Incomplete/Incorrect request accepted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Misappropriation of premium</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>New policy issued without customer&apos;s consent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Policy doc given to agent, not received by BSLI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Policy doc given to agent, not received by customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>rude/ behaviour</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales Member Advisor</controllingFieldValue>
+            <valueName>Signature Forgery</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accounts</controllingFieldValue>
+            <valueName>Delay in intimating the third party payment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accounts</controllingFieldValue>
+            <valueName>Renewal Premium paid but not accounted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <valueName>Branch servicing/behaviour related</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <controllingFieldValue>Call Center</controllingFieldValue>
+            <controllingFieldValue>EMT</controllingFieldValue>
+            <valueName>Delay\Case not created\ Erroneous Case creation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <valueName>Incomplete\Incorrect documents collected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <controllingFieldValue>Call Center</controllingFieldValue>
+            <controllingFieldValue>Claims</controllingFieldValue>
+            <valueName>Incomplete\Incorrect information provided</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <valueName>Policy bond not received post retention</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <valueName>Policy doc not received- delivered by branch(Ack available)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch Ops</controllingFieldValue>
+            <valueName>Policy doc not received- delivered by branch(Ack not available)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Call Center</controllingFieldValue>
+            <valueName>CC agent servicing/behaviour related</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claims</controllingFieldValue>
+            <valueName>Holding letter on status update not sent / sent but not received</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claims</controllingFieldValue>
+            <valueName>Investigators asking bribe</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claims</controllingFieldValue>
+            <valueName>Not satisfied with Repudiation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claims</controllingFieldValue>
+            <valueName>Not Satisfied with the claim amount</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claims</controllingFieldValue>
+            <valueName>Requirements not communicated</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Backdated NAV</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Complaint withdrawn</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Customer wants refund of all the premiums paid</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Freelook request received post free-look period</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Low returns</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Policy charges too high</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Policy issuance in-spite of rejection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Refund of complete maturity amount</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Request processed as per request submitted by customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Request received from third party</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Surrender before lockin period\surrender of terminated policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Termination reversal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Unhappy with the Fund value/Fund Performance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Customer Perception</controllingFieldValue>
+            <valueName>Wrong policy number mentioned</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>EMT</controllingFieldValue>
+            <valueName>Delay in Response</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IGMS/NCH/DRPG</controllingFieldValue>
+            <valueName>IGMS/NCH/DRPG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Assurance</controllingFieldValue>
+            <valueName>Communication not sent\delayed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Assurance</controllingFieldValue>
+            <valueName>Delay/Erroneous case creation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Assurance</controllingFieldValue>
+            <valueName>Incomplete details updated in CRM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Batch Run</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>Payment confirmation for online payments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <valueName>System Issue</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,85 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+    <template if:true={loading}>
+        <div class="exampleHolder">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+    </template>
+    <div class="slds-modal__container" style="height:800px;">
+        <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={close}>
+                <lightning-icon icon-name="utility:close"
+                alternative-text="close"
+                size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">EBOT Draft Email</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-input 
+                label="To Address"
+                type="email"
+                value={record.emailToAddress} 
+                disabled={previewMode} 
+                onchange={changeHandler}
+                name="emailToAddress"
+                multiple></lightning-input>
+                <lightning-input 
+                label="Subject"
+                type="Text"
+                value={record.emailSubject} 
+                disabled={previewMode} 
+                name="emailSubject"
+                onchange={changeHandler}></lightning-input> 
+                <template if:true={record.emailAttachmentList}>
+                    <template for:each={record.emailAttachmentList} for:item="attachments">
+                        <div key={attachments} style="display:flex;">
+                            <div key={attachments}>
+                                <lightning-button label={attachments.fileName} data-contentid={attachments.contentDocumentId} onclick={viewRecord} variant="base" >
+                                </lightning-button>
+                            </div>
+                            <div key={attachments} style="margin-top:0.9%;">
+                                <lightning-button-icon 
+                                icon-name="utility:delete" 
+                                alternative-text="Delete" 
+                                class="slds-m-left_xx-small" 
+                                title="Delete"
+                                onclick={removeAttachment}
+                                data-contentid={attachments.contentVersionId}
+                                disabled={previewMode}
+                                variant="bare"></lightning-button-icon>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <template if:false={previewMode}>
+                    <lightning-file-upload
+                    record-id={recid}
+                    name="fileUploader"
+                    onuploadfinished={addAttachment}
+                    disabled={previewMode}>
+                    </lightning-file-upload>
+                </template>
+                <template lwc:if={previewMode}>
+                    <lightning-formatted-rich-text value={record.emailBody} style="height:450px;display:block;" class="slds-p-top_medium"></lightning-formatted-rich-text>
+                </template>
+                <template lwc:else>
+                    <lightning-input-rich-text value={record.emailBody} onchange={changeHandler} name="emailBody" class="slds-p-top_medium"></lightning-input-rich-text>     
+                </template>
+        </div>
+
+        <!-- modal footer start-->
+        <footer class="slds-modal__footer">
+            <template lwc:if={previewMode}>
+                <lightning-button label="Edit Mode" onclick={handleModes} class="slds-m-right_medium"></lightning-button>
+            </template>
+            <template lwc:else>
+                <lightning-button label="Preview Mode" onclick={handleModes} class="slds-m-right_medium"></lightning-button>
+            </template>
+            <lightning-button label="Send Mail" onclick={sendMail}></lightning-button>
+        </footer>
+    
+    </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

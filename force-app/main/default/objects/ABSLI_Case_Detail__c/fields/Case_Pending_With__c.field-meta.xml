@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Pending_With__c</fullName>
+    <description>Complaints Resolution Field</description>
+    <externalId>false</externalId>
+    <label>Case Pending With</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Polad</fullName>
+                <default>false</default>
+                <label>Polad</label>
+            </value>
+            <value>
+                <fullName>New Business</fullName>
+                <default>false</default>
+                <label>New Business</label>
+            </value>
+            <value>
+                <fullName>Revenue Assurance</fullName>
+                <default>false</default>
+                <label>Revenue Assurance</label>
+            </value>
+            <value>
+                <fullName>Sales Compliance</fullName>
+                <default>false</default>
+                <label>Sales Compliance</label>
+            </value>
+            <value>
+                <fullName>Misselling Complince</fullName>
+                <default>false</default>
+                <label>Misselling Complince</label>
+            </value>
+            <value>
+                <fullName>Fraud Complinece</fullName>
+                <default>false</default>
+                <label>Fraud Complinece</label>
+            </value>
+            <value>
+                <fullName>GRC</fullName>
+                <default>false</default>
+                <label>GRC</label>
+            </value>
+            <value>
+                <fullName>Dispatch</fullName>
+                <default>false</default>
+                <label>Dispatch</label>
+            </value>
+            <value>
+                <fullName>Legal</fullName>
+                <default>false</default>
+                <label>Legal</label>
+            </value>
+            <value>
+                <fullName>Product\actuarial</fullName>
+                <default>false</default>
+                <label>Product\actuarial</label>
+            </value>
+            <value>
+                <fullName>Claims</fullName>
+                <default>false</default>
+                <label>Claims</label>
+            </value>
+            <value>
+                <fullName>Underwriting</fullName>
+                <default>false</default>
+                <label>Underwriting</label>
+            </value>
+            <value>
+                <fullName>Vendor</fullName>
+                <default>false</default>
+                <label>Vendor</label>
+            </value>
+            <value>
+                <fullName>Taxation</fullName>
+                <default>false</default>
+                <label>Taxation</label>
+            </value>
+            <value>
+                <fullName>CS projects</fullName>
+                <default>false</default>
+                <label>CS projects</label>
+            </value>
+            <value>
+                <fullName>IT</fullName>
+                <default>false</default>
+                <label>IT</label>
+            </value>
+            <value>
+                <fullName>Accounts</fullName>
+                <default>false</default>
+                <label>Accounts</label>
+            </value>
+            <value>
+                <fullName>Risk Complience</fullName>
+                <default>false</default>
+                <label>Risk Complience</label>
+            </value>
+            <value>
+                <fullName>Branch</fullName>
+                <default>false</default>
+                <label>Branch</label>
+            </value>
+            <value>
+                <fullName>SA Agent</fullName>
+                <default>false</default>
+                <label>SA Agent</label>
+            </value>
+            <value>
+                <fullName>SA Manager</fullName>
+                <default>false</default>
+                <label>SA Manager</label>
+            </value>
+            <value>
+                <fullName>SA Head</fullName>
+                <default>false</default>
+                <label>SA Head</label>
+            </value>
+            <value>
+                <fullName>CS Head</fullName>
+                <default>false</default>
+                <label>CS Head</label>
+            </value>
+            <value>
+                <fullName>Sales</fullName>
+                <default>false</default>
+                <label>Sales</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

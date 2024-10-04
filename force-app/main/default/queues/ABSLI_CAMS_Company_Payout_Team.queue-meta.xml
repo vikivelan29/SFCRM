@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>ABSLI CAMS Company Payout Team</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABSLI_CAMS_Company_Payout_Team_G</publicGroup>
+        </publicGroups>
+        <users>
+            <user>juned.syed@adityabirlacapital.com.absliuat</user>
+        </users>
+    </queueMembers>
+    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+    <queueSobject>
+        <sobjectType>Task</sobjectType>
+    </queueSobject>
+</Queue>

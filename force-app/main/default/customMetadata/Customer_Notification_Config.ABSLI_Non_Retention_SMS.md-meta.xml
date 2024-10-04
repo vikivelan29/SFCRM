@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABSLI Quick Kill Non Retention SMS</label>
+    <protected>false</protected>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>CC_recipient_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Email_Merge_Fields_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Email_Template_Name__c</field>
+        <value xsi:type="xsd:string">ABSLI_Non_Retention_Template_Quick_Kill</value>
+    </values>
+    <values>
+        <field>Primary_Object__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>SMS_Entity_Id__c</field>
+        <value xsi:type="xsd:string">1101777950000010559</value>
+    </values>
+    <values>
+        <field>SMS_Merge_Fields_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>SMS_Sender_Id__c</field>
+        <value xsi:type="xsd:string">ABCABS</value>
+    </values>
+    <values>
+        <field>SMS_Template_Name__c</field>
+        <value xsi:type="xsd:string">ABSLI_Non_Retention_SMS</value>
+    </values>
+    <values>
+        <field>To_recipient_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Whatsapp_Merge_Fields_CSV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Whatsapp_Template_Name__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>external_templateID__c</field>
+        <value xsi:type="xsd:string">1107169088933405446</value>
+    </values>
+</CustomMetadata>

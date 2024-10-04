@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>ABSLI CAMS Profile Update</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABSLI_CAMS_Profile_Update_G</publicGroup>
+        </publicGroups>
+        <users>
+            <user>dhinesh.t@salesforce.uatcallcenter</user>
+            <user>branchuserbsli@salesforce.com</user>
+        </users>
+    </queueMembers>
+    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+    <queueSobject>
+        <sobjectType>Task</sobjectType>
+    </queueSobject>
+</Queue>
