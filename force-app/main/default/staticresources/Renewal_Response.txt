@@ -1,0 +1,949 @@
+{
+  "error": [
+    {
+      "ErrorCode": "00",
+      "ErrorMessage": "Success"
+    }
+  ],
+  "Renew_Info": [
+    {
+      "Renewed_Policy_Expiry_Date": "",
+      "Renewed_Policy_Number": "",
+      "Renewed_Policy_Proposal_Number": "240000621404",
+      "Renewed_Policy_Start_Date": ""
+    }
+  ],
+  "response": {
+    "policyData": [
+      {
+        "agentCode": "5100003",
+        "agentEmail": "test_325380@abhi.com",
+        "agentName": "Direct",
+        "agentPhoneNo": "5164688713",
+        "ageProof": "",
+        "Alternate_Email_Id": "",
+        "Alternate_Mobile_Number": "",
+        "annualIncome": "500000",
+        "AnnualPremium": "55774.0",
+        "ApplicationDate": "02/09/2024",
+        "ApplicationNo": "240000621404",
+        "AutoDebitFlag": "N",
+        "BasePremium": "",
+        "BasicPremium": "47062.0",
+        "BusinessType": "MIG",
+        "channel": "DOT",
+        "CKYC_Flag": "N",
+        "CKYC_Number": "",
+        "Combi_Flag": "No",
+        "Combi_Policy_Number": "",
+        "Combi_Reference_Number": "",
+        "contactPerson": "",
+        "CustomerCode": "PT87641500",
+        "DateOfBirth": "18/11/1999",
+        "DebitDate": "",
+        "Digi_Locker_Verified": "N",
+        "Discount_Amount": "0.0",
+        "Discounts": "0.0",
+        "educationalQualification": "",
+        "Email": "rahul.ghimire@qualitykiosk.com",
+        "EmergencyContactNo": "",
+        "enumIsEmployeeDiscount": "N",
+        "EnumIsMandate": "",
+        "familyEmailID": "rahul.ghimire@qualitykiosk.com",
+        "familyMobileNo": "7620524102",
+        "Gender1": "M",
+        "healthReturn": ".00",
+        "HealthReturn": "Y",
+        "HomeAddress": {
+          "Home_Address_1": "Dombivli",
+          "Home_Address_2": ".",
+          "Home_Address_3": "",
+          "Home_City": "Navi Mumbai",
+          "Home_District": "Thane",
+          "Home_Pincode": "400701",
+          "Home_State": "MAHARASHTRA",
+          "homeArea": "Thane",
+          "homeContactMobileNo": "7620524102",
+          "homeContactMobileNo2": "7620524102",
+          "homeFaxNo": "",
+          "homeSTDLandlineNo": "",
+          "homeSTDLandlineNo2": ""
+        },
+        "Hyper_verge_OPD_Status": "N",
+        "IdProof": "",
+        "ifAML": "",
+        "ifFaceMatch": "",
+        "ifPEP": "N",
+        "Intermediary_Code": "5100003",
+        "Intermediary_Name": "Direct",
+        "internationalcontactno": "",
+        "IsEmployeeDiscount": "0",
+        "IsModified": "",
+        "KYC_Transition_Id": "",
+        "MailingAddress": {
+          "Mailing_Address_1": "Dombivli",
+          "Mailing_Address_2": ".",
+          "Mailing_Address_3": "",
+          "Mailing_City": "Navi Mumbai",
+          "Mailing_PinCode": "400701",
+          "Mailing_State": "MAHARASHTRA",
+          "mailingArea": "Thane",
+          "mailingContactMobileNo": "7620524102",
+          "mailingContactMobileNo2": "7620524102"
+        },
+        "MaritalStatus": "Married",
+        "Members": [
+          {
+            "AadharCradNo": "",
+            "activpolicydetails": {
+              "Claim_in_Policy": "",
+              "InsurerName": "",
+              "Policy_expiry_Date": "",
+              "Policy_status": "",
+              "policyNo": "",
+              "sum_Insured": ""
+            },
+            "Age": "50",
+            "Alternate_Email_Id": "",
+            "Alternate_Mobile_Number": "",
+            "AlternateMobile": "",
+            "AnnualIncome": "0.0",
+            "CB": "30002345",
+            "Chronic": "Yes",
+            "ChronicManagementApplicable": "No",
+            "DeductibleAmount": "0",
+            "Designation": "NA",
+            "DoB": "03/30/1974",
+            "DRM": "N",
+            "Email": "rahul.ghimire@qualitykiosk.com",
+            "EMI": "",
+            "exactDiagnosis": "",
+            "FirstName": "Vishwas",
+            "FitnessAssessment": "Y",
+            "Gender": "M",
+            "GHDApplicable": "N",
+            "GHDRemarks": "Diabetes",
+            "HealthAssessment": "Y",
+            "healthReturn": ".00",
+            "HealthReturn": "Y",
+            "height": "165.1",
+            "IdProof": "",
+            "IdProofNumber": "",
+            "LastName": "Varma",
+            "LoanAccountNumber": "",
+            "LoanPrincipalOutstanding": "",
+            "marital_status": "",
+            "MemberId": "PT87552251",
+            "MemberproductComponents": [
+              {
+                "CB": "",
+                "PlanCode": "MassMarket_Plus",
+                "productComponent": [
+                  {
+                    "productComponentName": "RoomCategory",
+                    "productComponentValue": "UPTOSI"
+                  },
+                  {
+                    "productComponentName": "zone",
+                    "productComponentValue": "Zone I"
+                  },
+                  {
+                    "productComponentName": "SumInsured",
+                    "productComponentValue": "2000000"
+                  },
+                  {
+                    "productComponentName": "Conditions",
+                    "productComponentValue": "Diabetes"
+                  }
+                ],
+                "SumInsured": "2000000"
+              }
+            ],
+            "memberquestiondetails": [
+              {
+                "ans": "0",
+                "Qcode": "1362470729092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362471229092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362471529092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362471829092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362471829092020",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362472129092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362472429092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362472729092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362473029092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362473329092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362474029092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362474329092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362474629092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362474929092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362475229092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362475529092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362475829092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362476129092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362476429092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362476729092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362477029092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362477429092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362477729092023",
+                "remarks": ""
+              }
+            ],
+            "MiddleName": "",
+            "Mobile_Number": "7912073232",
+            "MobilePhone": "7912073232",
+            "Name": "Vishwas Varma",
+            "NatureOfDuty": "",
+            "occupation": "O561",
+            "optionalCoverages": [
+              {
+                "coverCode": "",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "1MassMarket_Plus"
+              },
+              {
+                "coverCode": "AIPH",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "2MassMarket_Plus"
+              },
+              {
+                "coverCode": "ANHLTH",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "3MassMarket_Plus"
+              },
+              {
+                "coverCode": "DCHS",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "4MassMarket_Plus"
+              },
+              {
+                "coverCode": "DCTT",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "5MassMarket_Plus"
+              },
+              {
+                "coverCode": "DECOV",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "6MassMarket_Plus"
+              },
+              {
+                "coverCode": "HCT",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "7MassMarket_Plus"
+              },
+              {
+                "coverCode": "HIVC",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "8MassMarket_Plus"
+              },
+              {
+                "coverCode": "HLTHA",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "9MassMarket_Plus"
+              },
+              {
+                "coverCode": "HLTHRET",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "10MassMarket_Plus"
+              },
+              {
+                "coverCode": "",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "11MassMarket_Plus"
+              },
+              {
+                "coverCode": "MITR",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "12MassMarket_Plus"
+              },
+              {
+                "coverCode": "MTAT",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "13MassMarket_Plus"
+              },
+              {
+                "coverCode": "OBTR",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "14MassMarket_Plus"
+              },
+              {
+                "coverCode": "ODEC",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "15MassMarket_Plus"
+              },
+              {
+                "coverCode": "POHM",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "16MassMarket_Plus"
+              },
+              {
+                "coverCode": "PRHM",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "17MassMarket_Plus"
+              },
+              {
+                "coverCode": "RACV",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "18MassMarket_Plus"
+              },
+              {
+                "coverCode": "SUPCRD",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "19MassMarket_Plus"
+              },
+              {
+                "coverCode": "SUPR",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "20MassMarket_Plus"
+              },
+              {
+                "coverCode": "WNME",
+                "coverPartCode": "",
+                "coverSi": "2000000",
+                "plancode": "21MassMarket_Plus"
+              }
+            ],
+            "PanNo": "",
+            "Policy_Type": "IND",
+            "PPN_Discount": "",
+            "PreExistingDiseasesApplicable": "No",
+            "PremiumWaiverBenefit": "",
+            "PremiumWaiverFlag": "",
+            "PrimaryMember": "N",
+            "Relation": "Father",
+            "salutation": "",
+            "SumInsured": "2000000",
+            "SumInsuredPerUnit": "2000000",
+            "Title": "",
+            "Upsell_SumInsured": "656",
+            "upsellPropensityDetails": [
+              {
+                "maxUpsell": "",
+                "processed": "",
+                "processedDate": "",
+                "recommended": "",
+                "tenure": "",
+                "upsellBucket": "",
+                "upsellCGSTAmount": "",
+                "upsellGrossPremium": "",
+                "upsellIGSTAmount": "",
+                "upsellNetPremium": "",
+                "upsellSGSTAmount": "",
+                "upsellSI1": "",
+                "upsellSI2": "",
+                "upsellSI3": "",
+                "upsellSI4": "",
+                "upsellSI5": "",
+                "upsellSumInsured": "",
+                "upsellTAXAmount": "",
+                "upsellUTGSTAmount": "",
+                "withRenewalModification": "",
+                "zone": ""
+              }
+            ],
+            "weight": "55",
+            "WellnesCoach": "Y",
+            "WellnessPartyId": "1224626",
+            "zone": "Z001"
+          },
+          {
+            "AadharCradNo": "",
+            "activpolicydetails": {
+              "Claim_in_Policy": "",
+              "InsurerName": "",
+              "Policy_expiry_Date": "",
+              "Policy_status": "",
+              "policyNo": "",
+              "sum_Insured": ""
+            },
+            "Age": "45",
+            "Alternate_Email_Id": "",
+            "Alternate_Mobile_Number": "",
+            "AlternateMobile": "",
+            "AnnualIncome": "0.0",
+            "CB": "2250000",
+            "Chronic": "No",
+            "ChronicManagementApplicable": "No",
+            "DeductibleAmount": "0",
+            "Designation": "NA",
+            "DoB": "03/29/1979",
+            "DRM": "N",
+            "Email": "rahul.ghimire@qualitykiosk.com",
+            "EMI": "",
+            "exactDiagnosis": "",
+            "FirstName": "Visha",
+            "FitnessAssessment": "Y",
+            "Gender": "F",
+            "GHDApplicable": "N",
+            "GHDRemarks": "",
+            "HealthAssessment": "Y",
+            "healthReturn": ".00",
+            "HealthReturn": "Y",
+            "height": "165.1",
+            "IdProof": "",
+            "IdProofNumber": "",
+            "LastName": "Varma",
+            "LoanAccountNumber": "",
+            "LoanPrincipalOutstanding": "",
+            "marital_status": "",
+            "MemberId": "PT87552250",
+            "memberPEDs": [
+              {
+                "PedCode": "PE003",
+                "Remarks": "Diabetes",
+                "Value": ""
+              }
+            ],
+            "MemberproductComponents": [
+              {
+                "CB": "",
+                "PlanCode": "MassMarket_Plus",
+                "productComponent": [
+                  {
+                    "productComponentName": "RoomCategory",
+                    "productComponentValue": "UPTOSI"
+                  },
+                  {
+                    "productComponentName": "zone",
+                    "productComponentValue": "Zone I"
+                  },
+                  {
+                    "productComponentName": "SumInsured",
+                    "productComponentValue": "1500000"
+                  }
+                ],
+                "SumInsured": "1500000"
+              }
+            ],
+            "memberquestiondetails": [
+              {
+                "ans": "0",
+                "Qcode": "1362470729092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362471229092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362471529092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362471829092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362471829092020",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362472129092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362472429092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362472729092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362473029092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362473329092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362474029092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362474329092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362474629092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362474929092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362475229092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362475529092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362475829092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362476129092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362476429092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362476729092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362477029092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362477429092023",
+                "remarks": ""
+              },
+              {
+                "ans": "0",
+                "Qcode": "1362477729092023",
+                "remarks": ""
+              }
+            ],
+            "MiddleName": "",
+            "Mobile_Number": "9012737473",
+            "MobilePhone": "9012737473",
+            "Name": "Visha Varma",
+            "NatureOfDuty": "",
+            "occupation": "O561",
+            "optionalCoverages": [
+              {
+                "coverCode": "",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "1MassMarket_Plus"
+              },
+              {
+                "coverCode": "AIPH",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "2MassMarket_Plus"
+              },
+              {
+                "coverCode": "ANHLTH",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "3MassMarket_Plus"
+              },
+              {
+                "coverCode": "DCHS",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "4MassMarket_Plus"
+              },
+              {
+                "coverCode": "DCTT",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "5MassMarket_Plus"
+              },
+              {
+                "coverCode": "DECOV",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "6MassMarket_Plus"
+              },
+              {
+                "coverCode": "HCT",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "7MassMarket_Plus"
+              },
+              {
+                "coverCode": "HIVC",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "8MassMarket_Plus"
+              },
+              {
+                "coverCode": "HLTHA",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "9MassMarket_Plus"
+              },
+              {
+                "coverCode": "HLTHRET",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "10MassMarket_Plus"
+              },
+              {
+                "coverCode": "",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "11MassMarket_Plus"
+              },
+              {
+                "coverCode": "MITR",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "12MassMarket_Plus"
+              },
+              {
+                "coverCode": "MTAT",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "13MassMarket_Plus"
+              },
+              {
+                "coverCode": "OBTR",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "14MassMarket_Plus"
+              },
+              {
+                "coverCode": "ODEC",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "15MassMarket_Plus"
+              },
+              {
+                "coverCode": "POHM",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "16MassMarket_Plus"
+              },
+              {
+                "coverCode": "PRHM",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "17MassMarket_Plus"
+              },
+              {
+                "coverCode": "RACV",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "18MassMarket_Plus"
+              },
+              {
+                "coverCode": "SUPCRD",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "19MassMarket_Plus"
+              },
+              {
+                "coverCode": "SUPR",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "20MassMarket_Plus"
+              },
+              {
+                "coverCode": "WNME",
+                "coverPartCode": "",
+                "coverSi": "1500000",
+                "plancode": "21MassMarket_Plus"
+              }
+            ],
+            "PanNo": "",
+            "Policy_Type": "IND",
+            "PPN_Discount": "",
+            "PreExistingDiseasesApplicable": "No",
+            "PremiumWaiverBenefit": "",
+            "PremiumWaiverFlag": "",
+            "PrimaryMember": "N",
+            "Relation": "Mother",
+            "salutation": "",
+            "SumInsured": "1500000",
+            "SumInsuredPerUnit": "1500000",
+            "Title": "",
+            "Upsell_SumInsured": "674",
+            "upsellPropensityDetails": [
+              {
+                "maxUpsell": "",
+                "processed": "",
+                "processedDate": "",
+                "recommended": "",
+                "tenure": "",
+                "upsellBucket": "",
+                "upsellCGSTAmount": "",
+                "upsellGrossPremium": "",
+                "upsellIGSTAmount": "",
+                "upsellNetPremium": "",
+                "upsellSGSTAmount": "",
+                "upsellSI1": "",
+                "upsellSI2": "",
+                "upsellSI3": "",
+                "upsellSI4": "",
+                "upsellSI5": "",
+                "upsellSumInsured": "",
+                "upsellTAXAmount": "",
+                "upsellUTGSTAmount": "",
+                "withRenewalModification": "",
+                "zone": ""
+              }
+            ],
+            "weight": "55",
+            "WellnesCoach": "Y",
+            "WellnessPartyId": "1224625",
+            "zone": "Z001"
+          }
+        ],
+        "Mobile": "7620524102",
+        "Name_of_product": "Activ One",
+        "Name_of_the_proposer": "Aniket Birambole",
+        "Nationality": "IN",
+        "NetPremium": "55774.0",
+        "Nominee_Details": {
+          "Nominee_Address": "Dombivli, Navi Mumbai, Thane, 400701, MAHARASHTRA Thane",
+          "Nominee_Contact_No": "8707868534",
+          "nominee_dob": "",
+          "nominee_first_name": "Mona",
+          "nominee_last_name": "Mona",
+          "Nominee_Name": "Mona",
+          "nominee_relationship_code": "Mother",
+          "Relationship": "Mother"
+        },
+        "NonIndian": "",
+        "NSTP_flag": "No",
+        "NumberofAdults": "0",
+        "NumberofChildren": "0",
+        "occupation": "O561",
+        "optionalCoverages": [],
+        "others": "",
+        "OverwriteAutoDebit": "",
+        "panNo": "DUYPB0389G",
+        "passportNumber": "",
+        "Plan_name": "MAX+",
+        "Policy_Expired": "Yes",
+        "Policy_expiry_date": "09/01/2024",
+        "Policy_lapsed_flag": "No",
+        "Policy_number": "21-24-0000759-01",
+        "Policy_renewal_date": "09/01/2025",
+        "Policy_start_date": "09/02/2023",
+        "Policy_Sub_Status": "191",
+        "PolicyOwnerFirstName": "Aniket",
+        "PolicyOwnerLastName": "Birambole",
+        "PolicyOwnerMiddleName": "",
+        "PolicyOwnerName": "Aniket  Birambole",
+        "PolicyproductComponents": [
+          {
+            "PlanCode": "7200",
+            "schemeCode": "7200"
+          }
+        ],
+        "PolicyStatus": "01",
+        "premium": {
+          "CA_Net": "0.0000",
+          "CA_NetU": "",
+          "CI_Net": "0.0000",
+          "CI_NetU": "",
+          "HCB_Net": "0.0000",
+          "HCB_NetU": "",
+          "PA_Net": "0.0000",
+          "PA_NetU": "",
+          "Renewal_Gross_Premium": "55774.0",
+          "Renewal_Net_Premium": "47266.49",
+          "Renewal_Tax_Details": [
+            {
+              "Tax_Amount": "4254.0",
+              "Tax_Type": "CGST",
+              "TaxRate": "9.00"
+            },
+            {
+              "Tax_Amount": "4254.0",
+              "Tax_Type": "SGST",
+              "TaxRate": "9.00"
+            },
+            {
+              "Tax_Amount": "0.0",
+              "Tax_Type": "UTGST",
+              "TaxRate": ""
+            },
+            {
+              "Tax_Amount": "0.0",
+              "Tax_Type": "IGST",
+              "TaxRate": ""
+            }
+          ],
+          "Upsell_Gross_Premium": "1000",
+          "Upsell_Net_Premium": "1000",
+          "Upsell_Tax_Details": [
+            {
+              "Tax_Amount": "",
+              "Tax_Type": "",
+              "TaxRate": ""
+            }
+          ]
+        },
+        "PremiumWaiverFlag": "1211.49",
+        "ProductCode": "7200",
+        "ProposarAge": "18/11/1999",
+        "quoteDate": "03/08/2024",
+        "RefCode1": "",
+        "RefCode2": "",
+        "RegistrationStatus": "PEN",
+        "remarks": "",
+        "Renewable_Flag": "Yes",
+        "Renewed_Flag": "No",
+        "residenceProof": "",
+        "RiderAmount": "",
+        "salutation": ".",
+        "sameAsHomeAddress": "1",
+        "smCode": "382800",
+        "smName": "Namita Singh",
+        "smPhoneNo": "2855648350",
+        "SourceCode": "OTH",
+        "Sum_insured_type": "Individual",
+        "SumInsured": "2000000",
+        "sumInsuredtype": "IND",
+        "TAXDetails": "8507.51",
+        "Tenure": "1",
+        "Tenure2": "",
+        "Tenure3": "",
+        "uidNo": "",
+        "Upsell_Flag": "No",
+        "UWDependentEntitlement": "",
+        "UWLoading": "1211.49",
+        "uwRules": [
+          {
+            "Member_Name": "",
+            "PED": ""
+          }
+        ],
+        "V3Indicator": "",
+        "ValidFrom": "02/09/2024",
+        "ValidTo": "01/09/2025",
+        "WhatsAppNo": "null"
+      }
+    ]
+  }
+}
