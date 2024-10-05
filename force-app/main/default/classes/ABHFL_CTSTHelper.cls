@@ -181,8 +181,10 @@ public without sharing class ABHFL_CTSTHelper {
         Map<String, List<Case>> lanVsCases = new Map<String, List<Case>>();
         Map<String,Set<Id>> cccVsAccIds = new Map<String,Set<Id>>();
         Set<String> cccIdsForAcc = new Set<String>();
+	Map<Id,Case> IdvsCase = new Map<Id,Case>();         // added by Vikas
         RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
         for(Case c: caseList){
+		IdvsCase.put(c.Id,c);                      // added by vikas
             if(c.Business_Unit__c=='ABHFL' && 
                		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
                 	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
@@ -236,6 +238,9 @@ public without sharing class ABHFL_CTSTHelper {
                     if(accIdVsCases.containsKey(dupeCase.AccountId)){
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
+				if(c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ){
+                                ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase,oldCaseMap); 			// added by vikas, After recategorisation, ovarall SLA should changed before marked as closed duplicate.
+				}                                                                                
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = ASF_Constants.DUPLICATESTAGE;
                                     c.Status = ASF_Constants.DUPLICATESTATUS;
@@ -400,7 +405,7 @@ public without sharing class ABHFL_CTSTHelper {
         return updatedCasesMap;
     }
     //Dhinesh
-    public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
+   public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
         //Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
 
@@ -409,22 +414,31 @@ public without sharing class ABHFL_CTSTHelper {
         for(Case caseRec : caseRecords){
             eligibleCases.add(caseRec);
             uniqueKeyToCaseId.put(caseRec.ABHFL_Case_Detail__r.Preferred_Branch__c, caseRec.Id);
-            
         }
         Map<Id, Case> updatedCasesMap = new Map<Id, Case>();
         List<ABHFL_Case_Detail__c> caseDetailsToUpdate = new List<ABHFL_Case_Detail__c>();
+        Set<ID>activeuserlst=new set<ID>(); 
+        for(User u: [Select Id from user where Isactive=true]){
+            activeuserlst.add(u.Id);
+        }
+        Id queuewhennospoc=[Select Id,Name from Group where type='Queue' AND Name='Unassigned Queue'].Id;
         if(!eligibleCases.isEmpty()){
             Map<Id, Branch_Master__c> caseIdToBranchMap = new Map<Id, Branch_Master__c>();
-            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c,Address__c, UniqueKey__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
+            for(Branch_Master__c branch : [SELECT Id,Branch_Queue_Id__c,Address__c, UniqueKey__c,CRM_SPOC__c FROM Branch_Master__c WHERE UniqueKey__c IN: uniqueKeyToCaseId.keySet()])
             {
                 caseIdToBranchMap.put(uniqueKeyToCaseId.get(branch.UniqueKey__c), branch);
             }
             for(Case caseRec : eligibleCases){
-                if(caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c != null){
-                    Case blankCase = new Case(Id = caseRec.Id);
-                    blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).Branch_Queue_Id__c;
+               Case blankCase = new Case(Id = caseRec.Id);
+                
+                if(caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c != null && activeuserlst.contains(caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c)){
+                        blankCase.OwnerId = caseIdToBranchMap.get(caseRec.Id).CRM_SPOC__c;
+                    }
+                    else
+                    {
+                    blankCase.OwnerId=queuewhennospoc;    
+                    }
                     updatedCasesMap.put(blankCase.Id, blankCase);
-                }
                 ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
                 caseDetail.Address__c = caseIdToBranchMap.get(caseRec.Id).Address__c;
                 caseDetailsToUpdate.add(caseDetail);
@@ -549,10 +563,19 @@ public without sharing class ABHFL_CTSTHelper {
             if(paymentsMap.containsKey(caseRec.Id)){
                 // Check if every payment record has Realization_Status__c equal to 'Cleared'
                 for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
+		  /*added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
+                      Jira id-PR970457-2176
+                      Added By Ey-Nikhil  */
+                 if((caseRec.CCC_External_Id__c == 'hfl060' && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
+                        && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
+                        && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
+                       ||(caseRec.CCC_External_Id__c != 'hfl060')){
+  		  //End By Ey-Nikhil
                     if (payment.Realization_Status__c == null) {
                         returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
                         break;
                     }
+		  }
                 }
             }
         }
