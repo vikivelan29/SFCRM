@@ -1022,7 +1022,6 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;strong&gt;Quick Links&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;a href=&quot;https://abhflcrm.abfsg.com/main.aspx#&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Open Dynamics&lt;/a&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Calculator&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
