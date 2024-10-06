@@ -617,6 +617,11 @@
                 <default>false</default>
                 <label>ABC_Servicing_App</label>
             </value>
+            <value>
+                <fullName>Web (Mobile App)</fullName>
+                <default>false</default>
+                <label>Web (Mobile App)</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

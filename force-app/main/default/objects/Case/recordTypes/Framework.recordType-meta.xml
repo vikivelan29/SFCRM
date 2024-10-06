@@ -1148,6 +1148,14 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web (Mobile App)</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABCD App</fullName>
             <default>false</default>
         </values>
