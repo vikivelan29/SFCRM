@@ -688,10 +688,6 @@
                     <name>titleFieldName</name>
                     <value>Case Snapshot</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>updateQuickActionName</name>
-                    <value>Case.Wellness_Case_Snapshot</value>
-                </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord</identifier>
             </componentInstance>
