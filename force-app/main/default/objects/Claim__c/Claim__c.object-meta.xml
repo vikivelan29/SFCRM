@@ -163,20 +163,15 @@
     <pluralLabel>Claims</pluralLabel>
     <profileSearchLayouts>
         <fields>NAME</fields>
-        <fields>Policy_Number_Text__c</fields>
         <fields>Claim_Status__c</fields>
-        <profileName>ABHI Partner Base Profile</profileName>
-    </profileSearchLayouts>
-    <profileSearchLayouts>
-        <fields>NAME</fields>
-        <fields>Policy_Number_Text__c</fields>
-        <fields>Claim_Status__c</fields>
+        <fields>Claim_Type__c</fields>
+        <fields>Member_Name__c</fields>
+        <fields>Policy_Number__c</fields>
         <profileName>ABHI Base Profile</profileName>
     </profileSearchLayouts>
     <searchLayouts>
-        <searchResultsAdditionalFields>Policy_Number_Text__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Claim_Status__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ControlledByParent</sharingModel>
+    <sharingModel>Read</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
