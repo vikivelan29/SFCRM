@@ -2,9 +2,7 @@
  * @description Case trigger handler class for BU specific
  */
 public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHandler {
-
-    public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
-
+public ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
     /**
      * @description - Executes befor the ASF code runs in before insert context
      * @param newItems - list of new cases
@@ -68,6 +66,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABSLI_AfterInsertLogic.checkCreateCaseValidations(mRecordTypeVsCases1.get(frameworkRTId)); 
             ABSLI_AfterInsertLogic.executeAfterInsertLogic((List<Case>)newItems.values());
             ABHI_IGMSHelperMethods.associateAssetIgms((List<Case>)newItems.values());  
+
         }
     }
 
@@ -78,24 +77,20 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     public override void executeAfterASFCodeInAfterInsert(Map<Id, SObject> newItems){
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ABSLIG_CaseDetailHelperClass absligCaseDetHelperObj = new ABSLIG_CaseDetailHelperClass();
-        ABHI_CaseDetailHelper abhilCaseDetailHelperObj = new ABHI_CaseDetailHelper();
-        Map<String,List<Case>> mapOfBUToNewCs = initializeBUSpecificCases((Map<Id, Case>)newItems, new Map<Id, Case>());
-        
+ABHI_CaseDetailHelper abhilCaseDetailHelperObj = new ABHI_CaseDetailHelper();
+
         if(System.Label.PAY_SkipCustomerCreationOnCaseCreationAPI != 'true'){
             PAY_CaseTriggerHelper.fetchCustomerInfoExt((List<Case>)newItems.values());
         }
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
         //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
-
+        
         // Create Comment if the case is closed while creation.[through api]
         ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
         ctstHelperObj.ICAndPICEvaluationOnApiCall((List<Case>)newItems.values());
         absligCaseDetHelperObj.populateABSLIGCaseDetailFields((List<Case>)newItems.values());
         abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.values());
-
-        abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, new Map<Id, Case>(), 'AfterASFCodeInAfterInsert');
-
     }
     // INSERT CONTEXT - ENDS HERE
     
@@ -150,11 +145,9 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      * @param oldItems - map of old cases
      */
     public override void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-
-        Map<String,List<Case>> mapOfBUToNewCs = initializeBUSpecificCases((Map<Id, Case>)newItems, new Map<Id, Case>());
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), (List<Case>)oldItems.values());
         ABSLIG_CaseDetailHelperClass absligCaseDetaHelpObj = new ABSLIG_CaseDetailHelperClass();
-        ABHI_CaseDetailHelper abhilCaseDetailHelperObj = new ABHI_CaseDetailHelper();
+ABHI_CaseDetailHelper abhilCaseDetailHelperObj = new ABHI_CaseDetailHelper();
         
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ctstHelperObj.callLitmusApi((List<Case>) newItems.values(), (Map<Id, Case>) oldItems);
@@ -175,19 +168,18 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         absligCaseDetaHelpObj.populateABSLIGCaseDetailFieldsAfterCaseUpdate((List<Case>)newItems.values());
         
         ABSLI_AfterUpdateLogic.executeAfterInsertLogic((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);
-        abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.values());
-        abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToNewCs, (Map<Id, Case>)oldItems, 'AfterASFCodeInAfterUpdate');
+abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.values());
         ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFields((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
         ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFieldsForCams((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
     }
-
     /**
      * @description  Executes before the Case DML code runs in after update context
      * @param newItems - map of new cases
      * @param oldItems - map of old cases
           */
     public override void executeBeforeCaseDMLInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-        ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);  
+        ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);
+        
     }
 
     /**
