@@ -13,7 +13,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
-            ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
+            //  ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
+            ABHFL_CTSTHelper.skipOpenStageforAPIcases(mRecordTypeVsCases1.get(frameworkRTId));
         }
     }
       
@@ -21,14 +22,17 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      * @description - Executes after the ASF code runs in before insert context
      * @param newItems - list of new cases
      */
-    public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
-        
+     // public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems, Map<Id, Case>oldItems){
+          public override void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
         List<Case> newCaseList = (List<Case>)newItems;
         List<Case> newFrameworkCaseList = new List<Case>();
         ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ABCL_CaseDuplicateCheck dupeChecker = new ABCL_CaseDuplicateCheck();
-
+        // line added to update Branch in field Branch Name by Bhushan
+        ABHFL_CTSTHelper.branchUpdate((List<Case>)newItems,null);
+       
+      //changes ended here
         for(Case caseRec : newCaseList) {
             String caseRecordTypeId = caseRec.RecordTypeId;
             Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
@@ -61,7 +65,8 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
      * @description  Executes after the ASF code runs in after insert context
      * @param newItems - map of new cases
      */
-    public override void executeAfterASFCodeInAfterInsert(Map<Id, SObject> newItems){
+  //  public override void executeAfterASFCodeInAfterInsert(Map<Id, SObject> newItems){  line commented B
+    public override void executeAfterASFCodeInAfterInsert(Map<Id, SObject> newItems) {
         ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
         ABSLIG_CaseDetailHelperClass absligCaseDetHelperObj = new ABSLIG_CaseDetailHelperClass();
 
@@ -71,7 +76,10 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.executeSpecificIntegrations((List<Case>)newItems.values(), new List<Case>());
         ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
         //ABHFL_CTSTHelper.populateLANonDetail((List<Case>)newItems.values());
-
+        //Method called for Branch Update..Bhushan
+     //   ABHFL_CTSTHelper.branchUpdate((List<Case>)newItems.values(),null);
+        //... ends here
+        
         // Create Comment if the case is closed while creation.[through api]
         ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
         ctstHelperObj.ICAndPICEvaluationOnApiCall((List<Case>)newItems.values());
@@ -100,7 +108,10 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         }
         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
         ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+       // ABHFL_CTSTHelper.adjustStageTransitions((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        ABHFL_CTSTHelper.branchUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage((Map<Id, Case>)newItems,(Map<Id, Case>)oldItems);
+        
     }
 
     /**
@@ -134,10 +145,19 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.sendGrievanceDetailsEmail((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         //AM-call method to delete existing asset detail records on customer change
         ABHFL_CTSTHelper.deleteExistingAssetDetails((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
-        ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        //  ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABCL_InvokeOneABC.evaluateCasesForOneABC((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
 
         absligCaseDetaHelpObj.populateABSLIGCaseDetailFieldsAfterCaseUpdate((List<Case>)newItems.values());
+    }
+    
+     /**
+     * @description  Executes before the Case DML code runs in after update context
+     * @param newItems - map of new cases
+     * @param oldItems - map of old cases
+     */
+    public override void executeBeforeCaseDMLInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        ABHFL_CTSTHelper.adjustStageTransitions((List<Case>)newItems.values(),(Map<Id,Case>)oldItems);
     }
     
 }
