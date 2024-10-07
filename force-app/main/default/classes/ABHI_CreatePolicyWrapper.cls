@@ -186,7 +186,10 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String politically_exposed_person;
         public String district_town;
         public String District2;
-        public String BusinessUnit = 'ABHI';
+        public String BusinessUnit;
+        public String CMP_OPD;
+        public String Chronic_care;
+        public String IsChronicDisease;
 	}
 
 	public class CustomerSegments {
