@@ -193,7 +193,6 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String CMP_OPD;
         public String Chronic_care;
         public String IsChronicDisease;
-        public String Title;
 	}
 
 	public class CustomerSegments {

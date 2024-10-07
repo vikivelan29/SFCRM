@@ -174,17 +174,7 @@ public without sharing class ABHI_CreatePolicy {
                         acc.put(mapObjectFieldMapping.get('Account').get(json), customer.get(json.split(':')[0]) != null && customer.get(json.split(':')[0]) != 'No'?true:false);
                     }
                     when else {
-                        if(mapObjectFieldMapping.get('Account').get(json) == 'FirstName') {
-                            String firstName = (customer.get('FirstName') != '' || customer.get('FirstName') != null) && ((String)customer.get('FirstName')).length()>40?((String)customer.get('FirstName')).substring(0,40):(String)customer.get('FirstName');
-                            acc.put(mapObjectFieldMapping.get('Account').get(json), firstName);
-                        }
-                        else if(mapObjectFieldMapping.get('Account').get(json) == 'LastName') {
-                            String lastName = (customer.get('LastName') != '' || customer.get('LastName') != null) && ((String)customer.get('LastName')).length()>80?((String)customer.get('LastName')).substring(0,80):(String)customer.get('LastName');
-                            acc.put(mapObjectFieldMapping.get('Account').get(json), lastName);
-                        }
-                        else {
-                            acc.put(mapObjectFieldMapping.get('Account').get(json), customer.get(json.split(':')[0]));
-                        }
+                        acc.put(mapObjectFieldMapping.get('Account').get(json), customer.get(json.split(':')[0]));
                     }
                 }
             }
@@ -223,7 +213,7 @@ public without sharing class ABHI_CreatePolicy {
                         }
                         when 'ID' {
                             refObject = new Account();
-                            refObject.put(mapObjectFieldMapping.get('Customer_Member_Mapping').get(json).split(':')[1], ABHI_Constants.ABHI+'_'+cusMap.get(json.split(':')[0]));
+                            refObject.put(mapObjectFieldMapping.get('Customer_Member_Mapping').get(json).split(':')[1], cusMap.get(json.split(':')[0]));
                             cusMemMapping.putSObject(mapObjectFieldMapping.get('Customer_Member_Mapping').get(json).split(':')[0], refObject);
                         }
                         when 'Date' {
@@ -247,7 +237,7 @@ public without sharing class ABHI_CreatePolicy {
         //<---------- Customer mem mapping ends ------>
 
         Asset policy = createAsset(policyMap, mapObjectFieldMapping.get('Asset'));
-        System.debug('@@@accounts1'+policy);
+        
         upsert accounts.values() LOB_Client_Code__c ;
         upsert conList UniqueKey__c;
         //upsert policy ABHI_Policy_Id__c;
@@ -265,12 +255,13 @@ public without sharing class ABHI_CreatePolicy {
             List<Policy_Nominee__c> policyNominee = createNominees(mapNomineeDetailList, mapObjectFieldMapping.get('Nominee'), policy, isCreated);
         	upsert policyNominee;
         }
-        System.debug('@@@previousPolicy '+mapPreviousPolicyList);
+        
         if(!mapPreviousPolicyList.isEmpty()) {
             List<Previous_Policy_Details__c> previousPolicy = createPreviousPolicy(mapPreviousPolicyList, mapObjectFieldMapping.get('Previous_Policy_Details'), policy);
         	upsert previousPolicy ;
         }
-        ABHI_CreateCRMPolicy.proposalNumber = policyMap.get('ProposalNumber').toString();        
+        ABHI_CreateCRMPolicy.proposalNumber = policyMap.get('ProposalNumber').toString();
+        //return  policyMap.get('ProposalNumber').toString();
     }
     
     /**
@@ -291,7 +282,7 @@ public without sharing class ABHI_CreatePolicy {
                     policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != ''?Date.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):null);
                 }
                 when 'Boolean' {
-                    policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != 'No'?true:false);
+                    policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null?Boolean.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):false);
                     
                 }
                 when 'ID' {
@@ -300,8 +291,7 @@ public without sharing class ABHI_CreatePolicy {
                     }
                     else if(policyMapping.split(':')[1] == 'Account') {
                         policyRefs = new Account();
-                                                System.debug('@@@pp'+policyMap.get(policyMapping.split(':')[0]));
-                        policyRefs.put(policyObjectFieldMapping.get(policyMapping).split(':')[1], ABHI_Constants.ABHI+'_'+policyMap.get(policyMapping.split(':')[0]));
+                        policyRefs.put(policyObjectFieldMapping.get(policyMapping).split(':')[1], policyMap.get(policyMapping.split(':')[0]));
                     }
                     else if(policyMapping.split(':')[1] == 'Asset') {
                         policyRefs = new Asset();
@@ -358,7 +348,7 @@ public without sharing class ABHI_CreatePolicy {
                         //policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != ''?(Date)(nominee.get(nomineeMapping.split(':')[0])):null);
                     }
                     when 'Boolean' {
-                        policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != 'No'?true:false); 
+                        policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null?Boolean.valueOf(nominee.get(nomineeMapping.split(':')[0]).toString()):false); 
                     }
                     when 'ID' {
                         policyNominee.put(nomineeFieldMapping.get(nomineeMapping), policy.Id);
@@ -395,8 +385,6 @@ public without sharing class ABHI_CreatePolicy {
                     when 'Date' {
                        // prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split(':')[0]) != null?Date.valueOf(previousPolicy.get(prevPolMapping.split(':')[0]).toString()):null);
                         prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split(':')[0]) != null && previousPolicy.get(prevPolMapping.split(':')[0]) != ''?Date.valueOf(previousPolicy.get(prevPolMapping.split(':')[0]).toString()):null);
-                        System.debug('@@@date1'+previousPolicy.get(prevPolMapping.split(':')[0]));
-                        System.debug('@@@date2'+prevPolicyFieldMapping.get(prevPolMapping));
                     }
                     when 'Double' {
 						prevPolicy.put(prevPolicyFieldMapping.get(prevPolMapping), previousPolicy.get(prevPolMapping.split(':')[0]) != ''? Double.valueOf(previousPolicy.get(prevPolMapping.split(':')[0])):null);
@@ -407,7 +395,7 @@ public without sharing class ABHI_CreatePolicy {
                 }  
             } 
             prevPolicy.put('Policy__c', policy.Id);
-            prevPolicy.putSObject('Customer__r', new Account(LOB_Client_Code__c = policy.Account.LOB_Client_Code__c ));
+            prevPolicy.putSObject('Customer__r', new Account(LOB_Client_Code__c = ABHI_Constants.ABHI+'_'+policy.Account.Client_Code__c ));
             listPrevPolicy.add(prevPolicy);
         }
         
