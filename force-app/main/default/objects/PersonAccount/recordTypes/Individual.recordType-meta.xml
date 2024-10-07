@@ -126,10 +126,6 @@
             <fullName>PAYMENTS</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Wellness</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Constitution__c</picklist>
