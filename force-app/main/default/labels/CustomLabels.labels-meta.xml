@@ -939,7 +939,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Canned Response Success Message</shortDescription>
-        <value>Canned Response send successfully.</value>
+        <value>Canned Response sent successfully.</value>
     </labels>
     <labels>
         <fullName>ABSLIG_Acknowledgement_Email</fullName>
