@@ -4,54 +4,70 @@ import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithP
 import { subscribe, MessageContext } from 'lightning/messageService';
 import ViewEvent from '@salesforce/messageChannel/mcrmviewevents__c';
 import GymLocationNotAvailable from '@salesforce/label/c.MCRM_GymNameLocation';
+// import RewardsDataNotAvailable from '@salesforce/label/c.MCRM_RewardsDataNotAvailable';
 
 export default class Mcrm_bv_container_extension extends LightningElement {
 
 	label = {
-		GymLocationNotAvailable
+		GymLocationNotAvailable,
+		// RewardsDataNotAvailable
 	};
 
 	// Configs
 	@api recordId;
 	@api dynTableExAPI;
 	pcvalue;
+	bcvalue;
 	options;
-	
+	partnerCodeOptions;
+	benefitCodeOptions;
+
 	// Internals
-	showBaseView=false;
-	showPartner=false;
+	showBaseView = false;
+	showPartner = false;
+	showRewards = false;
 	columns;
 	@track tableData;
-    isLoading = false;
-	
-	get hasNoData(){
-		if(this.tableData.length>0){
+	isLoading = false;
+
+	get hasNoData() {
+		if (this.tableData?.length > 0) {
 			return 'slds-hide'
-		}else{
+		} else {
 			return '';
 		}
 	}
-	get hasData(){
-		if(this.tableData.length>0){
+	get hasData() {
+		if (this.tableData?.length > 0) {
 			return '';
-		}else{
+		} else {
 			return 'slds-hide'
 		}
 	}
 
-	get disableButton(){
+	get disablePartnerCodeButton() {
 		return !(this.pcvalue);
+	}
+
+	get disableRewardsButton() {
+		return !(this.pcvalue && this.bcvalue);
+	}
+
+	get noDataMessage(){
+		if (this.showPartner){
+			return this.label.GymLocationNotAvailable;
+		} else {
+			// return this.label.RewardsDataNotAvailable;
+		}
 	}
 
 	@wire(MessageContext)
 	messageContext;
 
-	@wire (getTableMeta, {configName:'$dynTableExAPI'})
+	@wire(getTableMeta, { configName: '$dynTableExAPI' })
 	tableMeta({ error, data }) {
-        if (data) {
-			console.log('***tableMeta>ext:'+this.dynTableExAPI);
-			console.log('***tableMeta>ext:'+JSON.stringify(data));
-            this.columns = [
+		if (data) {
+			this.columns = [
 				...data.map(col => ({
 					label: col.MasterLabel,
 					fieldName: col.Api_Name__c,
@@ -59,13 +75,11 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 					cellAttributes: { alignment: 'left' }
 				}))
 			];
-        } else if (error) {
-			console.log('***error:'+JSON.stringify(error));
-			console.log('***error:'+JSON.stringify(error.body.message));
-            this.showToast('Error','Error fetching data.','Error');
-        }
-    }
-	
+		} else if (error) {
+			this.showToast('Error', 'Error fetching data.', 'Error');
+		}
+	}
+
 	connectedCallback() {
 		this.subscribeToMessageChannel();
 	}
@@ -79,29 +93,27 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	}
 
 	handleMessage(message) {
-		console.log('***message:'+JSON.stringify(message.name));	
-		console.log('***message:'+JSON.stringify(message));	
-		console.log('***dynTableExAPI:'+this.dynTableExAPI);	
-		this.isLoading=true;
-		if(this.dynTableExAPI =='MCRM_ActiveDays' && message.name=='MCRM_ActiveDayURL'){
+		this.isLoading = true;
+		if (this.dynTableExAPI == 'MCRM_ActiveDays' && message.name == 'MCRM_ActiveDayURL') {
 			this.getActiveDays(message.payLoad);
-		}else if(this.dynTableExAPI =='MCRM_GymNameLocation' && message.name=='MCRM_Gym_Voucher'){
+		} else if (this.dynTableExAPI == 'MCRM_GymNameLocation' && message.name == 'MCRM_Gym_Voucher') {
 			this.getGymNameLocation(message.payLoad);
+		} else if (this.dynTableExAPI == 'MCRM_Rewards' && message.name == 'MCRM_Benefits'){
+			this.getRewards(message.payLoad);
 		}
-		
-		this.showBaseView=true;
-		this.isLoading=false;
+
+		this.showBaseView = true;
+		this.isLoading = false;
 	}
 
-	getActiveDays(message){
-		console.log('****getActiveDays>>>'+JSON.stringify(message));
+	getActiveDays(message) {
 		let responseArray = [];
 		message.responseMap.resultsList.scores.forEach(score => {
 			score.activities.forEach(activity => {
 				responseArray.push(
 					{
 						'activeDate': score.activeDate,
-						'isScored': score.isScored=='true'?'Yes':'No',
+						'isScored': score.isScored == 'true' ? 'Yes' : 'No',
 						'name': activity.name,
 						'pc': activity.value,
 						'score': activity.score,
@@ -111,56 +123,75 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 				)
 			});
 		});
-		console.log('***responseArray:'+JSON.stringify(responseArray));	
 		this.tableData = responseArray;
 	}
 
-	getGymNameLocation(message){
+	getGymNameLocation(message) {
 		// reset vars
-		this.pcvalue='';
-		this.tableData=[];
-		this.keyField='partnerCode';
+		this.pcvalue = '';
+		this.tableData = [];
 
-		console.log('****getGymNameLocation>>>'+JSON.stringify(message));
-		this.showPartner=true;
-		let partnerList = message
-							.filter(ele=>{
-								return ele.partnerCd;
-							})
-							.map(ele=>{
-								return { label: ele.partnerCd, value: ele.partnerCd }
-							});
-		this.options=partnerList;
-		console.log('****getGymNameLocation>>>'+JSON.stringify(this.options));
+		this.showPartner = true;
+		let partnerList = this.generateOptionsFromArray(message, 'partnerCd');
+		this.options = partnerList;
+	}
+
+	getRewards(message) {
+		// reset vars
+		this.pcvalue = '';
+		this.bcvalue = '';
+		this.tableData = [];
+
+
+		this.showRewards = true;
+		let responseArray = [];
+		responseArray = message.responseMap.resultsList;
+		let partnerList = this.generateOptionsFromArray(responseArray, 'partnerCd');
+		let benefitCodeList = this.generateOptionsFromArray(responseArray, 'benefitCd');
+		this.partnerCodeOptions = partnerList;
+		this.benefitCodeOptions = benefitCodeList;
+	}
+
+	generateOptionsFromArray(responseArray, field){ //ADDED:03/10/24 - to generate options from array and remove duplicates
+		let options = responseArray
+		.filter(ele => {
+			return ele[field];
+		})
+		.map(ele => {
+			return { label: ele[field], value: ele[field] }
+		});
+		options = Array.from(new Set(options.map(ele=>JSON.stringify(ele)))).map(ele => JSON.parse(ele))
+		return options;
 	}
 
 	handleChange(event) {
-        this.pcvalue = event.detail.value;
-    }
+		if (event.target.name === "partners" || event.target.name === "partnerCode") {
+			this.pcvalue = event.detail.value;
+		} else if (event.target.name === "benefitCode") {
+			this.bcvalue = event.detail.value;
+		}
+	}
 
-	invokeAPI(parameters){
-		console.log('***invokeAPI>'+JSON.stringify(parameters));
-		fetchAPIResponse({ recId: this.recordId, intName:this.dynTableExAPI , params : parameters})
+	invokeAPI(parameters) {
+		fetchAPIResponse({ recId: this.recordId, intName: this.dynTableExAPI, params: parameters })
 			.then((result) => {
 				let payLoad = JSON.parse(result.payload);
-				console.log('***result:child:'+JSON.stringify(payLoad));
-				
+
 				// Check validity of response
 				if (result?.statusCode == 200 && payLoad) {
 					let responseArray = [];
-					console.log('***result:child1:'+JSON.stringify(payLoad));
-					console.log('***result:child2:'+JSON.stringify(payLoad.responseMap));
-					console.log('***result:child3:'+JSON.stringify(payLoad.responseMap.resultsList));
-					
-					responseArray.push(payLoad.responseMap.resultsList);
+
+					if(!Array.isArray(payLoad.responseMap.resultsList)){
+						responseArray.push(payLoad.responseMap.resultsList);
+					}  else {
+						responseArray = payLoad.responseMap.resultsList;
+					}
 					this.template.querySelector("c-abc_base_tableview").refreshTable(responseArray);
 					this.tableData = JSON.parse(JSON.stringify(responseArray));
 
-					console.log('***tableData:rsn:'+this.dynTableExAPI+'>>'+JSON.stringify(responseArray));
-				}else {
-					console.error('***No tableData available.');
+				} else {
 					let res = JSON.parse(result?.payload);
-					if(res?.error?.description) {
+					if (res?.error?.description) {
 						this.showToast("Error", res.error.description, 'error');
 					} else {
 						this.showToast("Error", "There seems to be an error child", 'error');
@@ -168,17 +199,26 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 				}
 			})
 			.catch((error) => {
-				console.log('****Container:'+JSON.stringify(error));
-				// console.log('***error:'+JSON.stringify(error.body.message));
-   		 	});
+				this.showToast("Error", "Admin: There seems to be an error", 'error');
+			});
 	}
 
-	handleClick(event){
-		console.log('***handleClick>');
-		// invoke api
-		const parameters = {
-			param1: this.pcvalue,
-		};
-		this.invokeAPI(parameters);
+	handleClick(event) {
+		let params;
+		if (event.target.name === "partnerCodeButton") {
+			// invoke api
+			params = {
+				recordId: this.recordId,
+				param1: this.pcvalue,
+			};
+		} else {
+			// invoke api
+			params = {
+				param1: this.pcvalue,
+				param2: this.bcvalue
+			};
+		}
+
+		this.invokeAPI(params);
 	}
 }

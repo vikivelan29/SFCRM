@@ -1,6 +1,6 @@
 import { LightningElement,api,wire } from 'lwc';
 import getTableMeta from '@salesforce/apex/MCRM_APIController.fetchTableMetadata';
-import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithDate';
+import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithParams';
 import { publish, MessageContext } from 'lightning/messageService';
 import ViewEvent from '@salesforce/messageChannel/mcrmviewevents__c';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -59,14 +59,13 @@ export default class Wellness_api_view extends LightningElement {
     invokeAPI(){
         this.isLoading = true;
         // invoke API
-		const dateParams = {
+		const params = {
 			startDate: this.startDate,
 			endDate: this.endDate
 		};
-		// RSN: HC
-		fetchAPIResponse({ recId: this.recordId, intName:this.dynTableAPI , dates : dateParams})
+		fetchAPIResponse({ recId: this.recordId, intName:this.dynTableAPI , params : params})
 		.then((result) => {
-			let payLoad = JSON.parse(result.payload);
+			let payLoad = result.payload ? JSON.parse(result.payload) : undefined;
 			
 			// Check validity of response
 			if (result?.statusCode == 200 && payLoad) {
@@ -85,11 +84,12 @@ export default class Wellness_api_view extends LightningElement {
 					publish(this.messageContext, ViewEvent, {payLoad,'name':this.dynTableAPI});
 				}
 			} else {
-				let res = JSON.parse(result?.payload);
-				if(res?.error?.description) {
-					this.showToast("Error", res.error.description, 'error');
+				let res = result.payload ? JSON.parse(result?.payload) : undefined;
+				let error = res?.message || res?.error?.description || undefined;
+				if(error) {
+					this.showToast("Error", error, 'error');
 				} else {
-					this.showToast("Error", "There seems to be an error", 'error');
+					this.showToast("Error", "Information not found at the source", 'error');
 				}
 			}
 		})

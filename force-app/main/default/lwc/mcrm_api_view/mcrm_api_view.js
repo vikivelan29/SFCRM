@@ -1,5 +1,5 @@
 import { LightningElement,api,track } from 'lwc';
-import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithDate';
+import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithParams';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Wellness_api_view extends LightningElement {
@@ -32,12 +32,12 @@ export default class Wellness_api_view extends LightningElement {
         this.showSpinner = true;
         this.showErrorMessage = false;
         // invoke API
-		const dateParams = {
+		const params = {
 			startDate: this.startDate,
 			endDate: this.endDate
 		};
-		console.log('dateParams-->'+dateParams);
-		fetchAPIResponse({ recId: this.recordId, intName:this.intAPIName , dates : dateParams})
+		console.log('params-->'+params);
+		fetchAPIResponse({ recId: this.recordId, intName:this.intAPIName , params : params})
 		.then((result) => {
 			let payLoad = JSON.parse(result.payload);
 			console.log('***result:'+JSON.stringify(JSON.parse(JSON.stringify(result))));
