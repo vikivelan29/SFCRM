@@ -511,7 +511,6 @@ export const lanLabels = {
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
         ],
-      
         AUTO_COMM_BU_OPT: ['Email','SMS'],
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /Contract# /PAN#",
         CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and Contract combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
