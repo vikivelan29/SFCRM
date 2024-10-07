@@ -118,11 +118,20 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         
         if (caseIdsToSendEmail.size() > 0) {
             // Query child objects ABFL_Case_Detail__c to check the IsRegisteredCustomer__c field
-            Map<Id, ABFL_Case_Detail__c> caseDetailMap = new Map<Id, ABFL_Case_Detail__c>(
-                [SELECT Id, Case__c, IsRegisteredCustomer__c FROM ABFL_Case_Detail__c WHERE Case__c IN :caseIdsToSendEmail]
-            );
+            Map<Id, ABFL_Case_Detail__c> caseDetailMap = new Map<Id, ABFL_Case_Detail__c>();
+            
+            for(ABFL_Case_Detail__c asfCaseDetail : [SELECT Id, Case__c, IsRegisteredCustomer__c FROM ABFL_Case_Detail__c WHERE Case__c IN :caseIdsToSendEmail]){
+                caseDetailMap.put(asfCaseDetail.Case__c,asfCaseDetail);
+            }
+            
+            System.debug('caseDetailMap ==> '+caseDetailMap);
             
             for (Case caseObj : ASF_EmailMessageQueryHandler.getCaseRecords(caseIdsToSendEmail)) {
+                system.debug('$$caseObj'+caseObj.id);
+                system.debug('$$caseObj.Origin>>'+caseObj.Origin);
+                system.debug('$$caseObj.Business_unit__c>> '+caseObj.Business_unit__c );
+                system.debug('$$caseDetailMap.containsKey(caseObj.Id)>>'+caseDetailMap.containsKey(caseObj.Id));
+                system.debug('$$caseDetailMap.get(caseObj.Id).IsRegisteredCustomer__c >>' +caseDetailMap.get(caseObj.Id).IsRegisteredCustomer__c);
                 if (caseObj.Origin == 'ABFL Email' && caseObj.Business_unit__c == 'ABFL') {
                     // Check if the case has a detail record with IsRegisteredCustomer__c set to "No"
                     if (caseDetailMap.containsKey(caseObj.Id) && 
