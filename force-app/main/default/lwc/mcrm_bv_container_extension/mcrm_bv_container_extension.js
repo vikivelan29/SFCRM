@@ -21,6 +21,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	options;
 	partnerCodeOptions;
 	benefitCodeOptions;
+	pageSize;
 
 	// Internals
 	showBaseView = false;
@@ -67,6 +68,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	@wire(getTableMeta, { configName: '$dynTableExAPI' })
 	tableMeta({ error, data }) {
 		if (data) {
+			this.pageSize = data[0].Asf_Dynamic_Datatable_Parent__r.Page_Size__c || 5;
 			this.columns = [
 				...data.map(col => ({
 					label: col.MasterLabel,
@@ -115,7 +117,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 						'activeDate': score.activeDate,
 						'isScored': score.isScored == 'true' ? 'Yes' : 'No',
 						'name': activity.name,
-						'pc': activity.value,
+						'value': activity.value,
 						'score': activity.score,
 						'eventDate': activity.eventDate,
 						'sourceName': activity.sourceName,
