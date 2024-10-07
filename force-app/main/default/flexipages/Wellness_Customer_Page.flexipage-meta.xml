@@ -601,47 +601,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Case.ABFL_Case_Snapshot</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.ABFL_SR_Snapshot</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.ABSLIG_Case_Framework_Snapshot</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Alert_on_Email_chatter</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Change_Priority</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Close_the_Case</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Framework_Snapshot</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.NewChildCase</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Payments_Framework_SR_Snapshot</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Payments_Pre_Framework_SR_Snapshot</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.SR_Snapshot_Preframework</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>MassChangeOwner</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>NewCase</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
