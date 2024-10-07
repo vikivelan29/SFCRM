@@ -33,38 +33,12 @@
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Send_SMS</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.IsClosed}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.Reopen</value>
                             <visibilityRule>
                                 <criteria>
                                     <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.EscalateCase</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.IsEscalated}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.IsClosed}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -87,22 +61,6 @@
                         <valueListItems>
                             <value>Case.Relate_Duplicate</value>
                             <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.IsClosed}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.ReCategorize</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.AmIOwner__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -272,32 +230,6 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>ABFL_Case_Details__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
                     <value>Histories</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -327,28 +259,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-362527bc-9986-4ceb-aa9d-df16d20b16cd</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>lookupFieldName</name>
-                    <value>Case.ABFL_Case_Detail__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>titleFieldName</name>
-                    <value>Ebot Snapshot</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>updateQuickActionName</name>
-                    <value>ABFL_Case_Detail__c.ABFL_Ebot_Classification</value>
-                </componentInstanceProperties>
-                <componentName>console:relatedRecord</componentName>
-                <identifier>console_relatedRecord3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-1792b509-ba78-4af0-b759-76b177be3c52</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -413,20 +323,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>showChecklistColumn</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentName>aSF_DMSViewDatatable</componentName>
-                <identifier>c_aSF_DMSViewDatatable</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-6638a240-b11e-4e06-83ec-76030d883a60</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-4836c3c9-53ef-4d84-81ab-fc3788f883e5</value>
                 </componentInstanceProperties>
@@ -470,20 +366,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-1792b509-ba78-4af0-b759-76b177be3c52</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Ebot</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
                     <value>Facet-c01e6482-b6a9-4af3-b6ff-b8a30ab50d61</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -520,20 +402,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-6638a240-b11e-4e06-83ec-76030d883a60</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>DMS</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-9e59018b-0a4a-4dd5-9711-15dd3d363291</name>
@@ -677,30 +545,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.ABFL_Case_Detail__r.Document_URL__c</fieldItem>
-                <identifier>RecordABFL_Case_Detail_rDocument_URL_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-c5dc6aee-858a-47c6-bff2-6818951a099a</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-c5dc6aee-858a-47c6-bff2-6818951a099a</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column9</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-5081f259-7e19-48b8-82e5-ea943bbc1d8f</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>createQuickActionName</name>
@@ -716,7 +560,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
-                    <value>Case.ABFL_Case_Snapshot</value>
+                    <value>Case.Wellness_Case_Snapshot</value>
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord</identifier>
@@ -837,30 +681,6 @@
             <componentInstance>
                 <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
                 <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-5081f259-7e19-48b8-82e5-ea943bbc1d8f</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Document URL</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection6</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.ABFL_Case_Detail__r.Document_URL__c}</leftValue>
-                        <operator>NE</operator>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

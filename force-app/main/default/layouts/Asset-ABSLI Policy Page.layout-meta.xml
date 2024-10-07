@@ -60,6 +60,10 @@
                 <behavior>Edit</behavior>
                 <field>Partner_Branch_Code__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Policy_Flag__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

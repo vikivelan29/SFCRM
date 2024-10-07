@@ -590,7 +590,11 @@ public with sharing class ABCL_IntegrationCommonUtility {
      * @date 2024-05-28
 	 */
     public static String dateFormat(Date dt, String formatted){
-        return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format(formatted);
+        if(dt != null){
+          return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format(formatted);  
+        }
+        return '';
+        
     }
 
 /*********************************************************

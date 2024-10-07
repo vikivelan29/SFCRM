@@ -91,6 +91,10 @@
             <fullName>ABHI</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Business_Unit__pc</picklist>
@@ -120,6 +124,10 @@
         </values>
         <values>
             <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -431,6 +439,10 @@
             <fullName>ABHI</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Line_of_Business__pc</picklist>
@@ -472,6 +484,10 @@
         </values>
         <values>
             <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -535,6 +551,17 @@
         </values>
         <values>
             <fullName>RESIDENTIAL</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Policy_Holder_Type__pc</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
             <default>false</default>
         </values>
     </picklistValues>
