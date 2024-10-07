@@ -88,7 +88,8 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         }*/
     }
     
-    // Added By EY-Nikhil
+    // Added By EY-Nikhil for INC000000073049
+    // To send the Unregister email to customer when email is blank on case Account 
     public static void sendEmailWhenNotRegisteredCustomer(List<EmailMessage> emailMessageList) {
         Set<Id> caseIdsToSendEmail = new Set<Id>();
         Map<Id, String> mCaseEmailTemplateName = new Map<Id, String>();
