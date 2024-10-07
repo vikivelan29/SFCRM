@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLI_Set_Alerts_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABSLI Set Alerts</label>
+    <queue>ABSLI_Set_Alerts</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>
