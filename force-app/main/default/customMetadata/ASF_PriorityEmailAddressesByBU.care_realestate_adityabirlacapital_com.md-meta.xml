@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Default_Queue_Dev_Name__c</field>
-        <value xsi:type="xsd:string">test</value>
+        <value xsi:type="xsd:string">ABSLAMC_RE_All_Teams</value>
     </values>
     <values>
         <field>Email2CaseAddress__c</field>
