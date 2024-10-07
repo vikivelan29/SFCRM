@@ -612,6 +612,9 @@
                             <value>Case.ABSLIG_Case_Framework_Snapshot</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Case.Alert_on_Email_chatter</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Case.Change_Priority</value>
                         </valueListItems>
                         <valueListItems>
@@ -684,7 +687,10 @@
                             <value>Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Branch_Master__c</value>
+                            <value>ASSET.NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CLOSED_DATE</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -745,6 +751,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Relation__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Contract_No__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>ContractStatus__c</value>
@@ -1488,7 +1497,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>passPayload</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>secName</name>
@@ -1500,6 +1509,16 @@
                 </componentInstanceProperties>
                 <componentName>mcrm_base_view_container</componentName>
                 <identifier>c_mcrm_base_view_container10</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>dynTableExAPI</name>
+                    <value>MCRM_Rewards</value>
+                </componentInstanceProperties>
+                <componentName>mcrm_bv_container_extension</componentName>
+                <identifier>c_mcrm_bv_container_extension3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-bd09083e-bce7-4f2c-969a-778772e5907b</name>

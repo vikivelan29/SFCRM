@@ -68,11 +68,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>ABHI</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -84,11 +84,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLAMC</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABHI</fullName>
+            <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -103,7 +107,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>PAYMENTS</fullName>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -115,11 +123,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLAMC</fullName>
+            <fullName>PAYMENTS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABHI</fullName>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -127,6 +135,41 @@
         <picklist>Constitution__c</picklist>
         <values>
             <fullName>%2E%2E%2E%2E</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CustomerType__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>10</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>100000000</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>11</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>9</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -235,6 +278,13 @@
         </values>
         <values>
             <fullName>Owner</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Customer_Type__c</picklist>
+        <values>
+            <fullName>Health Provider</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -387,19 +437,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Not Classified</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Wealth</fullName>
+            <fullName>ABHI</fullName>
             <default>false</default>
         </values>
         <values>
@@ -411,16 +449,27 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>AIF</fullName> 
-            <default>false</default> 
+            <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
         </values>
         <values>
             <fullName>MF</fullName>
             <default>false</default>
         </values>
-        
+        <values>
+            <fullName>Not Classified</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -428,7 +477,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABHI</fullName>
+            <fullName>Wealth</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -443,7 +496,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABHI</fullName>
             <default>false</default>
         </values>
         <values>
@@ -467,11 +520,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>RE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABHI</fullName>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -539,6 +596,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Policy_Holder_Type__pc</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rating</picklist>
         <values>
             <fullName>Cold</fullName>
@@ -561,6 +629,64 @@
         </values>
         <values>
             <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SIIndex__pc</picklist>
+        <values>
+            <fullName>Family Floater</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Multiple Applicant</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Segment__c</picklist>
+        <values>
+            <fullName>Advisor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Partners</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FATCA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FIS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HNI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NRI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non HNI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Orphan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PEP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Super HNI</fullName>
             <default>false</default>
         </values>
     </picklistValues>

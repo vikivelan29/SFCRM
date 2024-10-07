@@ -34,6 +34,9 @@ function customerAPIs(apiName, payload) {
 		case 'MCRM_Benefits':
 			return getBenefits(payload)
 			break;
+		case 'MCRM_Rewards':
+			return getRewards(payload)
+			break;
 		case 'y':
 			// code block
 			break;
@@ -106,6 +109,10 @@ const getBenefits = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
 	// Iterate over flattening each object
 
+	return payload.responseMap.resultsList;
+}
+const getRewards = (payload) => {
+	// Columns should be mapped as per dynamic table configuration
 	return payload.responseMap.resultsList;
 }
 const flattenObj = (ob) => {

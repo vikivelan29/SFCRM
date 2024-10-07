@@ -2,65 +2,13 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 09-23-2024
+ * @last modified on  : 09-28-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   09-16-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 public with sharing class MCRM_APIController {
-    /****************************************************************************************************************
-     * @LOB - Wellness
-     * @Function - invokeAPI
-     * @param apiName - apiName of Integration
-     * @param assetId - Id of the asset record
-     * @return String - response wrapper for the LWC component
-     * @description - Method to get the response for the Last EOD Details UI component
-     *****************************************************************************************************************/
-    @AuraEnabled(Cacheable = false)
-    public static ResponseWrapper invokeAPI(String recId ,String intName){
-        // prepare payload to pass
-        // String requestPayload = generateRequestPayload(apiName, assetId);
-        String requestPayload = 'Dummy';
-
-        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
-
-        intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(intName, requestPayload, null));
-        
-        return new ResponseWrapper(intResponseWrapper.statusCode, intResponseWrapper.responseBody);
-    }
-
-    /****************************************************************************************************************
-     * @LOB - ABFL
-     * @Function - generateRequestPayload
-     * @param apiName - apiName of the EOD API
-     * @param assetId - Id of the asset record
-     * @return String - request payload for the EOD API
-     * @description - Method to generate requestPayload based on apiName and assetId
-     *****************************************************************************************************************/
-    private static String generateRequestPayload(String apiName, Id assetId){
-        Map<String, Object> requestPayload = new Map<String, Object>();
-
-        Asset assetRecord = ABFL_SOQL_Util.getAssetInfo(assetid);
-
-        if (assetRecord != null){
-            // Generate request payload based on apiName
-            if (apiName == 'EOD_Account_Balance' && String.isNotBlank(assetRecord.LAN__c)){
-                requestPayload.put('loanAccountNumber', assetRecord.LAN__c);
-                requestPayload.put('type', 1);
-            } else if (apiName == 'EOD_Application_Details' && String.isNotBlank(assetRecord.LAN__c)){
-                requestPayload.put('applicationNo', assetRecord.Application_Number__c);
-                requestPayload.put('type', 2);
-            } else if (apiName == 'EOD_Disbursement_Details' && String.isNotBlank(assetRecord.LAN__c)){
-                requestPayload.put('loanAccountNumber', assetRecord.LAN__c);
-                requestPayload.put('type', 3);
-            } else if (apiName == 'EOD_Repayment_Details' && String.isNotBlank(assetRecord.LAN__c)){
-                requestPayload.put('loanAccountNumber', assetRecord.LAN__c);
-                requestPayload.put('type', 4);
-            }
-        }
-        return JSON.serialize(requestPayload);
-    }
 
     /****************************************************************************************************************
     * @description Wrapper class to send the response to LWC
@@ -81,40 +29,30 @@ public with sharing class MCRM_APIController {
             this.payload = res;
         }
     }
-    
-    @AuraEnabled(Cacheable = false)
-    public static ResponseWrapper invokeAPIwithDate(String recId ,String intName,Map<String, Object> dates){
-        // prepare payload to pass
-        // String requestPayload = generateRequestPayload(apiName, assetId);
-        if(dates.size()>0){
-        	Date startDate = Date.valueOf((String)dates.get('startDate'));
-    		Date endDate = Date.valueOf((String)dates.get('endDate'));
-    	}
-         
-        
-        String requestPayload = 'Dummy';
-
-        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
-
-        intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(intName, requestPayload, null));
-        
-        return new ResponseWrapper(intResponseWrapper.statusCode, intResponseWrapper.responseBody);
-    }
 
     @AuraEnabled(Cacheable = false)
     public static ResponseWrapper invokeAPIwithParams(String recId ,String intName,Map<String, Object> params){
+        // recId = '1187714';
+        //recId = '2907103';// for gym voucher
+
+        String objectName = Id.valueOf(recId).getSObjectType().getDescribe().getName();
+        if(objectName == 'Account'){
+            recId = [SELECT Id, Client_Code__c FROM Account WHERE Id =: recId]?.Client_Code__c;
+        }else if(objectName == 'Asset'){
+            recId = [SELECT Id, LAN__c FROM Asset WHERE Id =: recId]?.LAN__c;
+        }
         // prepare payload to pass
         // String requestPayload = generateRequestPayload(apiName, assetId);
-        String param1;
+        String contractId, param1, param2, startDate, endDate;
          if(params.size()>0){
         	param1 = (String)params.get('param1');
+        	param2 = (String)params.get('param2');
+        	startDate = (String)params.get('startDate');
+    		endDate = (String)params.get('endDate');
     	}
         
-        String requestPayload = 'Dummy';
-
-        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
-
-        intResponseWrapper = (ABCL_IntegrationCallout.executeCallout(intName, requestPayload, null));
+        Map <String,String> mapUrlParam = buildParametersMap(recId, param1, param2, startDate, endDate, intName);
+        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = ABCL_IntegrationCallout.executeCallout(intName, null, mapUrlParam);
         
         return new ResponseWrapper(intResponseWrapper.statusCode, intResponseWrapper.responseBody);
     }
@@ -128,5 +66,36 @@ public with sharing class MCRM_APIController {
             WHERE Asf_Dynamic_Datatable_Parent__r.DeveloperName = :configName WITH SYSTEM_MODE
             ORDER BY Order__c ASC
         ]; 
+    }
+
+    // Method to fetch static parameters from custom metadata and combine with dynamic parameters
+    public static Map<String, String> buildParametersMap(String recId, String param1, String param2, String fromDate, String toDate,String customMetadata) {
+        // Initialized the map for parameters
+        Map<String, String> parametersMap = new Map<String, String>();
+        
+        // Fetching static parameters from custom metadata
+        ABCL_Integrations__mdt urlParamRecord = [SELECT URL_Parameters__c  FROM ABCL_Integrations__mdt WHERE DeveloperName =: customMetadata LIMIT 1];
+        String staticParameters = urlParamRecord.URL_Parameters__c ;
+        if(staticParameters != null){
+            // Replace placeholders with actual values
+            String parametersString = staticParameters
+                .replace('{customerId}', recId != null ? EncodingUtil.urlEncode(recId, 'UTF-8') : 'null')
+                .replace('{contractId}', recId != null ? EncodingUtil.urlEncode(recId, 'UTF-8') : 'null')
+                .replace('{param1}', param1 != null ? EncodingUtil.urlEncode(param1, 'UTF-8') : 'null')
+                .replace('{param2}', param2 != null ? EncodingUtil.urlEncode(param2, 'UTF-8') : 'null')
+                .replace('{fromDate}', fromDate != null ? EncodingUtil.urlEncode(fromDate, 'UTF-8') : 'null')
+                .replace('{toDate}', toDate != null ? EncodingUtil.urlEncode(toDate, 'UTF-8') : 'null');
+
+            // Split the parameters string into individual key-value pairs
+            String[] paramPairs = parametersString.split('&');
+            for (String pair : paramPairs) {
+                String[] keyValue = pair.split('=');
+                if (keyValue.size() == 2) {
+                    // Add key-value pairs to the map
+                    parametersMap.put(keyValue[0].trim(), keyValue[1].trim());
+                }
+            }
+        }
+        return parametersMap;
     }
 }
