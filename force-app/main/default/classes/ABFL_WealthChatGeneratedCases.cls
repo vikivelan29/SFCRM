@@ -88,6 +88,66 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         }*/
     }
     
+    // Added By EY-Nikhil
+    public static void sendEmailWhenNotRegisteredCustomer(List<EmailMessage> emailMessageList) {
+        Set<Id> caseIdsToSendEmail = new Set<Id>();
+        Map<Id, String> mCaseEmailTemplateName = new Map<Id, String>();
+        Map<String, String> mEmailAddressToTemplate = new Map<String, String>();
+        
+        
+        for (EmailMessage msg : emailMessageList) {
+            if (msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType) {
+                boolean bEligible = false;
+                
+                if ((msg.Headers != null && msg.Headers.contains('In-Reply-To:') && msg.ReplyToEmailMessageId == null)) {
+                    bEligible = true;
+                } else if (msg.Headers != null && msg.Headers.contains('In-Reply-To:')) {
+                    bEligible = false;
+                } else {
+                    bEligible = true;
+                }
+                
+                if (bEligible) {
+                    caseIdsToSendEmail.add(msg.ParentId);
+                    if (mEmailAddressToTemplate.containsKey(msg.Winning_Email__c)) {
+                        mCaseEmailTemplateName.put(msg.ParentId, mEmailAddressToTemplate.get(msg.Winning_Email__c));
+                    }
+                }
+            }
+        }
+        
+        if (caseIdsToSendEmail.size() > 0) {
+            // Query child objects ABFL_Case_Detail__c to check the IsRegisteredCustomer__c field
+            Map<Id, ABFL_Case_Detail__c> caseDetailMap = new Map<Id, ABFL_Case_Detail__c>();
+            
+            for(ABFL_Case_Detail__c asfCaseDetail : [SELECT Id, Case__c, IsRegisteredCustomer__c FROM ABFL_Case_Detail__c WHERE Case__c IN :caseIdsToSendEmail]){
+                caseDetailMap.put(asfCaseDetail.Case__c,asfCaseDetail);
+            }
+            
+            System.debug('caseDetailMap ==> '+caseDetailMap);
+            
+            for (Case caseObj : ASF_EmailMessageQueryHandler.getCaseRecords(caseIdsToSendEmail)) {
+                system.debug('$$caseObj'+caseObj.id);
+                system.debug('$$caseObj.Origin>>'+caseObj.Origin);
+                system.debug('$$caseObj.Business_unit__c>> '+caseObj.Business_unit__c );
+                system.debug('$$caseDetailMap.containsKey(caseObj.Id)>>'+caseDetailMap.containsKey(caseObj.Id));
+                system.debug('$$caseDetailMap.get(caseObj.Id).IsRegisteredCustomer__c >>' +caseDetailMap.get(caseObj.Id).IsRegisteredCustomer__c);
+                if (caseObj.Origin == 'ABFL Email' && caseObj.Business_unit__c == 'ABFL') {
+                    // Check if the case has a detail record with IsRegisteredCustomer__c set to "No"
+                    if (caseDetailMap.containsKey(caseObj.Id) && 
+                        caseDetailMap.get(caseObj.Id).IsRegisteredCustomer__c == 'No') {
+                            
+                  String templateDevName = 'ABFL_ACCOUNT_RELATED';
+                            
+                  // Send the communication
+                  ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(caseObj, templateDevName, caseObj.SuppliedEmail, '', '');
+                   }
+                }
+            }
+        }
+    }
+
+    
     /**
     * @param inputText - String text (Email body)
     * @return - String - Email Id if found in body.
