@@ -9,6 +9,7 @@
 public with sharing class ABFL_OwnerChangeWithLocation {
     private static boolean firstrunInsert = true;
     private static boolean lanMatchRan = false ;
+    private static boolean afterInsertRan = false ;
     public static String queueGroupQueue = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
 
     /****************************************************************************************************************
@@ -21,7 +22,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         List<Case> filteredCase = new List<Case>();
         SET<ID> setExpectedLogic = new SET<ID>();
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType(lstCase);
-        if(mRecordTypeVsCases.containsKey(frameworkRTId) && firstrunInsert){
+        if(mRecordTypeVsCases.containsKey(frameworkRTId) && firstrunInsert && !afterInsertRan){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             for(Case cse : lstCase){
                 if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(cse.Business_Unit__c)){
@@ -277,6 +278,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             ASF_Constants.bypassOwnerChangeValidation = true;
             firstrunInsert = false;
             lanMatchRan = true;
+            afterInsertRan = true;
             update insertFinalUpdateCase;
         }
     }
@@ -316,6 +318,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
             ASF_Constants.bypassOwnerChangeValidation = true;
             //ASF_TriggerSkipperUtility.markTriggerRun('Case');
             firstrunInsert = false;
+            afterInsertRan = true;
             update insertFinalUpdateCase;
         }
     }
