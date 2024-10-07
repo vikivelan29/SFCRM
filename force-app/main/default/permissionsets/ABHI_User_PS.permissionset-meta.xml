@@ -1340,7 +1340,7 @@
         <field>Asset.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+        <fieldPermissions>
         <editable>false</editable>
         <field>Asset.CombiPolicyType__c</field>
         <readable>true</readable>
@@ -1502,6 +1502,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Partner_Sales_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.PaymentStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1593,6 +1598,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.SRMName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Sales_Manager__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
