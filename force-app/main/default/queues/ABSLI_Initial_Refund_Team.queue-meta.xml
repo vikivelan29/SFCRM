@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
-    <name>ABSLI DOB Change Team</name>
+    <name>ABSLI Initial Refund Team</name>
     <queueMembers>
         <publicGroups>
-            <publicGroup>ABSLI_DOB_Change_EVA_Benefit_Team_G</publicGroup>
+            <publicGroup>ABSLI_Initial_Refund_Team_G</publicGroup>
         </publicGroups>
     </queueMembers>
-    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>
