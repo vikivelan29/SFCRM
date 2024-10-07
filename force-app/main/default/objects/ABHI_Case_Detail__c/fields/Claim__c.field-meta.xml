@@ -3,7 +3,7 @@
     <fullName>Claim__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Claim</label>
+    <label>Claim Number</label>
     <lookupFilter>
         <active>false</active>
         <errorMessage>Please choose the correct Asset for the claim associated to this case.</errorMessage>
