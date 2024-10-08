@@ -16,7 +16,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         Map<ID,List<Case>> mRecordTypeVsCases1 = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
         if(mRecordTypeVsCases1.containsKey(frameworkRTId)){
             ABFL_CreateCaseProspectHelper.beforeInsertMethod(mRecordTypeVsCases1.get(frameworkRTId));
-            //ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
+            // ABFL_OwnerChangeWithLocation.beforeInsertupdateSpoc(mRecordTypeVsCases1.get(frameworkRTId));
             ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert((List<Case>)newItems);
             ABHFL_CTSTHelper.skipOpenStageforAPIcases(mRecordTypeVsCases1.get(frameworkRTId));
         }
@@ -169,7 +169,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         ABHFL_CTSTHelper.sendGrievanceDetailsEmail((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         //AM-call method to delete existing asset detail records on customer change
         ABHFL_CTSTHelper.deleteExistingAssetDetails((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
-        //ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+        // ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
         ABCL_InvokeOneABC.evaluateCasesForOneABC((Map<Id, Case>) newItems, (Map<Id, Case>) oldItems);
 
         absligCaseDetaHelpObj.populateABSLIGCaseDetailFieldsAfterCaseUpdate((List<Case>)newItems.values());
@@ -223,4 +223,4 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
         }
         return mapOfBUToCases;
     }
-}
+} 
