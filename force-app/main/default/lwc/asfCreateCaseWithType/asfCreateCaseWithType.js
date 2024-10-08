@@ -3,6 +3,7 @@ import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.ge
 import getAccountRec from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountRec';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
+import ABSLI_CASE_DETAIL_OBJECT from '@salesforce/schema/ABSLI_Case_Detail__c';
 import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
@@ -30,8 +31,7 @@ import CHANNEL_FIELD from '@salesforce/schema/Case.Channel__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
-import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import TECHNICAL_SOURCE_FIELD from '@salesforce/schema/Case.Technical_Source__c';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import ACCOUNT_FIELD from '@salesforce/schema/Asset.AccountId';
@@ -48,16 +48,21 @@ import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDupli
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
+import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import LightningConfirm from 'lightning/confirm';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension'
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
-import MCRM_BU from '@salesforce/label/c.Wellness_BU'; 
+import MCRM_BU from '@salesforce/label/c.Wellness_BU'; // PR970457-117 added MCRM_BU
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
+import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
     searchKey;
@@ -160,6 +165,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     @api bsliRecTypeId;
     currentObj = CASE_OBJECT.objectApiName;
 
+    //ABHI
+    abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
+
     
     //utility method
     showError(variant, title, error) {
@@ -228,22 +236,57 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
     }
     
-    //To get No Auto Communication pickilst values
-    @wire(getObjectInfo, { objectApiName: CASE_OBJECT })
-    objectInfo;
+    //To get No Auto Communication and category picklist values
+    @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
+    objectInfos({ error, data}) {
+        if(data){
+            for (const [key, value] of Object.entries(data.results)) {
+                if(value.result.apiName === CASE_OBJECT.objectApiName){
+                    this.currentObj = CASE_OBJECT.objectApiName;
+                    this.defaultRecTypeId = value.result.defaultRecordTypeId;
+                    this.picklistApiName = NOAUTOCOMM_FIELD;
+                }
+                if(value.result.apiName === ABSLI_CASE_DETAIL_OBJECT.objectApiName){
+                    this.bsliRecTypeId = value.result.defaultRecordTypeId;
+                } 
+            }
+        }else if(error){
+            console.log('error in get objectInfos--'+JSON.stringify(error));
+        }
+    }
 
-    @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
+    @wire(getPicklistValues, { recordTypeId: '$defaultRecTypeId', fieldApiName: '$picklistApiName' })
     wiredPicklistValues({ error, data}) {
         if (data){
-                this.noAutoCommOptions = data.values.map(item => ({
+            if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
+                if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){// Rajendra Singh Nagar: PR1030924-209 - Added condition
+                    this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
+                        label: item.label,
+                        value: item.value
+                    }));
+                }else{
+                    this.noAutoCommOptions = data.values.map(item => ({
+                        label: item.label,
+                        value: item.value
+                    }));
+                }
+
+                this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
+                this.defaultRecTypeId = this.bsliRecTypeId;
+                this.picklistApiName = BSLI_CATEGORY_TYPE;
+                
+            }else if(this.currentObj === ABSLI_CASE_DETAIL_OBJECT.objectApiName && this.picklistApiName === BSLI_CATEGORY_TYPE){
+                this.categoryTypeOptions = data.values.map(item => ({
                     label: item.label,
                     value: item.value
                 }));
+            }
+            
+            console.log('picklist options--'+JSON.stringify(this.noAutoCommOptions)+'--'+JSON.stringify(this.categoryTypeOptions));
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
-    
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         console.log('lob ---> ' + this.lobAsset);
@@ -254,7 +297,6 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             if (this.searchKey && this.searchKey.length >= 3) {
                 this.SearchAccountHandler();
             }
-            
         }, this.doneTypingInterval);
     }
 
@@ -370,8 +412,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 }
                 this.populateSubSourceFld();
             }
-            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
+            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU || this.businessUnit === ABHI_BU){
                 this.showAutoCommunication = false;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -380,11 +425,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM') || (this.businessUnit === ABSLI_BU) || (this.businessUnit === ABSLIG_BU) || (this.businessUnit === MCRM_BU))) {
+        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU) || (this.businessUnit === MCRM_BU))) { // PR970457-117 added MCRM_BU
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -462,7 +507,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 };
                 if (this.sourceValues.length == 0) {
                     this.sourceValues.push(optionVal, optionVal1, emailVal);
-                } 
+                }
 
                 // this.sourceValues.push(optionVal1);
 
@@ -645,6 +690,22 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false;
+        if(selected.Validation_method_during_creation__c){
+            console.log('invoking validator');
+            let methodName = selected.Validation_method_during_creation__c;
+            let validationResult = await validator[methodName](caseRecord,'account');
+            console.log('returned with dynamic method '+JSON.stringify(validationResult));
+            if(validationResult.isSuccess == false){
+                this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
+                this.loaded = true;
+                this.isNotSelected = true;
+                this.createCaseWithAll = false;
+                return;
+            }
+            console.log('ending validator');
+        }
+
+        this.loaded = false;
         console.log('tst22557');
         createRecord(caseRecord)
             .then(result => {
@@ -720,7 +781,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if(this.isTransactionRelated){
             fields[TRANSACTION_NUM.fieldApiName] = this.transactionNumber;
         }
-
+        let categoryType = (this.template.querySelector("[data-id='Category_Type']") != undefined && this.template.querySelector("[data-id='Category_Type']") != null) ? this.template.querySelector("[data-id='Category_Type']").value : null;
+        if(categoryType && categoryType != null) {
+            fields[BSLI_CATEGORY_TYPE.fieldApiName] = categoryType;
+        }
+        console.log('rel object name--'+this.caseRelObjName+'BU--'+this.businessUnit);
         const caseRecord = { apiName: this.caseRelObjName, fields: fields };
 
         await createRecord(caseRecord)
@@ -860,6 +925,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 btnActive = false;
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                btnActive = false;
+                this.isPhoneInbound = true;
             }
         } else {
             btnActive = false;
@@ -1118,7 +1187,4 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             // setting theme would have no effect
         });
     }
-
-
-
 }
