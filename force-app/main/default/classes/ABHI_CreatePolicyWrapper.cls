@@ -159,7 +159,7 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String HNICustomer;
         public String CEOClubAdvisor;
         public String PriorityCustomer;
-        public String SensitiveCustomer;
+        public String sensitive_customer;
         public String CustomerRoleType;
 		/*public List<CustomerSegments> CustomerSegments;
 		public List<CustomerRoles> CustomerRoles;*/
@@ -190,6 +190,7 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String CMP_OPD;
         public String Chronic_care;
         public String IsChronicDisease;
+        public String Title;
 	}
 
 	public class CustomerSegments {
