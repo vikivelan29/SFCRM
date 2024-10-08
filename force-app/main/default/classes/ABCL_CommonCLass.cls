@@ -53,8 +53,9 @@ public with sharing class ABCL_CommonCLass {
         List<BusinessHours> bhList = [SELECT id, Name FROM BusinessHours WHERE Name Like :setOfCaseBusinessUnit AND IsActive = true WITH SECURITY_ENFORCED];
         
         if(bhList.size() > 0) {
-
+			
             for(BusinessHours bh : bhList) {
+                system.debug('line no 58 BH-->'+bh);
                 String bussHrName = bh.Name;
                 if(bussHrName.containsIgnoreCase('ABHFL')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABHFL', bh);
@@ -67,6 +68,8 @@ public with sharing class ABCL_CommonCLass {
                 }
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
+                }else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
+                    mapOf_BusinessUnit_To_BusinessHr.put('Wellness', bh);
                 }
             }
         
