@@ -8,8 +8,8 @@
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_OwnerChangeWithLocation {
     private static boolean firstrunInsert = true;
-    private static boolean lanMatchRan = false ;
-    private static boolean afterInsertRan = false ;
+    private static boolean lanMatchRan = false;
+    private static boolean afterInsertRan = false;
     public static String queueGroupQueue = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
 
     /****************************************************************************************************************
@@ -316,7 +316,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }
         if(!insertFinalUpdateCase.isEmpty()){
             ASF_Constants.bypassOwnerChangeValidation = true;
-            //ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            // ASF_TriggerSkipperUtility.markTriggerRun('Case');
             firstrunInsert = false;
             afterInsertRan = true;
             update insertFinalUpdateCase;

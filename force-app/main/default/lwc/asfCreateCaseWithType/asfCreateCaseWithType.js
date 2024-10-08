@@ -61,6 +61,7 @@ import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
 import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
@@ -258,10 +259,17 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
+                if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){// Rajendra Singh Nagar: PR1030924-209 - Added condition
+                    this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
+                        label: item.label,
+                        value: item.value
+                    }));
+                }else{
+                    this.noAutoCommOptions = data.values.map(item => ({
+                        label: item.label,
+                        value: item.value
+                    }));
+                }
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;
@@ -317,6 +325,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
+                    console.log('result data table--'+JSON.stringify(result));
                     console.log('result data table--'+JSON.stringify(result.lstCCCrecords));
                     this.strSource = result.strSource;
                     this.complaintType = result.complaintType;
@@ -1178,7 +1187,4 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             // setting theme would have no effect
         });
     }
-
-
-
 }

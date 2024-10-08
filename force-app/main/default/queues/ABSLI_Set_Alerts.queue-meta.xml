@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
-    <name>ABSLI Refund Team</name>
+    <name>ABSLI Set Alerts</name>
     <queueMembers>
         <publicGroups>
-            <publicGroup>ABSLI_Refund_Team_G</publicGroup>
+            <publicGroup>ABSLI_Set_Alerts_G</publicGroup>
         </publicGroups>
     </queueMembers>
     <queueSobject>

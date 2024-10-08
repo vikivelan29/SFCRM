@@ -939,7 +939,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Canned Response Success Message</shortDescription>
-        <value>Canned Response send successfully.</value>
+        <value>Canned Response sent successfully.</value>
     </labels>
     <labels>
         <fullName>ABSLIG_Acknowledgement_Email</fullName>
@@ -1178,7 +1178,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC Litmus Allowed Sources</shortDescription>
-        <value>Phone - Call Centre;Email – Call Centre;Branch Walk-In;Email - Branch</value>
+        <value>Phone - Call Centre;Email - Call Centre;Branch Walk-In;Email - Branch</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>

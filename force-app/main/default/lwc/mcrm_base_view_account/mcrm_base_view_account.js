@@ -74,7 +74,7 @@ const getAssessmentsOnlineQuestionnaire = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
 	// Iterate over flattening each object
 
-	return [payload];
+	return payload;
 }
 const getAssessmentsActiveAge = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
