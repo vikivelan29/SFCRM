@@ -9,13 +9,13 @@ public with sharing class ABHI_CreatePolicyWrapper {
     
 	public class Policy {
 		public String AgentStatus;
-		//public String ARU;
-		//public String ActiveHealthVersion;
-		//public String ApplicationDate;
+		public String cover_type;
+		public String branch_name;
+		public String Copay_Applicability;
 		public String ProposalNumber;
 		public String AutoDebitFlag;
 		public String AutoDebitRegistrationStatus;
-		//public String BalanceHR;
+		public String TPA ;
 		public String BasicPremium;
 		public String BusinessType;
 		public String Channel;
@@ -111,7 +111,7 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String policyYear;
         public String product;
         public String typeOfCover;
-        public String expiringBasSI;
+        public String expiringBaseSI;
         public String cumulativeBonus;
         public String expiringWaitingPeriod;
         public String optedSi;
