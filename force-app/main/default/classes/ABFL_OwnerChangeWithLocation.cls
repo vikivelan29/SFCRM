@@ -8,6 +8,8 @@
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABFL_OwnerChangeWithLocation {
     private static boolean firstrunInsert = true;
+    private static boolean lanMatchRan = false;
+    private static boolean afterInsertRan = false;
     public static String queueGroupQueue = 'SELECT Id FROM Group WHERE Type = \'Queue\' AND DeveloperName = \'ABFL_Mortgage_CS\' LIMIT 1';
 
     /****************************************************************************************************************
