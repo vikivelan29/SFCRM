@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ABSLI_DOB_Change_EVA_Benefit_Team_Case</fullName>
+    <fullName>ABSLI_Set_Alerts_Case</fullName>
     <columns>CASES.CASE_NUMBER</columns>
     <columns>NAME</columns>
     <columns>CASES.SUBJECT</columns>
@@ -9,9 +9,9 @@
     <columns>CASES.CREATED_DATE</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <filterScope>Queue</filterScope>
-    <label>ABSLI DOB Change Team</label>
-    <queue>ABSLI_DOB_Change_EVA_Benefit_Team</queue>
+    <label>ABSLI Set Alerts</label>
+    <queue>ABSLI_Set_Alerts</queue>
     <sharedTo>
-        <group>ABSLI_DOB_Change_EVA_Benefit_Team_G</group>
+        <group>ABSLI_Set_Alerts_G</group>
     </sharedTo>
 </ListView>
