@@ -20,7 +20,9 @@ public class ABSLAMC_BusinessLogic_HelperClass {
         
         for (Lead leadRecord : newLeadList){
             if (leadRecord.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
-                leadRecord.Line_Of_Business__c = userList[0].LOB__c.split(';')[0]; //populate Line_Of_Business__c field
+                if(String.isNotBlank(userList[0].LOB__c)) {
+                    leadRecord.Line_Of_Business__c = userList[0].LOB__c.split(';')[0]; //populate Line_Of_Business__c field
+                }
                 abslamcLeadMap.put(leadRecord.Id, leadRecord);
             }
         }
