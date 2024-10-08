@@ -22,7 +22,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         if(!ASF_TriggerSkipperUtility.isAllowedToRun('Case', 'Before')){return;}
         Id interactionRTId = ASF_Constants.RT_INTERACTION;
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK; 
-        ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+        ASF_CaseTriggerBUSpecificHandler2 buSpecificCls = new ASF_CaseTriggerBUSpecificHandler2();
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase);
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             //Case to Account Association for Technical Source = API Cases. (Payment related. For other lob, add in static final varible inside the class)
@@ -70,7 +70,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
         system.debug('mRecordTypeVsCasesentered '+mRecordTypeVsCases.containsKey(frameworkRTId));
         
-        ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+        ASF_CaseTriggerBUSpecificHandler2 buSpecificCls = new ASF_CaseTriggerBUSpecificHandler2();
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
                 Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
@@ -87,7 +87,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
                 ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
                 ASF_CaseTriggerModularHelper.checkisApprovalStage((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
                 
-                //Prepopulation methods
+                //Prepopulation methods 
                 ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNew((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
                 ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNewForReopenRequest((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
                 ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
@@ -109,7 +109,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             //Virendra - Reject Case
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
             ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
-            //Anirudh - Sending Interaction Cases to ASF_CaseTriggerBUSpecificHandler so that BU specific handler methods will run
+            //Anirudh - Sending Interaction Cases to ASF_CaseTriggerBUSpecificHandler2 so that BU specific handler methods will run
             buSpecificCls.beforeUpdateInteractionCases(newCaseMap, (Map<Id, Case>)oldItems);    
         }
         
@@ -128,7 +128,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
-            ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+            ASF_CaseTriggerBUSpecificHandler2 buSpecificCls = new ASF_CaseTriggerBUSpecificHandler2();
             buSpecificCls.executeBeforeASFCodeInAfterUpdate(newCaseMap, (Map<Id,Case>) oldItems);
             ASF_CaseTriggerModularHelper.populateCaseDetailFromBulk((Map<Id, Case>)newItemsCase, (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.assignCasesInFirstStageAfterConversion((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
@@ -172,7 +172,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             Map<Id,Case> frameworkRTCases = new map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
-            ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
+            ASF_CaseTriggerBUSpecificHandler2 buSpecificCls = new ASF_CaseTriggerBUSpecificHandler2();
             buSpecificCls.executeBeforeASFCodeInAfterInsert(frameworkRTCases);
             ASF_CaseTriggerModularHelper.populateCaseDetailFromBulk((Map<Id, Case>)newItemsCase, null);
             ASF_CaseTriggerModularHelper.checkAndValidateFirstStageEntry(mRecordTypeVsCases.get(frameworkRTId), null);
