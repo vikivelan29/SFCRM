@@ -155,7 +155,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
         litmusApiWrappObj.name = caseRecord.Account.Name;
         litmusApiWrappObj.tag_case_id = caseRecord.CaseNumber;
         litmusApiWrappObj.tag_case_type = caseRecord.Type_Text__c;
-        litmusApiWrappObj.tag_sla_deadline = caseRecord.Overall_Case_Closure_SLA__c;
+        litmusApiWrappObj.tag_sla_deadline = String.valueOf(caseRecord.Overall_Case_Closure_SLA__c);
         litmusApiWrappObj.tag_category = caseRecord.Nature__c;
         litmusApiWrappObj.tag_created_by = caseRecord.createdBy.Name;
         litmusApiWrappObj.tag_created_on = String.valueOf(caseRecord.createdDate);
@@ -188,7 +188,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
     public class LitmusApiWrapper{
 		public String tag_category;
 		public String tag_created_by;
-		public Datetime tag_sla_deadline;
+		public string tag_sla_deadline;
 		public String tag_created_on;
 		public String tag_case_type;
 		public String tag_source;
