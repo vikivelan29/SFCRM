@@ -157,10 +157,6 @@ public with sharing class ABHFL_Constants {
     public static String NOC_REQUIRED_ID = 'hfl050';
     public static final List<String> ALLLANCTSTs = new List<String>{'hfl045','hfl023'};
 
-	//restrict recurssion
-	public static boolean isProcessing = true;
-    
-
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {
         return new ABHFL_Constants();
