@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Issue_Type__c</fullName>
     <description>ABSLI Sub SubType</description>
+    <externalId>false</externalId>
     <label>Issue Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -558,9 +559,9 @@
                 <label>Surrender lock-in period not explained\Incorrectly Projected</label>
             </value>
             <value>
-                <fullName>Proposer&apos;s signature forged on proposal form,</fullName>
+                <fullName>Proposer&apos;s signature forged on proposal form</fullName>
                 <default>false</default>
-                <label>Proposer&apos;s signature forged on proposal form,</label>
+                <label>Proposer&apos;s signature forged on proposal form</label>
             </value>
             <value>
                 <fullName>Tampered/Forged/Fake Documents</fullName>
@@ -591,6 +592,506 @@
                 <fullName>Query from Chatbot</fullName>
                 <default>false</default>
                 <label>Query from Chatbot</label>
+            </value>
+            <value>
+                <fullName>Application not logged</fullName>
+                <default>false</default>
+                <label>Application not logged</label>
+            </value>
+            <value>
+                <fullName>Rejection not communicated</fullName>
+                <default>false</default>
+                <label>Rejection not communicated</label>
+            </value>
+            <value>
+                <fullName>Requirements not informed</fullName>
+                <default>false</default>
+                <label>Requirements not informed</label>
+            </value>
+            <value>
+                <fullName>Hold refund</fullName>
+                <default>false</default>
+                <label>Hold refund</label>
+            </value>
+            <value>
+                <fullName>Releasing hold refund</fullName>
+                <default>false</default>
+                <label>Releasing hold refund</label>
+            </value>
+            <value>
+                <fullName>Withdrawal</fullName>
+                <default>false</default>
+                <label>Withdrawal</label>
+            </value>
+            <value>
+                <fullName>Annuity</fullName>
+                <default>false</default>
+                <label>Annuity</label>
+            </value>
+            <value>
+                <fullName>Maturity</fullName>
+                <default>false</default>
+                <label>Maturity</label>
+            </value>
+            <value>
+                <fullName>Survival Benefit</fullName>
+                <default>false</default>
+                <label>Survival Benefit</label>
+            </value>
+            <value>
+                <fullName>Termination</fullName>
+                <default>false</default>
+                <label>Termination</label>
+            </value>
+            <value>
+                <fullName>Third Party Premium Refund</fullName>
+                <default>false</default>
+                <label>Third Party Premium Refund</label>
+            </value>
+            <value>
+                <fullName>Reconciliation Refunds</fullName>
+                <default>false</default>
+                <label>Reconciliation Refunds</label>
+            </value>
+            <value>
+                <fullName>Non Contractual Payout</fullName>
+                <default>false</default>
+                <label>Non Contractual Payout</label>
+            </value>
+            <value>
+                <fullName>Stop payment</fullName>
+                <default>false</default>
+                <label>Stop payment</label>
+            </value>
+            <value>
+                <fullName>Renewal Refund</fullName>
+                <default>false</default>
+                <label>Renewal Refund</label>
+            </value>
+            <value>
+                <fullName>Misselling</fullName>
+                <default>false</default>
+                <label>Misselling</label>
+            </value>
+            <value>
+                <fullName>Loan repayment</fullName>
+                <default>false</default>
+                <label>Loan repayment</label>
+            </value>
+            <value>
+                <fullName>Renewal GST</fullName>
+                <default>false</default>
+                <label>Renewal GST</label>
+            </value>
+            <value>
+                <fullName>Refund Intimation</fullName>
+                <default>false</default>
+                <label>Refund Intimation</label>
+            </value>
+            <value>
+                <fullName>Misselling payout</fullName>
+                <default>false</default>
+                <label>Misselling payout</label>
+            </value>
+            <value>
+                <fullName>Non Disclosure payout</fullName>
+                <default>false</default>
+                <label>Non Disclosure payout</label>
+            </value>
+            <value>
+                <fullName>Cheque Cancellation</fullName>
+                <default>false</default>
+                <label>Cheque Cancellation</label>
+            </value>
+            <value>
+                <fullName>Stale cheque</fullName>
+                <default>false</default>
+                <label>Stale cheque</label>
+            </value>
+            <value>
+                <fullName>Stop Payment- cheque not received</fullName>
+                <default>false</default>
+                <label>Stop Payment- cheque not received</label>
+            </value>
+            <value>
+                <fullName>Loan Fund Transfer</fullName>
+                <default>false</default>
+                <label>Loan Fund Transfer</label>
+            </value>
+            <value>
+                <fullName>Loan Renewal Fund Transfer</fullName>
+                <default>false</default>
+                <label>Loan Renewal Fund Transfer</label>
+            </value>
+            <value>
+                <fullName>NEFT Rejections/Cheque Payout</fullName>
+                <default>false</default>
+                <label>NEFT Rejections/Cheque Payout</label>
+            </value>
+            <value>
+                <fullName>Early Claim</fullName>
+                <default>false</default>
+                <label>Early Claim</label>
+            </value>
+            <value>
+                <fullName>Non Early Claim</fullName>
+                <default>false</default>
+                <label>Non Early Claim</label>
+            </value>
+            <value>
+                <fullName>Change of beneficiary</fullName>
+                <default>false</default>
+                <label>Change of beneficiary</label>
+            </value>
+            <value>
+                <fullName>Change of Bank Details</fullName>
+                <default>false</default>
+                <label>Change of Bank Details</label>
+            </value>
+            <value>
+                <fullName>Dishonor charges deducted by bank / dishonor communication recd</fullName>
+                <default>false</default>
+                <label>Dishonor charges deducted by bank / dishonor communication recd</label>
+            </value>
+            <value>
+                <fullName>Loan not processed /delayed</fullName>
+                <default>false</default>
+                <label>Loan not processed /delayed</label>
+            </value>
+            <value>
+                <fullName>Surrender not processed or delayed</fullName>
+                <default>false</default>
+                <label>Surrender not processed or delayed</label>
+            </value>
+            <value>
+                <fullName>Survival benefit not processed or delayed</fullName>
+                <default>false</default>
+                <label>Survival benefit not processed or delayed</label>
+            </value>
+            <value>
+                <fullName>Customer unable to deposit maturity benefit cheque</fullName>
+                <default>false</default>
+                <label>Customer unable to deposit maturity benefit cheque</label>
+            </value>
+            <value>
+                <fullName>Mode altered without consent</fullName>
+                <default>false</default>
+                <label>Mode altered without consent</label>
+            </value>
+            <value>
+                <fullName>Whatsapp Opt In</fullName>
+                <default>false</default>
+                <label>Whatsapp Opt In</label>
+            </value>
+            <value>
+                <fullName>Whatsapp Opt Out</fullName>
+                <default>false</default>
+                <label>Whatsapp Opt Out</label>
+            </value>
+            <value>
+                <fullName>AWB number capture</fullName>
+                <default>false</default>
+                <label>AWB number capture</label>
+            </value>
+            <value>
+                <fullName>Dispatch requests from customer</fullName>
+                <default>false</default>
+                <label>Dispatch requests from customer</label>
+            </value>
+            <value>
+                <fullName>ORD from HO</fullName>
+                <default>false</default>
+                <label>ORD from HO</label>
+            </value>
+            <value>
+                <fullName>Conversion to Physical</fullName>
+                <default>false</default>
+                <label>Conversion to Physical</label>
+            </value>
+            <value>
+                <fullName>eIA opening</fullName>
+                <default>false</default>
+                <label>eIA opening</label>
+            </value>
+            <value>
+                <fullName>Loan Account Statement</fullName>
+                <default>false</default>
+                <label>Loan Account Statement</label>
+            </value>
+            <value>
+                <fullName>Premium due statement</fullName>
+                <default>false</default>
+                <label>Premium due statement</label>
+            </value>
+            <value>
+                <fullName>Premium Receipt</fullName>
+                <default>false</default>
+                <label>Premium Receipt</label>
+            </value>
+            <value>
+                <fullName>Tax Invoice</fullName>
+                <default>false</default>
+                <label>Tax Invoice</label>
+            </value>
+            <value>
+                <fullName>TDS Certificate</fullName>
+                <default>false</default>
+                <label>TDS Certificate</label>
+            </value>
+            <value>
+                <fullName>Extension of discontinue period - New ULIP</fullName>
+                <default>false</default>
+                <label>Extension of discontinue period - New ULIP</label>
+            </value>
+            <value>
+                <fullName>Reduced paid - New ULIP</fullName>
+                <default>false</default>
+                <label>Reduced paid - New ULIP</label>
+            </value>
+            <value>
+                <fullName>Surrender Retention by SM/ZM</fullName>
+                <default>false</default>
+                <label>Surrender Retention by SM/ZM</label>
+            </value>
+            <value>
+                <fullName>Surrender Retention by branch</fullName>
+                <default>false</default>
+                <label>Surrender Retention by branch</label>
+            </value>
+            <value>
+                <fullName>Cheque dishonor</fullName>
+                <default>false</default>
+                <label>Cheque dishonor</label>
+            </value>
+            <value>
+                <fullName>Receipt cancellation</fullName>
+                <default>false</default>
+                <label>Receipt cancellation</label>
+            </value>
+            <value>
+                <fullName>OR Cancellation</fullName>
+                <default>false</default>
+                <label>OR Cancellation</label>
+            </value>
+            <value>
+                <fullName>Reporting Related</fullName>
+                <default>false</default>
+                <label>Reporting Related</label>
+            </value>
+            <value>
+                <fullName>Nominee/ Appointee Related Rectification</fullName>
+                <default>false</default>
+                <label>Nominee/ Appointee Related Rectification</label>
+            </value>
+            <value>
+                <fullName>Rectification in Investment profile / Fund Related</fullName>
+                <default>false</default>
+                <label>Rectification in Investment profile / Fund Related</label>
+            </value>
+            <value>
+                <fullName>Rectification in policy level detail</fullName>
+                <default>false</default>
+                <label>Rectification in policy level detail</label>
+            </value>
+            <value>
+                <fullName>Rectification in Client Profile Detail</fullName>
+                <default>false</default>
+                <label>Rectification in Client Profile Detail</label>
+            </value>
+            <value>
+                <fullName>Accounted renewal premium reversal</fullName>
+                <default>false</default>
+                <label>Accounted renewal premium reversal</label>
+            </value>
+            <value>
+                <fullName>Excess renewal payment refund related</fullName>
+                <default>false</default>
+                <label>Excess renewal payment refund related</label>
+            </value>
+            <value>
+                <fullName>Shortage requirement completed/Revival with Loan excluded</fullName>
+                <default>false</default>
+                <label>Shortage requirement completed/Revival with Loan excluded</label>
+            </value>
+            <value>
+                <fullName>Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
+                <default>false</default>
+                <label>Spurious calls -Caller posed as IRDA person - policy has been purchased</label>
+            </value>
+            <value>
+                <fullName>Initial</fullName>
+                <default>false</default>
+                <label>Initial</label>
+            </value>
+            <value>
+                <fullName>Renewal</fullName>
+                <default>false</default>
+                <label>Renewal</label>
+            </value>
+            <value>
+                <fullName>Null &amp; Void Letter</fullName>
+                <default>false</default>
+                <label>Null &amp; Void Letter</label>
+            </value>
+            <value>
+                <fullName>Show Cause Letter</fullName>
+                <default>false</default>
+                <label>Show Cause Letter</label>
+            </value>
+            <value>
+                <fullName>PPC</fullName>
+                <default>false</default>
+                <label>PPC</label>
+            </value>
+            <value>
+                <fullName>FV</fullName>
+                <default>false</default>
+                <label>FV</label>
+            </value>
+            <value>
+                <fullName>GST invoice</fullName>
+                <default>false</default>
+                <label>GST invoice</label>
+            </value>
+            <value>
+                <fullName>Tax certificate</fullName>
+                <default>false</default>
+                <label>Tax certificate</label>
+            </value>
+            <value>
+                <fullName>Policy account statement</fullName>
+                <default>false</default>
+                <label>Policy account statement</label>
+            </value>
+            <value>
+                <fullName>Bonus Statement</fullName>
+                <default>false</default>
+                <label>Bonus Statement</label>
+            </value>
+            <value>
+                <fullName>Capital / Gain statement</fullName>
+                <default>false</default>
+                <label>Capital / Gain statement</label>
+            </value>
+            <value>
+                <fullName>Surrender certificate</fullName>
+                <default>false</default>
+                <label>Surrender certificate</label>
+            </value>
+            <value>
+                <fullName>Rate Up</fullName>
+                <default>false</default>
+                <label>Rate Up</label>
+            </value>
+            <value>
+                <fullName>Reject</fullName>
+                <default>false</default>
+                <label>Reject</label>
+            </value>
+            <value>
+                <fullName>Declined/Postponed</fullName>
+                <default>false</default>
+                <label>Declined/Postponed</label>
+            </value>
+            <value>
+                <fullName>Restricted SA</fullName>
+                <default>false</default>
+                <label>Restricted SA</label>
+            </value>
+            <value>
+                <fullName>Medical Test Related</fullName>
+                <default>false</default>
+                <label>Medical Test Related</label>
+            </value>
+            <value>
+                <fullName>Alternate Test or Medial Waiver</fullName>
+                <default>false</default>
+                <label>Alternate Test or Medial Waiver</label>
+            </value>
+            <value>
+                <fullName>Video FMR Eligibility</fullName>
+                <default>false</default>
+                <label>Video FMR Eligibility</label>
+            </value>
+            <value>
+                <fullName>Ops Certification Approval</fullName>
+                <default>false</default>
+                <label>Ops Certification Approval</label>
+            </value>
+            <value>
+                <fullName>Tagging of Non-medical requirement</fullName>
+                <default>false</default>
+                <label>Tagging of Non-medical requirement</label>
+            </value>
+            <value>
+                <fullName>Tagging of Underwriter</fullName>
+                <default>false</default>
+                <label>Tagging of Underwriter</label>
+            </value>
+            <value>
+                <fullName>UW decision follow-up</fullName>
+                <default>false</default>
+                <label>UW decision follow-up</label>
+            </value>
+            <value>
+                <fullName>NRI-Overseas Medicals Approval</fullName>
+                <default>false</default>
+                <label>NRI-Overseas Medicals Approval</label>
+            </value>
+            <value>
+                <fullName>Additional information provided after issuance</fullName>
+                <default>false</default>
+                <label>Additional information provided after issuance</label>
+            </value>
+            <value>
+                <fullName>Policy Reversal</fullName>
+                <default>false</default>
+                <label>Policy Reversal</label>
+            </value>
+            <value>
+                <fullName>NRI- Residency opinion</fullName>
+                <default>false</default>
+                <label>NRI- Residency opinion</label>
+            </value>
+            <value>
+                <fullName>AML queries</fullName>
+                <default>false</default>
+                <label>AML queries</label>
+            </value>
+            <value>
+                <fullName>Pilot-Financial or Medical Opinion</fullName>
+                <default>false</default>
+                <label>Pilot-Financial or Medical Opinion</label>
+            </value>
+            <value>
+                <fullName>Customer unable to deposit maturity  benefit cheque</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Customer unable to deposit maturity  benefit cheque</label>
+            </value>
+            <value>
+                <fullName>Dishonored charges deducted by bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dishonored charges deducted by bank</label>
+            </value>
+            <value>
+                <fullName>Loan Not processed</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Loan Not processed</label>
+            </value>
+            <value>
+                <fullName>Surrender value not process</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Surrender value not process</label>
+            </value>
+            <value>
+                <fullName>Survival benefit not proceed/ Delay</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Survival benefit not proceed/ Delay</label>
             </value>
             <value>
                 <fullName>post call- complain</fullName>

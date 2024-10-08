@@ -231,6 +231,46 @@
                 <default>false</default>
                 <label>In Progress with IT</label>
             </value>
+            <value>
+                <fullName>Under Review</fullName>
+                <default>false</default>
+                <label>Under Review</label>
+            </value>
+            <value>
+                <fullName>Checker</fullName>
+                <default>false</default>
+                <label>Checker</label>
+            </value>
+            <value>
+                <fullName>Final Closure</fullName>
+                <default>false</default>
+                <label>Final Closure</label>
+            </value>
+            <value>
+                <fullName>Reply Received from App Support</fullName>
+                <default>false</default>
+                <label>Reply Received from App Support</label>
+            </value>
+            <value>
+                <fullName>Pending with CAMS</fullName>
+                <default>false</default>
+                <label>Pending with CAMS</label>
+            </value>
+            <value>
+                <fullName>Reply Received from CAMS</fullName>
+                <default>false</default>
+                <label>Reply Received from CAMS</label>
+            </value>
+            <value>
+                <fullName>In Progress with SA</fullName>
+                <default>false</default>
+                <label>In Progress with SA</label>
+            </value>
+            <value>
+                <fullName>In Progress with UW</fullName>
+                <default>false</default>
+                <label>In Progress with UW</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

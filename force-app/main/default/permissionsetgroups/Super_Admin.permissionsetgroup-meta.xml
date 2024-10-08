@@ -5,6 +5,7 @@
     <label>Super Admin</label>
     <permissionSets>ABFL_User_PS</permissionSets>
     <permissionSets>ABHFL_User_PS</permissionSets>
+    <permissionSets>ABSLI_User</permissionSets>
     <permissionSets>Admin_User</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>Manage_Case_Config</permissionSets>

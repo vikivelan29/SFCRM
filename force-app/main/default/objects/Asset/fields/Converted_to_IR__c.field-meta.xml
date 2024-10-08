@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Converted_to_IR__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>ABSLI : 21 May 2024 - Created for ABSLI Asset Data Model requirement etc</description>
+    <externalId>false</externalId>
+    <label>Converted to IR</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

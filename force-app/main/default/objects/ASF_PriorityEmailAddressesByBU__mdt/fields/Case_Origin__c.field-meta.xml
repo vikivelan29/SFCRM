@@ -61,6 +61,11 @@
                 <label>ABWM Email</label>
             </value>
             <value>
+                <fullName>ABSLI Email</fullName>
+                <default>false</default>
+                <label>ABSLI Email</label>
+            </value>
+            <value>
                 <fullName>ABSLIG Email</fullName>
                 <default>false</default>
                 <label>ABSLIG Email</label>
