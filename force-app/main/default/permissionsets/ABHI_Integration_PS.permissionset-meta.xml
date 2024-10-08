@@ -977,10 +977,25 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Asset.Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.branch_name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.TPA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Copay_Applicability__c</field>
+        <readable>true</readable>
+    </fieldPermissions>	
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.BusinessType__c</field>
