@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -34,6 +35,11 @@
                 <fullName>Acknowledged</fullName>
                 <default>false</default>
                 <label>Acknowledged</label>
+            </value>
+            <value>
+                <fullName>BAD_REQUEST</fullName>
+                <default>false</default>
+                <label>BAD_REQUEST</label>
             </value>
         </valueSetDefinition>
     </valueSet>
