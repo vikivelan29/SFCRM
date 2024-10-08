@@ -56,7 +56,6 @@ export default class Asf_CRNTagging extends LightningElement {
     @track loggedInUserBusinessUnit = '';
     @track dupeLead=[];
     @track showDupeList=false;
-    @track selectedCustomerData;
     disableCreateBtn = false;
     isDisabledUpdateCaseButton = true;
     accountCrn;
