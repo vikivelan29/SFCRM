@@ -34,6 +34,9 @@ function customerAPIs(apiName, payload) {
 		case 'MCRM_Benefits':
 			return getBenefits(payload)
 			break;
+		case 'MCRM_Rewards':
+			return getRewards(payload)
+			break;
 		case 'y':
 			// code block
 			break;
@@ -71,7 +74,7 @@ const getAssessmentsOnlineQuestionnaire = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
 	// Iterate over flattening each object
 
-	return [payload];
+	return payload;
 }
 const getAssessmentsActiveAge = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
@@ -106,6 +109,10 @@ const getBenefits = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
 	// Iterate over flattening each object
 
+	return payload.responseMap.resultsList;
+}
+const getRewards = (payload) => {
+	// Columns should be mapped as per dynamic table configuration
 	return payload.responseMap.resultsList;
 }
 const flattenObj = (ob) => {

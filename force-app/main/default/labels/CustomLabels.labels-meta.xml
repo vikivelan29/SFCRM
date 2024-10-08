@@ -1178,7 +1178,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC Litmus Allowed Sources</shortDescription>
-        <value>Phone - Call Centre;Email – Call Centre;Branch Walk-In;Email - Branch</value>
+        <value>Phone - Call Centre;Email - Call Centre;Branch Walk-In;Email - Branch</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>

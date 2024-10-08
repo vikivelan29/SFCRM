@@ -118,9 +118,11 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         
         if (caseIdsToSendEmail.size() > 0) {
             // Query child objects ABFL_Case_Detail__c to check the IsRegisteredCustomer__c field
-            Map<Id, ABFL_Case_Detail__c> caseDetailMap = new Map<Id, ABFL_Case_Detail__c>(
-                [SELECT Id, Case__c, IsRegisteredCustomer__c FROM ABFL_Case_Detail__c WHERE Case__c IN :caseIdsToSendEmail]
-            );
+            Map<Id, ABFL_Case_Detail__c> caseDetailMap = new Map<Id, ABFL_Case_Detail__c>();
+            
+            for(ABFL_Case_Detail__c asfCaseDetail : [SELECT Id, Case__c, IsRegisteredCustomer__c FROM ABFL_Case_Detail__c WHERE Case__c IN :caseIdsToSendEmail]){
+                caseDetailMap.put(asfCaseDetail.Case__c,asfCaseDetail);
+            }
             
             for (Case caseObj : ASF_EmailMessageQueryHandler.getCaseRecords(caseIdsToSendEmail)) {
                 if (caseObj.Origin == 'ABFL Email' && caseObj.Business_unit__c == 'ABFL') {

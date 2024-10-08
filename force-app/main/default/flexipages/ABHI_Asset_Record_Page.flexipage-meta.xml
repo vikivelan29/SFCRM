@@ -209,6 +209,26 @@
                 <identifier>RecordCalculator_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sales_Manager__c</fieldItem>
+                <identifier>RecordSales_Manager__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Partner_Sales_ID__c</fieldItem>
+                <identifier>RecordPartner_Sales_ID__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -551,6 +571,16 @@
                 <identifier>RecordAgentStatus_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sales_Manager__c</fieldItem>
+                <identifier>RecordSales_Manager_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-93f7de3c-7659-409d-8c07-58cf6c758429</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -573,6 +603,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ServicingBranchName__c</fieldItem>
                 <identifier>RecordServicingBranchName_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Partner_Sales_ID__c</fieldItem>
+                <identifier>RecordPartner_Sales_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1332,11 +1372,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>New</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
@@ -1351,7 +1386,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Assets__r</value>
+                    <value>Previous_Policy_Details__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListDisplayType</name>
@@ -1364,19 +1399,31 @@
                             <value>Customer__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Issue_Date__c</value>
+                            <value>DateOfFirstEnrollment__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Maturity_Date__c</value>
+                            <value>PreviousPolicyStartDate__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Sum_Assured__c</value>
+                            <value>PreviousPolicyEndDate__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Insurer__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OptedSi__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CumulativeBonus__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ExpiringBaseSI__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Assets</value>
+                    <value>Previous Policy Details</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>

@@ -258,10 +258,17 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
+                if(lanLabels[this.businessUnit].AUTO_COMM_BU_OPT){
+                    this.noAutoCommOptions = lanLabels[this.businessUnit].AUTO_COMM_BU_OPT.map(item => ({
+                        label: item,
+                        value: item
+                    }));
+                }else{
+                    this.noAutoCommOptions = data.values.map(item => ({
+                        label: item.label,
+                        value: item.value
+                    }));
+                }
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;
@@ -317,6 +324,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
+                    console.log('result data table--'+JSON.stringify(result));
                     console.log('result data table--'+JSON.stringify(result.lstCCCrecords));
                     this.strSource = result.strSource;
                     this.complaintType = result.complaintType;
@@ -1178,7 +1186,4 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             // setting theme would have no effect
         });
     }
-
-
-
 }

@@ -12,45 +12,52 @@
 	<template lwc:if={isLoading}>
 		<lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
 	</template>
-    <template lwc:if={showBaseView}>
+	<template lwc:if={showBaseView}>
 		<template lwc:if={showPartner}>
 			<div class="slds-grid">
 				<div class="slds-col slds-size--1-of-3 slds-p-left_small">
-					<lightning-combobox
-						name="partners"
-						label="Select Partner"
-						value={pcvalue}
-						placeholder="Select Partner"
-						options={options}
-						onchange={handleChange}></lightning-combobox>
-					</div>
-					<div class="slds-align-bottom slds-col slds-p-left_small">
-						<lightning-button label="Result"
-							alternative-text="Refresh"
-							icon-size="x-small"
-							onclick={handleClick}
-							icon-name="utility:data_transforms"
-							class="alignButton"
-							disabled={disableButton}>
-						</lightning-button>
-					</div>
+					<lightning-combobox name="partners" label="Select Partner" value={pcvalue}
+						placeholder="Select Partner" options={options} onchange={handleChange} dropdown-alignment="auto"></lightning-combobox>
+				</div>
+				<div class="slds-align-bottom slds-col slds-p-left_small">
+					<lightning-button label="Result" name="partnerCodeButton" alternative-text="Refresh" icon-size="x-small"
+						onclick={handleClick} icon-name="utility:data_transforms" class="alignButton"
+						disabled={disablePartnerCodeButton}>
+					</lightning-button>
+				</div>
+			</div>
+		</template>
+		<template lwc:if={showRewards}>
+			<div class="slds-grid">
+				<div class="slds-col slds-size--1-of-6 slds-p-left_small">
+					<lightning-combobox name="partnerCode" label="Partner Code" value={pcvalue}
+						placeholder="Select Partner Code" options={partnerCodeOptions} onchange={handleChange} dropdown-alignment="auto"></lightning-combobox>
+				</div>
+				<div class="slds-col slds-size--1-of-6 slds-p-left_small">
+					<lightning-combobox name="benefitCode" label="Benefit Code" value={bcvalue}
+						placeholder="Select Benefit Code" options={benefitCodeOptions} onchange={handleChange} dropdown-alignment="auto"></lightning-combobox>
+				</div>
+				<div class="slds-align-bottom slds-col slds-p-left_small">
+					<lightning-button label="Rewards" name="rewardsButton" alternative-text="Refresh" icon-size="x-small"
+						onclick={handleClick} icon-name="utility:data_transforms" class="alignButton"
+						disabled={disableRewardsButton}>
+					</lightning-button>
+				</div>
 			</div>
 		</template>
 		<div class={hasData}>
 			<div class="slds-m-around--small">
 				<!--rsn: remove hc page size-->
-				<c-abc_base_tableview columns={columns}
-									table-data={tableData} page-size=5
-									key={keyField}></c-abc_base_tableview>
+				<c-abc_base_tableview columns={columns} table-data={tableData} page-size={pageSize}></c-abc_base_tableview>
 			</div>
 		</div>
 		<div class={hasNoData}>
 			<lightning-card class="slds-card_empty">
 				<div class="slds-m-around--small slds-box">
-					{label.GymLocationNotAvailable}
+					{noDataMessage}
 				</div>
 			</lightning-card>
 		</div>
-		
+
 	</template>
 </template>
