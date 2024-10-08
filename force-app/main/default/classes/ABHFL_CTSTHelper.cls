@@ -1180,6 +1180,32 @@ public without sharing class ABHFL_CTSTHelper {
 
         return caseIdCaseMovementWrapperMap;
     }
+  //Added by Yogesh [PR970457-2288]
+    // we can use this method to update alllan field on ABHFL case detail object.
+   // if we need to update field for CTST then add ctst in  ALLLANCTSTs in ABHFL_constants class. and add ABHFL_stageMovementHelper in stage config
+Public static void updateAllLanFieldOnDetailObj(
+  case caseRec) {
+  List < ABHFL_Case_Detail__c > caseDetailsToUpdate = new List < ABHFL_Case_Detail__c > ();
+  if (ABHFL_Constants.ALLLANCTSTs.contains(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
+    string allLANAssociated = '';
+    List < asset > alllan = new List < asset > ();
+    if (caseRec.AccountId != null) {
+      alllan = [select Name from asset where accountId =: caseRec.AccountId];
+      for (integer i = 0; i < alllan.size(); i++) {
+        integer sr = i + 1;
+        allLANAssociated = allLANAssociated + sr + '. ' + alllan[i].Name + '\n';
+      }
+      allLANAssociated = allLANAssociated.substring(0, allLANAssociated.length() - 1);
+    }
+
+    ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
+    caseDetail.ALL_LANS__c = allLANAssociated;
+    caseDetailsToUpdate.add(caseDetail);
+  }
+  if (!caseDetailsToUpdate.isempty()) {
+    update caseDetailsToUpdate;
+  }
+}
     
     public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailFileUploadStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
         List<String> validCTSTs = new List<String>{'REFCL001','RLOAPRONHFC','RRSDPRSHFC01'};
