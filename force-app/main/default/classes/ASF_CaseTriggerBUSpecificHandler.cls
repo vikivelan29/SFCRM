@@ -215,4 +215,4 @@ abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)newItems.valu
         }
         return mapOfBUToCases;
     }
-}
+} 
