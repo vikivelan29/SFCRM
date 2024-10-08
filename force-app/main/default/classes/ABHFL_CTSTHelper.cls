@@ -1191,17 +1191,14 @@ Public static void updateAllLanFieldOnDetailObj(
   if (ABHFL_Constants.ALLLANCTSTs.contains(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
     string allLANAssociated = '';
     List < asset > alllan = new List < asset > ();
-    system.debug('caseRec.AccountId-->' + caseRec.AccountId);
     if (caseRec.AccountId != null) {
       alllan = [select Name from asset where accountId =: caseRec.AccountId];
       for (integer i = 0; i < alllan.size(); i++) {
         integer sr = i + 1;
         allLANAssociated = allLANAssociated + sr + '. ' + alllan[i].Name + '\n';
-        system.debug('allLANAssociated' + i + '--->' + allLANAssociated);
-      }
+        }
       allLANAssociated = allLANAssociated.substring(0, allLANAssociated.length() - 1);
-      system.debug('allLANAssociated--->' + allLANAssociated);
-    }
+        }
 
     ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
     caseDetail.ALL_LANS__c = allLANAssociated;
