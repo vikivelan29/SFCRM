@@ -984,4 +984,190 @@
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
         <value>ABSLAMC;ABSLIG;Payments</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_KEY</fullName>
+        <categories>ux8634W2FczDqtFDscbDdFxroSbukNmm</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
+        <value>tDgbshCSrQpi8fqLBcFWN9Sx55GaRWKo</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_IV_VALUE</fullName>
+        <categories>uQB5hR_562PPG5Nn</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
+        <value>OmEpJ51QoM98ZIJ5</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ARS_URL</fullName>
+        <categories>https://servace.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_ARS_URL</shortDescription>
+        <value>https://ikshauat.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Error Message</shortDescription>
+        <value>No Canned Response Available.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Canned_Response_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Canned Response Success Message</shortDescription>
+        <value>Canned Response send successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Communication_Link</fullName>
+        <categories>http://10.155.1.214/DTS/ViewPolicyReport.aspx</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Communication_Link</shortDescription>
+        <value>http://10.155.1.214/DTS/ViewPolicyReport.aspx</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
+        <value>60</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Complaint_Closure_CRON</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Complaint Closure CRON</shortDescription>
+        <value>0 30 23 1/1 * ? *</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_CustomerPortalUrl</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_CustomerPortalUrl</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/abcLogin/interface/</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
+        <value>EBOT has generated an email. Kindly have a look!</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_ESB_SOURCE_VAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI ESB SOURCE VAL</shortDescription>
+        <value>4170703839</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ivkey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ivkey</shortDescription>
+        <value>8549708501325472</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_LITMUS_PROJECT_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_LITMUS_PROJECT_ID</shortDescription>
+        <value>cnwf_touchpoint</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Min_Loan_Amount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
+        <value>5000</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Policy_Search_Columns</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Policy Search Column</shortDescription>
+        <value>Policy #:Policy_No__c;Plan Name:Plan_Name__c;Policy Status:Status;Policy Type:Type__c;Mode:Mode__c</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_IV</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_IV</shortDescription>
+        <value>36RD4KJ6POc7ynS7</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_KEY</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_KEY</shortDescription>
+        <value>WbFXJcygjVCWr5T9</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_USR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_READY_RECK_USR</shortDescription>
+        <value>RQSFDC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Ready_Reck_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
+        <value>http://10.155.8.204:94/rtpWS/?rcase=</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_STATICURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_STATICURL</shortDescription>
+        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/customer-login/</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Track_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_Track_Sources</shortDescription>
+        <value>Inbound CNX,Inbound ConnectQ,Outbound CNX,Outbound ConnectQ</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Update_CCC_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Update CCC ID</shortDescription>
+        <value>EC0001,EC0002,EC0003</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_key</shortDescription>
+        <value>M@TcQfThH70q4t7w!z%C*F-NAJdRgUkX</value>
+    </labels>
+     <labels>
+        <fullName>ASF_RetryInterval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_RetryInterval</shortDescription>
+        <value>15</value>
+    </labels>
+    <labels>
+        <fullName>ASF_RetryNumbers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_RetryNumbers</shortDescription>
+        <value>2</value>
+    </labels>
 </CustomLabels>

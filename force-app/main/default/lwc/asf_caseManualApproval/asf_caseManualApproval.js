@@ -1,7 +1,7 @@
 import { LightningElement, wire, api } from 'lwc';
 import { getRecord, getFieldValue, getRecordNotifyChange, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/ASF_Case_Approv__c.Approver_01__c';
-import { modalStates, errorCodes, staticFields } from "./caseManualApprovalUtility.js";
+import { modalStates, errorCodes, getBUSpecificStaticFields } from "./caseManualApprovalUtility.js";
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 import currentUserId from '@salesforce/user/Id';
@@ -24,6 +24,8 @@ import LightningAlert from 'lightning/alert';
 import getCommunity from "@salesforce/apex/ASF_ApprovalHistoryController.isCommunity";
 import { RefreshEvent } from 'lightning/refresh';
 import { fireEventNoPageRef } from 'c/asf_pubsub';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { reduceErrors } from 'c/asf_ldsUtils';
 
 export default class Asf_caseManualApproval extends NavigationMixin(LightningElement) {
     nameField = NAME_FIELD;
@@ -63,7 +65,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         if(this.isRecatRequest){
             return 'Recategorize Approval Request - ' + this.caseNumber;
         }else{
-            return 'Approval for Service Request ' + this.caseNumber;
+            return 'Approval for Case ' + this.caseNumber;
         }
     }
     @wire(getRecord, { recordId: '$recordId', fields: [CASENUM, CASESTAGE, CASE_BUSINESSUNIT] })
@@ -98,6 +100,9 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         window.setTimeout(() => {
             return true;
         }, 500);
+    }
+    submitForm(event){
+        this.template.querySelector('.hiddenSubmit').click();
     }
     handleCancel(event) {
         if(this.isRecatRequest){
@@ -323,6 +328,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         }
         else {
             this.isClicked = false;
+            this.showError('error','Error Occured !','Required field missing.');
         }
 
     }
@@ -357,24 +363,53 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
 
                 }
             }
+            if(fdName == "Requestor_Comments__c" ){
+                if(val || val==undefined || val==''){ // check is used to enable the Send button when we received the "text too long" error
+                    this.isClicked = false;
+                }
+            }
         })
-        if (fdName == this.approver1 || fdName == this.approver2 || fdName == this.approver3 || fdName == this.approver4 || fdName == this.approver5) {
+        /*if (fdName == this.approver1 || fdName == this.approver2 || fdName == this.approver3 || fdName == this.approver4 || fdName == this.approver5) {
+            console.log('Inside approvers comp',fdName);
+            console.log(JSON.stringify(allApprovers));
             if (val == currentUserId) {
                 this.template.querySelectorAll('[data-error-help-for-field="' + fdName + '"]').forEach(ele => {
                     ele.innerText = errorCodes.LOGGEDINUSERAPPROVER;
+                    console.log(ele);
                 });
             }
+            
             else if (allApprovers.indexOf(val) > -1 && val != null && val != undefined && val != "") {
                 this.template.querySelectorAll('[data-error-help-for-field="' + fdName + '"]').forEach(ele => {
                     ele.innerText = errorCodes.APPROVERALREADYSELECTED;
+                    console.log(ele);
                 });
             }
             else {
                 this.template.querySelectorAll('[data-error-help-for-field="' + fdName + '"]').forEach(ele => {
                     ele.innerText = '';
+                    console.log('3',ele);
                 });
             }
+        }*/
+        
+        let errorMessage = '';
+        if (val == currentUserId) {
+            errorMessage = errorCodes.LOGGEDINUSERAPPROVER;
+        } else if (allApprovers.indexOf(val) > -1 && val) {
+            errorMessage = errorCodes.APPROVERALREADYSELECTED;
+            console.log('1',errorMessage);
+        }else{
+            errorMessage = '';
         }
+    
+        // Set the error message for the specific field
+        this.template.querySelectorAll(`[data-error-help-for-field="${fdName}"]`).forEach(errorEle => {
+            errorEle.innerText = errorMessage;
+            console.log('Set Error:', errorEle);
+            this.isClicked = errorEle.innerText? true :false;
+        });
+    
         if (fdName == APPROVALTYPE.fieldApiName) {
 
             this.template.querySelectorAll('lightning-input-field').forEach(ele => {
@@ -384,12 +419,42 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
 
         }
     }
+    hasImgTag(htmlString) {
+        // Regular expression to match <img> tags
+        var imgRegex = /<img[^>]+>/g;
+        
+        // Check if the htmlString contains any <img> tags
+        return imgRegex.test(htmlString);
+    }
+    removeHTMLTags(htmlString) {
+        if(this.hasImgTag(htmlString)){
+            return htmlString;
+        }
+        // Create a new DOMParser instance
+        const parser = new DOMParser();
+        // Parse the HTML string into a DOM document
+        const doc = parser.parseFromString(htmlString, 'text/html');
+        // Extract the text content from the parsed document
+        const textContent = doc.body.textContent || "";
+        return textContent.trim(); // Trim any leading or trailing whitespace
+    }
     validateFields() {
         return [...this.template.querySelectorAll("lightning-input-field")].reduce((validSoFar, field) => {
             // Return whether all fields up to this point are valid and whether current field is valid
             // reportValidity returns validity and also displays/clear message on element based on validity
             let isValid = true;
             if (!field.parentElement.parentElement.className.includes('slds-hide')) {
+                //let plainTextContent  = field.value.replace(/(<([^>]+)>)/ig, '');                
+                let plainTextContent = this.removeHTMLTags(field.value);
+                if(plainTextContent == undefined || plainTextContent == null || plainTextContent == ""){
+                        field.value = plainTextContent;
+                        if(field.fieldName == "Requestor_Comments__c"){
+                            isValid = false;
+                            return (validSoFar && isValid);
+                        }
+                }
+
+
                 this.template.querySelectorAll('[data-error-help-for-field = "' + field.fieldName + '"]').forEach(ele => {
                     if (ele.innerText != null && ele.innerText != "" && ele.innerText != undefined) {
                         isValid = false;
@@ -436,6 +501,16 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
             .catch(error => {
                 console.log('Errorured:- ' + error.body.message);
             });
+    }
+
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
     }
 
 

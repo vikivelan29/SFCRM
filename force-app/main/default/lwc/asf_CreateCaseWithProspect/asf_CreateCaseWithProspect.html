@@ -1,3 +1,13 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 08-16-2024
+  @last modified by  : rsinghnagar@salesforce.com 
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0   08-16-2024   rsinghnagar@salesforce.com   Initial Version
+-->
 <template>
     <lightning-card>
         <template if:true={loaded}>
@@ -76,12 +86,38 @@
                                 </lightning-checkbox-group>
                             </template>
                         </template>
-
-
-                        <template if:true={isPhoneInbound}>
-                            <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId}
-                                required></lightning-input>
-                        </template>
+                        <div class="slds-grid slds-grid_vertical slds-var-p-top_small">
+                            <div class="slds-col slds-size_2-of-8">
+                                <template if:true={isPhoneInbound}>
+                                    <lightning-input class="validate" type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_2-of-8">
+                                <template if:true={showAniNumber}>
+                                    <lightning-input class="validate" type="text" label="ANI Number" value={aniNumber} onchange={handleAniNumber} pattern="[0-9]*" required ></lightning-input>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_2-of-8">
+                                <template if:true={showIssueType}>
+                                    <lightning-combobox class="validate" name="issueType" label="Issue Type" value={issueTypeVal} onchange={handleIssueTypeChange} options={issueTypeOptions} required ></lightning-combobox>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_2-of-8 slds-p-top_x-small slds-p-bottom_x-small">
+                                <template if:true={showFtr}>
+                                    <lightning-input type="checkbox" label="FTR" value={ftrValue} onchange={handleFtr}></lightning-input>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_2-of-8">
+                                <template if:true={showCategoryType}>
+                                    <lightning-combobox data-id="Category_Type"
+                                    label="Category Type"
+                                    class="validate" 
+                                    options={categoryTypeOptions}
+                                    required>
+                                    </lightning-combobox> 
+                                </template>
+                            </div>
+                        </div>
 
                         <template if:true={isTransactionRelated}>
                             <lightning-input type="text" label="Transaction Number" value={transactionNumber}
@@ -121,9 +157,8 @@
                         <div class="slds-grid slds-wrap slds-m-around_small">
                             <template if:true={fields}>
                                 <template for:each={fields} for:item="f">
-                                    <div key={f.Id} class="slds-col slds-size_1-of-2">
-                                        <lightning-input-field field-name={f.FieldName} required={f.required}
-                                            class="validate">
+                                    <div key={f.FieldName} class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field field-name={f.FieldName} required={f.required}>
                                         </lightning-input-field>
                                     </div>
                                 </template>

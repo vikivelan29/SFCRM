@@ -55,51 +55,7 @@ export default class Asf_CRNTagging extends LightningElement {
     selectLan;
     asstCols;
     
-    accCols = [{
-        label: 'Id',
-        fieldName: 'recordId',
-        type: 'text',
-        fixedWidth: 1,
-        hideLabel: true,
-        hideDefaultActions: true
-    },
-    {
-        label: 'Customer Name',
-        fieldName: 'name',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Email ID',
-        fieldName: 'emailId',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Mobile Number',
-        fieldName: 'mobile',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Client Code',
-        fieldName: 'clientCode',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'PAN Number',
-        fieldName: 'pan',
-        type: 'text',
-        initialWidth: 180
-    },
-    {
-        label: 'Type',
-        fieldName: 'objectType',
-        type: 'text',
-        initialWidth: 180
-    }
-    ]
+    accCols;
 
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
@@ -118,8 +74,9 @@ export default class Asf_CRNTagging extends LightningElement {
             this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
             this.selectLan = lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT != null? lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
             this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
+            this.accCols = lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS : lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
         } else if (error) {
-            //this.error = error ;
+            //this.error = error; 
         }
     }
 
@@ -179,14 +136,14 @@ export default class Asf_CRNTagging extends LightningElement {
             this.selectedCustomer = this.prestdAcctId;
 
             let my_ids1 = [];
-            my_ids1.push(this.FAId);
+                my_ids1.push(this.FAId);
             this.preSelectedAsset = my_ids1;
             console.log('con data--'+JSON.stringify(data));
         } else if (error) {
             this.error = error;
             console.log('error--'+JSON.stringify(error));
         }
-    } 
+    }
 
     valChange(event) {
         this.inpValue = event.target.value;
@@ -215,7 +172,7 @@ export default class Asf_CRNTagging extends LightningElement {
             })
             .catch(error => {
             });
-    } 
+    }
 
     handleAccAction(event) {
         const row = event.detail.selectedRows;
@@ -263,7 +220,7 @@ export default class Asf_CRNTagging extends LightningElement {
                 selectedFANum = this.selectedAsset.LAN__c;
             }
         }
-
+        
         if (this.selectedCustomer) {
             updateCRN({
                 accountId: this.selectedCustomer,
@@ -289,13 +246,13 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
                 })
                 .catch(error => {
-                    const event = new ShowToastEvent({
-                        title: 'Error',
-                        message: this.noUpdate,
-                        variant: 'error',
-                        mode: 'dismissable'
-                    });
-                    this.dispatchEvent(event);
+                        const event = new ShowToastEvent({
+                            title: 'Error',
+                            message: this.noUpdate,
+                            variant: 'error',
+                            mode: 'dismissable'
+                        });
+                        this.dispatchEvent(event);
                 });
         } else {
             const event = new ShowToastEvent({

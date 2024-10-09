@@ -11,8 +11,10 @@ import { getRecord } from 'lightning/uiRecordApi';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 
 import hasSalesProspectPermission from "@salesforce/customPermission/ShowSalesProspect";
+import hideCaseWithProspect from "@salesforce/customPermission/HideCaseWithProspect";
+import hasShowCreateLeadPermission from "@salesforce/customPermission/ShowCreateLead";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
+import { lanLabels } from 'c/asf_ConstantUtility';
 
 
 
@@ -33,10 +35,13 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     @track dupeLead=[];
     @track showDupeList=false;
     @track selectedProspectId;
-    @track headerName = 'Create Case with Prospect';
+    @track headerName;
     @track isInternalCase = false;
     @track loggedInUserBusinessUnit = '';
     error;
+    createCaseWithNewProspect;
+    createSalesProspectLabel;
+    @track showProspectFlow = false;
 
 
     cols_Customer = [
@@ -65,6 +70,9 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+            this.createCaseWithNewProspect = lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_NEW_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_NEW_PROSPECT : lanLabels["DEFAULT"].CREATE_CASE_WITH_NEW_PROSPECT;
+            this.createSalesProspectLabel = lanLabels[this.loggedInUserBusinessUnit].CREATE_SALES_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_SALES_PROSPECT : lanLabels["DEFAULT"].CREATE_SALES_PROSPECT;
+            this.headerName = lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_PROSPECT : lanLabels["DEFAULT"].CREATE_CASE_WITH_PROSPECT;
         } else if (error) {
             //this.error = error ;
         }
@@ -134,8 +142,13 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         this.dupeLead = null;
         this.showDupeList = false;
         this.isInternalCase = false;
+        this.showProspectFlow = false;
     }
-
+    handleStatusChange(event) {
+        if(event.detail.status === 'FINISHED'){
+            this.hideModalCreateCase(event);
+        }
+    }
 
     /* Sales Prospect Code Starts Here */
     async handleSalesProspet(event) {
@@ -158,6 +171,8 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         event.preventDefault();
         this.disableCreateBtn = true;
         let isValid = this.isInputValid();
+        if(isValid) {
+
         let leadFields = [...this.template.querySelectorAll('lightning-input-field')]
         let fieldsVar = leadFields.map((field)=>[field.fieldName,field.value]);
         let leadRecord = Object.fromEntries([...fieldsVar, ['sobjectType', 'Lead']]);
@@ -195,6 +210,7 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
                 console.log('tst225572' + JSON.stringify(error));
                 this.showError('error', 'Oops!', error);
             });
+        }
     }
     
     isInputValid() {
@@ -248,6 +264,17 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
 
     get isSalesProspectVisible() {
         return hasSalesProspectPermission;
+    }
+    get isCaseWithProspectHidden() {
+        return hideCaseWithProspect;
+    }
+    
+    get isCreateLeadVisible() {
+        return hasShowCreateLeadPermission;
+    }
+
+    handleShowFlow(event){
+        this.showProspectFlow = true;
     }
 
 
