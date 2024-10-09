@@ -135,7 +135,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;a href=&quot;https://happy.adityabirlacapital.com/#renewPaSales/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Seller Portal&lt;/a&gt;   &lt;a href=&quot;https://www.salesforce.com/in/editions-pricing/overview/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Product Features&lt;/a&gt;  &lt;a href=&quot;https://www.adityabirlacapital.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Premium Calculator&lt;/a&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;a href=&quot;https://happy.adityabirlacapital.com/#renewPaSales/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Seller Portal&lt;/a&gt;  &lt;a href=&quot;/lightning/o/Product2/list?filterName=AllProducts&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Product Features&lt;/a&gt;  &lt;a href=&quot;https://www.adityabirlacapital.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Premium Calculator&lt;/a&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
