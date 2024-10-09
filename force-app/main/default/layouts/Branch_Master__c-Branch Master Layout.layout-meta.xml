@@ -16,10 +16,10 @@
                 <field>Branch_Code__c</field>
             </layoutItems>
             <layoutItems>
-                <layoutItems>
                 <behavior>Edit</behavior>
                 <field>CRM_SPOC__c</field>
             </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Status__c</field>
             </layoutItems>
