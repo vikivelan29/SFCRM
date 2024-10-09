@@ -160,6 +160,10 @@
         <apexClass>Abhi_HealthReturnController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_CaseDetailHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
@@ -2628,11 +2632,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Previous_Policy_Details__c.WaiverOfWPforSI__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Policy__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
