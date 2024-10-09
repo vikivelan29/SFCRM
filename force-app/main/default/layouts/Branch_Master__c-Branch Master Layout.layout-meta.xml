@@ -63,6 +63,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>CRM_SPOC__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Zone__c</field>
             </layoutItems>
             <layoutItems>
@@ -102,7 +106,7 @@
                 <field>Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>UniqueKey__c</field>
             </layoutItems>
         </layoutColumns>
