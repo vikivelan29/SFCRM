@@ -216,7 +216,7 @@ public with sharing class ABHI_CreatePolicy {
         
         if(!mapPreviousPolicyList.isEmpty()) {
             List<Previous_Policy_Details__c> previousPolicy = createPreviousPolicy(mapPreviousPolicyList, mapObjectFieldMapping.get('Previous_Policy_Details'), policy);
-        	upsert previousPolicy PreviousPolicyNumber__c ;
+        	upsert previousPolicy ;
         }
         ABHI_CreateCRMPolicy.proposalNumber = policyMap.get('ProposalNumber').toString();
         //return  policyMap.get('ProposalNumber').toString();
@@ -258,8 +258,6 @@ public with sharing class ABHI_CreatePolicy {
                     policy.putSObject(policyObjectFieldMapping.get(policyMapping).split(':')[0], policyRefs);
                 }
                 when else {
-                    System.debug('@@@1'+policyObjectFieldMapping.get(policyMapping));
-                    System.debug('@@@2'+policyMap.get(policyMapping.split(':')[0]));
                     policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]));
                 }    
             }  
@@ -268,7 +266,6 @@ public with sharing class ABHI_CreatePolicy {
         /*Setting LAN__c ext Id to the Policy no
          First time PolicyNumber will be blank*/
         if(policyMap.get('PolicyNumber') != null) {
-            System.debug('@@@LAN__c'+policyMap.get('PolicyNumber'));
             policy.put('LAN__c', policyMap.get('PolicyNumber'));
             policy.put('Name', policyMap.get('PolicyNumber'));
         }
