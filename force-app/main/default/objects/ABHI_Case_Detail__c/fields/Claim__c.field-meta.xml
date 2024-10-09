@@ -5,7 +5,8 @@
     <externalId>false</externalId>
     <label>Claim Number</label>
     <lookupFilter>
-        <active>false</active>
+        <active>true</active>
+        <errorMessage>Please select the appropriate claim associated with the policy.</errorMessage>
         <filterItems>
             <field>Claim__c.Policy_Number__c</field>
             <operation>equals</operation>
@@ -20,4 +21,4 @@
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
-</CustomField> 
+</CustomField>
