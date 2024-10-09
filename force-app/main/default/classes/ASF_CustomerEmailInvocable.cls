@@ -5,7 +5,7 @@
 * The BU classes will be called from here, and
 *********************************************************/
 public without sharing class ASF_CustomerEmailInvocable {
-     /****************************************************************************************************************
+    /****************************************************************************************************************
     * @Function - getEmailTemplateName
     * @param cases 
     * @return  List<EmailOutputWrapper>
@@ -20,6 +20,7 @@ public without sharing class ASF_CustomerEmailInvocable {
         List<EmailInputWrapper> abflList = new List<EmailInputWrapper>();
         List<EmailInputWrapper> abhflList = new List<EmailInputWrapper>();
         List<EmailInputWrapper> paymentsList = new List<EmailInputWrapper>();
+        List<EmailInputWrapper> absliList = new List<EmailInputWrapper>();
         
         for(EmailInputWrapper wrap: cases){
             
@@ -35,6 +36,9 @@ public without sharing class ASF_CustomerEmailInvocable {
                 when 'Payments'{
                     paymentsList.add(wrap);
                 }
+                 when 'ABSLI' {
+                    absliList.add(wrap);
+                }
             }
         }
         
@@ -45,13 +49,41 @@ public without sharing class ASF_CustomerEmailInvocable {
             //allOutputs.putAll(arg0)
             ABFL_SuppressEmailHelper.checkSuppressionLogic(cases,allOutputs);
         }
-        if(!abhflList.isEmpty()){
+        /*if(!abhflList.isEmpty()){
             // Call BU Specific Class - Returns Map<Id, EmailOutputWrapper>
             //allOutputs.putAll(arg0)
         }
         if(!paymentsList.isEmpty()){
             // Call BU Specific Class - Returns Map<Id, EmailOutputWrapper>
             //allOutputs.putAll(arg0)
+        } */
+        if(!absliList.isEmpty()){
+        
+            List<EmailInputWrapper> ftrCaseList = new List<EmailInputWrapper>();
+            List<EmailInputWrapper> regionalTemplateList = new List<EmailInputWrapper>();
+            List<EmailInputWrapper> unresolvedCaseList = new List<EmailInputWrapper>();
+            
+            for(EmailInputWrapper inpWrap : absliList){
+                if(inpWrap.CaseStatus == 'Unresolved'){
+                    unresolvedCaseList.add(inpWrap);
+                    continue;
+                }
+                else if(inpWrap.caseStatus == 'New'){
+                    ftrCaseList.add(inpWrap);
+                }
+                if(inpWrap.LanguagePreference != null && inpWrap.LanguagePreference != '' && inpWrap.LanguagePreference.toLowerCase() != 'english'){
+                    regionalTemplateList.add(inpWrap);
+                }
+            }
+            if(!ftrCaseList.isEmpty()){
+               ABSLI_PopulateRegionalEmailSMS.processFTRTemplate(absliList, allOutputs);
+            }
+            if(!regionalTemplateList.isEmpty()){
+                ABSLI_PopulateRegionalEmailSMS.getRegionalTemplate(absliList, allOutputs);
+            }
+            if(!unresolvedCaseList.isEmpty()){
+                ABSLI_EmailSMSSuppressionHandler.handleSuppressionLogic(absliList, allOutputs);
+            }
         }
         
         for(EmailInputWrapper wrap: cases){
@@ -62,22 +94,25 @@ public without sharing class ASF_CustomerEmailInvocable {
             else {
                 resultWrap.supressEmail = false;
                 resultWrap.templateName = wrap.templateName;
+                resultWrap.smsTemplateName = wrap.smsTemplateName;
             }
 
             result.add(resultWrap);
             
         }
-        //system.debug('Invocable result:'+result);
         return result;
     }
 /*********************************************************
 *@description  :  wrapper class
 *********************************************************/  
-  public class EmailOutputWrapper {
+    public class EmailOutputWrapper {
         @InvocableVariable(label='Supress Email' description='Supress Email completely' required=true)
         public boolean supressEmail;
-        @InvocableVariable(label='Template Name' description='Template Name' required=true)
+        @InvocableVariable(label='Email Template Name' description='Template Name' required=true)
         public String templateName;
+        @InvocableVariable(label='SMS Template Name' description='SMS Template name' required=true)
+        public String smsTemplateName;
+        public boolean isFTR;
     }
 /*********************************************************
 *@description  :  wrapper class
@@ -85,12 +120,22 @@ public without sharing class ASF_CustomerEmailInvocable {
     public class EmailInputWrapper {
         @InvocableVariable(label='Case Id' description='Case Id' required=true)
         public Id caseId;
+        @InvocableVariable(label='Language Preference' description='Language Preference' required=false)
+        public String languagePreference;
         @InvocableVariable(label='Case Status' description='Case Status' required=true)
         public String caseStatus;
+        @InvocableVariable(label='Case Record' description='Case Record' required=false)
+        public sObject caseRecord;
         @InvocableVariable(label='CCC Record' description='Case Category Config Record' required=true)
         public sObject cccRecord;
-        @InvocableVariable(label='Template Name' description='Default Template name passed' required=true)
+        @InvocableVariable(label='Email Template Name' description='Default Template name passed' required=false)
         public String templateName;
+        @InvocableVariable(label='SMS Template Name' description='Default SMS Template name passed' required=false)
+        public String smsTemplateName;
+        @InvocableVariable(label='Email Template Field Name' description='Email Template Field Name' required=false)
+        public String emailFieldName;
+        @InvocableVariable(label='SMS Template Field Name' description='SMS Template Field Name' required=false)
+        public String smsFieldName;
         
     }
     

@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 06-23-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 10-09-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseMovementHelper {
     
@@ -38,7 +38,8 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+            allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
         for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -72,6 +73,8 @@ public class ASF_CaseMovementHelper {
                     resultWrapper.nextStageConfig = nextStage.stageConfig;
                     resultWrapper.ownerId = nextStage.ownerId;
                     resultWrapper.errorOwnerId = nextStage.errorOwnerId;
+                    // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM ON CASE.
+                    resultWrapper.ownerName = nextStage.ownerName;
                 }
                 else{
                     resultWrapper.errorMessage = nextStage.errorMessage;
@@ -93,6 +96,8 @@ public class ASF_CaseMovementHelper {
                         resultWrapper.status = 'Success';
                         resultWrapper.nextStageConfig = nextStage.stageConfig;
                         resultWrapper.ownerId = nextStage.ownerId;
+                        // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM ON CASE.
+                    	resultWrapper.ownerName = nextStage.ownerName;
                         resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                     }else{
@@ -131,8 +136,9 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -184,6 +190,8 @@ public class ASF_CaseMovementHelper {
                             updatedCase.Stage__c = nextStage.stageConfig.StageName__c;
                             updatedCase.Status = nextStage.stageConfig.Status_Mapping__c;
                             resultWrapper.ownerId = nextStage.ownerId;
+                            // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGN TEAM ON CASE ASSIGNMENT
+                            resultWrapper.ownerName = nextStage.ownerName;
                         }
                         updatedCase.is_Manual_Approval__c = nextStage.stageConfig.Manual_Approval__c;
                     	updatedCase.MoveToNext__c = false;
@@ -261,6 +269,9 @@ public class ASF_CaseMovementHelper {
                         resultWrapper.ownerId = nextStage.ownerId;
                         resultWrapper.errorOwnerId = nextStage.errorOwnerId;
                         resultWrapper.status = 'Success';
+                        // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM
+                        resultWrapper.ownerName = nextStage.ownerName;
+                        // VIRENDRA - ENDS HERE.
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                         
                     }else{
@@ -331,8 +342,9 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -497,8 +509,9 @@ public class ASF_CaseMovementHelper {
         List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -570,6 +583,9 @@ public class ASF_CaseMovementHelper {
                     if(assignmentInfoMap.containsKey(caseRec.Id)){
                         ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = assignmentInfoMap.get(caseRec.Id);
                         resultWrapper.ownerId = info?.defaultOwnerId;
+                        // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM.
+                        resultWrapper.ownerName = info != null? info.defaultOwnerName : '';
+                        // VIRENDRA - ENDS HERE.
                         resultWrapper.errorOwnerId = info?.defaultErrorOwnerId;
                         resultWrapperMap.put(caseRec.Id, resultWrapper);
                         // If Owner Id not found, find by regular method
@@ -587,6 +603,9 @@ public class ASF_CaseMovementHelper {
                     ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = rulesAssignmentInfos.get(caseRec.Id);
                     StageWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
                     resultWrapper.ownerId = info.defaultOwnerId;
+                    // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGNED TEAM.
+                    resultWrapper.ownerName = info.defaultOwnerName;
+                    // VIRENDRA - ENDS HERE.
                     resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
                     resultWrapperMap.put(caseRec.Id, resultWrapper);
                 }
@@ -692,7 +711,7 @@ public class ASF_CaseMovementHelper {
             }
             else if(areIntegrationsCompletePerCase.containsKey(caseRec.Id) && areIntegrationsCompletePerCase.get(caseRec.Id) != 'Success'){
                 resultWrapper.status  = 'Error';
-                resultWrapper.errorMessage = areIntegrationsCompletePerCase.get(caseRec.Id);
+                resultWrapper.errorMessage = areIntegrationsCompletePerCase.get(caseRec.Id) + ' '+ System.Label.ASF_Integration_Mandatory_Error;
             }
 
             if(resultWrapper.status != 'Error'){
@@ -809,8 +828,9 @@ public class ASF_CaseMovementHelper {
             stageIdToCaseRulesMap.get(rule.Case_Stage_Config__c).add(rule);
         }
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -842,6 +862,8 @@ public class ASF_CaseMovementHelper {
                             else{
                                 continue;
                             }
+                        } else if(config.Gateway_Stage__c){
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
                         }
                         // If Manual, Continue ahead
                         else if(config.Manual_Stage__c){
@@ -873,6 +895,9 @@ public class ASF_CaseMovementHelper {
                 }else if(nextStageConfig.Default_Queue__c != null){
                     StageConfigWrapper resultWrapper = resultWrapperMap.get(caseRec.Id);
                     resultWrapper.ownerId = nextStageConfig.Default_Queue__c;
+                    // VIRENDRA - 8 JUNE 2024 - ADDED TO STAMP CASE ASSIGNED TEAM.
+                    resultWrapper.ownerName = nextStageConfig.Default_Queue_user_Name__c;
+                    // VIRENDRA - ENDS HERE.
                     resultWrapper.errorOwnerId = nextStageConfig.Default_Error_Queue__c;
                     resultWrapper.status = resultWrapper.ownerId != null?'Success':null;
                     resultWrapperMap.put(caseRec.Id, resultWrapper);
@@ -918,6 +943,8 @@ public class ASF_CaseMovementHelper {
                 if(infos.containsKey(caseRec.Id)){
                     ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseRec.Id);
                     resultWrapper.ownerId = info.defaultOwnerId;
+                    // VIRENDRA - 21 JUL 2024 - Added for SIT BUG FIX.
+                    resultWrapper.ownerName = info.defaultOwnerName != null? info.defaultOwnerName : '';
                     resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
                     resultWrapper.status = 'Success';
                 }
@@ -958,8 +985,9 @@ public class ASF_CaseMovementHelper {
             externalIdToStageConfigsMap.get(config.Case_Category_Config__r.CCC_External_Id__c).add(config);
         }
 
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(Case caseRec : currentCases){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(Case caseRec : currentCases){
             System.debug('Check here ---> '+caseRec.Id+ ' --> '+externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c));
             if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
                 for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
@@ -1005,12 +1033,19 @@ public class ASF_CaseMovementHelper {
             ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo resultWrapper = resultWrapperMap.containsKey(caseId) ? resultWrapperMap.get(caseId) : new ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo();
             resultWrapper.defaultOwnerId = info.defaultOwnerId;
             resultWrapper.defaultErrorOwnerId = info.defaultErrorOwnerId;
+            
+            // VIRENDRA - 8 JUNE 2024 - ADDED defaultOwnerName to store on Case.
+            resultWrapper.defaultOwnerName = info.defaultOwnerName;
+            // VIRENDRA - 8 JUNE 2024 - ENDS HERE.
 
             System.debug('@@@@caseIdToCurrentStageConfigMap'+caseIdToCurrentStageConfigMap);
             System.debug('@@@@caseId'+caseId);
             ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.containsKey(caseId) ? caseIdToCurrentStageConfigMap.get(caseId) : null;
             if(resultWrapper.defaultOwnerId == null){
                 resultWrapper.defaultOwnerId = currentStageConfig != null ? currentStageConfig.Default_Queue__c : null;
+                // VIRENDRA - 9 JUNE 2024 - ADDED DEFAULTOWNERNAME to store the QUEUE NAME ON CASE.
+                //System.debug('currentStageConfig.Default_Queue__c '+currentStageConfig.Default_Queue__c+ 'currentStageConfig.Default_Queue_user_Name__c -'+currentStageConfig.Default_Queue_user_Name__c);
+                resultWrapper.defaultOwnerName = currentStageConfig != null ? currentStageConfig.Default_Queue_user_Name__c : null;
             }
             if(resultWrapper.defaultErrorOwnerId == null){
                 resultWrapper.defaultErrorOwnerId = currentStageConfig != null ? currentStageConfig.Default_Error_Queue__c : null;
@@ -1178,6 +1213,9 @@ public class ASF_CaseMovementHelper {
                 ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = assignmentInfoMap.get(caseRec.Id);
                 resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseRec.Id);
                 resultWrapper.ownerId = info?.defaultOwnerId;
+                // VIRENDRA - 11 June 2024 - TO STAMP THE CASE ASSIGNED TEAM
+                resultWrapper.ownerName = info != null ? info.defaultOwnerName : '';
+                // VIRENDRA - ENDS HERE.
                 resultWrapper.errorOwnerId = info?.defaultErrorOwnerId;
 
                 if(resultWrapper.ownerId == null){
@@ -1194,6 +1232,9 @@ public class ASF_CaseMovementHelper {
                 ASF_CaseFrameworkHelper.CaseRuleAssignmentInfo info = infos.get(caseId);
                 StageConfigWrapper resultWrapper = resultWrapperMap.get(caseId);
                 resultWrapper.ownerId = info.defaultOwnerId;
+                // VIRENDRA - 8 JUNE 2024 - TO STAMP CASE ASSIGN TEAM ON CASE MOVEMENT.
+                resultWrapper.ownerName = info.defaultOwnerName != null ?info.defaultOwnerName : '';
+                // VIRENDRA - 8 JUNE 2024 - ENDS HERE.
                 resultWrapper.errorOwnerId = info.defaultErrorOwnerId;
                 resultWrapper.isPreviousStage = caseIdToIsPreviousStageMap.get(caseId);
                 resultWrapperMap.put(caseId, resultWrapper);
@@ -1251,6 +1292,23 @@ public class ASF_CaseMovementHelper {
                 }
             }
         }
+        if(casesFromBackward!=null){
+            for(Case caseRec : casesFromBackward){
+                if(externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)){
+                    system.debug('externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)---->'+externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c));
+                    for(ASF_Case_Stage_Config__c config: externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)){
+                        system.debug('config---->'+config);
+                        if(config.StageName__c == caseIdToNextStageMap.get(caseRec.Id)){
+                            caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                            CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
+                            resultWrapper.manualApprovalStage = config.Manual_Approval__c;
+                            resultWrapperMap.put(caseRec.Id, resultWrapper);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         // Fetch all Case Rules and Run the Approrpriate One - For Approval matching the Case Stage Config
         List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(externalIds);
@@ -1271,11 +1329,12 @@ public class ASF_CaseMovementHelper {
                 }
                 caseIdToCaseRuleMap.get(caseRec.Id).addAll(externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c+nextStage));
             }
-        }
+                                }
 
         // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
-        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c'};
-        for(ASF_Case_Stage_Config__c config: allStageConfigs){
+        Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+        	allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
+            for(ASF_Case_Stage_Config__c config: allStageConfigs){
             if(config.Query_Fields__c != null){
                 allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
             }
@@ -1312,7 +1371,7 @@ public class ASF_CaseMovementHelper {
             for(Case caseRec : casesFromBackward){
                 CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
                 resultWrapper.slaCaseAndStageOverrideValues = slaCaseAndStageOverrideValues.get(caseRec.Id);
-                resultWrapper.status = 'Success';
+                                resultWrapper.status = 'Success';
                 resultWrapperMap.put(caseRec.Id, resultWrapper);
         	}
         }
@@ -1333,10 +1392,10 @@ public class ASF_CaseMovementHelper {
                 if(caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c 
                     && caseRec.CCC_External_Id__c != null){
                         // VIRENDRA - 19 Feb 2024 - ADDITIONAL CHECK TO FIND OUT CASES NOT CONVERTED FROM PREFRAMWORK TO FRAMEWORK.
-                       if(!(caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
-                        {
+                       //if(!(caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
+                       //{
                             updFrameworkCases.add(caseRec);
-                        }
+                       //}
                 }
             }
         }
@@ -1383,6 +1442,9 @@ public class ASF_CaseMovementHelper {
         // Trigger to Call that directly as needed
         //public CaseAdditionalData data;
         public ASF_Case_Stage_Config__c nextStageConfig;
+        // VIRENDRA - 8 JUNE 2024 - ADDED VARIABLE TO STORE THE OWNERNAME
+        // THIS IS USED TO STAMP CASE ASSIGN TEAM ON CASE RECORD.
+        public string ownerName;
         
     }
     
@@ -1413,6 +1475,8 @@ public class ASF_CaseMovementHelper {
         public String status;
         public String errorMessage;
         public Boolean isPreviousStage;
+        // VIRENDRA - 8 JUNE 2024 - ADDED ownerName;
+        public String ownerName;
     }
 
     public class CaseStageValidationWrapper{

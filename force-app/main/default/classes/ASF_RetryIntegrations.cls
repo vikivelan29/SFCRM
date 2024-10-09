@@ -1,20 +1,22 @@
 /**
- * @description       : This class is used for retrying the PROCESS type and EBOT related Integrations.
- * @author            : virendra
- * @group             : 
- * @last modified on  : 05-14-2024
- * @last modified by  : rsinghnagar@salesforce.com
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   05-14-2024   rsinghnagar@salesforce.com   Initial Version
+* @description       : This class is used for retrying the PROCESS type and EBOT related Integrations.
+* @author            : virendra
+* @group             : 
+* @last modified on  : 05-14-2024
+* @last modified by  : rsinghnagar@salesforce.com
+* Modifications Log
+* Ver   Date         Author                       Modification
+* 1.0   05-14-2024   rsinghnagar@salesforce.com   Initial Version
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public without sharing class ASF_RetryIntegrations {
+    public static final integer iRetryInterval = Integer.ValueOf(System.Label.ASF_RetryInterval);
+    public static final integer iRetryNumbers = Integer.ValueOf(System.Label.ASF_RetryNumbers);
     /**
-    * @description 
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param caseIntegrationRecords 
-    **/
+* @description 
+* @author rsinghnagar@salesforce.com | 05-13-2024 
+* @param caseIntegrationRecords 
+**/
     @InvocableMethod(label='Retry Integrations' description='This Apex is used to invoke the Failed or Pending Integrations')
     public static void retryIntegration(List<ASF_Case_Integration__c> caseIntegrationRecords) {
         Set<Id> caseIds = new Set<Id>();
@@ -110,28 +112,28 @@ public without sharing class ASF_RetryIntegrations {
                         ASF_Integration__c integ = mIntegrationRecords.get(cInt.Integration_Ext_Id__c);
                         
                         // CHECK IF THE NUMBER OF ATTEMPTS COMPLETED FOR INTEGRATION OF TYPE PROCESS OR PREPOPULATED                        
-                        if(integ.Type__c == ASF_Constants.RETRY_PROCESSTYPEINTEG || integ.Type__c == ASF_Constants.RETRY_PREPOPULATEDTYPEINTEG){
-                            String tempKey = cInt.Case__c+'_'+cInt.Integration_Ext_Id__c;
-                            integer ihashKey = tempKey.hashCode();
-                            
-                            integer iAttempts = 0;
-                            if(mhashCaseCaseIntegrationVsAttempt.containsKey(ihashKey)){
-                                iAttempts = mhashCaseCaseIntegrationVsAttempt.get(ihashKey);
-                            }
-                            if(iAttempts <= 2){
-                                retryProcessTypeIntegrations(integ,cRec,casesToUpdate);
-                                
-                                String tempCompositeKeyForCaseIntegration = cInt.Case__c+cInt.Integration_Ext_Id__c;
-                                integer itempCompositeKeyForCaseInt = tempCompositeKeyForCaseIntegration.hashCode();
-                                mCaseCaseIntegrationIdVsAttempt.put(itempCompositeKeyForCaseInt,iAttempts);
-                                
-                                caseIdForProcess.add(cInt.Case__c);
-                                caseIntProcess.add(cInt.Integration_Ext_Id__c);
-                                
-                            }
-                            
-                        }
-                        
+                        if(integ.Type__c == ASF_Constants.RETRY_PROCESSTYPEINTEG || integ.Type__c == ASF_Constants.RETRY_PREPOPULATEDTYPEINTEG || 
+                           integ.Type__c == ASF_Constants.RETRY_PROCESS_SEQUENTIALTYPEINTEG){
+                               String tempKey = cInt.Case__c+'_'+cInt.Integration_Ext_Id__c;
+                               integer ihashKey = tempKey.hashCode();
+                               
+                               integer iAttempts = 0;
+                               if(mhashCaseCaseIntegrationVsAttempt.containsKey(ihashKey)){
+                                   iAttempts = mhashCaseCaseIntegrationVsAttempt.get(ihashKey);
+                               }
+                               if(iAttempts <= iRetryNumbers){
+                                   retryProcessTypeIntegrations(integ,cRec,casesToUpdate);
+                                   
+                                   String tempCompositeKeyForCaseIntegration = cInt.Case__c+cInt.Integration_Ext_Id__c;
+                                   integer itempCompositeKeyForCaseInt = tempCompositeKeyForCaseIntegration.hashCode();
+                                   mCaseCaseIntegrationIdVsAttempt.put(itempCompositeKeyForCaseInt,iAttempts);
+                                   
+                                   caseIdForProcess.add(cInt.Case__c);
+                                   caseIntProcess.add(cInt.Integration_Ext_Id__c);
+                                   
+                               }
+                               
+                           }
                     }
                     else if(mHashedMdtVsPlatformEvtName.containsKey(iHashUniqueKeyForMdt)){
                         String platformEventToFire = mHashedMdtVsPlatformEvtName.get(iHashUniqueKeyForMdt);
@@ -150,8 +152,8 @@ public without sharing class ASF_RetryIntegrations {
                 integer itempKey = tempKey.hashcode();
                 if(mCaseCaseIntegrationIdVsAttempt.containsKey(itempKey)){
                     cInteg.Retry_Attempt__c = mCaseCaseIntegrationIdVsAttempt.get(itempKey);
-                    if(mCaseCaseIntegrationIdVsAttempt.get(itempKey) <= 2){
-                        if(mCaseCaseIntegrationIdVsAttempt.get(itempKey) == 2){
+                    if(mCaseCaseIntegrationIdVsAttempt.get(itempKey) <= iRetryNumbers){
+                        if(mCaseCaseIntegrationIdVsAttempt.get(itempKey) == iRetryNumbers){
                             cInteg.Next_Retry__c = null;
                             cInteg.Retry__c = false;
                         }
@@ -176,12 +178,12 @@ public without sharing class ASF_RetryIntegrations {
     }
     
     /**
-    * @description : retryNonASFIntegrationRelatedIntegration
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param cInt 
-    * @param plaformEventToTrigger 
-    * @param platformEventToFire 
-    **/
+* @description : retryNonASFIntegrationRelatedIntegration
+* @author rsinghnagar@salesforce.com | 05-13-2024 
+* @param cInt 
+* @param plaformEventToTrigger 
+* @param platformEventToFire 
+**/
     private static void retryNonASFIntegrationRelatedIntegration(ASF_Case_Integration__c cInt, List<sObject> plaformEventToTrigger, String platformEventToFire)
     {
         sObject evt = (sObject)JSON.deserialize(cInt.Request__c, sObject.class);
@@ -189,12 +191,12 @@ public without sharing class ASF_RetryIntegrations {
     }
     
     /**
-    * @description 
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param integ 
-    * @param cRec 
-    * @param casesToUpdate 
-    **/
+* @description 
+* @author rsinghnagar@salesforce.com | 05-13-2024 
+* @param integ 
+* @param cRec 
+* @param casesToUpdate 
+**/
     private static void retryProcessTypeIntegrations(ASF_Integration__c integ, Case cRec,List<Case> casesToUpdate){
         ASF_IntegrationsController.IntegrationWrapper intResult = ASF_IntegrationsController.runIntegration(integ, cRec);
         
@@ -205,24 +207,31 @@ public without sharing class ASF_RetryIntegrations {
     }
     
     /**
-    * @description 
-    * @author rsinghnagar@salesforce.com | 05-13-2024 
-    * @param cInt 
-    * @param caseInteToUpdate 
-    **/
+* @description 
+* @author rsinghnagar@salesforce.com | 05-13-2024 
+* @param cInt 
+* @param caseInteToUpdate 
+**/
     private static void setNextRetryParametersOnCaseIntegrations(ASF_Case_Integration__c cInt,List<ASF_Case_Integration__c> caseInteToUpdate){
         cInt.Status__c = 'Pending';
-        cInt.Next_Retry__c = System.now().addMinutes(15);
-        if(cInt.Retry_Attempt__c != null){
-            cInt.Retry_Attempt__c = cInt.Retry_Attempt__c + 1;
-        }
-        else{
-            cInt.Retry_Attempt__c = 1;
-        }
-        if(cInt.Retry_Attempt__c > 2){
+        cInt.Next_Retry__c = System.now().addMinutes(iRetryInterval);
+        if(iRetryInterval == 0){
             cInt.Next_Retry__c = null;
             cInt.Retry__c = false;
         }
+        else{
+            if(cInt.Retry_Attempt__c != null){
+                cInt.Retry_Attempt__c = cInt.Retry_Attempt__c + 1;
+            }
+            else{
+                cInt.Retry_Attempt__c = 1;
+            }
+            if(cInt.Retry_Attempt__c > iRetryNumbers){
+                cInt.Next_Retry__c = null;
+                cInt.Retry__c = false;
+            }
+        }
+        
         caseInteToUpdate.add(cInt);
     }
 }

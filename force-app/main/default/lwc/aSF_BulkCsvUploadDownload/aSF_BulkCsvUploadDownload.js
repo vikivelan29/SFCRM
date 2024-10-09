@@ -1,6 +1,7 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import getMetadataDetails from '@salesforce/apex/ASF_BulkCsvController.getMetadataDetails';
 import generateCSVFile from '@salesforce/apex/ASF_BulkCsvController.generateCSVFileWithData';
+import generateCtstFile from '@salesforce/apex/ASF_BulkCsvController.generateCSVFileWithCtst';
 import getCSVTemplate from '@salesforce/apex/ASF_BulkCsvController.getCSVTemplate';
 import insertHeaderRowWithLineItems from '@salesforce/apex/ASF_BulkUploadUtilityController.insertHeaderRowWithLineItems';
 import insertLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLineItemsChunk';
@@ -29,6 +30,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     strCSVGeneration = 'Please wait. The CSV generation is in progress...';
     listViewId = 'Recent';
     strNoAccessError = 'You do not have access to perform Bulk Operation';
+    strDownloadCtst = 'Download CTST';
     MAX_CHUNK_SIZE = CHUNK_SIZE;
     downloadLimitMsg = DOWNLOAD_LIMIT_MESSAGE;
 
@@ -73,7 +75,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     chunkedLineItems;
     allLineItems;
     currentChunkIndex = 0;
-
+    boolShowCTST = false;
    
     //Disable Upload Button
     get noOperationTypeValue(){
@@ -169,6 +171,30 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                 this.disableUploadBtn = false;
             }
         });
+        this.boolShowCTST = this.selectedConfigRec.CTST_Query_Fields__c != undefined && this.selectedConfigRec.CTST_Query_Fields__c != null? true : false;
+    }
+    //Method to Download CTST CSV records
+    downloadCtst(){
+        this.boolDisplayLoadingText = true;
+        this.strErrorMessage = '';
+
+        generateCtstFile({strConfigName: this.selectedConfigRec.DeveloperName})
+        .then(result => {
+            this.boolDisplayLoadingText = false;
+                this.dataCSV = result;
+                this.showLoadingSpinner = true;
+                if(Array.isArray(this.dataCSV)){
+                    this.downloadCSVFile('CTST Data');
+                    }
+                else {
+                    this.showLoadingSpinner = false;
+                    this.getCSVClick(result,'CTST Data');
+                }
+        })
+        .catch(error => { 
+            this.boolDisplayLoadingText = false;
+            this.displayErrorMessage(error, '');
+        });
     }
 
     //Method to Download CSV template along with records
@@ -185,7 +211,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                 this.dataCSV = result;
                 this.showLoadingSpinner = true;
                 if(Array.isArray(this.dataCSV )){
-                    this.downloadCSVFile();
+                    this.downloadCSVFile('');
                     }
                 else {
                     this.showLoadingSpinner = false;
@@ -198,7 +224,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         });
     }
     //This method validates the dataCSV and creates the csv file to download
-    async downloadCSVFile() {   
+    async downloadCSVFile(fileName) {   
         let csvString = '';
 
         this.dataCSV = this.dataCSV.map(obj => {
@@ -218,7 +244,8 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         //     csvString = csvString.replaceAll('\n', '\n=');
         // } 
         this.showLoadingSpinner = false;
-        this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
+        let csvName = fileName != '' ? fileName : this.operationRecordTypeValue +'-' + Date.now();
+        this.getCSVClick(csvString, csvName);
     }
 
     //This method downloads CSV
