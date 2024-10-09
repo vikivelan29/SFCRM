@@ -310,8 +310,6 @@ public without sharing class ABHI_CreatePolicy {
                     policy.putSObject(policyObjectFieldMapping.get(policyMapping).split(':')[0], policyRefs);
                 }
                 when else {
-                    System.debug('@@@1'+policyObjectFieldMapping.get(policyMapping));
-                    System.debug('@@@2'+policyMap.get(policyMapping.split(':')[0]));
                     policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]));
                 }    
             }  
