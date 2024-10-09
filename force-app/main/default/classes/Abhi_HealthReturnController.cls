@@ -18,18 +18,23 @@ public with sharing class Abhi_HealthReturnController {
     @AuraEnabled
     public static ResponseWrapper healthReturnCallout(String policyNo, String proposalNo){
         
-        Abhi_HealthReturnController abhilClassObj = new Abhi_HealthReturnController();
+      Abhi_HealthReturnController abhilClassObj = new Abhi_HealthReturnController();
 
-        String integrationName = 'ABHI_HealthReturn_API_Details';
-        String requestPayload = JSON.serialize(abhilClassObj.prepareRequestPayload(policyNo, proposalNo));
-        ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName, requestPayload, null);
-        
-        ResponseWrapper respWrapper = new ResponseWrapper();
+      String integrationName = 'ABHI_HealthReturn_API_Details';
+      String requestPayload = JSON.serialize(abhilClassObj.prepareRequestPayload(policyNo, proposalNo));
+      ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName, requestPayload, null);
+      
+      ResponseWrapper respWrapper = new ResponseWrapper();
 
-        if(String.isNotBlank(integrationResponse.responseBody)){        
-            respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
-        }
-        return respWrapper;
+      if(integrationResponse.statusCode == 200){        
+        respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
+      }
+      else if(integrationResponse.statusCode == 400) {
+        Custom_Messages__mdt cm = Custom_Messages__mdt.getInstance('ABHI_No_Response_Received');
+        respWrapper.Message = cm.Message__c;
+        respWrapper.StatusCode = integrationResponse.statusCode;
+      }
+      return respWrapper;
     }
 
     /**
