@@ -213,20 +213,6 @@
         <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
     </labels>
     <labels>
-        <fullName>ABFL_Retail_Int_Failed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
-        <value>Active</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_Retail_Int_Failed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
-        <value>Active</value>
-    </labels>
-    <labels>
         <fullName>ABHFL_Complaint_Investigation_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -508,20 +494,6 @@
         <value>1</value>
     </labels>
     <labels>
-        <fullName>ASF_Recat_Approval_Required_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF Recat Approval Required BU</shortDescription>
-        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
-    </labels>
-        <labels>
-        <fullName>ASF_Recat_Approval_Required_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF Recat Approval Required BU</shortDescription>
-        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
-    </labels>
-    <labels>
         <fullName>ASF_SLA_NoReplyAdress</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -620,20 +592,6 @@
         <value>ABFSSL CRMAPPQKM06</value>
     </labels>
     <labels>
-        <fullName>DMS_File_Name</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DMS_File_Name</shortDescription>
-        <value>File Name</value>
-    </labels>
-        <labels>
-        <fullName>DMS_File_Name</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DMS_File_Name</shortDescription>
-        <value>File Name</value>
-    </labels>
-    <labels>
         <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -697,20 +655,6 @@
         <value>https://uatbpmdms.adityabirlafinance.com/IntegrationDMS/odencrequestDecrypt.jsp?Application=DOC_VIEW&amp;cabinetName=abfl&amp;sessionIndexSet=false&amp;</value>
     </labels>
     <labels>
-        <fullName>EmailRelayThreshold</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
-    </labels>
-    <labels>
-        <fullName>EmailRelayThreshold</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
-    </labels>
-    <labels>
         <fullName>EndUserProfiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -746,20 +690,6 @@
         <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
     </labels>
     <labels>
-        <fullName>Impact_Field_Error</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Impact Field Error</shortDescription>
-        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
-    </labels>
-    <labels>
-        <fullName>Impact_Field_Error</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Impact Field Error</shortDescription>
-        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
-    </labels>
-    <labels>
         <fullName>Incomplete_Checklist_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -786,34 +716,6 @@
         <protected>false</protected>
         <shortDescription>Maker_Owner_Error_Message</shortDescription>
         <value>This user cannot be assigned as the user has worked on the Case in the Maker stage.</value>
-    </labels>
-    <labels>
-        <fullName>Manual_Synching</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Manual_Synching</shortDescription>
-        <value>Manual Synching</value>
-    </labels>
-    <labels>
-        <fullName>No_DMS_File</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No DMS File</shortDescription>
-        <value>No file available for syncing.</value>
-    </labels>
-        <labels>
-        <fullName>Manual_Synching</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Manual_Synching</shortDescription>
-        <value>Manual Synching</value>
-    </labels>
-    <labels>
-        <fullName>No_DMS_File</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No DMS File</shortDescription>
-        <value>No file available for syncing.</value>
     </labels>
     <labels>
         <fullName>Owner_Change_Validation_Message</fullName>
@@ -971,20 +873,6 @@
         <value>EBOT has generated an email. Kindly have a look!</value>
     </labels>
     <labels>
-        <fullName>ABSLIG_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG BU</shortDescription>
-        <value>ABSLIG</value>
-    </labels>
-    <labels>
-        <fullName>ABSLIG_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG BU</shortDescription>
-        <value>ABSLIG</value>
-    </labels>
-    <labels>
         <fullName>ABSLIG_E2C</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -997,20 +885,6 @@
         <protected>false</protected>
         <shortDescription>Business Unit Check For SLA Override</shortDescription>
         <value>ABSLIG</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI BU</shortDescription>
-        <value>ABSLI</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI BU</shortDescription>
-        <value>ABSLI</value>
     </labels>
     <labels>
         <fullName>ABHI_Active_Days</fullName>
@@ -1250,7 +1124,7 @@
         <shortDescription>ABHI Track Sources</shortDescription>
         <value>Phone-Inbound,Phone-Outbound</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>ABHI_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1314,13 +1188,6 @@
         <value>Wellness</value>
     </labels>
     <labels>
-        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
-        <value>You do not have access to update/delete this comment</value>
-    </labels>
-    <labels>
         <fullName>ABHFL_Bitly_LOB</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1361,5 +1228,12 @@
         <protected>false</protected>
         <shortDescription>ASF_RetryNumbers</shortDescription>
         <value>2</value>
+    </labels>
+    <labels>
+        <fullName>OppDetailsToastErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OppDetailsToastErrorMessage</shortDescription>
+        <value>We&apos;re not able to fetch the details currently. Please try again later.</value>
     </labels>
 </CustomLabels>
