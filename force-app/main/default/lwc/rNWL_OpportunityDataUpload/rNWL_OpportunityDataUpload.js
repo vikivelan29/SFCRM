@@ -112,7 +112,7 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
                         this.showMessage(this.recordStatus, 'warning');
                     } else {
                     
-                        this.showMessage('All fleet rows were uploaded successfully','success');
+                        this.showMessage('All Opportunity rows were updated successfully','success');
                     }
                 }
                 this.isLoading = false;
