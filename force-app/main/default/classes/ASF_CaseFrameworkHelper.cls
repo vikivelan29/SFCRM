@@ -12,6 +12,7 @@ public without sharing class ASF_CaseFrameworkHelper {
      * Return the Approval Records to calling method, to b
      * e inserted
      */
+    public static Map<Id, Boolean> runIntegrationFromLwc = new Map<Id, Boolean>();
     public static Map<Id, List<ASF_Case_Approv__c>> addApprovals(List<Case> caseList, Map<Id, List<ASF_Case_Rule__c>> allCaseRules){
 
         Map<Id, List<ASF_Case_Approv__c>> approvalMap = new Map<Id, List<ASF_Case_Approv__c>>();
@@ -36,6 +37,7 @@ public without sharing class ASF_CaseFrameworkHelper {
                             caseApprovalRecord.Approval_Status__c  = 'Pending';
                             caseApprovalRecord.Case_Stage_At_Creation__c = caseRec.Stage__c;
                             caseApprovalRecord.SR__c = caseRec.Id;
+                            caseApprovalRecord.Line_Of_Business__c = caseRec.LOB__c;
                             approvalList.add(caseApprovalRecord);
                             break;
                         }
@@ -70,7 +72,7 @@ public without sharing class ASF_CaseFrameworkHelper {
                             for (ASF_Case_Checklist_Master__c chklistMaster : caseRule.Case_Checklist_Masters__r) {
                                 
                                 ASF_Checklist__c checklistRecord = new ASF_Checklist__c();
-                                checklistRecord.Label__c = chklistMaster.Name;
+                                checklistRecord.Label__c = chklistMaster.Label__c;
                                 checklistRecord.Mandatory__c = chklistMaster.Mandatory__c;
                                 checklistRecord.Description__c = chklistMaster.Description__c;
                                 checklistRecord.Type__c = chklistMaster.Type__c;
@@ -80,6 +82,11 @@ public without sharing class ASF_CaseFrameworkHelper {
                                 checklistRecord.Stage_Name__c = caseRec.Stage__c;
                                 checklistRecord.Business_Unit__c = caseRec.Business_Unit__c;
                                 checklistRecord.Checklist_External_Id__c = chklistMaster.Checklist_External_Id__c;
+                                // VIRENDRA - 13 June 2024 - Added Picklist Option field on ASF_Checklist.
+                                checklistRecord.Status_Picklist_Options__c = chklistMaster.Picklist_Options__c;
+                                // VIRENDRA - 13 June 2024 - ENDS HERE.
+                                //PR1030924-60, for populating new Line_Of_Business__c field
+                                checklistRecord.Line_Of_Business__c = caseRec.LOB__c;
                                 checklistList.add(checklistRecord);
                             }
                             break;
@@ -210,6 +217,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                         if (result == true) {
                             resultInfo.defaultOwnerId = caseRule.Assigned_Queue_Id__c;
                             resultInfo.defaultErrorOwnerId = caseRule.Assigned_Error_Queue_Id__c;
+                            // VIRENDRA - 8 JUNE 2024 - ADDED Assignment_Queue_Name__c to response resultInfo.
+                            resultInfo.defaultOwnerName = caseRule.Assignment_Queue_Name__c;
                             break;
                         }                
                     }
@@ -227,9 +236,16 @@ public without sharing class ASF_CaseFrameworkHelper {
      * For Back Movement, Find the Previously Actioned User
      */
     public static Map<Id, CaseRuleAssignmentInfo> findAssignmentForPreviouslyVisitedStage(Map<Id, String> caseStageMap){
-        
+        Map<Id,User> mINTEGRATIONUSERS = new Map<Id,User>([SELECT ID FROM User WHERE Profile.Name = 'Salesforce API Only System Integrations']);
         Map<Id, CaseRuleAssignmentInfo> resultInfoMap = new Map<Id, CaseRuleAssignmentInfo>();
-        
+        //Checks whether to skip case assignment rule or not based on the Feature_Skipper_Flag__c field on case
+        Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
+        Map<Id, String> filteredCaseStageMap = new Map<Id,String>();
+        for(Id caseId : caseStageMap.keySet()){
+            if(!(skipperFlagMap.containsKey(caseId) && skipperFlagMap.get(caseId).contains(ASF_Constants.SKIP_ASSIGNMENT))){
+                filteredCaseStageMap.put(caseId,caseStageMap.get(caseId)) ;
+            }
+        }
         // To be able to find the Owner, below is the Logic
         // 1. Find the Last Actioned User of that Stage using SLA History
         // 2. If that user is Inactive, Run Assignment Rule of that Stage and Return the Queue
@@ -243,25 +259,34 @@ public without sharing class ASF_CaseFrameworkHelper {
                 caseSlaHistoryMap.get(history.Case__c).add(history);
         }
         
-       Map<Id,Id> lastActionedUserIdMap = new Map<Id,Id>();
-        for(Id caseId : caseStageMap.keySet()){
+       //Map<Id,Id> lastActionedUserIdMap = new Map<Id,Id>();
+       Map<Id,ASF_Case_SLA_History__c> lastActionedUserHistoryMap = new Map<Id,ASF_Case_SLA_History__c>();
+        Set<Id> lastActionedUsers = new Set<Id>();
+        
+        for(Id caseId : filteredCaseStageMap.keySet()){
             for(ASF_Case_SLA_History__c history : caseSlaHistoryMap.get(caseId)){
-                if(history.Stage__c == caseStageMap.get(caseId)){
-                    lastActionedUserIdMap.put(caseId, history.Current_Owner_Id__c);
-                    break;
+                if(history.Stage__c == filteredCaseStageMap.get(caseId)){
+                    if(!mINTEGRATIONUSERS.containsKey(history.Current_Owner_Id__c)){
+                        //lastActionedUserIdMap.put(caseId, history.Current_Owner_Id__c);
+                        lastActionedUserHistoryMap.put(caseId,history);
+                        lastActionedUsers.add(history.Current_Owner_Id__c);
+                    	break;
+                    }
                 }
         	}
         }
         
-        if(!lastActionedUserIdMap.isEmpty()){
+        //if(!lastActionedUserIdMap.isEmpty()){
+        if(!lastActionedUserHistoryMap.isEmpty() && lastActionedUsers.size()>0){
             // Check if User is Active
             Map<Id, User> lastActionedUserMap = new Map<Id, User>([ SELECT Id, IsActive FROM User
-                								WHERE Id IN: lastActionedUserIdMap.values() AND IsActive = true]);
-            for(Id caseId : lastActionedUserIdMap.keySet()){
+                								WHERE Id IN: lastActionedUsers AND IsActive = true]);
+            for(Id caseId : lastActionedUserHistoryMap.keySet()){
                 CaseRuleAssignmentInfo resultInfo;
-                if(lastActionedUserMap.containsKey(lastActionedUserIdMap.get(caseId))){
+                if(lastActionedUserMap.containsKey(lastActionedUserHistoryMap.get(caseId).Current_Owner_Id__c)){
                     resultInfo = new CaseRuleAssignmentInfo();
-                    resultInfo.defaultOwnerId = lastActionedUserIdMap.get(caseId);
+                    resultInfo.defaultOwnerId = lastActionedUserHistoryMap.get(caseId).Current_Owner_Id__c;
+                    resultInfo.defaultOwnerName = lastActionedUserHistoryMap.get(caseId).Case_Assigned_Team__c != null ? lastActionedUserHistoryMap.get(caseId).Case_Assigned_Team__c : '';
                     resultInfoMap.put(caseId, resultInfo);
                 }
             }
@@ -342,7 +367,7 @@ public without sharing class ASF_CaseFrameworkHelper {
 		for (Case caseRec : caseList){
             if(allIntegrations.get(caseRec.Id)!=null){
                 for (ASF_Integration__c integ : allIntegrations.get(caseRec.Id)){
-                    if(integ.Auto_Run_on_Load__c){
+                    if(integ.Auto_Run_on_Load__c && (!(caseRec.Technical_Source__c =='LWC' && integ.Run_Integration_From_LWC__c == false) || (runIntegrationFromLwc.containsKey(caseRec.Id) && runIntegrationFromLwc.get(caseRec.Id) == true))){
                         if(!eligibleIntegrationsMap.containsKey(caseRec.Id)){
                             eligibleIntegrationsMap.put(caseRec.Id, new List<ASF_Integration__c>());
                             applicableCases.add(caseRec);
@@ -350,9 +375,8 @@ public without sharing class ASF_CaseFrameworkHelper {
                         eligibleIntegrationsMap.get(caseRec.Id).add(integ);
                     }
                 }
-            }
-                
-            
+                runIntegrationFromLwc.put(caseRec.Id, false);
+            }     
         }
 
         if(!applicableCases.isEmpty()){
@@ -412,6 +436,7 @@ public without sharing class ASF_CaseFrameworkHelper {
         public Id defaultErrorOwnerId;
         public string status; 
         public string errorMessage;
+        // VIRENDRA: 8 JUNE 2024 - ADDED BELOW VARIABLE TO SHOW ASSIGNED TEAM ON ON CASE.
+        public string defaultOwnerName;
     }
-
 }

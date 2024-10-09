@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 06-28-2024
- * @last modified by  : rsinghnagar@salesforce.com 
+ * @last modified on  : 07-01-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   06-28-2024   rsinghnagar@salesforce.com   Initial Version
@@ -13,7 +13,7 @@ public class ASF_BulkCsvDownloadHelper_Test {
 
     @TestSetup
     public static void setupData(){
-         ASF_TestDataFactory.createCaseRecords(1);   
+    	 ASF_TestDataFactory.createCaseRecords(1);   
     }
     
     @isTest
@@ -26,16 +26,24 @@ public class ASF_BulkCsvDownloadHelper_Test {
     private static void getCSVTemplateTest() {
         Test.startTest();
             String result = ASF_BulkCsvController.getCSVTemplate('ABHFL_Create_Case');
-            String resultFalse = ASF_BulkCsvController.getCSVTemplate('test');
-            Assert.areNotEqual(result, '');
+        	String resultFalse = ASF_BulkCsvController.getCSVTemplate('test');
+        	Assert.areNotEqual(result, '');
         Test.stopTest();     
     }
     @isTest
     private static void generateCSVFileWithDataTest() {
         Test.startTest();
         Id caseId = [select Id from case LIMIT 1].Id;
-        Object result = ASF_BulkCsvController.generateCSVFileWithData('ABHFL_Create_Case','test',caseId,'__Recent');
-        Assert.isNotNull(result);
+         	Object result = ASF_BulkCsvController.generateCSVFileWithData('ABHFL_Create_Case','test',caseId,'__Recent');
+        	Assert.isNotNull(result);
+        Test.stopTest();     
+    }
+    @isTest
+    private static void generateCSVFileWithCtstTest() {
+        Test.startTest();
+        Id caseId = [select Id from case LIMIT 1].Id;
+         	Object result = ASF_BulkCsvController.generateCSVFileWithCtst('ABSLI_Create_Case');
+        	Assert.isNotNull(result);
         Test.stopTest();     
     }
     @isTest
@@ -55,11 +63,11 @@ public class ASF_BulkCsvDownloadHelper_Test {
     @isTest
     private static void getListViewSOQLTest() {
         Test.startTest();
-            Id caseId = [select Id from case LIMIT 1].Id;
-            String listViewId = ASF_BulkCsvDownloadHelper.getRecentViewID('Case','__Recent');
+        Id caseId = [select Id from case LIMIT 1].Id;
+         	String listViewId = ASF_BulkCsvDownloadHelper.getRecentViewID('Case','__Recent');
             ASF_BulkCsvDownload_MockTest mock = new ASF_BulkCsvDownload_MockTest();
             Test.setMock(HttpCalloutMock.class, mock);
-            String resultQuery = ASF_BulkCsvDownloadHelper.getListViewSOQL('Case', listViewId);
+        	String resultQuery = ASF_BulkCsvDownloadHelper.getListViewSOQL('Case', listViewId);
         Test.stopTest();     
     }
 }

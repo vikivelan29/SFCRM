@@ -2,18 +2,18 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 05-13-2024
-* @last modified by  : rsinghnagar@salesforce.com
+* @last modified on  : 10-09-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.StdCyclomaticComplexity')
 public without sharing class ASF_AssocCustomerForAPICases {
-    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM'};
+    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM','ABSLI'};
         
         /**
-        * @description : Associate AccountId and AssetId based on text fields.
-        * @author rsinghnagar@salesforce.com | 05-13-2024 
-        * @param newList 
-        **/
+* @description : Associate AccountId and AssetId based on text fields.
+* @author rsinghnagar@salesforce.com | 05-13-2024 
+* @param newList 
+**/
         public static void searchAndAssocCustomerForAPICases(List<Case> newList){
             Set<String> accountsClientCode = new Set<String>();
             Map<Integer,Id> accClientCodeVsAccIds = new Map<Integer,Id>();
@@ -38,7 +38,9 @@ public without sharing class ASF_AssocCustomerForAPICases {
                         if(!iHashLANVsLob.containsKey(itempKey)){
                             iHashLANVsLob.put(itempKey,individualCase.Business_Unit__c);
                         }
-                        caseLANNo.add(individualCase.LAN__c); 
+                        String assetExternalId = getExternalKeyForLANPerBU(individualCase.Business_Unit__c, individualCase.LAN__c);
+                        System.debug(assetExternalId);
+                        caseLANNo.add(assetExternalId);
                     }
                     
                 }
@@ -55,8 +57,11 @@ public without sharing class ASF_AssocCustomerForAPICases {
                 } 
             }
             if(caseLANNo.size()>0){
-                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE LAN__c =: caseLANNo AND Business_Unit__c =: LINE_OF_BUSINESS]){
-                    String tempKey = ast.Business_Unit__c +'_'+ast.LAN__c;
+                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE (LAN__c =: caseLANNo OR Policy_No__c =:caseLANNo) AND Business_Unit__c =: LINE_OF_BUSINESS]){
+                    
+                    String assetExternalId = ast.LAN__c;
+
+                    String tempKey = ast.Business_Unit__c +'_'+assetExternalId;
                     integer itempKey = tempKey.hashCode();
                     
                     if(!lanNoVsAsset.containsKey(itempKey)){
@@ -75,7 +80,12 @@ public without sharing class ASF_AssocCustomerForAPICases {
                         }
                     }
                     if(individualCase.LAN__c != null){
-                        String tempKey = individualCase.Business_Unit__c+'_'+individualCase.LAN__c;
+                        String assetExternalId = getExternalKeyForLANPerBU(individualCase.Business_Unit__c, individualCase.LAN__c);
+                        //String tempKey = individualCase.Business_Unit__c+'_'+individualCase.LAN__c;
+                        
+                        // VIRENDRA - ADDED FOR OTHER LOBs THAN ABHFL AND ABFL.
+                        String tempKey = individualCase.Business_Unit__c+'_'+assetExternalId;
+                        
                         integer itempKey = tempKey.hashCode();
                         if(lanNoVsAsset.containsKey(itempKey)){
                             if(lanNoVsAsset.containsKey(itempKey)){
@@ -83,13 +93,21 @@ public without sharing class ASF_AssocCustomerForAPICases {
                                 // in case account id is blank
                                 individualCase.AccountId = individualCase.AccountId==null?lanNoVsAsset.get(itempKey).AccountId:individualCase.AccountId;
                             }
-                            
-                            
                         }
                     }
                 }
             }
             
         }
+    private static String getExternalKeyForLANPerBU(String BusinessUnit, String LANVal){
+        String assetExternalId = '';
+        if(ASF_Constants.BUSpecificLANKey.contains(BusinessUnit)){
+            assetExternalId = BusinessUnit+'_'+LANVal;
+        }
+        else{
+            assetExternalId = LANVal;
+        }
+        return assetExternalId;
+    }
     
 }

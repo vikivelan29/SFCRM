@@ -2,8 +2,8 @@
  * @description       : Constant class to store all the resable variables at one place
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-13-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 10-09-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
@@ -11,6 +11,21 @@
 public with sharing class ASF_Constants {
 
     public static final String GENERIC_ERROR_MESSAGE = 'An error occurred during processing, please contact system administrator';
+    
+    //Skipper flags - keep it sync with Feature_Skipper_Flag__c field options from Case
+    public static final String SKIP_ASSIGNMENT = 'SKIP_ASSIGNMENT';
+    public static final String SKIP_VALIDATE_RECAT_PARAM = 'SKIP_VALIDATE_RECAT_PARAM';
+    public static final String SKIP_STAGE_ENTRY_CHECKS = 'SKIP_STAGE_ENTRY_CHECKS';
+    public static final String SKIP_PERI_GENERATE = 'SKIP_PERI_GENERATE';
+    public static final String SKIP_CLOSE_CASE_CHECK = 'SKIP_CLOSE_CASE_CHECK';
+    public static final String SKIP_OWNER_CHECK = 'SKIP_OWNER_CHECK';
+    public static final String SKIP_STAGE_EXIT_CHECKS = 'SKIP_STAGE_EXIT_CHECKS';
+    public static final String SKIP_VALIDATE_CHECKLISTS = 'SKIP_VALIDATE_CHECKLISTS';
+    public static final String SKIP_VALIDATE_TASKS = 'SKIP_VALIDATE_TASKS';
+    public static final String SKIP_APPROVAL_CHECKS = 'SKIP_APPROVAL_CHECKS';
+    public static final String SKIP_VALIDATION_CHECKS = 'SKIP_VALIDATION_CHECKS';
+    public static final String SKIP_INTEGRATION_CHECKS = 'SKIP_INTEGRATION_CHECKS';
+
 
     public static final String STRING_BLANK ='';
     public static final String STRING_SPACE = ' ';
@@ -104,6 +119,7 @@ public with sharing class ASF_Constants {
     public static final String STRING_IS_API_LOAD = 'API_LOANS';
     
     
+    public static final List<String> BU_SHOWCHECKLISTS_ONREJECTION = new List<String>{'ABSLI'};
     public static final String REJECTIONSTATUS = 'Unresolved';
     public static final String DUPLICATESTATUS = 'Closed Duplicate';
     public static final String DUPLICATESTAGE = 'Duplicate';
@@ -130,6 +146,7 @@ public with sharing class ASF_Constants {
     /* RETRY MECHANISM RELATED CONSTANTS. */
     public static final String RETRY_PROCESSTYPEINTEG = 'Process';
     public static final String RETRY_PREPOPULATEDTYPEINTEG = 'Pre Populate';
+    public static final String RETRY_PROCESS_SEQUENTIALTYPEINTEG = 'Process Sequential';
     public static final List<String> RETRY_ENABLEDSTATUESES = new List<String>{'Pending','Failure'};
     
     public static final List<String> VALIDATION_BYPASS_PROFILES = new List<String>{'System Administrator','Salesforce API Only System Integrations'};
@@ -140,6 +157,11 @@ public with sharing class ASF_Constants {
     /* Asset ExternalId fields per Business Unit */
     public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG'};
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
-
+    
     public static final string CASE_ORIGIN = 'ABSLIG Email';
+    public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
+    public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';
+    //Add all the Case Detail fields here in lowercase. It's used for the skipper functionality in case the field is not present in Case Stage Config for query
+    public static final Set<String> CASE_EXTENSION_FIELDSET = new Set<String>{'pay_payment_detail__c','abhfl_case_detail__c','abfl_case_detail__c','absli_case_detail__c','abslig_case_detail__c'};
+
 }

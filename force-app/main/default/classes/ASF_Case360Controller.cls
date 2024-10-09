@@ -1,6 +1,13 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 10-09-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 @SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions, PMD.ApexSOQLInjection')
 public with sharing class ASF_Case360Controller {
-    @AuraEnabled(cacheable=true)
+        @AuraEnabled(cacheable=true)
     public static UserAndCaseWrapper fetchUserAndCaseDetails(Id caseId){
         UserAndCaseWrapper wrap = new UserAndCaseWrapper();
         try {

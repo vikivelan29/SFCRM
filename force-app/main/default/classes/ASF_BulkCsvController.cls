@@ -21,7 +21,7 @@ public with sharing class ASF_BulkCsvController {
         List<ASF_Bulk_Row_to_Record_Converter_Config__mdt> configMetaRec = new List<ASF_Bulk_Row_to_Record_Converter_Config__mdt>();
 
         configMetaRec = [Select Id, MasterLabel,DeveloperName, Display_Label__c, SObject_Name__c,
-                Order__c,Apex_Class_Name__c, Template_Name__c, Max_File_Size__c, Fields_Name__c, Custom_Permission_for_Access__c
+                Order__c,Apex_Class_Name__c, Template_Name__c, Max_File_Size__c, Fields_Name__c, Custom_Permission_for_Access__c, CTST_Query_Fields__c
                 FROM ASF_Bulk_Row_to_Record_Converter_Config__mdt
                 WHERE Active__c = true AND SObject_Name__c != null AND Business_Unit__c =:businessUnit ORDER BY Order__c];
         for(ASF_Bulk_Row_to_Record_Converter_Config__mdt config : configMetaRec){
@@ -49,7 +49,7 @@ public with sharing class ASF_BulkCsvController {
         }
         return strCSVFields;       
     }
-    
+
     /**
      * Description : This method is called when user clicks on the Download CSV for upload button
      * Input : operation name that user wishes to perform, current page url passed from VF, list of selected case IDs from list view,
@@ -61,6 +61,16 @@ public with sharing class ASF_BulkCsvController {
      	return ASF_BulkCsvDownloadHelper.generateCSVFileWithData(strConfigName,strURL,strSelectedRecords,listViewId);  
     }
     
+    /**
+     * Description : This method is called when user clicks on the Download CTST button
+     * Input : operation name that user wishes to perform
+     * Output : List of case field with values as per the BU to generate the csv file
+     */
+    @AuraEnabled(cacheable=false)
+    public static Object generateCSVFileWithCtst(String strConfigName) {
+     	return ASF_BulkCsvDownloadHelper.generateCSVFileWithCtst(strConfigName);  
+    }
+
     /**
      * Description : This method is called from the asfProgressComponent component and is polled every 3 seconds 
      * 				 until success to show the upload progress

@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 10-09-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public without sharing class ASF_CaseApprovalTriggerHelper {
     
     /*
@@ -26,7 +33,21 @@ public without sharing class ASF_CaseApprovalTriggerHelper {
             // }
         }
         if(submitForApprovalList.size() > 0){
-            List<Approval.ProcessResult> resultList = Approval.process(requestLIst);   
+            List<Approval.ProcessResult> resultList = new List<Approval.ProcessResult>();
+            try{
+                resultList = Approval.process(requestLIst);   
+            }
+            catch(DmlException dEx){
+                for(integer i=0;i<dEx.getNumDml();i++){
+                    System.debug(dEx.getDmlType (i));
+                    if(dEx.getDmlType(i).toString() == 'STRING_TOO_LONG'){
+                        for(ASF_Case_Approv__c trg : submitForApprovalList){
+                            trg.addError('String too large to save.');
+                        }
+                    }
+                    
+                }
+            }
             //Virendra : 6th March 2023 : Added code below to update the Is_Approval_Pending__c to True on Case record.
             List<Case> cList = new List<Case>();
             
@@ -56,18 +77,18 @@ public without sharing class ASF_CaseApprovalTriggerHelper {
     public void prepopupateUnpassedUserNames (List<ASF_Case_Approv__c> newStageList){ 
         
         for(ASF_Case_Approv__c  c: newStageList){
-            if(String.isBlank(c.Approver_02__c)){
-                c.Approver_02__c = c.Approver_01__c;
-            }
-            if(String.isBlank(c.Approver_03__c)){
-                c.Approver_03__c = c.Approver_01__c;
-            }
-            if(String.isBlank(c.Approver_04__c)){
-                c.Approver_04__c = c.Approver_01__c;
-            }
-            if(String.isBlank(c.Approver_05__c)){
-                c.Approver_05__c = c.Approver_01__c;
-            }
+                if(String.isBlank(c.Approver_02__c)){
+                    c.Approver_02__c = c.Approver_01__c;
+                }
+                if(String.isBlank(c.Approver_03__c)){
+                    c.Approver_03__c = c.Approver_01__c;
+                }
+                if(String.isBlank(c.Approver_04__c)){
+                    c.Approver_04__c = c.Approver_01__c;
+                }
+                if(String.isBlank(c.Approver_05__c)){
+                    c.Approver_05__c = c.Approver_01__c;
+                }
              
         } 
     }

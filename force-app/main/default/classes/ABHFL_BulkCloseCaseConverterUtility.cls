@@ -182,4 +182,7 @@ public with sharing class ABHFL_BulkCloseCaseConverterUtility  implements ASF_Bu
 
         return listOfRecordsAsMap;
     }
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
+    }
 }

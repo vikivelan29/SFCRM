@@ -174,4 +174,7 @@ public with sharing class ABSLIG_BulkCreateCaseConverterUtility implements ASF_B
 
         return listOfRecordsAsMap;
     }
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
+    }
 }

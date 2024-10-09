@@ -34,6 +34,8 @@ public with sharing class ASF_CaseFrameworkValidator {
         }
         
         Map<Integer, Boolean> values = new Map<Integer, Boolean>();
+        system.debug('Aditya numberList:'+numberList);
+        system.debug('Aditya numberRuleEntryMap:'+numberRuleEntryMap);
         for (Integer numInt : numberList) {
             ASF_Case_Rule_Entry__c cre = numberRuleEntryMap.get(numInt);
             String caseRecordValue;
@@ -169,28 +171,38 @@ public with sharing class ASF_CaseFrameworkValidator {
         Map<Id, Boolean> caseIdToReturnFlagMap = new Map<Id, Boolean>();
         Set<Id> caseIds = new Set<Id>();
         Set<String> caseStages = new Set<String>();
+        Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            caseIds.add(caseRec.Id);
-            caseStages.add(caseRec.Stage__c);
-        }
-        // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
-        List<ASF_Checklist__c> incompleteCasesChecklists 
-        = ASF_CaseQueryHandler.getIncompleteCaseChecklists(caseIds, new Set<String>(currentStageMap.values()));
-        Map<Id, List<ASF_Checklist__c>> caseToChecklistMap = new Map<Id, List<ASF_Checklist__c>>();
-        for(ASF_Checklist__c checkRec : incompleteCasesChecklists){
-            if(caseToChecklistMap.containsKey(checkRec.Case__c)){
-                caseToChecklistMap.get(checkRec.Case__c).add(checkRec);
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATE_CHECKLISTS)){
+                caseIdToReturnFlagMap.put(caseRec.Id, true);
             }else{
-                caseToChecklistMap.put(checkRec.Case__c, new List<ASF_Checklist__c>{checkRec});
+                caseIds.add(caseRec.Id);
+                caseStages.add(caseRec.Stage__c);
             }
         }
-        for(Case caseRec : currentCases){
-            caseIdToReturnFlagMap.put(caseRec.Id, true);
-            if(caseToChecklistMap.containsKey(caseRec.Id)){
-                for(ASF_Checklist__c checkRec : caseToChecklistMap.get(caseRec.Id)){
-                    if(checkRec.Stage_Name__c == currentStageMap.get(caseRec.Id)){
-                        caseIdToReturnFlagMap.put(caseRec.Id, false);
-                        break;
+        if(!caseIds.isEmpty()){
+            // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
+            List<ASF_Checklist__c> incompleteCasesChecklists 
+            = ASF_CaseQueryHandler.getIncompleteCaseChecklists(caseIds, new Set<String>(currentStageMap.values()));
+            Map<Id, List<ASF_Checklist__c>> caseToChecklistMap = new Map<Id, List<ASF_Checklist__c>>();
+            for(ASF_Checklist__c checkRec : incompleteCasesChecklists){
+                if(caseToChecklistMap.containsKey(checkRec.Case__c)){
+                    caseToChecklistMap.get(checkRec.Case__c).add(checkRec);
+                }else{
+                    caseToChecklistMap.put(checkRec.Case__c, new List<ASF_Checklist__c>{checkRec});
+                }
+            }
+        
+            for(Case caseRec : currentCases){
+                caseIdToReturnFlagMap.put(caseRec.Id, true);
+                if(caseToChecklistMap.containsKey(caseRec.Id)){
+                    for(ASF_Checklist__c checkRec : caseToChecklistMap.get(caseRec.Id)){
+                        if(checkRec.Stage_Name__c == currentStageMap.get(caseRec.Id)){
+                            caseIdToReturnFlagMap.put(caseRec.Id, false);
+                            break;
+                        }
                     }
                 }
             }
@@ -203,33 +215,40 @@ public with sharing class ASF_CaseFrameworkValidator {
      */
     public static Map<Id, String> validateValidations(List<Case> currentCases, Map<Id, ASF_Case_Stage_Config__c> caseIdToCurrentStageConfigMap){
         Set<String> cccExternalIds = new Set<String>();
-        for(Case caseRec : currentCases){
-            cccExternalIds.add(caseRec.CCC_External_Id__c);
-        }
-        List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(cccExternalIds);
-        Map<String, List<ASF_Case_Rule__c>> externalIdToCaseRulesMap = new Map<String, List<ASF_Case_Rule__c>>();
-        for(ASF_Case_Rule__c caseRule : allCaseRules){
-            if(externalIdToCaseRulesMap.containsKey(caseRule.C3ExternalId__c)){
-                externalIdToCaseRulesMap.get(caseRule.C3ExternalId__c).add(caseRule);
-            }else{
-                externalIdToCaseRulesMap.put(caseRule.C3ExternalId__c, new List<ASF_Case_Rule__c>{caseRule});
-            }
-        }
         Map<Id, List<ASF_Case_Rule__c>> caseIdToCaseRulesForCurrentStage = new Map<Id, List<ASF_Case_Rule__c>>();
+        Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            if(externalIdToCaseRulesMap.containsKey(caseRec.CCC_External_Id__c)){
-                for(ASF_Case_Rule__c caseRule : externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c)){
-                    ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
-                    if(currentStageConfig != null && caseRule.Case_Stage_Config__c == currentStageConfig.Id){
-                        if(caseIdToCaseRulesForCurrentStage.containsKey(caseRec.Id)){
-                            caseIdToCaseRulesForCurrentStage.get(caseRec.Id).add(caseRule);
-                        }else{
-                            caseIdToCaseRulesForCurrentStage.put(caseRec.Id, new List<ASF_Case_Rule__c>{caseRule});
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(!(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATION_CHECKS))){
+         		cccExternalIds.add(caseRec.CCC_External_Id__c);
+            }            
+        }
+        if(!cccExternalIds.isEmpty()){
+            List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(cccExternalIds);
+            Map<String, List<ASF_Case_Rule__c>> externalIdToCaseRulesMap = new Map<String, List<ASF_Case_Rule__c>>();
+            for(ASF_Case_Rule__c caseRule : allCaseRules){
+                if(externalIdToCaseRulesMap.containsKey(caseRule.C3ExternalId__c)){
+                    externalIdToCaseRulesMap.get(caseRule.C3ExternalId__c).add(caseRule);
+                }else{
+                    externalIdToCaseRulesMap.put(caseRule.C3ExternalId__c, new List<ASF_Case_Rule__c>{caseRule});
+                }
+            }
+            for(Case caseRec : currentCases){
+                if(externalIdToCaseRulesMap.containsKey(caseRec.CCC_External_Id__c)){
+                    for(ASF_Case_Rule__c caseRule : externalIdToCaseRulesMap.get(caseRec.CCC_External_Id__c)){
+                        ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
+                        if(currentStageConfig != null && caseRule.Case_Stage_Config__c == currentStageConfig.Id){
+                            if(caseIdToCaseRulesForCurrentStage.containsKey(caseRec.Id)){
+                                caseIdToCaseRulesForCurrentStage.get(caseRec.Id).add(caseRule);
+                            }else{
+                                caseIdToCaseRulesForCurrentStage.put(caseRec.Id, new List<ASF_Case_Rule__c>{caseRule});
+                            }
                         }
                     }
                 }
             }
-        }
+    	}
 
         return ASF_CaseFrameworkHelper.runValidationRules(currentCases, caseIdToCaseRulesForCurrentStage);
     }
@@ -243,28 +262,37 @@ public with sharing class ASF_CaseFrameworkValidator {
         Map<Id, Boolean> caseIdToReturnFlagMap = new Map<Id, Boolean>();
         Set<Id> caseIds = new Set<Id>();
         Set<String> caseStages = new Set<String>();
+        Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            caseIds.add(caseRec.Id);
-            caseStages.add(caseRec.Stage__c);
-        }
-        // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
-        List<Task> incompleteTaskslists 
-        = ASF_CaseQueryHandler.getIncompleteCaseTasks(caseIds, new Set<String>(currentStageMap.values()));
-        Map<Id, List<Task>> caseToTaskMap = new Map<Id, List<Task>>();
-        for(Task taskRec : incompleteTaskslists){
-            if(caseToTaskMap.containsKey(taskRec.WhatId)){
-                caseToTaskMap.get(taskRec.WhatId).add(taskRec);
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_VALIDATE_TASKS)){
+                caseIdToReturnFlagMap.put(caseRec.Id, true);
             }else{
-                caseToTaskMap.put(taskRec.WhatId, new List<Task>{taskRec});
+                caseIds.add(caseRec.Id);
+                caseStages.add(caseRec.Stage__c);
             }
         }
-        for(Case caseRec : currentCases){
-            caseIdToReturnFlagMap.put(caseRec.Id, true);
-            if(caseToTaskMap.containsKey(caseRec.Id)){
-                for(Task taskRec : caseToTaskMap.get(caseRec.Id)){
-                    if(taskRec.Case_Stage__c == currentStageMap.get(caseRec.Id)){
-                        caseIdToReturnFlagMap.put(caseRec.Id, false);
-                        break;
+        if(!caseIds.isEmpty()){
+            // Get Incomplete, Mandatory Checklist from Query Handler for this Case and Stage
+            List<Task> incompleteTaskslists 
+            = ASF_CaseQueryHandler.getIncompleteCaseTasks(caseIds, new Set<String>(currentStageMap.values()));
+            Map<Id, List<Task>> caseToTaskMap = new Map<Id, List<Task>>();
+            for(Task taskRec : incompleteTaskslists){
+                if(caseToTaskMap.containsKey(taskRec.WhatId)){
+                    caseToTaskMap.get(taskRec.WhatId).add(taskRec);
+                }else{
+                    caseToTaskMap.put(taskRec.WhatId, new List<Task>{taskRec});
+                }
+            }
+            for(Case caseRec : currentCases){
+                caseIdToReturnFlagMap.put(caseRec.Id, true);
+                if(caseToTaskMap.containsKey(caseRec.Id)){
+                    for(Task taskRec : caseToTaskMap.get(caseRec.Id)){
+                        if(taskRec.Case_Stage__c == currentStageMap.get(caseRec.Id)){
+                            caseIdToReturnFlagMap.put(caseRec.Id, false);
+                            break;
+                        }
                     }
                 }
             }
@@ -283,22 +311,35 @@ public with sharing class ASF_CaseFrameworkValidator {
         String result = 'Success';
         Map<String, Map<String, ASF_Integration__c>> asfIntExtIds = new Map<String, Map<String, ASF_Integration__c>>();
         Map<Id, String> resultMap = new Map<Id, String>();
-
+		Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         Set<Id> caseIds = new Set<Id>();
         Set<Id> stageConfigIds = new Set<Id>();
-        for(ASF_Case_Stage_Config__c stageConfig : caseIdToCurrentStageConfigMap.values()){
-            stageConfigIds.add(stageConfig.Id);
-        }
+        
         for(Case caseRec : currentCases){
-            caseIds.add(caseRec.Id);
-        }
-        List<ASF_Integration__c> mandatoryIntegrations = ASF_CaseQueryHandler.getIntegrationsFromConfig(stageConfigIds);
-        for (ASF_Integration__c mandatoryInt :  mandatoryIntegrations){
-            if(!asfIntExtIds.containsKey(mandatoryInt.C3ExternalId__c)){
-                asfIntExtIds.put(mandatoryInt.C3ExternalId__c, new Map<String, ASF_Integration__c>());
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_INTEGRATION_CHECKS)){
+                resultMap.put(caseRec.Id, result);
+            }else{
+            	caseIds.add(caseRec.Id);
             }
-            asfIntExtIds.get(mandatoryInt.C3ExternalId__c).put(mandatoryInt.External_Id__c, mandatoryInt);
         }
+        for(Id caseId : caseIdToCurrentStageConfigMap.keySet()){
+            System.debug('Check here Case Id --> '+caseId);
+            ASF_Case_Stage_Config__c stageConfig = caseIdToCurrentStageConfigMap.get(caseId);
+            if(caseIds.contains(caseId)){
+                stageConfigIds.add(stageConfig.Id);
+            }
+        }
+        if(!stageConfigIds.isEmpty()){
+            List<ASF_Integration__c> mandatoryIntegrations = ASF_CaseQueryHandler.getIntegrationsFromConfig(stageConfigIds);
+            for (ASF_Integration__c mandatoryInt :  mandatoryIntegrations){
+                if(!asfIntExtIds.containsKey(mandatoryInt.C3ExternalId__c)){
+                    asfIntExtIds.put(mandatoryInt.C3ExternalId__c, new Map<String, ASF_Integration__c>());
+                }
+                asfIntExtIds.get(mandatoryInt.C3ExternalId__c).put(mandatoryInt.External_Id__c, mandatoryInt);
+            }
+    	}
         
         if(asfIntExtIds.size() >0){
             Set<String> intExtIds = new Set<String>();
@@ -354,26 +395,34 @@ public with sharing class ASF_CaseFrameworkValidator {
         Map<Id, Boolean> caseIdToReturnFlagMap = new Map<Id, Boolean>();
         Set<Id> caseIds = new Set<Id>();
         Set<String> caseStages = new Set<String>();
+        Map<Id, Set<String>> skipperFlagMap = ASF_CaseTriggerModularHelper.getSkipperFlagMap();
         for(Case caseRec : currentCases){
-            caseIds.add(caseRec.Id);
-            caseStages.add(caseRec.Stage__c);
-        }
-        List<ASF_Case_Approv__c> allCaseApprovals = ASF_CaseQueryHandler.getCaseApprovals(caseIds, new Set<String>(currentStageMap.values()));
-        Map<Id, ASF_Case_Approv__c> caseToApprovalMap = new Map<Id, ASF_Case_Approv__c>();
-        for(ASF_Case_Approv__c approvRec : allCaseApprovals){
-            //Take only the first record per case
-            if(!caseToApprovalMap.containsKey(approvRec.SR__c)){
-                caseToApprovalMap.put(approvRec.SR__c, approvRec);
-            }
-        }
-        for(Case caseRec : currentCases){
-            if(caseToApprovalMap.containsKey(caseRec.Id)){
-                caseIdToReturnFlagMap.put(caseRec.Id, caseToApprovalMap.get(caseRec.Id).Approval_Status__c == 'Approved');
-            }else{
+            Id skipperMapKey = ASF_CaseTriggerModularHelper.relObjName == null ? null : 
+                   (ASF_CaseTriggerModularHelper.relObjName == '' ? caseRec.Id : (Id)caseRec.get(ASF_CaseTriggerModularHelper.relObjName));
+            if(skipperMapKey != null && skipperFlagMap.containsKey(skipperMapKey) && skipperFlagMap.get(skipperMapKey).contains(ASF_Constants.SKIP_APPROVAL_CHECKS)){
                 caseIdToReturnFlagMap.put(caseRec.Id, true);
+            }else{
+                caseIds.add(caseRec.Id);
+                caseStages.add(caseRec.Stage__c);
             }
         }
-        return caseIdToReturnFlagMap;
-        
+        if(!caseIds.isEmpty()){
+            List<ASF_Case_Approv__c> allCaseApprovals = ASF_CaseQueryHandler.getCaseApprovals(caseIds, new Set<String>(currentStageMap.values()));
+            Map<Id, ASF_Case_Approv__c> caseToApprovalMap = new Map<Id, ASF_Case_Approv__c>();
+            for(ASF_Case_Approv__c approvRec : allCaseApprovals){
+                //Take only the first record per case
+                if(!caseToApprovalMap.containsKey(approvRec.SR__c)){
+                    caseToApprovalMap.put(approvRec.SR__c, approvRec);
+                }
+            }
+            for(Case caseRec : currentCases){
+                if(caseToApprovalMap.containsKey(caseRec.Id)){
+                    caseIdToReturnFlagMap.put(caseRec.Id, caseToApprovalMap.get(caseRec.Id).Approval_Status__c == 'Approved');
+                }else{
+                    caseIdToReturnFlagMap.put(caseRec.Id, true);
+                }
+            }
+    	}
+        return caseIdToReturnFlagMap;        
     }
 }
