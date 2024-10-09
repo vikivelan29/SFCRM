@@ -133,6 +133,8 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
                         
                     }
                     
+                        this.showMessage('All Opportunity rows were updated successfully','success');
+                    }
                 }
                 if (hasAtleastOneError) {
                     //this.recordStatus = recordStatus;
