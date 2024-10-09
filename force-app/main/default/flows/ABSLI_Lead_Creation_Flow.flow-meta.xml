@@ -409,10 +409,10 @@
             </value>
         </filters>
         <filters>
-            <field>IsActive</field>
+            <field>Status__c</field>
             <operator>EqualTo</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <stringValue>ACTIVE</stringValue>
             </value>
         </filters>
         <object>Product2</object>
