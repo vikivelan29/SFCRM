@@ -64,7 +64,6 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
 					Policy__r.IntermediaryCode__c, 
 					Policy__r.Intermediary_Branch_Code__c,
 					Policy__r.SerialNumber,
-					Policy__r.LAN__c,
 					Drop_off_Reason__c,
 					Drop_off_URL__c,
 					Policy_Inception_Date__c, 
