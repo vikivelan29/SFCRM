@@ -7,53 +7,53 @@
 *********************************************************/
 
 public with sharing class ABCL_CommonCLass {
-
+    
     /****************************************************************************************************************
-    * @Function - prepopulateCaseFlds
-    * @param newItems -  list of sobject records.
-    * @return - void .
-    * @Description - This method pre-populates fields on Case.
-    *****************************************************************************************************************/
+* @Function - prepopulateCaseFlds
+* @param newItems -  list of sobject records.
+* @return - void .
+* @Description - This method pre-populates fields on Case.
+*****************************************************************************************************************/
     public void prepopulateCaseFlds(List<Sobject> newItems) {
-
+        
         List<Case> newCaseList = (List<Case>)newItems;
         prepopulateCaseFldsOnBasisOfBussinessUnit(newCaseList);
         populateCreatedDateRange(newCaseList);
     }
-
+    
     /****************************************************************************************************************
-    * @Function - prepopulateCaseFldsOnBasisOfBussinessUnit
-    * @param newItems -  list of case records.
-    * @return - void .
-    * @Description - This method pre-populates BusinessHoursId field on Case on the basis of Business Unit field.
-    * Note - Please use the name of Business Unit of Case in Business Hour Name field of BusinessHours object
-    *****************************************************************************************************************/
+* @Function - prepopulateCaseFldsOnBasisOfBussinessUnit
+* @param newItems -  list of case records.
+* @return - void .
+* @Description - This method pre-populates BusinessHoursId field on Case on the basis of Business Unit field.
+* Note - Please use the name of Business Unit of Case in Business Hour Name field of BusinessHours object
+*****************************************************************************************************************/
     public void prepopulateCaseFldsOnBasisOfBussinessUnit(List<Case> newCaseLst) {
-
+        
         Map<String, BusinessHours> mapOf_BusinessUnit_To_BusinessHr = new Map<String, BusinessHours>();
         Set<String> setOfCaseBusinessUnit = new Set<String>();
-
+        
         for(Case csRec : newCaseLst) {
             if(String.isNotBlank(csRec.Business_Unit__c)) {
                 if(csRec.Business_Unit__c == 'ABWM'){
-                  String bussUnit = 'ABFL'; 
+                    String bussUnit = 'ABFL'; 
                     if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                    	setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                	} 
+                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                    } 
                 }
                 else{
-                	String bussUnit = csRec.Business_Unit__c; 
-                	if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                    setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                	} 
+                    String bussUnit = csRec.Business_Unit__c; 
+                    if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                    } 
                 }
             }
         }
-
+        
         List<BusinessHours> bhList = [SELECT id, Name FROM BusinessHours WHERE Name Like :setOfCaseBusinessUnit AND IsActive = true WITH SECURITY_ENFORCED];
         
         if(bhList.size() > 0) {
-
+            
             for(BusinessHours bh : bhList) {
                 String bussHrName = bh.Name;
                 if(bussHrName.containsIgnoreCase('ABHFL')) {
@@ -68,35 +68,38 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
                 }
+               else if(bussHrName.containsIgnoreCase('ABSLI')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
+                }
             }
-        
+            
             for(Case csRec : newCaseLst) {  
                 if(String.isNotBlank(csRec.Business_Unit__c)) {
                     String busshrId ='';
                     if(csRec.Business_Unit__c == 'ABWM'){
-                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
+                        busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
                     }
                     else{
-                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
+                        busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
                     }
                     csRec.BusinessHoursId = busshrId;
                 }
             }
         }
     }
-
+    
     /****************************************************************************************************************
-    * @Function - populateResolutionCommentOnCaseDetail
-    * @param newItems oldMap -  list of sobject records. map of trigger.oldMap
-    * @return - void .
-    * @Description - Updates the resolution comment/remarks field on Case Detail object 
-    * when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
-    *****************************************************************************************************************/
+* @Function - populateResolutionCommentOnCaseDetail
+* @param newItems oldMap -  list of sobject records. map of trigger.oldMap
+* @return - void .
+* @Description - Updates the resolution comment/remarks field on Case Detail object 
+* when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
+*****************************************************************************************************************/
     public static void populateResolutionCommentOnCaseDetail(List<Case> newItems, Map<Id, Case> oldMap) {
         
         //if not bulk processing, do nothing, return;
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
-
+        
         List<SObject> recordsToUpdate = new List<SObject>();
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
@@ -133,35 +136,35 @@ public with sharing class ABCL_CommonCLass {
         }
         return result;
     }
-
+    
     /**
-     * @Function - populateCreatedDateRange
-     * @param newItems -  map of Case from trigger.new.
-     * @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
-    **/
+* @Function - populateCreatedDateRange
+* @param newItems -  map of Case from trigger.new.
+* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
+**/
     public void populateCreatedDateRange(List<Case> newItems) {
-
+        
         Datetime currentDatetime = System.now();
         Integer currentHour = currentDatetime.hour();
         Integer currentMinute = currentDatetime.minute();
         Integer timeInMinutes =  currentHour*60 + currentMinute;
         String businessUnitCheck = System.label.Business_Unit_Check_For_SLA_Override ?? '';
-
+        
         for(Case caseRec : newItems){
             String caseBusinessUnit = caseRec?.Business_Unit__c ?? '';
-
+            
             if(businessUnitCheck.containsIgnoreCase(caseBusinessUnit)) {
                 caseRec.Created_Date_Range__c = calculateSlaOverwriteIdentifier(timeInMinutes);    
             }
         }
     }
-
+    
     /**
-     * @Function - populateCreatedDateRange
-     * @param calculateMinutes -  Time in minutes.
-     * @return - String
-     * @description - Method to calculate the SLA Overwrite Identifier
-    **/
+* @Function - populateCreatedDateRange
+* @param calculateMinutes -  Time in minutes.
+* @return - String
+* @description - Method to calculate the SLA Overwrite Identifier
+**/
     @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         
