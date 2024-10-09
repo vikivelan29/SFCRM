@@ -2285,8 +2285,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Claim__c.Claim_Sequence__c</field>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Policy__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
