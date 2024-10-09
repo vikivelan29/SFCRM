@@ -1,21 +1,28 @@
 import { LightningElement, wire, api, track } from 'lwc';
-
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getOppRec from '@salesforce/apex/RNWL_RenewalCustomerPolicyInfo.getOppRec';
 import getNomineesClaims from '@salesforce/apex/RNWL_RenewalCustomerPolicyInfo.getNomineesClaims';
-import getResponseFromFiles from '@salesforce/apex/RNWL_NonIndAccountRenewalController.getResponseFromFiles';
+import getAPIResponse from '@salesforce/apex/RNWL_MemberDetailsController.getAPIResponseDetails';
+import getResponseFromFiles from '@salesforce/apex/RNWL_StoredResponseUtility.getResponseFromFiles';//
+import toastErrorMsg from '@salesforce/label/c.OppDetailsToastErrorMessage';
 
 
 export default class RNWL_RenewalPolicyDetails extends LightningElement {
 
+    label = {
+        toastErrorMsg
+    };
+
     @api recordId;policyId;
-    @track account; policy; oppRec;
-    @track areDetailsVisible = false; renewalCheckFlag = false; nominees = [];
-    error;
+    @track account; policy; oppRec; heathRetrn; fitnessData;
+    @track areDetailsVisible = false; renewalCheckFlag = false; nominees = []; 
+    @track fitnessFlag = false; healthFlag = false;
     @track nomineeContacts; nomineesNames; claimsCounts; isPolicyRenewed;
     @track maturityDate; policyLapseDate; policyLapsed; policyStartDate; dateOfBirth;
     @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus;
-    @track renewalAPIData; apiType = 'Renewal Check'; goGreenFlag; isChronic;
-    @track autoDebitFlag; sumInsusedEnhancement; netPremium; grossPremium;
+    @track renewalAPIData; goGreenFlag; isChronic;
+    @track autoDebitFlag; sumInsusedEnhancement; 
+    @track balanceHR;apiList;error;data;addDownloadStatus;
 
     @wire(getOppRec, {recordId: '$recordId'})
     record({ error, data}){
@@ -25,6 +32,13 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
             this.policy = data.Policy__r;
             this.areDetailsVisible = true;
             this.policyId = this.oppRec.Policy__c;
+
+            if(this.account.RecordType.Name == 'Non-Individual'){
+                this.apiList = ['Renewal Group Check', 'Health Return', 'AppRegDetails'];
+            }
+            else{
+                this.apiList = ['Renewal Check', 'Health Return', 'Fitness Assessment', 'AppRegDetails'];
+            }
 
             this.dateOfBirth = this.getISTDateFormat(new Date(this.account.PersonBirthdate));
             this.policyStartDate = this.getISTDateFormat(new Date(this.policy.Issue_Date__c));
@@ -42,63 +56,84 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
             this.isChronic = this.account.Is_Chronic__c;
             this.renStatus = this.oppRec.Status__c == 'Renewed' ? 'Payment Received' : 'In Progress';
             this.isPolicyRenewed = this.oppRec.Status__c == 'Renewed' ? 'Yes' : 'No';
-            if(this.account.RecordType.Name == 'Non-Individual'){
-                this.apiType = 'Renewal Group Check';
-            }
+
             this.getNomiteeDetails();
 
-            this.error = undefined;
+            this.getAdditionalData();
+
         }else{
             this.oppRec = undefined;
             this.error = error; 
-        } 
+        }         
     }
 
-    @wire(getResponseFromFiles, {opportunityId:'$recordId', fileSourceAPI:'$apiType'})
-    renewalCheck({error, data}){
-        if(data){
-            let renData = JSON.parse(data);
-            this.renewalAPIData = renData.response.policyData[0];
-            this.renewalCheckFlag = true;
+    //////////////////////////////////Imperative methods//////////////////////////////////////////////////
 
-            if(this.apiType == 'Renewal Check'){
-                this.autoDebitFlag = this.renewalAPIData.AutoDebitFlag;
-                this.sumInsusedEnhancement = this.renewalAPIData.Upsell_Flag == 'Y' ? this.renewalAPIData.Upsell_SumInsured : '';
-                this.netPremium = this.renewalAPIData.Renewal_Net_Premium;
-                this.grossPremium = this.renewalAPIData.Renewal_Gross_Premium;
+    getAdditionalData(){
+        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.oppRec.Proposal_Number__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.account.Id }).then(response => {
+            if(response){
+                this.prepareAdditionalData(response);
             }
-            else if(this.apiType == 'Renewal Group Check'){
-                this.autoDebitFlag = this.renewalAPIData.Auto_Debit;
-                this.netPremium = this.renewalAPIData.NetPremium;
-                this.grossPremium = this.renewalAPIData.AnnualPremium;
-            }
-            this.error = undefined;
-        }
-        if(error){
-            this.error = error;
-        }
+        }).catch(error =>{ 
+            this.showNotification('error', 'Error!');
+        });
     }
 
-    get isRenewalCheckAPI(){
-        return this.renewalCheckFlag && this.apiType == 'Renewal Check';
-    }
+    prepareAdditionalData(data){
+                let renCheckhArray = [];
+                let healthArray = [];
+                let fitnessArray = [];
+                for (let key in data) {
+                    if(key == 'Renewal Check' || key == 'Renewal Group Check'){
+                       renCheckhArray = JSON.parse(data[key]).response.policyData;
+                        
+                    }
+                    if(key == 'Health Return'){
+                        healthArray = JSON.parse(data[key]).Response;
+                        healthArray.forEach((item) => {
+                            if(this.account.MMI_Customer_ID__c == item.vchClientCode){
+                                this.heathRetrn = item;
+                                this.healthFlag = true;
+                                this.balanceHR = this.heathRetrn.TotalHealthReturnsTM - this.heathRetrn.TotalHealthReturnsTMBurnt;
+                            }
+                        })
+                    }
+                    if(key == 'Fitness Assessment'){
+                        fitnessArray = JSON.parse(data[key]).Response;
+                        
+                        fitnessArray.forEach((item) => {
+                            if(this.account.MMI_Customer_ID__c == item.vchClientCode){
+                                this.fitnessData = item;   
+                                this.fitnessFlag = true;                 
+                            }
+                        })
+                    }
+                    if(key == 'AppRegDetails'){
+                        this.addDownloadStatus = JSON.parse(data[key]).AppRegDetails.IsAppDowloaded;
+                    }
+                }
 
-    get isRenewalGrpAPI(){
-        return this.renewalCheckFlag && this.apiType == 'Renewal Group Check';
-    }
+                if(this.apiList.includes('Renewal Check')){                
+                    renCheckhArray.forEach((item) => {
+                        if(this.oppRec.Policy_Number__c == item.Policy_number){
+                            this.renewalAPIData = item;
+                            this.autoDebitFlag = this.renewalAPIData.AutoDebitFlag;
+                            this.sumInsusedEnhancement = this.renewalAPIData.Upsell_Flag == 'Yes' ? this.renewalAPIData.Upsell_SumInsured : '';
+                        }
+                    })
 
-    getISTDateFormat(theDate){
-        return String(theDate.getDate()+'/'+(theDate.getMonth() + 1) +'/'+theDate.getFullYear())
-    }
-
-    splitAddressStreet(streetStr){
-
-        var streetArr = streetStr.split(',');
-        if(streetArr.length > 0){
-            return streetArr;
-        }
-        return '';
-    }
+                }
+                else{
+                    renCheckhArray.forEach((item) => {
+                        if(this.oppRec.Policy_Number__c == item.Certificate_number){
+                            this.renewalAPIData = item;
+                            this.autoDebitFlag = this.renewalAPIData.Auto_Debit;
+                        }
+                    })
+                    
+                }
+                this.renewalCheckFlag = true;
+    }    
 
     getNomiteeDetails(){
 
@@ -123,6 +158,22 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
             console.error('Error adding contact', error);
         });
 
+    }
+
+    //////////////////////////////////Private methods//////////////////////////////////////////////////
+
+    getISTDateFormat(theDate){
+        return String(theDate.getDate()+'/'+(theDate.getMonth() + 1) +'/'+theDate.getFullYear())
+    }
+    
+    showNotification(type, titleMsg){
+        const evt = new ShowToastEvent({
+            title: titleMsg,
+            message: this.label.toastErrorMsg,
+            variant: type,
+            mode:  'dismissible'
+          });
+          this.dispatchEvent(evt);
     }
 
 }
