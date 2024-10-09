@@ -26,8 +26,9 @@ public with sharing class Abhi_HealthReturnController {
       
       ResponseWrapper respWrapper = new ResponseWrapper();
 
-      if(integrationResponse.statusCode == 200){        
-        respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
+      if(String.isNotBlank(integrationResponse.responseBody) && integrationResponse.statusCode == 200){        
+          respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
+          respWrapper.StatusCode = 1000;
       }
       else if(integrationResponse.statusCode == 400) {
         Custom_Messages__mdt cm = Custom_Messages__mdt.getInstance('ABHI_No_Response_Received');
