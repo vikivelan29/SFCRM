@@ -78,7 +78,4 @@ public with sharing class ABHI_Constants {
     public static final String OMNIDOC_FILE_TRANSFER_LOGICALID = 'CRM';
     public static final String OMNIDOC_FILE_TRANSFER_TASKID = 'Attachments';
 	public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
-
-    // ABHI View Claim Policy Information API
-    public static final String NO_RESPONSE_AVAILABLE = 'No response is available';
 }
