@@ -359,11 +359,11 @@
         <field>Asset.GrossPremium__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>	
+    <fieldPermissions>
     	 <editable>false</editable>
     	 <field>Asset.Intermediary_Branch_Code__c</field>
-    	 <readable>true</readable>
-	</fieldPermissions>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.IntermediaryCode__c</field>
@@ -1354,7 +1354,7 @@
         <field>Asset.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Asset.CombiPolicyType__c</field>
         <readable>true</readable>
@@ -2707,6 +2707,15 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>Lead</object>
         <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Policy_Nominee__c</object>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
