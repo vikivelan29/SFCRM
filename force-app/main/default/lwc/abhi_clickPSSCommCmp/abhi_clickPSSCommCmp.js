@@ -38,7 +38,6 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
         if (data) {
 
             this.assetRecords = data.assetRecords;
-            console.log('assetRecords>>>', JSON.stringify(this.assetRecords));
             
             this.columns = data.columnNameList;
             this.populateLwcDatatableData();
@@ -146,7 +145,6 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
 
     handleClick(event){
         let buttonLabel = event.target.label;
-        console.log('this.currentSelRecord>>', this.currentSelRecord);
         
         if(buttonLabel === 'Next'){
             
