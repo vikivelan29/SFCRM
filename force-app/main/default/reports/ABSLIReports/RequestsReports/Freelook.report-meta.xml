@@ -13,7 +13,7 @@
         <field>Case$Stage__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Owner.FederationIdentifier</field>
+        <field>Case$CreatedBy.FederationIdentifier</field>
     </columns>
     <columns>
         <field>Case$CreatedBy</field>
@@ -51,13 +51,28 @@
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
     </columns>
+    <columns>
+        <field>Case$Asset.Channel__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Branch_Name__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Branch_Code__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Zone__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Region__c</field>
+    </columns>
     <filter>
         <criteriaItems>
             <column>Case$CCC_External_Id__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
             <operator>contains</operator>
-            <value>BFL001,NBPC012,PPAY001</value>
+            <value>NBFL001,NBPC012,PPAY001</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

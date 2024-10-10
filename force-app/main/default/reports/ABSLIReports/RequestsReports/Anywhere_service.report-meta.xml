@@ -57,6 +57,18 @@
     <columns>
         <field>Case$Source__c</field>
     </columns>
+    <columns>
+        <field>Case$CreatedBy.Branch_Name__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Branch_Code__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Zone__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Region__c</field>
+    </columns>
     <filter>
         <criteriaItems>
             <column>Case$Source__c</column>
