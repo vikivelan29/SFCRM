@@ -11626,11 +11626,10 @@
         <field>Contact.Height__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Line_of_Business__c</field>
         <readable>true</readable>
-    </fieldPermissions>
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
@@ -11731,7 +11730,7 @@
         <editable>true</editable>
         <field>Health_Intent__c.Which_phone_are_you_using__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+        </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Health_Provider__c.Business_Unit__c</field>
@@ -13806,5 +13805,13 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewAllUsers</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ContentWorkspaces</name>
     </userPermissions>
 </PermissionSet>
