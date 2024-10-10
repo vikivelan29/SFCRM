@@ -333,14 +333,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Email</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            <template if:true={account.PersonEmail}>
-                                                {account.PersonEmail}
-                                            </template>
-                                            <template if:false={account.PersonEmail}>
-                                                {account.Office_Email__c}
-                                            </template>
-                                        </div>
+                                        <template if:true={addressFlag}>
+                                            <div class="slds-form-element__static">
+                                                {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
