@@ -9,6 +9,9 @@
                         <valueListItems>
                             <value>Asset.Send_Communication</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>CustomButton.Asset.Calculator</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -197,16 +200,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.LAN__c</fieldItem>
                 <identifier>RecordLAN_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Calculator__c</fieldItem>
-                <identifier>RecordCalculator_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

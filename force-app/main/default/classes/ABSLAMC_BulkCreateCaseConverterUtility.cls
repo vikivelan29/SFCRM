@@ -316,7 +316,8 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
             
             for (Integer i = 0; i < listOfRecordsAsMap.size(); i++){
                Id usrId = listOfRecordsAsMap[i].get('Owner AD ID');
-               listOfRecordsAsMap[i].put('Owner AD ID', mapOfOwnerFedIden.get(usrId));
+               String FedId = String.isNotBlank(mapOfOwnerFedIden.get(usrId)) ? mapOfOwnerFedIden.get(usrId) : '';
+               listOfRecordsAsMap[i].put('Owner AD ID', FedId);
             }
         }
 

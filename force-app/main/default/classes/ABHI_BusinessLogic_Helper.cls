@@ -28,7 +28,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
             }
-            abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
+            else {
+                abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
+            }
         }
     }
 
@@ -101,4 +103,4 @@ public with sharing class ABHI_BusinessLogic_Helper {
         }        
         return result;
     }
-} 
+}

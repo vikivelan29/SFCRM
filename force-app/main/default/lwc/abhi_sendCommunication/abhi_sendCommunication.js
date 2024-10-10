@@ -94,6 +94,7 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     getFields(){
         if(this.currentSelRecord){
+            
             return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name'];
         }
         else if(this.objectApiName == 'Asset'){
@@ -177,9 +178,9 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.validation.showValidation=true;
                 this.template.querySelector('.tel_inp').classList.add('slds-has-error');
             }
-            if(this.showContact.showEmail){
-                //add for email
-            }
+            // if(this.showContact.showEmail){
+            //     //add for email
+            // }
             
             return false;
         }
@@ -226,6 +227,9 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     handleChange(event){
         try {
+            this.validation.showValidation = false;
+            if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
+                this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
             let selectedLabel = event.target.label;
             let selectedVal = event.detail.value;
             this.formData.template = '';
@@ -249,7 +253,6 @@ export default class Abhi_sendCommunication extends LightningElement {
                 
                 this.tempOptions = tempOptionArr;
                 this.showContact.showTemplate = true;
-                
             }
             if(selectedLabel == 'Template'){
                 this.formData.template = selectedVal;
@@ -264,6 +267,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.toggleDisabled = phoneField!=null?false:true;
                 this.checkedToggle = phoneField!=null?true:false;
                 this.recordDetails.Phone = phoneField!=null?phoneField:'';
+                
             }
             else if(selectedVal == 'Email'){
                 this.showContact.showEmail=true;
@@ -273,6 +277,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.recordDetails.Email = emailField!=null?emailField:'';
                 
             }
+            
         } catch (error) {
             console.error('Error in handleChange>>>', JSON.stringify(error));
             
