@@ -112,7 +112,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>PAN_Number__c</field>
+                <field>PAN__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

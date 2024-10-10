@@ -2,7 +2,7 @@
 * @description       : 
  * @author            : rsinghnagar@salesforce.com
 * @group             : 
-* @last modified on  : 10-09-2024
+* @last modified on  : 10-10-2024
 * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
@@ -216,7 +216,6 @@ blankSourcePresent = true;
                     caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                     caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                     caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
-                    caseRec.Activity__c = appliedCCC.Activity__c;
                     // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
                     if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
                         caseRec.Is_STP__c = appliedCCC.Is_STP__c;   

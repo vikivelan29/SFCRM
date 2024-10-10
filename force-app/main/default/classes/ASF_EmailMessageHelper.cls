@@ -254,9 +254,6 @@ public without sharing class ASF_EmailMessageHelper {
         if((caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint')){
             return false;
         }
-        else if(caseRec.Business_Unit__c == ABHI_Constants.ABHI){
-            return false;
-        }
         return returnVal;
 
     }

@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 07-17-2024
+ * @last modified on  : 10-10-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public without sharing class ASF_CaseFrameworkHelper {
@@ -37,7 +37,6 @@ public without sharing class ASF_CaseFrameworkHelper {
                             caseApprovalRecord.Approval_Status__c  = 'Pending';
                             caseApprovalRecord.Case_Stage_At_Creation__c = caseRec.Stage__c;
                             caseApprovalRecord.SR__c = caseRec.Id;
-                            caseApprovalRecord.Line_Of_Business__c = caseRec.LOB__c;
                             approvalList.add(caseApprovalRecord);
                             break;
                         }
