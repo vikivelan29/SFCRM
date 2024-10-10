@@ -373,9 +373,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Sum Insured</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            ₹{policy.Sum_Assured__c}
-                                        </div>
+                                        <template if:true={sumInsuredFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.Sum_Assured__c}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -735,9 +737,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Last year premium</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            ₹{policy.GrossPremium__c}
-                                        </div>
+                                        <template if:true={lastYearPremFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.GrossPremium__c}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -775,7 +779,7 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Net Premium</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={renCheckNetPremFlag}>
                                             <div class="slds-form-element__static">
                                                 ₹{renewalAPIData.premium.Renewal_Net_Premium}
                                             </div>
@@ -805,7 +809,7 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Gross Premium</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={renCheckGrossPremFlag}>
                                             <div class="slds-form-element__static">
                                                 ₹{renewalAPIData.premium.Renewal_Gross_Premium}
                                             </div>
