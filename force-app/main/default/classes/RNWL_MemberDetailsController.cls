@@ -51,40 +51,63 @@ public with sharing class RNWL_MemberDetailsController {
     }
     
     @AuraEnabled
-    public static MemberUIResponseWrapper getAPIResponse(String opportunityId, String assetId, String policyNum,
-                                                         String proposalNo, List<String> lstFileSrcAPI) 
+    public static List<object> getAPIResponse(String opportunityId, String assetId, String policyNum, 
+                                              String proposalNo, List<String> lstFileSrcAPI)
     {
         MemberUIResponseWrapper objMemberUIResponseWrapper = new MemberUIResponseWrapper();
         List<Object> lstFinalResponse = new List<Object>();
         
-        try {
-            Map<String, String> mapOfAPINameToResponse = getAPIResponseDetails(opportunityId, assetId, policyNum, proposalNo, lstFileSrcAPI, null);
+        try{  
+            Map<String, String> mapOfAPINameToResponse = new Map<String, String>();
             
-            // Fetch Member and Fitness details
+            mapOfAPINameToResponse = getAPIResponseDetails(opportunityId, assetId, policyNum, proposalNo, lstFileSrcAPI, null);
+            
             Map<String, Map<String, String>> mapMember = new Map<String, Map<String, String>>();
+            Map<String, Map<String, String>> mapHealth = new Map<String, Map<String, String>>();
             Map<String, Map<String, String>> mapFitness = new Map<String, Map<String, String>>();
             
-            if (mapOfAPINameToResponse.containsKey(RNWL_Constants.RENEWAL_API_NAME)) {
-                mapMember = getMembers(mapOfAPINameToResponse.get(RNWL_Constants.RENEWAL_API_NAME), policyNum, RNWL_Constants.RENEWAL_POLICY_NUM_KEY, RNWL_Constants.RENEWAL_API_NAME);
-            } else if (mapOfAPINameToResponse.containsKey(RNWL_Constants.RENEWAL_GROUP_API_NAME)) {
-                mapMember = getMembers(mapOfAPINameToResponse.get(RNWL_Constants.RENEWAL_GROUP_API_NAME), policyNum, RNWL_Constants.RENEWAL_GRP_POLICY_NUM_KEY, RNWL_Constants.RENEWAL_GROUP_API_NAME);
-            }
-             
-            if (mapMember.containsKey('errorMap')) {
-                Map<String, String> errorMap = mapMember.get('errorMap');
-                objMemberUIResponseWrapper.ErrorCode = errorMap.get('ErrorCode');
-                objMemberUIResponseWrapper.ErrorMessage = errorMap.get('ErrorMessage');
-                objMemberUIResponseWrapper.ErrorAPI = errorMap.get('ErrorAPI');
-                return objMemberUIResponseWrapper;
+            if(mapOfAPINameToResponse.containsKey('Renewal Check')){ 
+                
+                mapMember = getMembers(mapOfAPINameToResponse.get('Renewal Check'), policyNum, 'Policy_number', 'Renewal Check' );
             }
             
-            if (mapOfAPINameToResponse.containsKey(RNWL_Constants.FITNESS_API_NAME)) {
-                mapFitness = parseFitnessAssessment(mapOfAPINameToResponse.get(RNWL_Constants.FITNESS_API_NAME));
+            else if(mapOfAPINameToResponse.containsKey('Renewal Group Check')){
+                
+                mapMember = getMembers(mapOfAPINameToResponse.get('Renewal Group Check'), policyNum, 'Certificate_number', 'Renewal Group Check' );
+                
             }
             
-            // Merge Member and Fitness data
-            for (String strKey : mapMember.keySet()) {
-                Map<String, String> mapTemp = new Map<String, String>();
+            if(mapOfAPINameToResponse.containsKey('Fitness Assessment')){
+                
+                String strFitness = mapOfAPINameToResponse.get('Fitness Assessment');
+                
+                system.debug('strFitness'+strFitness);
+                
+                Map<String, Object> rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(strFitness);
+                
+                List<Object> rawFitnessAssessment = (List<Object>)(rawResponseMap.get('Response')); 
+                
+                for(object objFitness : rawFitnessAssessment) { 
+                    Map<String, Object> fitness_Map = (Map<String, Object>)objFitness;
+                    Map<String, String> fitnessMap = new Map<String, String>();   
+                    
+                    fitnessMap.put('HA', String.valueOf(fitness_Map.get('HealthAssesmentStatusHA')));
+                    fitnessMap.put('DHA', String.valueOf(fitness_Map.get('HealthAssesmentStatusDHA')));
+                    fitnessMap.put('AHC', String.valueOf(fitness_Map.get('HealthAssesmentStatusAHC'))); 
+                    fitnessMap.put('vchClientCode', String.valueOf(fitness_Map.get('vchClientCode'))); 
+                    
+                    mapFitness.put(String.valueOf(fitnessMap.get('vchClientCode')), fitnessMap);
+                    
+                } 
+            } 
+            
+            
+            system.debug('mapFitness'+mapFitness);
+            
+            system.debug('mapMember'+mapMember);
+            
+            for(String strKey : mapMember.keySet()){
+                map<String, String> mapTemp = new map<String, String>();
                 mapTemp.putAll(mapMember.get(strKey));
                 if (mapFitness.containsKey(strKey)) {
                     mapTemp.putAll(mapFitness.get(strKey));
@@ -129,46 +152,29 @@ public with sharing class RNWL_MemberDetailsController {
         
         Map<String, Object> rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(strResponse);
         
-        if(!rawResponseMap.containsKey('response') ||  rawResponseMap.get('response') == null) {  
-            getErrorInstance('400', 'API Call Failed Please Retry', 'Renewal', mapOfMemberIdToMembers);
-            return mapOfMemberIdToMembers;
-        }
-        
-        Map<String, Object> responseBody  =  (Map<String, Object>)rawResponseMap.get('response'); 
-        Object objError = rawResponseMap.get('error');
-        List<Object> lstError = new List<Object>();
-        if(objError instanceOf List<Object>){
-            lstError = (List<Object>) objError;  
-        } 
-        
-        for(Object obj : lstError){
-            
-            map<String, object> mapErrorToMessage = (map<String, object>)obj;
-            String strErrorCode = String.valueOf(mapErrorToMessage.get('ErrorCode'));
-            String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage'));  
-            if(strErrorCode != '00'){
-                getErrorInstance(strErrorCode, strErrorMessage, 'Renewal', mapOfMemberIdToMembers);
-                return mapOfMemberIdToMembers; 
-            }
-        }  
-        List<Object> rawPolicyData = (List<Object>)responseBody.get('policyData'); 
+        system.debug('rawPolicyData : '+rawPolicyData);
         
         for(Object objPolicy : rawPolicyData){ 
-            Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy;  
-            if(policyNum.equals(String.valueOf(policyData_Map.get(strKey)))){  
-                List<Object> lstMember = (List<Object>) policyData_Map.get('Members'); 
+            Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy; 
+            
+            if(policyNum.equals(String.valueOf(policyData_Map.get(strKey)))){ 
+                
+                List<Object> lstMember = (List<Object>) policyData_Map.get('Members');
+                
                 
                 for(object member : lstMember) { 
                     Map<String, Object> member_Map = (Map<String, Object>)member;
-					Map<String, String> memberMap = new Map<String, String>(); 
+                    Map<String, String> memberMap = new Map<String, String>(); 
                     
                     memberMap.put('Name', String.valueOf(member_Map.get('Name'))); 
                     memberMap.put('Member DOB', String.valueOf(member_Map.get('DoB')));
                     memberMap.put('Membership Relationship', String.valueOf(member_Map.get('Relation')));
                     memberMap.put('FA', '-');
                     
-                    String memberIdKey = 'Member_Code'; 
-                    if(strAPIName == RNWL_Constants.RENEWAL_API_NAME){ 
+                    String memberIdKey = 'Member_Code';
+                    memberMap.put('FA', '-');
+                    
+                    if(strAPIName == 'Renewal Check'){
                         memberIdKey = 'MemberId';
                         memberMap.put('FA', String.valueOf(member_Map.get('FitnessAssessment')));
                     } 
@@ -185,123 +191,118 @@ public with sharing class RNWL_MemberDetailsController {
         return mapOfMemberIdToMembers;
     }
     
-    public static void getErrorInstance(String strErrorCode, String strErrorMessage, String strAPI, Map<String, Map<String, String>> mapOfMemberIdToMembers)
-    {
-        Map<String, String> errorMap = new Map<String, String>();
-        errorMap.put('ErrorCode', strErrorCode);
-        errorMap.put('ErrorMessage', strErrorMessage);
-        errorMap.put('ErrorAPI', strAPI);
-        mapOfMemberIdToMembers.put('errorMap',errorMap);
-        return;
-    }
-    
-    
     @AuraEnabled
     public static list<UIResponseWrapper> getHealthReturnResponse(String opportunityId, String assetId, String policyNum, 
-                                                                  String proposalNo, String masterPolicyNum, Date issueDate, List<String> lstFileSrcAPI)
+                                                                  String proposalNo, String masterPolicyNum, List<String> lstFileSrcAPI)
     {
         Map<String, String> mapOfAPINameToResponse = new Map<String, String>();
         Map<String, List<Response>> mapOfNameIdToHealthReturn = new Map<String, List<Response>>();
         Map<String, Map<String, String>> mapFitness = new Map<String, Map<String, String>>();
         list<UIResponseWrapper> lstUIResponseWrapper = new list<UIResponseWrapper>();
-          
+        
         mapOfAPINameToResponse = getAPIResponseDetails(opportunityId, assetId, policyNum, proposalNo, lstFileSrcAPI, null);
         
-        if(mapOfAPINameToResponse.containsKey(RNWL_Constants.FITNESS_API_NAME)){ 
-            String strFitness = mapOfAPINameToResponse.get(RNWL_Constants.FITNESS_API_NAME); 
-            Map<String, Object> rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(strFitness); 
+        if(mapOfAPINameToResponse.containsKey('Fitness Assessment')){
+            
+            String strFitness = mapOfAPINameToResponse.get('Fitness Assessment');
+            
+            system.debug('strFitness'+strFitness);
+            
+            Map<String, Object> rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(strFitness);
+            
             List<Object> rawFitnessAssessment = (List<Object>)(rawResponseMap.get('Response')); 
             
-            if(rawFitnessAssessment != null && !rawFitnessAssessment.isEmpty()){ 
-                for(object objFitness : rawFitnessAssessment) { 
-                    Map<String, Object> fitness_Map = new Map<String, Object>();
-                    fitness_Map = (Map<String, Object>)objFitness;
-                    Map<String, String> fitnessMap = new Map<String, String>(); 
-                    
-                    fitnessMap.put('HR_Expiry_Date', fitness_Map.containsKey('HR_Expiry_Date') ? String.valueOf(fitness_Map.get('HR_Expiry_Date')) : ''); 
-                    fitnessMap.put('HHS_Start_Date', fitness_Map.containsKey('HHS_Start_Date') ? String.valueOf(fitness_Map.get('HHS_Start_Date')) : ''); 
-                    fitnessMap.put('HHS_End_Date', fitness_Map.containsKey('HHS_End_Date') ? String.valueOf(fitness_Map.get('HHS_End_Date')) : ''); 
-                    
-                    fitnessMap.put('vchClientCode', String.valueOf(fitness_Map.get('vchClientCode')));  
-                    mapFitness.put(String.valueOf(fitnessMap.get('vchClientCode')), fitnessMap);
-                } 
-            }
+            system.debug('rawFitnessAssessment'+rawFitnessAssessment);
+            
+            for(object objFitness : rawFitnessAssessment) { 
+                Map<String, Object> fitness_Map = new Map<String, Object>();
+                fitness_Map = (Map<String, Object>)objFitness;
+                Map<String, String> fitnessMap = new Map<String, String>();   
+                
+                
+                fitnessMap.put('HR_Expiry_Date', String.valueOf(fitness_Map.get('HR_Expiry_Date')));
+                
+                fitnessMap.put('HHS_Start_Date', String.valueOf(fitness_Map.get('HHS_Start_Date')));
+                
+                fitnessMap.put('HHS_End_Date', String.valueOf(fitness_Map.get('HHS_End_Date')));
+                
+                fitnessMap.put('vchClientCode', String.valueOf(fitness_Map.get('vchClientCode'))); 
+                
+                system.debug('fitnessMap'+fitnessMap);
+                
+                mapFitness.put(String.valueOf(fitnessMap.get('vchClientCode')), fitnessMap);
+                
+            } 
         } 
         
-        if(mapOfAPINameToResponse.containsKey(RNWL_Constants.HEALTH_API_NAME)){  
-            ResponseWrapper rawHealthReturn = (ResponseWrapper) JSON.deserialize(mapOfAPINameToResponse.get(RNWL_Constants.HEALTH_API_NAME), ResponseWrapper.class);
-             
-            if(rawHealthReturn.StatusCode == 1000){  
-                if(rawHealthReturn.Response == null || rawHealthReturn.Response.isEmpty()){ 
-                    lstUIResponseWrapper.add(new UIResponseWrapper('No Record Found' , new List<Response>()));
-                    return lstUIResponseWrapper;
+        if(mapOfAPINameToResponse.containsKey('Health Return')){
+            
+            system.debug('Health'+mapOfAPINameToResponse.containsKey('Health Return'));
+            ResponseWrapper rawHealthReturn = (ResponseWrapper) JSON.deserialize(mapOfAPINameToResponse.get('Health Return'), ResponseWrapper.class);
+            
+            for(Response objHealth : rawHealthReturn.Response) {  
+                String strKey = objHealth.Name + ' - ' + objHealth.vchClientCode;
+                
+                if(mapFitness.containsKey(objHealth.vchClientCode)){
+                    map<String,String> fitness = mapFitness.get(objHealth.vchClientCode);
+                    objHealth.HR_Expiry_Date = fitness.containsKey('HR_Expiry_Date') ? fitness.get('HR_Expiry_Date') : '' ;
+                    objHealth.HHS_Start_Date =  fitness.containsKey('HHS_Start_Date') ? fitness.get('HHS_Start_Date') : '' ;
+                    objHealth.HHS_End_Date =  fitness.containsKey('HHS_End_Date') ? fitness.get('HHS_End_Date') : '' ;
                 }
                 
-                for(Response objHealth : rawHealthReturn.Response) {  
-                    String strKey = objHealth.Name + ' - ' + objHealth.vchClientCode; 
-                    if(mapFitness.containsKey(objHealth.vchClientCode)){
-                        map<String,String> fitness = mapFitness.get(objHealth.vchClientCode);
-                        objHealth.HR_Expiry_Date = fitness.containsKey('HR_Expiry_Date') ? fitness.get('HR_Expiry_Date') : '' ;
-                        objHealth.HHS_Start_Date =  fitness.containsKey('HHS_Start_Date') ? fitness.get('HHS_Start_Date') : '' ;
-                        objHealth.HHS_End_Date =  fitness.containsKey('HHS_End_Date') ? fitness.get('HHS_End_Date') : '' ;
-                    } 
-                    objHealth.MasterPolicyNumber = masterPolicyNum;
-                    
-                    if(!mapOfNameIdToHealthReturn.containsKey(strKey)) {
-                        mapOfNameIdToHealthReturn.put(strKey, new List<Response>());
-                    }   
-                    mapOfNameIdToHealthReturn.get(strKey).add(objHealth);  
-                }  
+                objHealth.MasterPolicyNumber = masterPolicyNum;
                 
-                for(String strKey : mapOfNameIdToHealthReturn.keySet()) {   
-                    map<integer, Response> mapMonthsToResponse = new map<integer, Response>(); 
-                    for(Response objWrapper : mapOfNameIdToHealthReturn.get(strKey)){  
-                        string strYear = objWrapper.Month < 10 ?  String.ValueOf(objWrapper.Year) + '0' + String.ValueOf(objWrapper.Month) : 
-                        String.ValueOf(objWrapper.Year) + String.ValueOf(objWrapper.Month);  
-                        mapMonthsToResponse.put( Integer.valueOf(strYear), objWrapper);                    
-                    } 
+                if(!mapOfNameIdToHealthReturn.containsKey(strKey)) {
+                    mapOfNameIdToHealthReturn.put(strKey, new List<Response>());
+                }   
+                mapOfNameIdToHealthReturn.get(strKey).add(objHealth); 
+                
+            }
+            
+            system.debug('mapOfNameIdToHealthReturn'+mapOfNameIdToHealthReturn); 
+            
+            for(String strKey : mapOfNameIdToHealthReturn.keySet()) {   
+                
+                map<integer, Response> mapMonthsToResponse = new map<integer, Response>();
+                
+                
+                for(Response objWrapper : mapOfNameIdToHealthReturn.get(strKey)){ 
+                    mapMonthsToResponse.put(objWrapper.Month, objWrapper);                    
+                } 
+                
+                list<integer> months = new list<integer>();
+                
+                months.addAll(mapMonthsToResponse.keySet());
+                months.sort();
+                
+                system.debug('sorted months list '+months); 
+                
+                integer activeDays = 0;
+                
+                List<Response> lstResponse = new List<Response>();
+                
+                for(integer month : months){ 
+                    Response objResponse = mapMonthsToResponse.get(month);
+                    objResponse.TotalActiveDays = Integer.valueOf(objResponse.ActiveDays) + activeDays;  
+                    activeDays = objResponse.TotalActiveDays;
+                    integer balance = Integer.valueOf(objResponse.TotalHealthReturnsTM) - Integer.valueOf(objResponse.TotalHealthReturnsTMBurnt);
+                    objResponse.HRBalance = balance;
+                    objResponse.HRCFRenewal = balance; 
                     
-                    integer activeDays = 0; 
-                    List<Response> lstResponse = new List<Response>();
-                    List<integer> months = new List<integer>();  
-                    months.addAll(mapMonthsToResponse.keySet());
-                    months.sort();   
-                    Integer issueKey = issueDate.month() > 9 ? Integer.valueOf( String.valueOf(issueDate.year()) + String.valueOf(issueDate.month()) ) : Integer.valueOf( String.valueOf(issueDate.year()) + '0' + String.valueOf(issueDate.month()) );
-                    Date expireDate = (issueDate.toStartOfMonth()).addYears(1);
-                    Integer expireKey = expireDate.month() > 9 ? Integer.valueOf( String.valueOf(expireDate.year()) + String.valueOf(expireDate.month()) )  : Integer.valueOf( String.valueOf(expireDate.year()) + '0' + String.valueOf(expireDate.month()) );
-                     
-                    for(integer month : months){ 
-                        Response objResponse = mapMonthsToResponse.get(month);  
-                        if(month >= issueKey && month < expireKey){
-                            objResponse.TotalActiveDays = Integer.valueOf(objResponse.ActiveDays) + activeDays; 
-                        }else{
-                            objResponse.TotalActiveDays = Integer.valueOf(objResponse.ActiveDays); 
-                            issueKey = objResponse.Month > 9 ? Integer.valueOf(objResponse.Year + objResponse.Month) : Integer.valueOf(objResponse.Year + '0' + objResponse.Month);
-                            Date updatedExDate = ( Date.newInstance( Integer.valueOf(objResponse.Year), objResponse.Month, 1) ).addYears(1);
-                            expireKey = updatedExDate.month() > 9 ? Integer.valueOf( String.valueOf(updatedExDate.year()) + String.valueOf(updatedExDate.month()) ) : Integer.valueOf( String.valueOf(updatedExDate.year()) + '0' + String.valueOf(updatedExDate.month()) );
-                        }
-                        
-                        activeDays = objResponse.TotalActiveDays;
-                        integer balance = Integer.valueOf(objResponse.TotalHealthReturnsTM) - Integer.valueOf(objResponse.TotalHealthReturnsTMBurnt);
-                        objResponse.HRBalance = balance;
-                        objResponse.HRCFRenewal = balance; 
-                        objResponse.MonthName = RNWL_Constants.MONTH_MAP.get(objResponse.Month);
-                        lstResponse.add(objResponse);
-                    } 
-                    lstUIResponseWrapper.add(new UIResponseWrapper(strKey , lstResponse)); 
-                }    
-            } 
-            else{
-                lstUIResponseWrapper.add(new UIResponseWrapper('API Failed' , new List<Response>()));
-                return lstUIResponseWrapper;
-            } 
+                    lstResponse.add(objResponse);
+                }
+                
+                UIResponseWrapper objUIResponseWrapper = new UIResponseWrapper();
+                objUIResponseWrapper.Response = lstResponse;
+                objUIResponseWrapper.Header = strKey;
+                
+                lstUIResponseWrapper.add(objUIResponseWrapper);
+            }  
             system.debug('Final Response map'+lstUIResponseWrapper);
             return lstUIResponseWrapper;
         }
-        else{ 
-            lstUIResponseWrapper.add(new UIResponseWrapper('API Failed' , new List<Response>()));
-            return lstUIResponseWrapper;
-        } 
+        
+        return null;
     }
     
     @SuppressWarnings('PMD.PropertyNamingConventions,PMD.ApexDoc')
@@ -316,20 +317,8 @@ public with sharing class RNWL_MemberDetailsController {
     
     public class UIResponseWrapper{
         @AuraEnabled public List<Response> Response{get;set;}
-        @AuraEnabled public String Header{get;set;}  
-        
-        public UIResponseWrapper(String Header, List<Response> Response){
-            this.Header = Header;
-            this.Response = Response; 
-        }
+        @AuraEnabled public String Header{get;set;} 
     }
-    
-    public class MemberUIResponseWrapper{
-        @AuraEnabled public List<Object> Response{get;set;}
-        @AuraEnabled public String ErrorCode{get;set;}
-        @AuraEnabled public String ErrorMessage{get;set;} 
-        @AuraEnabled public String ErrorAPI{get;set;} 
-    }  
     
     @SuppressWarnings('PMD.PropertyNamingConventions,PMD.ApexDoc')
     public class Response{
@@ -345,7 +334,6 @@ public with sharing class RNWL_MemberDetailsController {
         @AuraEnabled public String HealthAssessment{get;set;}
         @AuraEnabled public String TotalHealthReturnsTMBurnt{get;set;}
         @AuraEnabled public Integer Month{get;set;}
-        @AuraEnabled public String MonthName{get;set;}
         @AuraEnabled public String TotalHealthReturnsTM{get;set;}
         @AuraEnabled public String Year{get;set;}
         @AuraEnabled public String HealthQuestionnaire{get;set;}
