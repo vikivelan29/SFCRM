@@ -79,6 +79,27 @@ export default class Abhi_sendCommunication extends LightningElement {
         }
     }
 
+    getFields(){
+        if(this.currentSelRecord){
+            console.log('In record');
+            
+            return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name'];
+        }
+        else if(this.objectApiName == 'Asset'){
+            return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name', this.objectApiName + '.Policy_No__c', this.objectApiName + '.SerialNumber',  this.objectApiName + '.Next_Premium_Date__c'];
+        }
+        else{
+            if(this.objectInfo.fields){
+                for (const key in this.objectInfo.fields) {
+                    if (this.objectInfo.fields[key].dataType=='Reference' && this.objectInfo.fields[key].referenceToInfos[0] && this.objectInfo.fields[key].referenceToInfos[0].apiName == 'Asset') {
+                        this.assetReferenceField = key; 
+                    }
+                }
+                return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.' + this.assetReferenceField];
+            }
+        }
+    }
+
     @wire(getRecord, { recordId: '$recordId', fields: '$fields'})
     wiredRecord({ error, data }) {
         if (error) {
@@ -129,6 +150,15 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     validateData(){
         if(!this.checkedToggle && (this.showContact.showPhone && this.formData.phoneNumber == '') || (this.showContact.showEmail && this.formData.emailId == '')){
+            if(this.showContact.showPhone){
+                this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
+                this.validation.showValidation=true;
+                this.template.querySelector('.tel_inp').classList.add('slds-has-error');
+            }
+            // if(this.showContact.showEmail){
+            //     //add for email
+            // }
+            
             return false;
         }
         else return true;
