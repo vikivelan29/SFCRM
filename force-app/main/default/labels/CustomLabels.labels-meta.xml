@@ -1177,4 +1177,11 @@
         <shortDescription>ABSLI_BITLY_LOB_VAL</shortDescription>
         <value>ABCABS</value>
     </labels>
+    <labels>
+        <fullName>ASF_Integration_Mandatory_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Integration Mandatory Error</shortDescription>
+        <value>is mandatory for current stage</value>
+    </labels>
 </CustomLabels>
