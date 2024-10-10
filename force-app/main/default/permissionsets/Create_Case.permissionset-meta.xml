@@ -7169,6 +7169,7 @@
         <editable>false</editable>
         <field>Case.ABSLIG_Case_Detail__c</field>
         <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Survey_Response__c.Case__c</field>

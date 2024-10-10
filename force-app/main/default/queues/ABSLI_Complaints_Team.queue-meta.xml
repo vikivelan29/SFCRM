@@ -6,12 +6,6 @@
         <publicGroups>
             <publicGroup>ABSLI_Complaints_Team_G</publicGroup>
         </publicGroups>
-        <users>
-            <user>dhinesh.t@salesforce.uatcallcenter</user>
-            <user>branchuserbsli@salesforce.com</user>
-            <user>bhavana.nagalla@olooptech.com+abslicsuser+</user>
-            <user>prachi@techforceservices.com.ho.uat</user>
-        </users>
     </queueMembers>
     <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>

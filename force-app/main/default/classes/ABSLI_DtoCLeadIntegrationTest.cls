@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 10-10-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 @isTest
 public class ABSLI_DtoCLeadIntegrationTest {
     @isTest
@@ -21,7 +28,6 @@ public class ABSLI_DtoCLeadIntegrationTest {
         ld.ABSLI_Lead_Type__c = 'Contact Centre';
         ld.RecordTypeId = salesLeadRecordTypeId;
         ld.Business_Unit__c = 'ABSLI';
-        ld.Asset__c = policy.Id;
         
         insert ld;
     }

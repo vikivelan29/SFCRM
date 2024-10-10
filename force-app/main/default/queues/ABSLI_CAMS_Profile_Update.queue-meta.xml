@@ -6,10 +6,6 @@
         <publicGroups>
             <publicGroup>ABSLI_CAMS_Profile_Update_G</publicGroup>
         </publicGroups>
-        <users>
-            <user>dhinesh.t@salesforce.uatcallcenter</user>
-            <user>branchuserbsli@salesforce.com</user>
-        </users>
     </queueMembers>
     <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
