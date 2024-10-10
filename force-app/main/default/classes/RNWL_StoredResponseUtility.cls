@@ -6,7 +6,7 @@
 *@description  : This class is used for Get/Set Response on opp files
 *********************************************************/
 public class RNWL_StoredResponseUtility {
-     
+    
     public static Map<String, String> mapOfFileNameToResponse = new Map<String, String>();
     
     @AuraEnabled(cacheable=true)
@@ -108,7 +108,7 @@ public class RNWL_StoredResponseUtility {
     public static ABHI_HealthAssesmentDetails.IntegrationResponseWrapper getFitnessAssessmentDetails(String assetId){
         ABHI_HealthAssesmentDetails.IntegrationResponseWrapper objWrapper = ABHI_HealthAssesmentDetails.GetHealthDetails(assetId);   
        
-        if(!objWrapper.Response.isEmpty() && (objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000)){
+        if(objWrapper.Response!= null && objWrapper.StatusCode != null && (objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000)){
             mapOfFileNameToResponse.put('Fitness Assessment', JSON.serialize(objWrapper)); 
         } 
         return objWrapper;
@@ -116,8 +116,7 @@ public class RNWL_StoredResponseUtility {
     
     public static Abhi_HealthReturnController.ResponseWrapper getHealthDetails(String policyNo, String proposalNo){
         Abhi_HealthReturnController.ResponseWrapper objWrapper = Abhi_HealthReturnController.healthReturnCallout(policyNo, proposalNo);
-       
-        if(!objWrapper.Response.isEmpty() && (objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000)){
+        if(objWrapper.Response != null && objWrapper.StatusCode != null && (objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000)){
             mapOfFileNameToResponse.put('Health Return', JSON.serialize(objWrapper)); 
         }
         return objWrapper;
@@ -126,7 +125,8 @@ public class RNWL_StoredResponseUtility {
     public static ABHI_ViewPolicyInformation_Controller.ResponseWrapper getAppRegDeatils(String accId){
         ABHI_ViewPolicyInformation_Controller.ResponseWrapper objWrapper = ABHI_ViewPolicyInformation_Controller.viewPolicyInformationApiCallout(accId);
        
-        if(objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000){
+        if(objWrapper.StatusCode != null && 
+           (objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000)){
             mapOfFileNameToResponse.put('AppRegDetails', JSON.serialize(objWrapper)); 
         }
         return objWrapper;
