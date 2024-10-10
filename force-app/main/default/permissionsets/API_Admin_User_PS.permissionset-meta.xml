@@ -8925,11 +8925,10 @@
         <field>Contact.Height__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Line_of_Business__c</field>
         <readable>true</readable>
-    </fieldPermissions>
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
@@ -9016,20 +9015,21 @@
         <field>Health_Intent__c.Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Health_Intent__c.Waiting_Period_Permanent_Exclusion__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Health_Intent__c.What_activities_are_you_currently_doing__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Health_Intent__c.Which_phone_are_you_using__c</field>
         <readable>true</readable>
+        </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Health_Provider__c.Business_Unit__c</field>
