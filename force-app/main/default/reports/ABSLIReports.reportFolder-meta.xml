@@ -3,7 +3,7 @@
     <folderShares>
         <accessLevel>View</accessLevel>
         <sharedTo>ABSLI_Service_Manager</sharedTo>
-        <sharedToType>RoleAndInternalSubordinates</sharedToType>
+        <sharedToType>RoleAndSubordinatesInternal</sharedToType>
     </folderShares>
     <name>ABSLI Reports</name>
 </ReportFolder>
