@@ -83,7 +83,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
             String source = String.isNotBlank(keyValueMap.get('Source'))?keyValueMap.get('Source').trim():'';
             String channel = String.isNotBlank(keyValueMap.get('Channel'))?keyValueMap.get('Channel').trim():'';
             String callerType = String.isNotBlank(keyValueMap.get('Caller Type'))?keyValueMap.get('Caller Type').trim(): '';
-            String criticalRequest = String.isNotBlank(keyValueMap.get('Critical Request flag (Yes/No)'))?keyValueMap.get('Critical Request flag (Yes/No)').trim():'';
+            String criticalRequest = String.isNotBlank(keyValueMap.get('Critical Request flag (Y/N)'))?keyValueMap.get('Critical Request flag (Y/N)').trim():'';
             String phdComplainSource = String.isNotBlank(keyValueMap.get('PHD Compaint Source'))?keyValueMap.get('PHD Compaint Source').trim(): '';
             String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim(): '';
             String blockCommString = String.isNotBlank(keyValueMap.get('Send Auto Communication?'))?keyValueMap.get('Send Auto Communication?').trim():'';
@@ -138,7 +138,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
             }
             if(criticalRequest == null || criticalRequest.trim() == ''){
                 keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'Critical Request flag (Yes/No) is required');
+                keyValueMap.put('Message', 'Critical Request flag (Y/N) is required');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
@@ -232,7 +232,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
             'Source__c'=>'Source', 
             'Channel__c'=> 'Channel',
            'ABSLAMC_Case_Detail__r.Caller_Type__c'=>'Caller Type',
-           'ABSLAMC_Case_Detail__r.Critical_Request__c'=>'Critical Request flag (Yes/No)',
+           'ABSLAMC_Case_Detail__r.Critical_Request__c'=>'Critical Request flag (Y/N)',
             'ABSLAMC_Case_Detail__r.PHD_Complaint_Source__c'=>'PHD Compaint Source',
             'Description' => 'Description',
             'No_Auto_Communication__c'=>'Send Auto Communication?'                
@@ -250,7 +250,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
             'Source'=>'Source__c',
             'Channel'=>'Channel__c',
            'Caller Type' =>'ABSLAMC_Case_Detail__r.Caller_Type__c',
-           'Critical Request flag (Yes/No)'=>'ABSLAMC_Case_Detail__r.Critical_Request__c',
+           'Critical Request flag (Y/N)'=>'ABSLAMC_Case_Detail__r.Critical_Request__c',
             'PHD Compaint Source'=>'ABSLAMC_Case_Detail__r.PHD_Complaint_Source__c',
             'Description'=>'Description',
             'Send Auto Communication?'=>'No_Auto_Communication__c'
