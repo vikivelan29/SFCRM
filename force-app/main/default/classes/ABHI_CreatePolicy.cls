@@ -97,10 +97,10 @@ public with sharing class ABHI_CreatePolicy {
             //isBusinessAccount = customer.get('CustomerType') == 'Group' ? true : false;
             
             if(customer.get('AddressType') == ABHI_Constants.PERMANENT) {
-                acc.put('BillingStreet', createAddress((String)customer.get('AddressLine1'), (String)customer.get('AddressLine2'), (String)customer.get('AddressLine3')));
+                acc.put('Street_Address_1__c', createAddress((String)customer.get('AddressLine1'), (String)customer.get('AddressLine2'), (String)customer.get('AddressLine3')));
             }
             else if(customer.get('AddressType') == ABHI_Constants.OTHER) {
-                acc.put('ShippingAddress', createAddress((String)customer.get('address2Line1'), (String)customer.get('Address2Line2'), (String)customer.get('Address3Line3')));
+                acc.put('Street_Address_2__c', createAddress((String)customer.get('Address2Line1'), (String)customer.get('Address2Line2'), (String)customer.get('Address3Line3')));
             }    
             //Creating contact for business accounts
             if(isBusinessAccount) {
