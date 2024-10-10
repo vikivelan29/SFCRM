@@ -38,6 +38,8 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
         if (data) {
             console.log('Data>>>', data);
             this.assetRecords = data.assetRecords;
+            console.log('assetRecords>>>', JSON.stringify(this.assetRecords));
+            
             this.columns = data.columnNameList;
             this.populateLwcDatatableData();
             this.totalNoOfRecordsInDatatable = data.assetRecords.length;
@@ -141,7 +143,8 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
 
     handleClick(event){
         let buttonLabel = event.target.label;
-        console.log('buttonLabel>>>', buttonLabel);
+        console.log('this.currentSelRecord>>', this.currentSelRecord);
+        
         if(buttonLabel === 'Next'){
             console.log('Current Record>>>', JSON.stringify(this.currentSelRecord));
             console.log('Current Record Values>>>', Object.values(this.currentSelRecord).length);
@@ -243,6 +246,7 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
      // Method Description - Deselect all checkbox from lightning datatable
      deselectAllCheckboxes() {
         let dataTableRecords = this.template.querySelector('lightning-datatable');
+        this.currentSelRecord={};
         if(dataTableRecords) {
             dataTableRecords.selectedRows = [];
         }
