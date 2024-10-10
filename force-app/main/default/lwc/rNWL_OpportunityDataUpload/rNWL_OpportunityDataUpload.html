@@ -1,14 +1,21 @@
 <template>
 <lightning-card class="slds-grid_vertical-stretch">
+            <div class="slds-p-around_medium">
+             Please ensure that the file you upload follows <a href={url} target="_blank">this template</a>
+            
+        </div>
+    <div>
+    
+</div>
 	<div>
     <lightning-layout multiple-rows class="slds-align--absolute-center slds-p-around_small">
         <lightning-layout-item size="12" small-device-size="12" large-device-size="6" class="slds-p-horizontal_small"
             flexibility="auto">
 
-            <lightning-input type="file" label="Upload File" name="fileUploader" accept={acceptedFormats}
+            <lightning-input type="file" label="Select file in the format .xls or .xlsx" name="fileUploader" accept={acceptedFormats}
                 onchange={handleUploadFinished}></lightning-input>
             {fileName}<br><br>
-            <lightning-button class="slds-m-top--medium buttonClass" label='Submit File' onclick={handleSave}
+            <lightning-button class="slds-m-top--medium" label='Submit File' onclick={handleSave}
                 variant="brand"></lightning-button>
         </lightning-layout-item>
     </lightning-layout>
