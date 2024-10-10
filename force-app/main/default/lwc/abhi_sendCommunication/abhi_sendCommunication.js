@@ -79,6 +79,26 @@ export default class Abhi_sendCommunication extends LightningElement {
         }
     }
 
+    getFields(){
+        if(this.currentSelRecord){
+            
+            return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name'];
+        }
+        else if(this.objectApiName == 'Asset'){
+            return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name', this.objectApiName + '.Policy_No__c', this.objectApiName + '.SerialNumber',  this.objectApiName + '.Next_Premium_Date__c'];
+        }
+        else{
+            if(this.objectInfo.fields){
+                for (const key in this.objectInfo.fields) {
+                    if (this.objectInfo.fields[key].dataType=='Reference' && this.objectInfo.fields[key].referenceToInfos[0] && this.objectInfo.fields[key].referenceToInfos[0].apiName == 'Asset') {
+                        this.assetReferenceField = key; 
+                    }
+                }
+                return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.' + this.assetReferenceField];
+            }
+        }
+    }
+
     @wire(getRecord, { recordId: '$recordId', fields: '$fields'})
     wiredRecord({ error, data }) {
         if (error) {
