@@ -4,6 +4,6 @@
     <name>ABSLI Templates</name>
     <publicFolderAccess>ReadOnly</publicFolderAccess>
     <sharedTo>
-        <roleAndInternalSubordinates>ABSLI_Service_Manager</roleAndInternalSubordinates>
+        <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
     </sharedTo>
 </EmailFolder>

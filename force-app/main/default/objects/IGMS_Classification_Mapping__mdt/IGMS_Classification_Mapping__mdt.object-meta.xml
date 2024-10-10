@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata"></CustomObject>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Mapping is the master of IGMS Policy_Type, Complaint_Type, Complaint_Desc_Id. Used for Syncing cases to IGMS</description>
+    <label>IGMS Classification Mapping</label>
+    <pluralLabel>IGMS Classification Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
