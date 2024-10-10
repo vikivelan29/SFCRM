@@ -8,6 +8,10 @@ import toastErrorMsg from '@salesforce/label/c.OppDetailsToastErrorMessage';
 export default class RNWL_RenewalPolicyDetails extends LightningElement {
     label = { toastErrorMsg };
 
+    label = {
+        toastErrorMsg
+    };
+
     @api recordId;policyId;accountId;
     @track account; policy; oppRec; heathRetrn; fitnessData;
     @track areDetailsVisible = false; renewalCheckFlag = false; nominees = []; 
@@ -16,7 +20,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     @track maturityDate; policyLapseDate; policyLapsed; policyStartDate; dateOfBirth; masterPolicyNumber;
     @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus; inceptionDate;
     @track renewalAPIData; goGreenFlag; isChronic;
-    @track autoDebitFlag; sumInsusedEnhancement; addressFlag; addressString;
+    @track autoDebitFlag; sumInsusedEnhancement; addressFlag; 
     @track balanceHR;apiList;error;data;addDownloadStatus;
 
     @wire(getOppRec, {recordId: '$recordId'})
@@ -35,11 +39,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     else{
                         this.apiList = ['Renewal Check', 'Health Return', 'Fitness Assessment', 'AppRegDetails'];
                     }
-                    this.addressString = this.account.BillingStreet ? (this.account.BillingStreet + ', ') : '';
-                    this.addressString = this.addressString + (this.account.BillingCity ? (this.account.BillingCity + ', ') : '');
-                    this.addressString = this.addressString + (this.account.BillingState ? this.account.BillingState : '');
-                    this.addressString = this.addressString + (this.account.BillingPostalCode ? ('-'+this.account.BillingPostalCode) : '');
-                    
+
                     this.addressFlag = this.account.BillingAddress ? true : false;
                     this.dateOfBirth = this.account.PersonBirthdate ? this.getISTDateFormat(new Date(this.account.PersonBirthdate)) : '';
                     this.isChronic = this.account.Is_Chronic__c;
@@ -52,14 +52,13 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                         var matDate = new Date(this.policy.Maturity_Date__c);
                         this.policyLapseDate = this.getISTDateFormat(new Date(matDate.setDate(matDate.getDate() + 30)));
                     }   
-                    this.goGreenFlag = this.policy.GoGreen__c;
-                    this.masterPolicyNumber = this.policy.MasterPolicyNumber__r?.Name;
+                    this.goGreenFlag = this.policy.GoGreen__c; 
                 }
+                
                 
                 this.graceStartDate = this.oppRec.Grace_Period_Start__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_Start__c)) : '';
                 this.graceEndDate = this.oppRec.Grace_Period_End__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_End__c)) : '';
                 this.polRenewalNoticeDay = this.oppRec.Policy_Renewal_Notice_Day__c ? this.getISTDateFormat(new Date(this.oppRec.Policy_Renewal_Notice_Day__c)) : '';   
-                this.inceptionDate = this.oppRec.Policy_Inception_Date__c ? this.getISTDateFormat(new Date(this.oppRec.Policy_Inception_Date__c)) : ''; 
                 
                 this.renStatus = this.oppRec.Status__c == 'Renewed' ? 'Payment Received' : 'In Progress';
                 this.isPolicyRenewed = this.oppRec.Status__c == 'Renewed' ? 'Yes' : 'No';
@@ -69,7 +68,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                 this.getAdditionalData();
                 
                 this.areDetailsVisible = true;
-            } catch(e){
+            }catch(e){
                 console.log('Error displaying data : '+e.message);
             }
         } else {
@@ -82,8 +81,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     //////////////////////////////////Imperative methods//////////////////////////////////////////////////
 
     getAdditionalData(){
-
-        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policy.LAN__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.accountId }).then(response => {            
+        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.oppRec.Proposal_Number__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.accountId }).then(response => {
             if(response){
                 this.prepareAdditionalData(response);
             }
@@ -189,8 +187,26 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                             }
                         })
                     }
-                    this.renewalCheckFlag = this.renewalAPIData ? true : false;
-                } 
+                }
+
+                if(this.apiList && this.apiList.includes('Renewal Check') && renCheckhArray){                
+                    renCheckhArray.forEach((item) => {
+                        if(this.oppRec.Policy_Number__c == item.Policy_number){
+                            this.renewalAPIData = item;
+                            this.autoDebitFlag = this.renewalAPIData.AutoDebitFlag;
+                            this.sumInsusedEnhancement = this.renewalAPIData.Upsell_Flag == 'Yes' ? this.renewalAPIData.Upsell_SumInsured : '';
+                        }
+                    })
+                }
+                else{
+                    renCheckhArray.forEach((item) => {
+                        if(this.oppRec.Policy_Number__c == item.Certificate_number){
+                            this.renewalAPIData = item;
+                            this.autoDebitFlag = this.renewalAPIData.Auto_Debit;
+                        }
+                    })
+                }
+                this.renewalCheckFlag = this.renewalAPIData ? true : false;
                 
     }    
 

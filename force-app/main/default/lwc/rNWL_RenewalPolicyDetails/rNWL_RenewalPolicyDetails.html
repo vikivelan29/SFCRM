@@ -388,9 +388,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Policy Zone</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            {policy.ZoneOfCover__c}
-                                        </div>
+                                        <template if:true={sumInsuredFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.Sum_Assured__c}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
