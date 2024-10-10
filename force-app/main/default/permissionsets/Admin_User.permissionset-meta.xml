@@ -5700,6 +5700,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Asset.Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Asset.Withdrawal_available_amount__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -1170,4 +1170,11 @@
         <shortDescription>ASF_RetryNumbers</shortDescription>
         <value>2</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_BITLY_LOB_VAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_BITLY_LOB_VAL</shortDescription>
+        <value>ABCABS</value>
+    </labels>
 </CustomLabels>
