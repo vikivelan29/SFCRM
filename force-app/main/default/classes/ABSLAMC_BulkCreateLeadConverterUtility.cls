@@ -140,6 +140,7 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             leadRec.Lead_Subtype__c = leadSubType;
             leadRec.Comments_Remarks__c = comments;
             leadRec.Status = status;
+            leadRec.RecordTypeId = ABSLAMC_Constants.RT_LEAD;
             leadRec.OwnerId = userFedIdToUserMap.get(assignedUser);
             resultWrapper.resultRecords.put(lineItemId, leadRec);
             resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
@@ -152,7 +153,7 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'LOB__c'=>'LOB',
             'Folio_for_existing_customer__r.LAN__c'=>'Folio',
-            'Account__r.LOB_Client_Code__c'=> 'CLIENT CODE - LOB +PAN/PERKN',
+            'Account__r.LOB_Client_Code__c'=> 'CLIENT CODE - LOB +PAN/PEKRN',
             'PANNO__c'=> 'PAN',
             'PEKRN__c'=> 'PEKRN',
             'MobilePhone'=>'Mobile No',
@@ -170,7 +171,7 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'LOB'=>'LOB__c', 
             'Folio'=>'Folio_for_existing_customer__r.LAN__c',
-            'CLIENT CODE - LOB +PAN/PERKN'=> 'Account__r.LOB_Client_Code__c',
+            'CLIENT CODE - LOB +PAN/PEKRN'=> 'Account__r.LOB_Client_Code__c',
             'PAN'=>'PANNO__c',
             'PEKRN'=> 'PEKRN__c',
             'Mobile No'=>'MobilePhone',

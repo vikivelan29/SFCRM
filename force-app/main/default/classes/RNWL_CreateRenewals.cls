@@ -20,9 +20,9 @@ global with sharing class RNWL_CreateRenewals {
                 Policy_Number__c = each.policyNumber,
                 Policy_Inception_Date__c = each.policyInceptionDate,
                 Proposal_Number__c = each.proposalNumber,
-                Policy__c = assetMap.get(each.policyNumber).Id,
+                Policy__c = assetMap.get(each.policyNumber) == Null ? Null : assetMap.get(each.policyNumber).Id,
                 CloseDate = Date.today() + 60,
-                AccountId = assetMap.get(each.policyNumber).AccountId,
+                AccountId = assetMap.get(each.policyNumber) == Null ? Null : assetMap.get(each.policyNumber).AccountId,
                 StageName = 'Open',
                 Name = 'RN-' + each.policyNumber
             ));
@@ -30,12 +30,17 @@ global with sharing class RNWL_CreateRenewals {
 
         List<Database.SaveResult> oppSaveResults = Database.insert(opportunityRecordsToInsert, false);
         responseWrapper.errorRecords = new List<IndividualResponse>();
-
+        
         for (Integer i = 0; i < oppSaveResults.size(); i++) {
             if (!oppSaveResults[i].isSuccess()) {
                 responseWrapper.errorRecords.add(new IndividualResponse(null, oppSaveResults[i].getErrors()[0].getMessage(), renewalRequests[i].proposalNumber));
                 responseWrapper.hasErrors = true;
             }
+            else{
+                responseWrapper.errorRecords.add(new IndividualResponse(oppSaveResults[i].getId(), null, renewalRequests[i].proposalNumber));
+            }
+            
+
         }
         return responseWrapper;
     }
