@@ -324,9 +324,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Address</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
-                                        </div>
+                                        <template if:true={addressFlag}>
+                                            <div class="slds-form-element__static">
+                                                {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -775,7 +777,7 @@
                                     <div class="slds-form-element__control">
                                         <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.premium.Renewal_Net_Premium}
+                                                ₹{renewalAPIData.premium.Renewal_Net_Premium}
                                             </div>
                                         </template>
                                     </div>
@@ -805,7 +807,7 @@
                                     <div class="slds-form-element__control">
                                         <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.premium.Renewal_Gross_Premium}
+                                                ₹{renewalAPIData.premium.Renewal_Gross_Premium}
                                             </div>
                                         </template>
                                     </div>
