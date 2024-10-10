@@ -103,13 +103,6 @@
                 <elementReference>Source_Code_2</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>leadRecord.Product_LK__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Product.recordId</elementReference>
-            </value>
-        </assignmentItems>
         <connector>
             <targetReference>Create_Lead_1</targetReference>
         </connector>
@@ -404,6 +397,28 @@
         <valueField>Id</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>ProductChoiceSet</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ABSLI</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ACTIVE</stringValue>
+            </value>
+        </filters>
+        <object>Product2</object>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>ratingChoiceSet</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
@@ -666,7 +681,7 @@
         <inputAssignments>
             <field>Product_LK__c</field>
             <value>
-                <elementReference>leadRecord.Product_LK__c</elementReference>
+                <elementReference>Product_Picklist</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -896,30 +911,13 @@
                     </visibilityRule>
                 </fields>
                 <fields>
-                    <name>Product</name>
-                    <extensionName>flowruntime:lookup</extensionName>
-                    <fieldType>ComponentInstance</fieldType>
-                    <inputParameters>
-                        <name>fieldApiName</name>
-                        <value>
-                            <stringValue>Product_LK__c</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>label</name>
-                        <value>
-                            <stringValue>Product</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>objectApiName</name>
-                        <value>
-                            <stringValue>Lead</stringValue>
-                        </value>
-                    </inputParameters>
+                    <name>Product_Picklist</name>
+                    <choiceReferences>ProductChoiceSet</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Product</fieldText>
+                    <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <isRequired>false</isRequired>
                 </fields>
                 <inputParameters>
                     <name>width</name>
