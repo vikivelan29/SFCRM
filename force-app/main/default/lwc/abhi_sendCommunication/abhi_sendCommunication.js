@@ -96,6 +96,7 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     getFields(){
         if(this.currentSelRecord){
+            console.log('In record');
             
             return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name'];
         }
@@ -197,8 +198,19 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.validation.showValidation=true;
                 this.template.querySelector('.tel_inp').classList.add('slds-has-error');
             }
-            else return true;
-        
+            // if(this.showContact.showEmail){
+            //     //add for email
+            // }
+            
+            return false;
+        }
+        else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){
+           
+            this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
+            this.validation.showValidation=true;
+            this.template.querySelector('.tel_inp').classList.add('slds-has-error');
+        }
+        else return true;
     }
 
     createFormData(data){
