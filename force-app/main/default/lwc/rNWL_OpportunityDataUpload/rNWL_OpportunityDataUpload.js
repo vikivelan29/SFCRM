@@ -17,6 +17,7 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
     isLoading = false;
     recordStatus;
     fileReader;
+    url='/sfc/p/Bl000000pvNd/a/Bl000000dUz7/eePAzAX2mn82WNfKGX5BVj0AEoXUjaTpUAhIkhacSck';
     MAX_FILE_SIZE = 1500000;
 
     async connectedCallback() {
