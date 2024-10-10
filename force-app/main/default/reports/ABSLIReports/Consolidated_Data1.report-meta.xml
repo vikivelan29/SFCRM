@@ -7,6 +7,9 @@
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
+        <field>Case$Created_Date_Value__c</field>
+    </columns>
+    <columns>
         <field>Case$CreatedDate</field>
     </columns>
     <columns>

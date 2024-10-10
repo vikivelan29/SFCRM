@@ -108,7 +108,7 @@ public with sharing class ABSLI_AfterInsertLogic {
             caseDetailMap.put(detail.Id, detail);
         }
         Map<Id, Asset> casePolicyMap = new Map<Id, Asset>();
-        for (Asset policy : [SELECT Id,TDS_Indicator__c FROM Asset WHERE Id IN :assetIds]) {
+        for (Asset policy : [SELECT Id,TDS_Indicator__c, Policy_Identification__c FROM Asset WHERE Id IN :assetIds]) {
             casePolicyMap.put(policy.Id, policy);
         }
         Map<Id, Account> caseAccountMap = new Map<Id, Account>();
@@ -123,7 +123,8 @@ public with sharing class ABSLI_AfterInsertLogic {
             if (caseDetail != null && customer != null && policy != null) {
                 caseDetail.PAN__c = customer.PAN__c;
                 caseDetail.TDS_Indicator__c = policy.TDS_Indicator__c;
-                caseDetail.Policy_Identification__c = customer.Customer_Segment__c;
+                //caseDetail.Policy_Identification__c = customer.Customer_Segment__c;
+                caseDetail.Policy_Identification__c = policy.Policy_Identification__c;
                 caseDetailsToUpdate.add(caseDetail);
             }
         }

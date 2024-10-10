@@ -1201,7 +1201,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
-                    <value>SR Snapshot</value>
+                    <value>Case Snapshot</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
@@ -1229,7 +1229,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>titleFieldName</name>
-                    <value>SR Snapshot</value>
+                    <value>Case Snapshot</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>updateQuickActionName</name>
@@ -1240,6 +1240,23 @@
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>absli_policyClientView</componentName>
+                <identifier>c_absli_policyClientView</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Asset.Policy_No__c}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Account.Client_Code__c}</leftValue>
                         <operator>EQUAL</operator>
                     </criteria>
                 </visibilityRule>

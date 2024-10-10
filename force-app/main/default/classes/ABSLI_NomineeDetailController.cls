@@ -50,6 +50,9 @@ public with sharing class ABSLI_NomineeDetailController {
                 retVal.bSuccess = false;
                 retVal.nominees = details;
                 retVal.errorMessage = 'Something wrong happened ! Please contact your system administrator.';
+                if(responseWrapper.ReturnMessage != null){
+                   retVal.errorMessage = responseWrapper.ReturnMessage; 
+                }
                 System.debug('here');
             }
         }
