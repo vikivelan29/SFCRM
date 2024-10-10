@@ -8930,6 +8930,7 @@
         <field>Contact.Line_of_Business__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Weight__c</field>
