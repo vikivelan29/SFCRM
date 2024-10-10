@@ -25,6 +25,21 @@
                 <default>false</default>
                 <label>Renewal Group Check</label>
             </value>
+            <value>
+                <fullName>Health Return</fullName>
+                <default>false</default>
+                <label>Health Return</label>
+            </value>
+            <value>
+                <fullName>Fitness Assessment</fullName>
+                <default>false</default>
+                <label>Fitness Assessment</label>
+            </value>
+            <value>
+                <fullName>AppRegDetails</fullName>
+                <default>false</default>
+                <label>AppRegDetails</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

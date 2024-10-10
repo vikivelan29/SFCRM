@@ -161,7 +161,17 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Claims</pluralLabel>
-    <searchLayouts></searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <profileSearchLayouts>
+        <fields>NAME</fields>
+        <fields>Claim_Status__c</fields>
+        <fields>Claim_Type__c</fields>
+        <fields>Member_Name__c</fields>
+        <fields>Policy_Number__c</fields>
+        <profileName>ABHI Base Profile</profileName>
+    </profileSearchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Claim_Status__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>Read</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
