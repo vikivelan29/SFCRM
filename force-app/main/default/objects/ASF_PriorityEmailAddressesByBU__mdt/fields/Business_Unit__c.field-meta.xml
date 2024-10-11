@@ -26,19 +26,14 @@
                 <label>Payments</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
-                <default>false</default>
-                <label>ABSLI</label>
-            </value>
-            <value>
                 <fullName>ABSLIG</fullName>
                 <default>false</default>
                 <label>ABSLIG</label>
             </value>
             <value>
-                <fullName>ABHI</fullName>
+                <fullName>Wellness</fullName>
                 <default>false</default>
-                <label>ABHI</label>
+                <label>Wellness</label>
             </value>
         </valueSetDefinition>
     </valueSet>
