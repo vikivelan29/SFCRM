@@ -51,7 +51,7 @@ public with sharing class ABHI_RefundDetails {
             
             
         }catch(Exception e){
-         throw new AuraHandledException('Error : '+e.getMessage());
+         throw new AuraHandledException(Custom_Messages__mdt.getInstance('ABHI_Invalid_Response').Message__c);
         }
         
         
