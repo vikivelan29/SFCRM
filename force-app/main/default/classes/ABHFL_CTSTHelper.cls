@@ -100,6 +100,44 @@ public without sharing class ABHFL_CTSTHelper {
             update caseDetailList;
         }
     }
+//PR970457-2623: Changes done by Yogesh
+Public static void sendEmailToUpdatedEmailId(Case caseRec) {
+  if (caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && 'hfl023'.equals(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
+    ABHFL_Case_Detail__c detailRec = [Select Id, ALL_LANS__c, New_Email_ID__c from ABHFL_Case_Detail__c where Id =: caseRec.ABHFL_Case_Detail__c].get(0);
+    if (!String.isBlank(detailRec.ALL_LANS__c)) {
+      Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+      Id tempid = [Select Id from EmailTemplate where developername = 'Email_Id_change_confirmation'].Id;
+      mail.setTemplateId(tempid);
+      Account accountRecord = [SELECT Id, PersonEmail FROM Account WHERE Id =: caseRec.AccountId LIMIT 1];
+      Id rectypeid = [Select Id, RecordTypeId from Account where Id =: caseRec.AccountId].RecordTypeId;
+      Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName =: System.Label.ASF_default_no_reply_email_address limit 1].Id;
+      if (rectypeid != null && rectypeid == Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId()) {
+        mail.setToAddresses(new list < String > {
+          detailRec.New_Email_ID__c,
+          accountRecord.PersonEmail
+        });
+      } else {
+        if (accountRecord.PersonEmail != null) {
+          
+          Contact con = [SELECT Id, Email FROM Contact WHERE AccountId =: caseRec.AccountId].get(0);
+          
+          if (con != null) {
+            mail.setTargetObjectId(con.Id);
+            mail.setToAddresses(new list < String > {
+              detailRec.New_Email_ID__c
+            });
+          }
+        }
+        mail.setWhatId(caseRec.Id);
+        mail.setOrgWideEmailAddressId(orgWideAdressId);
+        Messaging.sendEmailResult[] sendEmailResults = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {
+          mail
+        });
+        system.debug('sendEmailResults--->' + sendEmailResults);
+      }
+    }
+  }
+}
     
     public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
         
