@@ -197,8 +197,15 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.validation.showValidation=true;
                 this.template.querySelector('.tel_inp').classList.add('slds-has-error');
             }
-            else return true;
-        
+            
+            return false;
+        }
+        else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){   
+            this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
+            this.validation.showValidation=true;
+            this.template.querySelector('.tel_inp').classList.add('slds-has-error');
+        }
+        else return true;
     }
 
     createFormData(data){
@@ -239,8 +246,6 @@ export default class Abhi_sendCommunication extends LightningElement {
             this.validation.showTemplateValidation=false;
             if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
                 this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
-            if(this.template.querySelector('.email_inp') && this.template.querySelector('.email_inp').classList.contains('slds-has-error'))
-                this.template.querySelector('.email_inp').classList.remove('slds-has-error');
             if(this.template.querySelector('.com_box') && this.template.querySelector('.com_box').classList.contains('slds-has-error'))
                 this.template.querySelector('.com_box').classList.remove('slds-has-error');
             let selectedLabel = event.target.label;
@@ -304,8 +309,6 @@ export default class Abhi_sendCommunication extends LightningElement {
         this.validation.showTemplateValidation=false;
         if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
         this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
-        if(this.template.querySelector('.email_inp') && this.template.querySelector('.email_inp').classList.contains('slds-has-error'))
-        this.template.querySelector('.email_inp').classList.remove('slds-has-error');
         if(this.template.querySelector('.com_box') && this.template.querySelector('.com_box').classList.contains('slds-has-error'))
         this.template.querySelector('.com_box').classList.remove('slds-has-error');
         if(inputType == 'toggle'){
