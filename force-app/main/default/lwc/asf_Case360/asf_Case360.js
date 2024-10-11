@@ -40,6 +40,7 @@ import asf_CaseEndStatus from '@salesforce/label/c.ASF_CaseEndStatuses';
 import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
 import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
 
+
 //Code optimization imports - Nov 2023 - Santanu
 import fetchUserAndCaseDetails from '@salesforce/apex/ASF_Case360Controller.fetchUserAndCaseDetails';
 import updateCaseWithCaseExtn from '@salesforce/apex/ASF_Case360Controller.updateCaseWithCaseExtn';
@@ -57,6 +58,7 @@ import { setPicklistFieldValue, conditionalRenderingPicklist, renderingPicklistO
 import {BUSpecificCloseCasePopupHandler} from 'c/asf_Case360JSUtility';
 //Label added for PR1030924-43
 import UnresolvedCommentsNotReqBUs from '@salesforce/label/c.ABAMC_NonMandatoryUnresCommentsBUs';
+import ResolvedReasonsRequired from '@salesforce/label/c.ABC_ResolvedReasonsRequired';
 
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -202,11 +204,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     isReadOnly = false;
     selectedReason = '';
     reasonLOV = [];
+    
+    @track resolveReasonLOV = [];//PR1030924-224: ZAHED 
+    isLoading = true;//PR1030924-224: ZAHED 
     isOnComplaintReject = false;
     //RejMsg = Rejection_Warning;
     accessState;
     isReadOnly = false;
     selectedReason = '';
+    resolutionReason = '';
     isOnComplaintReject = false;
     //RejMsg = Rejection_Warning;
 
@@ -256,22 +262,28 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
-    isNoActionStage = false;
-    saveDataOnBack = false;
+    ResolvedReasonsRequired = ResolvedReasonsRequired;
         
 
     get eligibleForBU(){
         return !(this.caseBusinessUnit == 'ABSLI');
     }
 
+    get showResolvedReasons(){
+        const listOfBUs = this.ResolvedReasonsRequired.split(',');
+        if(listOfBUs.includes(this.caseBusinessUnit)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     //added for PR1030924-43, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
-    get optionalResComment(){
+    get eligibleForAMSLAMC(){
         const listOfBUs = this.UnresolvedCommentsNotReqBUs.split(',');
         if(listOfBUs.includes(this.caseBusinessUnit)){
-            return false;
-        } else{
-            return true;
-        }
+    return false;
+        } else return true;
         
     }
     get showRejectPanel() {
@@ -353,7 +365,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * User clicked on Edit Details button
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c && !this.isNoActionStage;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c;
     }
 
     get displayBackButton() {
@@ -701,7 +713,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
      * This method
      */
     saveCaseWithExtension(caseRec, caseExtnRec) {
-        console.log('in saveCaseWithExtension');
+        console.log('in saveCaseWithExtension caseRec',JSON.stringify(caseRec));
+        console.log('in saveCaseWithExtension caseExtnRec',JSON.stringify(caseExtnRec));
         updateCaseWithCaseExtn({ caseRec: caseRec, caseExtn: caseExtnRec })
             .then((result) => {
                 console.log('saveCaseWithExtension success');
@@ -817,51 +830,16 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             return;
         }
         this.loading = true;
-        if(this.saveDataOnBack){
-           this.saveDataOnBackStage();
-        }else{
-            let caseRecord;
-            caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-            caseRecord['Stage__c'] = this.selectedStage;
-            caseRecord['Pending_Clarification__c'] = true;
-            caseRecord['moved_back__c'] = true;
-            caseRecord['Is_Manual_Moved__c'] = false;
-            if (this.caseObj.Technical_Source__c == 'API') {
-                caseRecord['Technical_Source__c'] = 'LWC';
-            }
-            this.saveCase(caseRecord);
-            }
-       
-    }
-
-    saveDataOnBackStage(){
-        //get case record as object from lightning-record-edit-form
-         console.log('asmita inside saveDataOnBackStage method');
         let caseRecord;
-        let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-        if (caseElement) {
-            let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
-            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
-            caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
-            caseRecord['Stage__c'] = this.selectedStage;
-            caseRecord['Pending_Clarification__c'] = true;
-            caseRecord['moved_back__c'] = true;
-            caseRecord['Is_Manual_Moved__c'] = false;
-            if (this.caseObj.Technical_Source__c == 'API') {
-                caseRecord['Technical_Source__c'] = 'LWC';
-            }
+        caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
+        caseRecord['Stage__c'] = this.selectedStage;
+        caseRecord['Pending_Clarification__c'] = true;
+        caseRecord['moved_back__c'] = true;
+        caseRecord['Is_Manual_Moved__c'] = false;
+        if (this.caseObj.Technical_Source__c == 'API') {
+            caseRecord['Technical_Source__c'] = 'LWC';
         }
-
-        //get case extn record as object from lightning-record-edit-form
-        let caseExtnRecord;
-        let caseExtnElement = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
-        if (caseExtnElement) {
-            let inputFields = [...caseExtnElement.querySelectorAll('lightning-input-field')];
-            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
-            caseExtnRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseExtensionRecord.Id]]);
-            caseExtnRecord["sobjectType"] = caseExtnElement.objectApiName;
-        }
-        this.saveCaseWithExtension(caseRecord, caseExtnRecord);
+        this.saveCase(caseRecord);
     }
 
     saveManualCaseStage(event) {
@@ -918,18 +896,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             else {
                                 this.boolSaveReassignButton = false;
                             }
-                            if(this.stagesData[i].hasOwnProperty('No_Action_stage__c')
-                            && this.stagesData[i].No_Action_stage__c == true){
-                        console.log('inside hide actions')
-                        this.isNoActionStage = true;
-                       // this.openEditMode = false;
-                        }
-                        if(this.stagesData[i].hasOwnProperty('Save_Data_On_Back__c')
-                            && this.stagesData[i].Save_Data_On_Back__c == true){
-                        console.log('asmita inside save data boolean')
-                        this.saveDataOnBack = true;
-                       // this.openEditMode = false;
-                        }
                         }
                     }
                 }
@@ -950,8 +916,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     }
     handleClose(event) {
-        this.fetchRejectionReason();
-
+        //this.fetchRejectionReason();
+        this.showRejectModal();
         /* ADDED BELOW CODE TO SET RESOLUTION COMMENT FIELDS VALUE IF IT IS ALREADY POPULATED ON PARENT FORM BEFORE OPENING POP-UP */
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
             //Resolution_Remarks__c - ABHFL
@@ -2601,7 +2567,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         var type = this.complainLevel + ' Complaint';
         getRejectionRT({ complainType: type }).then(result => {
             this.rejectionRTId = result;
-            this.showRejectModal();
+            //this.showRejectModal();
         }).catch(error => {
             console.log('Error: ' + error);
         });
@@ -2613,13 +2579,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.showLoading = false;
         this.selectedReason = '';
     }
-
     //PR1030924-224: ZAHED : Added filter condition for wellness case - Start
-    showRejectModal() {       
+    
+    async showRejectModal() {       
         if(this.showResolvedReasons){           
-            console.log('***showResolvedReasons->');
-            getSrBUReasons({ cccExternalId: this.cccExternalId }).then(result => {               
-                result.forEach(item => {
+            try{
+             const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });                          
+             records.forEach(item => {
                     if(item.Type__c == 'Reject'){
                         const optionVal = {
                             label: item.Reason__c,
@@ -2632,15 +2598,14 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             value: item.Reason__c
                         };
                         this.resolveReasonLOV.push(optionVal);
-                    }    
-                });                
-                // this.showRejModal = true;
-            }).catch(error => {
-                console.log('Error: ' + JSON.stringify(error));
-                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+                    }                   
             });
+            this.isLoading = false;
+            }catch (error) {
+                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+                this.isLoading = false;              
+            }
         }else{
-            // console.log('fetchRejectionReason else -->');
             this.fetchRejectionReason();
         }
     }
@@ -2707,8 +2672,10 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             });
     }
     //To get Rejection Reason:
+    
     fetchRejectionReason() {
         getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
+            console.log('fetchRejectionReason:getSrRejectReasons -->',result);
             this.reasonLOV = [];
             result.forEach(reason => {
                 const optionVal = {

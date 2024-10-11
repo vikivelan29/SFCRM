@@ -2,8 +2,8 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 09-02-2024
-  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  @last modified on  : 10-11-2024
+  @last modified by  : rsinghnagar@salesforce.com
 -->
 <template>
     <div class="slds-box">
@@ -323,7 +323,7 @@
                                     <!-- NEERAJ - MADE THE REQUIRED ATTRIBUTE DYNAMIC TO MAKE IT NON-REQUIRED || PR1030924-43-->
                                     <template lwc:if={eligibleForBU}>
                                         <template lwc:if={showRejectPanel}>
-                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={optionalResComment}
+                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={eligibleForAMSLAMC}
                                                 label="Close Unresolved Details" variant="label-stacked"
                                                 value={rejectedReason} onchange={setRejectedReason}
                                                 placeholder="type here..."></lightning-textarea>
@@ -335,20 +335,22 @@
                                             </lightning-combobox>
                                         </template>
                                         <template lwc:else>
-                                            <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
+                                            <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON - Start-->
+                                            <lightning-textarea name="resolutionCommentPopupFld" class="resolve-input ReasonInput validate" required
                                                 label="Resolution Remarks" variant="label-stacked"
                                                 value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
                                                 placeholder="type here..."></lightning-textarea>
-                                            <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON - Start-->
-                                            <template lwc:if={showResolvedReasons}>
-                                                <lightning-combobox
-                                                    class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
-                                                    value={selectedReason} label="Close Resolved Reason" options={resolveReasonLOV}
-                                                    placeholder='Close Resolved Reason' onchange={handleRejReasonChange}
-                                                    required>
-                                                </lightning-combobox>
+                                            <template if:false={isLoading}>
+                                                <template lwc:if={showResolvedReasons}>
+                                                    <lightning-combobox data-id="resolveReason"
+                                                        class="resolve-combobox slds-m-left_xx-small slds-m-right_xx-small validate"
+                                                        value={resolutionReason} label="Close Resolved Reason" options={resolveReasonLOV}
+                                                        placeholder='Close Resolved Reason' onchange={handleRejReasonChange}
+                                                        required>
+                                                    </lightning-combobox>
+                                                </template>
                                             </template>
-                                            <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON - End-->
+                                            <!-- ZAHED - ADDED  COMBOBOX FOR RESOLVED REASON - End-->
                                         </template>
                                     </template>
                                     
