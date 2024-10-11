@@ -50,16 +50,18 @@ public class RNWL_OpportunityDataController {
             saveResult = Database.update(oppListToUpdate, false);
             System.debug('@@@saveResult' +saveResult);
         }
+        Integer i=0;
         for (Database.SaveResult each : saveResult) {
             if (each.isSuccess()) {
-                oppUpdateStatus.add('Success!');
+                oppUpdateStatus.add('Success!: Renewal Request Id - ' + each.getId());
             } else {
                 List<String> errorMessageList = new List<String>();
                 for (Database.Error err : each.getErrors()) {
-                    errorMessageList.add(err.getMessage());
+                    errorMessageList.add('Renewal Request Id : '+oppListToUpdate.get(i).Id + ': ' + err.getMessage());
                 }
-                oppUpdateStatus.add('Opportunity Update failed due to following reasons - ' + String.join(errorMessageList, ','));
+                oppUpdateStatus.add('Opportunity Update failed due to following reasons : ' + String.join(errorMessageList, ','));
             }
+            i++;
         }
 
     return JSON.serialize(oppUpdateStatus);
