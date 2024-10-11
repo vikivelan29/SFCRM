@@ -94,6 +94,7 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     getFields(){
         if(this.currentSelRecord){
+            
             return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name'];
         }
         else if(this.objectApiName == 'Asset'){
@@ -177,9 +178,9 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.validation.showValidation=true;
                 this.template.querySelector('.tel_inp').classList.add('slds-has-error');
             }
-            if(this.showContact.showEmail){
-                //add for email
-            }
+            // if(this.showContact.showEmail){
+            //     //add for email
+            // }
             
             return false;
         }

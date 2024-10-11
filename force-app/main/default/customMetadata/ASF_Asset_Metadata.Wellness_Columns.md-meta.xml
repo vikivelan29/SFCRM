@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Field_Mapping__c</field>
-        <value xsi:type="xsd:string">ContractNo__c:AssetId</value>
+        <value xsi:type="xsd:string">LAN__c:AssetId</value>
     </values>
     <values>
         <field>Fields_to_Fetch__c</field>
