@@ -713,11 +713,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Signature_Validation__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Skip_Dedupe__c</field>
             <table>Case</table>
         </columns>
