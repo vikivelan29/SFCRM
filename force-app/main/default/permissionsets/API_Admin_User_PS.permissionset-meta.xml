@@ -10132,11 +10132,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Call_Track_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Comments_Remarks__c</field>
         <readable>true</readable>
     </fieldPermissions>
