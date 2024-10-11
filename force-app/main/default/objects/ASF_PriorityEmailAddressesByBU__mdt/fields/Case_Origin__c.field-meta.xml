@@ -61,9 +61,24 @@
                 <label>ABWM Email</label>
             </value>
             <value>
+                <fullName>ABSLI Email</fullName>
+                <default>false</default>
+                <label>ABSLI Email</label>
+            </value>
+            <value>
                 <fullName>ABSLIG Email</fullName>
                 <default>false</default>
                 <label>ABSLIG Email</label>
+            </value>
+            <value>
+                <fullName>ABHI Email</fullName>
+                <default>false</default>
+                <label>ABHI Email</label>
+            </value>
+            <value>
+                <fullName>ABSLAMC Email</fullName>
+                <default>false</default>
+                <label>ABSLAMC Email</label>
             </value>
             <value>
                 <fullName>Wellness Email</fullName>
