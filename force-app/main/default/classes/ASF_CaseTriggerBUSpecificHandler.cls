@@ -18,9 +18,6 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABFL_OwnerChangeWithLocation.checkCCCExternalIdAndAddRTId(mapOfBUToCases.get(businessUnit));
                     ABFL_CreateCaseProspectHelper.beforeInsertMethod(mapOfBUToCases.get(businessUnit));
                 }
-                else if(businessUnit == 'ABHFL'){
-                    ABHFL_CTSTHelper.skipOpenStageforAPIcases(mapOfBUToCases.get(businessUnit));
-                }
                 else if(businessUnit == 'ABSLI'){
                     ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert(mapOfBUToCases.get(businessUnit));
                     ABSLI_BeforeInsertTriggerLogic.executeBeforeInsertLogic(mapOfBUToCases.get(businessUnit));
