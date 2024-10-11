@@ -44,10 +44,10 @@
                             id="primary-search-combobox-id-3">
                             <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left slds-global-search__form-element"
                                 role="none">
-                                <template if:false={isCaseWithProspectHidden}> <!--PR1030924-180 Added Conditional visibility for case with prospect button-->
+                                <!--<template if:false={isCaseWithProspectHidden}>--> <!--PR1030924-180 Added Conditional visibility for case with prospect button-->
                                     <lightning-button variant="brand" label={createCaseWithNewProspect} title="Create Case with new Prospect"
                                         onclick={handleCaseWithProspect} class="slds-m-left_x-small"></lightning-button>
-                                </template>
+                                <!--</template>-->
                             <template if:true={isSalesProspectVisible}>
                                 <lightning-button variant="brand" label={createSalesProspectLabel}
                                 title="Create Case with new Prospect" onclick={handleSalesProspet}
