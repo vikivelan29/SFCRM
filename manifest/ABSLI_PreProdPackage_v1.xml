@@ -1689,6 +1689,7 @@
         <members>Case.Send_Canned_Email</members>
         <members>Case.SendEmail</members>
         <members>Case.Update_Issue_Type</members>
+        <members>Case.Escalate_Case_Reopen_Case</members>
 		<name>QuickAction</name>
 	</types>
     <types>
@@ -1855,5 +1856,9 @@
         <members>ABCL_Integration_Event_chn_ABCL_Integration_Event_e</members>
         <name>PlatformEventChannelMember</name>
     </types>
+    <types>
+		<members>Lead.ASF_Lead_Matching_Rule</members>
+		<name>MatchingRule</name>
+	</types>
 	<version>60.0</version>
 </Package>

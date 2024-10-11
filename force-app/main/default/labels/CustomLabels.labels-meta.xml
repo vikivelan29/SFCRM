@@ -1184,4 +1184,11 @@
         <shortDescription>ASF Integration Mandatory Error</shortDescription>
         <value>is mandatory for current stage</value>
     </labels>
+    <labels>
+        <fullName>ASF_UIActionDelay</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>1000</value>
+    </labels>
 </CustomLabels>
