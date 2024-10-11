@@ -323,7 +323,7 @@
                                     <!-- NEERAJ - MADE THE REQUIRED ATTRIBUTE DYNAMIC TO MAKE IT NON-REQUIRED || PR1030924-43-->
                                     <template lwc:if={eligibleForBU}>
                                         <template lwc:if={showRejectPanel}>
-                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={eligibleForAMSLAMC}
+                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required={optionalResComment}
                                                 label="Close Unresolved Details" variant="label-stacked"
                                                 value={rejectedReason} onchange={setRejectedReason}
                                                 placeholder="type here..."></lightning-textarea>
@@ -335,22 +335,22 @@
                                             </lightning-combobox>
                                         </template>
                                         <template lwc:else>
-                                            <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON - Start-->
-                                            <lightning-textarea name="resolutionCommentPopupFld" class="resolve-input ReasonInput validate" required
-                                                label="Resolution Remarks" variant="label-stacked"
-                                                value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
-                                                placeholder="type here..."></lightning-textarea>
-                                            <template if:false={isLoading}>
-                                                <template lwc:if={showResolvedReasons}>
-                                                    <lightning-combobox data-id="resolveReason"
-                                                        class="resolve-combobox slds-m-left_xx-small slds-m-right_xx-small validate"
-                                                        value={resolutionReason} label="Close Resolved Reason" options={resolveReasonLOV}
-                                                        placeholder='Close Resolved Reason' onchange={handleRejReasonChange}
-                                                        required>
-                                                    </lightning-combobox>
-                                                </template>
+                                           <!-- ZAHED - ADDED BELOW COMBOBOX FOR RESOLVED REASON - Start-->
+                                           <lightning-textarea name="resolutionCommentPopupFld" class="resolve-input ReasonInput validate" required
+                                           label="Resolution Remarks" variant="label-stacked"
+                                           value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
+                                           placeholder="type here..."></lightning-textarea>
+                                           <template if:false={isLoading}>
+                                            <template lwc:if={showResolvedReasons}>
+                                                <lightning-combobox data-id="resolveReason"
+                                                    class="resolve-combobox slds-m-left_xx-small slds-m-right_xx-small validate"
+                                                    value={resolutionReason} label="Close Resolved Reason" options={resolveReasonLOV}
+                                                    placeholder='Close Resolved Reason' onchange={handleRejReasonChange}
+                                                    required>
+                                                </lightning-combobox>
                                             </template>
-                                            <!-- ZAHED - ADDED  COMBOBOX FOR RESOLVED REASON - End-->
+                                        </template>
+                                        <!-- ZAHED - ADDED  COMBOBOX FOR RESOLVED REASON - End-->
                                         </template>
                                     </template>
                                     
