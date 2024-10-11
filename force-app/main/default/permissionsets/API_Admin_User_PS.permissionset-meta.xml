@@ -10212,11 +10212,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Lead_Subtype__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Lead_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10243,11 +10238,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.PANNO__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Lead.PEKRN__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -11292,11 +11282,6 @@
     </fieldPermissions>
         <fieldPermissions>
         <editable>true</editable>
-        <field>Account.PAN_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.CombiReferenceNo__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -11558,11 +11543,6 @@
         <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Line_of_Business__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Segment__c</field>
         <readable>true</readable>
     </fieldPermissions>
         <fieldPermissions>

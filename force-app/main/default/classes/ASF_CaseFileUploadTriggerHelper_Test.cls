@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 10-11-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 @isTest
 public class ASF_CaseFileUploadTriggerHelper_Test {
 
@@ -54,7 +61,7 @@ public class ASF_CaseFileUploadTriggerHelper_Test {
         caseRec.Status = 'Closed';
         update caseRec;
         ContentDocumentLink cdl = [select Id from ContentDocumentLink where LinkedEntityId =: caseRec.Id LIMIT 1];
-        ContentDocumentLink cdlMsg = [select Id from ContentDocumentLink where LinkedEntity.type = 'Case' LIMIT 1];
+        ContentDocumentLink cdlMsg = [select Id from ContentDocumentLink where LinkedEntityId =: caseRec.Id LIMIT 1];
         Assert.isNotNull(cdl);
         try {
             delete cdl;

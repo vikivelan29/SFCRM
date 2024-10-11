@@ -1346,6 +1346,7 @@
         <members>ASF_RetryNumbers</members>
         <members>ABSLI_BITLY_LOB_VAL</members>
         <members>ASF_Integration_Mandatory_Error</members>
+        <members>ASF_UIActionDelay</members>
         <name>CustomLabel</name>
     </types>
     <types>
@@ -1369,10 +1370,6 @@
     <types>
 		<members>ABCL_Service_Console</members>
 		<name>CustomApplication</name>
-	</types>
-	<types>
-		<members>Lead.ASF_Lead_Duplicate_Rule</members>
-		<name>DuplicateRule</name>
 	</types>
     <types>
 		<members>ABSLI_Templates</members>
@@ -1855,9 +1852,5 @@
         <members>ABCL_Integration_Event_chn_ABCL_Integration_Event_e</members>
         <name>PlatformEventChannelMember</name>
     </types>
-    <types>
-		<members>Lead.ASF_Lead_Matching_Rule</members>
-		<name>MatchingRule</name>
-	</types>
 	<version>60.0</version>
 </Package>
