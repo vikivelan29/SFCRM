@@ -1973,20 +1973,6 @@
                 <identifier>flexipage_tab14</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-fde95313-903d-478d-b6a4-a347e5c2e61b</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Disposition</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab15</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>maintabs</name>
         <type>Facet</type>
     </flexiPageRegions>
