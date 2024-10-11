@@ -749,7 +749,6 @@
         <members>Case.Rejection_Reason__c</members>
         <members>Case.Resolution_By_Date_Value__c</members>
         <members>Case.Run_Assignment_Rule_on_Bulk_Create__c</members>
-        <members>Case.Signature_Validation__c</members>
         <members>Case.Source__c</members>
         <members>Case.Stage__c</members>
         <members>Contact.Business_Unit__c</members>
