@@ -1,19 +1,18 @@
-import CASE_ID from '@salesforce/schema/Case.Id';
-import CASE_REJECTFLAG from '@salesforce/schema/Case.Reject_Case__c';
-import CASE_TECH_SOURCE from '@salesforce/schema/Case.Technical_Source__c';
-import { updateRecord } from 'lightning/uiRecordApi';
-
-const absliCloseCasePopup = (that) => {
+// import { updateRecord } from 'lightning/uiRecordApi';
+const wellnessCloseCasePopup = (that) => {
+    console.log('that.closureTypeSelected-->',that.closureTypeSelected);
     if (that.closureTypeSelected == 'unresolved') {
+        console.log('wellnessCloseCasePopup  unresolved');
         /* IF POPUP LEVEL VALIDATION SUCCESSFUL - CHECK FORM LEVEL VALIDATION AND EXECUTE CASE CLOSURE */
         let isFormValidated = that.validateFields();
         if (!isFormValidated) {
-            that.showError('error', 'Mandatory fields missing', 'Please fill all mandatory fields for this stage....');
+            that.showError('error', 'Mandatory fields missing', 'Please fill all mandatory fields for this stage');
             return false;
         }
         let bErrorOccured = false;
         // CHECK IF THE SELECTED VALUE FOR TEAM STATUS IS UNRESOLVED.
         that.template.querySelectorAll('lightning-input-field').forEach(ele => {
+            console.log('ele-->',ele);
             if (ele.fieldName == 'Outcome__c') {
                 if (ele.value != 'Unresolved') {
                     that.showError('error', 'Wrong Selection', 'Please select Team Resolution Status as Unresolved.');
@@ -28,6 +27,7 @@ const absliCloseCasePopup = (that) => {
 
     }
     if(that.closureTypeSelected == 'resolved'){
+        console.log('wellnessCloseCasePopup  resolved');
         /* IF POPUP LEVEL VALIDATION SUCCESSFUL - CHECK FORM LEVEL VALIDATION AND EXECUTE CASE CLOSURE */
         let isFormValidated = that.validateFields();
         if (!isFormValidated) {
@@ -35,15 +35,29 @@ const absliCloseCasePopup = (that) => {
             return false;
         }
         let bErrorOccured = false;
+        console.log('36  resolved');
         // CHECK IF THE SELECTED VALUE FOR TEAM STATUS IS UNRESOLVED.
-        that.template.querySelectorAll('lightning-input-field').forEach(ele => {
-            if (ele.fieldName == 'Outcome__c') {
-                if (ele.value != 'Resolved') {
-                    that.showError('error', 'Wrong Selection', 'Please select Team Resolution Status as Resolved.');
-                    bErrorOccured = true;
+        // Accessing the value of the comment box
+        const inputVal = that.template.querySelector('.resolve-input');
+        // Accessing the value of the combobox
+        const selectedCombo = that.template.querySelector('.resolve-combobox');
+        if (!inputVal.value) {
+            inputVal.reportValidity()
+            that.showError('error', 'Wrong Selection', 'Please enter Resolution comments.');
+            bErrorOccured = true;
+        }else if (!selectedCombo.value) {
+            selectedCombo.reportValidity()
+            that.showError('error', 'Wrong Selection', 'Please select Resolution reason.');
+            bErrorOccured = true;
+        }else{
+            // CHECK IF THE SELECTED VALUE FOR TEAM STATUS IS UNRESOLVED.
+            that.template.querySelectorAll('lightning-input-field').forEach(ele => {
+                if (ele.fieldName == 'Resolution_Reason__c') {
+                    ele.value = selectedCombo.value;
                 }
-            }
-        })
+            })
+        }
+
         if (!bErrorOccured) {
             that.selectedManualStage = 'Resolved';
             that.saveManualCaseStage();
@@ -53,6 +67,7 @@ const absliCloseCasePopup = (that) => {
 };
 const saveRejection = (that)=> {
     let isFormValidated = that.validateFields();
+    console.log('in saveRejection');
     if (isFormValidated) {
         that.loading = true;
         that.skipMoveToNextStage = true;
@@ -62,6 +77,7 @@ const saveRejection = (that)=> {
         let caseElement = that.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
         if (caseElement) {
             let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
+            console.log('inputFields-->',inputFields);
             let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
             caseRecord = Object.fromEntries([...fieldsVar, ['Id', that.caseObj.Id], ['sobjectType', 'Case']]);
             caseRecord['Reject_Case__c'] = true;
@@ -79,8 +95,10 @@ const saveRejection = (that)=> {
             caseExtnRecord = Object.fromEntries([...fieldsVar, ['Id', that.caseExtensionRecord.Id]]);
             caseExtnRecord["sobjectType"] = caseExtnElement.objectApiName;
         }
+        console.log('caseRecord-->',caseRecord);
+        console.log('caseExtnRecord-->',caseExtnRecord);
         that.saveCaseWithExtension(caseRecord, caseExtnRecord);
     }
 }
 
-export { absliCloseCasePopup };
+export { wellnessCloseCasePopup };
