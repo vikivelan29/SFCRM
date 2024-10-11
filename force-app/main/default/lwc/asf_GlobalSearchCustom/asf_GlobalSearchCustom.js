@@ -11,7 +11,7 @@ import { getRecord } from 'lightning/uiRecordApi';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 
 import hasSalesProspectPermission from "@salesforce/customPermission/ShowSalesProspect";
-import hideCaseWithProspect from "@salesforce/customPermission/HideCaseWithProspect";
+//import hideCaseWithProspect from "@salesforce/customPermission/HideCaseWithProspect";
 import hasShowCreateLeadPermission from "@salesforce/customPermission/ShowCreateLead";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { lanLabels } from 'c/asf_ConstantUtility';
@@ -265,9 +265,9 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     get isSalesProspectVisible() {
         return hasSalesProspectPermission;
     }
-    get isCaseWithProspectHidden() {
+    /*get isCaseWithProspectHidden() {
         return hideCaseWithProspect;
-    }
+    }*/
     
     get isCreateLeadVisible() {
         return hasShowCreateLeadPermission;
