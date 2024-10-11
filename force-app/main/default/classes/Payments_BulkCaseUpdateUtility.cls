@@ -208,4 +208,8 @@ public with sharing class Payments_BulkCaseUpdateUtility implements ASF_BulkCSVT
 
         return listOfRecordsAsMap;
     }
+
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
+    }
 }
