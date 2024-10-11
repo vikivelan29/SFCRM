@@ -10122,11 +10122,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Assigned_Team__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Auto_Won_Update_Datetime__c</field>
         <readable>true</readable>
     </fieldPermissions>
