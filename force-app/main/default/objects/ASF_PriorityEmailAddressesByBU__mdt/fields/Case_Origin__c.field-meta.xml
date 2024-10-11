@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Case_Origin__c</fullName>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Case Origin</label>
     <required>false</required>
@@ -60,24 +61,14 @@
                 <label>ABWM Email</label>
             </value>
             <value>
-                <fullName>ABSLI Email</fullName>
-                <default>false</default>
-                <label>ABSLI Email</label>
-            </value>
-            <value>
                 <fullName>ABSLIG Email</fullName>
                 <default>false</default>
                 <label>ABSLIG Email</label>
             </value>
             <value>
-                <fullName>ABHI Email</fullName>
+                <fullName>Wellness Email</fullName>
                 <default>false</default>
-                <label>ABHI Email</label>
-            </value>
-            <value>
-                <fullName>ABSLAMC Email</fullName>
-                <default>false</default>
-                <label>ABSLAMC Email</label>
+                <label>Wellness Email</label>
             </value>
         </valueSetDefinition>
     </valueSet>
