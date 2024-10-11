@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 10-09-2024
+ * @last modified on  : 10-11-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -43,6 +43,10 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.createCaseExtnRecordForBulk(mRecordTypeVsCases.get(frameworkRTId));
             // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
             buSpecificCls.executeAfterASFCodeInBeforeInsert(mRecordTypeVsCases.get(frameworkRTId));
+           /* if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+            	ASF_CaseTriggerModularHelper.setSkipperFlags(mRecordTypeVsCases.get(frameworkRTId), null);
+        	} */
+            
             
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
@@ -66,13 +70,13 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
         system.debug('mRecordTypeVsCasesentered '+mRecordTypeVsCases.containsKey(frameworkRTId));
         
+        ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
                 Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             	ASF_CaseTriggerModularHelper.setSkipperFlags(newCaseMap.values(), (Map<Id, Case>)oldItems);
             
             	// VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
-            ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
                 buSpecificCls.executeBeforeASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
                 //Added for Ebot
                 ASF_AssocCustomerForAPICases.searchAndAssocCustomerForAPICases(mRecordTypeVsCases.get(frameworkRTId));
@@ -83,7 +87,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
                 ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
                 ASF_CaseTriggerModularHelper.checkisApprovalStage((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
                 
-                //Prepopulation methods
+                //Prepopulation methods 
                 ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNew((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
                 ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNewForReopenRequest((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
                 ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
@@ -93,7 +97,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
                 ASF_CaseTriggerModularHelper.validateCCCOnUpdate((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
                 // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
                 buSpecificCls.executeAfterASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
-            
+            	//ASF_CaseTriggerModularHelper.setSkipperFlags(newCaseMap.values(), (Map<Id, Case>)oldItems); 
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(interactionRTId));
@@ -104,7 +108,7 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
             //Virendra - Reject Case
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
-            ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);  
                 
         }
         
