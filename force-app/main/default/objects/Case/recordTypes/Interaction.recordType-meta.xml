@@ -938,10 +938,6 @@
             <fullName>SMS</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>WhatsApp</fullName> 
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>

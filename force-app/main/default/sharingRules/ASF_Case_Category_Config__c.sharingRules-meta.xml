@@ -77,7 +77,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLI CCC Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>

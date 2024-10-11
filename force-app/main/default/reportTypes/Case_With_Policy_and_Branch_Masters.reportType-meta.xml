@@ -913,6 +913,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Account_Number__c</field>
             <table>Case</table>
         </columns>

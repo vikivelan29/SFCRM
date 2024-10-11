@@ -39,11 +39,6 @@
 		<field>Account.Total_No_of_Policies__c</field>
 		<readable>true</readable>
 	</fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.ParentCode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
 	<fieldPermissions>
 		<editable>false</editable>
 		<field>Account.e_Insurance_Account__c</field>
@@ -11333,11 +11328,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Litmus_Triggered__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ASF_Communication_Log__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

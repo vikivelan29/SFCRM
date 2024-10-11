@@ -16,10 +16,10 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLI User Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>

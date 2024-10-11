@@ -39,7 +39,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABSLI_Checklist_sharing_Rule</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>

@@ -54,7 +54,7 @@
         </accountSettings>
         <label>ABSLI Account Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -73,7 +73,7 @@
         </accountSettings>
         <label>ABSLI Advisor Account Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>

@@ -5,7 +5,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABFL Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -19,7 +19,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABFL Asset Sharing with Service Agent</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Service_Agent</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -33,7 +33,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABHFL Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -47,7 +47,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLIG Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -61,7 +61,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLI Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>

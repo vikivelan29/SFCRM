@@ -5,7 +5,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABFL Branch Master Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -19,7 +19,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABHFL Branch Master Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -33,7 +33,7 @@
         <accessLevel>Edit</accessLevel>
         <label>Branch Master Share with ABSLI Service Manager and Subordinates</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
