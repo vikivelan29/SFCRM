@@ -184,11 +184,29 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+
+           // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
+           this.adjustAutoCommunications();
         } else if (error){
             console.log('error in get record--'+JSON.stringify(error));
         }
     }
 
+    // Rajendra Singh Nagar: PR1030924-209 - Added function
+    adjustAutoCommunications(){
+        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
+            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }else{
+            this.noAutoCommOptions = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }
+    }
+    
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
         console.log('assestid ---> ' + JSON.stringify(this.fieldToBeStampedOnCase));
@@ -259,17 +277,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){// Rajendra Singh Nagar: PR1030924-209 - Added condition
-                    this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
-                        label: item.label,
-                        value: item.value
-                    }));
-                }else{
-                    this.noAutoCommOptions = data.values.map(item => ({
-                        label: item.label,
-                        value: item.value
-                    }));
-                }
+                this.noAutoCommOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;

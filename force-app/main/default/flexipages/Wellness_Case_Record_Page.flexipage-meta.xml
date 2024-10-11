@@ -7,54 +7,31 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
-                            <value>Case.Manual_Approval</value>
+                            <value>Case.Customer_Tagging</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND (2 OR 3)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!Record.is_Manual_Approval__c}</leftValue>
+                                    <leftValue>{!Record.Account.Client_Code__c}</leftValue>
                                     <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
                                 </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.ASF_Clone_SR</value>
-                            <visibilityRule>
                                 <criteria>
-                                    <leftValue>{!Record.ASF_Is_Cloneable__c}</leftValue>
+                                    <leftValue>{!Record.Asset.LAN__c}</leftValue>
                                     <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Reopen</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.AmIOwner__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -264,16 +241,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>aSF_CaseApprovalRecords</componentName>
-                <identifier>c_aSF_CaseApprovalRecords</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-c01e6482-b6a9-4af3-b6ff-b8a30ab50d61</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Case.Id</value>
@@ -360,20 +327,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-c01e6482-b6a9-4af3-b6ff-b8a30ab50d61</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Approvals</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
