@@ -1440,6 +1440,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhi_pssReportCmp</componentName>
+                <identifier>c_abhi_pssReportCmp</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-a30e74e0-4a7d-4c96-a751-24c425b0c71c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
