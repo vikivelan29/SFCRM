@@ -201,10 +201,6 @@
                 <behavior>Edit</behavior>
                 <field>ABSLI_Case_Detail__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Signature_Validation__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
