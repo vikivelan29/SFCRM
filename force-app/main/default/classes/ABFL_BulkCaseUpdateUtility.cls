@@ -208,4 +208,8 @@ public with sharing class ABFL_BulkCaseUpdateUtility implements ASF_BulkCSVToRec
 
         return listOfRecordsAsMap;
     }
+
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
+    }
 }
