@@ -10,6 +10,205 @@ public without sharing class ABHFL_CTSTHelper {
     //static variables to skip repeatitive query in single transaction
     private static Map<Id, List<ABHFL_Payment__c>> paymentsMapStatic = new Map<Id, List<ABHFL_Payment__c>>();
     
+    // Avoid skipping the CPU banking stage when case move back to Open stage for hfl060 added by EY-Nikhil
+    public static void adjustStageTransitions(List<Case> casesToUpdate, Map<Id, Case> oldCaseMap) {
+        Map<Id, String> caseIdToStageMap = new Map<Id, String>();
+        List<Case> listToUpdate = new List<Case>();
+        Set<String> externalIds = new Set<String>();
+        Map<Id, String> currentStageMap = new Map<Id, String>();
+        
+        if(oldCaseMap != null){
+            for(Case caseRec : casesToUpdate){
+                //hfl060 can be put in custom label
+                if(caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && caseRec.CCC_External_Id__c == 'hfl060' && 
+                   caseRec.pending_clarification__c == true && oldCaseMap.get(caseRec.Id).MoveToNext__c != caseRec.MoveToNext__c &&
+                   caseRec.MoveToNext__c == true){ //add condition to check if the picklist field value is changed
+                       listToUpdate.add(caseRec);
+                       externalIds.add(caseRec.CCC_External_Id__c);
+                       // Store the Stage__c value in the map with the Case Id as the key
+                       caseIdToStageMap.put(caseRec.Id, oldCaseMap.get(caseRec.Id).Stage__c);
+                   }
+            }
+        }
+        system.debug('listToUpdate$$'+listToUpdate);
+        if(!listToUpdate.isEmpty()){
+                Map<Id, ASF_Case_Stage_Config__c> caseIdToCurrentStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
+                Map<String, List<ASF_Case_Stage_Config__c>> externalIdToStageConfigsMap = new Map<String, List<ASF_Case_Stage_Config__c>>();
+                
+                List<ASF_Case_Stage_Config__c> allStageConfigs = ASF_CaseQueryHandler.getCaseStageConfigWithRlAndIntr(externalIds);
+                for (ASF_Case_Stage_Config__c config : allStageConfigs) {
+                    if (!externalIdToStageConfigsMap.containsKey(config.Case_Category_Config__r.CCC_External_Id__c)) {
+                        externalIdToStageConfigsMap.put(config.Case_Category_Config__r.CCC_External_Id__c, new List<ASF_Case_Stage_Config__c>());
+                    }
+                    externalIdToStageConfigsMap.get(config.Case_Category_Config__r.CCC_External_Id__c).add(config);
+                }
+                system.debug('$$externalIdToStageConfigsMap'+externalIdToStageConfigsMap);
+                
+                // Fetch all Case Rules and Run the Appropriate One - For Approval matching the Case Stage Config
+                List<ASF_Case_Rule__c> allCaseRules = ASF_CaseQueryHandler.getCaseRuleWithHierarchy(externalIds);
+                system.debug('$$allCaseRules'+allCaseRules);
+                Map<Id, List<ASF_Case_Rule__c>> stageIdToCaseRulesMap = new Map<Id, List<ASF_Case_Rule__c>>();
+                for (ASF_Case_Rule__c rule : allCaseRules) {
+                    list<ASF_Case_Rule__c> Test = new list<ASF_Case_Rule__c>();
+                    Test.add(rule);
+                    system.debug('$$Testttt'+Test);
+                    system.debug('$$rule'+rule);
+                    
+                    if (!stageIdToCaseRulesMap.containsKey(rule.Case_Stage_Config__c)) {
+                        stageIdToCaseRulesMap.put(rule.Case_Stage_Config__c, test);
+                    }
+                    else{
+                      //  Test.addall(stageIdToCaseRulesMap.get(rule.Case_Stage_Config__c));
+                      //  stageIdToCaseRulesMap.put(rule.Case_Stage_Config__c, test);
+                        stageIdToCaseRulesMap.get(rule.Case_Stage_Config__c).add(rule);
+                    }
+                    //stageIdToCaseRulesMap.get(rule.Case_Stage_Config__c).add(rule);
+                }
+                
+                system.debug('$$stageIdToCaseRulesMap'+stageIdToCaseRulesMap);
+                
+                system.debug('currentStageMap>>' + currentStageMap);
+                for (Case caseRec : listToUpdate) {
+                    if (externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)) {
+                        for (ASF_Case_Stage_Config__c config : externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)) {
+                            system.debug('config.StageName__c>>' + config.StageName__c);
+                            system.debug('caseIdToStageMap.get(caseRec.Id)' + caseIdToStageMap.get(caseRec.Id));
+                            if (config.StageName__c == caseIdToStageMap.get(caseRec.Id)) {
+                                caseIdToCurrentStageConfigMap.put(caseRec.Id, config);
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                Map<Id, ASF_Case_Stage_Config__c> caseIdToNextStageConfigMap = new Map<Id, ASF_Case_Stage_Config__c>();
+                Map<Id, String> caseIdToAssignmentStageMap = new Map<Id, String>();
+                Map<Id, Boolean> caseIdToIsPreviousStageMap = new Map<Id, Boolean>();
+                String configStageName;
+            
+                for (Case caseRec : listToUpdate) {
+                    ASF_Case_Stage_Config__c currentStageConfig = caseIdToCurrentStageConfigMap.get(caseRec.Id);
+                    system.debug('$$currentStageConfig'+currentStageConfig);
+                    caseIdToIsPreviousStageMap.put(caseRec.Id, false);
+                    if (externalIdToStageConfigsMap.containsKey(caseRec.CCC_External_Id__c)) {
+                        Boolean afterPreviousStage = false;
+                        for (ASF_Case_Stage_Config__c config : externalIdToStageConfigsMap.get(caseRec.CCC_External_Id__c)) {
+                            if (currentStageConfig != null && currentStageConfig.Order__c < config.Order__c) {
+                                system.debug('$$caseRec'+caseRec);
+                                system.debug('$$config>>'+config);
+                                system.debug('$$stageIdToCaseRulesMap.get(config.Id)'+stageIdToCaseRulesMap.get(config.Id));
+                                
+                                if(stageIdToCaseRulesMap.get(config.Id) != null){
+                                    Boolean isStageMovementValid = ASF_CaseFrameworkHelper.runStageMovementRules(caseRec, stageIdToCaseRulesMap.get(config.Id));
+                                    System.debug('***isStageMovementValid' + isStageMovementValid);
+                                    if (isStageMovementValid) {
+                                        
+                                        system.debug('$$isStageMovementValid'+isStageMovementValid);
+                                        configStageName = config.StageName__c;
+                                        system.debug('$$configStageName'+configStageName);
+                                        caseIdToNextStageConfigMap.put(caseRec.Id, config);
+                                        System.debug('$$***nextStageConfig:' + config);
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            Map<Id, Case> caseFinalDMLMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
+            for(Case caseRec : listToUpdate){
+                if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                    Case caseObj = new Case(Id = caseRec.Id);
+                    caseFinalDMLMap.put(caseRec.Id, caseObj);
+                }
+                Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                caseRecFromMap.OwnerId = UserInfo.getUserId();
+                caseRecFromMap.Stage__c = configStageName; //store in variable
+                system.debug('$$ caseRecFromMap.Stage__c'+ caseRecFromMap.Stage__c);
+                caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
+                system.debug('$$caseFinalDMLMap'+caseFinalDMLMap);
+            }
+        } 
+    }
+    
+    // Method add by Yogesh
+    Public static void updateisRecategorisedFromComplaintfield(List<Case> newitems,Map<Id,Case> olditems){
+        List<ABHFL_Case_detail__c> updatedlst=new  List<ABHFL_Case_detail__c>();
+            for(Case cse:newitems){
+                if(cse.Business_Unit__c=='ABHFL' && !string.isblank(cse.Recategorisation_Reason__c) && olditems.get(cse.Id).Nature__c==ABHFL_Constants.LowerNature && ABHFL_Constants.HigherNature.contains(cse.Nature__c)){
+                ABHFL_Case_Detail__c detailtoadd=new ABHFL_Case_Detail__c(Id = cse.ABHFL_Case_Detail__c);
+                detailtoadd.Is_Recategorised_from_complaint__c=true;
+                updatedlst.add(detailtoadd);
+            }
+            }
+        if(!updatedlst.isEmpty()){
+            update updatedlst;
+        }
+    }
+    
+ Public static void sendEmailToUpdatedEmailId(Case caseRec) {
+  if (caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && 'hfl023'.equals(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
+    ABHFL_Case_Detail__c detailRec = [Select Id, ALL_LANS__c, New_Email_ID__c from ABHFL_Case_Detail__c where Id =: caseRec.ABHFL_Case_Detail__c].get(0);
+    if (!String.isBlank(detailRec.ALL_LANS__c)) {
+      Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+      Id tempid = [Select Id from EmailTemplate where developername = 'Email_Id_change_confirmation'].Id;
+      mail.setTemplateId(tempid);
+      Account accountRecord = [SELECT Id, PersonEmail FROM Account WHERE Id =: caseRec.AccountId LIMIT 1];
+      Id rectypeid = [Select Id, RecordTypeId from Account where Id =: caseRec.AccountId].RecordTypeId;
+      Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName =: System.Label.ASF_default_no_reply_email_address limit 1].Id;
+      if (rectypeid != null && rectypeid == Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId()) {
+        mail.setToAddresses(new list < String > {
+          detailRec.New_Email_ID__c,
+          accountRecord.PersonEmail
+        });
+      } else {
+        if (accountRecord.PersonEmail != null) {
+          
+          Contact con = [SELECT Id, Email FROM Contact WHERE AccountId =: caseRec.AccountId].get(0);
+          
+          if (con != null) {
+            mail.setTargetObjectId(con.Id);
+            mail.setToAddresses(new list < String > {
+              detailRec.New_Email_ID__c
+            });
+          }
+        }
+        mail.setWhatId(caseRec.Id);
+        mail.setOrgWideEmailAddressId(orgWideAdressId);
+        Messaging.sendEmailResult[] sendEmailResults = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {
+          mail
+        });
+        system.debug('sendEmailResults--->' + sendEmailResults);
+      }
+    }
+  }
+}
+     Public static void updateAllLanFieldOnDetailObj(case caseRec){
+        List<ABHFL_Case_Detail__c> caseDetailsToUpdate = new List<ABHFL_Case_Detail__c>(); 
+        if(ABHFL_Constants.ALLLANCTSTs.contains(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c!=null){
+               string allLANAssociated=''; 
+               List<asset>alllan=new List<asset>();
+                system.debug('caseRec.AccountId-->'+caseRec.AccountId);
+                if(caseRec.AccountId!=null){
+                    alllan=[select Name from asset where accountId=:caseRec.AccountId];
+                    for(integer i=0;i<alllan.size();i++){
+                        integer sr=i+1;
+                          allLANAssociated=allLANAssociated+sr+'. '+alllan[i].Name+'\n';
+                         system.debug('allLANAssociated'+ i +'--->'+allLANAssociated);  
+                        }
+                  allLANAssociated= allLANAssociated.substring(0, allLANAssociated.length() - 1);
+                  system.debug('allLANAssociated--->'+allLANAssociated);  
+                }
+               
+              ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
+                caseDetail.ALL_LANS__c=allLANAssociated; 
+                caseDetailsToUpdate.add(caseDetail);
+            }
+         if(!caseDetailsToUpdate.isempty()){
+                update caseDetailsToUpdate;
+            }
+    }
+    
     //AM-Delete existing asset detail records on a case on customer change
     public static void deleteExistingAssetDetails(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
         Set<Id> caseIds = new Set<Id>();
@@ -181,10 +380,8 @@ public without sharing class ABHFL_CTSTHelper {
         Map<String, List<Case>> lanVsCases = new Map<String, List<Case>>();
         Map<String,Set<Id>> cccVsAccIds = new Map<String,Set<Id>>();
         Set<String> cccIdsForAcc = new Set<String>();
-	Map<Id,Case> IdvsCase = new Map<Id,Case>();         // added by Vikas
         RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
         for(Case c: caseList){
-		IdvsCase.put(c.Id,c);                      // added by vikas
             if(c.Business_Unit__c=='ABHFL' && 
                		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
                 	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
@@ -238,9 +435,6 @@ public without sharing class ABHFL_CTSTHelper {
                     if(accIdVsCases.containsKey(dupeCase.AccountId)){
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
-				if(c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ){
-                                ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase,oldCaseMap); 			// added by vikas, After recategorisation, ovarall SLA should changed before marked as closed duplicate.
-				}                                                                                
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = ASF_Constants.DUPLICATESTAGE;
                                     c.Status = ASF_Constants.DUPLICATESTATUS;
@@ -261,6 +455,68 @@ public without sharing class ABHFL_CTSTHelper {
             }    
         }
     }
+    // Code Starts Here.... 
+    // This change related to WO0000000066953 added by Bhushan
+    // Branch field to be Updated to get the Branch Location Name 
+    public static void branchUpdate(List<Case> caseList, Map<Id, Case> oldCaseMap) {
+    system.debug('Testing1');
+    // Check if recursion is being handled properly
+    if (!ABHFL_Constants.isProcessing) {
+        System.debug('Skipping processing due to recursion control.');
+        return;
+    }
+    
+    // Prevent further recursion
+    ABHFL_Constants.isProcessing = false;
+    
+    // Prepare a map to store Case IDs vs Asset IDs
+    Map<Id, Id> caseIdvsAssetId = new Map<Id, Id>();
+    system.debug('Testing2');
+    // Loop through the cases and identify ones with updated AssetId
+    for (Case cas : caseList) {
+        system.debug('cas.AssetId'+cas.AssetId);
+        if (oldCaseMap!= null && cas.Id != null && cas.AssetId != null && cas.AssetId != oldCaseMap.get(cas.Id).AssetId) {
+            System.debug('Case with updated AssetId for Update: ' + cas.Id);
+            caseIdvsAssetId.put(cas.Id, cas.AssetId);
+        }
+        else if(cas.AssetId != null){
+            system.debug('Testing3');
+             System.debug('Case with updated AssetId for Insert: ' + cas.Id);
+            caseIdvsAssetId.put(cas.Id, cas.AssetId);
+        }
+    }
+    system.debug('caseIdvsAssetId'+caseIdvsAssetId);
+    // Only proceed if we have cases to update
+    if (!caseIdvsAssetId.isEmpty()) {
+        // Fetch the relevant assets
+        List<Asset> assetList = [
+            SELECT Id, Branch__r.Name
+            FROM Asset 
+            WHERE Id IN :caseIdvsAssetId.values()
+        ];
+        
+        // Prepare a map to store Asset Id vs Branch Name
+        Map<Id, String> IdvsBranchName = new Map<Id, String>();
+        for (Asset asset : assetList) {
+            if (asset.Branch__c != null) {
+                IdvsBranchName.put(asset.Id, asset.Branch__r.Name);
+            }
+        }
+        
+        // Update the BranchName__c field on the Case records directly
+        for (Case cas : caseList) {
+            if (IdvsBranchName.containsKey(cas.AssetId)) {
+                cas.BranchName__c = IdvsBranchName.get(cas.AssetId);
+            }
+        }
+    }
+    
+    System.debug('Updated cases: ' + caseList);
+    
+    // Reset recursion flag
+    ABHFL_Constants.isProcessing = true;
+} 
+    // ....Code Ends Here 
     
     //Dhinesh
     public static void OpenStageOwnershipChange(List<Case> caseList, Map<Id, Case> oldCaseMap) {
@@ -282,6 +538,49 @@ public without sharing class ABHFL_CTSTHelper {
     	}
 	}
 
+ //This is changes related to CR[PR970457-2388,PR970457-2288] made by Yogesh
+ //skipOpenStageforAPIcases: It will impact cases which created from API for mentioned CTSTs
+ //This method applicable to ABHFL BU only. It is used to skip open stage at the time of case creation through API. 
+     public static void skipOpenStageforAPIcases(List<Case> caseList) {
+    // List of valid subTypes
+    	Set<String> caseDetailIds = new Set<String>();
+		Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
+		List<Case>updatedcases=new List<case>();
+		List<String> validSubTypes = new List<String>{'hfl003','hfl045','hfl023'};
+        for(Case caseRec : caseList){
+            if(caseRec.Business_Unit__c=='ABHFL' && validSubTypes.contains(caseRec.CCC_External_Id__c)){
+            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);   
+            }
+        }
+        if(!caseDetailIds.isEmpty()){
+        for(ABHFL_Case_Detail__c cd : [SELECT Id, Mode_of_Change_of_Address__c,New_Mobile_Number__c,New_Email_ID__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
+            caseToDetailMap.put(cd.Id, cd);
+        }
+		}
+    	for (Case caseRecord : caseList) {
+		  if(caseRecord.Business_Unit__c == 'ABHFL' && validSubTypes.contains(caseRecord.CCC_External_Id__c)){
+        	Boolean conditionsatisfied=false;
+        	String subType = caseRecord.CCC_External_Id__c;
+            string modeofchangeofaddress=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).Mode_of_Change_of_Address__c;
+            string NewMobileNumber=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).New_Mobile_Number__c;
+            string NewEmailID=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).New_Email_ID__c;
+              if('VKYC'.equals(modeofchangeofaddress) && 'hfl003'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              else if((NewMobileNumber!='' && NewMobileNumber!=null) && 'hfl045'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              else if((NewEmailID!='' && !String.isBlank(NewEmailID)) && 'hfl023'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              
+        	if (validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK && caseRecord.Technical_Source__c=='API' && conditionsatisfied==true) {
+            	caseRecord.movetonext__c=true;
+        	}
+			}
+    	}
+	}
+    
     //Called from OpenStageOwnershipChange
     public static void assignCaseToQueue(Case caseRecord) {
     	String subType = (String)caseRecord.get('CCC_External_Id__c');
@@ -362,9 +661,10 @@ public without sharing class ABHFL_CTSTHelper {
 	}
 
     //Dhinesh - Stop at banking stage on forward movement after a backward movement.
-    public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
-        // List of valid subTypes
-    	List<String> validSubTypes = new List<String>{'qbccdd01', 'hfl060','RRSDPRSHFC01'};
+     public static void preClosureStopAtCPUBanking(List<Case> caseList, Map<Id, Case> oldCaseMap) {
+      // List of valid subTypes
+    /*	List<String> validSubTypes = new List<String>{'hfl060'};
+        List<String> SourceOfFunds = new List<String>{'Mature','Loan cancellation','Settlement/Auction'};
         
     	for (Case caseRecord : caseList) {
         	Case originalCase = oldCaseMap.get(caseRecord.Id);
@@ -377,13 +677,20 @@ public without sharing class ABHFL_CTSTHelper {
 
         // Check if the previous stage was 'Open', the current stage is not 'Open',
         // and the sub_Type_Text__c is one of the valid subTypes
-        	if ('Open'.equals(previousStage) && !'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.moved_back__c == TRUE && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
-            	changeStagetoCPUBanking(caseRecord);
-                ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped = true;
-        	}
-            
-    	}
-	}
+        system.debug('$$$Source_of_Funds__c111'+caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c);
+        system.debug('$$SourceOfFunds22'+SourceOfFunds);
+
+
+            //if(caseRecord.moved_back__c == TRUE &&  !SourceOfFunds.contains(caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c)){ //Condition added by Nikhil EY - PR970457-2176
+            if(caseRecord.moved_back__c == TRUE &&  (caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' || caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' ||  caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation')){ //Condition added by Nikhil EY - PR970457-2176
+                system.debug('$$$ SourceOfFundsss333'+caseRecord.ABHFL_Case_Detail__r.Source_of_Funds__c);
+                if ('Open'.equals(previousStage) && !'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.moved_back__c == TRUE && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
+                    changeStagetoCPUBanking(caseRecord);
+                    ASF_CaseTriggerModularHelper.preClosureStageAlreadyStamped = true;
+                }
+            }
+    	}  */
+	} 
     
     public static void changeStagetoCPUBanking(Case caseRecord) {
         Group CPUQueue = [SELECT Id,Name FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABHFL_CPU_Banking_Team' WITH SECURITY_ENFORCED LIMIT 1];
@@ -405,7 +712,7 @@ public without sharing class ABHFL_CTSTHelper {
         return updatedCasesMap;
     }
     //Dhinesh
-   public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
+    public static Map<Id, Case> assignCaseToPreferredBranch(List<Case> caseRecords) {
         //Case caseRec = [SELECT Id, OwnerId,ABHFL_Case_Detail__c FROM Case WHERE Id = :caseRecord.Id WITH SECURITY_ENFORCED];
         //ABHFL_Case_Detail__c caseDetail = [SELECT Id,Preferred_Branch__c FROM ABHFL_Case_Detail__c WHERE Id =:caseRec.ABHFL_Case_Detail__c LIMIT 1];
 
@@ -563,19 +870,10 @@ public without sharing class ABHFL_CTSTHelper {
             if(paymentsMap.containsKey(caseRec.Id)){
                 // Check if every payment record has Realization_Status__c equal to 'Cleared'
                 for (ABHFL_Payment__c payment : paymentsMap.get(caseRec.Id)) {
-		  /*added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
-                      Jira id-PR970457-2176
-                      Added By Ey-Nikhil  */
-                 if((caseRec.CCC_External_Id__c == 'hfl060' && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
-                        && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
-                        && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
-                       ||(caseRec.CCC_External_Id__c != 'hfl060')){
-  		  //End By Ey-Nikhil
                     if (payment.Realization_Status__c == null) {
                         returnMap.put(caseRec.Id, false); // If any payment record is not cleared, return false
                         break;
                     }
-		  }
                 }
             }
         }
