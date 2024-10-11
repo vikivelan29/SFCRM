@@ -57,11 +57,6 @@
         <field>ASF_Bulk_Upload_Line_Item__c.Row_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Task.ADID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Manage Bulk Assignment</label>
     <objectPermissions>
