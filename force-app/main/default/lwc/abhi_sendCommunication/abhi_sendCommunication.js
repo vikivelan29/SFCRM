@@ -45,6 +45,13 @@ export default class Abhi_sendCommunication extends LightningElement {
         emailField: '',
         phoneField: '',
     };
+    assetReferenceField='';
+    @track validation={
+        validationMessage: '',
+        validationTemplateMessage:'',
+        showValidation:false,
+        showTemplateValidation:false
+    }
 
     connectedCallback(){
         this.isLoading=true;
@@ -116,8 +123,11 @@ export default class Abhi_sendCommunication extends LightningElement {
                         this.showToast('Error', error.body.message, 'error');
                     });
                 }
-                else{
-                    this.showToast('Error', 'Please select a Communication Type and a template', 'error');
+                else if(this.formData.template == ''){
+                    this.validation.showTemplateValidation=true;
+                    this.validation.validationTemplateMessage='Please select a valid Template';
+                    if(this.template.querySelector('.com_box') && !this.template.querySelector('.com_box').classList.contains('slds-has-error'))
+                        this.template.querySelector('.com_box').classList.add('slds-has-error');
                 }
             }
         } catch (error) {
@@ -129,7 +139,18 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     validateData(){
         if(!this.checkedToggle && (this.showContact.showPhone && this.formData.phoneNumber == '') || (this.showContact.showEmail && this.formData.emailId == '')){
+            if(this.showContact.showPhone){
+                this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
+                this.validation.showValidation=true;
+                this.template.querySelector('.tel_inp').classList.add('slds-has-error');
+            }
+            
             return false;
+        }
+        else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){   
+            this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
+            this.validation.showValidation=true;
+            this.template.querySelector('.tel_inp').classList.add('slds-has-error');
         }
         else return true;
     }
@@ -170,6 +191,12 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     handleChange(event){
         try {
+            this.validation.showValidation = false;
+            this.validation.showTemplateValidation=false;
+            if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
+                this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
+            if(this.template.querySelector('.com_box') && this.template.querySelector('.com_box').classList.contains('slds-has-error'))
+                this.template.querySelector('.com_box').classList.remove('slds-has-error');
             let selectedLabel = event.target.label;
             let selectedVal = event.detail.value;
             this.formData.template = '';
@@ -228,7 +255,12 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     handleInputChange(event){
         let inputType = event.target.type;
-        console.log('TargetType>>', inputType);
+        this.validation.showValidation=false;
+        this.validation.showTemplateValidation=false;
+        if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
+        this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
+        if(this.template.querySelector('.com_box') && this.template.querySelector('.com_box').classList.contains('slds-has-error'))
+        this.template.querySelector('.com_box').classList.remove('slds-has-error');
         if(inputType == 'toggle'){
             this.checkedToggle = !this.checkedToggle;
         }
