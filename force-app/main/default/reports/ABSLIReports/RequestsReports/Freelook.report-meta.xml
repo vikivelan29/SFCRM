@@ -55,9 +55,6 @@
         <field>Case$Asset.Channel__c</field>
     </columns>
     <columns>
-        <field>Case$CreatedBy.Branch_Name__c</field>
-    </columns>
-    <columns>
         <field>Case$CreatedBy.Branch_Code__c</field>
     </columns>
     <columns>
