@@ -16,15 +16,16 @@ public with sharing class RNWL_IndividualAccRenewalController {
     *****************************************************************************************************************/ 
     @AuraEnabled
     public static List<RNWL_RenewalWrapper> getPolicyRenewalDetails(String opportunityId){
-        try{   
+        try{    
             List<Opportunity> oppList = [SELECT Id,Policy_Number__c,Proposal_Number__c
                                          FROM Opportunity WHERE Id=:opportunityId LIMIT 1];
             
             String policyNumber = oppList[0].Policy_Number__c;
-            system.debug('policyId '+policyNumber); 
+            
+            Map<String, Object> rawResponseMap = new Map<String, Object>();
             
             String responseBody = RNWL_NonIndAccountRenewalController.getResponseFromFiles(opportunityId , 'Renewal Check');
-            system.debug('responseBody-'+responseBody);
+            system.debug('responseBody From File-');
 
             if(String.isBlank(responseBody)){
                 String payload = '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}';
@@ -32,21 +33,72 @@ public with sharing class RNWL_IndividualAccRenewalController {
                 system.debug('payload'+payload);
                 
                 ABCL_IntegrationCallout.IntegrationResponseWrapper renewalDetailResponse = ABCL_IntegrationCallout.executeCallout('RNWL_RenewalDetail', payload, null);
-                String fileName = 'Renewal Check-'+Date.today();
+                String fileName = 'Renewal Check-'+Date.today(); 
+                
                 responseBody = renewalDetailResponse.responseBody;
-                if(String.isNotBlank(responseBody)){
-                    RNWL_NonIndAccountRenewalController.uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Check');
+                
+                if(String.isBlank(responseBody)) {
+                    RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
+                    objRenewalWrapper.ErrorCode = '400';
+                    objRenewalWrapper.ErrorMessage = 'API Call Failed Please Retry'; 
+                    List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
+                    lstRenewalWrapper.add(objRenewalWrapper);
+                    return lstRenewalWrapper;
                 }
+                
+                rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
+                
+                Object objError = rawResponseMap.get('error');
+                
+                List<Object> lstError = new List<Object>();
+                
+                system.debug('objError'+objError); 
+                
+                if(objError instanceOf List<Object>){
+                    lstError = (List<Object>) objError;  
+                }
+                else{
+                    lstError.add(objError);
+                }
+                
+                for(Object obj : lstError){
+                    map<String, object> mapErrorToMessage = (map<String, object>)obj;
+                    String strErrorCode = String.valueOf(mapErrorToMessage.get('ErrorCode'));
+                    String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage'));
+                   
+                    system.debug('responseBody'+responseBody);
+                    system.debug('strErrorCode'+strErrorCode);
+                    
+                    if(String.isNotBlank(responseBody) && (strErrorCode == '00' || strErrorCode == '0')){
+                        system.debug('strErrorCode'+strErrorCode);
+                        RNWL_NonIndAccountRenewalController.uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Check');
+                    }
+                    else{
+                        RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
+                        objRenewalWrapper.ErrorCode = strErrorCode;
+                        objRenewalWrapper.ErrorMessage = strErrorMessage; 
+                        List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
+                        lstRenewalWrapper.add(objRenewalWrapper);
+                        return lstRenewalWrapper;
+                        
+                    }
+                } 
             }
-            
-            Map<String, Object> rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
+            else{
+                rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
+            }
+                         
             List<Object> rawPolicyData = (List<Object>)((Map<String, Object>)rawResponseMap.get('response')).get('policyData');
-            List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
             
+            List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
+             
             for(object objPolicy : rawPolicyData){
                 
                 Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy;
                 if(policyNumber == String.valueOf(policyData_Map.get('Policy_number'))){
+                    
+                    system.debug('policyData_Map'+ policyData_Map);
+                    
                     RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
                     
                     objRenewalWrapper.Id = Crypto.getRandomInteger();
@@ -59,6 +111,14 @@ public with sharing class RNWL_IndividualAccRenewalController {
                     objRenewalWrapper.Renewal_Gross_Premium = String.valueOf(policyData_Map.get('Renewal_Gross_Premium'));
                     objRenewalWrapper.Upsell_Net_Premium = String.valueOf(policyData_Map.get('Upsell_Net_Premium'));
                     objRenewalWrapper.Upsell_Gross_Premium = String.valueOf(policyData_Map.get('Upsell_Gross_Premium'));
+                    
+                    system.debug('policyData_Map Cross_sell_Reference_Number'+policyData_Map.get('Cross_sell_Reference_Number'));
+                    system.debug('policyData_Map Is_cross_sell'+policyData_Map.get('Is_cross_sell'));
+                    if(policyData_Map.containsKey('Is_cross_sell') && String.valueOf(policyData_Map.get('Is_cross_sell')) == 'Y'){
+                        objRenewalWrapper.Is_cross_sell = 'Y';
+                    } 
+                    
+                    objRenewalWrapper.Cross_sell_Reference_Number = policyData_Map.containsKey('Cross_sell_Reference_Number') ? String.valueOf(policyData_Map.get('Cross_sell_Reference_Number')) : '';
                     
                     Map<String, Object> nominee_Map = (Map<String, Object>)policyData_Map.get('Nominee_Details');
                     
@@ -100,7 +160,9 @@ public with sharing class RNWL_IndividualAccRenewalController {
                     objRenewalWrapper.Members = lstRenewalMembers;
                     lstRenewalWrapper.add(objRenewalWrapper);
                 }
+                
             }
+            
             system.debug('lstRenewalWrapper '+lstRenewalWrapper);  
 
             List<object> renewInfoList = (List<object>)rawResponseMap.get('Renew_Info');
@@ -118,7 +180,6 @@ public with sharing class RNWL_IndividualAccRenewalController {
         }catch(exception e){
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
         }
-    }
-
+    } 
     
 }
