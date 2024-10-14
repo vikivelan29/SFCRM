@@ -259,12 +259,12 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }
             
             Map<Id, SObject> recordMap = new Map<Id, SObject>(
-                [SELECT OwnerId FROM Case WHERE Id IN :recordIds]
+                [SELECT OwnerId,Business_Unit__c FROM Case WHERE Id IN :recordIds]
             );
             
             for (ContentDocumentLink link : newFiles) {
                 SObject record = recordMap.get(link.LinkedEntityId);
-                if (record != null) {
+                if (record != null && record.get('Business_Unit__c')=='Wellness') {                   
                     Id ownerId = (Id) record.get('OwnerId');                 
                     if (ownerId != UserInfo.getUserId() && !Test.isRunningTest()) {
                         link.addError(System.Label.Wellness_CaseComment_add_Err_Msg);

@@ -21,6 +21,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -338,10 +339,29 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
            this.faValidMsg = lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE != null? lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE : lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
            this.withFALabel = lanLabels[this.businessUnit].CREATE_CASE_WITH_FA != null? lanLabels[this.businessUnit].CREATE_CASE_WITH_FA : lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
+
+           // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
+           this.adjustAutoCommunications();
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
+
+    // Rajendra Singh Nagar: PR1030924-209 - Added function
+    adjustAutoCommunications(){
+        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
+            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }else{
+            this.noAutoCommOptions = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }
+    }
+
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         console.log('hete in yext chage')
