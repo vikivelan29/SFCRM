@@ -21,6 +21,7 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
         Set<String> clientCodes = new Set<String>();
         Set<String> federationIds = new Set<String>();
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
+        Set<String> leadStatus = ABSLAMC_Constants.LEADSTATUS;
         String ABSLAMCBU = ABSLAMC_Constants.ABSLAMCBU;
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
@@ -121,6 +122,13 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             if((lastName == null || lastName.trim() == '') && (customerType == 'Prospect')){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Last Name is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(!leadStatus.contains(status)){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Invalid Lead Status');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
