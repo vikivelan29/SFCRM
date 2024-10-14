@@ -392,7 +392,8 @@ blankSourcePresent = true;
         }  
     }
     //Creates extension record for Case, if case is created from Bulk page
-    public static void createCaseExtnRecordForBulk(List<Case> newList) {        
+    public static void createCaseExtnRecordForBulk(List<Case> newList) {
+                
         Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
         Integer index = 0;
         for(Case caseRec : newList){
@@ -414,6 +415,7 @@ blankSourcePresent = true;
         for(Case caseRec : newList){
             if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c)){
                 String sObjectType = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
+                if (caseRec.get(sObjectType) == null) {
                 SObject newInstance = createObject(sObjectType);
                 if(newInstance != null){
                     if(!String.isEmpty(caseRec.Case_Details_JSON__c)){
@@ -421,6 +423,7 @@ blankSourcePresent = true;
                     }
                     extnRecords.put(index, newInstance);
                 }
+              }
             }
             index++;
         }
