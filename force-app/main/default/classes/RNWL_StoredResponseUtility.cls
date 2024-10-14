@@ -93,15 +93,12 @@ public class RNWL_StoredResponseUtility {
         return responseWrapper.responseBody;
     }
     
-    public static string getRenewalDetails(String policyNumber, String APIName){ 
-        string payload;
-        String metaDataName;
+    public static string getRenewalDetails(String policyNumber, String APIName, String metaDataName){ 
+        string payload; 
         if(APIName == 'Renewal Group Check'){
             payload = '{"lead_Id":"","master_policy_number":"","certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
-            metaDataName = 'RNWL_Non_Ind_Account';
         }else{
-            payload = '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}'; 
-            metaDataName = 'RNWL_RenewalDetail';
+            payload = '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}';  
         } 
         return getResponseFromCallout(payload, APIName, metaDataName);
     }

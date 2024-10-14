@@ -1,0 +1,189 @@
+<template>
+
+    <template lwc:if={showData}>   
+    <template for:each={policylst} for:item="policy">
+        <div class="slds-grid slds-grid_vertical slds-box slds-m-top_x-small" key={policy.Id}>
+            <div class="slds-col">
+                <h2 class="slds-m-bottom_x-small slds-card__header-title">Policy Details </h2>
+                <div class="slds-form" role="list">
+                    <div class="slds-form__row">
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Policy Renewal Date:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Policy_renewal_date}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Sum Insured Type:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.sumInsuredtype}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Renewal Net Premium:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        ₹{policy.Renewal_Net_Premium}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__row">
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Upsell Flag:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Upsell_Flag}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Nominee Name:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Nominee_Name}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Renewal Gross Premium:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        ₹{policy.Renewal_Gross_Premium}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__row">
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Renewable Flag:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Renewable_Flag}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Nominee Address:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Nominee_Address}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Upsell Net Premium:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        ₹{policy.Upsell_Net_Premium}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__row">
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Renewed Flag:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Renewed_Flag}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Nominee Contact No:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Nominee_Contact_No}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Upsell Gross Premium:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        ₹{policy.Upsell_Gross_Premium}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="slds-form__row">
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Is cross-sell:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Is_cross_sell}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div
+                                class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Cross-sell Reference Number:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Cross_sell_Reference_Number}
+                                    </div>
+                                </div>
+                            </div> 
+                        </div> 
+                        <div class="slds-form__item" role="listitem">
+                           
+                        </div> 
+
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col">
+                <h2 class="slds-m-bottom_x-small slds-m-top_small slds-card__header-title">Members</h2>
+                <lightning-datatable key-field="id" data={policy.Members} columns={columns} hide-checkbox-column>
+                </lightning-datatable>
+            </div>
+        </div>
+    </template>
+    </template>
+
+    <template lwc:elseif={showError}> {ErrorMessage} </template>
+</template>
