@@ -6,7 +6,7 @@
 *@description  : This class is used for Get/Set Response on opp files
 *********************************************************/ 
 public class RNWL_StoredResponseUtility {
-
+      
     public static Map<String, String> mapOfFileNameToResponse = new Map<String, String>();
 
     @AuraEnabled(cacheable=true)
@@ -75,14 +75,14 @@ public class RNWL_StoredResponseUtility {
         } 
         return responseWrapper.responseBody;
     }
- 
-    // Method to retrieve renewal details with dynamic payload based on API
-    public static String getRenewalDetails(String policyNumber, String APIName, String metaDataName) {
-        String payload = APIName ==  RNWL_Constants.RENEWAL_GROUP_API_NAME 
-            ? '{"lead_Id":"","master_policy_number":"","certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}'
-            : '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}';
-       
-        system.debug('payload--'+payload);
+    
+    public static string getRenewalDetails(String policyNumber, String APIName, String metaDataName){ 
+        string payload; 
+        if(APIName == 'Renewal Group Check'){
+            payload = '{"lead_Id":"","master_policy_number":"","certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
+        }else{
+            payload = '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}';  
+        } 
         return getResponseFromCallout(payload, APIName, metaDataName);
     }
 

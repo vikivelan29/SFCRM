@@ -22,41 +22,6 @@ public class RNWL_RenewalWrapper{
 
     // combi policy related fields:
     
-    @AuraEnabled public Boolean combi_Policy_Flag;
-    @AuraEnabled public String Combi_Policy_Number; 
-    @AuraEnabled public cls_CombiPolicy[] CombiPolicies;
-
-    public class cls_CombiPolicy{
-        @AuraEnabled public String Combi_Policy_Number;
-        @AuraEnabled public String combi_Policy_Owner;
-        @AuraEnabled public String combi_Policy_StartDate;
-        @AuraEnabled public String combi_Policy_EndDate;
-        @AuraEnabled public String combi_Policy_Status;
-        @AuraEnabled public String combi_Policy_Variant;
-        @AuraEnabled public String combi_Policy_Product;
-        @AuraEnabled public String combi_Policy_SubPlan;
-        @AuraEnabled public String combi_Policy_ProductType;
-    }
-
-    @AuraEnabled public Boolean combi_Policy_Disposition_Flag;
-    
-    @AuraEnabled public cls_RelatedDispositions[] CombiDispostions;
-
-    public class cls_RelatedDispositions{
-        @AuraEnabled public String Disposition_Url;
-        @AuraEnabled public String Disposition_Name;
-        @AuraEnabled public String Combi_Policy_Number;
-        @AuraEnabled public String Next_CallBack_Datetime;
-        @AuraEnabled public String Disostion_L1;
-        @AuraEnabled public String Disostion_L2;
-        @AuraEnabled public String Disostion_L3;
-        @AuraEnabled public String Call_DateTime;
-        @AuraEnabled public String Agent_Name;
-        @AuraEnabled public String Remark;
-        @AuraEnabled public String Calling_Unit;
-        @AuraEnabled public String Calling_Mode;
-    }
-    
     @AuraEnabled public cls_Members[] Members;  
     
     public class cls_Members {

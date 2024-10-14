@@ -5,7 +5,7 @@
 *Last Modified:  04/10/2024
 *@description  :  This class is used for calling Renewal Check API,Renewal Group Check API, Health Assessment API*/
 public with sharing class RNWL_MemberDetailsController {
-    
+      
     /****************************************************************************************************************
 * @Function - getAPIResponseDetails
 * @param PolicyId - opportunityId,  assetId - assetId policyNum - policyNum proposalNo - Asset.SerialNumber lstFileSrcAPI - list of the API for which response is needed.
@@ -25,14 +25,17 @@ public with sharing class RNWL_MemberDetailsController {
                 return mapOfAPINameToResponse;
             }
             
-            // Process each API request
-            for (String strAPIName : lstFileSrcAPI) {
-                if (!mapOfAPINameToResponse.containsKey(strAPIName)) {
-                    if (RNWL_Constants.API_TO_META_DATA_MAP.containsKey(strAPIName)) {
-                        mapOfAPINameToResponse.put(strAPIName, RNWL_StoredResponseUtility.getRenewalDetails(policyNum, strAPIName, RNWL_Constants.API_TO_META_DATA_MAP.get(strAPIName)));
-                    } else if (strAPIName == RNWL_Constants.HEALTH_API_NAME) {
-                        mapOfAPINameToResponse.put(strAPIName, JSON.serialize(RNWL_StoredResponseUtility.getHealthDetails(policyNum, proposalNo)));
-                    } else if (strAPIName == RNWL_Constants.FITNESS_API_NAME) {
+            system.debug('Responses from Files'+mapOfAPINameToResponse.keySet());
+            
+            for(String strAPIName : lstFileSrcAPI){
+                if(!mapOfAPINameToResponse.containsKey(strAPIName)) {
+                    if(strAPIName == 'Renewal Check'){
+                        mapOfAPINameToResponse.put(strAPIName, RNWL_StoredResponseUtility.getRenewalDetails(policyNum, strAPIName, 'RNWL_RenewalDetail'));
+                    }else if(strAPIName == 'Renewal Group Check'){
+                        mapOfAPINameToResponse.put(strAPIName, RNWL_StoredResponseUtility.getRenewalDetails(policyNum, strAPIName, 'RNWL_Non_Ind_Account')); 
+                    }else if(strAPIName == 'Health Return'){
+                        mapOfAPINameToResponse.put(strAPIName, JSON.serialize(RNWL_StoredResponseUtility.getHealthDetails(policyNum, proposalNo))); 
+                    }else if(strAPIName == 'Fitness Assessment'){
                         mapOfAPINameToResponse.put(strAPIName, JSON.serialize(RNWL_StoredResponseUtility.getFitnessAssessmentDetails(assetId)));
                     } else if (strAPIName == RNWL_Constants.APP_REG_API_NAME) {
                         mapOfAPINameToResponse.put(strAPIName, JSON.serialize(RNWL_StoredResponseUtility.getAppRegDeatils(accountId)));
