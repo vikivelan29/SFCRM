@@ -1,0 +1,42 @@
+{
+    "status": "SUCCESS",
+    "messageCode": "VCSESS0013",
+    "messageDesc": "Search Voucher successfull...",
+    "serviceMessageType": "Information",
+    "resultList": [
+        {
+            "voucherTxnId": 2863,
+            "customerId": 1184545,
+            "maxCapValue": 500.0,
+            "status": "Success",
+            "txnRefNo": 301837143816,
+            "uuid": "6014859437979840",
+            "voucherCategory": "Benefit",
+            "voucherType": "discount",
+            "voucherValue": 500.0,
+            "vpucherCode": "K4SA-8HW776-FB4N",
+            "partnerCode": "500.0",
+            "transactionDate": "2023-01-30 20:46:39",
+            "validFromDate": "2022-04-29 00:00:00",
+            "validToDate": "2023-04-28 00:00:00"
+        },
+        {
+            "pinCode": "4032",
+            "voucherTxnId": 2922,
+            "customerId": 1184545,
+            "maxCapValue": 500.0,
+            "status": "Success",
+            "txnRefNo": 319383959579,
+            "uuid": "6014859431602524",
+            "voucherCategory": "Benefit",
+            "voucherType": "discount",
+            "voucherValue": 500.0,
+            "vpucherCode": "K4SB-8HW776-FB4D",
+            "partnerCode": "PAR-Amazon",
+            "transactionDate": "2023-04-24 11:06:04",
+            "validFromDate": "2023-02-07 00:00:00",
+            "validToDate": "2023-11-01 00:00:00",
+            "partnerName": "Amazon"
+        }
+    ]
+}
