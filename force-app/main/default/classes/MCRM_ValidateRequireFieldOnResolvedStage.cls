@@ -16,11 +16,16 @@ public class MCRM_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
             if
                 (
                     ASF_Constants.RESOLUTIONCOMMENT_REQ_TECHSRC.contains(caseRec.Technical_Source__c) 
-                    && String.isBlank(caseRec.WellnessCaseDetail__r.Resolution_Comments__c)
+                    && 
+                    (
+                        String.isBlank(caseRec.WellnessCaseDetail__r.Resolution_Comments__c) 
+                        ||
+                        String.isBlank(caseRec.WellnessCaseDetail__r.Resolution_Reason__c) 
+                    )
                 )
             {
                 retCls.status = 'Error';
-                retCls.errorMessage = 'Resolution Comments is required when changing Stage to Resolved.';
+                retCls.errorMessage = System.label.MCRM_ResolutionRemarks;
             }else{
                 retCls.status = 'Success';
                 retCls.errorMessage = '';
