@@ -83,7 +83,16 @@ public with sharing class ABHI_CreatePolicy {
             //Get master account Id
             masterPolicy = [SELECT Id,AccountId, Account.LOB_Client_Code__c FROM Asset WHERE LAN__c = :masterPolicyNumber];
            
-        }    
+        }   
+        //throw exception if master policy doesn't exists
+        if(!String.isBlank(masterPolicyNumber) && (masterPolicy == null || masterPolicy.isEmpty())) {
+            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
+            ABCL_Integrations__mdt integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata('ABHI_CreateCRMPolicy_Inbound');
+            ASF_Case_Integration__c caseIntg = new ASF_Case_Integration__c(Type__c = 'CreateCRMPolicy');
+            integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, ABHI_Constants.MASTER_POLICY_ERROR), true);
+            ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
+            throw new IllegalArgumentException(integrationResponse.responseBody);
+        }
         //<-------- Customer data starts ------>
         for(Map<String,Object> customer : mapCustList) {
             acc = new Account();
@@ -207,7 +216,7 @@ public with sharing class ABHI_CreatePolicy {
         
         if(!mapPreviousPolicyList.isEmpty()) {
             List<Previous_Policy_Details__c> previousPolicy = createPreviousPolicy(mapPreviousPolicyList, mapObjectFieldMapping.get('Previous_Policy_Details'), policy);
-        	upsert previousPolicy PreviousPolicyNumber__c ;
+        	upsert previousPolicy ;
         }
         ABHI_CreateCRMPolicy.proposalNumber = policyMap.get('ProposalNumber').toString();
         //return  policyMap.get('ProposalNumber').toString();
@@ -257,7 +266,6 @@ public with sharing class ABHI_CreatePolicy {
         /*Setting LAN__c ext Id to the Policy no
          First time PolicyNumber will be blank*/
         if(policyMap.get('PolicyNumber') != null) {
-            System.debug('@@@LAN__c'+policyMap.get('PolicyNumber'));
             policy.put('LAN__c', policyMap.get('PolicyNumber'));
             policy.put('Name', policyMap.get('PolicyNumber'));
         }
@@ -359,9 +367,9 @@ public with sharing class ABHI_CreatePolicy {
     * @description - this method creates address based on input
     */
     private static String createAddress(String street1, String street2, String street3) {
-        String result = (street1 != NULL ? street1 : '')+
-            (street2 != NULL ? street2 : '')+
-            (street3 != NULL ? street3 : '');
+        String result = (street1 != null && street1 != 'null'? street1 : '')+
+            (street2 != null && street2 != 'null' ? street2 : '')+
+            (street3 != null && street3 != 'null'? street3 : '');
         
         return result.length()>255?result.substring(0, 255):result;
     }

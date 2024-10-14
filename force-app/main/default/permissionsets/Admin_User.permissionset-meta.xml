@@ -5243,6 +5243,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Asset.Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Asset.Withdrawal_available_amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6789,6 +6794,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Create_Lead_To_CRM_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.CreatedDateOnly__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
