@@ -186,24 +186,26 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
 
            // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
-           this.adjustAutoCommunications();
+           this.adjustAutoCommunications(undefined);
         } else if (error){
             console.log('error in get record--'+JSON.stringify(error));
         }
     }
 
     // Rajendra Singh Nagar: PR1030924-209 - Added function
-    adjustAutoCommunications(){
+    adjustAutoCommunications(data){
         if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
             this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
                 label: item.label,
                 value: item.value
             }));
         }else{
-            this.noAutoCommOptions = data.values.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
+            if(data){
+                this.noAutoCommOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
+            }
         }
     }
     
@@ -277,10 +279,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
+                this.adjustAutoCommunications(data);
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;

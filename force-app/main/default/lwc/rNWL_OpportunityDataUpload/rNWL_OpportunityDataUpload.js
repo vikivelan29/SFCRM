@@ -29,6 +29,11 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
 
     }
 
+    handleReset(){
+        this.fileName = '';
+        this.parsedData = ';'
+    }
+
     handleUploadFinished(event) {
         const uploadedFiles = event.detail.files;
         console.log('uploadedFiles ' + uploadedFiles);
@@ -112,8 +117,8 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
                         this.recordStatus = recordStatus;
                         this.showMessage(this.recordStatus, 'warning');
                     } else {
-                    
-                        this.showMessage('All Opportunity rows were updated successfully','success');
+                        this.recordStatus = recordStatus;
+                        this.showMessage('All Opportunity rows were updated successfully!!','success');
                     }
                 }
                 this.isLoading = false;
