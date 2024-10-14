@@ -45,6 +45,7 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
             // Writing condition for updating All LAN field on ABHFL case detail
             // Changes are done by Yogesh [PR970457-2288]  
             ABHFL_CTSTHelper.updateAllLanFieldOnDetailObj(caseRec);
+            ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRec);
         }
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
            	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(casesForCreatePELogAndinvokeCommPEevent,emailTemplateMap, smsMetadataMap, isTransferredMap);
@@ -76,7 +77,7 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                     isTransferredMap.put(caseRec.Id, false);
                 }
             }
-          ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRec);
+          //ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRec);
             
         }
          if(!caseRecords.isEmpty()){
