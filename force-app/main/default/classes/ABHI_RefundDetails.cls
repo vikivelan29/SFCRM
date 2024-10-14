@@ -72,7 +72,7 @@ public with sharing class ABHI_RefundDetails {
      //Response Wrapper class
     public class IntegrationResponseWrapper{
         @AuraEnabled
-        public List<ResponseObjWrapper> ResponseObj;
+        public ResponseObjWrapper ResponseObj;
         @AuraEnabled
         public List<ReceiptObjWrapper> ReceiptObj;
        

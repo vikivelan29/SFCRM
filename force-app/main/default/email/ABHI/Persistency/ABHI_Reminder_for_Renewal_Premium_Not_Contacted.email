@@ -1,0 +1,71 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="margin-right: 4px; margin-left: 4px; text-align:justify">Dear {{{Case.Customer_name_formula__c}}},
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We value your relationship with us and thank you for trusting us with your health insurance needs } / { allowing us to be a part of your wellness journey }.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We wish to inform you that your Health Insurance Policy is due for Renewal on </span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">DD/MM/YYYY</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">. We tried reaching you on your registered mobile number, but we were unable to connect. We advise you to renew your policy to stay protected from any medical emergencies at all times.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We have shared the details of your existing policy below for your ready reference:</span></span></span></span></span></span></p>
+&nbsp;
+
+<div>
+<table style="border:none; border-collapse:collapse" width="614">
+	<colgroup>
+		<col width="274" />
+		<col width="170" />
+		<col width="170" />
+	</colgroup>
+	
+		<tr>
+			<td colspan="3" style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:274px">
+			<p style="line-height:1.3800000000000001; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">Name of the Plan</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:274px">
+			<p style="line-height:1.3800000000000001; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Name(s) of the Insured Members</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:170px">
+			<p style="line-height:1.3800000000000001; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Sum Insured</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:170px">
+			<p style="line-height:1.3800000000000001; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Premium Amount</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.3800000000000001; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">(inclusive of all taxes)</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:274px">&nbsp;</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:170px">&nbsp;</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:170px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:274px">&nbsp;</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:170px">&nbsp;</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 7px 0px 7px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:170px">&nbsp;</td>
+		</tr>
+	
+</table>
+</div>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Payment Link: </span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">&lt; Payment Link &gt;</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at&nbsp;care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App – a one stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 882800035.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We wish you the best of health at all times!</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:justify">&nbsp;</p>
+
+<p style="line-height:1.3800000000000001; text-align:justify">&nbsp;</p>
+Regards,<br />
+Aditya Birla Health Insurance Co. Limited</div>
+</body>
+</html>
