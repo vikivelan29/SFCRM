@@ -275,6 +275,7 @@ public class ABHFL_CTSTHelper_Test {
         System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
+
  @IsTest 
     static void testskipOpenStageforAPIcases(){
         Test.startTest();
