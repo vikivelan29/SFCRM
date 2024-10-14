@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Preferred Branch</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -274,6 +275,27 @@
                 <fullName>ABHFL_452010_WVJNGR1_INDORE</fullName>
                 <default>false</default>
                 <label>Indore</label>
+            </value>
+            <value>
+                <fullName>ABHFL_248001_NDHR002_Dehradhun</fullName>
+                <default>false</default>
+                <label>Dehradhun</label>
+            </value>
+            <value>
+                <fullName>ABHFL___NHRID01_HARIDWAR_PARGANA</fullName>
+                <default>false</default>
+                <label>HARIDWAR_ PARGANA</label>
+            </value>
+            <value>
+                <fullName>ABHFL_414003_AHMMH44_MAULISANKUL#AHMEDNAGAR</fullName>
+                <default>false</default>
+                <label>MAULISANKUL#AHMEDNAGAR</label>
+            </value>
+            <value>
+                <fullName>NA</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>NA</label>
             </value>
         </valueSetDefinition>
     </valueSet>
