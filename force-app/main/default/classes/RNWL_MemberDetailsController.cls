@@ -5,7 +5,7 @@
 *Last Modified:  04/10/2024
 *@description  :  This class is used for calling Renewal Check API,Renewal Group Check API, Health Assessment API*/
 public with sharing class RNWL_MemberDetailsController {
-    
+     
     /****************************************************************************************************************
 * @Function - getAPIResponseDetails
 * @param PolicyId - opportunityId,  assetId - assetId policyNum - policyNum proposalNo - Asset.SerialNumber lstFileSrcAPI - list of the API for which response is needed.

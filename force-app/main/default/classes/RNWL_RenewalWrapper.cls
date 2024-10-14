@@ -1,5 +1,5 @@
 public class RNWL_RenewalWrapper{
-    
+     
     @AuraEnabled public Integer Id; ///Random Id
     @AuraEnabled public String Policy_renewal_date; //09/01/2025
     @AuraEnabled public String Upsell_Flag; //Yes

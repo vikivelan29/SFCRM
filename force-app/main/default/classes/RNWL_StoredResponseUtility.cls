@@ -6,7 +6,7 @@
 *@description  : This class is used for Get/Set Response on opp files
 *********************************************************/
 public class RNWL_StoredResponseUtility {
-    
+     
     public static Map<String, String> mapOfFileNameToResponse = new Map<String, String>();
     
     @AuraEnabled(cacheable=true)

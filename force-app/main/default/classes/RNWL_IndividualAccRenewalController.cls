@@ -1,4 +1,4 @@
-/*********************************************************
+/********************************************************* 
 *Class        :  RNWL_IndividualAccRenewalController
 *Author       :  Raj Raghuwanshi 
 *Created Date :  12/09/2024 
@@ -23,13 +23,12 @@ public with sharing class RNWL_IndividualAccRenewalController {
             List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
             
             String policyNumber = oppList[0].Policy_Number__c; 
+            
             Map<String, Object> rawResponseMap = new Map<String, Object>(); 
            
             Map<String, String> mapAPIResponse = RNWL_StoredResponseUtility.getResponseFromFiles(opportunityId , new List<String>{'Renewal Check'});
            
             String responseBody = mapAPIResponse.containsKey('Renewal Check') ? mapAPIResponse.get('Renewal Check') : ''  ;
-            
-            
             
             if(String.isBlank(responseBody)){ 
                 
