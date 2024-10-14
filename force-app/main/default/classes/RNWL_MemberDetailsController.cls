@@ -53,9 +53,10 @@ public with sharing class RNWL_MemberDetailsController {
     }
     
     @AuraEnabled
-    public static List<object> getAPIResponse(String opportunityId, String assetId, String policyNum, 
+    public static MemberUIResponseWrapper getAPIResponse(String opportunityId, String assetId, String policyNum, 
                                               String proposalNo, List<String> lstFileSrcAPI)
     {
+        MemberUIResponseWrapper objMemberUIResponseWrapper = new MemberUIResponseWrapper();
         List<object> lstFinalResponse = new List<object>();
         
         try{  
@@ -70,6 +71,7 @@ public with sharing class RNWL_MemberDetailsController {
             if(mapOfAPINameToResponse.containsKey('Renewal Check')){ 
                 
                 mapMember = getMembers(mapOfAPINameToResponse.get('Renewal Check'), policyNum, 'Policy_number', 'Renewal Check' );
+           
             }
             
             else if(mapOfAPINameToResponse.containsKey('Renewal Group Check')){
@@ -78,33 +80,42 @@ public with sharing class RNWL_MemberDetailsController {
                 
             }
             
+            if(mapMember.containsKey('errorMap')){ 
+                map<String,String>  errorMap = mapMember.get('errorMap');
+                
+                objMemberUIResponseWrapper.ErrorCode = errorMap.get('ErrorCode');
+                objMemberUIResponseWrapper.ErrorMessage = errorMap.get('ErrorMessage');
+                objMemberUIResponseWrapper.ErrorAPI = errorMap.get('ErrorAPI'); 
+                
+                return objMemberUIResponseWrapper; 
+            }
+            
             if(mapOfAPINameToResponse.containsKey('Fitness Assessment')){
                 
                 String strFitness = mapOfAPINameToResponse.get('Fitness Assessment');
                 
-                system.debug('strFitness'+strFitness);
-                
                 Map<String, Object> rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(strFitness);
                 
-                List<Object> rawFitnessAssessment = (List<Object>)(rawResponseMap.get('Response')); 
+                if(Integer.valueOf(rawResponseMap.get('StatusCode')) == 1000){ 
+                    List<Object> rawFitnessAssessment = (List<Object>)(rawResponseMap.get('Response')); 
+                    
+                    for(object objFitness : rawFitnessAssessment) { 
+                        Map<String, Object> fitness_Map = (Map<String, Object>)objFitness;
+                        Map<String, String> fitnessMap = new Map<String, String>();   
+                        fitnessMap.put('HA', String.valueOf(fitness_Map.get('HealthAssesmentStatusHA')));
+                        fitnessMap.put('DHA', String.valueOf(fitness_Map.get('HealthAssesmentStatusDHA')));
+                        fitnessMap.put('AHC', String.valueOf(fitness_Map.get('HealthAssesmentStatusAHC'))); 
+                        fitnessMap.put('vchClientCode', String.valueOf(fitness_Map.get('vchClientCode'))); 
+                        mapFitness.put(String.valueOf(fitnessMap.get('vchClientCode')), fitnessMap);
+                    } 
+                    
+                }else{  
+                    objMemberUIResponseWrapper.ErrorAPI = 'Fitness Assessment'; 
+                 }
                 
-                for(object objFitness : rawFitnessAssessment) { 
-                    Map<String, Object> fitness_Map = (Map<String, Object>)objFitness;
-                    Map<String, String> fitnessMap = new Map<String, String>();   
-                    
-                    fitnessMap.put('HA', String.valueOf(fitness_Map.get('HealthAssesmentStatusHA')));
-                    fitnessMap.put('DHA', String.valueOf(fitness_Map.get('HealthAssesmentStatusDHA')));
-                    fitnessMap.put('AHC', String.valueOf(fitness_Map.get('HealthAssesmentStatusAHC'))); 
-                    fitnessMap.put('vchClientCode', String.valueOf(fitness_Map.get('vchClientCode'))); 
-                    
-                    mapFitness.put(String.valueOf(fitnessMap.get('vchClientCode')), fitnessMap);
-                    
-                } 
-            } 
+            }  
             
-            
-            system.debug('mapFitness'+mapFitness);
-            
+            system.debug('mapFitness'+mapFitness); 
             system.debug('mapMember'+mapMember);
             
             for(String strKey : mapMember.keySet()){
@@ -119,7 +130,8 @@ public with sharing class RNWL_MemberDetailsController {
             
             system.debug('lstFinalResponse'+lstFinalResponse);
             
-            return lstFinalResponse;
+            objMemberUIResponseWrapper.Response = lstFinalResponse;
+            return objMemberUIResponseWrapper;
             
         }catch(exception e){
             system.debug('Error : '+e.getMessage()+' '+e.getLineNumber());
@@ -129,10 +141,46 @@ public with sharing class RNWL_MemberDetailsController {
     
     public static Map<String, Map<String, String>> getMembers(String strResponse, String policyNum, String strKey, String strAPIName)
     {    
+        Map<String, Map<String, String>> mapOfMemberIdToMembers = new Map<String, Map<String, String>>();
+        Map<String, String> errorMap  =  new Map<String, string>();
         
         Map<String, Object> rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(strResponse);
-        List<Object> rawPolicyData = (List<Object>)((Map<String, Object>)rawResponseMap.get('response')).get('policyData');
-        Map<String, Map<String, String>> mapOfMemberIdToMembers = new Map<String, Map<String, String>>();
+		
+        if(!rawResponseMap.containsKey('response') ||  rawResponseMap.get('response') == null) { 
+            errorMap.put('ErrorCode', '400');
+            errorMap.put('ErrorMessage', 'API Call Failed Please Retry');
+            errorMap.put('ErrorAPI', 'Renewal');
+            mapOfMemberIdToMembers.put('errorMap',errorMap);
+            return mapOfMemberIdToMembers;
+        }
+        
+        Map<String, Object> responseBody  =  (Map<String, Object>)rawResponseMap.get('response'); 
+        Object objError = rawResponseMap.get('error');
+        List<Object> lstError = new List<Object>();
+        if(objError instanceOf List<Object>){
+            lstError = (List<Object>) objError;  
+        }
+        else{
+            lstError.add(objError);
+        }
+        
+        for(Object obj : lstError){
+            map<String, object> mapErrorToMessage = (map<String, object>)obj;
+            String strErrorCode = String.valueOf(mapErrorToMessage.get('ErrorCode'));
+            String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage'));
+            
+            system.debug('strErrorCode'+strErrorCode);
+            if(strErrorCode != '00' && strErrorCode != '0' ){
+                errorMap.put('ErrorCode', strErrorCode);
+                errorMap.put('ErrorMessage', strErrorMessage);
+                errorMap.put('ErrorAPI', 'Renewal');
+                mapOfMemberIdToMembers.put('errorMap',errorMap);
+                return mapOfMemberIdToMembers; 
+            }
+        } 
+        
+        
+        List<Object> rawPolicyData = (List<Object>)responseBody.get('policyData');
         
         system.debug('rawPolicyData : '+rawPolicyData);
         
@@ -166,6 +214,13 @@ public with sharing class RNWL_MemberDetailsController {
                 }  
             }
         } 
+        if(mapOfMemberIdToMembers.isEmpty()){
+            errorMap.put('ErrorCode', '01');
+            errorMap.put('ErrorMessage', 'Policy is not Matching');
+            errorMap.put('ErrorAPI', 'Renewal');
+            mapOfMemberIdToMembers.put('errorMap',errorMap);
+            return mapOfMemberIdToMembers; 
+        }
         system.debug('mapOfMemberIdToMembers'+mapOfMemberIdToMembers);
         return mapOfMemberIdToMembers;
     }
@@ -185,105 +240,97 @@ public with sharing class RNWL_MemberDetailsController {
             
             String strFitness = mapOfAPINameToResponse.get('Fitness Assessment');
             
-            system.debug('strFitness'+strFitness);
-            
             Map<String, Object> rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(strFitness);
             
             List<Object> rawFitnessAssessment = (List<Object>)(rawResponseMap.get('Response')); 
             
             system.debug('rawFitnessAssessment'+rawFitnessAssessment);
             
-            for(object objFitness : rawFitnessAssessment) { 
-                Map<String, Object> fitness_Map = new Map<String, Object>();
-                fitness_Map = (Map<String, Object>)objFitness;
-                Map<String, String> fitnessMap = new Map<String, String>();   
+            if(rawFitnessAssessment != null && !rawFitnessAssessment.isEmpty()){
                 
-                
-                fitnessMap.put('HR_Expiry_Date', String.valueOf(fitness_Map.get('HR_Expiry_Date')));
-                
-                fitnessMap.put('HHS_Start_Date', String.valueOf(fitness_Map.get('HHS_Start_Date')));
-                
-                fitnessMap.put('HHS_End_Date', String.valueOf(fitness_Map.get('HHS_End_Date')));
-                
-                fitnessMap.put('vchClientCode', String.valueOf(fitness_Map.get('vchClientCode'))); 
-                
-                system.debug('fitnessMap'+fitnessMap);
-                
-                mapFitness.put(String.valueOf(fitnessMap.get('vchClientCode')), fitnessMap);
-                
-            } 
+                for(object objFitness : rawFitnessAssessment) { 
+                    Map<String, Object> fitness_Map = new Map<String, Object>();
+                    fitness_Map = (Map<String, Object>)objFitness;
+                    Map<String, String> fitnessMap = new Map<String, String>();    
+                    fitnessMap.put('HR_Expiry_Date', String.valueOf(fitness_Map.get('HR_Expiry_Date'))); 
+                    fitnessMap.put('HHS_Start_Date', String.valueOf(fitness_Map.get('HHS_Start_Date'))); 
+                    fitnessMap.put('HHS_End_Date', String.valueOf(fitness_Map.get('HHS_End_Date'))); 
+                    fitnessMap.put('vchClientCode', String.valueOf(fitness_Map.get('vchClientCode'))); 
+                    
+                    mapFitness.put(String.valueOf(fitnessMap.get('vchClientCode')), fitnessMap);
+                } 
+            }
         } 
         
-        if(mapOfAPINameToResponse.containsKey('Health Return')){
+        if(mapOfAPINameToResponse.containsKey('Health Return')){ 
             
-            system.debug('Health'+mapOfAPINameToResponse.containsKey('Health Return'));
             ResponseWrapper rawHealthReturn = (ResponseWrapper) JSON.deserialize(mapOfAPINameToResponse.get('Health Return'), ResponseWrapper.class);
             
-            for(Response objHealth : rawHealthReturn.Response) {  
-                String strKey = objHealth.Name + ' - ' + objHealth.vchClientCode;
+            system.debug('rawHealthReturn'+rawHealthReturn);
+            
+            if(rawHealthReturn.StatusCode == 1000){ 
                 
-                if(mapFitness.containsKey(objHealth.vchClientCode)){
-                    map<String,String> fitness = mapFitness.get(objHealth.vchClientCode);
-                    objHealth.HR_Expiry_Date = fitness.containsKey('HR_Expiry_Date') ? fitness.get('HR_Expiry_Date') : '' ;
-                    objHealth.HHS_Start_Date =  fitness.containsKey('HHS_Start_Date') ? fitness.get('HHS_Start_Date') : '' ;
-                    objHealth.HHS_End_Date =  fitness.containsKey('HHS_End_Date') ? fitness.get('HHS_End_Date') : '' ;
+                if(rawHealthReturn.Response == null || rawHealthReturn.Response.isEmpty()){ 
+                    lstUIResponseWrapper.add(new UIResponseWrapper('No Record Found' , new List<Response>()));
+                    return lstUIResponseWrapper;
                 }
                 
-                objHealth.MasterPolicyNumber = masterPolicyNum;
-                
-                if(!mapOfNameIdToHealthReturn.containsKey(strKey)) {
-                    mapOfNameIdToHealthReturn.put(strKey, new List<Response>());
-                }   
-                mapOfNameIdToHealthReturn.get(strKey).add(objHealth); 
-                
-            }
-            
-            system.debug('mapOfNameIdToHealthReturn'+mapOfNameIdToHealthReturn); 
-            
-            for(String strKey : mapOfNameIdToHealthReturn.keySet()) {   
-                
-                map<integer, Response> mapMonthsToResponse = new map<integer, Response>();
-                
-                
-                for(Response objWrapper : mapOfNameIdToHealthReturn.get(strKey)){ 
-                    mapMonthsToResponse.put(objWrapper.Month, objWrapper);                    
-                } 
-                
-                list<integer> months = new list<integer>();
-                
-                months.addAll(mapMonthsToResponse.keySet());
-                months.sort();
-                
-                system.debug('sorted months list '+months); 
-                
-                integer activeDays = 0;
-                
-                List<Response> lstResponse = new List<Response>();
-                
-                for(integer month : months){ 
-                    Response objResponse = mapMonthsToResponse.get(month);
-                    objResponse.TotalActiveDays = Integer.valueOf(objResponse.ActiveDays) + activeDays;  
-                    activeDays = objResponse.TotalActiveDays;
-                    integer balance = Integer.valueOf(objResponse.TotalHealthReturnsTM) - Integer.valueOf(objResponse.TotalHealthReturnsTMBurnt);
-                    objResponse.HRBalance = balance;
-                    objResponse.HRCFRenewal = balance; 
+                for(Response objHealth : rawHealthReturn.Response) {  
+                    String strKey = objHealth.Name + ' - ' + objHealth.vchClientCode; 
+                    if(mapFitness.containsKey(objHealth.vchClientCode)){
+                        map<String,String> fitness = mapFitness.get(objHealth.vchClientCode);
+                        objHealth.HR_Expiry_Date = fitness.containsKey('HR_Expiry_Date') ? fitness.get('HR_Expiry_Date') : '' ;
+                        objHealth.HHS_Start_Date =  fitness.containsKey('HHS_Start_Date') ? fitness.get('HHS_Start_Date') : '' ;
+                        objHealth.HHS_End_Date =  fitness.containsKey('HHS_End_Date') ? fitness.get('HHS_End_Date') : '' ;
+                    } 
+                    objHealth.MasterPolicyNumber = masterPolicyNum;
                     
-                    lstResponse.add(objResponse);
-                }
+                    if(!mapOfNameIdToHealthReturn.containsKey(strKey)) {
+                        mapOfNameIdToHealthReturn.put(strKey, new List<Response>());
+                    }   
+                    mapOfNameIdToHealthReturn.get(strKey).add(objHealth);  
+                }  
                 
-                UIResponseWrapper objUIResponseWrapper = new UIResponseWrapper();
-                objUIResponseWrapper.Response = lstResponse;
-                objUIResponseWrapper.Header = strKey;
+                for(String strKey : mapOfNameIdToHealthReturn.keySet()) {   
+                    
+                    map<integer, Response> mapMonthsToResponse = new map<integer, Response>();
+                    
+                    for(Response objWrapper : mapOfNameIdToHealthReturn.get(strKey)){ 
+                        mapMonthsToResponse.put(objWrapper.Month, objWrapper);                    
+                    } 
+                    
+                    integer activeDays = 0; 
+                    List<Response> lstResponse = new List<Response>();
+                    List<integer> months = new List<integer>();  
+                    months.addAll(mapMonthsToResponse.keySet());
+                    months.sort(); 
+                    
+                    for(integer month : months){ 
+                        Response objResponse = mapMonthsToResponse.get(month);
+                        objResponse.TotalActiveDays = Integer.valueOf(objResponse.ActiveDays) + activeDays;  
+                        activeDays = objResponse.TotalActiveDays;
+                        integer balance = Integer.valueOf(objResponse.TotalHealthReturnsTM) - Integer.valueOf(objResponse.TotalHealthReturnsTMBurnt);
+                        objResponse.HRBalance = balance;
+                        objResponse.HRCFRenewal = balance;  
+                        lstResponse.add(objResponse);
+                    } 
+                    lstUIResponseWrapper.add(new UIResponseWrapper(strKey , lstResponse)); 
+                }   
                 
-                lstUIResponseWrapper.add(objUIResponseWrapper);
-            }  
+            } 
+            else{
+                lstUIResponseWrapper.add(new UIResponseWrapper('API Failed' , new List<Response>()));
+                return lstUIResponseWrapper;
+            } 
             system.debug('Final Response map'+lstUIResponseWrapper);
             return lstUIResponseWrapper;
         }
-        
-        return null;
+        else{ 
+            lstUIResponseWrapper.add(new UIResponseWrapper('API Failed' , new List<Response>()));
+            return lstUIResponseWrapper;
+        } 
     }
-    
+     
     @SuppressWarnings('PMD.PropertyNamingConventions,PMD.ApexDoc')
     /**
 * @description - API Response Wrapper.
@@ -296,8 +343,20 @@ public with sharing class RNWL_MemberDetailsController {
     
     public class UIResponseWrapper{
         @AuraEnabled public List<Response> Response{get;set;}
-        @AuraEnabled public String Header{get;set;} 
+        @AuraEnabled public String Header{get;set;}  
+        
+        public UIResponseWrapper(String Header, List<Response> Response){
+            this.Header = Header;
+            this.Response = Response; 
+        }
     }
+    
+    public class MemberUIResponseWrapper{
+        @AuraEnabled public List<Object> Response{get;set;}
+        @AuraEnabled public String ErrorCode{get;set;}
+        @AuraEnabled public String ErrorMessage{get;set;} 
+        @AuraEnabled public String ErrorAPI{get;set;} 
+    }  
     
     @SuppressWarnings('PMD.PropertyNamingConventions,PMD.ApexDoc')
     public class Response{
