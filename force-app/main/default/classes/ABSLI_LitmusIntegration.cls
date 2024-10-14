@@ -40,7 +40,7 @@ public class ABSLI_LitmusIntegration {
                 // CONDITION 3 - CHECK IF AccountId and AssetId is populated.
                 // CONDITION 4 - CHECK IF THE SOURCE_REQUEST_SUBMITTED_BY IS "CUSTOMER".
                 // CONDITION 5 - CHECK IF THE CCC RECORD IS HAVING LITMUS TRIGGER = TRUE.
-                if(caseRecord.AccountId != null && caseRecord.AssetId != null && 
+                if(caseRecord.AccountId != null && /*caseRecord.AssetId != null && */
                    caseRecord.ABSLI_Case_Detail__r.Source_Request_submitted_by__c == ABSLI_Constants.LITMUS_SOURCE_REQ_BY)
                 {
                     if(cccIdToRecordsMap.containsKey(caseRecord.CCC_External_Id__c)){

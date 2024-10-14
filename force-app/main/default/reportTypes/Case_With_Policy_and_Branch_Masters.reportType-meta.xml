@@ -713,11 +713,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Signature_Validation__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Skip_Dedupe__c</field>
             <table>Case</table>
         </columns>
@@ -3855,6 +3850,26 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Litmus_Triggered__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Branch_Name__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Branch_Code__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Zone__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Region__c</field>
             <table>Case</table>
         </columns>
         <masterLabel>Cases</masterLabel>
