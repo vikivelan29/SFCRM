@@ -1255,6 +1255,7 @@ if(!String.isBlank(allLANAssociated)){
     update caseDetailsToUpdate;
   }
 }
+}
 
     public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailFileUploadStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
         List<String> validCTSTs = new List<String>{'REFCL001','RLOAPRONHFC','RRSDPRSHFC01'};
