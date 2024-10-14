@@ -483,7 +483,7 @@ export const lanLabels = {
         },
         {
             label: 'Contract No',
-            fieldName: 'ContractNo__c',
+            fieldName: 'LAN__c',
             type: 'text',
             initialWidth: 180
         },
@@ -496,13 +496,13 @@ export const lanLabels = {
         {
             label: 'Contract Start Date',
             fieldName: 'ContractStartDate__c',
-            type: 'text',
+            type: 'date',
             initialWidth: 180
         },
         {
             label: 'Contract End Date',
             fieldName: 'ContractEndDate__c',
-            type: 'text',
+            type: 'date',
             initialWidth: 180
         }
         ],

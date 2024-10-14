@@ -9,7 +9,7 @@
     <columns>CASES.SUBJECT</columns>
     <columns>Customer_name_formula__c</columns>
     <columns>Ageing_Business_Days__c</columns>
-    <columns>SERVICECONTRACT.NAME</columns>
+    <columns>ASSET.NAME</columns>
     <columns>Overall_Case_Closure_SLA__c</columns>
     <columns>SLA_Broken__c</columns>
     <columns>CORE.USERS.ALIAS</columns>
