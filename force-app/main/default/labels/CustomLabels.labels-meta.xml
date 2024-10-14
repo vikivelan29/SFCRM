@@ -1243,4 +1243,11 @@
         <shortDescription>OppDetailsToastErrorMessage</shortDescription>
         <value>We&apos;re not able to fetch the details currently. Please try again later.</value>
     </labels>
+    <labels>
+        <fullName>MCRM_ResolutionRemarks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_ResolutionRemarks</shortDescription>
+        <value>Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
+    </labels>
 </CustomLabels>
