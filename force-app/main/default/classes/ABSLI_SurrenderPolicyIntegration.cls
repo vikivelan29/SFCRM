@@ -49,10 +49,14 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
             	result.status = ABSLI_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
             }else{
-             	if(caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
+             	if(caseRecord.Technical_Source__c == 'LWC' && caseSignatureMatchedMap.containsKey(caseRecord.Id) && caseSignatureMatchedMap.get(caseRecord.Id)) {
                     result.status = ABSLI_Constants.SUCCESS;
                     result.response = ABSLI_Constants.EVALUATION_SUCCESS;
-                }   
+                }  
+                if(caseRecord.Technical_Source__c == 'API'){
+                    result.status = ABSLI_Constants.SUCCESS;
+                    result.response = ABSLI_Constants.EVALUATION_SUCCESS;                
+                } 
             }
             
             resultMap.put(caseRecord.Id, result);
@@ -106,27 +110,34 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
             requestJSON.action = ABSLI_Constants.ACTION_SURRENDER;
             requestJSON.FT_Amount_BR = '0';
             requestJSON.TDS_Ind = caseRecord.ABSLI_Case_Detail__r.TDS_Indicator__c == 'Y'?'true':'false';
-            requestJSON.surrenderamount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c);
+            String surrenderAmount = '0';
+            if(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c != null){
+                surrenderAmount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Cash_Surrender_Value__c.round());
+            }
+            requestJSON.surrenderamount = surrenderAmount;
 
             string requestBody = JSON.serialize(requestJSON);
             for (ASF_Integration__c intSpec : integs.get(caseRecord.Id)) {
-                ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
-                caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
-                caseInteg.Case__c = caseRecord.Id;
-                caseInteg.Status__c = ABSLI_Constants.PENDING;
-                caseInteg.Request__c = requestBody;
-                caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
-                caseInteg.Is_Validation_Success__c = true;
-                newCaseIntegrations.add(caseInteg);
-                
-                Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
-                caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
-                caseIntOut.Request_Payload__c = requestBody;
-                caseIntOut.Integration_Name__c = ABSLI_Constants.SURRENDER_POLICY_SRV_NAME;
-                caseIntOut.ServiceName__c = ABSLI_Constants.SURRENDER_POLICY_SRV_NAME;
-                peMap.put(index, caseIntOut);
-                indexToCaseId.put(index, caseRecord.Id);
-                index++;
+                    if(intSpec.Processing_Class__c == ABSLI_SurrenderPolicyIntegration.class.getName()){
+                    ASF_Case_Integration__c caseInteg = new ASF_Case_Integration__c();
+                    caseInteg.Integration_Ext_Id__c = intSpec.External_Id__c;
+                    caseInteg.Case__c = caseRecord.Id;
+                    caseInteg.Status__c = ABSLI_Constants.PENDING;
+                    caseInteg.Request__c = requestBody;
+                    caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInteg.Is_Validation_Success__c = true;
+                    caseInteg.Do_Not_Retry_Integration__c = intSpec.Do_Not_Retry_Integration__c;
+                    newCaseIntegrations.add(caseInteg);
+                    
+                    Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
+                    caseIntOut.Business_Unit__c = caseRecord.Business_Unit__c;
+                    caseIntOut.Request_Payload__c = requestBody;
+                    caseIntOut.Integration_Name__c = ABSLI_Constants.SURRENDER_POLICY_SRV_NAME;
+                    caseIntOut.ServiceName__c = ABSLI_Constants.SURRENDER_POLICY_SRV_NAME;
+                    peMap.put(index, caseIntOut);
+                    indexToCaseId.put(index, caseRecord.Id);
+                    index++;
+                }
             }
         }
             
@@ -185,7 +196,7 @@ public with sharing class ABSLI_SurrenderPolicyIntegration implements ASF_Integr
         Set<String> intIds = new Set<String>();
         for (Case caseRec : caseRecs) {
             for (ASF_Integration__c integ : integs.get(caseRec.Id)) {
-                if (integ.Processing_Class__c == ABSLI_CreatePolicyNomineeIntegration.class.getName()) {
+                if (integ.Processing_Class__c == ABSLI_SurrenderPolicyIntegration.class.getName()) {
                     intIds.add(integ.External_Id__c);
                 }
             }

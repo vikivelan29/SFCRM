@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Complaint_Sub_Bifurcation__c</fullName>
+    <externalId>false</externalId>
+    <label>Complaint Sub Bifurcation</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Complaint_Bifurcation__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1</fullName>
+                <default>false</default>
+                <label>1</label>
+            </value>
+            <value>
+                <fullName>Non-disclosure</fullName>
+                <default>false</default>
+                <label>Non-disclosure</label>
+            </value>
+            <value>
+                <fullName>Waiting period</fullName>
+                <default>false</default>
+                <label>Waiting period</label>
+            </value>
+            <value>
+                <fullName>Pre-Existing Disease / Permanent Exclusion</fullName>
+                <default>false</default>
+                <label>Pre-Existing Disease / Permanent Exclusion</label>
+            </value>
+            <value>
+                <fullName>Hospitalisation not justified</fullName>
+                <default>false</default>
+                <label>Hospitalisation not justified</label>
+            </value>
+            <value>
+                <fullName>Discrepancies and Lapses</fullName>
+                <default>false</default>
+                <label>Discrepancies and Lapses</label>
+            </value>
+            <value>
+                <fullName>Treatment possible in OPD</fullName>
+                <default>false</default>
+                <label>Treatment possible in OPD</label>
+            </value>
+            <value>
+                <fullName>Non-Submission of Documents</fullName>
+                <default>false</default>
+                <label>Non-Submission of Documents</label>
+            </value>
+            <value>
+                <fullName>R&amp;C applied</fullName>
+                <default>false</default>
+                <label>R&amp;C applied</label>
+            </value>
+            <value>
+                <fullName>Over-billed</fullName>
+                <default>false</default>
+                <label>Over-billed</label>
+            </value>
+            <value>
+                <fullName>Overstay</fullName>
+                <default>false</default>
+                <label>Overstay</label>
+            </value>
+            <value>
+                <fullName>Clarification required on query raised</fullName>
+                <default>false</default>
+                <label>Clarification required on query raised</label>
+            </value>
+            <value>
+                <fullName>Insured asked to apply for reimbursement</fullName>
+                <default>false</default>
+                <label>Insured asked to apply for reimbursement</label>
+            </value>
+            <value>
+                <fullName>Claim Settled / Claim within TAT</fullName>
+                <default>false</default>
+                <label>Claim Settled / Claim within TAT</label>
+            </value>
+            <value>
+                <fullName>Delay in submission</fullName>
+                <default>false</default>
+                <label>Delay in submission</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Renewal</fullName>
+                <default>false</default>
+                <label>Renewal</label>
+            </value>
+            <value>
+                <fullName>Refund</fullName>
+                <default>false</default>
+                <label>Refund</label>
+            </value>
+            <value>
+                <fullName>HR</fullName>
+                <default>false</default>
+                <label>HR</label>
+            </value>
+            <value>
+                <fullName>HA/AHC</fullName>
+                <default>false</default>
+                <label>HA/AHC</label>
+            </value>
+            <value>
+                <fullName>Cancellation</fullName>
+                <default>false</default>
+                <label>Cancellation</label>
+            </value>
+            <value>
+                <fullName>App Issue</fullName>
+                <default>false</default>
+                <label>App Issue</label>
+            </value>
+            <value>
+                <fullName>Policy not issued</fullName>
+                <default>false</default>
+                <label>Policy not issued</label>
+            </value>
+            <value>
+                <fullName>Policy issued without customer consent</fullName>
+                <default>false</default>
+                <label>Policy issued without customer consent</label>
+            </value>
+            <value>
+                <fullName>Agent/Sales person has asked for OTP, however, didn&apos;t inform about policy</fullName>
+                <default>false</default>
+                <label>Agent/Sales person has asked for OTP, however, didn&apos;t inform about policy</label>
+            </value>
+            <value>
+                <fullName>Policy benefits available in documents are not the one informed by the agent (Miss Communication)</fullName>
+                <default>false</default>
+                <label>Policy benefits available in documents are not the one informed by the agent (Miss Communication)</label>
+            </value>
+            <value>
+                <fullName>Gift, freebies, Voucher, and Money-back were promised</fullName>
+                <default>false</default>
+                <label>Gift, freebies, Voucher, and Money-back were promised</label>
+            </value>
+            <value>
+                <fullName>Forcefully policy issued</fullName>
+                <default>false</default>
+                <label>Forcefully policy issued</label>
+            </value>
+            <value>
+                <fullName>PED disclosed but not added in policy</fullName>
+                <default>false</default>
+                <label>PED disclosed but not added in policy</label>
+            </value>
+            <value>
+                <fullName>Waiting period not informed</fullName>
+                <default>false</default>
+                <label>Waiting period not informed</label>
+            </value>
+            <value>
+                <fullName>New Business policy issued instead of Port</fullName>
+                <default>false</default>
+                <label>New Business policy issued instead of Port</label>
+            </value>
+            <value>
+                <fullName>New Business policy issued instead of renewal</fullName>
+                <default>false</default>
+                <label>New Business policy issued instead of renewal</label>
+            </value>
+            <value>
+                <fullName>It was informed policy is free of cost</fullName>
+                <default>false</default>
+                <label>It was informed policy is free of cost</label>
+            </value>
+            <value>
+                <fullName>False Information</fullName>
+                <default>false</default>
+                <label>False Information</label>
+            </value>
+            <value>
+                <fullName>Maternity covered</fullName>
+                <default>false</default>
+                <label>Maternity covered</label>
+            </value>
+            <value>
+                <fullName>OPD will be covered</fullName>
+                <default>false</default>
+                <label>OPD will be covered</label>
+            </value>
+            <value>
+                <fullName>Incomplete information provided</fullName>
+                <default>false</default>
+                <label>Incomplete information provided</label>
+            </value>
+            <value>
+                <fullName>Incorrect policy issued</fullName>
+                <default>false</default>
+                <label>Incorrect policy issued</label>
+            </value>
+            <value>
+                <fullName>Agent related</fullName>
+                <default>false</default>
+                <label>Agent related</label>
+            </value>
+            <value>
+                <fullName>Less tenured given</fullName>
+                <default>false</default>
+                <label>Less tenured given</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Claim Repudiation</controllingFieldValue>
+            <valueName>Non-disclosure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Repudiation</controllingFieldValue>
+            <valueName>Waiting period</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Repudiation</controllingFieldValue>
+            <valueName>Pre-Existing Disease / Permanent Exclusion</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Repudiation</controllingFieldValue>
+            <valueName>Hospitalisation not justified</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Repudiation</controllingFieldValue>
+            <valueName>Discrepancies and Lapses</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Repudiation</controllingFieldValue>
+            <valueName>Treatment possible in OPD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Repudiation</controllingFieldValue>
+            <valueName>Non-Submission of Documents</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Deduction</controllingFieldValue>
+            <valueName>R&amp;C applied</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Deduction</controllingFieldValue>
+            <valueName>Over-billed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Claim Deduction</controllingFieldValue>
+            <valueName>Overstay</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service</controllingFieldValue>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service</controllingFieldValue>
+            <valueName>Renewal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service</controllingFieldValue>
+            <valueName>Refund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service</controllingFieldValue>
+            <valueName>HR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service</controllingFieldValue>
+            <valueName>HA/AHC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service</controllingFieldValue>
+            <valueName>Cancellation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service</controllingFieldValue>
+            <valueName>App Issue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service</controllingFieldValue>
+            <valueName>Policy not issued</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Clarification required on query raised</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Insured asked to apply for reimbursement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Claim Settled / Claim within TAT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Others</controllingFieldValue>
+            <valueName>Delay in submission</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Policy issued without customer consent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Agent/Sales person has asked for OTP, however, didn&apos;t inform about policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Policy benefits available in documents are not the one informed by the agent (Miss Communication)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Gift, freebies, Voucher, and Money-back were promised</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Forcefully policy issued</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>PED disclosed but not added in policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Waiting period not informed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>New Business policy issued instead of Port</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>New Business policy issued instead of renewal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>It was informed policy is free of cost</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>False Information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Maternity covered</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>OPD will be covered</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Incomplete information provided</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Incorrect policy issued</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Agent related</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sales</controllingFieldValue>
+            <valueName>Less tenured given</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

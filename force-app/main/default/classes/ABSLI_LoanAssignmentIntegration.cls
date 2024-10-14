@@ -86,6 +86,7 @@ public with sharing class ABSLI_LoanAssignmentIntegration implements ASF_Integra
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     caseInteg.Is_Validation_Success__c = true;
+                    caseInteg.Do_Not_Retry_Integration__c = intSpec.Do_Not_Retry_Integration__c;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
@@ -186,6 +187,8 @@ public with sharing class ABSLI_LoanAssignmentIntegration implements ASF_Integra
 	 */
 	public void processResponse(ASF_Case_Integration__c caseInteg) {
 		try {
+            Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
+            ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(Id = caseRecord.ABSLI_Case_Detail__c);
 			if (caseInteg.Status__c == ABSLI_Constants.SUCCESS) {
 				LAResponseWrapper jsonMap = (LAResponseWrapper) JSON.deserialize(
 					caseInteg.Response__c,
@@ -193,14 +196,19 @@ public with sharing class ABSLI_LoanAssignmentIntegration implements ASF_Integra
 				);
 
                 if(jsonMap.LSIR_RETURN_CD == '00'){
-                    Case caseRecord = ABSLI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);
-                    
-                    //On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-                    sendoutEmailSMSNotification(caseRecord);
-
+                    caseDetail.Amount_Paid__c = caseRecord.ABSLI_Case_Detail__r.Requested_Loan_Amount__c;
                     caseRecord.MoveToNext__c = true;
+                    Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
                     Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
                 }
+			}
+            if (caseInteg.Status__c == ABSLI_Constants.FAILURE) {
+				caseDetail.Status_Valid_For_STP__c = false;
+				Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
+
+				caseRecord.MoveToNext__c = true;
+				caseRecord.Is_STP__c = false;
+				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
 			}
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
@@ -209,31 +217,6 @@ public with sharing class ABSLI_LoanAssignmentIntegration implements ASF_Integra
 			ABCL_Logger.message(e.getMessage());
 			ABCL_Logger.emit();
 		}
-	}
-
-	/**
-	 * @description On Case resolution send Email and SMS notification to the customer based on Custom Metdata
-	 *
-	 * @param caseRecord - Case record from the framework
-	 */
-	public void sendoutEmailSMSNotification(Case caseRecord) {
-		List<ASF_Case_Category_Config__c> cccRecord = ABSLI_IntegrationQueryHelper.getCaseCategoryConfigs(
-			caseRecord.CCC_External_Id__c
-		);
-
-		Map<String, String> emailTemplateMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_Email_Templates__c
-		);
-		Map<String, String> smsMetadataMap = ABCL_IntegrationCommonUtility.fetchStpTemplates(
-			cccRecord[0].Additional_SMS_Metadata__c
-		);
-
-		Database.SaveResult platformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(
-			caseRecord,
-			emailTemplateMap.get('Resolved'),
-			smsMetadataMap.get('Resolved'),
-			true
-		);
 	}
 
 	/**

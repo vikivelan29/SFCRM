@@ -100,6 +100,44 @@ public without sharing class ABHFL_CTSTHelper {
             update caseDetailList;
         }
     }
+//PR970457-2623: Changes done by Yogesh
+Public static void sendEmailToUpdatedEmailId(Case caseRec) {
+  if (caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && 'hfl023'.equals(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
+    ABHFL_Case_Detail__c detailRec = [Select Id, ALL_LANS__c, New_Email_ID__c from ABHFL_Case_Detail__c where Id =: caseRec.ABHFL_Case_Detail__c].get(0);
+    if (!String.isBlank(detailRec.ALL_LANS__c)) {
+      Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+      Id tempid = [Select Id from EmailTemplate where developername = 'Email_Id_change_confirmation'].Id;
+      mail.setTemplateId(tempid);
+      Account accountRecord = [SELECT Id, PersonEmail FROM Account WHERE Id =: caseRec.AccountId LIMIT 1];
+      Id rectypeid = [Select Id, RecordTypeId from Account where Id =: caseRec.AccountId].RecordTypeId;
+      Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName =: System.Label.ASF_default_no_reply_email_address limit 1].Id;
+      if (rectypeid != null && rectypeid == Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId()) {
+        mail.setToAddresses(new list < String > {
+          detailRec.New_Email_ID__c,
+          accountRecord.PersonEmail
+        });
+      } else {
+        if (accountRecord.PersonEmail != null) {
+          
+          Contact con = [SELECT Id, Email FROM Contact WHERE AccountId =: caseRec.AccountId].get(0);
+          
+          if (con != null) {
+            mail.setTargetObjectId(con.Id);
+            mail.setToAddresses(new list < String > {
+              detailRec.New_Email_ID__c
+            });
+          }
+        }
+        mail.setWhatId(caseRec.Id);
+        mail.setOrgWideEmailAddressId(orgWideAdressId);
+        Messaging.sendEmailResult[] sendEmailResults = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {
+          mail
+        });
+        system.debug('sendEmailResults--->' + sendEmailResults);
+      }
+    }
+  }
+}
     
     public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
         
@@ -168,8 +206,11 @@ public without sharing class ABHFL_CTSTHelper {
         Map<String, List<Case>> lanVsCases = new Map<String, List<Case>>();
         Map<String,Set<Id>> cccVsAccIds = new Map<String,Set<Id>>();
         Set<String> cccIdsForAcc = new Set<String>();
+	Map<Id,Case> IdvsCase = new Map<Id,Case>();           // added by vikas
+        Map<Id, Case> casesToUpdate = new Map<Id, Case>();    // added by vikas
         RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
         for(Case c: caseList){
+	IdvsCase.put(c.Id,c);            // added by vikas
             if(c.Business_Unit__c=='ABHFL' && 
                		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
                 	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
@@ -223,6 +264,9 @@ public without sharing class ABHFL_CTSTHelper {
                     if(accIdVsCases.containsKey(dupeCase.AccountId)){
                         for(Case c: accIdVsCases.get(dupeCase.AccountId)){
                             if(lanVsCases.containsKey(c.AssetId)){
+				if(c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ){
+                                ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase,oldCaseMap);         // added by vikas, After recategorisation, ovarall SLA should changed before marked as closed duplicate.
+                                }
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = ASF_Constants.DUPLICATESTAGE;
                                     c.Status = ASF_Constants.DUPLICATESTATUS;
@@ -261,6 +305,49 @@ public without sharing class ABHFL_CTSTHelper {
         	if (!'Open'.equals(previousStage) && 'Open'.equals(currentStage) && validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK) {
             	assignCaseToQueue(caseRecord);
         	}
+    	}
+	}
+ 
+ //This is changes related to CR[PR970457-2388,PR970457-2288] made by Yogesh
+ //skipOpenStageforAPIcases: It will impact cases which created from API for mentioned CTSTs
+ //This method applicable to ABHFL BU only. It is used to skip open stage at the time of case creation through API. 
+     public static void skipOpenStageforAPIcases(List<Case> caseList) {
+                Set<String> caseDetailIds = new Set<String>();
+		Map<String, ABHFL_Case_Detail__c> caseToDetailMap = new Map<String,ABHFL_Case_Detail__c>();
+		List<Case>updatedcases=new List<case>();
+           // List of valid subTypes
+		List<String> validSubTypes = new List<String>{'hfl003','hfl045','hfl023'};
+        for(Case caseRec : caseList){
+            if(caseRec.Business_Unit__c=='ABHFL' && validSubTypes.contains(caseRec.CCC_External_Id__c)){
+            	caseDetailIds.add(caseRec.ABHFL_Case_Detail__c);   
+            }
+        }
+        if(!caseDetailIds.isEmpty()){
+        for(ABHFL_Case_Detail__c cd : [SELECT Id, Mode_of_Change_of_Address__c,New_Mobile_Number__c,New_Email_ID__c FROM ABHFL_Case_Detail__c WHERE Id IN :caseDetailIds]){
+            caseToDetailMap.put(cd.Id, cd);
+        }
+		}
+    	for (Case caseRecord : caseList) {
+		  if(caseRecord.Business_Unit__c == 'ABHFL' && validSubTypes.contains(caseRecord.CCC_External_Id__c)){
+        	Boolean conditionsatisfied=false;
+        	String subType = caseRecord.CCC_External_Id__c;
+            string modeofchangeofaddress=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).Mode_of_Change_of_Address__c;
+            string NewMobileNumber=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).New_Mobile_Number__c;
+            string NewEmailID=caseToDetailMap.get(caseRecord.ABHFL_Case_Detail__c).New_Email_ID__c;
+              if('VKYC'.equals(modeofchangeofaddress) && 'hfl003'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              else if((NewMobileNumber!='' && NewMobileNumber!=null) && 'hfl045'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              else if((NewEmailID!='' && !String.isBlank(NewEmailID)) && 'hfl023'.equals(caseRecord.CCC_External_Id__c)){
+                  conditionsatisfied=true;
+              }
+              
+        	if (validSubTypes.contains(subType) && caseRecord.Business_Unit__c == 'ABHFL' && caseRecord.RecordTypeId == ASF_Constants.RT_FRAMEWORK && caseRecord.Technical_Source__c=='API' && conditionsatisfied==true) {
+            	caseRecord.movetonext__c=true;
+        	}
+			}
     	}
 	}
 
@@ -1132,7 +1219,34 @@ public without sharing class ABHFL_CTSTHelper {
 
         return caseIdCaseMovementWrapperMap;
     }
-    
+
+    //Added by Yogesh [PR970457-2288]
+    // we can use this method to update alllan field on ABHFL case detail object.
+   // if we need to update field for CTST then add ctst in  ALLLANCTSTs in ABHFL_constants class. and add ABHFL_stageMovementHelper in stage config
+Public static void updateAllLanFieldOnDetailObj(
+  case caseRec) {
+  List < ABHFL_Case_Detail__c > caseDetailsToUpdate = new List < ABHFL_Case_Detail__c > ();
+  if (ABHFL_Constants.ALLLANCTSTs.contains(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
+    string allLANAssociated = '';
+    List < asset > alllan = new List < asset > ();
+    if (caseRec.AccountId != null) {
+      alllan = [select Name from asset where accountId =: caseRec.AccountId];
+      for (integer i = 0; i < alllan.size(); i++) {
+        integer sr = i + 1;
+        allLANAssociated = allLANAssociated + sr + '. ' + alllan[i].Name + '\n';
+        }
+      allLANAssociated = allLANAssociated.substring(0, allLANAssociated.length() - 1);
+        }
+
+    ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c(Id = caseRec.ABHFL_Case_Detail__c);
+    caseDetail.ALL_LANS__c = allLANAssociated;
+    caseDetailsToUpdate.add(caseDetail);
+  }
+  if (!caseDetailsToUpdate.isempty()) {
+    update caseDetailsToUpdate;
+  }
+}
+
     public static Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> checkAssetDetailFileUploadStatus(Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> caseIdCaseMovementWrapperMap){
         List<String> validCTSTs = new List<String>{'REFCL001','RLOAPRONHFC','RRSDPRSHFC01'};
         Map<Id,Case> caseRecordsPaymentDetailsMap = new Map<Id,Case>([Select id,CCC_External_Id__c,Stage__c,Previous_Stage__c,Technical_Source__c,

@@ -1,7 +1,7 @@
 /**
  * @description Unit Test Class for Policy Account Statement Integration
  *
- * @author Abinash Panigrahi
+ * @author Abinash Panigrahi, Salesforce
  * @date 2024-05-17
  */
 @isTest
@@ -66,6 +66,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				Asset.Policy_No__c,
@@ -92,7 +93,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 	static void run_Test_Method() {
 		ABSLI_PolicyStatementIntegration integrationObj = new ABSLI_PolicyStatementIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c,Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];
@@ -124,6 +125,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				Asset.Policy_No__c,
@@ -152,7 +154,7 @@ public with sharing class ABSLI_PolicyStatementIntegration_Test {
 	static void run_Test_MethodBulk() {
 		ABSLI_PolicyStatementIntegration integrationObj = new ABSLI_PolicyStatementIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c,Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];

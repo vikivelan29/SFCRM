@@ -7,6 +7,9 @@
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
+        <field>Case$Created_Date_Value__c</field>
+    </columns>
+    <columns>
         <field>Case$CreatedDate</field>
     </columns>
     <columns>
@@ -28,9 +31,6 @@
         <field>CDF1</field>
     </columns>
     <columns>
-        <field>Case$Asset.Bank_Branch_Name__c</field>
-    </columns>
-    <columns>
         <field>Case$Asset.Branch__c.Branch_Code__c</field>
     </columns>
     <columns>
@@ -46,7 +46,10 @@
         <field>Case$Nature__c</field>
     </columns>
     <columns>
-        <field>Case$Type</field>
+        <field>Case$ABSLI_Case_Detail__c.Complaint_Category__c</field>
+    </columns>
+    <columns>
+        <field>Case$Type_Text__c</field>
     </columns>
     <columns>
         <field>Case$Sub_Type_Text__c</field>
@@ -110,6 +113,9 @@
         <field>Case$ABSLI_Case_Detail__c.Case_Pending_With__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.Follow_up_Name__c</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.From_Date__c</field>
     </columns>
     <columns>
@@ -152,19 +158,19 @@
         <field>Case$ABSLI_Case_Detail__c.Resolved_settled_status__c</field>
     </columns>
     <columns>
-        <field>Case$Asset.Segment__c</field>
+        <field>Case$Account.Customer_Segment__c</field>
     </columns>
     <columns>
         <field>Case$Account.Client_Code__c</field>
     </columns>
     <columns>
-        <field>Case$Contact.Birthdate</field>
+        <field>Case$Account.PersonContact.Birthdate</field>
     </columns>
     <columns>
-        <field>Case$Account.Owner.Email</field>
+        <field>Case$Account.PersonContact.Email</field>
     </columns>
     <columns>
-        <field>Case$Account.Owner.MobilePhone</field>
+        <field>Case$Account.PersonContact.MobilePhone</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Acknowledgement_Call_Done_on_Number__c</field>
@@ -174,6 +180,12 @@
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Closed_Looping_Done_on_Number__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Branch__c.Name</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.ICF_Reason_if_no__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.IGMS_Complaint_Registration_Date__c</field>

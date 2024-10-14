@@ -15,6 +15,7 @@ public with sharing class ABSLI_AfterUpdateLogic {
         List<Case> absliCases = new List<Case>();
         Map<Id,Case> litmusInvocableCases = new Map<Id,Case>();
         Map<Id,Case> oldMaplitmusInvocableCases = new Map<Id,Case>();
+        Map<Id, Case> mAbsliSurrenderWithdrawalCases = new Map<Id, Case>();
         
         Map<Id,Case> absliOldCasesMap = new Map<Id,Case>();
         for(Case currentCase : newCases){
@@ -31,6 +32,9 @@ public with sharing class ABSLI_AfterUpdateLogic {
                 oldMaplitmusInvocableCases.put(currentCase.Id,oldCasesMap.get(currentCase.Id));                
                 
             }
+	    if (currentCase.Business_Unit__c == ASF_Constants.ABSLI_BU && ABSLI_Constants.SURRENDER_WITHDRAWAL_CCC_IDs.contains(currentCase.CCC_External_Id__c) && currentCase.Source__c == 'Email' && currentCase.Stage__c == 'Open') {
+                mAbsliSurrenderWithdrawalCases.put(currentCase.Id, currentCase);
+            }
         }
         
         if(absliCases.size()>0){
@@ -38,6 +42,9 @@ public with sharing class ABSLI_AfterUpdateLogic {
         }
         if(litmusInvocableCases.keySet().size()>0){
             ABSLI_LitmusIntegration.evaluateCasesForLitmus(litmusInvocableCases, oldMaplitmusInvocableCases);
+        }
+	if(mAbsliSurrenderWithdrawalCases.keySet().size()>0){
+            ABSLI_AfterInsertLogic.populateTDSPAN(mAbsliSurrenderWithdrawalCases.values());
         }
     }
     public static void updateTeamResolutionStatus(List<Case> newCases, Map<Id,Case> oldMap){
@@ -111,7 +118,7 @@ public with sharing class ABSLI_AfterUpdateLogic {
      public static void changeOwnerOnAutoResolve(List<Case> newCases, Map<Id, Case> oldMap){
         List<Case> eligibleCases = new List<Case>();
         for(Case caseRec : newCases){
-            if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && String.isBlank(caseRec.IRDAI_Token_Number__c)
+            if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && String.isBlank(caseRec.IRDAI_Token_Number__c) 
                && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c 
                && caseRec.Stage__c == 'Resolved' && UserInfo.getName() == System.Label.ABCL_Integration_UserName){
                    eligibleCases.add(caseRec);

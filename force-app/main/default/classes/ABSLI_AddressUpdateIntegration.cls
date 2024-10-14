@@ -40,19 +40,20 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
                 else if(caseRecord.Technical_Source__c=='LWC' && 
                          (!String.isBlank(caseRecord.AccountId) || !String.isBlank(caseRecord.Client_Code_Text__c)))
                 {
-                    for(ASF_Checklist__c checkList : [SELECT Id, Case__c, Status__c FROM ASF_Checklist__c WHERE Case__c =:caseRecord.Id AND Mandatory__c=TRUE]){
-                        if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(checkList.Status__c)){
-                            result.response = 'Checklist/s are still pending or Signature not matched';
-                            break;
-                        }
-                    }
+                    result.status = ABSLI_Constants.SUCCESS;
                     system.debug('caseRecord.ABSLI_Case_Detail__r.Country__c:'+caseRecord.ABSLI_Case_Detail__r.Country__c);
                     if(caseRecord.ABSLI_Case_Detail__r.Country__c !='IN'){
+                        result.status = ABSLI_Constants.ERROR;
                         result.response = Custom_Messages__mdt.getInstance('ABSLI_AddressUpdateIntegration_ERR4').Message__c;
-                        resultMap.put(caseRecord.Id, result);
-                        break;
+                    }else{
+                        for(ASF_Checklist__c checkList : [SELECT Id, Case__c, Status__c FROM ASF_Checklist__c WHERE Case__c =:caseRecord.Id AND Mandatory__c=TRUE]){
+                            if(!ABSLI_Constants.CHECKLIST_PASS_STATUS.split(',').contains(checkList.Status__c)){
+                                result.status = ABSLI_Constants.ERROR;
+                                result.response = 'Checklist/s not passed.';
+                                break;
+                            }
+                        }
                     }
-                    result.status = ABSLI_Constants.SUCCESS;
                 }
                 else if(String.isBlank(caseRecord.AccountId) && String.isBlank(caseRecord.Client_Code_Text__c))
                 {
@@ -143,6 +144,7 @@ public class ABSLI_AddressUpdateIntegration implements ASF_IntegrationInvocable{
                                                                                   addressLine1,addressLine2,addressLine3,
                                                                                   area,city,state,postalCode));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInt.Do_Not_Retry_Integration__c = integ.Do_Not_Retry_Integration__c;
                     newCaseIntegrations.add(caseInt);
                     
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();

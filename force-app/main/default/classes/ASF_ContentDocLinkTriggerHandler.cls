@@ -13,6 +13,11 @@ public with sharing class ASF_ContentDocLinkTriggerHandler extends ASF_VTriggerH
     public override void BeforeDelete(Map<Id, SObject> oldItems){
         ASF_CaseFileUploadTriggerHelper.validateFileDelete(null, (Map<Id, ContentDocumentLink>)oldItems);
     }
+    
+    //Added by Zahed [PR1030924-211]
+    public override void BeforeInsert(List<SObject> newItems){
+         ASF_CaseFileUploadTriggerHelper.validateCaseFile((List<ContentDocumentLink>)newItems);
+    }
     /*public override void AfterInsert(Map<Id, SObject> newMap){
         checkForClosedCase(newMap);
     }

@@ -1,0 +1,56 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 09-24-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0   09-18-2024   rsinghnagar@salesforce.com   Initial Version
+-->
+<template>
+    <lightning-card>
+        <lightning-accordion allow-multiple-sections-open active-section-name={activeSections} onsectiontoggle={handleToggleSection}>
+        <lightning-accordion-section name="activeSection" label={secName}>
+			<div>
+				<template lwc:if={showRefresh}>
+					<lightning-button slot="actions"
+									alternative-text="Refresh"
+									icon-size="x-small"
+									onclick={handleMenuSelect}  icon-name="utility:refresh" class="slds-float_right mcrmButton">
+            		</lightning-button>
+				</template>
+				<template lwc:if={isLoading}>
+					<lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+				</template>
+				<template lwc:if={isShowDate}>
+					<lightning-layout class="slds-m-bottom_large slds-grid slds-wrap">
+						<lightning-layout-item size="4" class="slds-m-right_x-small">
+							<lightning-input type="date" name="Startdate" value={startDate} onchange={handleStartDateChange}
+								label="From Date" class="inpFieldCheckValidity" format='YYYY-MM-dd'>
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="4" class="slds-m-right_small">
+							<lightning-input type="date" name="Enddate" value={endDate} onchange={handleEndDateChange}
+								min={startDate} label="End Date"
+								message-when-range-underflow="Please Choose a date more than start date"
+								class="inpFieldCheckValidity" format='YYYY-MM-dd' disabled={disabled}>
+							</lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="auto" class="slds-m-top_medium slds-m-left_medium">
+							<lightning-button variant="brand" label="Search" onclick={handleSearchClick}
+								disabled={isSearchDisabled}></lightning-button>
+						</lightning-layout-item>
+					</lightning-layout>
+				</template>
+				<template lwc:if={showBaseView}>
+					<!--rsn: remove hc page size-->
+					<c-abc_base_tableview columns={columns}
+										table-data={tableData} page-size=5
+										key={fieldName}></c-abc_base_tableview>
+				</template>
+			</div>
+        </lightning-accordion-section>
+    </lightning-accordion>
+    </lightning-card>
+</template>

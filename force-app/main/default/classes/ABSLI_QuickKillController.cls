@@ -306,6 +306,12 @@ System.debug(decryptedString);*/
         return event;
     }
     
+    @AuraEnabled(cacheable=true)
+    public static boolean checkforvalidforRPJ(Id AssetId) {
+        Asset policy = [SELECT ID,Policy_Flag__c FROM Asset WHERE Id =: AssetId]; 
+        return policy.Policy_Flag__c == null ? true : false;
+    }
+    
     public class BitlyRequestWrapper{
         public String LongURL{get;set;}	// LINK+ENCRYPTED_DATA 
         public String LOB{get;set;}	//
@@ -314,7 +320,7 @@ System.debug(decryptedString);*/
         public String ClientIPAddress{get;set;}	//
         public  BitlyRequestWrapper(String longurl){
             this.LongURL = longurl;
-            this.LOB = ABSLI_Constants.BITLY_LOB_VAL;
+            this.LOB = Label.ABSLI_BITLY_LOB_VAL;
             this.ExpiryDay = ABSLI_Constants.EXPIRY_DAY;
             this.Source = 'WYH';
             this.ClientIPAddress = ABSLI_Constants.BITLY_CLIENT_IP;

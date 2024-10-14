@@ -60,7 +60,7 @@ public with sharing class ABSLI_EmailUpdateIntegration_Test {
 		caseCatConfig.Source__c = 'CEC';
 		caseCatConfig.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
 		insert caseCatConfig;
-        
+    
         ASF_Checklist__c chk1 = new ASF_Checklist__c(Case__c = caseRec.Id, Status__c ='Completed', Label__c= 'New Ceck Label');
         insert chk1;
 	}
@@ -71,6 +71,7 @@ public with sharing class ABSLI_EmailUpdateIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				CaseNumber,
@@ -100,7 +101,7 @@ public with sharing class ABSLI_EmailUpdateIntegration_Test {
 	static void run_Test_Method() {
 		ABSLI_EmailUpdateIntegration integrationObj = new ABSLI_EmailUpdateIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c,Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];
@@ -137,6 +138,7 @@ public with sharing class ABSLI_EmailUpdateIntegration_Test {
 		Case caseRec = [
 			SELECT
 				Id,
+            	Source__c,
 				Status,
 				OwnerId,
 				CaseNumber,
@@ -168,7 +170,7 @@ public with sharing class ABSLI_EmailUpdateIntegration_Test {
 	static void run_Test_MethodBulk() {
 		ABSLI_EmailUpdateIntegration integrationObj = new ABSLI_EmailUpdateIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c,Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];

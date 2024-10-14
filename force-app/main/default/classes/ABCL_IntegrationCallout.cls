@@ -16,7 +16,8 @@ public with sharing class ABCL_IntegrationCallout {
     * payload - request body, urlParameters - Map of URL parameters
     * @return - IntegrationResponseWrapper
     * @Description - Makes the callout and logs the response in ASF_Case_Integration__c
-    *****************************************************************************************************************/       
+    *****************************************************************************************************************/
+    @AuraEnabled       
     public static IntegrationResponseWrapper executeCallout( String integrationName, 
                                                           string payload, 
                                                           Map<String,String> urlParameters){
@@ -33,10 +34,10 @@ public with sharing class ABCL_IntegrationCallout {
            endPointURL= buildURLParameters(urlParameters,integrationMdt.EndPoint__c);                                                  
         }                                              
         
-        //Build HttpRequest
+        // Build HttpRequest
         request.setMethod(integrationMdt.Protocol__c);
         request.setEndPoint(endPointURL);
-        if(integrationMdt.Timeout__c != null){
+	if(integrationMdt.Timeout__c != null){
             request.setTimeout(Integer.valueof(integrationMdt.Timeout__c));
         }
 
@@ -78,6 +79,7 @@ public with sharing class ABCL_IntegrationCallout {
     public static ABCL_Integrations__mdt  getIntegrationMetadata(string integrationName){
         List<ABCL_Integrations__mdt> integrationMetadata = [Select  EndPoint__c,HTTP_Headers__c,EnableMockResponse__c,
                                                                     Mock_Status_Code__c,Timeout__c,Mock_Response_Resource__c,
+                                                            		DeveloperName,
                                                                     Full_Log__c,Exception_Log__c,StoreAsAttachment__c,Protocol__c 
                                                                     from ABCL_Integrations__mdt where DeveloperName =: integrationName];
         return integrationMetadata[0];

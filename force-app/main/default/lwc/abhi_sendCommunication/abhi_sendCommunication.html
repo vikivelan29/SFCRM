@@ -1,0 +1,80 @@
+<!--
+  @description       : Component to show Send Communication component on Asset page Quick Action 
+  @author            : amritpreet.singh@salesforce.com
+  @group             : ABHI
+  @last modified on  : 20-09-2024
+  @last modified by  : amritpreet.singh@salesforce.com
+-->
+<template>
+    <lightning-modal-header label="Send Communication"></lightning-modal-header>
+    <lightning-modal-body class="slds-is-relative">
+        <div lwc:if={isLoading}>
+            <div class="slds-backdrop" role="presentation"></div>
+            <div class="slds-fade-in-open slds-modal_small">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </div>
+        <div lwc:if={displayError}>
+            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium"
+                style="font-size: 1.25rem; max-width: 80%; text-align: center; border:unset;">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small"
+                    class="slds-m-right_small"></lightning-icon>
+                <span style="font-size: 0.90rem;">{displayMessage}</span>
+            </div>
+        </div>
+            <div if:true={showData} class="slds-grid slds-wrap">
+                <lightning-radio-group name="radioGroup" label="Communication Type" options={commOptions}
+                    value={formData.commType} type="button" variant="label-inline" onchange={handleChange}
+                    class="slds-col slds-size_1-of-1 slds-p-around_medium"></lightning-radio-group>
+                <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
+                    <div lwc:if={showContact.showPhone} class="slds-grid slds-grid_vertical">
+                        <lightning-input type="toggle" onchange={handleInputChange} label="Use Registered Contact"
+                            checked={checkedToggle} name="input1" disabled={toggleDisabled}
+                            class="slds-col" message-toggle-active="Yes" message-toggle-inactive="No"></lightning-input>
+                        <div lwc:if={checkedToggle} class="slds-col slds-size_1-of-2">
+                            <lightning-input type="tel" label="Registered phone number" name="phone1"
+                                value={recordDetails.Phone} readonly></lightning-input>
+                        </div>
+                        <div lwc:else class="slds-col slds-size_1-of-2 slds-p-right_small tel_inp">
+                            <lightning-input type="tel" label="Enter a valid number to Send SMS" name="phone"
+                                onchange={handleInputChange}></lightning-input>
+                        </div>
+                        <div lwc:if={validation.showValidation} class="slds-col slds-text-color_error slds-text-body_small">
+                            {validation.validationMessage}
+                        </div>
+                    </div>
+                    <div lwc:if={showContact.showEmail} class="slds-grid slds-grid_vertical">
+                        <lightning-input type="toggle" onchange={handleInputChange} label="Use Registered Email"
+                            checked={checkedToggle} name="input2" disabled={toggleDisabled}
+                            class="slds-col" message-toggle-active="Yes" message-toggle-inactive="No"></lightning-input>
+                        <div lwc:if={checkedToggle} class="slds-col">
+                            <lightning-input type="email" label="Registered Email" name="email1"
+                                value={recordDetails.Email} readonly></lightning-input>
+                        </div>
+                        <div lwc:else class="slds-col slds-size_1-of-2 slds-p-right_small">
+                            <lightning-input type="email" label="Enter a valid Email Address" name="email"
+                                onchange={handleInputChange}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+                
+                <template lwc:if={showContact.showTemplate}>
+                    <div class="slds-col slds-grid slds-grid_vertical">
+                        <lightning-combobox name="Template" label="Template" value={formData.template}
+                        placeholder="Select a Template" options={tempOptions} onchange={handleChange}
+                        class="slds-col slds-size_1-of-2 slds-p-left_medium com_box" dropdown-alignment="auto"></lightning-combobox>
+                        <div lwc:if={validation.showTemplateValidation} class="slds-col slds-size_1-of-2 slds-p-left_medium slds-text-color_error slds-text-body_small">
+                            {validation.validationTemplateMessage}
+                        </div>
+                    </div>
+                </template>
+            </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+            <!-- <lightning-button label="Prev" variant="brand" onclick={handleClick}
+                class="slds-p-around_medium"></lightning-button> -->
+                <template if:false={displayError}>
+                    <lightning-button label="Send" onclick={handleClick}></lightning-button>
+                </template>
+    </lightning-modal-footer>
+</template>

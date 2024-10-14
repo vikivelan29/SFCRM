@@ -62,8 +62,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
                }
         }
     }
-
- /**
+    
+     /**
     * @Function - setManualSkipperFlags
     * @Description - method to be invoked by the BU specific classes if skipper flag needs to be set
     * @param - recIdToSkipperFlag - Key as CaseId or caseDetail Id and value as skipperFlags
@@ -80,10 +80,10 @@ public without sharing class ASF_CaseTriggerModularHelper {
                 Set<String> currentSkippers = skipperFlagMap.get(recId);
                 currentSkippers.addAll(recIdToSkipperFlag.get(recId));
                 skipperFlagMap.put(recId, currentSkippers);
-            }
-        }    
+        }
     }
-
+    }
+    
     /****************************************************************************************************************
 * @Function - populateFrameworkFieldsForCase
 * @param newList -  list of cases from trigger.new.
@@ -193,36 +193,41 @@ blankSourcePresent = true;
                 }
             }
             if(appliedCCC != null){ 
-                //Fill all common fields irrespective of source
-                caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
-                
-                // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
-                if(frameworkRecordTypeId == caseRec.RecordTypeId){
-                    caseRec.Stage__c = appliedCCC.First_Stage__c;
-                }
-                caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
-                // VIRENDRA - 24 JUN 2024 - ADDED IGMS_Complaint_Type_Code__c  to CaseRecord.
-                caseRec.IGMS_Complaint_Type_Code__c = appliedCCC.IGMS_Code__c;
-                caseRec.Type_Text__c = appliedCCC.Type__c;
+
                 //If the incoming subject of the case is not blank, system will no longer overwrite it, 
                 //irrespective of origin/source of the case. PR970457-1880
                 if(String.isBlank(caseRec.Subject)){
-                    caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                    caseRec.Subject = 'Case - '+appliedCCC.Type__c;
                 }
-                caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
-                caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
-                caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
-                caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
-                caseRec.Activity__c = appliedCCC.Activity__c;
-                //mapping Line_of_Business__c on caseRec
-                caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
-                // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
-                if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
-                    caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
+                if(!isUpdate || (isUpdate && caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
+            
+                    //Fill all common fields irrespective of source
+                    caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
+                    
+                    // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
+                    if(frameworkRecordTypeId == caseRec.RecordTypeId){
+                        caseRec.Stage__c = appliedCCC.First_Stage__c;
+                    }
+                    caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
+                    // VIRENDRA - 24 JUN 2024 - ADDED IGMS_Complaint_Type_Code__c  to CaseRecord.
+                    caseRec.IGMS_Complaint_Type_Code__c = appliedCCC.IGMS_Code__c;
+                    caseRec.Type_Text__c = appliedCCC.Type__c;
+                    caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
+                    caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
+                    caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
+                    caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
+                    caseRec.Activity__c = appliedCCC.Activity__c;
+                    //mapping Line_of_Business__c on caseRec
+                    caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
+                    // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
+                    if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
+                        caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
+                    }
+                    caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
+                    caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
+                    caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
+                    caseRec.Run_Assignment_Rule_on_Bulk_Create__c = appliedCCC.Run_Assignment_Rule_on_Bulk_Create__c;
                 }
-                caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
-                caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
-                caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
                 if((!isUpdate) || (isUpdate && oldMap.get(caseRec.Id).Categorization_Date__c == null)){
                     caseRec.Categorization_Date__c = system.now();     
                 }
@@ -276,7 +281,8 @@ blankSourcePresent = true;
         String relObjectName;
         for(Case caseRec : newMap.values()){
             if(ASF_BulkCaseProcessorUtility.isBulkProcessing && String.isNotBlank(caseRec.Bulk_CaseDetail_JSON__c)
-               && (oldMap != null && oldMap.get(caseRec.Id).Bulk_CaseDetail_JSON__c != caseRec.Bulk_CaseDetail_JSON__c)){
+               && (oldMap == null || 
+                   (oldMap != null && oldMap.get(caseRec.Id).Bulk_CaseDetail_JSON__c != caseRec.Bulk_CaseDetail_JSON__c))){
                    eligibleCases.add(caseRec);
                }
         }
@@ -386,10 +392,7 @@ blankSourcePresent = true;
         }  
     }
     //Creates extension record for Case, if case is created from Bulk page
-    public static void createCaseExtnRecordForBulk(List<Case> newList) {
-        
-        if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
-        
+    public static void createCaseExtnRecordForBulk(List<Case> newList) {        
         Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
         Integer index = 0;
         for(Case caseRec : newList){
@@ -413,6 +416,9 @@ blankSourcePresent = true;
                 String sObjectType = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
                 SObject newInstance = createObject(sObjectType);
                 if(newInstance != null){
+                    if(!String.isEmpty(caseRec.Case_Details_JSON__c)){
+                       newInstance = (sObject)JSON.deserialize(caseRec.Case_Details_JSON__c.replace('\'','"'), Type.forName(sObjectType));
+                    }
                     extnRecords.put(index, newInstance);
                 }
             }
@@ -483,6 +489,7 @@ blankSourcePresent = true;
             
             // Find All Query Fields for Case, Merge them togther, and perform one Query on Case
             Set<String> allFields = new Set<String>{'stage__c', 'businesshoursid', 'ccc_external_id__c', 'previous_stage__c', 'business_unit__c', 'lead__c','lob__c'};
+                allFields.addAll(ASF_Constants.CASE_EXTENSION_FIELDSET);
                 for(ASF_Case_Stage_Config__c config: allStageConfigs){
                     if(config.Query_Fields__c != null){
                         allFields.addAll(config.Query_Fields__c.toLowerCase().split(','));
@@ -779,6 +786,8 @@ blankSourcePresent = true;
                             caseREcFromMap.Case_Assigned_Team__c = resultWrap.ownerName != null ? resultWrap.ownerName : '';
                         // VIRENDRA - ENDS HERE.
                         caseRecFromMap.MoveToNext__c = false;
+                        caseRecFromMap.Stage__c = resultWrap.nextStageConfig.StageName__c;
+                        caseRecFromMap.Status = resultWrap.nextStageConfig.Status_Mapping__c;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
@@ -905,7 +914,7 @@ blankSourcePresent = true;
         List<Case> eligibleLWCCases = new List<Case>();
         
         for(Case caseRec : newMap.values()){
-            if(caseRec.Technical_Source__c == 'API'){
+            if(caseRec.Technical_Source__c == 'API' || (ASF_BulkCaseProcessorUtility.isBulkProcessing && caseRec.Run_Assignment_Rule_on_Bulk_Create__c)){
                 caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                 eligibleCases.add(caseRec);
             }
@@ -983,6 +992,7 @@ blankSourcePresent = true;
             else if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null && isUpdate
        				&& (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==true)){
                        caseListForSla.add(caseRec);
+                       newMap.put(caseRec.Id, caseRec);
                        caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                    }
         }
@@ -1032,13 +1042,20 @@ blankSourcePresent = true;
                             addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
                         }
                     }                
+                }
+
                     addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
                     addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
                     addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
                     addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
                 }
+            for(Case caseRec : caseListForSla){
+                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
+                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
             }
-            
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
+                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+                }
             List<Case> integCaseList = new List<Case>();
             Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
             
@@ -1088,12 +1105,7 @@ blankSourcePresent = true;
                     }
                 }
             }
-            for(Case caseRec : caseListForSla){
-                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
-                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
-                }
-                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
-            }
+
         }
     }
     //Creates Checklist, Tasks, Approvals
@@ -1755,7 +1767,7 @@ User will now be forced to go recategorize.
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
                     if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null && caseRec.Business_Unit__c != ASF_Constants.ABSLIG_BU
-                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null)){
+                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null) && !(caseRec.Business_Unit__c == 'ABHI' && caseRec.Source__c == 'IGMS')){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  

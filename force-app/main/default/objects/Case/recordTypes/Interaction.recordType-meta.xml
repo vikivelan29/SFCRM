@@ -54,6 +54,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
@@ -69,9 +73,21 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
+        <values>
+            <fullName>AML queries</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>AWB number capture</fullName>
             <default>false</default>
@@ -85,6 +101,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Additional information provided after issuance</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Address related</fullName>
             <default>false</default>
         </values>
@@ -94,6 +114,10 @@
         </values>
         <values>
             <fullName>Advisor Query</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Alternate Test or Medial Waiver</fullName>
             <default>false</default>
         </values>
         <values>
@@ -122,6 +146,14 @@
         </values>
         <values>
             <fullName>Bonus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bonus Statement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Capital %2F Gain statement</fullName>
             <default>false</default>
         </values>
         <values>
@@ -186,6 +218,10 @@
         </values>
         <values>
             <fullName>DOB change related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined%2FPostponed</fullName>
             <default>false</default>
         </values>
         <values>
@@ -254,6 +290,10 @@
         </values>
         <values>
             <fullName>Fund Value%2FNAV related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GST invoice</fullName>
             <default>false</default>
         </values>
         <values>
@@ -337,6 +377,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Medical Test Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Miscellaneous</fullName>
             <default>false</default>
         </values>
@@ -374,6 +418,14 @@
         </values>
         <values>
             <fullName>NRI query</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NRI- Residency opinion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NRI-Overseas Medicals Approval</fullName>
             <default>false</default>
         </values>
         <values>
@@ -421,6 +473,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Ops Certification Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Others</fullName>
             <default>false</default>
         </values>
@@ -453,6 +509,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Pilot-Financial or Medical Opinion</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Policy Benefit %26 Features</fullName>
             <default>false</default>
         </values>
@@ -462,6 +522,14 @@
         </values>
         <values>
             <fullName>Policy Dispatch %2F Delivery Details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy Reversal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy account statement</fullName>
             <default>false</default>
         </values>
         <values>
@@ -494,6 +562,10 @@
         </values>
         <values>
             <fullName>Query from Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rate Up</fullName>
             <default>false</default>
         </values>
         <values>
@@ -577,6 +649,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Reject</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Rejection not communicated</fullName>
             <default>false</default>
         </values>
@@ -641,6 +717,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Restricted SA</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Rider added%2Fdeleted without consent</fullName>
             <default>false</default>
         </values>
@@ -701,6 +781,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Surrender certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
             <default>false</default>
         </values>
@@ -745,11 +829,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Tagging of Non-medical requirement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tagging of Underwriter</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Tampered%2FForged%2FFake Documents</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Tax Invoice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax certificate</fullName>
             <default>false</default>
         </values>
         <values>
@@ -789,7 +885,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>UW decision follow-up</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>User ID Creation Process%2FForgot password</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Video FMR Eligibility</fullName>
             <default>false</default>
         </values>
         <values>
@@ -862,6 +966,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI Email</fullName>
             <default>false</default>
         </values>
@@ -895,6 +1003,14 @@
         </values>
         <values>
             <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABHI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1015,6 +1131,14 @@
     </picklistValues>
     <picklistValues>
         <picklist>Source__c</picklist>
+        <values>
+            <fullName>ABCD App</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABC_Servicing_App</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>AMFI</fullName>
             <default>false</default>
@@ -1191,10 +1315,6 @@
             <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ABCD App</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
@@ -1204,6 +1324,10 @@
         </values>
         <values>
             <fullName>Open</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress with SA</fullName>
             <default>false</default>
         </values>
     </picklistValues>

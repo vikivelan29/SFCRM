@@ -65,7 +65,7 @@ public class ABSLI_DeletePolicyNominee_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_DeletePolicyNomineeIntegration deleteNomInt = new ABSLI_DeletePolicyNomineeIntegration();
-       	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Asset.Policy_No__c,Technical_Source__c
+       	Case caseRecord = [SELECT id,CaseNumber,Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Asset.Policy_No__c,Technical_Source__c
                            FROM Case WHERE Source__c='Email' LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
@@ -81,7 +81,7 @@ public class ABSLI_DeletePolicyNominee_Test {
                             Technical_Source__c FROM Case WHERE Source__c = 'Branch' LIMIT 1];
        	Case caseRecord2 = [SELECT id,CaseNumber,Asset.Policy_No__c,Business_Unit__c,ABSLI_Case_Detail__c,Stage__c,CCC_External_Id__c
                            FROM Case WHERE Source__c = 'Email' LIMIT 1];
-        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c FROM ASF_Integration__c LIMIT 1];
 		
         Test.startTest();
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord1.Id => caseRecord1 };

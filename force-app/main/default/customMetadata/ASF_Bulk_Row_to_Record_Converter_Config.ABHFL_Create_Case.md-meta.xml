@@ -23,6 +23,10 @@
         <value xsi:type="xsd:string">Bulk Create Case</value>
     </values>
     <values>
+        <field>FieldApiName__c</field>
+        <value xsi:type="xsd:string">CaseNumber</value>
+    </values>
+    <values>
         <field>Fields_Name__c</field>
         <value xsi:type="xsd:string">Loan Account No,Issue Type Code,Source,Sub Source,Description,Block Customer Communication</value>
     </values>

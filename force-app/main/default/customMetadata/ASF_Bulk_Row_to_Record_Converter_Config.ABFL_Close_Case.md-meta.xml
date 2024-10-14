@@ -23,8 +23,12 @@
         <value xsi:type="xsd:string">Bulk Close Case</value>
     </values>
     <values>
+        <field>FieldApiName__c</field>
+        <value xsi:type="xsd:string">CaseNumber</value>
+    </values>
+    <values>
         <field>Fields_Name__c</field>
-        <value xsi:type="xsd:string">Case number,Resolution Comment,Description</value>
+        <value xsi:type="xsd:string">Case number,Resolution Comment,Description, CCC External Id, LOB, Status</value>
     </values>
     <values>
         <field>Max_File_Size__c</field>

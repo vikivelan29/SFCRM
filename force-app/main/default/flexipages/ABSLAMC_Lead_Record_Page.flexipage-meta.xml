@@ -56,12 +56,73 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>parentFieldApiName</name>
                     <value>Lead.Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
                     <value>Conversion_Details__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>LOB__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Folio_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Transaction_Type__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Conversion Details</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Lead.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Histories</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
@@ -97,6 +158,16 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Account__c</fieldItem>
+                <identifier>RecordAccount_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.LOB__c</fieldItem>
@@ -119,8 +190,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Prospect_Type__c</fieldItem>
-                <identifier>RecordProspect_Type_cField</identifier>
+                <fieldItem>Record.Lead_Subtype__c</fieldItem>
+                <identifier>RecordLead_Sub_type_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -129,8 +200,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PANNO__c</fieldItem>
-                <identifier>RecordPANNO_cField</identifier>
+                <fieldItem>Record.Prospect_Type__c</fieldItem>
+                <identifier>RecordProspect_Type_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -149,16 +220,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Folio_for_existing_customer__c</fieldItem>
-                <identifier>RecordFolio_for_existing_customer_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Winback_Scheme_Name__c</fieldItem>
                 <identifier>RecordWinback_Scheme_Name_cField</identifier>
             </fieldInstance>
@@ -167,10 +228,20 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Winback_Asset_Class__c</fieldItem>
-                <identifier>RecordWinback_Asset_Class_cField</identifier>
+                <fieldItem>Record.Winback_Investment_Date__c</fieldItem>
+                <identifier>RecordWinback_Investment_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Overall_Conversion_Amount__c</fieldItem>
+                <identifier>RecordOverall_Conversion_Amount_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -189,8 +260,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Call_Track_ID__c</fieldItem>
-                <identifier>RecordCall_Track_ID_cField</identifier>
+                <fieldItem>Record.Comments_Remarks__c</fieldItem>
+                <identifier>RecordComments_Remarks_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-6fb73ba6-f3d2-4d1f-96cb-0a6be43da396</name>
@@ -213,6 +284,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Folio_for_existing_customer__c</fieldItem>
+                <identifier>RecordFolio_for_existing_customer_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Lead_Category__c</fieldItem>
                 <identifier>RecordLead_Category_cField</identifier>
             </fieldInstance>
@@ -223,8 +304,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Lead_Subtype__c</fieldItem>
-                <identifier>RecordLead_Sub_type_cField</identifier>
+                <fieldItem>Record.Lead_Status_Change_date__c</fieldItem>
+                <identifier>RecordLead_Status_Change_date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -233,8 +314,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Lead_Status_Change_date__c</fieldItem>
-                <identifier>RecordLead_Status_Change_date_cField</identifier>
+                <fieldItem>Record.PANNO__c</fieldItem>
+                <identifier>RecordPANNO_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -261,10 +342,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Overall_Conversion_Amount__c</fieldItem>
-                <identifier>RecordOverall_Conversion_Amount_cField</identifier>
+                <fieldItem>Record.Winback_Asset_Class__c</fieldItem>
+                <identifier>RecordWinback_Asset_Class_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -273,8 +354,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Winback_Investment_Date__c</fieldItem>
-                <identifier>RecordWinback_Investment_Date_cField</identifier>
+                <fieldItem>Record.Call_Track_ID__c</fieldItem>
+                <identifier>RecordCall_Track_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -295,16 +376,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Assigned_Team__c</fieldItem>
                 <identifier>RecordAssigned_Team_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Comments_Remarks__c</fieldItem>
-                <identifier>RecordComments_Remarks_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-3f59497f-e30e-4fff-a761-c485751d645c</name>

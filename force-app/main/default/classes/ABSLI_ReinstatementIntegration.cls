@@ -118,6 +118,7 @@ public with sharing class ABSLI_ReinstatementIntegration implements ASF_Integrat
                     caseInteg.Request__c = requestBody;
                     caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     caseInteg.Is_Validation_Success__c = true;
+                    caseInteg.Do_Not_Retry_Integration__c = intSpec.Do_Not_Retry_Integration__c;
                     newCaseIntegrations.add(caseInteg);
                     
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
@@ -295,12 +296,15 @@ public with sharing class ABSLI_ReinstatementIntegration implements ASF_Integrat
         // IF COI IS NOT NULL AND REINSTATEMENTAMOUT > 0
         // 
         boolean bCroppedSignatured = false;
-        for(ASF_Checklist__c checklist : checklists){
-            if(checklist.Status__c == 'Signature Not Cropped' ){
-                bCroppedSignatured = true;
-                break;
+        if(checklists != null){
+            for(ASF_Checklist__c checklist : checklists){
+                if(checklist.Status__c == 'Signature Not Cropped' ){
+                    bCroppedSignatured = true;
+                    break;
+                }
             }
         }
+        
         
         if(String.isNotBlank(COI) && reinstatementAmount > 0){
             // RCD Condition

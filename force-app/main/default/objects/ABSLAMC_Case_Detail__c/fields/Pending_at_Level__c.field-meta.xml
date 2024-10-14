@@ -41,6 +41,11 @@
                 <default>false</default>
                 <label>PPD</label>
             </value>
+            <value>
+                <fullName>Unit Admin Operations</fullName>
+                <default>false</default>
+                <label>Unit Admin Operations</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

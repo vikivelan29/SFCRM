@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>Wellness_Branch_Master_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Wellness Branch Master Sharing</label>
+        <sharedTo>
+            <role>Wellness_Service_Agent</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Wellness</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ABFL_Branch_Master_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
         <label>ABFL Branch Master Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -19,7 +33,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABHFL Branch Master Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -29,25 +43,11 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>Branch_Master_Share_with_ABSLI_Service_Manager_and_Subordinates</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Branch Master Share with ABSLI Service Manager and Subordinates</label>
-        <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
         <fullName>ABSLAMC_AIF_BranchMaster_Share_to_AIF_Users</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC AIF BranchMaster Share to AIF Users</label>
         <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -66,7 +66,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC MF BranchMaster Share to MF Users</label>
         <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
+            <group>ABSLAMC_MF_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -85,7 +85,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC PMS BranchMaster Share to PMS Users</label>
         <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -104,7 +104,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC RE BranchMaster Share to RE Users</label>
         <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
+            <group>ABSLAMC_RE_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -115,6 +115,20 @@
             <field>LOB__c</field>
             <operation>equals</operation>
             <value>RE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Branch_Master_Share_with_ABSLI_Service_Manager_and_Subordinates</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Branch Master Share with ABSLI Service Manager and Subordinates</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

@@ -1,0 +1,1078 @@
+<template >
+    <div class="slds-scrollable">
+        <template lwc:if={areDetailsVisible}>
+            <div class="slds-grid slds-grid_vertical slds-box slds-m-top_x-small" >
+                <div class="slds-col">
+                    <div class="slds-form" role="list">
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <h2 class="slds-m-bottom_x-small slds-card__header-title">Customer Information </h2>
+                                <hr style="margin-top:5px">
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <h2 class="slds-m-bottom_x-small slds-card__header-title">Previous Policy Details </h2>
+                                <hr style="margin-top:5px">
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <h2 class="slds-m-bottom_x-small slds-card__header-title">Current Due Policy Details </h2>
+                                <hr style="margin-top:5px">
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <h2 class="slds-m-bottom_x-small slds-card__header-title">Basic </h2>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <h2 class="slds-m-bottom_x-small slds-card__header-title">Basic </h2>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <h2 class="slds-m-bottom_x-small slds-card__header-title">Basic </h2>
+                            </div>
+                        </div>
+                        <!--Customer Name, Policy Number, Policy Status-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Customer Name</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.FirstName} {account.LastName} 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Number</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Policy_No__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Status</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Status__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Customer ID, Policy Variant, Channel-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Customer ID</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.MMI_Customer_ID__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Variant</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Cover_Type__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Channel</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                           {policy.Channel__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Date of Birth</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {dateOfBirth}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Start Date</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policyStartDate}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Intermediary</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.IntermediaryMobileNumber__c} - {policy.IntermediaryName__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Gender, Policy End Date, Sales Manager-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Gender</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.PersonGenderIdentity}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy End Date</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {maturityDate}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Sales Manager</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.SRMName__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Mobile, Policy Tenure, Sales Manager Code-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Mobile</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.PersonMobilePhone}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Tenure</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Policy_Term__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Sales Manager Code</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.SRMCode__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Alternate Mobile No., Product, Policy Serving Branch-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Alternate Mobile No.</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.Phone}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Product</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.ProductName__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Serving Branch</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.ServicingBranchName__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Nominee Contact No., No. of Members, Policy Renewed-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Nominee Contact No.</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {nomineeContacts}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">No. of Members</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.CountOfLives__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Renewed</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {isPolicyRenewed}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Email, Scheme, Propensity to Pay-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Email</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.Office_Email__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Scheme</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Scheme}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Propensity to Pay</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Propensity_to_Pay__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Address, Policy Zone, RenewalDropOffResponse-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Address</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={addressFlag}>
+                                            <div class="slds-form-element__static">
+                                                {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Zone</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.ZoneOfCover__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Renewal DropOff Response</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Drop_off_Reason__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Business Type, Sum Insured, RenewalDropOffURL-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Business Type</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.BusinessType__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Sum Insured</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={sumInsuredFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.Sum_Assured__c}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Renewal DropOff URL</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Drop_off_URL__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Issuance Bucket, Policy Lapsed, Intermediary-classification-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                               <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Issuance Bucket - Discrepancy</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.PolicySubStatus__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Lapsed</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Policy_Lapsed__c}
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Intermediary-classification</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Channel}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Customer Segment , Policy Lapse Date, Intermediary Mobile Number-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Customer Segment </span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.Customer_Segment__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Lapse Date</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policyLapseDate}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Intermediary Mobile Number</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.IntermediaryMobileNumber__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--GO GREEN, Policy Renewal Notice Day, Partner Branch Code-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">GO GREEN</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            <lightning-input class="slds-p-left_xx-large" type="checkbox" checked={goGreenFlag} disabled="">
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Renewal Notice Day</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {polRenewalNoticeDay}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Partner Branch Code</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Intermediary_Branch_Code__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Nominee name, Grace Period Start, Live Claim status-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Nominee name</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {nomineesNames}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Grace Period Start</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {graceStartDate}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Live Claim Status</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {claimsCounts}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Grace Period End, Preferred Flag-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Grace Period End</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {graceEndDate}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Preferred Flag</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Preferred_Flag__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Chronic Type, Status -->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Chronic Type</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            <lightning-input class="slds-p-left_xx-large" type="checkbox" checked={isChronic} disabled=""></lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Status</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {renStatus}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Payment Mode, Policy Renewal Due Date-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Payment Mode</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Mode__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Renewal Due Date</span>
+                                    <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                                {maturityDate}
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Channel of Payment, Renewal calling flag-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Channel of Payment</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Source__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Renewal calling flag</span>
+                                    <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                                {oppRec.Renewal_Calling_Flag__c}
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--First Policy Inception date-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">First Policy Inception date</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Policy_Inception_Date__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <h2 style="margin-top:15px;margin-bottom:15px" class="slds-m-bottom_x-small slds-card__header-title">Additional</h2>
+                            </div>
+                        </div>
+
+                        <!--Plan Type, Sum Insured Enhancement-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Plan Type</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Plan_Name__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Sum Insured Enhancement</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {sumInsusedEnhancement}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Product Type, Policy Renewal Date-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Product Type</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.ProductName__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Renewal Date</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {renewalAPIData.Policy_renewal_date}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Last year premium, Utilize HR-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Last year premium</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={lastYearPremFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.GrossPremium__c}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Utilize HR</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={healthFlag}>
+                                            <div class="slds-form-element__static">
+                                                {heathRetrn.TotalHealthReturnsTMBurnt}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Quote No., Net Premium-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Quote No.</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Proposal_Number__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Net Premium</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renCheckNetPremFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{renewalAPIData.premium.Renewal_Net_Premium}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--NCB, Gross Premium-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">NCB</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.CumulativeBonusEarned__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Gross Premium</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renCheckGrossPremFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{renewalAPIData.premium.Renewal_Gross_Premium}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Optional benefits, HA/Fitness assesment-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Optional benefits</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.Rider_Opted__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">HA/Fitness assesment</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={fitnessFlag}>
+                                            <div class="slds-form-element__static">
+                                               {fitnessData.HealthAssesmentStatusHA}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Master Policy no., AHC-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Master Policy no.</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.MasterPolicyNumber__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">AHC</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={fitnessFlag}>
+                                            <div class="slds-form-element__static">
+                                                {fitnessData.HealthAssesmentStatusAHC}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Health heart score-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <h2 style="margin-top:15px;margin-bottom:15px" class="slds-m-bottom_x-small slds-card__header-title">Additional</h2>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Health heart score</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={healthFlag}>
+                                            <div class="slds-form-element__static">
+                                                {heathRetrn.HealthyHeartScore}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Loading Reason, Split Policy-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Loading Reason</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {renewalAPIData.Loading_Reason}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Split Policy</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {renewalAPIData.Split_Policy_Flag}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Loading %-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Loading %</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {renewalAPIData.Loading_Rate}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                            </div>
+                        </div>
+                        <!--Balance HR-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Balance HR</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                 {balanceHR}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                            </div>
+                        </div>
+                        <!--Total HR-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Total HR</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={healthFlag}>
+                                            <div class="slds-form-element__static">
+                                                {heathRetrn.TotalHealthReturnsTM}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                            </div>
+                        </div>
+                        <!--Auto Debit flag-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Auto Debit flag</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {autoDebitFlag}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                            </div>
+                        </div>
+                        <!--Employee Discount -->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Employee Discount </span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {renewalAPIData.enumIsEmployeeDiscount}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                            </div>
+                        </div>
+                        <!--APP Download Status-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label"> APP Download Status </span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {addDownloadStatus}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                            </div>
+                        </div>
+                        <!--KYC-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label"> KYC </span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {renewalAPIData.CKYC_Flag}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </template>
+    </div>
+</template>

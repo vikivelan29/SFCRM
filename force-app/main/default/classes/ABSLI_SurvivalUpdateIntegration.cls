@@ -116,6 +116,7 @@ public class ABSLI_SurvivalUpdateIntegration implements ASF_IntegrationInvocable
                     caseInt.Status__c = ABSLI_Constants.PENDING;
                     caseInt.Request__c  =  JSON.serialize(new SurvivalUpdateRequest(policyNumber,source));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
+                    caseInt.Do_Not_Retry_Integration__c = integ.Do_Not_Retry_Integration__c;
                     newCaseIntegrations.add(caseInt);
                     
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();

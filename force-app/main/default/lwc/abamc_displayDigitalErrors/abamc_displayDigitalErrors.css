@@ -8,9 +8,23 @@
 .pagination-controls {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 10px;
 }
 
-.pagination-controls lightning-button {
-    margin: 0 5px;
+.page-info {
+    background-color: #f0f0f0; 
+    color: black;
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 15px;
+    margin: 0 15px; 
+    text-align: center;
+    min-width: 120px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.lightning-button {
+    margin: 0 10px;
 }

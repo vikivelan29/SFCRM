@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>ABHI_Field_API_Name__c</field>
-        <value xsi:type="xsd:string">BillingCountry</value>
+        <value xsi:type="xsd:string">Nationality__c</value>
     </values>
     <values>
         <field>ABHI_Field_Type__c</field>
@@ -20,6 +20,6 @@
     </values>
     <values>
         <field>ABHI_Type__c</field>
-        <value xsi:type="xsd:string">Both</value>
+        <value xsi:type="xsd:string">Individual</value>
     </values>
 </CustomMetadata>

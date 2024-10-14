@@ -2,7 +2,7 @@
  * @description       : BSLI BeforeUpdateTrigger Logic After ASF Code
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 09-02-2024
+ * @last modified on  : 09-09-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
@@ -48,20 +48,14 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
     public static void restrictComplaintsRejection(List<Case> absliCases, Map<Id, Case> oldMap,Map<Id, Case> newMap){
         if(!absliCases.isEmpty()){
             for (Case caseRec : absliCasesAdditionalFields.values()) {
-                Case caseError = newMap.get(caseRec.Id);
-				System.debug(caseError.Stage__c);
-                System.debug(caseError.ABSLI_Case_Detail__c);
-                System.debug(caseError.IRDAI_Token_Number__c);
-                System.debug(caseError.Technical_Source__c);
-                
+                Case caseError = newMap.get(caseRec.Id);                
         		// Check if the Case record is related to ABSLI business unit
                 if (caseError.ABSLI_Case_Detail__c != null  && 
-                    caseError.IRDAI_Token_Number__c != null &&
-                    caseError.Nature__c == 'Complaint' && 
                     caseError.Technical_Source__c != 'API' &&
-                    caseError.Stage__c == 'Unresolved') {
+                    caseError.Stage__c == 'Unresolved' && 
+                    caseError.Nature__c == 'Complaint') {
                        	   System.debug('Inside restrictComplaintsRejection: IRDAI_Token_Number__c=' + caseRec.ABSLI_Case_Detail__r.IRDAI_Token_Number__c + ', Nature__c=' + caseRec.Nature__c);
-                           caseError.addError('IGMS Synced Complaints cannot be Unresolved.');
+                           caseError.addError('Complaints cannot be Unresolved.');
                            newMap.put(caseRec.Id,caseError);
                     	
                 	}
@@ -156,7 +150,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
                  ABSLI_Case_Detail__c caseDetail = caseDetailMap.get(caseRec.ABSLI_Case_Detail__c);
                  System.debug(caseDetail.Source_Request_submitted_by__c);
                  System.debug(caseRec.Stage__c);
-				 if (caseDetail != null  && emailContactSubTypes.contains(caseRec.CCC_External_Id__c)) {
+				 if (caseDetail != null  && emailContactSubTypes.contains(caseRec.CCC_External_Id__c) && caseDetail.Source_Request_submitted_by__c != null) {
                        if (caseDetail.Source_Request_submitted_by__c != 'Customer' && caseRec.Stage__c != 'Unresolved') {
                             Case caseError = newMap.get(caseRec.Id);
                            	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Unresolve the case.');

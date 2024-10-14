@@ -12,9 +12,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>1</fullName>
+                <fullName>2</fullName>
                 <default>true</default>
-                <label>1</label>
+                <label>Health Insurance</label>
             </value>
         </valueSetDefinition>
     </valueSet>

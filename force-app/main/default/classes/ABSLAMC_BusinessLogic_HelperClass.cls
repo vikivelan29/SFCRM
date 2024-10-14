@@ -20,7 +20,9 @@ public class ABSLAMC_BusinessLogic_HelperClass {
         
         for (Lead leadRecord : newLeadList){
             if (leadRecord.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
-                leadRecord.Line_Of_Business__c = userList[0].LOB__c; //populate Line_Of_Business__c field
+                if(String.isNotBlank(userList[0].LOB__c)) {
+                    leadRecord.Line_Of_Business__c = userList[0].LOB__c.split(';')[0]; //populate Line_Of_Business__c field
+                }
                 abslamcLeadMap.put(leadRecord.Id, leadRecord);
             }
         }
@@ -44,10 +46,6 @@ public class ABSLAMC_BusinessLogic_HelperClass {
 
         for (Lead leadRecord : newLeadMap.values()){
             if (leadRecord.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
-                //populate Line_Of_Business__c field
-                if(leadRecord.LOB__c != oldLeadMap.get(leadRecord.Id).LOB__c) {
-                    leadRecord.Line_Of_Business__c = leadRecord.LOB__c;
-                }
                 //populate Lead Status Change date field
                 if(leadRecord.Status != oldLeadMap.get(leadRecord.Id).Status) {
                     leadRecord.Lead_Status_Change_date__c = System.now();
@@ -111,7 +109,7 @@ public class ABSLAMC_BusinessLogic_HelperClass {
             }
 
             for (Lead leadRecord : newLeadMap.values()){
-                String leadKey = leadRecord.Line_Of_Business__c + '|' + leadRecord.Lead_Type__c + '|' + leadRecord.Lead_Subtype__c;
+                String leadKey = leadRecord.LOB__c + '|' + leadRecord.Lead_Type__c + '|' + leadRecord.Lead_Subtype__c;
 
                 if (typeSubtypeKeyToLeadMetadataMap.containsKey(leadKey)) {
                     leadRecord.Is_Conversion_Tracked__c = typeSubtypeKeyToLeadMetadataMap.get(leadKey).Track_conversion__c; //populate Is_Conversion_Tracked__c field

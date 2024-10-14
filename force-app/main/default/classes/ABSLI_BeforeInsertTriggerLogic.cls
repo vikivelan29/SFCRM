@@ -83,8 +83,6 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                         if(caseRec.Sub_Type_Text__c == ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE){
                             if(!caseRec.Is_STP__c && (caseDetail.Requested_Loan_Amount__c < ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT || caseDetail.Requested_Loan_Amount__c > ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT)){
                                 caseRec.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_NONSTP;
-                            } else if(caseRec.Is_STP__c && caseDetail.Requested_Loan_Amount__c >= ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT){
-                                caseRec.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_STP;
                             }
                         }
                 }
@@ -120,7 +118,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
             }
             List<List<SObject>> searchList  = Search.query('FIND :searchTerms  IN PHONE FIELDS RETURNING Contact (Id, Name,AccountId,MobilePhone WHERE MobilePhone IN :phoneNumbers AND Account.Business_Unit__c =\'ABSLI\')');
  			List<Contact> contactList = searchList[0];
- 
+
             for(Contact con : contactList)
             {
                 if(!mAccWithSamePhNum.containsKey(con.MobilePhone))
@@ -148,18 +146,25 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
     public static void checkCreateCaseValidations(List<Case> cases){
         Set<String> issueCodes = new Set<String>();
         List<Case> validCases = new List<Case>();
-        Map<Id,Case> policyIdVsCase = new Map<Id,Case>();
-        Map<Case,Asset> caseVsAsset = new Map<Case,Asset>();
+        Map<Id,Integer> policyIdVsCase = new Map<Id,Integer>();
+        //Map<Case,Asset> caseVsAsset = new Map<Case,Asset>();
+        Map<Integer,Asset> caseVsAsset = new Map<Integer,Asset>();
+        Map<Integer,Case> indexVsCase = new Map<Integer,Case>();
         for(Case c: cases){
+            Integer index =  0;
             if(c.Business_Unit__c=='ABSLI' && c.Technical_Source__c=='LWC'){
+
             	issueCodes.add(c.CCC_External_Id__c);
                 validCases.add(c);
-                policyIdVsCase.put(c.AssetId,c);
+                policyIdVsCase.put(c.AssetId,index);
+                indexVsCase.put(index, c);
+                index++;
             }
         }
         system.debug('policyIdVsCase:'+policyIdVsCase);
         for(Asset policy: [SELECT Id, Status FROM Asset WHERE Id IN:policyIdVsCase.keySet()]){
             caseVsAsset.put(policyIdVsCase.get(policy.Id),policy);
+            //caseVsAsset.put(,policy);
         }
         system.debug('caseVsAsset:'+caseVsAsset);
         if(issueCodes.size()>0 && !caseVsAsset.isEmpty()){
@@ -174,6 +179,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
             }
 
             for(Case cs: validCases){
+                Integer ind = 0;
                 if(issueCodeVsMdt.containsKey(cs.CCC_External_Id__c) &&
                    issueCodeVsMdt.get(cs.CCC_External_Id__c).Business_Unit__c=='ABSLI')
                 {
@@ -181,21 +187,24 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                     String oprtr = issueCodeVsMdt.get(cs.CCC_External_Id__c).Operator__c;
                     switch on oprtr{
                         when 'IN'{
-                            if((caseVsAsset.get(cs).Status!=null) && (!policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
+                            //if((caseVsAsset.get(cs).Status!=null) && (!policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
+                            if((caseVsAsset.get(ind).Status!=null) && (!policyStatuses.contains(caseVsAsset.get(ind).Status.replaceAll('\\s*,\\s*', ',')))){
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
-                            }else if(String.isBlank(caseVsAsset.get(cs).Status)){
+                            }else if(String.isBlank(caseVsAsset.get(ind).Status)){
                                 cs.addError('Policy is not eligible.');
                             }
                         }
                         when 'NOT IN'{
-                            if((caseVsAsset.get(cs).Status!=null) && (policyStatuses.contains(caseVsAsset.get(cs).Status.replaceAll('\\s*,\\s*', ',')))){
+                            system.debug('cs policy--'+caseVsAsset.get(ind)+'--'+caseVsAsset.containsKey(ind));
+                            if((caseVsAsset.get(ind).Status!=null) && (policyStatuses.contains(caseVsAsset.get(ind).Status.replaceAll('\\s*,\\s*', ',')))){
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
-                            }else if(String.isBlank(caseVsAsset.get(cs).Status)){
+                            }else if(String.isBlank(caseVsAsset.get(ind).Status)){
                                 cs.addError('Policy is not eligible.');
-                            } 
+                            }
                         }
                     }
                 }
+                ind++;
             }
 
         }

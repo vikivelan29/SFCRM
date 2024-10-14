@@ -89,6 +89,9 @@
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Source__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
