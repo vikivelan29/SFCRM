@@ -53,7 +53,7 @@ public with sharing class ABHI_RefundDetails {
                 return deserializedIntResponse;
                
         }catch(Exception e){
-         throw new AuraHandledException(Custom_Messages__mdt.getInstance('ABHI_Invalid_Response').Message__c);
+         throw new AuraHandledException('Error : '+e.getMessage());
         }
         
         
