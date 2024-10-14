@@ -943,7 +943,7 @@
                 <identifier>RecordRejected_Reason_cField</identifier>
             </fieldInstance>
         </itemInstances>
-             <name>Facet-66a11bdf-5fb7-4e4f-b4c9-e16e5afd91b3</name>
+        <name>Facet-66a11bdf-5fb7-4e4f-b4c9-e16e5afd91b3</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1022,8 +1022,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;strong&gt;Quick Links&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;a href=&quot;https://abhflcrm.abfsg.com/main.aspx#&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Open Dynamics&lt;/a&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;a href=&quot;https://abhfl-calculator-web.apps.ap-3a.mendixcloud.com/index.html&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Calculator&lt;/a&gt;&lt;/p&gt;</value>
-                </componentInstanceProperties>
+                    <value>&lt;p&gt;&lt;strong&gt;Quick Links&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;a href=&quot;https://abhflcrm.abfsg.com/main.aspx#&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Open Dynamics&lt;/a&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;a href=&quot;https://abhfl-calculator-web.apps.ap-3a.mendixcloud.com/index.html&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Calculator&lt;/a&gt;&lt;/p&gt;</value>                </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
                 <visibilityRule>
@@ -1174,5 +1173,4 @@
         </properties>
     </template>
     <type>RecordPage</type>
-    
 </FlexiPage>
