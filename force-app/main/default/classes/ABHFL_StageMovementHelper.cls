@@ -75,8 +75,6 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                     isTransferredMap.put(caseRec.Id, false);
                 }
             }
-          //ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRec);
-            
         }
 
         if(returnWrapper.keySet().size() > 0){
