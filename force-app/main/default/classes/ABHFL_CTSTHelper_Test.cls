@@ -14,6 +14,7 @@ public class ABHFL_CTSTHelper_Test {
     static void testData(){
         //Create Account
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
+        Account accRec1= ASF_TestDataFactory.insertPersonAccount('ABHFLLLL','Test_1','Test_2');
         Contact  cont = ASF_TestDataFactory.insertContact('Test 1@', '');
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
@@ -41,6 +42,11 @@ public class ABHFL_CTSTHelper_Test {
         caseDetail.STP_Request_Type__c = 'Email';
         //caseDetail.Grievance_Details_Sent__c = false;
         insert caseDetail;
+        //caseDetail.Grievance_Details_Sent__c = false;
+        ABHFL_Case_Detail__c caseDetail1 = new ABHFL_Case_Detail__c();
+        caseDetail1.ALL_LANS__c=astRec1.Name;
+        caseDetail1.New_Email_ID__c='test@testing.com';
+        insert caseDetail1;
        
         //Create Case
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(3);
@@ -63,6 +69,11 @@ public class ABHFL_CTSTHelper_Test {
         caseRecList[2].Business_Unit__c = 'ABHFL';
         //caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         
+        caseRecList[3].AssetId = astRec1.Id;
+        caseRecList[3].ABHFL_Case_Detail__c = caseDetail1.Id;
+        caseRecList[3].AccountId = accRec1.Id;
+        caseRecList[3].CCC_External_Id__c = 'hfl023';
+        caseRecList[3].Business_Unit__c = 'ABHFL';
         update caseRecList;
 
         //create ASF Integration
@@ -124,6 +135,16 @@ public class ABHFL_CTSTHelper_Test {
         String success = ABFL_Constants.BRESUCCESS;
         //update caseList[0];
     }
+     @IsTest
+    static void testsendEmailToUpdatedEmailId(){
+        List<Case> caseList = [SELECT Id, AccountId, AssetId, Asset.LAN__c, ABHFL_Case_Detail__c, CCC_External_Id__c,Business_Unit__c,isClosed,Masked_LAN__c FROM Case WHERE Business_Unit__c='ABHFL' AND CCC_External_Id__c='hfl023'];
+        for(case cs1:caseList){
+            
+            ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(cs1);
+        }
+        
+    }
+    
     
     @IsTest
     static void testPreClosurePaymentCheck(){
@@ -192,6 +213,47 @@ public class ABHFL_CTSTHelper_Test {
         Test.stopTest();
     }
     @IsTest 
+    static void testskipOpenStageforAPIcases(){
+        Test.startTest();
+        Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
+        ABHFL_case_Detail__c detailrecord=new ABHFL_case_Detail__c();
+        detailrecord.Mode_of_Change_of_Address__c='VKYC';
+        insert detailrecord;
+        
+        Case testcase=new Case();
+        testcase.ABHFL_case_detail__c=detailrecord.Id;
+        testcase.Technical_Source__c='API';
+        testcase.CCC_External_Id__c='hfl003';
+        testcase.RecordTypeId=recordTypeId;
+        testcase.Business_Unit__c='ABHFL';
+        insert testcase;
+        
+        ABHFL_case_Detail__c detailrecord1=new ABHFL_case_Detail__c();
+        detailrecord1.New_Mobile_Number__c='1234567890';
+        insert detailrecord1;
+        
+        Case testcase1=new Case();
+        testcase1.ABHFL_case_detail__c=detailrecord1.Id;
+        testcase1.Technical_Source__c='API';
+        testcase1.CCC_External_Id__c='hfl045';
+        testcase1.RecordTypeId=recordTypeId;
+        testcase1.Business_Unit__c='ABHFL';
+        insert testcase1;
+        
+        ABHFL_case_Detail__c detailrecord2=new ABHFL_case_Detail__c();
+        detailrecord2.New_Email_ID__c='testingaccount@abc.com';
+        insert detailrecord2;
+        
+        Case testcase2=new Case();
+        testcase2.ABHFL_case_detail__c=detailrecord2.Id;
+        testcase2.Technical_Source__c='API';
+        testcase2.CCC_External_Id__c='hfl023';
+        testcase2.RecordTypeId=recordTypeId;
+        testcase2.Business_Unit__c='ABHFL';
+        insert testcase2;
+        Test.stopTest();
+    }
+    @IsTest 
     static void testassignCaseToQueueCont(){
         Test.startTest();
         Case caseRecord = [Select id,CreatedById,AssetId from Case limit 1];
@@ -234,7 +296,7 @@ public class ABHFL_CTSTHelper_Test {
         
         Case caseRecord = [Select id,ABHFL_Case_Detail__r.Id,ABHFL_Case_Detail__r.Preferred_Branch__c from Case limit 1];
         Asset assetRec = [Select id,Branch__c from Asset where LAN__c='Test'];
-        Branch_Master__c branchRec = [Select id,Branch_Queue_Id__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
+        Branch_Master__c branchRec = [Select id,CRM_SPOC__c from Branch_Master__c where Id =: assetRec.Branch__c Limit 1];
         caseRecord.AssetId =assetRec.Id;
         
         Test.startTest();
@@ -242,7 +304,7 @@ public class ABHFL_CTSTHelper_Test {
         Test.stopTest();
 
         // Verify the results
-        // System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
+        //System.assertEquals(branchRec.CRM_SPOC__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
     @isTest
