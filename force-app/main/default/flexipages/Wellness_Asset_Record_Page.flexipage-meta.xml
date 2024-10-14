@@ -133,8 +133,16 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>passPayload</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>secName</name>
                     <value>Points Score Transaction Details</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showRefresh</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentName>mcrm_base_view_container</componentName>
                 <identifier>c_mcrm_base_view_container</identifier>
@@ -163,8 +171,16 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>passPayload</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>secName</name>
                     <value>Billing Details</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showRefresh</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentName>mcrm_base_view_container</componentName>
                 <identifier>c_mcrm_base_view_container2</identifier>
@@ -193,14 +209,54 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>passPayload</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>secName</name>
                     <value>Refund Details</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showRefresh</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentName>mcrm_base_view_container</componentName>
                 <identifier>c_mcrm_base_view_container3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-9eaf6fc2-7137-4fd8-9398-cf5aea041480</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>intAPIName</name>
+                    <value>MCRM_Total_Medals_And_Tier_Status</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>isShowDate</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>mcrm_api_view</componentName>
+                <identifier>c_mcrm_api_view2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>intAPIName</name>
+                    <value>MCRM_Total_Medals_And_Tier_Status_Score</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>isShowDate</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>mcrm_api_view</componentName>
+                <identifier>c_mcrm_api_view</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-a22bad42-5975-4de6-b4bc-af117ccd1501</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -248,6 +304,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-a22bad42-5975-4de6-b4bc-af117ccd1501</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Total Medals And Tier Status</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-497935c7-3213-431b-9d9c-e689f9d72223</name>
