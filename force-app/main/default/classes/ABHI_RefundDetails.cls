@@ -51,7 +51,7 @@ public with sharing class ABHI_RefundDetails {
             
             
         }catch(Exception e){
-         throw new AuraHandledException(Custom_Messages__mdt.getInstance('ABHI_Invalid_Response').Message__c);
+         throw new AuraHandledException('Error : '+e.getMessage());
         }
         
         
@@ -72,7 +72,7 @@ public with sharing class ABHI_RefundDetails {
      //Response Wrapper class
     public class IntegrationResponseWrapper{
         @AuraEnabled
-        public List<ResponseObjWrapper> ResponseObj;
+        public ResponseObjWrapper ResponseObj;
         @AuraEnabled
         public List<ReceiptObjWrapper> ReceiptObj;
        
