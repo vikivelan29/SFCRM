@@ -1,6 +1,5 @@
 import { LightningElement,api,track } from 'lwc';
 import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithParams';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Wellness_api_view extends LightningElement {
     @api recordId;
@@ -8,7 +7,6 @@ export default class Wellness_api_view extends LightningElement {
     @api isShowDate = false;
 
     showSpinner = false;
-    showErrorMessage = false;
 	showBaseViewScreen = false;
 	payloadInfo;
     responseMessage;
@@ -17,7 +15,8 @@ export default class Wellness_api_view extends LightningElement {
     endDate;
     errorMessageSearch;
     displayErrorSearch = false;
-
+	isError = false;
+	errorMessage = "";
     get isDirectInvoke(){
         return !this.isShowDate;
     }
@@ -30,17 +29,16 @@ export default class Wellness_api_view extends LightningElement {
 
     invokeAPI(){
         this.showSpinner = true;
-        this.showErrorMessage = false;
+        this.isError = false;
+		this.errorMessage = "";
         // invoke API
 		const params = {
 			startDate: this.startDate,
 			endDate: this.endDate
 		};
-		console.log('params-->'+params);
 		fetchAPIResponse({ recId: this.recordId, intName:this.intAPIName , params : params})
 		.then((result) => {
 			let payLoad = JSON.parse(result.payload);
-			console.log('***result:'+JSON.stringify(JSON.parse(JSON.stringify(result))));
 
 			// Check validity of response
 			if (result?.statusCode == 200 && payLoad) {
@@ -52,36 +50,38 @@ export default class Wellness_api_view extends LightningElement {
                 }
 			}
 			this.showSpinner = false;
-			console.log('***payloadInfo:'+JSON.stringify(this.payloadInfo));
 			if (this.payloadInfo) {
 				this.showBaseViewScreen = true;
 			} else {
 				let res = JSON.parse(result?.payload);
 				if(res?.error?.description) {
-					this.showToast("Error", res.error.description, 'error');
+					this.showError(res.error.description);
 				} else {
-					this.showToast("Error", "There seems to be an error", 'error');
+					this.showError("There seems to be an error");
 				}
 			}
 
 			setTimeout(() => {             
-				this.template.querySelector('c-abfl_base_view_screen').callFunction();
+				this.template.querySelector('c-mcrm_base_view_screen').callFunction();
 			}, 200);
 		})
 		.catch((error) => {
-			console.log(JSON.stringify(error));
 			this.showSpinner = false;
-			this.showToast("Error", "There seems to be an error", 'error');
+			this.showError("There seems to be an error");
 		});
     }
 
     handleSearchClick() {
-        if(this.displayErrorSearch){
-            this.showToast("Error", this.errorMessageSearch, 'error');
-            return;
+		const allValid = [
+            ...this.template.querySelectorAll('.inpFieldCheckValidity'),
+        ].reduce((validSoFar, inputCmp) => {
+            inputCmp.reportValidity();
+            return validSoFar && inputCmp.checkValidity();
+        }, true);
+        if (allValid) {
+			this.invokeAPI();
         }
 
-		this.invokeAPI();
     }
 
     handleStartDateChange(event) {
@@ -101,7 +101,6 @@ export default class Wellness_api_view extends LightningElement {
 	
 			if (end < start) {
 				this.displayErrorSearch = true;
-				this.errorMessageSearch= 'End Date cannot be earlier than Start Date.';
 			} else {
 				this.displayErrorSearch = false;
 			}
@@ -110,14 +109,9 @@ export default class Wellness_api_view extends LightningElement {
 		}
 	}
 
-    showToast(title, message, type) {
-        const event = new ShowToastEvent({
-            title: title,
-            message: message,
-            variant: type,
-            mode: 'dismissable'
-        });
-        this.dispatchEvent(event);
+    showError(message) {
+		this.isError = true;
+		this.errorMessage = message;
     }
 
 	handleRefresh(){
