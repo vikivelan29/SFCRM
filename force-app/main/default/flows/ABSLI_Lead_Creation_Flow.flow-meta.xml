@@ -382,21 +382,6 @@
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
-        <name>PoliciesForCustomer</name>
-        <dataType>String</dataType>
-        <displayField>Policy_No__c</displayField>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>AccountId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>selectedAccount</elementReference>
-            </value>
-        </filters>
-        <object>Asset</object>
-        <valueField>Id</valueField>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
         <name>ProductChoiceSet</name>
         <dataType>String</dataType>
         <displayField>Name</displayField>
@@ -492,16 +477,6 @@
     </dynamicChoiceSets>
     <environments>Default</environments>
     <formulas>
-        <name>selectedAccount</name>
-        <dataType>String</dataType>
-        <expression>{!Customer.recordId}</expression>
-    </formulas>
-    <formulas>
-        <name>selectedAccountName</name>
-        <dataType>String</dataType>
-        <expression>{!Customer.recordName}</expression>
-    </formulas>
-    <formulas>
         <name>selectedLeadStage</name>
         <dataType>String</dataType>
         <expression>{!Lead_Stage}</expression>
@@ -567,7 +542,7 @@
         <inputAssignments>
             <field>Account__c</field>
             <value>
-                <elementReference>Customer.recordId</elementReference>
+                <elementReference>recordId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -857,48 +832,18 @@
                     <isRequired>true</isRequired>
                 </fields>
                 <fields>
-                    <name>Customer</name>
-                    <extensionName>flowruntime:lookup</extensionName>
-                    <fieldType>ComponentInstance</fieldType>
-                    <inputParameters>
-                        <name>fieldApiName</name>
-                        <value>
-                            <stringValue>Account__c</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>label</name>
-                        <value>
-                            <stringValue>Customer</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>objectApiName</name>
-                        <value>
-                            <stringValue>Lead</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>maxValues</name>
-                        <value>
-                            <numberValue>1.0</numberValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>required</name>
-                        <value>
-                            <elementReference>customerRequired</elementReference>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>recordId</name>
-                        <value>
-                            <elementReference>recordId</elementReference>
-                        </value>
-                    </inputParameters>
+                    <name>Customer_Text</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>Get_Account_Record.Name</elementReference>
+                    </defaultValue>
+                    <fieldText>Customer</fieldText>
+                    <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <isReadOnly>
+                        <elementReference>customerRequired</elementReference>
+                    </isReadOnly>
+                    <isRequired>false</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -1052,6 +997,10 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;Please enter a valid value&lt;/p&gt;</errorMessage>
+                        <formulaExpression>REGEX({!City_2}, &quot;^[a-zA-Z ]+$&quot;)</formulaExpression>
+                    </validationRule>
                 </fields>
                 <fields>
                     <name>State</name>
@@ -1064,6 +1013,21 @@
                     <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                </fields>
+                <fields>
+                    <name>PAN</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>customerRecord.PAN__c</elementReference>
+                    </defaultValue>
+                    <fieldText>PAN</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;PAN number should be 10 digits&lt;/p&gt;</errorMessage>
+                        <formulaExpression> LEN({!PAN}) = 10</formulaExpression>
+                    </validationRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -1122,8 +1086,11 @@
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
                     <validationRule>
-                        <errorMessage>&lt;p&gt;Mobile to have 10 digits.&lt;/p&gt;</errorMessage>
-                        <formulaExpression>LEN({!Mobile.value})=10</formulaExpression>
+                        <errorMessage>&lt;p&gt;Enter a valid Mobile Number&lt;/p&gt;</errorMessage>
+                        <formulaExpression>AND(
+    ISNUMBER({!Mobile.value}), 
+    LEN({!Mobile.value}) = 10
+)</formulaExpression>
                     </validationRule>
                 </fields>
                 <fields>
@@ -1169,6 +1136,13 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;Pincode Maximum length should be 6 digit&lt;/p&gt;</errorMessage>
+                        <formulaExpression>AND(
+    ISNUMBER({!Pincode}), 
+    LEN({!Pincode}) = 6
+)</formulaExpression>
+                    </validationRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -1279,14 +1253,6 @@
                     <isDisabled>
                         <booleanValue>false</booleanValue>
                     </isDisabled>
-                    <isRequired>false</isRequired>
-                </fields>
-                <fields>
-                    <name>PAN</name>
-                    <dataType>String</dataType>
-                    <fieldText>PAN</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                 </fields>
                 <inputParameters>
