@@ -96,7 +96,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         System.debug(caseRec.ABSLI_Case_Detail__r.To_date__c);
                         System.debug(caseRec.ABSLI_Case_Detail__r.From_date__c);
                         // Check if the Case record is related to ABSLI business unit
-                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c)) {
+                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c) && CaseRec.Technical_Source__c != 'Email') {
                             System.debug('Inside validate date: ' + caseRec.Asset.Issue_Date__c);
                             Date issueDate = caseRec.Asset.Issue_Date__c;
                             Date toDate = caseRec.ABSLI_Case_Detail__r.To_date__c;
