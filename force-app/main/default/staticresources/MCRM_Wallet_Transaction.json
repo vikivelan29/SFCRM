@@ -1,0 +1,9 @@
+{
+    "customerId": 193296,
+    "convertedBalance": 2300.0,
+    "balanceAmount": 2300.0,
+    "success": true,
+   "messageCode": "PG10009",
+    "messageDesc": "Wallet Get Balance Success",
+    "serviceMessageType": "INFO"
+}
