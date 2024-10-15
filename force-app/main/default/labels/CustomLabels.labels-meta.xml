@@ -1271,4 +1271,11 @@
         <shortDescription>RNWL_Seller_Portal_Link</shortDescription>
         <value>https://happy.adityabirlacapital.com/#renewPaSales</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseDuplicateAdminByPass</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
+        <value>System Administrator,***System Admin</value>
+    </labels>
 </CustomLabels>

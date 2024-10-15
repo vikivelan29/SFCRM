@@ -21,13 +21,13 @@
 										<tbody>
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom"><br />
-												Dear {{{Case.Customer_name_formula__c}}},</td>
+												Dear Investor,</td>
 											</tr>
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 25px;font-style:normal;" valign="bottom">Greetings from Aditya Birla Sun Life Mutual Fund.</td>
 											</tr>
 											<tr>
-												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We sincerely apologize for the delay in addressing your concern under case ID <span style="font-weight:normal;">{{{Case.CaseNumber}}} </span>.</td>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We sincerely apologize for the delay in addressing your concern under case ID <span style="font-weight:normal;"><b>{{{Case.CaseNumber}}}</b> </span>.</td>
 											</tr>
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Please be assured that our dedicated team is actively working on resolving this and will provide you an update shortly. We regret the inconvenience caused to you in this regard, and truly appreciate your patience.</td>
@@ -37,6 +37,9 @@
 											</tr>
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Our support team is available to assist you from Monday to Sunday, 10am to 7pm (IST).</td>
+											</tr>
+											<tr>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Assuring you best of our services.</td>
 											</tr>
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom"><br />
