@@ -3,10 +3,10 @@
     <fullName>Ubona_Cancel_Call_Failures</fullName>
     <columns>OPPORTUNITY.NAME</columns>
     <columns>ACCOUNT.NAME</columns>
+    <columns>Policy__c</columns>
+    <columns>Proposal_Number__c</columns>
     <columns>OPPORTUNITY.STAGE_NAME</columns>
-    <columns>OPPORTUNITY.CLOSE_DATE</columns>
-    <columns>OPPORTUNITY.AMOUNT</columns>
-    <columns>CORE.USERS.ALIAS</columns>
+    <columns>Schedule_Request_Response__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Dialer_Status__c</field>
