@@ -62,6 +62,25 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
      @track totalRecordsHoldings = 0;
      @track totalPagesHoldings = 0;
      @track recordsPerPageHoldings = 5;
+     noSIPDataFound = false;
+     noHoldingsDataFound = false;
+
+     @track isModalOpen = false;
+     @track modalContent = '';
+     @track modalHeader = '';
+ 
+     closeModal() {
+         this.isModalOpen = false;
+     }
+ 
+     renderedCallback() {
+         if (this.isModalOpen) {
+             const container = this.template.querySelector('div[data-id="table-content"]');
+             if (container) {
+                 container.innerHTML = this.modalContent;
+             }
+         }
+     }
 
     get isFirstPageSIP() {
         return this.currentPageSIP === 1;
@@ -103,7 +122,9 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
                     'CSIP_Folio': item.CSIP_FOLIO,
                     'id': item.ID
                 }));
-
+                if (!parsedData || parsedData.length === 0) {
+                    this.noSIPDataFound = true; 
+                } else {
                 this.sipData = parsedData;
                 this.totalRecordsSIP = parsedData.length;
                 this.totalPagesSIP = Math.ceil(this.totalRecordsSIP / this.recordsPerPageSIP);
@@ -184,10 +205,15 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
                 'id': item.ID
             }));
 
-            this.holdingsData = parsedData;
-            this.totalRecordsHoldings = parsedData.length;
-            this.totalPagesHoldings = Math.ceil(this.totalRecordsHoldings / this.recordsPerPageHoldings);
-            this.updatePaginatedHoldingsData();
+            if (!parsedData || parsedData.length === 0) {
+                this.noHoldingsDataFound = true; 
+            } else {
+                this.holdingsData = parsedData;
+                this.totalRecordsHoldings = parsedData.length;
+                this.totalPagesHoldings = Math.ceil(this.totalRecordsHoldings / this.recordsPerPageHoldings);
+                this.updatePaginatedHoldingsData();
+                this.showTable = true;
+            }
         }
         this.loading = false;
         this.showTable = true;
