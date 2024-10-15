@@ -30,6 +30,20 @@
         <shortDescription>ABHI Communication History</shortDescription>
         <value>Communication History</value>
     </labels>
+     <labels>
+        <fullName>ABHI_Retry</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Retry</shortDescription>
+        <value>3</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_WelcomeBatchSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_WelcomeBatchSize</shortDescription>
+        <value>200</value>
+    </labels>
     <labels>
         <fullName>ABSLI_Update_CCC_ID</fullName>
         <language>en_US</language>
