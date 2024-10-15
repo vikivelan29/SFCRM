@@ -133,8 +133,9 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                     botRequest.DispositionId = dispositions.Id;
 
 
-                    disposition.Policy_Number__r = new Asset(LAN__c = dispositions.Policy_Number__c);
                     disposition.ABHI_Retry__c = dispositions.ABHI_Retry__c + 1;
+                    disposition.Status__c = ABHI_Constants.PENDING;
+                    disposition.Remarks__c = ABHI_Constants.SUCCESS;
                     disposition.Id = dispositions.Id;
                     
                     mapDisposition.put(dispositions.Policy_Number__r.LAN__c, disposition);
