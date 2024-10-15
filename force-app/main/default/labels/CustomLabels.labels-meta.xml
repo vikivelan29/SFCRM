@@ -1243,4 +1243,32 @@
         <shortDescription>OppDetailsToastErrorMessage</shortDescription>
         <value>We&apos;re not able to fetch the details currently. Please try again later.</value>
     </labels>
+    <labels>
+        <fullName>MCRM_ResolutionRemarks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_ResolutionRemarks</shortDescription>
+        <value>Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Auto_Calculation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Auto_Calculation</shortDescription>
+        <value>https://www.adityabirlacapital.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Product_Features</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Product_Features</shortDescription>
+        <value>https://adityabirlafinancialsharedservices--abhil.sandbox.lightning.force.com/lightning/o/Product2/list?filterName=AllProducts&amp;ws=%2Flightning%2Fr%2FOpportunity%2F006Bl00000D3c2tIAB%2Fview</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Seller_Portal_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Seller_Portal_Link</shortDescription>
+        <value>https://happy.adityabirlacapital.com/#renewPaSales</value>
+    </labels>
 </CustomLabels>

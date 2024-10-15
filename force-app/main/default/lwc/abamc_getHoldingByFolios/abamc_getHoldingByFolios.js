@@ -62,6 +62,24 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
      @track totalRecordsHoldings = 0;
      @track totalPagesHoldings = 0;
      @track recordsPerPageHoldings = 5;
+     noDataFound = false;
+
+     @track isModalOpen = false;
+     @track modalContent = '';
+     @track modalHeader = '';
+ 
+     closeModal() {
+         this.isModalOpen = false;
+     }
+ 
+     renderedCallback() {
+         if (this.isModalOpen) {
+             const container = this.template.querySelector('div[data-id="table-content"]');
+             if (container) {
+                 container.innerHTML = this.modalContent;
+             }
+         }
+     }
 
     get isFirstPageSIP() {
         return this.currentPageSIP === 1;
@@ -103,12 +121,15 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
                     'CSIP_Folio': item.CSIP_FOLIO,
                     'id': item.ID
                 }));
-
+                if (!parsedData || parsedData.length === 0) {
+                    this.noDataFound = true; 
+                } else {
                 this.sipData = parsedData;
                 this.totalRecordsSIP = parsedData.length;
                 this.totalPagesSIP = Math.ceil(this.totalRecordsSIP / this.recordsPerPageSIP);
                 this.updatePaginatedSIPData();
                 this.showTable = true;
+                }
             }
         } catch (error) {
             console.error('Error fetching SIP data:', error);
@@ -184,10 +205,15 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
                 'id': item.ID
             }));
 
-            this.holdingsData = parsedData;
-            this.totalRecordsHoldings = parsedData.length;
-            this.totalPagesHoldings = Math.ceil(this.totalRecordsHoldings / this.recordsPerPageHoldings);
-            this.updatePaginatedHoldingsData();
+            if (!parsedData || parsedData.length === 0) {
+                this.noDataFound = true; 
+            } else {
+                this.holdingsData = parsedData;
+                this.totalRecordsHoldings = parsedData.length;
+                this.totalPagesHoldings = Math.ceil(this.totalRecordsHoldings / this.recordsPerPageHoldings);
+                this.updatePaginatedHoldingsData();
+                this.showTable = true;
+            }
         }
         this.loading = false;
         this.showTable = true;
@@ -234,6 +260,21 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
         this.holdingsData.sort((a, b) => {
             let aValue = a[fieldName] ? a[fieldName] : '';
             let bValue = b[fieldName] ? b[fieldName] : '';
+
+            if (fieldName === 'Holding_Amount') {
+                aValue = aValue.replace(/₹/g, ''); 
+                bValue = bValue.replace(/₹/g, ''); 
+    
+               
+                aValue = parseFloat(aValue) || 0;
+                bValue = parseFloat(bValue) || 0;
+            }
+
+            if (fieldName === 'Unit_Holding') {
+                aValue = parseFloat(aValue) || 0;
+                bValue = parseFloat(bValue) || 0;
+            }
+
             return (aValue > bValue ? 1 : -1) * (sortDirection === 'asc' ? 1 : -1);
         });
         this.updatePaginatedHoldingsData();
@@ -244,25 +285,42 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
     }
 
 
-
     viewRecordSIP(event) {
         let selectedId = event.detail.row.Scheme_Code;
-        let selectedRow = this.sipData.find(item => {
-            return item.Scheme_Code == selectedId;
-        });
+        let selectedRow = this.sipData.find(item => item.Scheme_Code == selectedId);
+    
         if (!selectedRow) {
             selectedRow = this.holdingsData.find(item => item.Scheme_Code === selectedId);
         }
-        console.log('selected row: ',JSON.stringify(selectedRow));
-        MyModal.open({
-            content: selectedRow.Scheme_Name,
-            header: 'Details',
-            label: selectedRow.Scheme_Name,
-            footeraction: 'Okay'
-        }).then((result) => {
-            console.log(result);
-        }).catch(error => {
-            console.error(error);
-        });
+    
+        if (selectedRow) {
+            let contentString = `
+                <table style="width:100%; border:1px solid black; border-collapse:collapse;">
+                   
+                <tbody>
+                ${Object.keys(selectedRow)
+                    .filter(key => key !== 'id')
+                    .map(key => `
+                        <tr>
+                            <td style="border:1px solid black; padding:5px;">
+                                ${key.replace(/_/g, ' ')}
+                            </td>
+                            <td style="border:1px solid black; padding:5px;">
+                                ${selectedRow[key]}
+                            </td>
+                        </tr>
+                    `).join('')}
+            </tbody>
+                </table>
+            `;
+    
+            this.modalContent = contentString;
+            this.modalHeader = selectedRow.Scheme_Name;
+            this.isModalOpen = true;
+        }
     }
+    
+    
+    
+    
 }

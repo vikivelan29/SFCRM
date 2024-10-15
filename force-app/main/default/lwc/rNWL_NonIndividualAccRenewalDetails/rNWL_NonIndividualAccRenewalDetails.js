@@ -4,15 +4,31 @@ import getDetails from '@salesforce/apex/RNWL_NonIndAccountRenewalController.get
 export default class RNWL_NonIndividualAccRenewalDetails extends LightningElement {
     @api opportunityId;  // coming from parent component
     @track data=[];
+    hasError = false;
+    showSpinner = false;
+    errorMessage;
+    
     connectedCallback(){
+        this.showSpinner = true;
+
         getDetails({opportunityId : this.opportunityId})
         .then(result=>{
             if(result){
-                this.fetchData(result);
+               if(!result.hasError && !result.errorMessage){
+                    this.fetchData(result);
+               }else if(result.hasError && result.errorMessage){
+                    this.hasError = true;
+                    this.errorMessage   = result.errorMessage;
+               }
             }
         })
         .catch(error=>{
             console.log('error--'+error);
+            this.hasError = true;
+            this.errorMessage   = 'There might be some internal error, Please contact to your administrator';
+        })
+        .finally(()=>{
+            this.showSpinner = false;
         });
     }
 
@@ -129,5 +145,8 @@ export default class RNWL_NonIndividualAccRenewalDetails extends LightningElemen
                         renewalInfoSections,
                         combiPolicySection ); 
         console.log('========>>>',JSON.stringify(this.data));
+
+        this.hasError = false;
+        this.errorMessage = null;
     }
 }
