@@ -24,6 +24,7 @@ public with sharing class RNWL_NonIndAccountRenewalController {
                 String payload = '{"lead_Id":"","master_policy_number":"","certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
                 ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('RNWL_Non_Ind_Account', payload, null);
                 String fileName = 'Renewal Group Check-'+Date.today();
+                system.debug(responseWrapper);
                 responseBody = responseWrapper.responseBody;
                 if(String.isNotBlank(responseBody)){
                     uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Group Check');
