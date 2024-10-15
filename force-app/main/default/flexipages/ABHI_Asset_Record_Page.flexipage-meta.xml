@@ -232,6 +232,16 @@
                 <identifier>RecordGoGreen_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SystemDate__c</fieldItem>
+                <identifier>RecordSystemDate__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -883,346 +893,6 @@
                 <identifier>lst_dynamicRelatedList</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-d930176a-1f7c-4c88-a9c1-f2a55c2725a0</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>adminFilters</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>CASES.STATUS|EQUALS|[&quot;Closed&quot;,&quot;Merged&quot;,&quot;Resolved&quot;,&quot;Closed Duplicate&quot;,&quot;Unresolved&quot;]</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c|EQUALS|[&quot;Request&quot;,&quot;Complaint&quot;]</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Asset.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Cases</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>CASES.CASE_NUMBER</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Source__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Created_By_User_formula__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case_Assigned_Team__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.STATUS</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Rejection_Reason__c</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Cases</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>CASES.CREATED_DATE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Descending</value>
-                </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-69ee1742-4077-4ee5-b0c2-7807447ea884</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>adminFilters</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Nature__c|EQUALS|[&quot;Query&quot;]</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Asset.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Cases</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>CASES.CASE_NUMBER</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Source__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Created_By_User_formula__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case_Assigned_Team__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.STATUS</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Rejection_Reason__c</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Cases</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>CASES.CREATED_DATE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Descending</value>
-                </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-bfdb7e4d-7da5-4aab-bf80-6a2a0ec8ca19</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>adminFilters</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Asset.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Cases</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>CASES.CASE_NUMBER</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Nature__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Sub_Type_Text__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Source__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Created_By_User_formula__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case_Assigned_Team__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.STATUS</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Rejection_Reason__c</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Cases</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>CASES.CREATED_DATE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Descending</value>
-                </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-sm2fddlyht</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>active</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-d930176a-1f7c-4c88-a9c1-f2a55c2725a0</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Open Request/Complaint</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab16</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-69ee1742-4077-4ee5-b0c2-7807447ea884</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Closed Request/Complaint</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab17</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-bfdb7e4d-7da5-4aab-bf80-6a2a0ec8ca19</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>All Queries</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab18</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-sm2fddlyht</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>All Cases</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab19</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-8b85c2f6-4cf3-451d-9b97-f4e854b438af</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>tabs</name>
-                    <value>Facet-8b85c2f6-4cf3-451d-9b97-f4e854b438af</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tabset</componentName>
-                <identifier>flexipage_tabset3</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-2e870589-8001-456a-8c1e-ad53f505322a</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1735,11 +1405,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>New</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
@@ -1772,9 +1437,6 @@
                         <valueListItems>
                             <value>Agent_Name__c</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Remarks__c</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1794,10 +1456,10 @@
                     <value>Default</value>
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList9</identifier>
+                <identifier>lst_dynamicRelatedList2</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-fde95313-903d-478d-b6a4-a347e5c2e61b</name>
+        <name>Facet-c4e0b102-8fa8-4399-956b-a6a0e71080db</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1977,7 +1639,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-fde95313-903d-478d-b6a4-a347e5c2e61b</value>
+                    <value>Facet-c4e0b102-8fa8-4399-956b-a6a0e71080db</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
