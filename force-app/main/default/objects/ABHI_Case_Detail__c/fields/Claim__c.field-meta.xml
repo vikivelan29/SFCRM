@@ -3,6 +3,7 @@
     <fullName>Claim__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>Please enter CL- to view list of available claims</inlineHelpText>
     <label>Claim Number</label>
     <lookupFilter>
         <active>true</active>

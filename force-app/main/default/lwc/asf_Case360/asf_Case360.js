@@ -2639,7 +2639,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     async showRejectModal() {       
         if(this.showResolvedReasons){           
             try{
-             const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });                          
+                const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });  
+                this.reasonLOV = [];
+                this.resolveReasonLOV = [];
              records.forEach(item => {
                     if(item.Type__c == 'Reject'){
                 const optionVal = {
@@ -2655,6 +2657,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                         this.resolveReasonLOV.push(optionVal);
                     }                   
             });
+            console.log('this.reasonLOV',JSON.stringify(this.reasonLOV));
+            console.log('this.resolveReasonLOV',JSON.stringify(this.resolveReasonLOV));
             this.isLoading = false;
             }catch (error) {
                 this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
