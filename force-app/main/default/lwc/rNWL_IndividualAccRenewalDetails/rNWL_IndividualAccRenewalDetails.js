@@ -53,30 +53,27 @@ export default class RNWL_IndividualAccRenewalDetails extends LightningElement {
     @track error;  
     @track ErrorMessage;   
     @track showData; 
-    @track showError;  
-    isLoading = true; 
-    columns = columns;   
-    columns_CombiPolicy=columns_CombiPolicy; 
-    columns_CombiDispositions=columns_CombiDispositions;
+    @track showError;   
+    columns = columns;    
      
-    connectedCallback(){ 
+    connectedCallback(){
+        console.log('this.opportunityId',this.opportunityId);
         getPolicyRenewalDetails({opportunityId : this.opportunityId})
-        .then(result=>{ 
-            console.log('result',JSON.stringify(result));
+        .then(result=>{
+            console.log('getPolicyRenewalDetails success ',JSON.stringify(result));
             if(result[0].ErrorCode ==  null){
                 this.policylst = result; 
-                this.isLoading = false;  
-            }else{ 
+                this.showData = true;
+                console.log('getPolicyRenewalDetails success ',JSON.stringify(result));
+            }else{
                 this.ErrorMessage = result[0].ErrorMessage;
-                this.isLoading = false;  
-                this.showError = true;   
+                this.showError = true;             
             }
         })
         .catch(error=>{
             this.error = error;
             this.ErrorMessage = 'Something went wrong please retry';
             this.showError = true;
-            this.isLoading = false;  
             console.log('Raw error Response',JSON.stringify(error));
         });
     }
