@@ -4,13 +4,13 @@ import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithP
 import { subscribe, MessageContext } from 'lightning/messageService';
 import ViewEvent from '@salesforce/messageChannel/mcrmviewevents__c';
 import GymLocationNotAvailable from '@salesforce/label/c.MCRM_GymNameLocation';
-// import RewardsDataNotAvailable from '@salesforce/label/c.MCRM_RewardsDataNotAvailable';
+import RewardsDataNotAvailable from '@salesforce/label/c.MCRM_RewardsDataNotAvailable';
 
 export default class Mcrm_bv_container_extension extends LightningElement {
 
 	label = {
 		GymLocationNotAvailable,
-		// RewardsDataNotAvailable
+		RewardsDataNotAvailable
 	};
 
 	// Configs
@@ -58,7 +58,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		if (this.showPartner){
 			return this.label.GymLocationNotAvailable;
 		} else {
-			// return this.label.RewardsDataNotAvailable;
+			return this.label.RewardsDataNotAvailable;
 		}
 	}
 

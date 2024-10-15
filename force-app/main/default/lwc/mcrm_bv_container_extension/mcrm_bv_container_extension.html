@@ -29,11 +29,11 @@
 		</template>
 		<template lwc:if={showRewards}>
 			<div class="slds-grid">
-				<div class="slds-col slds-size--1-of-6 slds-p-left_small">
+				<div class="slds-col slds-size--2-of-6 slds-p-left_small">
 					<lightning-combobox name="partnerCode" label="Partner Code" value={pcvalue}
 						placeholder="Select Partner Code" options={partnerCodeOptions} onchange={handleChange} dropdown-alignment="auto"></lightning-combobox>
 				</div>
-				<div class="slds-col slds-size--1-of-6 slds-p-left_small">
+				<div class="slds-col slds-size--2-of-6 slds-p-left_small">
 					<lightning-combobox name="benefitCode" label="Benefit Code" value={bcvalue}
 						placeholder="Select Benefit Code" options={benefitCodeOptions} onchange={handleChange} dropdown-alignment="auto"></lightning-combobox>
 				</div>

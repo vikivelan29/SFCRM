@@ -40,6 +40,7 @@ import asf_CaseEndStatus from '@salesforce/label/c.ASF_CaseEndStatuses';
 import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
 import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
 
+
 //Code optimization imports - Nov 2023 - Santanu
 import fetchUserAndCaseDetails from '@salesforce/apex/ASF_Case360Controller.fetchUserAndCaseDetails';
 import updateCaseWithCaseExtn from '@salesforce/apex/ASF_Case360Controller.updateCaseWithCaseExtn';
@@ -57,6 +58,7 @@ import { setPicklistFieldValue, conditionalRenderingPicklist, renderingPicklistO
 import {BUSpecificCloseCasePopupHandler} from 'c/asf_Case360JSUtility';
 //Label added for PR1030924-43
 import UnresolvedCommentsNotReqBUs from '@salesforce/label/c.ABAMC_NonMandatoryUnresCommentsBUs';
+import ResolvedReasonsRequired from '@salesforce/label/c.ABC_ResolvedReasonsRequired';
 
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -202,11 +204,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     isReadOnly = false;
     selectedReason = '';
     reasonLOV = [];
+    
+    @track resolveReasonLOV = [];//PR1030924-224: ZAHED 
+    isLoading = true;//PR1030924-224: ZAHED 
     isOnComplaintReject = false;
     //RejMsg = Rejection_Warning;
     accessState;
     isReadOnly = false;
     selectedReason = '';
+    resolutionReason = '';
     isOnComplaintReject = false;
     //RejMsg = Rejection_Warning;
 
@@ -258,10 +264,19 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
     isNoActionStage = false;
     saveDataOnBack = false;
-        
+    ResolvedReasonsRequired = ResolvedReasonsRequired;  
 
     get eligibleForBU(){
         return !(this.caseBusinessUnit == 'ABSLI');
+    }
+
+    get showResolvedReasons(){
+        const listOfBUs = this.ResolvedReasonsRequired.split(',');
+        if(listOfBUs.includes(this.caseBusinessUnit)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     //added for PR1030924-43, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
@@ -950,8 +965,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     }
     handleClose(event) {
-        this.fetchRejectionReason();
-
+        //this.fetchRejectionReason();
+        this.showRejectModal();
         /* ADDED BELOW CODE TO SET RESOLUTION COMMENT FIELDS VALUE IF IT IS ALREADY POPULATED ON PARENT FORM BEFORE OPENING POP-UP */
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
             //Resolution_Remarks__c - ABHFL
@@ -1136,9 +1151,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
      */
     saveCaseAndExtn(event) {
         this.skipMoveToNextStage = true;
+       /* if(this.caseBusinessUnit = 'ABHI') {
+            this.skipMoveToNextStage = false;
+        }
+        else {
+            this.skipMoveToNextStage = true;
+        }*/
         this.validateFields();
         this.template.querySelector('.hiddenSubmitBtn').click();
-        console.log('submit btn clicked');
+        console.log('submit btn clicked1'+this.caseBusinessUnit);
     }
     handleMoveToNext(event) {
         this.skipMoveToNextStage = false;
@@ -2613,36 +2634,35 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.showLoading = false;
         this.selectedReason = '';
     }
-
     //PR1030924-224: ZAHED : Added filter condition for wellness case - Start
-    showRejectModal() {       
+    
+    async showRejectModal() {       
         if(this.showResolvedReasons){           
-            console.log('***showResolvedReasons->');
-            getSrBUReasons({ cccExternalId: this.cccExternalId }).then(result => {               
-                result.forEach(item => {
+            try{
+             const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });                          
+             records.forEach(item => {
                     if(item.Type__c == 'Reject'){
-                        const optionVal = {
+                const optionVal = {
                             label: item.Reason__c,
                             value: item.Reason__c
-                        };
-                        this.reasonLOV.push(optionVal);
+                };
+                this.reasonLOV.push(optionVal);
                     }else if(item.Type__c == 'Resolve'){
                         const optionVal = {
                             label: item.Reason__c,
                             value: item.Reason__c
                         };
                         this.resolveReasonLOV.push(optionVal);
-                    }    
-                });                
-                // this.showRejModal = true;
-            }).catch(error => {
-                console.log('Error: ' + JSON.stringify(error));
-                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+                    }                   
             });
+            this.isLoading = false;
+            }catch (error) {
+                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+                this.isLoading = false;              
+            }
         }else{
-            // console.log('fetchRejectionReason else -->');
             this.fetchRejectionReason();
-        }
+    }
     }
     //PR1030924-224: ZAHED : Added filter condition for wellness case - End
 
