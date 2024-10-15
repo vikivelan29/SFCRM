@@ -1,15 +1,15 @@
 /**
  * @description       : Batch Class to make callout to call Welcome Bot
- * @author            : Achuriwala@salesforce.com,
+ * @author            : Achuriwala@salesforce.co,
  * @group             : 
  * @last modified on  : 01-10-2024
- * @last modified by  : Achuriwala@salesforce.com,
+ * @last modified by  : Achuriwala@salesforce.co,
  * Modifications Log
  * Ver   Date         Author                       Modification
- * 1.0   01-10-2024   Achuriwala@salesforce.com,   Initial Version
+ * 1.0   01-10-2024   Achuriwala@salesforce.co,   Initial Version
 **/
 
-global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Schedulable {  
+global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Schedulable,  Database.AllowsCallouts {  
     List<sObject> scope = new List<sObject>();
      /****************************************************************************************************************
      * @LOB - ABHI
@@ -27,7 +27,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Account.State__c, Channel__c, Source__c, LAN__c
                       FROM Asset 
                       WHERE CreatedDate = N_DAYS_AGO:2 AND Business_Unit__c = :ABHI_Constants.ABHI
-                      AND CreatedBy.Username != 'abcdatasyncautomationuser@abc.com.abcprod']);
+                      AND CreatedBy.name != 'Data Sync Automation User']);
         scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username, ABHI_Retry__c,
                       Policy_Number__r.Account.Name, Policy_Number__r.Account.IsPersonAccount,
                       Policy_Number__r.Account.Phone, Policy_Number__r.Account.PersonMobilePhone,
@@ -37,8 +37,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Policy_Number__r.Plan_Name__c, Policy_Number__r.LAN__c, 
                       Policy_Number__r.Account.State__c, Policy_Number__r.Channel__c, Policy_Number__r.Source__c
                       from Dispositions__c  
-                      WHERE Status__c = :ABHI_Constants.FAILURE AND Call_Type__c = :Label.ABHI_WelcomeBot 
-                      AND ABHI_Retry__c <= :Integer.valueOf(Label.ABHI_Retry)]);
+                      WHERE Status__c = :ABHI_Constants.FAILURE AND ABHI_Retry__c <= :Integer.valueOf(Label.ABHI_Retry)]);
         return scope;
 	}
     
@@ -70,8 +69,6 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                                                   }
                                                   if(!mapProductDetService.containskey(key)) {
                                                       mapProductDetService.put(key, welcome.Service_Id__c);
-                                                     System.debug('@@@mapkey'+key);
-
                                                   }
                                               }
         System.debug('@@@mapProductDetService'+mapProductDetService);
@@ -91,7 +88,6 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                         System.debug('@@@key'+key);
                         botRequest.serviceId = mapProductDetService.get(key); 
                     }
-                    System.debug('@@@serviceId'+botRequest.serviceId);
                     botRequest.msisdn = asset.Account.IsPersonAccount?asset.Account.PersonMobilePhone:asset.Account.Phone;
                     botRequest.language = 'en';
                     botRequest.group_or_retail = asset.PolicyType__c;
@@ -110,7 +106,6 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                     disposition.Policy_Number__r = new Asset(LAN__c = asset.LAN__c);
                     disposition.Status__c = ABHI_Constants.PENDING;
                     disposition.Remarks__c = ABHI_Constants.SUCCESS;
-                    disposition.Call_Type__c = Label.ABHI_WelcomeBot;
                     
                     mapDisposition.put(asset.LAN__c, disposition);
                 }
@@ -121,7 +116,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                         botRequest.serviceId = mapProductNameService.get(dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c);
                     }
                     else {
-                        key = dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c +dispositions.Policy_Number__r.Account.CMP_OPD__c+dispositions.Policy_Number__r.Account.Chronic_care__c+ dispositions.Policy_Number__r.Account.Is_Chronic__c;         
+                        key = dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c /*+ welcome.CMP_OPD__c + welcome.Chronic_care__c */+ dispositions.Policy_Number__r.Account.Is_Chronic__c;         
                     	botRequest.serviceId = mapProductDetService.get(key); 
                     }
                     botRequest.msisdn = dispositions.Policy_Number__r.Account.IsPersonAccount?dispositions.Policy_Number__r.Account.PersonMobilePhone:dispositions.Policy_Number__r.Account.Phone;
@@ -138,10 +133,8 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                     botRequest.DispositionId = dispositions.Id;
 
 
-                    //disposition.Policy_Number__r = new Asset(LAN__c = dispositions.Policy_Number__c);
+                    disposition.Policy_Number__r = new Asset(LAN__c = dispositions.Policy_Number__c);
                     disposition.ABHI_Retry__c = dispositions.ABHI_Retry__c + 1;
-                    disposition.Status__c = ABHI_Constants.PENDING;
-                    disposition.Remarks__c = ABHI_Constants.SUCCESS;
                     disposition.Id = dispositions.Id;
                     
                     mapDisposition.put(dispositions.Policy_Number__r.LAN__c, disposition);
@@ -152,12 +145,13 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
             
 
          }
-        System.debug('@@@listRequest'+mapDisposition);
+        System.debug('@@@listRequest'+JSON.serialize(listWelcome));
+        String integrationName = 'ABHI_WelcomeBot';
+        ABCL_Integrations__mdt integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata(integrationName);
         try {
             if(Schema.sObjectType.Dispositions__c.isCreateable() && Schema.sObjectType.Dispositions__c.isUpdateable()) {
                 upsert(mapDisposition.values());
-                
-            }
+            }    
             for(String assetNo : mapWelcome.keyset()) {
                 if(mapDisposition.containsKey(assetNo)) {
                     mapWelcome.get(assetNo).DispositionId = mapDisposition.get(assetNo).Id;
@@ -167,11 +161,20 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
             
             System.debug('@@@listRequest'+JSON.serialize(listWelcome));
             
-            //Creating a queuable to separate DML & callout
-            System.enqueueJob(new ABHI_WelcomeBot_Queuable(JSON.serialize(listWelcome)));
+            //Callout
+            
+            
+            integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,JSON.serialize(listWelcome),null);
+            if(integrationResponse.StatusCode == 200) {
+                //Success
+            }
+            else {
+                ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
+            }
         }
         catch(Exception e) {
-            System.debug('@@e'+e.getMessage());
+            integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, e.getMessage()), true);
+            ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
         }
     }
 
@@ -193,6 +196,6 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
      * @description - Execute function of Schedulable
      *****************************************************************************************************************/    
     public void execute(SchedulableContext sc) {
-        Database.executeBatch(new ABHI_WelcomeBot_Batch(), Integer.valueOf(Label.ABHI_WelcomeBatchSize));
+        Database.executeBatch(new ABHI_WelcomeBot_Batch(), 2000);
     }
 }
