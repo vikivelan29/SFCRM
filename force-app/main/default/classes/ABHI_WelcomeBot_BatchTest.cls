@@ -1,13 +1,13 @@
 /*********************************************************
-*Class        :  ABHI_ViewPolicyInformation_Cntrl_Test
-*Author       :  Anirudh Raturi
-*Created Date :  02/00/2024
-*Last Modified:  02/00/2024
-*@description  :  Test Class for ABHI_ViewPolicyInformation_Controller
+*Class        :  ABHI_WelcomeBot_BatchTest
+*Author       :  Aditee Churiwala
+*Created Date :  14/10/2024
+*Last Modified:  14/10/2024
+*@description  :  Test Class for ABHI_WelcomeBot_Batch
 *********************************************************/
 @isTest
 public class ABHI_WelcomeBot_BatchTest {
-	 @testSetup
+    @testSetup
     static void setUpData(){
         
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
@@ -37,13 +37,9 @@ public class ABHI_WelcomeBot_BatchTest {
         Test.startTest();
         
         Database.executeBatch(new ABHI_WelcomeBot_Batch());
-
+		Integer count = [SELECT count() FROM Dispositions__c];
+        System.assertEquals(1, count, 'disposition record created');
         Test.stopTest();
-        
-       
-        // Check that the remaining AccountTeamMember records are for accounts 1 and 2
-      //  System.assert(remainingAccountIds.contains([SELECT Id FROM Account WHERE Name = 'Test Account 1'].Id), 'Account 1 should have AccountTeamMember');
-     //   System.assert(remainingAccountIds.contains([SELECT Id FROM Account WHERE Name = 'Test Account 2'].Id), 'Account 2 should have AccountTeamMember');
     }
     
 }
