@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">Funds not available</value>
+        <value xsi:type="xsd:string">Funds Not Available</value>
     </values>
 </CustomMetadata>
