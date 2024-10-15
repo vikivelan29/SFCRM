@@ -8,7 +8,7 @@ const absliCloseCasePopup = (that) => {
         /* IF POPUP LEVEL VALIDATION SUCCESSFUL - CHECK FORM LEVEL VALIDATION AND EXECUTE CASE CLOSURE */
         let isFormValidated = that.validateFields();
         if (!isFormValidated) {
-            that.showError('error', 'Mandatory fields missing', 'Please fill all mandatory fields for this stage');
+            that.showError('error', 'Mandatory fields missing', 'Please fill all mandatory fields for this stage....');
             return false;
         }
         let bErrorOccured = false;
