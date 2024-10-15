@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Description__c</field>
-        <value xsi:type="xsd:string">callout:AWS_API_Gateway/sfdc-abhmw/sendMsgSQSTest</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>EnableMockResponse__c</field>
@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>EndPoint__c</field>
-        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abhi/welcomebotpush</value>
+        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abhi/clickpsscommunication</value>
     </values>
     <values>
         <field>Exception_Log__c</field>
