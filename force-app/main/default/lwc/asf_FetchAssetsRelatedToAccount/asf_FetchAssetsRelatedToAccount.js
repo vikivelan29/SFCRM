@@ -74,6 +74,7 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     }
 
     setInfoObj() {
+        this.infoObject.businessUnit = this.accBusinessUnit;
         let abclBusinessUnitArr = this.customLabel.abclBusinessUnit.split(",");
         if(this.totalNoOfRecordsInDatatable == 0 && (abclBusinessUnitArr.includes(this.accBusinessUnit))) {
             this.infoObject.isAsset = false;
@@ -134,6 +135,7 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
     onSelectedRow(event) {
 
         event.preventDefault();
+        this.infoObject.businessUnit = this.accBusinessUnit;
 
         let currentSelectedRec;
         let checkboxAction = event.detail.config.action;
