@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>State__c</fullName>
+    <externalId>false</externalId>
     <label>State</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -65,9 +66,9 @@
                 <label>JAMMU &amp; KASHMIR</label>
             </value>
             <value>
-                <fullName>JHARKAND</fullName>
+                <fullName>JHARKHAND</fullName>
                 <default>false</default>
-                <label>JHARKAND</label>
+                <label>JHARKHAND</label>
             </value>
             <value>
                 <fullName>KARNATAKA</fullName>

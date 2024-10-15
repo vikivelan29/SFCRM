@@ -38,9 +38,9 @@
                 <label>Employee Referral</label>
             </value>
             <value>
-                <fullName>SEND AN ADVISOR</fullName>
+                <fullName>Send an Advisor</fullName>
                 <default>false</default>
-                <label>SEND AN ADVISOR</label>
+                <label>Send an Advisor</label>
             </value>
             <value>
                 <fullName>HDFC Win back</fullName>
@@ -75,7 +75,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABSLI</controllingFieldValue>
-            <valueName>SEND AN ADVISOR</valueName>
+            <valueName>Send an Advisor</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABSLI</controllingFieldValue>
