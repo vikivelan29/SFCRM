@@ -17,7 +17,7 @@ global with sharing class RNWL_CreateRenewals {
             allPolicyIds.add(each.policyNumber);
         }
 
-        for (Asset each : [SELECT Id, LAN__c, AccountId, Account.Phone FROM Asset WHERE LAN__c IN :allPolicyIds]) {
+        for (Asset each : [SELECT Id, LAN__c, AccountId FROM Asset WHERE LAN__c IN :allPolicyIds]) {
             assetMap.put(each.LAN__c, each);
         }
 

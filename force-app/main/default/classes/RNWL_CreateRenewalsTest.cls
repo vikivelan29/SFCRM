@@ -15,14 +15,16 @@ public class RNWL_CreateRenewalsTest {
         
         Asset asset = new Asset();
         asset.Name = 'testPolicy';
-        asset.AccountId = acc.Id;
+        asset.Account_no__c = acc.Id;
         asset.LAN__c = '12345678';
+        
         assetList.add(asset);
         
         Asset asset1 = new Asset();
         asset1.Name = 'test1Policy';
-        asset1.AccountId = acc.Id;
+        asset1.Account_no__c = acc.Id;
         asset1.LAN__c = '98777666';
+        
         assetList.add(asset1);
 
         insert assetList;        
