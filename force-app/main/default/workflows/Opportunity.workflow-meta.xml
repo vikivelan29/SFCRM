@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Policy_wording_brochure_network_hospital_list</fullName>
+        <description>Policy wording-brochure - network hospital list</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>suhana.banu@salesforce.com.abcdev</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>RenewalEmailTemplates/Policy_wording_brochure_network_hospital_list_1728920711333</template>
+    </alerts>
+    <alerts>
+        <fullName>Rejection_for_Upsell</fullName>
+        <description>Rejection for Upsell</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>suhana.banu@salesforce.com.abcdev</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>RenewalEmailTemplates/Rejection_for_Upsell_1728930528216</template>
+    </alerts>
+    <alerts>
+        <fullName>Reminder_for_Renewal_to_right_party</fullName>
+        <description>Reminder for Renewal to right party</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>suhana.banu@salesforce.com.abcdev</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>RenewalEmailTemplates/Reminder_for_Renewal_to_right_party_1728931378657</template>
+    </alerts>
+    <alerts>
+        <fullName>Request_for_payment_link</fullName>
+        <description>Request for payment link</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>suhana.banu@salesforce.com.abcdev</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>RenewalEmailTemplates/Request_for_payment_link_1728935262237</template>
+    </alerts>
+</Workflow>
