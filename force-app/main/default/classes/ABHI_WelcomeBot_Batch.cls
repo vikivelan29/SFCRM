@@ -196,6 +196,6 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
      * @description - Execute function of Schedulable
      *****************************************************************************************************************/    
     public void execute(SchedulableContext sc) {
-        Database.executeBatch(new ABHI_WelcomeBot_Batch(), 2000);
+        Database.executeBatch(new ABHI_WelcomeBot_Batch(), Integer.valueOf(Label.ABHI_WelcomeBatchSize));
     }
 }
