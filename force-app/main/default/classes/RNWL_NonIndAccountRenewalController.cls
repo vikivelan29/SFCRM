@@ -27,6 +27,7 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                 String payload = '{"lead_Id":null,"master_policy_number":null,"certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
                 
                 ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('RNWL_Non_Ind_Account', payload, null);
+                String fileName = 'Renewal Group Check-'+Date.today();
                 system.debug(responseWrapper);
                 responseBody = responseWrapper.responseBody;
                 respWrapper = (ResponseBodyWrapper)JSON.deserialize(responseBody, ResponseBodyWrapper.class);
