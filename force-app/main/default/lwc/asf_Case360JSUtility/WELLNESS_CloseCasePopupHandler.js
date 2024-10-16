@@ -19,15 +19,18 @@ const wellnessCloseCasePopup = (that) => {
         const inputVal = that.template.querySelector('.resolve-input');
         // Accessing the value of the combobox
         const selectedCombo = that.template.querySelector('.resolve-combobox');
-        if (!inputVal.value) {
-            inputVal.reportValidity()
-            that.showError('error', 'Wrong Selection', 'Please enter Resolution comments.');
+        if (!inputVal.value || !selectedCombo.value) {
+            inputVal.reportValidity();
+            selectedCombo.reportValidity();
+            // that.showError('error', 'Wrong Selection', 'Please enter Resolution comments.');
             bErrorOccured = true;
-        }else if (!selectedCombo.value) {
-            selectedCombo.reportValidity()
-            that.showError('error', 'Wrong Selection', 'Please select Resolution reason.');
-            bErrorOccured = true;
-        }else{
+        }
+        // else if (!selectedCombo.value) {
+            
+        //     // that.showError('error', 'Wrong Selection', 'Please select Resolution reason.');
+        //     bErrorOccured = true;
+        // }
+        else{
             // CHECK IF THE SELECTED VALUE FOR TEAM STATUS IS UNRESOLVED.
             that.template.querySelectorAll('lightning-input-field').forEach(ele => {
                 if (ele.fieldName == 'Resolution_Reason__c') {
