@@ -1447,14 +1447,14 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-f60ec8d4-027f-4b42-9988-22a4d88ece83</value>
+                    <value>Facet-8f8ce5d9-d05f-4479-bbf2-1609da4b6a1e</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Insured Person Details</value>
+                    <value>View Print and Dispatch Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
+                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

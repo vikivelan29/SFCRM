@@ -1253,6 +1253,21 @@
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
     <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+    <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1281,27 +1296,20 @@
         <value>Phone - Call Centre;Email - Call Centre;Branch Walk-In;Email - Branch</value>
     </labels>
     <labels>
-        <fullName>ABHI_OmniDocURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
-        <value>Duplicate case: A case &lt;CaseNumber&gt; with same criteria is already open with source as &lt;SOURCE&gt;.</value>
-    </labels>
-	<labels>
         <fullName>ABSLI_Min_Loan_Amount</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
         <value>5000</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
         <value>60</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>ASF_UIActionDelay</fullName>
         <language>en_US</language>
         <protected>false</protected>
