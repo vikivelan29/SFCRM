@@ -134,7 +134,6 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                 leadId = relatedCase.Lead__c;
             }
             Integer versionCount = contentDocumentVersionMap.get(fileVersion.ContentDocumentId);
-
             fileRec.ContentDocumentId__c = fileVersion.ContentDocumentId;
             fileRec.Case__c = relatedCase.Id;
             fileRec.ContentVersionId__c = fileVersion.Id;
@@ -145,7 +144,6 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             DateTime currentDateTime = System.now();
             fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
             fileRec.File_Extension__c = fileVersion.FileExtension;
-
             if(String.isBlank(leadId) && !isABSLIBusiness && !isABHI){
                 fileRec.Status__c = ABHFL_Constants.CANCELED;
                 fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
