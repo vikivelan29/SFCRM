@@ -83,8 +83,6 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                         if(caseRec.Sub_Type_Text__c == ABSLI_Constants.LOANVOUCHERPROCESS_SUBTYPE){
                             if(!caseRec.Is_STP__c && (caseDetail.Requested_Loan_Amount__c < ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT || caseDetail.Requested_Loan_Amount__c > ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT)){
                                 caseRec.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_NONSTP;
-                            } else if(caseRec.Is_STP__c && caseDetail.Requested_Loan_Amount__c > ABSLI_Constants.LOANAPPROVAL_CUTOFFAMOUNT){
-                                caseRec.Comments = ABSLI_Constants.LOANAPPROVAL_DEFAULTCOMMENT_STP;
                             }
                         }
                 }
@@ -120,7 +118,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
             }
             List<List<SObject>> searchList  = Search.query('FIND :searchTerms  IN PHONE FIELDS RETURNING Contact (Id, Name,AccountId,MobilePhone WHERE MobilePhone IN :phoneNumbers AND Account.Business_Unit__c =\'ABSLI\')');
  			List<Contact> contactList = searchList[0];
- 
+
             for(Contact con : contactList)
             {
                 if(!mAccWithSamePhNum.containsKey(con.MobilePhone))
@@ -155,7 +153,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
         for(Case c: cases){
             Integer index =  0;
             if(c.Business_Unit__c=='ABSLI' && c.Technical_Source__c=='LWC'){
-                
+
             	issueCodes.add(c.CCC_External_Id__c);
                 validCases.add(c);
                 policyIdVsCase.put(c.AssetId,index);
@@ -202,7 +200,7 @@ public with sharing class ABSLI_BeforeInsertTriggerLogic {
                                 cs.addError(issueCodeVsMdt.get(cs.CCC_External_Id__c).Error_Message__c);
                             }else if(String.isBlank(caseVsAsset.get(ind).Status)){
                                 cs.addError('Policy is not eligible.');
-                            } 
+                            }
                         }
                     }
                 }

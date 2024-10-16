@@ -1,0 +1,51 @@
+{
+ "ResponseObj": [
+   {
+     "Code": "01",
+     "Message": "SUCCESS"
+   }
+ ],
+ "ReceiptObj": [
+   {
+     "ReceiptNumber": "CA-24-25-1484518",
+     "RefundDetails": [
+       {
+         "RefundNumber": "CA-24-25-1484518",
+         "RefundType": "",
+         "PaymentDate": "23-07-2024",
+         "PaymentRefNo": "",
+         "Status": "",
+         "RefundTo": "",
+         "PaymentMode": "",
+         "BeneficiaryName": "RANJIT",
+         "RefundAmount": "18526.27",
+         "ProposerMobile": "9474597666",
+         "ProposerEmail": "ranjitbiswas5@gmail.com",
+         "BankName": "",
+        "AccountNumber": "",
+         "IVRStatus": "",
+         "PaymentReason":"",
+         "PaymentSubReason":"",
+         "IFSCCode":""
+         
+                },
+                {
+                  "RefundNumber": "CA-24-25-1484518",
+                  "RefundType": "",
+                  "PaymentDate": "23-07-2024",
+                  "PaymentRefNo": "",
+                  "Status": "",
+                  "RefundTo": "",
+                  "PaymentMode": "",
+                  "BeneficiaryName": "RANJIT",
+                  "RefundAmount": "3334.72",
+                  "ProposerMobile": "9474597666",
+                  "ProposerEmail": "ranjitbiswas5@gmail.com",
+                  "BankName": "",
+                  "AccountNumber": "",
+                  "IVRStatus": ""
+                }
+              ]
+            }
+          ]
+        }        
