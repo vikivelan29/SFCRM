@@ -11,10 +11,6 @@
         <value xsi:type="xsd:string">ABHI</value>
     </values>
     <values>
-        <field>Channel__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>Error_Message__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -37,10 +33,6 @@
     <values>
         <field>Source__c</field>
         <value xsi:type="xsd:string">Senior citizen email id</value>
-    </values>
-    <values>
-        <field>User_Source_Code__c</field>
-        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Validation_Name__c</field>
