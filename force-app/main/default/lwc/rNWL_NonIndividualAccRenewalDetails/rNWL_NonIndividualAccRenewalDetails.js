@@ -81,6 +81,8 @@ export default class RNWL_NonIndividualAccRenewalDetails extends LightningElemen
                 { label: 'Email',               fieldName: 'Email' , wrapText: true},
                 { label: 'Mobile Number',       fieldName: 'Mobile_Number' , wrapText: true},
                 { label: 'Relation',            fieldName: 'Relation' , wrapText: true},
+                { label: 'Chronic Disease',     fieldName: 'Chronic_Disease' , wrapText: true},
+                { label: 'Disease Disclose',    fieldName: 'Disease_Disclose' , wrapText: true},
                 { label: 'Sum Insured',         cellAttributes: { alignment: 'left' }, fieldName: 'SumInsured' , wrapText: true , type: 'currency'},
                 { label: 'Net Premium',         cellAttributes: { alignment: 'left' }, fieldName: 'NetPremium' , wrapText: true , type: 'currency'},
                 { label: 'New Premium U',       cellAttributes: { alignment: 'left' }, fieldName: 'NetPremium_U' , wrapText: true , type: 'currency'},
