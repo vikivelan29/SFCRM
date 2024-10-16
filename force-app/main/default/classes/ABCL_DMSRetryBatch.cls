@@ -1,22 +1,36 @@
+/**
+* Class              :  ABCL_DMSRetryBatch
+* TestClass          :  
+* Author             :  
+* Created Date       :  
+* LastModified Audit :  24/09/2024 Arshad(msharieff@salesforce.com)
+* Description        :  
+* /* MODIFICATION LOG
+* Developer                                Date               Description
+* -------------------------------------------------------------------------------------------
+* Arshad(msharieff@salesforce.com)        24/09/2024         ABHI OmniDoc FileTransfer Retry flow, ABHI_OmniDocUploadCtrlTestClass
+* 
+* *****************************************************************************************************
+*/
 public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database.Stateful, Schedulable {
-
+    
     public Database.QueryLocator start(Database.BatchableContext bc){
         string queryForContentLink = 'Select id,ContentDocumentid,LinkedEntityId from ContentDocumentLink where LinkedEntityId in'+
             '(Select id from Case where IsClosed = true and ClosedDate <= today and Business_Unit__c IN (\'ABHFL\',\'ABSLI\',\'ABHI\'))';
         return Database.getQueryLocator(queryForContentLink);
     }
-
+    
     public void execute(Database.BatchableContext bc, List<ContentDocumentLink> contentDocumentLinkList){
-
+        
         //ContentDocument Records of Closed Cases
         Set<String> contentDocumentIds = new Set<String>();
         for(ContentDocumentLink docLink : contentDocumentLinkList){
             contentDocumentIds.add(docLink.ContentDocumentId);
         }
-
+        
         Map<Id,ContentVersion> contentVersionInitialMap = new Map<Id,ContentVersion>([ Select id,Title,ContentDocumentId,VersionNumber,FileExtension
-                                                   		   from ContentVersion where ContentDocumentId in: contentDocumentIds]);
-
+                                                                                      from ContentVersion where ContentDocumentId in: contentDocumentIds]);
+        
         Set<String> contentVersionIds = new Set<String>();
         Map<String,Set<String>> contentDocumentContentVersionMap = new Map<String,Set<String>>();
         for(ContentVersion contentVersion : contentVersionInitialMap.values()){
@@ -147,10 +161,10 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             fileRec.Next_Retry__c = isABSLIBusiness ? null : System.now().addMinutes(15);
             fileRecList.add(fileRec);
         }
-
+        
         if(fileRecList.size() > 0){
             insert fileRecList;
-
+            
             List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
             for(DMS_Files__c file : fileRecList){
                 if(file.Status__c == ABHFL_Constants.PENDING){
@@ -167,42 +181,52 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                     } else if(relatedCase.Lead__c != null){
                         leadId = relatedCase.Lead__c;
                     }
-
-                    dmsEventList.add(new DMS_File_Transfer__e(
-                        Business_Unit__c = file.Business_Unit__c,
-                        CaseNumber__c = relatedCase.CaseNumber,
-                        ContentVersionId__c = file.ContentVersionId__c,
-                        Customer_Client_Code__c = relatedCase.Account.Client_Code__c,
-                        DMS_External_ID__c = file.DMS_External_ID__c,
-                        File_Name__c = file.File_Name__c,
-                        Is_Latest_Version__c = file.Is_Latest_Version__c,
-                        Version_Number__c = file.Version_Number__c,
-                        Application_ID__c = file.Application_ID__c,
-                        DMS_Folder_Id__c = file.DMS_Folder_Id__c,
-                        Policy_No__c = file.Policy_No__c,
-                        Document_Type__c = relatedCase.Type_Text__c+'-'+relatedCase.Sub_Type_Text__c+'-'+relatedCase.Nature__c,
-                        File_Extension__c = file.File_Extension__c,
-                        Doc_SubType__c = relatedCase.Sub_Type_Text__c,
-                        Docgroup_Type__c = relatedCase.Nature__c.left(1) + '-' + relatedCase.Type_Text__c,
-                        Lead_ID__c = leadId,
-                        Contact_No__c = mobile,
-                        Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE
-                    ));
+                    
+                    DMS_File_Transfer__e objDMSEvent = new DMS_File_Transfer__e();
+                    objDMSEvent.Business_Unit__c = file.Business_Unit__c;
+                    objDMSEvent.CaseNumber__c = relatedCase.CaseNumber;
+                    objDMSEvent.ContentVersionId__c = file.ContentVersionId__c;
+                    objDMSEvent.Customer_Client_Code__c = relatedCase.Account.Client_Code__c;
+                    objDMSEvent.DMS_External_ID__c = file.DMS_External_ID__c;
+                    objDMSEvent.File_Name__c = file.File_Name__c;
+                    objDMSEvent.Is_Latest_Version__c = file.Is_Latest_Version__c;
+                    objDMSEvent.Version_Number__c = file.Version_Number__c;
+                    objDMSEvent.Application_ID__c = file.Application_ID__c;
+                    objDMSEvent.DMS_Folder_Id__c = file.DMS_Folder_Id__c;
+                    objDMSEvent.Policy_No__c = file.Policy_No__c;
+                    objDMSEvent.Document_Type__c = relatedCase.Type_Text__c+'-'+relatedCase.Sub_Type_Text__c+'-'+relatedCase.Nature__c;
+                    objDMSEvent.File_Extension__c = file.File_Extension__c;
+                    objDMSEvent.Doc_SubType__c = relatedCase.Sub_Type_Text__c;
+                    objDMSEvent.Docgroup_Type__c = relatedCase.Nature__c.left(1) + '-' + relatedCase.Type_Text__c;
+                    objDMSEvent.Lead_ID__c = leadId;
+                    objDMSEvent.Contact_No__c = mobile;
+                    objDMSEvent.Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE;
+                    if(relatedCase.Business_Unit__c == ABHI_Constants.ABHI){
+                        objDMSEvent.Source__c = ABHI_Constants.OMNIDOC_FILE_TRANSFER_SOURCE;
+                        objDMSEvent.CategoryID__c = ABHI_Constants.OMNIDOC_FILE_TRANSFER_CATEGORYID;
+                        objDMSEvent.DocSearchParamId__c = ABHI_Constants.OMNIDOC_FILE_TRANSFER_DOCSEARCHPARAMID_CASE;
+                        objDMSEvent.LogicalID__c = ABHI_Constants.OMNIDOC_FILE_TRANSFER_LOGICALID;
+                        objDMSEvent.TaskID__c = ABHI_Constants.OMNIDOC_FILE_TRANSFER_TASKID;
+                        objDMSEvent.ReferenceID__c = relatedCase.Id;
+                        objDMSEvent.TODID__c = relatedCase.Id;
+                    }
+                    
+                    dmsEventList.add(objDMSEvent);
+                }
+                
+                if(dmsEventList.size() > 0){
+                    List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);
                 }
             }
-
-            if(dmsEventList.size() > 0){
-                List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);
-            }
+            
         }
-
     }
-
+    
     public void finish(Database.BatchableContext bc){
     }
-
+    
     public void execute(SchedulableContext sc) {
     }
-
-
+    
+    
 }
