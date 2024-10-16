@@ -75,10 +75,10 @@ public class ABHFL_LeadCreationAPI_Test {
 
         // Create a user with the permission set
         Profile p = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
-        User u = new User(Alias = 'testuser', Email = 'testuser@example.com',
+        User u = new User(Alias = 'testuse1', Email = 'testuser1@example.com',
             EmailEncodingKey = 'UTF-8', LastName = 'User', LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US', ProfileId = p.Id, TimeZoneSidKey = 'America/Los_Angeles',
-            UserName = 'test_user123@example.com');
+            UserName = 'test_user1234@example.com');
         insert u;
         
         // Assign the permission set to the user
