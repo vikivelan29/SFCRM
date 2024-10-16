@@ -1,12 +1,11 @@
-import { LightningElement, track, api, wire } from 'lwc';
-import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails';
+import { LightningElement, track, api, wire } from 'lwc';   
+import getAccountData from '@salesforce/apex/ASF_CaseUIController.getAccountData';
 //import fetchNatureMetadata from '@salesforce/apex/ASF_CaseUIController.fetchNatureMetadata';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import CASE_OBJECT from '@salesforce/schema/Case';
-import ABSLI_CASE_DETAIL_OBJECT from '@salesforce/schema/ABSLI_Case_Detail__c';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
-import { getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';    
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord, updateRecord } from 'lightning/uiRecordApi';
 import { notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
@@ -19,9 +18,7 @@ import ACOUNNTRECORDTYPE from '@salesforce/schema/Case.Account.RecordType.Name';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
-import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
-import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -35,7 +32,6 @@ import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Busines
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
 import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
-import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 
 import FAmsg from '@salesforce/label/c.ASF_FA_Validation_Message';
 
@@ -45,8 +41,9 @@ import Customer_Mandatory from '@salesforce/label/c.ASF_Customer_Mandatory';
 import CRN_Basis_Case from '@salesforce/label/c.ASF_CRN_Basis_Case';
 import WithoutFA from '@salesforce/label/c.ASF_CreateSRwithoutFA';
 import WithFA from '@salesforce/label/c.ASF_CreateSRwithFA';
-import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
-
+// import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
+ 
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import LightningConfirm from 'lightning/confirm';
@@ -66,7 +63,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     searchKey;
     accounts;
     isNotSelected = true;
-    isNotSelectedReject = true;
+    isNotSelectedReject = true; 
     @api recordId;
     loaded = true;
     caseRelObjName;
@@ -175,10 +172,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     @api defaultRecTypeId; // this field is used to fetch the picklist values
     @api picklistApiName = NOAUTOCOMM_FIELD;
     @api bsliRecTypeId;
-    boolAllChannelVisible = false;
-    strChannelValue = '';
-    lstChannelValues = [];
-    strDefaultChannel = '';
     currentObj = CASE_OBJECT.objectApiName;
 
     get stageOptions() {
@@ -210,46 +203,18 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
 
-   //To get No Auto Communication and category picklist values
-   @wire(getObjectInfos, { objectApiNames: [CASE_OBJECT, ABSLI_CASE_DETAIL_OBJECT] })
-   objectInfos({ error, data}) {
-       if(data){
-           for (const [key, value] of Object.entries(data.results)) {
-               if(value.result.apiName === CASE_OBJECT.objectApiName){
-                   this.currentObj = CASE_OBJECT.objectApiName;
-                   this.defaultRecTypeId = value.result.defaultRecordTypeId;
-                   this.picklistApiName = NOAUTOCOMM_FIELD;
-               }
-               if(value.result.apiName === ABSLI_CASE_DETAIL_OBJECT.objectApiName){
-                   this.bsliRecTypeId = value.result.defaultRecordTypeId;
-               } 
-           }
-       }else if(error){
-           console.log('error in get objectInfos--'+JSON.stringify(error));
-       }
-   }
-
-   @wire(getPicklistValues, { recordTypeId: '$defaultRecTypeId', fieldApiName: '$picklistApiName' })
+   @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: NOAUTOCOMM_FIELD })
    wiredPicklistValues({ error, data}) {
        if (data){
-           if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.adjustAutoCommunications(data);
-
-               this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
-               this.defaultRecTypeId = this.bsliRecTypeId;
-               this.picklistApiName = BSLI_CATEGORY_TYPE;
-               
-           }else if(this.currentObj === ABSLI_CASE_DETAIL_OBJECT.objectApiName && this.picklistApiName === BSLI_CATEGORY_TYPE){
-               this.categoryTypeOptions = data.values.map(item => ({
+               this.noAutoCommOptions = data.values.map(item => ({
                    label: item.label,
                    value: item.value
                }));
-           }   
-           console.log('picklist options--'+JSON.stringify(this.noAutoCommOptions)+'--'+JSON.stringify(this.categoryTypeOptions));
        } else if (error){
            console.log('error in get picklist--'+JSON.stringify(error));
        }
    }
+
     @wire(getRecord, { recordId: '$recordId', fields: [
         SOURCE_FIELD, 
         CASE_CONTACT_FIELD, 
@@ -287,7 +252,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             
             if (this.caseRec.fields.AssetId.value) {
                 this.showFAmsg = false;
-                this.assetId = this.caseRec.fields.AssetId.value;
             }
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;
@@ -299,7 +263,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
             let noAutoCommValues = this.caseRec.fields.No_Auto_Communication__c.value;
             this.noAutoCommValue = noAutoCommValues != null?noAutoCommValues.split(';'):[];
-
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
             if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != ''){
@@ -336,31 +299,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
            this.faValidMsg = lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE != null? lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE : lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
            this.withFALabel = lanLabels[this.businessUnit].CREATE_CASE_WITH_FA != null? lanLabels[this.businessUnit].CREATE_CASE_WITH_FA : lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
-
-           // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
-           this.adjustAutoCommunications(undefined);
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
-
-    // Rajendra Singh Nagar: PR1030924-209 - Added function
-    adjustAutoCommunications(data){
-        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
-            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
-        }else{
-            if(data){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
-            }
-        }
-    }
-
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         console.log('hete in yext chage')
@@ -384,7 +326,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.showIssueType = false;
         this.ftrValue = false;
         this.showCategoryType = false;
-        this.boolAllChannelVisible = false;
 
         let customerId = this.caseRec.fields.AccountId.value;
         let assetId = this.caseRec.fields.Asset.value;
@@ -411,15 +352,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
             || (this.withoutAsset == 'true' && customerId != '') || (this.withoutAsset == 'closeCRN') || (this.withoutAsset == 'Prospect' && leadId !='')) {
-            getAccountData({ keyword: this.searchKey, asssetProductType: this.cccProductType, isasset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
+            getAccountData({ keyword: this.searchKey, assetProductType: this.cccProductType, withoutAsset: this.withoutAsset, accRecordType: this.accountRecordType, assetLob :this.lobAsset, inpArg :strInpArg })
                 .then(result => {
-                    this.accounts = result.lstCCCrecords;
-                    console.log('result---'+JSON.stringify(result));
-                    if (result.lstChannel != null && result.lstChannel.length > 0) {
-                        this.lstChannelValues = result.lstChannel;
-                        this.strDefaultChannel = this.lstChannelValues[0].label;
-                        this.strChannelValue = this.strDefaultChannel;
-                    }
+                    this.accounts = result;
                     this.isNotSelected = true;
                     this.loaded = true;
                 })
@@ -479,8 +414,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.fetchRejectionReason(cccExternalId);
         }
 
-        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU
-        && this.businessUnit != ABHI_BU){
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU){
             this.showAutoComm = true;
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
@@ -499,9 +433,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 }));
             }
             this.showIssueType = true;
-        }
-        if((selected) && this.businessUnit === ABSLI_BU){
-            this.boolAllChannelVisible = true;
         } 
         if (selected && (selected[NATURE_FIELD.fieldApiName] == "All") && (!selected[NATURE_FIELD.fieldApiName].includes(','))) {
             this.createCaseWithAll = true;
@@ -898,8 +829,6 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.isNotSelectedReject = true;
         this.showCategoryType = false;
         this.closeCaseWithoutCusButton = '';
-        this.boolAllChannelVisible = false;
-        this.strChannelValue = '';
         this.cancelReject();
     }
 
@@ -986,26 +915,28 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         else
             this.isNotSelected = true;
     }
-    // Method to handle the Channel Picklist
-    handleChangeChannel(event) {
-        this.strChannelValue = event.target.value;
-    }
 
 
     //To get Rejection Reason:
     async fetchRejectionReason(cccExtId) {
-        await getSrRejectReasons({ cccExternalId: cccExtId }).then(result => {
+        try{
+            const records = await getSrBUReasons({ cccExternalId: cccExtId });  
             this.reasonLOV = [];
-            result.forEach(reason => {
-                const optionVal = {
-                    label: reason,
-                    value: reason
-                };
-                this.reasonLOV.push(optionVal);
+           // this.reasonLOV.push(optionVal);
+            records.forEach(item => {
+                if(item.Type__c == 'Reject'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.reasonLOV.push(optionVal);
+                }                  
             });
-        }).catch(error => {
-            console.log('Error: ' + JSON.stringify(error));
-        });
+            this.isLoading = false;
+        }catch (error) {
+            this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+            this.isLoading = false;              
+        }
     }
     
 
