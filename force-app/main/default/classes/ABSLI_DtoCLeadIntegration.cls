@@ -5,8 +5,8 @@ public with sharing class ABSLI_DtoCLeadIntegration {
         for(Lead ld : newleads){
             leadIds.add(ld.Id);
         }
-        List<Lead> leads = [SELECT ID,FirstName,LastName,External_Lead_ID__c,Rating,Name,MobilePhone,Email,Asset__c,Asset__r.Policy_No__c,
-                            City__c,PIN_Code__c,
+        List<Lead> leads = [SELECT ID,FirstName,LastName,External_Lead_ID__c,Rating,Name,MobilePhone,Email,
+                            City__c,PIN_Code__c,Product_LK__c,Product_LK__r.Name, 
                             OwnerId, Owner.Name,ABSLI_Lead_Type__c FROM Lead WHERE Id =: leadIds];
         for(Lead ld : leads){
             ABCL_Integration_Event__e evt = new ABCL_Integration_Event__e ();
@@ -30,7 +30,7 @@ public with sharing class ABSLI_DtoCLeadIntegration {
             cls.Email = ld.Email;
             cls.AnnualPremium = '';
             cls.SumAssured = '';
-            cls.Product = 'Nishchit Aayush Plan';
+            cls.Product = ld.Product_LK__c != null ? ld.Product_LK__r.Name : 'Nishchit Aayush Plan';
             cls.ClickToCall = '';
             cls.Source = 'Service Contact Centre-DM';
             cls.SubSource = 'SSCCDM0135';
@@ -48,7 +48,7 @@ public with sharing class ABSLI_DtoCLeadIntegration {
             cls.LeadQualified = '';
             cls.JunkLead = '';
             cls.CId = ld.External_Lead_ID__c+','+ld.Rating;
-            cls.Gclid = ld.City__c;
+            cls.Gclid = ld.City__c != null ? ld.City__c : 'NA';
             cls.ApplicationNumber = ld.PIN_Code__c;
             cls.SmokerNonSmoker = '';
             cls.Nationality = '';

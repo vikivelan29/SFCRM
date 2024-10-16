@@ -62,7 +62,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC - Share AIF Users</label>
         <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
             <roleAndSubordinates>ABSLAMC_AIF_Executive_Leadership</roleAndSubordinates>
@@ -73,21 +73,10 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC - Share MF Users</label>
         <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
+            <group>ABSLAMC_MF_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
             <roleAndSubordinates>ABSLAMC_MF_Executive_Leadership</roleAndSubordinates>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>ABSLAMC_Share_RE_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC - Share RE Users</label>
-        <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
-        </sharedTo>
-        <sharedFrom>
-            <roleAndSubordinates>ABSLAMC_RE_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -95,10 +84,21 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLAMC - Share PMS Users</label>
         <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
         </sharedTo>
         <sharedFrom>
             <roleAndSubordinates>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_Share_RE_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC - Share RE Users</label>
+        <sharedTo>
+            <group>ABSLAMC_RE_All_Teams_G</group>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABSLAMC_RE_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>

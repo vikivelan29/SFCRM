@@ -5,5 +5,8 @@
     <fields>Client_Code__c</fields>
     <fields>PersonMobilePhone</fields>
     <fields>PersonEmail</fields>
+    <fields>PersonBirthdate</fields>
+    <fields>Language_Preference__c</fields>
+    <fields>KYC_Done_Date__c</fields>
     <label>ABHFL Compact Layout</label>
 </CompactLayout>

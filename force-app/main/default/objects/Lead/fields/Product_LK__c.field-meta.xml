@@ -4,6 +4,21 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Product</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <filterItems>
+            <field>Product2.Business_Unit__c</field>
+            <operation>equals</operation>
+            <valueField>$User.Business_Unit__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Product2.Business_Unit__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Business_Unit__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Product2</referenceTo>
     <relationshipLabel>Leads</relationshipLabel>
     <relationshipName>Leads</relationshipName>

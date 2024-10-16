@@ -6,5 +6,81 @@
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>TextArea</type>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Claim Intimation Received</fullName>
+                <default>false</default>
+                <label>Claim Intimation Received</label>
+            </value>
+            <value>
+                <fullName>Claim Intimation Accepted</fullName>
+                <default>false</default>
+                <label>Claim Intimation Accepted</label>
+            </value>
+            <value>
+                <fullName>Claim Assigned for Review</fullName>
+                <default>false</default>
+                <label>Claim Assigned for Review</label>
+            </value>
+            <value>
+                <fullName>Claim Intimation Rejected</fullName>
+                <default>false</default>
+                <label>Claim Intimation Rejected</label>
+            </value>
+            <value>
+                <fullName>Claim Under Evaluation</fullName>
+                <default>false</default>
+                <label>Claim Under Evaluation</label>
+            </value>
+            <value>
+                <fullName>Pending For Requirements</fullName>
+                <default>false</default>
+                <label>Pending For Requirements</label>
+            </value>
+            <value>
+                <fullName>Claim Under Processing</fullName>
+                <default>false</default>
+                <label>Claim Under Processing</label>
+            </value>
+            <value>
+                <fullName>Claim Processed for Payment</fullName>
+                <default>false</default>
+                <label>Claim Processed for Payment</label>
+            </value>
+            <value>
+                <fullName>Claim Paid</fullName>
+                <default>false</default>
+                <label>Claim Paid</label>
+            </value>
+            <value>
+                <fullName>Claim Processed</fullName>
+                <default>false</default>
+                <label>Claim Processed</label>
+            </value>
+            <value>
+                <fullName>Claim Processed as per T&amp;C</fullName>
+                <default>false</default>
+                <label>Claim Processed as per T&amp;C</label>
+            </value>
+            <value>
+                <fullName>Claim Admitted</fullName>
+                <default>false</default>
+                <label>Claim Admitted</label>
+            </value>
+            <value>
+                <fullName>Claim Rejected</fullName>
+                <default>false</default>
+                <label>Claim Rejected</label>
+            </value>
+            <value>
+                <fullName>Claim Rejected by System</fullName>
+                <default>false</default>
+                <label>Claim Rejected by System</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

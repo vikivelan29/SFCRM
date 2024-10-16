@@ -2,7 +2,7 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear {{{Case.Account}}} {{{Case.Lead__c}}} ,<br />
+<body style="height: auto; min-height: auto;">Dear {{{Case.Customer_name_formula__c}}} {{{Case.Lead__c}}} ,<br />
 <br />
 Greetings from Aditya Birla Health Insurance!<br />
 This is with reference to your Complaint received against policy number - {{{Case.LAN__c}}}<br />

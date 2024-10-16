@@ -11,6 +11,7 @@ import createProspectCase from '@salesforce/apex/ASF_CustomerAndProspectSearch.c
 import { getObjectInfo, getObjectInfos, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
 import SOURCE_FIELD from '@salesforce/schema/Case.Source__c';
@@ -36,10 +37,12 @@ import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
 import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
     @track loaded = true;
@@ -95,7 +98,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     @api bsliRecTypeId;
     isPhoneInbound = false;
     currentObj = CASE_OBJECT.objectApiName;
-
+    //ABHI
+    abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
+    natureVal = '';
     cols;
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
@@ -230,18 +235,22 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.trackId = '';
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         if (selected) {
+            this.natureVal = selected.Nature__c;
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
             this.selectedCTSTFromProspect = selected;
             if(this.showFromGlobalSearch == false){
                 this.disableCreateBtn = false;
             }
+            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
+            }
         }
         if ((selected) && (this.loggedInUserBusinessUnit == 'ABFL')) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU)) {
+        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU || this.loggedInUserBusinessUnit == ABHI_BU)) {
             this.boolNoAutoComm = false;
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -249,6 +258,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
+        }
+        if((selected) && this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+            this.isPhoneInbound = true;
         }
         if((selected) && selected.Allowed_Issue_Types__c && this.loggedInUserBusinessUnit === ABSLI_BU){
             
@@ -483,9 +495,30 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseRecord[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
         }
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
-        caseRecord["sobjectType"] = "Case";
-        
+
+        const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
+
+        caseRecord["sobjectType"] = "Case"; 
         this.noAutoCommValue = [];
+
+        this.loaded = false;
+        console.log('validation--'+selected.Validation_method_during_creation__c);
+        if(selected.Validation_method_during_creation__c){
+            console.log('invoking validator');
+            let methodName = selected.Validation_method_during_creation__c;
+            let validationResult = await validator[methodName](caseRecordforVal,'prospect');
+            console.log('returned with dynamic method '+JSON.stringify(validationResult));
+            if(validationResult.isSuccess == false){
+                this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
+                this.loaded = true;
+                this.disableCreateBtn = true;
+                this.selectedCTSTFromProspect = null;
+                this.resetFields();
+                return;
+            }
+            console.log('ending validator');
+        }
+        this.loaded = false;
         
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {
@@ -516,28 +549,32 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 //tst end
                 this.dispatchEvent(new CloseActionScreenEvent());
 
-
-                this.isNotSelected = true;
-                this.createCaseWithAll = false;
                 this.disableCreateBtn = true;
                 this.selectedCTSTFromProspect = null;
-                this.boolShowNoData = true;
-                this.searchKey = undefined;
+                this.resetFields();
             })
             .catch(error => {
                 console.log('tst225572' + JSON.stringify(error));
                 this.loaded = true;
-                this.isNotSelected = true;
-                this.createCaseWithAll = false;
                 this.disableCreateBtn = false;
-                this.boolShowNoData = true;
-                this.searchKey = undefined;
+                this.resetFields();
                 this.showError('error', 'Oops! Error occured', error);
 
 
             })
 
 
+    }
+    resetFields(){
+        this.boolShowNoData = true;
+        this.createCaseWithAll = false;
+        this.searchKey = undefined;
+        this.isPhoneInbound = false;
+        this.showIssueType = false;
+        this.showFtr = false;
+        this.showAniNumber = false;
+        this.showCategoryType = false;
+        this.isNotSelected = true;
     }
 
     connectedCallback(){
@@ -565,6 +602,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if(this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
+            }
+            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         //code added by sunil - 03/09/2024

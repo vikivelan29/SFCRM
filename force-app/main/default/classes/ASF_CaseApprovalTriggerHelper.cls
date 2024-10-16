@@ -70,19 +70,20 @@ public without sharing class ASF_CaseApprovalTriggerHelper {
     public void prepopupateUnpassedUserNames (List<ASF_Case_Approv__c> newStageList){ 
         
         for(ASF_Case_Approv__c  c: newStageList){
-            if(String.isBlank(c.Approver_02__c)){
-                c.Approver_02__c = c.Approver_01__c;
+            if(c.Approval_Type__c != 'Sequential'){
+                if(String.isBlank(c.Approver_02__c)){
+                    c.Approver_02__c = c.Approver_01__c;
+                }
+                if(String.isBlank(c.Approver_03__c)){
+                    c.Approver_03__c = c.Approver_01__c;
+                }
+                if(String.isBlank(c.Approver_04__c)){
+                    c.Approver_04__c = c.Approver_01__c;
+                }
+                if(String.isBlank(c.Approver_05__c)){
+                    c.Approver_05__c = c.Approver_01__c;
+                }
             }
-            if(String.isBlank(c.Approver_03__c)){
-                c.Approver_03__c = c.Approver_01__c;
-            }
-            if(String.isBlank(c.Approver_04__c)){
-                c.Approver_04__c = c.Approver_01__c;
-            }
-            if(String.isBlank(c.Approver_05__c)){
-                c.Approver_05__c = c.Approver_01__c;
-            }
-             
         } 
     }
     
