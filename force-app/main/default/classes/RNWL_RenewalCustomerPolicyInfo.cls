@@ -81,11 +81,12 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
 
 	@AuraEnabled
 	public static Asset getNomineesClaims(String policyId) {
-        return [SELECT Id,
+
+		return [SELECT Id,
                		Name, 
 					(SELECT Id, Name, NomineeContactNumber__c FROM PolicyNumber__r),
 					(SELECT Id FROM Claims__r WHERE Claim_Status__c != 'Rejected' AND Claim_Status__c != 'Settled')
-				FROM Asset WHERE Id = :policyId];
+				FROM Asset WHERE Id = :policyId LIMIT 1];
 	}
 	
 }
