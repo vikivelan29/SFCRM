@@ -958,6 +958,10 @@
                     <value>Gym Voucher</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>showRefresh</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -1006,6 +1010,10 @@
                     <value>Total Active Days</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>showRefresh</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -1038,6 +1046,10 @@
                 <componentInstanceProperties>
                     <name>secName</name>
                     <value>Active Days</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showRefresh</name>
@@ -1088,6 +1100,10 @@
                     <value>Online Questionnaire</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>showRefresh</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -1120,6 +1136,10 @@
                 <componentInstanceProperties>
                     <name>secName</name>
                     <value>Active Age</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showRefresh</name>
@@ -1160,6 +1180,10 @@
                     <value>Improve My Status</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>showRefresh</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -1196,6 +1220,10 @@
                 <componentInstanceProperties>
                     <name>secName</name>
                     <value>Lifestyle Voucher</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showRefresh</name>
@@ -1236,6 +1264,10 @@
                     <value>Wallet Transaction</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>showRefresh</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -1274,6 +1306,10 @@
                     <value>Devices</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>showRefresh</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -1310,6 +1346,10 @@
                 <componentInstanceProperties>
                     <name>secName</name>
                     <value>Benefits</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showRefresh</name>
@@ -1391,13 +1431,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab12</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Wellness CRM Base Profile</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1440,13 +1473,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab15</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Wellness CRM Base Profile</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1461,13 +1487,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab17</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Wellness CRM Base Profile</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-3b71646e-6310-404c-a468-44b68e0dc68a</name>
