@@ -12617,6 +12617,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <recordType>PersonAccount.ABSLI_Advisor</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <recordType>Case.Framework</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
