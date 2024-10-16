@@ -44,7 +44,7 @@
     </values>
     <values>
         <field>Mock_Status_Code__c</field>
-        <value xsi:type="xsd:double">200.0</value>
+        <value xsi:type="xsd:double">204.0</value>
     </values>
     <values>
         <field>Protocol__c</field>
@@ -53,5 +53,9 @@
     <values>
         <field>StoreAsAttachment__c</field>
         <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>URL_Parameters__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>
