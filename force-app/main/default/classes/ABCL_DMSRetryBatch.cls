@@ -156,7 +156,7 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             fileRec.DMS_Folder_Id__c = isABSLIBusiness ? dmsFolderId : '';
             fileRec.Application_ID__c = isABSLIBusiness ? applicationId : relatedCase.Asset.LAN__c;
             fileRec.Policy_No__c = isABSLIBusiness ? policyNumber : '';
-            fileRec.Next_Retry__c = (isABSLIBusiness || isABHI) ? null : System.now().addMinutes(15);
+            fileRec.Next_Retry__c = isABSLIBusiness ? null : System.now().addMinutes(15);
             fileRecList.add(fileRec);
         }
 
