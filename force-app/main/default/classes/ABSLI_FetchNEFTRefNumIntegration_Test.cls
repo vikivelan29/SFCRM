@@ -29,6 +29,7 @@ public with sharing class ABSLI_FetchNEFTRefNumIntegration_Test {
 
 		ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
 		detailRec.Voucher_Number__c = '8895335596';
+        detailRec.Status_Valid_For_STP__c = true;
 		insert detailRec;
 
 		Case caseRec = ASF_TestDataFactory.createInteractionCaseRecords()[0];
@@ -79,7 +80,7 @@ public with sharing class ABSLI_FetchNEFTRefNumIntegration_Test {
 	static void run_Test_Method() {
 		ABSLI_FetchNEFTRefNumIntegration integrationObj = new ABSLI_FetchNEFTRefNumIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];
@@ -120,7 +121,7 @@ public with sharing class ABSLI_FetchNEFTRefNumIntegration_Test {
 	static void run_Test_MethodBulk() {
 		ABSLI_FetchNEFTRefNumIntegration integrationObj = new ABSLI_FetchNEFTRefNumIntegration();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c
 			LIMIT 1
 		];
@@ -190,6 +191,7 @@ public with sharing class ABSLI_FetchNEFTRefNumIntegration_Test {
 		detailRec2.NEFT_Reference_Number__c = 'AbiDhya';
 		detailRec2.Voucher_Number__c = '8895335596';
 		detailRec2.Voucher_Approval_Date__c = Date.today();
+        detailRec2.Status_Valid_For_STP__c = true;
 		insert detailRec2;
 
         Case caseRec2 = ASF_TestDataFactory.createInteractionCaseRecords()[0];

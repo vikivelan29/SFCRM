@@ -45,7 +45,7 @@ public class ABSLI_PanUpdateIntegration_Test {
     @IsTest
     static void testEvaluate(){
         ABSLI_PanUpdateIntegration panInt = new ABSLI_PanUpdateIntegration();
-       	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Technical_Source__c FROM Case LIMIT 1];
+       	Case caseRecord = [SELECT id,CaseNumber,CCC_External_Id__c,Source__c,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Technical_Source__c FROM Case LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = panInt.evaluate(caseRecord);
@@ -58,7 +58,7 @@ public class ABSLI_PanUpdateIntegration_Test {
         ABSLI_PanUpdateIntegration panInt = new ABSLI_PanUpdateIntegration();
        	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Asset.Policy_No__c,
                            Account.PAN__c,Business_Unit__c,ABSLI_Case_Detail__r.PAN_Number__c FROM Case LIMIT 1];
-        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c,Do_Not_Retry_Integration__c FROM ASF_Integration__c LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulRun = panInt.run(integ,caseRecord);

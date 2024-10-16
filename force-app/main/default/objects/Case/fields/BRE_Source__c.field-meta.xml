@@ -2,55 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>BRE_Source__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(
-	AND(
-		LOB__c==&apos;Digital&apos;,
-		OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))
-	),
-	&apos;a3s_rm&apos;,
-	IF(
-		AND(
-			LOB__c==&apos;Digital&apos;,
-			TEXT(Source__c) &lt;&gt; &apos;IVR-no email&apos;
-		),
-		&apos;a3s&apos;, 
-		IF(
-			AND(
-				OR(
-					LOB__c==&apos;Retail - Secured&apos;,
-					LOB__c==&apos;Retail - Unsecured&apos;
-				),
-				OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))
-			),
-			&apos;finnone_rm&apos;, 
-			IF(
-				AND(
-					OR(
-						LOB__c==&apos;Retail - Secured&apos;,
-						LOB__c==&apos;Retail - Unsecured&apos;
-					),
-					TEXT(Source__c) &lt;&gt; &apos;IVR-no email&apos;
-				),
-				&apos;finnone&apos;, 
-				IF(
-					AND(
-						LOB__c==&apos;Corporate&apos;,
-						OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))
-					),
-					&apos;corporate_rm&apos;, 
-					IF(
-						AND(
-							LOB__c==&apos;Corporate&apos;,
-							TEXT(Source__c) &lt;&gt; &apos;RM-no email&apos;
-						), 
-						&apos;corporate&apos;, 
-						null 
-					)
-				)
-			)
-		)
-	) 
-)</formula>
+    <formula>Asset.Source_System__c</formula>
     <label>BRE Source</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

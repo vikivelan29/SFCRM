@@ -68,11 +68,11 @@ public with sharing class ABSLI_CTSTHelper {
         
         for(Case caseR : caseRecs){
             FieldValidationResult validation = resultsMap.get(caseR.Id);
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Outcome__c)) {
+            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Outcome__c) && !(ASF_BulkCaseProcessorUtility.isBulkProcessing == TRUE && ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate == TRUE)) {
                 validation.blankFields.add(caseOutcomeField.getLabel());
                 validation.result = true;
             }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution__c)) {
+            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution__c) && !(ASF_BulkCaseProcessorUtility.isBulkProcessing == TRUE && ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate == TRUE)) {
                 validation.blankFields.add(caseResolutionField.getLabel());
                 validation.result = true;
             }
@@ -181,21 +181,23 @@ public with sharing class ABSLI_CTSTHelper {
         
         for(Case caseR : caseRecs){
             FieldValidationResult validation = resultsMap.get(caseR.Id);
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolve_case__c)) {
-                validation.blankFields.add(resolveCaseField.getLabel());
-                validation.result = true;
-            }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution_Comments__c)) {
-                validation.blankFields.add(resolutionCommentsField.getLabel());
-                validation.result = true;
-            }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Investigation_Comment__c)) {
-                validation.blankFields.add(investigationCommentsField.getLabel());
-                validation.result = true;
-            }
-            if(String.isBlank(caseR.ABSLI_Case_Detail__r.Acknowledgement_contacted__c)) {
-                validation.blankFields.add(acknowledgementConField.getLabel());
-                validation.result = true;
+            if(caseR.ABSLI_Case_Detail__r.Is_Auto_Escalated__c != 'Y'){
+                if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolve_case__c)) {
+                    validation.blankFields.add(resolveCaseField.getLabel());
+                    validation.result = true;
+                }
+                if(String.isBlank(caseR.ABSLI_Case_Detail__r.Resolution_Comments__c)) {
+                    validation.blankFields.add(resolutionCommentsField.getLabel());
+                    validation.result = true;
+                }
+                if(String.isBlank(caseR.ABSLI_Case_Detail__r.Investigation_Comment__c)) {
+                    validation.blankFields.add(investigationCommentsField.getLabel());
+                    validation.result = true;
+                }
+                if(String.isBlank(caseR.ABSLI_Case_Detail__r.Acknowledgement_contacted__c)) {
+                    validation.blankFields.add(acknowledgementConField.getLabel());
+                    validation.result = true;
+                }
             }
             List<Task> openTasks = [SELECT id,Status FROM Task WHERE WhatId =: caseR.Id];
             for(Task relatedtask : openTasks){
@@ -275,6 +277,10 @@ public with sharing class ABSLI_CTSTHelper {
                                                  Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap)
     {
         Set<Id> assetIds = new Set<Id>();
+    	
+        List<CaseComment> commentsToInsert = new List<CaseComment>();
+        String newCommentBody = 'Bank Update case is open for this policy.';
+        
         for(Case caseRecord : caseRecs){
             assetIds.add(caseRecord.AssetId);
         }
@@ -283,14 +289,50 @@ public with sharing class ABSLI_CTSTHelper {
                                                                                      WHERE CCC_External_Id__c ='PNFT034' AND
                                                                                      IsClosed = False AND AssetId =:assetIds
                                                                                      GROUP BY AssetID]);
+
+            Map<Id, List<CaseComment>> existingCommentsMap = new Map<Id, List<CaseComment>>();
+            List<CaseComment> existingComments = [SELECT ParentId, CommentBody 
+                                                  FROM CaseComment 
+                                                  WHERE ParentId IN :caseRecs];
+            if(existingComments.size() > 0){
+              for (CaseComment comment : existingComments) {
+                if (!existingCommentsMap.containsKey(comment.ParentId)) {
+                    existingCommentsMap.put(comment.ParentId, new List<CaseComment>());
+                }
+                existingCommentsMap.get(comment.ParentId).add(comment);
+             }  
+            }
+            
+
             for(Case caseRecord : caseRecs){
                 if(mAggregateResults.containsKey(caseRecord.AssetID)){ // &&  resultMap.get(caseRecord.Id).status == ABSLI_Constants.SUCCESS){
+                    Boolean hasDuplicateComment = false;
+                    if(caseRecord.Technical_Source__c == 'API'){
+                     	if (existingCommentsMap.containsKey(caseRecord.Id)) {
+                        for (CaseComment existingComment : existingCommentsMap.get(caseRecord.Id)) {
+                            if (existingComment.CommentBody == newCommentBody) {
+                                hasDuplicateComment = true;
+                                break;
+                            }
+                        }
+                   	 	}
+                        if (!hasDuplicateComment) {
+                            CaseComment newComment = new CaseComment();
+                            newComment.ParentId = caseRecord.Id;
+                            newComment.CommentBody = newCommentBody;
+                            commentsToInsert.add(newComment);
+                        }   
+                    }
+                    
                     ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
                     result.status = ABSLI_Constants.ERROR;
                     result.response = Custom_Messages__mdt.getInstance('ABSLI_SurvivalUpdateIntegration_ERR3').Message__c;
                     resultMap.put(caseRecord.Id, result);
                     continue;
                 }
+            }
+            if (!commentsToInsert.isEmpty()) {
+                insert commentsToInsert;
             }
         }
     }

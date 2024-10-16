@@ -3,7 +3,7 @@
     <fullName>ServicingBranchName__c</fullName>
     <description>ABHI</description>
     <externalId>false</externalId>
-    <label>Servicing Branch Name</label>
+    <label>Intermediary Branch</label>
     <length>100</length>
     <required>false</required>
     <trackHistory>false</trackHistory>

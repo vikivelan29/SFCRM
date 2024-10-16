@@ -28,6 +28,7 @@ public with sharing class ABHI_IntegrationQueryHelper {
         Attachment_Status__c,
         OwnerId,
         Source__c,
+        Technical_Source__c ,
         CreatedById,
         ABHI_Case_Detail__c,
         Stage__c

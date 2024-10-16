@@ -3,11 +3,13 @@ public with sharing class ABHI_AttendedToValidationHandler {
     public static final Map<String,String> caseExtFields = new Map<String,String>{'Type_of_Disposal__c'=>'Type of Disposal',
         'Resolution_Comments__c'=>'Resolution Comments',
         'Claim_Received_Amount__c'=>'Claim Received Amount'};
+        //'AccountId'=>'Customer',
+        //'AssetId'=>'Asset'};
             
             public static void validateAttendedToNonEscalated(Case caseRecord,
                                                               ASF_IntegrationsController.IntegrationWrapper result)
         {
-            if (caseRecord.Stage__c <> 'Resolved' && caseRecord.ABHI_Case_Detail__r.Reopened_Date__c == null && caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '3')
+            if (caseRecord.Stage__c <> 'Resolved' && caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '3')
             {
                 result.status = ABSLI_Constants.SUCCESS;
                 result.response = ABSLI_Constants.EVALUATION_SUCCESS;
@@ -28,8 +30,11 @@ public with sharing class ABHI_AttendedToValidationHandler {
             }
 
             for(String fieldName : caseExtFields.keySet()){
-                if(caseRecord.ABHI_Case_Detail__r.get(fieldName) == null || caseRecord.ABHI_Case_Detail__r.get(fieldName) == '')
-                {
+              /*  if (String.isBlank(caseRecord.AccountId) || String.isBlank(caseRecord.AssetId)) {
+                    errorText = 'Customer and Asset';
+                    bErrored = true;
+                }    */   
+                if(caseRecord.ABHI_Case_Detail__r.get(fieldName) == null || caseRecord.ABHI_Case_Detail__r.get(fieldName) == ''){
                     if(!(caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4') && fieldName == 'Claim_Received_Amount__c'){
                         //
                     } else if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c == '3' && fieldName == 'Claim_Received_Amount__c'){
@@ -41,12 +46,13 @@ public with sharing class ABHI_AttendedToValidationHandler {
                     }
                     
                 }
-                
+              
             }
+          
 
             if(String.isNotBlank(errorText)){
                 errorText = errorText.removeEnd(', ');
-                errorText += ' fields are mandatory in the Attended to section.';
+                errorText += ' fields are mandatory for Attended to IGMS button.';
             }
             fieldSpecificValidation(caseRecord);
 
@@ -68,12 +74,13 @@ public with sharing class ABHI_AttendedToValidationHandler {
     }
 
     public static final Map<String,String> caseExtFieldsEscalated = new Map<String,String>{'Final_Resolution_Remark__c'=>'Final Resolution Remark',
-    'Re_Open_Comments__c'=>'Re-Open Comments',
-    'Date_of_Honoring_Service__c'=>'Date of Honoring Service',
-    'TAT_Crossed_Remark__c'=>'TAT Crossed Remark'};
+    'Additional_Closure_Information__c'=>'Additional Closure Information',
+     'Insurer_Resolution_Letter_date__c'=>'Insurer Resolution Letter Date'
+   };
 
     public static void validateAttendedToEscalated(Case caseRecord,ASF_IntegrationsController.IntegrationWrapper result){
-        if (caseRecord.ABHI_Case_Detail__r.Reopened_Date__c != null && caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
+        //if (caseRecord.ABHI_Case_Detail__r.Reopened_Date__c != null && caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
+            if ( caseRecord.ABHI_Case_Detail__r.IGMS_Complaint_Status__c == '6'){
             result.status = ABSLI_Constants.SUCCESS;
             result.response = ABSLI_Constants.EVALUATION_SUCCESS;
         }
@@ -89,24 +96,25 @@ public with sharing class ABHI_AttendedToValidationHandler {
 
         String errorText = '';
         boolean bErrored = false;
-        for(String fieldName : caseExtFieldsEscalated.keySet()){
-            if(caseRecord.ABHI_Case_Detail__r.get(fieldName) == null || caseRecord.ABHI_Case_Detail__r.get(fieldName) == '')
-            {
-                if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c == '3' && fieldName == 'Claim_Received_Amount__c'){
-                    // do nothing.
-                }
-                else{
-                    errorText += caseExtFieldsEscalated.get(fieldName)+', ';
-                    bErrored = true;
+        if(caseRecord.Type_Text__c == 'Claim'){
+            for(String fieldName : caseExtFieldsEscalated.keySet()){
+                if(caseRecord.ABHI_Case_Detail__r.get(fieldName) == null || caseRecord.ABHI_Case_Detail__r.get(fieldName) == '')
+                {
+                    if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c == '3' && fieldName == 'Claim_Received_Amount__c'){
+                        // do nothing.
+                    }
+                    else{
+                        errorText += caseExtFieldsEscalated.get(fieldName)+', ';
+                        bErrored = true;
+                    }
+                    
                 }
                 
             }
-            
-        }
-
+    	}
         if(String.isNotBlank(errorText)){
             errorText = errorText.removeEnd(', ');
-            errorText += ' fields are mandatory in the Attended to Escalated section.';
+            errorText += ' and other fields are mandatory for Attended Esc to IGMS button.';
         }
         fieldSpecificValidation(caseRecord);
 
