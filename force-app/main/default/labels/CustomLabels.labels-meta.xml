@@ -1278,4 +1278,11 @@
         <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
         <value>System Administrator,***System Admin</value>
     </labels>
+    <labels>
+        <fullName>ABHI_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
 </CustomLabels>
