@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ABHFL Team
  * @group             : 
- * @last modified on  : 03-03-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 10-16-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   03-03-2024   ABHFL Team  Initial Version
@@ -18,9 +18,11 @@ public class ABHFL_CTSTHelper_Test {
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         
         ASF_TestDataFactory.createCaseCategoryConfig();
+		
         
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
@@ -39,7 +41,6 @@ public class ABHFL_CTSTHelper_Test {
         //Create Case Extension record
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
-        //caseDetail.Grievance_Details_Sent__c = false;
         insert caseDetail;
        
         //Create Case
@@ -47,7 +48,7 @@ public class ABHFL_CTSTHelper_Test {
         caseRecList[0].AssetId = astRec.Id;
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
-       	//caseRecList[0].Business_Unit__c = 'ABHFL';
+       // caseRecList[0].Business_Unit__c = 'ABHFL';
         
         
        	caseRecList[1].AssetId = astRec1.Id;
@@ -242,7 +243,7 @@ public class ABHFL_CTSTHelper_Test {
         Test.stopTest();
 
         // Verify the results
-        // System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
+        //System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
     @isTest
@@ -275,6 +276,50 @@ public class ABHFL_CTSTHelper_Test {
         Map<Id, Case> updatedCase1 = ABHFL_CTSTHelper.assignCaseCollateralDocs(new List<Case>{caseRecord});
         System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
     }
+
+
+ @IsTest 
+    static void testskipOpenStageforAPIcases(){
+        Test.startTest();
+        Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
+        ABHFL_case_Detail__c detailrecord=new ABHFL_case_Detail__c();
+        detailrecord.Mode_of_Change_of_Address__c='VKYC';
+        insert detailrecord;
+        
+        Case testcase=new Case();
+        testcase.ABHFL_case_detail__c=detailrecord.Id;
+        testcase.Technical_Source__c='API';
+        testcase.CCC_External_Id__c='hfl003';
+        testcase.RecordTypeId=recordTypeId;
+        testcase.Business_Unit__c='ABHFL';
+        insert testcase;
+        
+        ABHFL_case_Detail__c detailrecord1=new ABHFL_case_Detail__c();
+        detailrecord1.New_Mobile_Number__c='1234567890';
+        insert detailrecord1;
+        
+        Case testcase1=new Case();
+        testcase1.ABHFL_case_detail__c=detailrecord1.Id;
+        testcase1.Technical_Source__c='API';
+        testcase1.CCC_External_Id__c='hfl045';
+        testcase1.RecordTypeId=recordTypeId;
+        testcase1.Business_Unit__c='ABHFL';
+        insert testcase1;
+        
+        ABHFL_case_Detail__c detailrecord2=new ABHFL_case_Detail__c();
+        detailrecord2.New_Email_ID__c='testingaccount@abc.com';
+        insert detailrecord2;
+        
+        Case testcase2=new Case();
+        testcase2.ABHFL_case_detail__c=detailrecord2.Id;
+        testcase2.Technical_Source__c='API';
+        testcase2.CCC_External_Id__c='hfl023';
+        testcase2.RecordTypeId=recordTypeId;
+        testcase2.Business_Unit__c='ABHFL';
+        insert testcase2;
+        Test.stopTest();
+    }
+
     @isTest
     static void testStoreMultipleLANs() {
         // Retrieve the test Case record created in TestSetup

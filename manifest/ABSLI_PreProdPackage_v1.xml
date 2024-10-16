@@ -246,6 +246,20 @@
         <members>ASF_CaseIntegrationTriggerHandler</members>
         <members>ABSLI_IGMSClassificationUtility</members>
         <members>ABSLI_EmailSMSSuppressionHandler</members>
+        <members>ABHFL_AmmortizationMultiLanTest</members>
+        <members>ABHFL_BalanceConfLetterIntegration_Test</members>
+        <members>ABHFL_ComplaintInvestigationTest</members>
+        <members>ABHFL_ComplaintsStageApexClassTest</members>
+        <members>ABHFL_DataServiceTest</members>
+        <members>ABHFL_LODIngetration_Test</members>
+        <members>ABHFL_PaymentLinkHandler_Test</members>
+        <members>ABHFL_PreClosureCaseCreation_Test</members>
+        <members>ABHFL_REKYCIntegration_Test</members>
+        <members>ABHFL_RoiHistoryTest</members>
+        <members>ABHFL_SanctionLetterIntegration_Test</members>
+        <members>ABHFL_SOAIntegration_Test</members>
+        <members>ABHFL_StageApex_Test</members>
+        <members>ABHFL_CTSTHelper_Test</members>
 		<name>ApexClass</name>
 	</types>
     <types>

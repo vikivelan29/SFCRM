@@ -6,6 +6,7 @@ public class ABHFL_PaymentLinkHandler_Test {
         Account accIndRec = ASF_TestDataFactory.insertPersonAccount('Test_FN','Test_LN','Test_2');
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' and DeveloperName like 'ABHFL%' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec.LAN__c = 'Test';

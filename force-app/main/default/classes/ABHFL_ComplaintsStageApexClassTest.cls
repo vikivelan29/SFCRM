@@ -7,6 +7,7 @@ public class ABHFL_ComplaintsStageApexClassTest {
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
@@ -29,7 +30,7 @@ public class ABHFL_ComplaintsStageApexClassTest {
         caseRecList[0].ABHFL_Case_Detail__c = caseDetail.Id;
         caseRecList[0].Case_Stage_Change_Date__c = date.today();
         update caseRecList[0];
-        //AM-create case category config
+        
         ASF_TestDataFactory.createCaseCategoryConfig();
 
         //create ASF Integration
