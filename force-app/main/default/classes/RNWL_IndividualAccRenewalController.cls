@@ -24,11 +24,15 @@ public with sharing class RNWL_IndividualAccRenewalController {
             
             Map<String, Object> rawResponseMap = new Map<String, Object>();
             
-            String responseBody = RNWL_NonIndAccountRenewalController.getResponseFromFiles(opportunityId , 'Renewal Check');
-            system.debug('responseBody-'+responseBody);
-
-            if(String.isBlank(responseBody)){
-                String payload = '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}';
+            Map<String, Object> rawResponseMap = new Map<String, Object>(); 
+            
+            Map<String, String> mapAPIResponse = RNWL_StoredResponseUtility.getResponseFromFiles(opportunityId , new List<String>{'Renewal Check'});
+            
+            String responseBody = mapAPIResponse.containsKey('Renewal Check') ? mapAPIResponse.get('Renewal Check') : ''  ;
+            
+            set<String> setMemberId = new set<String>(); 
+            
+            if(String.isBlank(responseBody)){ 
                 
                 system.debug('payload'+payload);
                 
@@ -105,6 +109,17 @@ public with sharing class RNWL_IndividualAccRenewalController {
                     objRenewalWrapper.Upsell_Net_Premium = String.valueOf(policyData_Map.get('Upsell_Net_Premium'));
                     objRenewalWrapper.Upsell_Gross_Premium = String.valueOf(policyData_Map.get('Upsell_Gross_Premium'));
                     
+                    system.debug('policyData_Map Cross_sell_Reference_Number'+policyData_Map.get('Cross_sell_Reference_Number'));
+                    system.debug('policyData_Map Is_cross_sell'+policyData_Map.get('Is_cross_sell'));
+                    if(policyData_Map.containsKey('Is_cross_sell') && String.valueOf(policyData_Map.get('Is_cross_sell')) == 'Y'){
+                        objRenewalWrapper.Is_cross_sell = 'Y';
+                    } 
+                    
+                    objRenewalWrapper.Cross_sell_Reference_Number = policyData_Map.containsKey('Cross_sell_Reference_Number') ? String.valueOf(policyData_Map.get('Cross_sell_Reference_Number')) : '';
+                    
+                    objRenewalWrapper.Loading_Rate = policyData_Map.containsKey('Loading_Rate') ? String.valueOf(policyData_Map.get('Loading_Rate')) : '';
+                    objRenewalWrapper.Loading_Reason = policyData_Map.containsKey('Loading_Reason') ? String.valueOf(policyData_Map.get('Loading_Reason')) : '';
+                    
                     Map<String, Object> nominee_Map = (Map<String, Object>)policyData_Map.get('Nominee_Details');
                     
                     objRenewalWrapper.Nominee_Name = String.valueOf(nominee_Map.get('Nominee_Name'));
@@ -138,18 +153,25 @@ public with sharing class RNWL_IndividualAccRenewalController {
                         objMember.Relation = String.valueOf(member_Map.get('Relation'));
                         objMember.Chronic = String.valueOf(member_Map.get('Chronic'));
                         objMember.CB = String.valueOf(member_Map.get('CB'));
+                        objMember.MemberId = String.valueOf(member_Map.get('MemberId'));
+                        
+                        setMemberId.add(String.valueOf(member_Map.get('MemberId')));  
+                        
+                        system.debug('MemberId'+objMember.MemberId);
                         
                         lstRenewalMembers.add(objMember);
-                    }
-                    
+                    } 
                     objRenewalWrapper.Members = lstRenewalMembers;
                     lstRenewalWrapper.add(objRenewalWrapper);
-                }
-                
+                } 
             }
             
             system.debug('lstRenewalWrapper '+lstRenewalWrapper);  
-
+            
+            if(!lstRenewalWrapper.isEmpty()){  
+                updateValueForAccount(setMemberId, lstRenewalWrapper); 
+            }
+            
             List<object> renewInfoList = (List<object>)rawResponseMap.get('Renew_Info');
             Map<String,object> renewInfoMap = (Map<String,object>)renewInfoList[0];
             String renewedProposalNumber = renewInfoMap.containsKey('Renewed_Policy_Proposal_Number') ?  String.valueOf(renewInfoMap.get('Renewed_Policy_Proposal_Number')) : '';
@@ -167,4 +189,39 @@ public with sharing class RNWL_IndividualAccRenewalController {
         }
     } 
     
+    public static void getRenewalWrapperErrorInstance(String strErrorCode, String strErrorMessage, List<RNWL_RenewalWrapper> lstRenewalWrapper){
+        RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
+        objRenewalWrapper.ErrorCode = strErrorCode;
+        objRenewalWrapper.ErrorMessage = strErrorMessage;  
+        lstRenewalWrapper.add(objRenewalWrapper);
+        return;
+    }
+    
+    public static void updateValueForAccount(Set<String> setMemberId, List<RNWL_RenewalWrapper> lstRenewalWrapper){
+        
+        Map<String, Account> mapOfMemberIdToAccount = new Map<String, Account>();
+        
+        for(Account objAccount : [SELECT Client_Code__c, Chronic_Disease__c, PED__c FROM Account WHERE Client_Code__c IN : setMemberId]){
+            mapOfMemberIdToAccount.put(objAccount.Client_Code__c, objAccount);
+        }
+        
+        if(!mapOfMemberIdToAccount.isEmpty()){
+            
+            List<RNWL_RenewalWrapper.cls_Members> lstCls_Members = new List<RNWL_RenewalWrapper.cls_Members>();
+            
+            for(RNWL_RenewalWrapper.cls_Members objCls_Members : lstRenewalWrapper[0].Members ){
+                
+                if(mapOfMemberIdToAccount.containsKey(objCls_Members.MemberId)){
+                    Account objAccount = mapOfMemberIdToAccount.get(objCls_Members.MemberId);
+                    objCls_Members.Chronic_Disease = objAccount.Chronic_Disease__c;
+                    objCls_Members.PED = objAccount.PED__c;   
+                }
+                lstCls_Members.add(objCls_Members);
+            }
+            
+            lstRenewalWrapper[0].Members = lstCls_Members;
+        }
+        
+        return;
+    }
 }
