@@ -195,6 +195,24 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                 }
             }
 
+            if(memberCodes.size() > 0 ){
+                List<Account> accList = [SELECT Id,Chronic_Disease__c,PED__c,Client_Code__c
+                                         FROM Account 
+                                         WHERE Client_Code__c IN :memberCodes];
+                Map<String,Account> clientCodeToAcc = new Map<String,Account>();
+
+                for(Account acc : accList){
+                    clientCodeToAcc.put(acc.Client_Code__c , acc);
+                }
+                
+                for(Member_Details memberDetail : memberDetails){
+                    if(clientCodeToAcc.containsKey(memberDetail.Member_Code)){
+                        memberDetail.Chronic_Disease = clientCodeToAcc.get(memberDetail.Member_Code).Chronic_Disease__c;
+                        memberDetail.Disease_Disclose = clientCodeToAcc.get(memberDetail.Member_Code).PED__c;
+                    }
+                }
+            }
+
             details.policyDetails   = policyDetails;
             details.premiumDetails  = premiumDetails;
             details.memberDetails   = memberDetails;
