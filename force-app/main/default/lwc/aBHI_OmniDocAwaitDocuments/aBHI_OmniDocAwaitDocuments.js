@@ -36,7 +36,7 @@ export default class ABHI_OmniDocAwaitDocuments extends LightningElement {
         gettingOmniDocTemplate({strASFRecordId: this.objASFRec.Id, mapRow: this.objRow, strAssetId: this.recordId, strPlanName: this.strplanname, strAccountId: this.straccountid, strAccountEmail: this.straccountemail}).then((response)=>{
             console.log(response);
             if(response){
-                const selectEvent = new CustomEvent('closeawaitscreen', { detail : response});
+                const selectEvent = new CustomEvent('closeawaitscreen', { detail : {response : response, row : this.objRow}});
                 this.dispatchEvent(selectEvent);
                 clearInterval(this.clrInterval);
                 clearTimeout(this.clrTimeOut);
@@ -48,7 +48,7 @@ export default class ABHI_OmniDocAwaitDocuments extends LightningElement {
             }else if (typeof error.body.message === "string") {
                 message = error.body.message;
             }
-            const selectEvent = new CustomEvent('failedawaitscreen', { detail : message});
+            const selectEvent = new CustomEvent('failedawaitscreen', { detail : {message : message, row : this.objRow}});
             this.dispatchEvent(selectEvent);
         });
     }

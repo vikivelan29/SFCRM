@@ -49,7 +49,9 @@
   OR(
     CASESAFEID(Case.Channel__c) = &quot;IGMS&quot;,
     CASESAFEID(Case.Channel__c) = &quot;PMO&quot;,
-    CASESAFEID(Case.Channel__c) = &quot;NCH&quot;
+    CASESAFEID(Case.Channel__c) = &quot;NCH&quot;,
+    CASESAFEID(Case.Channel__c) = &quot;Prime Ministers Office&quot;,
+    CASESAFEID(Case.Channel__c) = &quot;IRDA&quot;
   ),
   &quot;IGMS&quot;,
   &quot;Non IGMS&quot;
@@ -113,6 +115,8 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
+    <sortColumn>CDF1</sortColumn>
+    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
         <endDate>2024-08-31</endDate>

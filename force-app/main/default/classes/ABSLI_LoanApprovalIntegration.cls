@@ -86,6 +86,7 @@ public with sharing class ABSLI_LoanApprovalIntegration implements ASF_Integrati
 					caseInteg.Request__c = requestBody;
 					caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
 					caseInteg.Is_Validation_Success__c = true;
+                    caseInteg.Do_Not_Retry_Integration__c = intSpec.Do_Not_Retry_Integration__c;
 					newCaseIntegrations.add(caseInteg);
 
 					Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();
@@ -200,14 +201,14 @@ public with sharing class ABSLI_LoanApprovalIntegration implements ASF_Integrati
 					Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 				}
 			}
-            // if(caseInteg.Status__c == ABSLI_Constants.FAILURE){
-            //     caseDetail.Status_Valid_For_STP__c = false;
-            //     Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
+            if(caseInteg.Status__c == ABSLI_Constants.FAILURE){
+                caseDetail.Status_Valid_For_STP__c = false;
+                Database.update(caseDetail, AccessLevel.SYSTEM_MODE);
 
-            //     caseRecord.MoveToNext__c = true;
-            //     caseRecord.Is_STP__c = false;
-			// 	Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
-            // }
+                caseRecord.MoveToNext__c = true;
+                caseRecord.Is_STP__c = false;
+				Database.update(caseRecord, AccessLevel.SYSTEM_MODE);
+            }
 		} catch (Exception e) {
 			System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
 			ABCL_Logger.enableExceptionLogging();

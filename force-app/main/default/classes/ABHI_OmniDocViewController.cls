@@ -209,7 +209,7 @@ public without sharing class ABHI_OmniDocViewController{
                     if(calculateDateDifference(DateTime.now(), lstAsfCaseIntegration?.iterator()?.next()?.createdDate).minutes < 1){
                         Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId];
 
-                        Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(objEmailTemplate.Id, strAccountId, strAssetId);
+                        Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(objEmailTemplate.Id, objCon.Id, strAssetId);
                         objEmail.setTemplateId(objEmailTemplate.Id);
                         objEmail.setOrgWideEmailAddressId(objOrgWideEmailAddress.Id);
                         objEmail.setSubject(objEmail.getSubject().replace(strPlanName, strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
@@ -221,7 +221,7 @@ public without sharing class ABHI_OmniDocViewController{
                         Messaging.SendEmailResult[] sendResults = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {objEmail}, true);
                         return sendResults.iterator().next().isSuccess();
                     }else{
-
+			throw callException(null,false,ABHI_Constants.ERROR_OMNISUCCESSLONG);
                     }
                 }else if(lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_FAILURE){
                     throw callException(null,false,ABHI_Constants.ERROR_OMNIRESFAIL);

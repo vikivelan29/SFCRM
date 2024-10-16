@@ -56,7 +56,9 @@ import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension'
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import * as validator from 'c/asf_CreateCaseValidations';
 
@@ -160,6 +162,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     @api picklistApiName = NOAUTOCOMM_FIELD;
     @api bsliRecTypeId;
     currentObj = CASE_OBJECT.objectApiName;
+
+    //ABHI
+    abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
 
     
     //utility method
@@ -397,8 +402,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 }
                 this.populateSubSourceFld();
             }
-            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
+            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU || this.businessUnit === ABHI_BU){
                 this.showAutoCommunication = false;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -673,9 +681,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false;
         if(selected.Validation_method_during_creation__c){
-            console.log('invoing validator');
+            console.log('invoking validator');
             let methodName = selected.Validation_method_during_creation__c;
-            let validationResult = await validator[methodName](caseRecord);
+            let validationResult = await validator[methodName](caseRecord,'account');
             console.log('returned with dynamic method '+JSON.stringify(validationResult));
             if(validationResult.isSuccess == false){
                 this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
@@ -907,6 +915,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 btnActive = false;
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                btnActive = false;
+                this.isPhoneInbound = true;
             }
         } else {
             btnActive = false;
