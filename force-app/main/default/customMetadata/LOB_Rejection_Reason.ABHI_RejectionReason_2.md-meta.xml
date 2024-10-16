@@ -8,10 +8,6 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Rejected</value>
-    </values>
-    <values>
-        <field>Type__c</field>
-        <value xsi:type="xsd:string">Reject</value>
+        <value xsi:type="xsd:string">Pending Customer Confirmation/documentation</value>
     </values>
 </CustomMetadata>
