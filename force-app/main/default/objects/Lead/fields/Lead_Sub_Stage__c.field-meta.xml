@@ -8,6 +8,7 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Lead_Stage__c</controllingField>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -15,6 +16,267 @@
                 <default>false</default>
                 <label>Fresh</label>
             </value>
+            <value>
+                <fullName>Different Product</fullName>
+                <default>false</default>
+                <label>Different Product</label>
+            </value>
+            <value>
+                <fullName>Non-Serviceable</fullName>
+                <default>false</default>
+                <label>Non-Serviceable</label>
+            </value>
+            <value>
+                <fullName>Not Contacted</fullName>
+                <default>false</default>
+                <label>Not Contacted</label>
+            </value>
+            <value>
+                <fullName>Not Eligible</fullName>
+                <default>false</default>
+                <label>Not Eligible</label>
+            </value>
+            <value>
+                <fullName>Not Interested</fullName>
+                <default>false</default>
+                <label>Not Interested</label>
+            </value>
+            <value>
+                <fullName>Not Met Not Interested</fullName>
+                <default>false</default>
+                <label>Not Met Not Interested</label>
+            </value>
+            <value>
+                <fullName>Not Reachable</fullName>
+                <default>false</default>
+                <label>Not Reachable</label>
+            </value>
+            <value>
+                <fullName>Opted Competitors Product</fullName>
+                <default>false</default>
+                <label>Opted Competitors Product</label>
+            </value>
+            <value>
+                <fullName>Plan to Invest Later</fullName>
+                <default>false</default>
+                <label>Plan to Invest Later</label>
+            </value>
+            <value>
+                <fullName>Student</fullName>
+                <default>false</default>
+                <label>Student</label>
+            </value>
+            <value>
+                <fullName>Switched Off</fullName>
+                <default>false</default>
+                <label>Switched Off</label>
+            </value>
+            <value>
+                <fullName>Existing Customer</fullName>
+                <default>false</default>
+                <label>Existing Customer</label>
+            </value>
+            <value>
+                <fullName>Wrong No.</fullName>
+                <default>false</default>
+                <label>Wrong No.</label>
+            </value>
+            <value>
+                <fullName>Funds Not Available</fullName>
+                <default>false</default>
+                <label>Funds Not Available</label>
+            </value>
+            <value>
+                <fullName>Hung Up</fullName>
+                <default>false</default>
+                <label>Hung Up</label>
+            </value>
+            <value>
+                <fullName>Language Barrier</fullName>
+                <default>false</default>
+                <label>Language Barrier</label>
+            </value>
+            <value>
+                <fullName>Loan</fullName>
+                <default>false</default>
+                <label>Loan</label>
+            </value>
+            <value>
+                <fullName>Looking For Job</fullName>
+                <default>false</default>
+                <label>Looking For Job</label>
+            </value>
+            <value>
+                <fullName>Medical Unfit</fullName>
+                <default>false</default>
+                <label>Medical Unfit</label>
+            </value>
+            <value>
+                <fullName>Met Not Interested</fullName>
+                <default>false</default>
+                <label>Met Not Interested</label>
+            </value>
+            <value>
+                <fullName>Appointment Scheduled</fullName>
+                <default>false</default>
+                <label>Appointment Scheduled</label>
+            </value>
+            <value>
+                <fullName>Busy</fullName>
+                <default>false</default>
+                <label>Busy</label>
+            </value>
+            <value>
+                <fullName>Call Back</fullName>
+                <default>false</default>
+                <label>Call Back</label>
+            </value>
+            <value>
+                <fullName>Call Disconnected</fullName>
+                <default>false</default>
+                <label>Call Disconnected</label>
+            </value>
+            <value>
+                <fullName>Follow Up</fullName>
+                <default>false</default>
+                <label>Follow Up</label>
+            </value>
+            <value>
+                <fullName>Met Follow Up</fullName>
+                <default>false</default>
+                <label>Met Follow Up</label>
+            </value>
+            <value>
+                <fullName>Ringing</fullName>
+                <default>false</default>
+                <label>Ringing</label>
+            </value>
+            <value>
+                <fullName>Application Logged</fullName>
+                <default>false</default>
+                <label>Application Logged</label>
+            </value>
+            <value>
+                <fullName>Connected</fullName>
+                <default>false</default>
+                <label>Connected</label>
+            </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Different Product</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Non-Serviceable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Not Contacted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Not Eligible</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Not Interested</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Not Met Not Interested</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Not Reachable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Opted Competitors Product</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Plan to Invest Later</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Student</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Switched Off</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Existing Customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Wrong No.</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Funds Not Available</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Hung Up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Language Barrier</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Loan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Looking For Job</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Medical Unfit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Disqualified</controllingFieldValue>
+            <valueName>Met Not Interested</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Qualified</controllingFieldValue>
+            <valueName>Application Logged</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Qualified</controllingFieldValue>
+            <valueName>Connected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Open</controllingFieldValue>
+            <valueName>Appointment Scheduled</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Open</controllingFieldValue>
+            <valueName>Busy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Open</controllingFieldValue>
+            <valueName>Call Back</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Open</controllingFieldValue>
+            <valueName>Call Disconnected</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Open</controllingFieldValue>
+            <valueName>Follow Up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Open</controllingFieldValue>
+            <valueName>Met Follow Up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Open</controllingFieldValue>
+            <valueName>Ringing</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>
