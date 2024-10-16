@@ -266,6 +266,7 @@
         <members>ABFL_InactiveOwnerCaseReassignmentTest</members>
         <members>ABHFL_LeadCreationAPI_Test</members>
         <members>ASF_EmailRelayLoadBalancerTest</members>
+        <members>ABFL_DMSSync_Orchestrator_Test</members>
 		<name>ApexClass</name>
 	</types>
     <types>
