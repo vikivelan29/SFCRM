@@ -8,6 +8,7 @@
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage">
             <property name="dynTableExAPI" label="Dynamic Table Name" type="String" description="Enter Dynamic Table(CMT) API Name"/>
+            <property name="showPreview" label="Show Preview" type="Boolean" default="true"/>
             <supportedFormFactors>
                 <supportedFormFactor type="Large" />
                 <supportedFormFactor type="Small" />
