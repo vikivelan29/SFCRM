@@ -1070,6 +1070,10 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
+            <fullName>Additional information required</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Cancelled</fullName>
             <default>false</default>
         </values>
@@ -1111,6 +1115,10 @@
         </values>
         <values>
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
             <default>false</default>
         </values>
     </picklistValues>
