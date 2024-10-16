@@ -5,7 +5,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABFL Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -14,12 +14,12 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-    <sharingCriteriaRules>
+    <!--<sharingCriteriaRules>
         <fullName>ABFL_Asset_Sharing_with_Service_Agent</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABFL Asset Sharing with Service Agent</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Service_Agent</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -27,13 +27,13 @@
             <value>ABFL</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
+    </sharingCriteriaRules>-->
     <sharingCriteriaRules>
         <fullName>ABHFL_Asset_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABHFL Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -47,7 +47,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLIG Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -61,7 +61,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLI Asset Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>

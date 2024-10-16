@@ -39,7 +39,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLI Case Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
