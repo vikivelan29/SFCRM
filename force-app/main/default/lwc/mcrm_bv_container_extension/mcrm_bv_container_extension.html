@@ -46,14 +46,6 @@
 			</div>
 		</div>
 	</template>
-	<template lwc:if={showPreview}>
-		<div style={alignDiv}>
-			<lightning-button alternative-text="preview" icon-size="x-small"
-				onclick={handleChangeView} icon-name="utility:preview" class="slds-float_right mcrmButton" 
-				disabled={disablePreview}>
-			</lightning-button>
-		</div>
-	</template>
 	
 	<div lwc:if={isShowInitialMessage}>
 		<lightning-card class="slds-card_empty">

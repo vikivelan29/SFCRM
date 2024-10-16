@@ -109,8 +109,6 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		if(this.isActiveDay){
 			this.isShowInitialMessage = false;
 		}
-
-		this.showPreview=false;
 	}
 
 	subscribeToMessageChannel() {
@@ -295,17 +293,5 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		this.showBaseView = false;
 		this.isError = true;
 		this.errorMessage = message;
-    }
-
-	get disablePreview(){
-		return this.tableData?.length == 0;
-	}
-
-	get alignDiv(){
-		return (this.isGymNameLocation ||this.isRewards)?"":"padding-top: 15px;";
-	}
-
-	handleChangeView(event) {
-		this.template.querySelector("c-abc_base_tableview").changeViewFn();
     }
 }

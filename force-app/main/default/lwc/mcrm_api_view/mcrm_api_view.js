@@ -1,10 +1,13 @@
 import { LightningElement,api,track } from 'lwc';
 import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithParams';
+import { contractAPIs } from 'c/mcrm_base_view_asset';
 
 export default class Wellness_api_view extends LightningElement {
     @api recordId;
 	@api intAPIName;
     @api isShowDate = false;
+
+	@api objectApiName;
 
     showSpinner = false;
 	showBaseViewScreen = false;
@@ -17,6 +20,7 @@ export default class Wellness_api_view extends LightningElement {
     displayErrorSearch = false;
 	isError = false;
 	errorMessage = "";
+
     get isDirectInvoke(){
         return !this.isShowDate;
     }
@@ -39,26 +43,27 @@ export default class Wellness_api_view extends LightningElement {
 		fetchAPIResponse({ recId: this.recordId, intName:this.intAPIName , params : params})
 		.then((result) => {
 			let payLoad = JSON.parse(result.payload);
-
+			let tableData = [];
 			// Check validity of response
 			if (result?.statusCode == 200 && payLoad) {
 				this.payloadInfo = result;
-				if(this.isShowDate){
-                    let pl = {rows:[]};
-				    pl.rows.push(payLoad.responseMap.resultsList);
-				    this.payloadInfo.payload=JSON.stringify(pl);
-                }
+				if(this.objectApiName=='Asset'){
+					tableData = contractAPIs(this.intAPIName, payLoad);
+				}
+				// if(this.isShowDate){
+                //     let pl = {rows:[]};
+				//     pl.rows.push(payLoad.responseMap.resultsList);
+				//     this.payloadInfo.payload=JSON.stringify(pl);
+                // }
 			}
 			this.showSpinner = false;
-			if (this.payloadInfo) {
+			if (tableData && tableData.length > 0) {
 				this.showBaseViewScreen = true;
 			} else {
-				let res = JSON.parse(result?.payload);
-				if(res?.error?.description) {
-					this.showError(res.error.description);
-				} else {
-					this.showError("There seems to be an error");
-				}
+				this.handleError(
+					result,
+					payLoad
+				);
 			}
 
 			setTimeout(() => {             
@@ -67,9 +72,44 @@ export default class Wellness_api_view extends LightningElement {
 		})
 		.catch((error) => {
 			this.showSpinner = false;
-			this.showError("There seems to be an error");
+			this.showError("An Error Occurred: We're experiencing an issue on our end. Please try again later. If the problem persists, please contact your administrator for assistance.");
 		});
     }
+
+	handleError(result, payLoad ){
+		let errorMessages = [];
+		// let res = result.payload ? JSON.parse(result?.payload) : undefined;
+		if (result.statusCode == 200) {
+			// Success responses (200)
+
+			if (payLoad && (Array.isArray(payLoad) && payLoad.length === 0) || 
+			(typeof payLoad === 'object' && Object.keys(payLoad).length === 0)) {
+				errorMessages.push(this.label.MCRM_MissingDataError);
+			}else{
+				// Check if responseMap is empty or resultsList is null
+				if (!payLoad.responseMap ||
+					Object.keys(payLoad.responseMap).length === 0 ||
+					payLoad.responseMap.resultsList === null) {
+					// Check for service messages
+					if (payLoad.serviceMessages) {
+						payLoad.serviceMessages.forEach(message => {
+							if (message.businessDesc) {
+								errorMessages.push(message.businessDesc);
+							}
+						});
+					}
+				}
+			}
+		}
+		if(result.statusCode > 200 || errorMessages.length == 0){
+			let error = payLoad?.message || payLoad?.error?.description || this.label.MCRM_MissingDataError;
+			errorMessages.push(error);
+		}
+		if(errorMessages.length > 0){
+			let error = errorMessages.join('. ');
+			this.showError(error);
+		}
+	}
 
     handleSearchClick() {
 		const allValid = [
