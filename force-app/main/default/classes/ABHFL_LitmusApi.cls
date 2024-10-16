@@ -13,7 +13,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
     public Case getCaseRec(String caseId){
         Case caseRecord = [
             SELECT AccountId, Account.Name, Account.RecordType.Name, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c,
-                    CaseNumber, Recategorisation_Reason__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c, Nature__c,
+                    CaseNumber, Recategorisation_Reason__c,Overall_Case_Closure_SLA__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c, Nature__c,
                     createdBy.Name, createdDate, ClosedDate, owner.name, LAN__c, FTR__c, Ageing_Number_Of_Days__c, Status
             FROM Case
             WHERE Id =:caseId
@@ -155,7 +155,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
         litmusApiWrappObj.name = caseRecord.Account.Name;
         litmusApiWrappObj.tag_case_id = caseRecord.CaseNumber;
         litmusApiWrappObj.tag_case_type = caseRecord.Type_Text__c;
-        litmusApiWrappObj.tag_sla_deadline = String.valueOf(cccRecord.Overall_Case_Closure_SLA__c);
+        litmusApiWrappObj.tag_sla_deadline = String.valueOf(caseRecord.Overall_Case_Closure_SLA__c);
         litmusApiWrappObj.tag_category = caseRecord.Nature__c;
         litmusApiWrappObj.tag_created_by = caseRecord.createdBy.Name;
         litmusApiWrappObj.tag_created_on = String.valueOf(caseRecord.createdDate);
