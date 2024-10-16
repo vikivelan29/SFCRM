@@ -32,7 +32,7 @@ public with sharing class ABCL_IntegrationCallout {
             buildURLParameters(urlParameters,integrationMdt.EndPoint__c);                                                  
         }                                              
         
-        //Build HttpRequest
+        // Build HttpRequest
         request.setMethod(integrationMdt.Protocol__c);
         request.setEndPoint(endPointURL);
 	if(integrationMdt.Timeout__c != null){
