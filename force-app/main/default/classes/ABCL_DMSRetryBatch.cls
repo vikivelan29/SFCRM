@@ -1,3 +1,4 @@
+	
 /**
  * Class              :  ABCL_DMSRetryBatch
  * TestClass          :  
@@ -12,7 +13,6 @@
  * 
  * *****************************************************************************************************
  */
-
 public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database.Stateful, Schedulable {
 
     public Database.QueryLocator start(Database.BatchableContext bc){
@@ -152,12 +152,12 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             } else {
                 fileRec.Status__c = ABHFL_Constants.PENDING;
             }
-
             // Modified Attribute for ABSLI specific Business Unit
             fileRec.File_Name__c = isABSLIBusiness ? businessFileName : fileVersion.Title;
             fileRec.DMS_Folder_Id__c = isABSLIBusiness ? dmsFolderId : '';
             fileRec.Application_ID__c = isABSLIBusiness ? applicationId : relatedCase.Asset.LAN__c;
             fileRec.Policy_No__c = isABSLIBusiness ? policyNumber : '';
+            fileRec.Next_Retry__c = isABSLIBusiness ? null : System.now().addMinutes(15);
             fileRecList.add(fileRec);
         }
 
@@ -200,7 +200,6 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                     objDMSEvent.Lead_ID__c = leadId;
                     objDMSEvent.Contact_No__c = mobile;
                     objDMSEvent.Source__c = ASF_Constants.DMS_FILE_TRANSFER_SOURCE;
-
                     if(relatedCase.Business_Unit__c == ABHI_Constants.ABHI){
                         objDMSEvent.Source__c = ABHI_Constants.OMNIDOC_FILE_TRANSFER_SOURCE;
                         objDMSEvent.CategoryID__c = ABHI_Constants.OMNIDOC_FILE_TRANSFER_CATEGORYID;
@@ -212,7 +211,6 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                     }
                     
                     dmsEventList.add(objDMSEvent);
-                }
             }
 
             if(dmsEventList.size() > 0){
