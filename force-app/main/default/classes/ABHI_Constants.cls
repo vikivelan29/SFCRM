@@ -36,6 +36,11 @@ public with sharing class ABHI_Constants {
     public static final List<String> POLICY_ALL_OBJECT = new List<String>{'Account','Asset','Customer_Member_Mapping', 'Nominee', 'Previous_Policy_Details'};
 
     //omnidocs
+    public static final String OMNIDOC_FILE_TRANSFER_SOURCE = 'SFDC';
+    public static final String OMNIDOC_FILE_TRANSFER_CATEGORYID = '1007';
+    public static final String OMNIDOC_FILE_TRANSFER_DOCSEARCHPARAMID_CASE = '17';
+    public static final String OMNIDOC_FILE_TRANSFER_LOGICALID = 'CRM';
+    public static final String OMNIDOC_FILE_TRANSFER_TASKID = 'Attachments';
     public static final String EMAIL_TEMPLATE_DEVELOPER_NAME = 'OMNI_DOC_SEND_EMAIL_1724913452870';
     public static final String OMNI_INT_TYPE = 'OmniDoc';
     public static final String TASK_ID = 'Attachments';
@@ -67,10 +72,5 @@ public with sharing class ABHI_Constants {
     public static final String OMNIRES_FAILURE = 'Failure';
     public static final String OMNIRES_PENDING = 'Pending';
     public static final String ERROR_MISSING_LEAD_FOR_CANCELLED = 'Not processed-Missing Lead ID';
-    public static final String OMNIDOC_FILE_TRANSFER_SOURCE = 'SFDC';
-    public static final String OMNIDOC_FILE_TRANSFER_CATEGORYID = '1007';
-    public static final String OMNIDOC_FILE_TRANSFER_DOCSEARCHPARAMID_CASE = '17';
-    public static final String OMNIDOC_FILE_TRANSFER_LOGICALID = 'CRM';
-    public static final String OMNIDOC_FILE_TRANSFER_TASKID = 'Attachments';
 	public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
 }
