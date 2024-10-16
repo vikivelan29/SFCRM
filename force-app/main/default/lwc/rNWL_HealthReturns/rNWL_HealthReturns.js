@@ -4,8 +4,8 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 import POLICY_RECORD_ID_FIELD from "@salesforce/schema/Opportunity.Policy__c";
 import PROPOSAL_No_FIELD from "@salesforce/schema/Opportunity.Policy__r.SerialNumber";
-import POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy__r.ABHI_Policy_Id__c";
-import MASTER_POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy__r.MasterPolicyNumber__r.ABHI_Policy_Id__c";
+import POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy_Number__c";
+import MASTER_POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy__r.MasterPolicyNumber__r.LAN__c";
 
 import getHealthReturnResponse from '@salesforce/apex/RNWL_MemberDetailsController.getHealthReturnResponse';
 
@@ -32,7 +32,10 @@ const columns = [
 export default class RNWL_HealthReturns extends LightningElement {
     @api recordId;
     @track data;
-    @track error;  
+    @track error; 
+    @track success; 
+    @track noRecordFound; 
+    @track message; 
     lstAPINames;
     masterPolicyNum;
     policyId;
@@ -50,19 +53,15 @@ export default class RNWL_HealthReturns extends LightningElement {
                 this.proposalNo = getFieldValue(data, PROPOSAL_No_FIELD); 
                 this.masterPolicyNum = getFieldValue(data, MASTER_POLICY_ID_FIELD ); 
 
-                console.log('policyNumber',this.policyNumber);
-                console.log('policyId',this.policyId);
-                console.log('proposalNo',this.proposalNo); 
-                 
-                this.lstAPINames = ['Health Return', 'Fitness Assessment'];
-                
-                console.log('lstAPINames',this.lstAPINames[0]); 
+                console.log('policyNumber',this.policyNumber); 
+
+                this.lstAPINames = ['Health Return', 'Fitness Assessment']; 
                 this.getResponseData(); 
             
         }else{
             this.showNotification();
             this.error = error;
-            console.error('Error Getting data from files from database', error);
+            console.error('Error in standard wire database', error);
         }
     } 
 
@@ -76,18 +75,35 @@ export default class RNWL_HealthReturns extends LightningElement {
       this.dispatchEvent(evt);
     }
 
-    getResponseData(){
-        console.log('opportunityId',this.recordId); 
-
+    getResponseData(){  
+        console.error('getResponseData ');
+        
         getHealthReturnResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policyNumber , proposalNo : this.proposalNo, masterPolicyNum : this.masterPolicyNum, lstFileSrcAPI : this.lstAPINames }).
         then(result => { 
-            if(result){ 
-                this.data = result; 
-                console.log('API Response',JSON.stringify(result));
+            if(result){  
+ 
+                console.error('result ',result); 
+                if(result[0].Header == 'No Record Found'){
+                    console.log('inside. no record found condition');
+                    this.noRecordFound = true;  
+                    this.message = result[0].Header;
+                }else if(result[0].Header == 'API Failed') {      
+                    console.log('inside. API failed condition');
+                    this.noRecordFound = true;  
+                    this.message = result[0].Header;
+                    this.showNotification();
+                }
+                
+                if(result[0].Response.length > 0 ){
+                    console.log('inside. success condition');
+                    this.data = result; 
+                    this.success = true; 
+                }                 
             }
         }).catch(error => {
+            console.error('Error while getting API data', error);
             this.error = error;
-            console.error('Error Getting data from files from database', error);
+            this.showNotification(); 
         }); 
     }   
 

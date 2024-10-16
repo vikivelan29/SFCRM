@@ -533,13 +533,13 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
             }            
             for(LOB_Rejection_Reason__mdt buReason : [SELECT LOB__c, Reason__c 
                                                       FROM LOB_Rejection_Reason__mdt 
-                                                      WHERE LOB__c LIKE :buList ORDER BY Reason__c]){
+                                                      WHERE LOB__c  LIKE :buList ORDER BY Reason__c]){
                                                           reasonValues.add(buReason.Reason__c);
                                                       }
                     }
         if(reasonValues.isEmpty()){
             for(LOB_Rejection_Reason__mdt buReason : [SELECT LOB__c, Reason__c 
-                                                      FROM LOB_Rejection_Reason__mdt 
+                                                      FROM LOB_Rejection_Reason__mdt
                                                       ORDER BY Reason__c]){
                                                           reasonValues.add(buReason.Reason__c);
                                                       }
