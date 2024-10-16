@@ -1333,14 +1333,7 @@
         <value>Duplicate case: A case (&lt;CaseNumber&gt;) with same criteria is already open with source as &lt;SOURCE&gt;.</value>
     </labels>
     <labels>
-        <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
-        <value>Active</value>
-    </labels>
-    <labels>
-        <fullName>ABHI_BU</fullName>
+        <fullName>Wellness_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
@@ -1410,5 +1403,73 @@
         <protected>false</protected>
         <shortDescription>MCRM_ResolutionRemarks</shortDescription>
         <value>Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Auto_Calculation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Auto_Calculation</shortDescription>
+        <value>https://www.adityabirlacapital.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Product_Features</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Product_Features</shortDescription>
+        <value>https://adityabirlafinancialsharedservices--abhil.sandbox.lightning.force.com/lightning/o/Product2/list?filterName=AllProducts&amp;ws=%2Flightning%2Fr%2FOpportunity%2F006Bl00000D3c2tIAB%2Fview</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Seller_Portal_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Seller_Portal_Link</shortDescription>
+        <value>https://happy.adityabirlacapital.com/#renewPaSales</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseDuplicateAdminByPass</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
+        <value>System Administrator,***System Admin</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_GymLocationSelectPartnerCode</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_GymLocationSelectPartnerCode</shortDescription>
+        <value>Please choose a value from the Partner Code dropdown menu and click on the Result button.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_InvokeApiError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_InvokeApiError</shortDescription>
+        <value>An Error Occurred: We&apos;re experiencing an issue on our end. Please try again later. If the problem persists, please contact your administrator for assistance.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_MissingDataError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_MissingDataError</shortDescription>
+        <value>We&apos;re Sorry! It looks like we couldn&apos;t find the information you were looking for. This might be due to a temporary issue or missing data. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_RewardsSelectPartnerBenefitCode</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_RewardsSelectPartnerBenefitCode</shortDescription>
+        <value>Please choose a value from the Partner Code and Benefit Code dropdown menu and click on the Rewards button.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_WireServiceTableMdtError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_WireServiceTableMdtError</shortDescription>
+        <value>Oops! We couldn&apos;t retrieve the table metadata right now. Please try refreshing the page to see if that resolves the issue.</value>
     </labels>
 </CustomLabels>
