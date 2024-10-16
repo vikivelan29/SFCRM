@@ -26,7 +26,6 @@ const columns = [
 export default class RNWL_GetRenewalDetails extends LightningElement {
     @api recordId;
     data;
-    isLoading = true;
     @track error;
     @track success;
     @track ErrorMessage;
@@ -42,16 +41,25 @@ export default class RNWL_GetRenewalDetails extends LightningElement {
     record({ error, data }) {
         if (data) {
             console.log('Raw data', data);
-            let accType = getFieldValue(data, ACCOUNT_RECORDTYPE);  
+            let accType = getFieldValue(data, ACCOUNT_RECORDTYPE);
+
+            console.log('accType', getFieldValue(data, ACCOUNT_RECORDTYPE));
+
             this.policyNumber = getFieldValue(data, POLICY_ID_FIELD);
             this.policyId = getFieldValue(data, POLICY_RECORD_ID_FIELD);
-            this.proposalNo = getFieldValue(data, PROPOSAL_No_FIELD); 
+            this.proposalNo = getFieldValue(data, PROPOSAL_No_FIELD);
+
+            console.log('policyNumber', this.policyNumber);
+            console.log('policyId', this.policyId);
+            console.log('proposalNo', this.proposalNo);
+            console.log('accType', accType);
 
             if (accType == 'Individual') {
                 this.lstAPINames = ['Renewal Check', 'Fitness Assessment'];
             } else {
                 this.lstAPINames = ['Renewal Group Check', 'Fitness Assessment'];
-            } 
+            }
+            console.log('lstAPINames', this.lstAPINames[0]);
             this.getResponseData();
 
         } else {
@@ -60,7 +68,8 @@ export default class RNWL_GetRenewalDetails extends LightningElement {
         }
     }
 
-    getResponseData() { 
+    getResponseData() {
+        console.log('opportunityId', this.recordId);
 
         getAPIResponse({ opportunityId: this.recordId, assetId: this.policyId, policyNum: this.policyNumber, proposalNo: this.proposalNo, lstFileSrcAPI: this.lstAPINames }).
             then(result => {
@@ -69,12 +78,13 @@ export default class RNWL_GetRenewalDetails extends LightningElement {
                     if (result.ErrorAPI == 'Renewal') {
                         this.showError = true;
                         this.ErrorMessage = result.ErrorMessage;
-                        this.isLoading = false;
-                    } else { 
+                    } else {
+                        console.log('inside. success condition');
                         this.data = result.Response;
                         this.success = true;
-                        this.isLoading = false; 
-                        if (result.ErrorAPI == 'Fitness Assessment') { 
+                        console.log('inside success API Name error api' ,result.ErrorAPI);
+                        if (result.ErrorAPI == 'Fitness Assessment') {
+                            
                             this.showNotification();
                         }
 
@@ -82,9 +92,6 @@ export default class RNWL_GetRenewalDetails extends LightningElement {
                 }
             }).catch(error => {
                 this.error = error;
-                this.isLoading = false;
-                this.showError = true;
-                this.ErrorMessage = 'Unexpected Error Occured';
                 console.error('Error Getting data from files from database', error);
             });
     }

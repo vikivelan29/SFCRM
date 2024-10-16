@@ -350,60 +350,6 @@
                     <name>actionNames</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>adminFilters</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Opportunity.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Dispositions__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>NAME</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Next_Call_Back_Date_Time__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Disposition_L1__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Disposition_L2__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Disposition_L3__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Call_Date_Time__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Agent_Name__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Remarks__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Calling_Unit__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Calling_Mode__c</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>relatedListLabel</name>
                     <value>Phone Call Audit</value>
                 </componentInstanceProperties>

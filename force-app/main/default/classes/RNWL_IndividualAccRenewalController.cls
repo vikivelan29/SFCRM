@@ -23,13 +23,19 @@ public without sharing class RNWL_IndividualAccRenewalController {
             
             List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
             
-            String policyNumber = oppList[0].Policy_Number__c;  
-            Map<String, Object> rawResponseMap = new Map<String, Object>();              
+            String policyNumber = oppList[0].Policy_Number__c; 
+            
+            Map<String, Object> rawResponseMap = new Map<String, Object>(); 
+            
             Map<String, String> mapAPIResponse = RNWL_StoredResponseUtility.getResponseFromFiles(opportunityId , new List<String>{'Renewal Check'});
+            
             String responseBody = mapAPIResponse.containsKey('Renewal Check') ? mapAPIResponse.get('Renewal Check') : ''  ;
             set<String> setMemberId = new set<String>(); 
             
-            if(String.isBlank(responseBody)){  
+            set<String> setMemberId = new set<String>(); 
+            
+            if(String.isBlank(responseBody)){ 
+                
                 responseBody = RNWL_StoredResponseUtility.getRenewalDetails(policyNumber, 'Renewal Check', 'RNWL_RenewalDetail');
                 
                 if(String.isBlank(responseBody)) {  
@@ -119,7 +125,9 @@ public without sharing class RNWL_IndividualAccRenewalController {
                         objMember.CB = String.valueOf(member_Map.get('CB'));
                         objMember.MemberId = String.valueOf(member_Map.get('MemberId'));
                         
-                        setMemberId.add(String.valueOf(member_Map.get('MemberId')));   
+                        setMemberId.add(String.valueOf(member_Map.get('MemberId')));  
+                        
+                        system.debug('MemberId'+objMember.MemberId);
                         
                         lstRenewalMembers.add(objMember);
                     } 
@@ -138,9 +146,12 @@ public without sharing class RNWL_IndividualAccRenewalController {
                     }
 
                     lstRenewalWrapper.add(objRenewalWrapper);
-                    break;
                 } 
-            } 
+            }
+            
+            if(!lstRenewalWrapper.isEmpty()){  
+                updateValueForAccount(setMemberId, lstRenewalWrapper); 
+            }
             
             if(!lstRenewalWrapper.isEmpty()){  
                 updateValueForAccount(setMemberId, lstRenewalWrapper); 
@@ -271,19 +282,23 @@ public without sharing class RNWL_IndividualAccRenewalController {
             mapOfMemberIdToAccount.put(objAccount.Client_Code__c, objAccount);
         }
         
-        if(!mapOfMemberIdToAccount.isEmpty()){ 
+        if(!mapOfMemberIdToAccount.isEmpty()){
+            
             List<RNWL_RenewalWrapper.cls_Members> lstCls_Members = new List<RNWL_RenewalWrapper.cls_Members>();
             
-            for(RNWL_RenewalWrapper.cls_Members objCls_Members : lstRenewalWrapper[0].Members ){ 
+            for(RNWL_RenewalWrapper.cls_Members objCls_Members : lstRenewalWrapper[0].Members ){
+                
                 if(mapOfMemberIdToAccount.containsKey(objCls_Members.MemberId)){
                     Account objAccount = mapOfMemberIdToAccount.get(objCls_Members.MemberId);
                     objCls_Members.Chronic_Disease = objAccount.Chronic_Disease__c;
                     objCls_Members.PED = objAccount.PED__c;   
                 }
                 lstCls_Members.add(objCls_Members);
-            } 
+            }
+            
             lstRenewalWrapper[0].Members = lstCls_Members;
-        } 
+        }
+        
         return;
     }
 }

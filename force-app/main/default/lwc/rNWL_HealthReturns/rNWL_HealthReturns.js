@@ -6,7 +6,6 @@ import POLICY_RECORD_ID_FIELD from "@salesforce/schema/Opportunity.Policy__c";
 import PROPOSAL_No_FIELD from "@salesforce/schema/Opportunity.Policy__r.SerialNumber";
 import POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy_Number__c";
 import MASTER_POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy__r.MasterPolicyNumber__r.LAN__c";
-import ISSUE_DATE_FIELD from "@salesforce/schema/Opportunity.Policy__r.Issue_Date__c";
 
 import getHealthReturnResponse from '@salesforce/apex/RNWL_MemberDetailsController.getHealthReturnResponse';
 
@@ -33,10 +32,10 @@ const columns = [
 export default class RNWL_HealthReturns extends LightningElement {
     @api recordId;
     @track data;
-    @track error;  
+    @track error; 
+    @track success; 
     @track noRecordFound; 
     @track message; 
-    isLoading = true;
     lstAPINames;
     masterPolicyNum;
     policyId;
@@ -52,18 +51,17 @@ export default class RNWL_HealthReturns extends LightningElement {
                 this.policyNumber = getFieldValue(data, POLICY_ID_FIELD);   
                 this.policyId = getFieldValue(data, POLICY_RECORD_ID_FIELD);  
                 this.proposalNo = getFieldValue(data, PROPOSAL_No_FIELD); 
-                this.masterPolicyNum = getFieldValue(data, MASTER_POLICY_ID_FIELD );   
-                this.issueDate = getFieldValue(data, ISSUE_DATE_FIELD ); 
+                this.masterPolicyNum = getFieldValue(data, MASTER_POLICY_ID_FIELD ); 
+
+                console.log('policyNumber',this.policyNumber); 
+
                 this.lstAPINames = ['Health Return', 'Fitness Assessment']; 
                 this.getResponseData(); 
         }
         if(error){
             this.showNotification();
             this.error = error;
-            this.message = 'Unexpected Error Occurred ';
-            this.noRecordFound = true;  
-            this.isLoading = false;
-            console.error('Error in standard wire database', error); 
+            console.error('Error in standard wire database', error);
         }
     }
     
@@ -79,36 +77,34 @@ export default class RNWL_HealthReturns extends LightningElement {
       this.dispatchEvent(evt);
     }
 
-    getResponseData(){    
-        getHealthReturnResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policyNumber , proposalNo : this.proposalNo, masterPolicyNum : this.masterPolicyNum, issueDate : this.issueDate, lstFileSrcAPI : this.lstAPINames }).
+    getResponseData(){  
+        console.error('getResponseData ');
+        
+        getHealthReturnResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policyNumber , proposalNo : this.proposalNo, masterPolicyNum : this.masterPolicyNum, lstFileSrcAPI : this.lstAPINames }).
         then(result => { 
-            if(result) {   
-                if(result[0].Header == 'No Record Found'){ 
+            if(result){  
+ 
+                console.error('result ',result); 
+                if(result[0].Header == 'No Record Found'){
+                    console.log('inside. no record found condition');
                     this.noRecordFound = true;  
                     this.message = result[0].Header;
-                    this.isLoading = false;
-                }else if(result[0].Header == 'API Failed') {       
+                }else if(result[0].Header == 'API Failed') {      
+                    console.log('inside. API failed condition');
                     this.noRecordFound = true;  
                     this.message = result[0].Header;
-                    this.isLoading = false;
                     this.showNotification();
-                } 
-                if(result[0].Response.length > 0 ){  
-                    this.data = result;  
-                    this.isLoading = false;
-                }    
-            }else{
-                this.message = 'Unexpected error while getting API data';
-                this.noRecordFound = true;  
-                this.isLoading = false;
-                this.showNotification(); 
+                }
+                
+                if(result[0].Response.length > 0 ){
+                    console.log('inside. success condition');
+                    this.data = result; 
+                    this.success = true; 
+                }                 
             }
         }).catch(error => {
             console.error('Error while getting API data', error);
             this.error = error;
-            this.message = 'Unexpected error while getting API data';
-            this.noRecordFound = true;  
-            this.isLoading = false;
             this.showNotification(); 
         }); 
     }   
