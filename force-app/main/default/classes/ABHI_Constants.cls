@@ -34,6 +34,7 @@ public with sharing class ABHI_Constants {
     public static final String POLICY_IS_MANDATORY_ON_Customer = 'Policy is mandatory on customer.';
     public static final String BUSINESS_UNIT_API = 'Business_Unit__c';
     public static final List<String> POLICY_ALL_OBJECT = new List<String>{'Account','Asset','Customer_Member_Mapping', 'Nominee', 'Previous_Policy_Details'};
+    public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
 
     //omnidocs
     public static final String OMNIDOC_FILE_TRANSFER_SOURCE = 'SFDC';
@@ -72,5 +73,4 @@ public with sharing class ABHI_Constants {
     public static final String OMNIRES_FAILURE = 'Failure';
     public static final String OMNIRES_PENDING = 'Pending';
     public static final String ERROR_MISSING_LEAD_FOR_CANCELLED = 'Not processed-Missing Lead ID';
-	public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
 }
