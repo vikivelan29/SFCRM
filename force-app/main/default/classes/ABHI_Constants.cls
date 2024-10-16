@@ -72,5 +72,5 @@ public with sharing class ABHI_Constants {
     public static final String OMNIDOC_FILE_TRANSFER_DOCSEARCHPARAMID_CASE = '17';
     public static final String OMNIDOC_FILE_TRANSFER_LOGICALID = 'CRM';
     public static final String OMNIDOC_FILE_TRANSFER_TASKID = 'Attachments';
-	  public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
+    public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
 }
