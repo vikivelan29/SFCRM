@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 10-16-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 @isTest
 public class ABHFL_AmortizationIntegration_Test {
 	@TestSetup
@@ -7,6 +14,7 @@ public class ABHFL_AmortizationIntegration_Test {
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');

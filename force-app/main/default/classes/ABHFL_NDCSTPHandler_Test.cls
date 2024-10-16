@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 10-16-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 @IsTest
 public class ABHFL_NDCSTPHandler_Test {
     @TestSetup
@@ -6,6 +13,7 @@ public class ABHFL_NDCSTPHandler_Test {
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' and DeveloperName like 'ABHFL%' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec.LAN__c = 'Test';

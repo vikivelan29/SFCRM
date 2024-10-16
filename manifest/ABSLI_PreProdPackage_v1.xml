@@ -260,6 +260,9 @@
         <members>ABHFL_SOAIntegration_Test</members>
         <members>ABHFL_StageApex_Test</members>
         <members>ABHFL_CTSTHelper_Test</members>
+        <members>ABHFL_AmortizationIntegration_Test</members>
+        <members>ABHFL_NDCSTPHandler_Test</members>
+        <members>ABHFL_WelcomeKitIntegration_Test</members>
 		<name>ApexClass</name>
 	</types>
     <types>
