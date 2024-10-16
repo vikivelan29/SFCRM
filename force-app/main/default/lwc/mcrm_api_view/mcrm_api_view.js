@@ -1,8 +1,15 @@
 import { LightningElement,api,track } from 'lwc';
 import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithParams';
 import { contractAPIs } from 'c/mcrm_base_view_asset';
+import MCRM_InvokeApiError from '@salesforce/label/c.MCRM_InvokeApiError';
+import MCRM_MissingDataError from '@salesforce/label/c.MCRM_MissingDataError';
 
 export default class Wellness_api_view extends LightningElement {
+	label = {
+		MCRM_InvokeApiError,
+		MCRM_MissingDataError
+	};
+
     @api recordId;
 	@api intAPIName;
     @api isShowDate = false;
@@ -72,7 +79,7 @@ export default class Wellness_api_view extends LightningElement {
 		})
 		.catch((error) => {
 			this.showSpinner = false;
-			this.showError("An Error Occurred: We're experiencing an issue on our end. Please try again later. If the problem persists, please contact your administrator for assistance.");
+			this.showError(this.label.MCRM_InvokeApiError);
 		});
     }
 
