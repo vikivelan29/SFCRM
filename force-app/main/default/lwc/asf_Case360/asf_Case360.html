@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 10-11-2024
+  @last modified on  : 10-16-2024
   @last modified by  : rsinghnagar@salesforce.com
 -->
 <template>
@@ -328,7 +328,7 @@
                                                 value={rejectedReason} onchange={setRejectedReason}
                                                 placeholder="type here..."></lightning-textarea>
                                             <lightning-combobox
-                                                class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
+                                                class="resolve-combobox ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
                                                 value={selectedReason} label="Close Unresolved Reason" options={reasonLOV}
                                                 placeholder='Close Unresolved Reason' onchange={handleRejReasonChange}
                                                 required>
