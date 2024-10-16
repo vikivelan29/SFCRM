@@ -3,16 +3,17 @@ function contractAPIs(apiName, payload) {
 	switch(apiName) {
 		case 'MCRM_PointsScoreTransactionDetails':
 			return getPointsScoreTransactionDetails(payload);
-		  break;
-      case 'MCRM_RefundDetails':
+      	case 'MCRM_RefundDetails':
 			return getRefundDetails(payload);
-		  break;
-      case 'MCRM_BillingDetails':
+      	case 'MCRM_BillingDetails':
 			return getBillingDetails(payload);
-		  break;
+		case 'MCRM_Total_Medals_And_Tier_Status':
+			return getMedals(payload);
+		case 'MCRM_Total_Medals_And_Tier_Status_Score':
+			return getScore(payload);
 		case 'y':
-		  // code block
-		  break;
+		  	// code block
+			break;
 		default:
 		  console.log('No API available');
 	  }
@@ -28,7 +29,11 @@ const getPointsScoreTransactionDetails = (payload) => {
 	// 		flattenArray.push(flattenObj(item));
 	// 	});
 	//console.log('***Helper>activeDays2:'+JSON.stringify(flattenArray));
-	return payload.responseMap.resultsList;
+	return (
+		payload?.responseMap?.resultsList?.length ? 
+		payload.responseMap.resultsList : 
+		[]
+	);
 }
 const getRefundDetails = (payload) => {
 	
@@ -37,6 +42,18 @@ const getRefundDetails = (payload) => {
 const getBillingDetails = (payload) => {
 	
 	return payload;
+}
+
+const getMedals = (payload) => {
+	return (
+		payload?.responseMap?.resultsList?.length  ? 
+		payload.responseMap.resultsList : 
+		[] 
+	);
+}
+const getScore = (payload) => {
+	
+	return [payload];
 }
 const flattenObj = (ob) => {
  
