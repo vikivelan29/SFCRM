@@ -602,8 +602,8 @@
         <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Base URL For Bitly</shortDescription>
-        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
     </labels>
     <labels>
         <fullName>Case_Closed_Validation_Message</fullName>
