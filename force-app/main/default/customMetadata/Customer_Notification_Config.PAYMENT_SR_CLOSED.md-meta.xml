@@ -23,16 +23,8 @@
         <value xsi:type="xsd:string">Case</value>
     </values>
     <values>
-        <field>SMS_Entity_Id__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>SMS_Merge_Fields_CSV__c</field>
         <value xsi:type="xsd:string">Account.Name,CaseNumber</value>
-    </values>
-    <values>
-        <field>SMS_Sender_Id__c</field>
-        <value xsi:nil="true"/>
     </values>
     <values>
         <field>SMS_Template_Name__c</field>
