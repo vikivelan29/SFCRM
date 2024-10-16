@@ -25,13 +25,13 @@
                 <field>Upsell_SI_3__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
+        </quickActionLayoutColumns>
+        <quickActionLayoutColumns>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>Upsell_SI_4__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
-        </quickActionLayoutColumns>
-        <quickActionLayoutColumns>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>Upsell_SI_5__c</field>
@@ -45,11 +45,6 @@
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
                 <field>Bucket__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
-                <field>Propensity_to_Pay__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>

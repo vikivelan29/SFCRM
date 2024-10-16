@@ -6,7 +6,7 @@
     <columns>Policy__c</columns>
     <columns>Proposal_Number__c</columns>
     <columns>OPPORTUNITY.STAGE_NAME</columns>
-    <columns>Schedule_Request_Response__c</columns>
+    <columns>Cancel_Call_Response__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Dialer_Status__c</field>
