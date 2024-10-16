@@ -852,6 +852,7 @@
         <members>ABCL_Integrations.AbSLI_Bitly_Link</members>
         <members>ABCL_Integrations.ABSLI_Fetch_Ingenium_CurrentDate</members>
         <members>ABCL_Integrations.ABSLI_FETCH_POLICY_ESB</members>
+	<members>ABCL_Integrations.ABSLI_Fund_Value</members>
         <members>ABCL_Integrations.ABSLI_Gen_Fund_Integration</members>
         <members>ABCL_Integrations.ABSLI_Legacy_Case</members>
         <members>ABCL_Integrations.ABSLI_PAN_Verification</members>
