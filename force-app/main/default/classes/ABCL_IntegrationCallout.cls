@@ -34,11 +34,11 @@ public with sharing class ABCL_IntegrationCallout {
            endPointURL= buildURLParameters(urlParameters,integrationMdt.EndPoint__c);                                                  
         }                                              
         
-        //Build HttpRequest
+        //  Build HttpRequest
         request.setMethod(integrationMdt.Protocol__c);
         request.setEndPoint(endPointURL);
-        if(integrationMdt.DeveloperName == 'Send_Lead_To_CRM'){	  //added by Sujay for INC000000034556 to fix the timeout error.
-            request.setTimeout(120000);
+        if(integrationMdt.Timeout__c != null){
+            request.setTimeout(Integer.valueof(integrationMdt.Timeout__c));
         }
         
         //Check for Payload
