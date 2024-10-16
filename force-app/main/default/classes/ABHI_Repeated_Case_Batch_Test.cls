@@ -26,7 +26,7 @@ public with sharing class ABHI_Repeated_Case_Batch_Test {
         insert objAccount;
 
         ABHI_Case_Detail__c abhiCaseDetRec = new ABHI_Case_Detail__c();
-        abhiCaseDetRec.Claim_No__c = '1234A123';
+        abhiCaseDetRec.City__c = 'Mumbai';
         insert abhiCaseDetRec;
         
         Asset asst1 = new Asset();
