@@ -34,6 +34,7 @@ public with sharing class ABHI_Constants {
     public static final String POLICY_IS_MANDATORY_ON_Customer = 'Policy is mandatory on customer.';
     public static final String BUSINESS_UNIT_API = 'Business_Unit__c';
     public static final List<String> POLICY_ALL_OBJECT = new List<String>{'Account','Asset','Customer_Member_Mapping', 'Nominee', 'Previous_Policy_Details'};
+    public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
 
     //omnidocs
     public static final String EMAIL_TEMPLATE_DEVELOPER_NAME = 'OMNI_DOC_SEND_EMAIL_1724913452870';
@@ -72,5 +73,4 @@ public with sharing class ABHI_Constants {
     public static final String OMNIDOC_FILE_TRANSFER_DOCSEARCHPARAMID_CASE = '17';
     public static final String OMNIDOC_FILE_TRANSFER_LOGICALID = 'CRM';
     public static final String OMNIDOC_FILE_TRANSFER_TASKID = 'Attachments';
-  public static final String MASTER_POLICY_ERROR = 'Master policy doesn\'t exist';
 }
