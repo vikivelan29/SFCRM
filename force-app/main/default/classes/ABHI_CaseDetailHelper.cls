@@ -55,4 +55,44 @@ public with sharing class ABHI_CaseDetailHelper {
             }
         }
     } 
-}
+
+    /**
+    * Jira Story  - PR1030924-98
+    * @param abhiNewCaseList - List of ABHI new cases
+    * @param mapOfIdToOldCase - Map of Id to Old Case
+    * @param triggerContext  - In which context the method is being called
+    * @description - Claim filter based on customer or policy update on CASE
+    */
+    @SuppressWarnings('PMD.AvoidDeeplyNestedIfStmts,PMD.CognitiveComplexity,PMD.CyclomaticComplexity')
+    public void populateCaseOnABHICaseDet(List<Case> abhiNewCaseList, Map<Id, Case> mapOfIdToOldCase, String triggerContext){
+        
+        List<ABHI_Case_Detail__c> abhiCaseDetList = new List<ABHI_Case_Detail__c>();
+
+        for(Case cs : abhiNewCaseList) {
+            
+            if(String.isNotBlank(cs.ABHI_Case_Detail__c)) {
+                ABHI_Case_Detail__c abhiCaseDetRec = new ABHI_Case_Detail__c();
+                if(triggerContext == 'AfterASFCodeInAfterInsert') { 
+                    abhiCaseDetRec.Policy__c = cs?.AssetId;
+                }
+                else if(triggerContext == 'AfterASFCodeInAfterUpdate') {
+                    Case oldCase = mapOfIdToOldCase.get(cs.Id);
+                    if(String.isNotBlank(cs.AssetId) && cs.AssetId != oldCase.AssetId) {      
+                        abhiCaseDetRec.Claim__c = null;
+                        abhiCaseDetRec.Policy__c = cs?.AssetId;
+                    }
+                    else if(String.isBlank(cs.AssetId)) {
+                        abhiCaseDetRec.Claim__c = null;
+                        abhiCaseDetRec.Policy__c = null;
+                    }
+                }
+                abhiCaseDetRec.Id = cs.ABHI_Case_Detail__c;
+                abhiCaseDetList.add(abhiCaseDetRec);
+            }
+        }
+
+        if(Schema.sObjectType.ABHI_Case_Detail__c.isUpdateable() && abhiCaseDetList.size() > 0) {
+            update abhiCaseDetList;
+        }
+    }
+} 

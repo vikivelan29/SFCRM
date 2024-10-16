@@ -342,7 +342,9 @@ export const lanLabels = {
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN",
         CLAIMDETAILS_FAILURE_MESSAGE: "No Claims Found",
-        ABHI_BUSINESS_UNIT: "ABHI"
+        ABHI_BUSINESS_UNIT: "ABHI",
+        CREATE_SALES_PROSPECT: 'Create Service Prospect',
+
     },
     ABWM: {
         SELECT_PRODUCT: "Select LAN",

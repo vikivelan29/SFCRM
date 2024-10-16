@@ -73,7 +73,7 @@ public class ABSLI_AddressUpdateIntegration_Test {
             ABSLI_Case_Detail__r.Country__c,ABSLI_Case_Detail__r.City__c,ABSLI_Case_Detail__r.State__c,
             ABSLI_Case_Detail__r.Pincode__c,Business_Unit__c, ABSLI_Case_Detail__r.Address_Line_2__c,
             ABSLI_Case_Detail__r.Address_Line_3__c FROM Case LIMIT 1];
-        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c FROM ASF_Integration__c LIMIT 1];
+        ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c FROM ASF_Integration__c LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulRun = addInt.run(integ,caseRecord);

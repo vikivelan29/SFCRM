@@ -245,8 +245,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PAN__c</fieldItem>
-                <identifier>RecordPAN_cField</identifier>
+                <fieldItem>Record.PAN_Number__c</fieldItem>
+                <identifier>RecordPAN_Number_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -879,6 +879,9 @@
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -963,6 +966,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1049,6 +1055,9 @@
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1125,6 +1134,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1347,7 +1359,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
-                    <value>10</value>
+                    <value>5</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
@@ -1383,7 +1395,7 @@
                             <value>L3_Driver__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Primary_Question_NPS__c</value>
+                            <value>NPS_Score_Rating__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Trigger_Name__c</value>

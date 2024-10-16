@@ -2,6 +2,7 @@ import { LightningElement,api } from 'lwc';
 import sendMail from '@salesforce/apex/ABSLI_CaseIntegrationHelper.sendMail';
 import changeAttachments from '@salesforce/apex/ABSLI_CaseIntegrationHelper.changeAttachments';
 import { NavigationMixin } from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Absli_emailcomposer extends NavigationMixin(LightningElement) {
     previewMode = false;
@@ -36,8 +37,13 @@ export default class Absli_emailcomposer extends NavigationMixin(LightningElemen
                 emailWrapperStr:JSON.stringify(this.record) })
             .then(result => {
                 this.loading = false;
-                this.close(true);
+                this.closeModal(true);
                 this.error = undefined;
+                this.showToast({
+                    title: "Info",
+                    message: 'EBOT Draft Email has been sent',
+                    variant: "Info",
+                });
             })
             .catch(error => {
                 this.error = error;
@@ -88,8 +94,16 @@ export default class Absli_emailcomposer extends NavigationMixin(LightningElemen
         );
     }
 
-    close(isEmailSent){
+    close(e){
+        this.closeModal(false);
+    }
+    
+    closeModal(isEmailSent){
         const selectEvent = new CustomEvent('closemodal', { detail : isEmailSent});
        this.dispatchEvent(selectEvent);
+    }
+
+    showToast(e) {
+        this.dispatchEvent(new ShowToastEvent(e));
     }
 }

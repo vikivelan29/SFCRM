@@ -106,6 +106,9 @@
     <columns>
         <field>Case$Asset.Type__c</field>
     </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Follow_up_Name__c</field>
+    </columns>
     <description>ABSLI - Query &amp; Complaints Reporting Set - 1</description>
     <filter>
         <criteriaItems>
