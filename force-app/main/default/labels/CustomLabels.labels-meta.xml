@@ -1278,4 +1278,44 @@
         <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
         <value>System Administrator,***System Admin</value>
     </labels>
+    <labels>
+        <fullName>MCRM_GymLocationSelectPartnerCode</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_GymLocationSelectPartnerCode</shortDescription>
+        <value>Please choose a value from the Partner Code dropdown menu and click on the Result button.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_InvokeApiError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_InvokeApiError</shortDescription>
+        <value>An Error Occurred: We&apos;re experiencing an issue on our end. Please try again later. If the problem persists, please contact your administrator for assistance.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_MissingDataError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_MissingDataError</shortDescription>
+        <value>We&apos;re Sorry! It looks like we couldn&apos;t find the information you were looking for. This might be due to a temporary issue or missing data. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_RewardsSelectPartnerBenefitCode</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_RewardsSelectPartnerBenefitCode</shortDescription>
+        <value>Please choose a value from the Partner Code and Benefit Code dropdown menu and click on the Rewards button.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_WireServiceTableMdtError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_WireServiceTableMdtError</shortDescription>
+        <value>Oops! We couldn&apos;t retrieve the table metadata right now. Please try refreshing the page to see if that resolves the issue.</value>
+    </labels>
 </CustomLabels>
