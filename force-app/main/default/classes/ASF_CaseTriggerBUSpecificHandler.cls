@@ -22,6 +22,8 @@ public class ASF_CaseTriggerBUSpecificHandler {
         }
     }
     public void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
+
+        ABHI_BusinessLogic_Helper abhiBusLogicHelperObj = new ABHI_BusinessLogic_Helper();
         Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems);
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
         
@@ -43,9 +45,12 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 }
                 ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
                 commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));
+                
+                if(Label.ABHI_Case_Dedupe_Active == 'Active'){ // Story No: PR1030924-30
+                    abhiBusLogicHelperObj.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInBeforeInsert');  
+                }
             }
         }
-        
     }
     
     public void executeBeforeASFCodeInAfterInsert(Map<Id, SObject> newItems){
@@ -119,6 +124,9 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 else if(businessUnit =='ABSLI'){
                     ABSLI_BeforeUpdateTriggerLogic.executeBeforeLogic(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLI_BeforeUpdateTriggerLogic.checkCreateCaseValidations(mapOfBUToCases.get(businessUnit), (Map<Id, Case>)oldItems);
+                }else if(businessUnit == 'ABHI'){
+                    ABHI_BusinessLogic_Helper objHelper = new ABHI_BusinessLogic_Helper();
+                    objHelper.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'BeforeASFCodeInBeforeUpdate');
                 }
             }
         }
