@@ -31,7 +31,7 @@
                         <lightning-input type="toggle" onchange={handleInputChange} label="Use Registered Contact"
                             checked={checkedToggle} name="input1" disabled={toggleDisabled}
                             class="slds-col" message-toggle-active="Yes" message-toggle-inactive="No"></lightning-input>
-                        <div lwc:if={checkedToggle} class="slds-col">
+                        <div lwc:if={checkedToggle} class="slds-col slds-size_1-of-2">
                             <lightning-input type="tel" label="Registered phone number" name="phone1"
                                 value={recordDetails.Phone} readonly></lightning-input>
                         </div>
@@ -59,13 +59,14 @@
                 </div>
                 
                 <template lwc:if={showContact.showTemplate}>
-                    <lightning-combobox name="Template" label="Template" value={formData.template}
-                    placeholder="Select a Template" options={tempOptions} onchange={handleChange}
-                    class="slds-col slds-size_1-of-2 slds-p-around_medium" dropdown-alignment="auto"></lightning-combobox>
-                    <!-- <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                        <c-abhi_generic-lookup-cmp s-object-api-name="template__c" label="Template"
-                            records-from-parent={tempOptions}></c-abhi_generic-lookup-cmp>
-                    </div> -->
+                    <div class="slds-col slds-grid slds-grid_vertical">
+                        <lightning-combobox name="Template" label="Template" value={formData.template}
+                        placeholder="Select a Template" options={tempOptions} onchange={handleChange}
+                        class="slds-col slds-size_1-of-2 slds-p-left_medium com_box" dropdown-alignment="auto"></lightning-combobox>
+                        <div lwc:if={validation.showTemplateValidation} class="slds-col slds-size_1-of-2 slds-p-left_medium slds-text-color_error slds-text-body_small">
+                            {validation.validationTemplateMessage}
+                        </div>
+                    </div>
                 </template>
             </div>
     </lightning-modal-body>

@@ -159,22 +159,24 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
         }
         
         let selectedRows=event.detail.selectedRows;
-        let currentSelectedRow = event.detail.config.value;
-        
-        let getRowNo = Number(currentSelectedRow.split("-")[1]);
-        let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
-        currentSelectedRec = this.assetRecords[selectedRowNo];
-        this.currentSelRecord = currentSelectedRec;
-        
-        if(selectedRows.length == 1){
-            this.setFieldMaapingOnCase(selectedRows[0]);
-            return;
-        }
+        if(selectedRows && selectedRows.length != 0){
+            let currentSelectedRow = event.detail.config.value;
+            
+            let getRowNo = Number(currentSelectedRow.split("-")[1]);
+            let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
+            currentSelectedRec = this.assetRecords[selectedRowNo];
+            this.currentSelRecord = currentSelectedRec;
+            
+            if(selectedRows.length == 1){
+                this.setFieldMaapingOnCase(selectedRows[0]);
+                return;
+            }
 
-        this.selectSingleCheckboxLogix(selectedRows, currentSelectedRow);
+            this.selectSingleCheckboxLogix(selectedRows, currentSelectedRow);
 
-        if(currentSelectedRec){
-            this.setFieldMaapingOnCase(currentSelectedRec);
+            if(currentSelectedRec){
+                this.setFieldMaapingOnCase(currentSelectedRec);
+            }
         }
     }
 
