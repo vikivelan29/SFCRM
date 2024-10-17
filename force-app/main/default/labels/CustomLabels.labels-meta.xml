@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ABHI_AllowOmniDeletion</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_AllowOmniDeletion</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BITLY_LOB_VAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_BITLY_LOB_VAL</shortDescription>
+        <value>ABCABS</value>
+    </labels>
+    <labels>
         <fullName>ABFL_Manual_Sync_Threshold</fullName>
         <categories>ABFL DMS</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABFL_Manual_Sync_Threshold</shortDescription>
         <value>5</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Communication_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Communication History</shortDescription>
+        <value>Communication History</value>
     </labels>
     <labels>
         <fullName>ABSLI_Update_CCC_ID</fullName>
@@ -196,6 +218,13 @@
         <protected>false</protected>
         <shortDescription>ABHFL Base URL For Bitly</shortDescription>
         <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_Retail_Int_Failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
+        <value>Active</value>
     </labels>
     <labels>
         <fullName>ABFL_Retail_Int_Failed</fullName>
@@ -499,6 +528,13 @@
         <shortDescription>ASF Recat Approval Required BU</shortDescription>
         <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
     </labels>
+        <labels>
+        <fullName>ASF_Recat_Approval_Required_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF Recat Approval Required BU</shortDescription>
+        <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
+    </labels>
     <labels>
         <fullName>ASF_SLA_NoReplyAdress</fullName>
         <language>en_US</language>
@@ -604,6 +640,13 @@
         <shortDescription>DMS_File_Name</shortDescription>
         <value>File Name</value>
     </labels>
+        <labels>
+        <fullName>DMS_File_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DMS_File_Name</shortDescription>
+        <value>File Name</value>
+    </labels>
     <labels>
         <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
@@ -675,6 +718,13 @@
         <value>8000</value>
     </labels>
     <labels>
+        <fullName>EmailRelayThreshold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
+    </labels>
+    <labels>
         <fullName>EndUserProfiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -701,6 +751,13 @@
         <protected>false</protected>
         <shortDescription>Error Team Not Found</shortDescription>
         <value>You are not allowed to send email as you are not part of any team.</value>
+    </labels>
+    <labels>
+        <fullName>Impact_Field_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Impact Field Error</shortDescription>
+        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
     </labels>
     <labels>
         <fullName>Impact_Field_Error</fullName>
@@ -745,6 +802,20 @@
         <value>This user cannot be assigned as the user has worked on the Case in the Maker stage.</value>
     </labels>
     <labels>
+        <fullName>Manual_Synching</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manual_Synching</shortDescription>
+        <value>Manual Synching</value>
+    </labels>
+    <labels>
+        <fullName>No_DMS_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No DMS File</shortDescription>
+        <value>No file available for syncing.</value>
+    </labels>
+        <labels>
         <fullName>Manual_Synching</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -882,7 +953,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Canned Response Success Message</shortDescription>
-        <value>Canned Response send successfully.</value>
+        <value>Canned Response sent successfully.</value>
     </labels>
     <labels>
         <fullName>ABSLIG_Acknowledgement_Email</fullName>
@@ -921,6 +992,13 @@
         <value>ABSLIG</value>
     </labels>
     <labels>
+        <fullName>ABSLIG_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLIG BU</shortDescription>
+        <value>ABSLIG</value>
+    </labels>
+    <labels>
         <fullName>ABSLIG_E2C</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -940,6 +1018,13 @@
         <protected>false</protected>
         <shortDescription>Business Unit Check For SLA Override</shortDescription>
         <value>ABSLIG</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI BU</shortDescription>
+        <value>ABSLI</value>
     </labels>
     <labels>
         <fullName>ABSLI_BU</fullName>
@@ -1168,6 +1253,21 @@
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
     <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+    <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1193,30 +1293,23 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC Litmus Allowed Sources</shortDescription>
-        <value>Phone - Call Centre;Email – Call Centre;Branch Walk-In;Email - Branch</value>
+        <value>Phone - Call Centre;Email - Call Centre;Branch Walk-In;Email - Branch</value>
     </labels>
     <labels>
-        <fullName>ABHI_OmniDocURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
-        <value>Duplicate case: A case &lt;CaseNumber&gt; with same criteria is already open with source as &lt;SOURCE&gt;.</value>
-    </labels>
-	<labels>
         <fullName>ABSLI_Min_Loan_Amount</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
         <value>5000</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
         <value>60</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>ASF_UIActionDelay</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1276,8 +1369,8 @@
         <fullName>ABHI_Claim_Details_Header</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI Claim Details Header</shortDescription>
-        <value>Claim Details</value>
+        <shortDescription>ABHI Track Sources</shortDescription>
+        <value>Phone-Inbound,Phone-Outbound</value>
     </labels>
     <labels>
         <fullName>ABSLI_READY_RECK_IV</fullName>
@@ -1322,25 +1415,39 @@
         <value>Active</value>
     </labels>
     <labels>
-        <fullName>ABHI_BU</fullName>
+        <fullName>ABC_ResolvedReasonsRequired</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI BU</shortDescription>
-        <value>ABHI</value>
+        <shortDescription>ABC_ResolvedReasonsRequired</shortDescription>
+        <value>Wellness</value>
     </labels>
-  <labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
+    </labels>
+    <labels>
         <fullName>ABHFL_Bitly_LOB</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHFL_Bitly_LOB</shortDescription>
         <value>HFLABC</value>
     </labels>
- <labels>
-        <fullName>ABHI_Track_Sources</fullName>
+    <labels>
+        <fullName>Wellness_CaseComment_add_Err_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_Track_Sources</shortDescription>
         <value>Phone-Inbound,Phone-Outbound</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Health Return Header</shortDescription>
+        <value>Health Return Details</value>
     </labels>
     <labels>
         <fullName>ASF_RetryInterval</fullName>
@@ -1350,10 +1457,24 @@
         <value>15</value>
     </labels>
     <labels>
+        <fullName>ABHI_Health_Return_View</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Health_Return_View</shortDescription>
+        <value>Health Return View</value>
+    </labels>
+    <labels>
         <fullName>ASF_RetryNumbers</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_RetryNumbers</shortDescription>
         <value>2</value>
+    </labels>
+     <labels>
+        <fullName>ABHI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI BU</shortDescription>
+        <value>ABHI</value>
     </labels>
 </CustomLabels>

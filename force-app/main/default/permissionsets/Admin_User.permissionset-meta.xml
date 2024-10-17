@@ -5243,6 +5243,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Asset.Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Asset.Withdrawal_available_amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6792,6 +6797,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.CreatedDateOnly__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Description</field>
         <readable>true</readable>
@@ -7298,37 +7308,37 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>PRODUCT_MASTER__c.Asset_Class__c</field>
+        <field>Policy_Nominee__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>PRODUCT_MASTER__c.Business_Unit__c</field>
+        <field>Policy_Nominee__c.Gender__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>PRODUCT_MASTER__c.Discontinue_Date__c</field>
+        <field>Policy_Nominee__c.NomineeContactNumber__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>PRODUCT_MASTER__c.LOB__c</field>
+        <field>Policy_Nominee__c.NomineeDOB__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>PRODUCT_MASTER__c.Name__c</field>
+        <field>Policy_Nominee__c.NomineePercentage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>PRODUCT_MASTER__c.ProductCode__c</field>
+        <field>Policy_Nominee__c.Policy_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>PRODUCT_MASTER__c.Source_Modified_Date__c</field>
+        <field>Policy_Nominee__c.Relationship__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7651,12 +7661,12 @@
         <field>User.Branch_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>User.Zone__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>User.Region__c</field>
         <readable>true</readable>
@@ -9259,6 +9269,10 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Account.Non_Individual</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>PersonAccount.ABSLI_Advisor</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
