@@ -1,18 +1,11 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Asset.Send_Communication</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CustomButton.Asset.Calculator</value>
-                        </valueListItems>
-                    </valueList>
+                    <name>actionNames</name>                 
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -200,26 +193,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.LAN__c</fieldItem>
                 <identifier>RecordLAN_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Sales_Manager__c</fieldItem>
-                <identifier>RecordSales_Manager__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Partner_Sales_ID__c</fieldItem>
-                <identifier>RecordPartner_Sales_ID__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
