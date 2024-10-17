@@ -22,8 +22,6 @@ public with sharing class RNWL_IndividualAccRenewalController {
             
             String policyNumber = oppList[0].Policy_Number__c;
             
-            Map<String, Object> rawResponseMap = new Map<String, Object>();
-            
             Map<String, Object> rawResponseMap = new Map<String, Object>(); 
             
             Map<String, String> mapAPIResponse = RNWL_StoredResponseUtility.getResponseFromFiles(opportunityId , new List<String>{'Renewal Check'});
@@ -33,7 +31,7 @@ public with sharing class RNWL_IndividualAccRenewalController {
             set<String> setMemberId = new set<String>(); 
             
             if(String.isBlank(responseBody)){ 
-                
+                String payload = '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}';
                 system.debug('payload'+payload);
                 
                 ABCL_IntegrationCallout.IntegrationResponseWrapper renewalDetailResponse = ABCL_IntegrationCallout.executeCallout('RNWL_RenewalDetail', payload, null);
