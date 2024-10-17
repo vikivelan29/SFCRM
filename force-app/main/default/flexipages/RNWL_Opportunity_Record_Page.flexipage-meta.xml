@@ -309,7 +309,7 @@
                             <value>Sub_Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.ORIGIN</value>
+                            <value>Created_By_User_formula__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
@@ -318,7 +318,10 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.LAST_UPDATE_DATE_ONLY</value>
+                            <value>CASES.LAST_UPDATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OwnerText__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -558,11 +561,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
-                    <value>__DEFAULT__</value>
+                    <value>Call_Date_Time__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldOrder</name>
-                    <value>Default</value>
+                    <value>Descending</value>
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList3</identifier>
