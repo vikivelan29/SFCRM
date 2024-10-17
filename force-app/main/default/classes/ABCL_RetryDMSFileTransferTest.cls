@@ -1,7 +1,7 @@
 /**
- * @description       : 
+ * @description       :
  * @author            : rsinghnagar@salesforce.com
- * @group             : 
+ * @group             :
  * @last modified on  : 05-28-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
@@ -16,6 +16,8 @@ public class ABCL_RetryDMSFileTransferTest {
         caseRecList[0].MoveToNext__c = true;
         caseRecList[0].Status = 'Closed';
         caseRecList[0].Nature__c = 'Query';
+        caseRecList[0].Type_Text__c = 'Test';
+        caseRecList[0].Sub_Type_Text__c = 'Test';
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
         caseRecList[1].MoveToNext__c = true;
         caseRecList[1].Status = 'Closed';
@@ -24,7 +26,7 @@ public class ABCL_RetryDMSFileTransferTest {
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
         update caseRecList;
     }
-    @IsTest 
+    @IsTest
     static void retryDMSFileTransferTest(){
         List<DMS_Files__c> fileRecList = new List<DMS_Files__c>();
         List<Case> caseRecords = [SELECT Id, No_Auto_Communication__c, AccountId, CCC_External_Id__c, ContactId,IsClosed FROM Case];
@@ -47,8 +49,8 @@ public class ABCL_RetryDMSFileTransferTest {
         List<DMS_Files__c> updatedDMSFilesList = [SELECT Id FROM DMS_Files__c];
         Assert.isTrue(updatedDMSFilesList.size() > 2, 'New DMS files should have been inserted');
     }
-    
-    @IsTest 
+
+    @IsTest
     static void abflRetryDMSFileTransferTest(){
         List<ASF_Case_Category_Config__c> caseCat = ABFL_TestDataFactory.createCaseCategoryConfig(true);
         ABFL_TestDataFactory.createCaseStageConfigWithTwoStages(caseCat[0].Id, true);
@@ -60,12 +62,18 @@ public class ABCL_RetryDMSFileTransferTest {
         cases[0].AccountId = acc.ID;
         cases[0].MoveToNext__c = true;
         cases[0].Status = 'Closed';
+        cases[0].Type_Text__c = 'Test';
+        cases[0].Nature__c = 'Test';
+        cases[0].Sub_Type_Text__c = 'Test';
         cases[1].MoveToNext__c = true;
         cases[1].Status = 'Closed';
         cases[1].ownerid = userInfo.getuserId();
         cases[1].AccountId = acc.ID;
+        cases[1].Type_Text__c = 'Test';
+        cases[1].Nature__c = 'Test';
+        cases[1].Sub_Type_Text__c = 'Test';
         update cases;
-        
+
         List<DMS_Files__c> fileRecList = new List<DMS_Files__c>();
             for(integer i=0; i <= 1; i++){
             DMS_Files__c fileRec = new DMS_Files__c();
@@ -84,7 +92,7 @@ public class ABCL_RetryDMSFileTransferTest {
         Test.startTest();
         ABCL_RetryDMSFileTransfer.retryDMSFileTransfer(fileRecList);
         Test.stopTest();
-        
+
         List<DMS_Files__c> updatedDMSFilesList = [SELECT Id FROM DMS_Files__c];
         Assert.isTrue(updatedDMSFilesList.size() > 2, 'New DMS files should have been inserted');
     }
