@@ -528,8 +528,7 @@
         <shortDescription>ASF Recat Approval Required BU</shortDescription>
         <value>Corporate,Retail - Unsecured,Retail - Secured,Digital</value>
     </labels>
-    </labels>
-        <labels>
+    <<labels>
         <fullName>ASF_Recat_Approval_Required_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
