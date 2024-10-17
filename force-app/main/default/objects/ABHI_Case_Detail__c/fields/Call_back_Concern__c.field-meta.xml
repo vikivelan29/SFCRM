@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Call_back_Concern__c</fullName>
+    <externalId>false</externalId>
+    <label>Call back Concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cancellation and refund</fullName>
+                <default>false</default>
+                <label>Cancellation and refund</label>
+            </value>
+            <value>
+                <fullName>Cashless</fullName>
+                <default>false</default>
+                <label>Cashless</label>
+            </value>
+            <value>
+                <fullName>Digital Issue</fullName>
+                <default>false</default>
+                <label>Digital Issue</label>
+            </value>
+            <value>
+                <fullName>Endorsement</fullName>
+                <default>false</default>
+                <label>Endorsement</label>
+            </value>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
+            </value>
+            <value>
+                <fullName>Mis-sale</fullName>
+                <default>false</default>
+                <label>Mis-sale</label>
+            </value>
+            <value>
+                <fullName>Policy Document</fullName>
+                <default>false</default>
+                <label>Policy Document</label>
+            </value>
+            <value>
+                <fullName>Reimbursement</fullName>
+                <default>false</default>
+                <label>Reimbursement</label>
+            </value>
+            <value>
+                <fullName>Renewals</fullName>
+                <default>false</default>
+                <label>Renewals</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
