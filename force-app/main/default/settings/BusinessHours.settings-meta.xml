@@ -10,6 +10,7 @@
         <name>Wellness</name>
         <saturdayEndTime>18:30:00.000Z</saturdayEndTime>
         <saturdayStartTime>09:30:00.000Z</saturdayStartTime>
+        <name>ABHI</name>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
         <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
         <timeZoneId>Asia/Kolkata</timeZoneId>
@@ -199,6 +200,30 @@
         <name>1st Saturday SEP</name>
     </holidays>
     <holidays>
+        <activityDate>2024-07-17</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>17th July</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-06-17</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>17th June EID</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-11-01</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>1st Nov</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-03-25</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>25th March</name>
+    </holidays>
+    <holidays>
         <activityDate>2024-04-13</activityDate>
         <businessHours>ABHFL</businessHours>
         <description>2nd Saturday APR</description>
@@ -282,6 +307,18 @@
         <name>2nd Saturday SEP</name>
     </holidays>
     <holidays>
+        <activityDate>2024-03-08</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>8th March</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-04-09</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>9th April</name>
+    </holidays>
+    <holidays>
         <activityDate>2024-06-17</activityDate>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
@@ -293,6 +330,7 @@
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <businessHours>Wellness</businessHours>
+        <businessHours>ABHI</businessHours>
         <isRecurring>true</isRecurring>
         <name>Christmas Day / Shri Parshvanath Jayanti</name>
         <recurrenceDayOfMonth>25</recurrenceDayOfMonth>
@@ -313,6 +351,7 @@
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <businessHours>Wellness</businessHours>
+        <businessHours>ABHI</businessHours>
         <isRecurring>false</isRecurring>
         <name>Guru Nanak Jayanti / Lord Birsa Munda Jayanti State Foundation Day / Kartika Pur</name>
     </holidays>
@@ -328,6 +367,7 @@
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <businessHours>Wellness</businessHours>
+        <businessHours>ABHI</businessHours>
         <isRecurring>true</isRecurring>
         <name>Independence Day / Parsi New Year</name>
         <recurrenceDayOfMonth>15</recurrenceDayOfMonth>
@@ -355,6 +395,7 @@
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <businessHours>Wellness</businessHours>
+        <businessHours>ABHI</businessHours>
         <isRecurring>true</isRecurring>
         <name>Mahatma Gandhi Jayanti</name>
         <recurrenceDayOfMonth>2</recurrenceDayOfMonth>
@@ -366,6 +407,7 @@
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
         <businessHours>Wellness</businessHours>
+        <businessHours>ABHI</businessHours>
         <isRecurring>true</isRecurring>
         <name>May Day / Labour Day / Maharashtra Din</name>
         <recurrenceDayOfMonth>1</recurrenceDayOfMonth>
@@ -388,6 +430,8 @@
     </holidays>
     <holidays>
         <businessHours>Wellness</businessHours>
+        <businessHours>ABFL</businessHours>
+        <businessHours>ABHI</businessHours>
         <isRecurring>true</isRecurring>
         <name>Republic Day</name>
         <recurrenceDayOfMonth>26</recurrenceDayOfMonth>

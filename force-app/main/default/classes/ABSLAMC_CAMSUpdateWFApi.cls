@@ -136,7 +136,7 @@ public with sharing class ABSLAMC_CAMSUpdateWFApi implements ASF_IntegrationInvo
         
         CAMSUpdateWfReqWrapper CAMSUpdateWfReqWrapperObj = new CAMSUpdateWfReqWrapper();
         CAMSUpdateWfReqWrapperObj.msgCompStatus = caseRecord.Stage__c != 'Resolved' ? 'N' : 'Y';
-        CAMSUpdateWfReqWrapperObj.messsageID = caseDetail.CAMS_Ticket_Reference_Number__c;
+        CAMSUpdateWfReqWrapperObj.messageID = caseDetail.CAMS_Ticket_Reference_Number__c;
         CAMSUpdateWfReqWrapperObj.msgCurrStatus = caseDetail.Additional_Remarks_for_CAMS__c;
         CAMSUpdateWfReqWrapperObj.interimReply = caseDetail.Reply_Type_for_CAMS__c;
         CAMSUpdateWfReqWrapperObj.talismaID = caseRecord.CaseNumber;
@@ -168,7 +168,7 @@ public with sharing class ABSLAMC_CAMSUpdateWFApi implements ASF_IntegrationInvo
     }
     
      public class CAMSUpdateWfReqWrapper{
-		public string messsageID;
+		public string messageID;
         public string msgCurrStatus;
         public string interimReply;
         public string msgCompStatus;

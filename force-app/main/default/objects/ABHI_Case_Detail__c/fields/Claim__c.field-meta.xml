@@ -3,14 +3,14 @@
     <fullName>Claim__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Claim</label>
+    <inlineHelpText>Please enter CL- to view list of available claims</inlineHelpText>
+    <label>Claim Number</label>
     <lookupFilter>
         <active>false</active>
-        <errorMessage>Please choose the correct Asset for the claim associated to this case.</errorMessage>
         <filterItems>
             <field>Claim__c.Policy_Number__c</field>
             <operation>equals</operation>
-            <value>02iBl000000IJ4DIAW</value>
+            <valueField>$Source.Policy__c</valueField>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
@@ -21,4 +21,4 @@
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
-</CustomField>
+</CustomField> 

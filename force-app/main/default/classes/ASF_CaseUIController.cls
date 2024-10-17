@@ -116,7 +116,7 @@ public with sharing class  ASF_CaseUIController {
                 accIdSet.add(accId);
             }
             
-            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount,RecordType.Name,Advisor_Code__c from account where ID IN:accIdSet];
+            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount,RecordType.Name,Advisor_Code__c,PAN_Number__c,Business_Unit__c from account where ID IN:accIdSet];
             Map<Id,contact> accIdConMap = new Map<Id,contact>();
             Set<Id> businessAccIdSet = new Set<Id>();
             for(Account accRec : accList){
@@ -130,13 +130,14 @@ public with sharing class  ASF_CaseUIController {
             for(Account customer : accList){
                 searchResponse custResp;
                 String customerType = customer.RecordType.Name == 'ABSLI Advisor' ? 'Advisor' : 'Customer';
+                String panValue = customer.Business_Unit__c == ABHI_Constants.ABHI ? customer.PAN_Number__c : customer.PAN__c;
                 if(customer.IsPersonAccount){
-                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name,customer.Advisor_Code__c);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),panValue,customer.RecordType.Name,customer.Advisor_Code__c);
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
 
-                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name,customer.Advisor_Code__c);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,panValue,customer.RecordType.Name,customer.Advisor_Code__c);
                 }
                 
                 lstResponse.add(custResp);
