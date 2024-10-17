@@ -273,7 +273,6 @@ public class ASF_GetCaseRelatedDetails_Test {
         ASF_GetCaseRelatedDetails.getCaseRelatedObjName(caseRecord.CCC_External_Id__c);
         ASF_GetCaseRelatedDetails.getLatestApprovalRecord(caseRecord.id);
         ASF_GetCaseRelatedDetails.getRejectionReasons(caseRecord.CCC_External_Id__c);
-        ASF_GetCaseRelatedDetails.getBUReasons(caseRecord.CCC_External_Id__c);//Added by Zahed : PR1030924-224
         ASF_GetCaseRelatedDetails.getPickListValuesIntoList();
         ASF_GetCaseRelatedDetails.updateChecklistComment(chk1.Id,'comments');
         ASF_GetCaseRelatedDetails.updateTaskRecordsComment(task1.Id, 'comments');

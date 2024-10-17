@@ -10,6 +10,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import FA_Mandatory from '@salesforce/label/c.FA_Mandatory';
 import WithoutFA from '@salesforce/label/c.ASF_CreateSRwithoutFA';
 import WithFA from '@salesforce/label/c.ASF_CreateSRwithFA';
+import ABHI_PolicyRequiredErrMsg from '@salesforce/label/c.ABHI_PolicyRequired_ErrMsg';
 
 const actions = [
     { label: 'Show details', name: 'show_details' },
@@ -62,6 +63,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
     assetId;
     withFALabel = WithFA;
     withoutFALabel = WithoutFA;
+    ABHI_PolicyRequiredErrMsgLabel = ABHI_PolicyRequiredErrMsg;
     showAssetTableForLob = true;
     
      /****************************************************
@@ -119,7 +121,8 @@ export default class Asf_CurrentHoldings extends LightningElement {
     
     showModalForCreateCaseWithOutAsset(event){	
         this.withoutAsset = true;
-        this.showCreateCaseModal = true;
+        //this.showCreateCaseModal = true;
+        let allowCreateCase = true;
 
         // Add changes for Product listing LWC i.e asf_FetchAssetsRelatedToAccount
         if(this.infoObject.hasOwnProperty("isAsset")) {
@@ -131,6 +134,16 @@ export default class Asf_CurrentHoldings extends LightningElement {
                 this.withoutAsset = false;
             }
         }
+
+        if(this.infoObject.hasOwnProperty("businessUnit")) {
+            let businessUnit = this.infoObject.businessUnit;
+            if(businessUnit == 'ABHI' && this.withoutAsset){
+                allowCreateCase = false;
+                this.showNotification("Error", this.ABHI_PolicyRequiredErrMsgLabel, 'error');
+            }
+        }
+        if(allowCreateCase) this.showCreateCaseModal = true;
+
     }
 
     resetBox(event){
