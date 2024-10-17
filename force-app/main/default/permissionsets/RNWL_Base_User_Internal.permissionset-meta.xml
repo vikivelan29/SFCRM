@@ -352,11 +352,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.AddressProof__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.Advisor_Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -408,11 +403,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Annual_Income__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.ApplicationNo__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -503,11 +493,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Country__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Created_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -648,11 +633,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Health_Card_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.IDProof__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1012,11 +992,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.bofc__BOFC_ACC_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.e_Insurance_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1333,11 +1308,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ContractIssueDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ContractNo__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2517,11 +2487,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.SystemDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.TDS_Indicator__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2623,11 +2588,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.branch_name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.currentDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2827,11 +2787,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.ClaimNo_Text__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Case.Claim__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2873,11 +2828,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Created_By_User_formula__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Customer_Member_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2943,11 +2893,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Escalation_Indicator__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Existing_Pan_Card_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3158,11 +3103,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Overall_Case_Closure_SLA__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Overall_SLA_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3378,11 +3318,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Short_URL__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Signature_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3892,11 +3827,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.ContactPersonOfEmployer__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Customer_Since__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3943,21 +3873,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Email2__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.EmployeeDesignation__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.EmployerID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.EmployerName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4023,11 +3938,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Line_of_Business__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.MMICustomerID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4137,17 +4047,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Proposer__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Ration_Card_No__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Relationship__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4557,11 +4457,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity.Customer_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Opportunity.Description</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4612,22 +4507,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity.Mobile_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Opportunity.NextStep</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opportunity.Payment_Link__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opportunity.Plan_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4653,11 +4533,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Preferred_Flag__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opportunity.Premium_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4688,11 +4563,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opportunity.SystemDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
