@@ -28,7 +28,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       FROM Asset 
                       WHERE CreatedDate = N_DAYS_AGO:2 AND Business_Unit__c = :ABHI_Constants.ABHI
                       AND CreatedBy.name != 'Data Sync Automation User']);
-        scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username, ABHI_Retry__c,
+        scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username,
                       Policy_Number__r.Account.Name, Policy_Number__r.Account.IsPersonAccount,
                       Policy_Number__r.Account.Phone, Policy_Number__r.Account.PersonMobilePhone,
                       Policy_Number__r.Account.Client_Code__c,Policy_Number__r.Account.Is_Chronic__c,
@@ -37,7 +37,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Policy_Number__r.Plan_Name__c, Policy_Number__r.LAN__c, 
                       Policy_Number__r.Account.State__c, Policy_Number__r.Channel__c, Policy_Number__r.Source__c
                       from Dispositions__c  
-                      WHERE Status__c = :ABHI_Constants.FAILURE AND ABHI_Retry__c <= 3]);
+                      WHERE Status__c = :ABHI_Constants.FAILURE]);
         return scope;
 	}
     
@@ -134,7 +134,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
 
 
                     //disposition.Policy_Number__r = new Asset(LAN__c = dispositions.Policy_Number__c);
-                    disposition.ABHI_Retry__c = dispositions.ABHI_Retry__c + 1;
+                    //disposition.ABHI_Retry__c = dispositions.ABHI_Retry__c + 1;
                     disposition.Status__c = ABHI_Constants.PENDING;
                     disposition.Remarks__c = ABHI_Constants.SUCCESS;
                     disposition.Id = dispositions.Id;
