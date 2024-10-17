@@ -30,9 +30,6 @@ public without sharing class ASF_CustomerEmailInvocable {
             ASF_Case_Category_Config__c config = (ASF_Case_Category_Config__c)wrap.cccRecord;
             
             switch on config.Business_unit__c{
-                when 'Wellness'{
-                    wellnessList.add(wrap);
-                }
                 when 'ABFL'{
                     abflList.add(wrap);
                 }
