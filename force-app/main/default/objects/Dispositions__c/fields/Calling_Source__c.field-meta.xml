@@ -3,8 +3,8 @@
     <fullName>Calling_Source__c</fullName>
     <description>Indicates where the call is made from - BOT, Ubona dialer etc.</description>
     <externalId>false</externalId>
-    <label>Calling Source</label>
-    <length>255</length>
+    <label>Retry Record</label>
+    <precision>2</precision>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Text</type>
