@@ -1349,7 +1349,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OppDetailsToastErrorMessage</shortDescription>
-        <value>We&apos;re not able to fetch the details currently. Please try again later.</value>
+        <value>We&apos;re unable to fetch details from following APIs. Please try again later -</value>
     </labels>
     <labels>
         <fullName>RNWL_Auto_Calculation</fullName>
