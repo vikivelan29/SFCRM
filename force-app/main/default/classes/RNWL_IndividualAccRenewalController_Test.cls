@@ -1,7 +1,7 @@
 @IsTest
 public class RNWL_IndividualAccRenewalController_Test {
     
-    private static final String FAKE_RESPONSE_JSON = '{ "error": [ { "ErrorCode": "00", "ErrorMessage": "Success" } ], "Renew_Info": [ { "Renewed_Policy_Expiry_Date": "", "Renewed_Policy_Number": "", "Renewed_Policy_Proposal_Number": "240000621404", "Renewed_Policy_Start_Date": "" } ], "response": { "policyData": [ {"Policy_number":21-24-0000759-01", "Policy_renewal_date": "09/01/2025", "Upsell_Flag": "No", "Renewable_Flag": "Yes", "Renewed_Flag": "No", "Sum_insured_type": "Individual", "SumInsured": "2000000", "sumInsuredtype": "IND", "Members": [ { "CB": "3000000", "Chronic": "Yes", "DoB": "03/30/1974", "Email": "rahul.ghimire@qualitykiosk.com", "Gender": "M", "healthReturn": ".00", "Name": "Vishwas Varma", "Mobile_Number": "9012737473", "SumInsured": "2000000", "SumInsuredPerUnit": "2000000", "Upsell_SumInsured": "", "Relation": "Mother" } ], "Nominee_Details": { "Nominee_Address": "test", "Nominee_Contact_No": "8707868534", "nominee_dob": "", "nominee_first_name": "Mona", "nominee_last_name": "Mona", "Nominee_Name": "Mona", "nominee_relationship_code": "Mother", "Relationship": "Mother" }, "premium": { "Renewal_Gross_Premium": "55774.0", "Renewal_Net_Premium": "47266.49", "Upsell_Gross_Premium": "0", "Upsell_Net_Premium": "0" } } ] } }'; 
+    private static final String FAKE_RESPONSE_JSON = ''; 
     
     private class Mock implements HttpCalloutMock { 
         public HTTPResponse respond(HTTPRequest req) { 
@@ -12,13 +12,17 @@ public class RNWL_IndividualAccRenewalController_Test {
         }
     } 
     
-   @TestSetup
+    @TestSetup
     public static void setup(){
         Account acc=  new Account(name='Test Account');
         insert acc;
         
+        Asset objAsset =  new Asset(name='21-24-0000759-01', ABHI_Policy_Id__c='21-24-0000759-01', LAN__c = '21-24-0000759-01');
+        insert objAsset;
+        
         Opportunity oppRec = new Opportunity();
         oppRec.Name = 'Testabc' ;
+        oppRec.Policy__c = objAsset.Id;
         oppRec.AccountId = acc.Id;
         oppRec.CloseDate = Date.today();
         oppRec.StageName = 'In Progress';
@@ -26,16 +30,46 @@ public class RNWL_IndividualAccRenewalController_Test {
         insert oppRec;
     }
     
-    
     @IsTest
-    static void testExecuteCallout(){  
-        //Test.setMock(HttpCalloutMock.class, new Mock());
-         
-        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
-        Test.startTest();
-        RNWL_IndividualAccRenewalController.getPolicyRenewalDetails(objOpportunity.Id);
-        Test.stopTest();
+    static void testExecuteFailCallout(){   
+                
+        String strBody = '{ "error": [ { "ErrorCode": "01", "ErrorMessage": "Success" } ],"response": []}';
         
-        //System.assertEquals(true,failedResponse != null,'PASS');
+        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(400, strBody)); 
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+ 
+        Test.startTest();  
+             RNWL_IndividualAccRenewalController.getPolicyRenewalDetails(objOpportunity.Id);
+        Test.stopTest(); 
+         
+    }
+    
+       @IsTest
+    static void testExecuteSuccessCallout(){   
+         
+        String strBody = '{ "error": [ { "ErrorCode": "00", "ErrorMessage": "Success" } ], "Renew_Info": [ { "Renewed_Policy_Expiry_Date": "", "Renewed_Policy_Number": "", "Renewed_Policy_Proposal_Number": "240000621404", "Renewed_Policy_Start_Date": "" } ], "response": { "policyData": [ {"Policy_number":"21-24-0000759-01", "Policy_renewal_date": "09/01/2025", "Upsell_Flag": "No", "Renewable_Flag": "Yes", "Renewed_Flag": "No", "Sum_insured_type": "Individual", "SumInsured": "2000000", "sumInsuredtype": "IND", "Members": [ { "CB": "3000000", "Chronic": "Yes", "DoB": "03/30/1974", "Email": "rahul.ghimire@qualitykiosk.com", "Gender": "M", "healthReturn": ".00", "Name": "Vishwas Varma", "Mobile_Number": "9012737473", "SumInsured": "2000000", "SumInsuredPerUnit": "2000000", "Upsell_SumInsured": "", "Relation": "Mother" } ], "Nominee_Details": { "Nominee_Address": "test", "Nominee_Contact_No": "8707868534", "nominee_dob": "", "nominee_first_name": "Mona", "nominee_last_name": "Mona", "Nominee_Name": "Mona", "nominee_relationship_code": "Mother", "Relationship": "Mother" }, "premium": { "Renewal_Gross_Premium": "55774.0", "Renewal_Net_Premium": "47266.49", "Upsell_Gross_Premium": "0", "Upsell_Net_Premium": "0" } } ] } }';
+        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(200, strBody)); 
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+ 
+        Test.startTest();  
+             RNWL_IndividualAccRenewalController.getPolicyRenewalDetails(objOpportunity.Id);
+        Test.stopTest(); 
+         
+    }
+     @IsTest
+     static void testExecuteAPIFailedCallout(){   
+         
+        String strBody = null;
+        
+         Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(500, strBody)); 
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+ 
+        Test.startTest();  
+             RNWL_IndividualAccRenewalController.getPolicyRenewalDetails(objOpportunity.Id);
+        Test.stopTest(); 
+         
     }
 }

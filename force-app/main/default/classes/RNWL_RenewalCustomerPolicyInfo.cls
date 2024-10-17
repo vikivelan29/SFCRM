@@ -13,12 +13,17 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
     @AuraEnabled(cacheable=true)
     public static Opportunity getOppRec(String recordId){
         return [SELECT Id, 
+					Account.Id,
                 	Account.FirstName, 
                 	Account.LastName, 
+					Account.Name,
+					Account.Client_Code__c,
 					Account.MMI_Customer_ID__c,
 					Account.PersonBirthdate,
 					Account.PersonGenderIdentity,
 					Account.PersonMobilePhone,
+					Account.Alternatemobile__c,
+					Account.Phone,
 					Account.Office_Email__c,
 					Account.BillingStreet,
 					Account.BillingCity,
@@ -31,6 +36,7 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
 					Account.Is_Chronic__c,
 					Account.RecordType.Name,
 					Policy__r.Policy_No__c,
+					Policy__r.BusinessType__c,
 					Policy__r.Cover_Type__c,
 					Policy__r.Issue_Date__c,
 					Policy__r.Maturity_Date__c,
@@ -55,6 +61,7 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
 					Policy__r.MasterPolicyNumber__c,
 					Policy__r.IntermediaryCode__c, 
 					Policy__r.Intermediary_Branch_Code__c,
+					Policy__r.SerialNumber,
 					Drop_off_Reason__c,
 					Drop_off_URL__c,
 					Policy_Inception_Date__c, 
@@ -62,10 +69,10 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
 					Grace_Period_End__c,
 					Grace_Period_Start__c,
 					Policy_Lapse_Date__c,
-					Policy_Lapsed__c,
+					Policy_Lapsed__c, Policy_Number__c,
 					Policy_Renewal_Notice_Day__c,
 					Status__c, Propensity_to_Pay__c,
-					Preferred_Flag__c,
+					Preferred_Flag__c, Calling_Source__c,
 					Renewal_Calling_Flag__c
                 FROM Opportunity 
                 WHERE Id = :Id.valueOf(recordId) 
