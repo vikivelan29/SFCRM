@@ -18,7 +18,7 @@ public class ABHFL_CTSTHelper_Test {
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
-        branchMstr.UniqueKey__c = '234234';
+        branchMstr.UniqueKey__c = 'ABHFL_250004_MEEUP21_2/507#MEERUT';
         insert branchMstr;
         
         ASF_TestDataFactory.createCaseCategoryConfig();
@@ -41,6 +41,7 @@ public class ABHFL_CTSTHelper_Test {
         //Create Case Extension record
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
+        caseDetail.Preferred_Branch__c = branchMstr.UniqueKey__c;
         insert caseDetail;
        
         //Create Case
@@ -274,6 +275,7 @@ public class ABHFL_CTSTHelper_Test {
         System.assertEquals(updatedCase.get(caseRecord.Id).OwnerId, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
+
  @IsTest 
     static void testskipOpenStageforAPIcases(){
         Test.startTest();
@@ -411,6 +413,42 @@ public class ABHFL_CTSTHelper_Test {
         assetDetail.Case__c = caseRecord.Id;
         insert assetDetail;
         ABHFL_CTSTHelper.checkAssetDetailStatus(caseValidWrapper);
+    }
+    
+    @isTest
+    static void prePopulateFieldsTest() {
+        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c
+                           		    FROM Case];
+        
+        ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
+        abhflCTSTHelperClass.prePopulateFields(caseRecordLst);
+        
+    }
+    
+    @isTest
+    static void callLitmusApiTest() {
+        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c
+                           		    FROM Case];
+        
+        ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
+        abhflCTSTHelperClass.callLitmusApi(caseRecordLst, new Map<Id, Case>());    
+    }
+    
+    @isTest
+    static void populateFieldsInAfterContextTest() {
+        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c
+                           		    FROM Case];
+        
+        ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
+        abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);    
+    }
+    
+    @isTest
+    static void createCasesTest() {
+        List<Case> caseRecordLst = [SELECT Id FROM Case];
+        Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
+        
+        ABHFL_CTSTHelper.createCases('0123', 'LAXXXXXXXX', 'CCC-CC-CCLTD-01', 'Email', 'LWC', caseRecordLst[0].id, recordTypeId);    
     }
     
 }
