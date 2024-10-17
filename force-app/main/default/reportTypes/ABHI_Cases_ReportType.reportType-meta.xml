@@ -363,11 +363,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Existing_Pan_Card_Number__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Feature_Skipper_Flag__c</field>
             <table>Case</table>
         </columns>
