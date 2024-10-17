@@ -25,12 +25,15 @@ public with sharing class ABHI_BusinessLogic_Helper {
             mapOfBUToNewCase = mapOfBUToNewCs;
             mapOfIdToOldCase = oldMapOfCases;
             abhiNewCaseList = mapOfBUToNewCs.get('ABHI');
+            // Convert oldMapOfCases to List<Case>
+            List<Case> oldCaseList = new List<Case>(oldMapOfCases.values());
             
             sendSecondStageCommunication(mapOfBUToNewCs.get('ABHI'), oldMapOfCases, triggerContext);
             skipChecklistValidationForBulkMove(mapOfBUToNewCs.get('ABHI'), triggerContext);
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
+                ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
@@ -354,10 +357,26 @@ public with sharing class ABHI_BusinessLogic_Helper {
                         mapDetailIdClaim.put(individualCase.ABHI_Case_Detail__c, individualCase.ClaimNo_Text__c);
                         
                     }
+                    else if(individualCase.ClaimNo_Text__c == null && oldMapOfCases.get(individualCase.Id).ClaimNo_Text__c != individualCase.ClaimNo_Text__c) {
+                        if(!mapCaseDetUpdate.containsKey(caseDetail.Id)) {
+                            caseDetail = new ABHI_Case_Detail__c();
+                            caseDetail.Id = individualCase.ABHI_Case_Detail__c;
+                            mapCaseDetUpdate.put(caseDetail.Id, caseDetail);   
+                        }  
+                         mapCaseDetUpdate.get(caseDetail.Id).Claim__c = null;                                                                           
+                    }     
                     if(individualCase.Customer_Member_Text__c != null) {
                         mapDetailIdCustomer.put(individualCase.Id, 'ABHI_'+individualCase.Customer_Member_Text__c);
                         mapCaseIdPolicyId.put(individualCase.Id, individualCase.AssetId);
                     }
+                    else if(individualCase.Customer_Member_Text__c == null && oldMapOfCases.get(individualCase.Id).Customer_Member_Text__c != individualCase.Customer_Member_Text__c) {
+                        if(!mapCaseDetUpdate.containsKey(individualCase.ABHI_Case_Detail__c)) {
+                            caseDetail = new ABHI_Case_Detail__c();
+                            caseDetail.Id = individualCase.ABHI_Case_Detail__c;
+                            mapCaseDetUpdate.put(caseDetail.Id, caseDetail);                                                                            
+                        }
+                        mapCaseDetUpdate.get(caseDetail.Id).Member__c = null;
+                    }   
                     mapCaseDetails.put(individualCase.Id, individualCase.ABHI_Case_Detail__c);
                 }
             }
@@ -366,22 +385,23 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapClaimDet.put(claim.Name, claim.Id);  
                 }
             }
-            for(Account acc : [SELECT ID,LOB_Client_Code__c FROM Account where LOB_Client_Code__c IN :mapDetailIdCustomer.values()]) {
+            /*for(Account acc : [SELECT ID,LOB_Client_Code__c FROM Account where LOB_Client_Code__c IN :mapDetailIdCustomer.values()]) {
                 if(!mapAccountLobId.containsKey(acc.LOB_Client_Code__c)) {
                     mapAccountLobId.put(acc.LOB_Client_Code__c, acc.ID);
                 }
-            }
-            for(Customer_Member_Mapping__c cusMemMap : [SELECT ID, MemberId__r.LOB_Client_Code__c,Policy_Number__c FROM Customer_Member_Mapping__c WHERE MemberId__c IN :mapAccountLobId.values()
+            }*/
+            for(Customer_Member_Mapping__c cusMemMap : [SELECT ID, MemberId__r.LOB_Client_Code__c,Policy_Number__c FROM Customer_Member_Mapping__c WHERE  
+                                                        MemberId__r.LOB_Client_Code__c IN :mapDetailIdCustomer.values()
                                                         AND Policy_Number__c IN :mapCaseIdPolicyId.values()]) {
                 for(Id caseId : mapDetailIdCustomer.keySet()) {
                     if(mapCaseIdPolicyId.containsKey(caseId) && mapCaseIdPolicyId.get(caseId).equals(cusMemMap.Policy_Number__c)
                         && mapDetailIdCustomer.get(caseId).equals(cusMemMap.MemberId__r.LOB_Client_Code__c)) {
                             caseDetail = new ABHI_Case_Detail__c();
-                            caseDetail.Member__c = cusMemMap.Id;
                             caseDetail.Id = mapCaseDetails.get(caseId);
                             if(!mapCaseDetUpdate.containsKey(caseDetail.Id)) {
                                 mapCaseDetUpdate.put(caseDetail.Id, caseDetail);                                                                            
-                            }                                      
+                            }   
+                            mapCaseDetUpdate.get(caseDetail.Id).Member__c = cusMemMap.Id;
                         }
                 }
             }
@@ -389,7 +409,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             for(Id caseDet : mapDetailIdClaim.keyset()) {
                 caseDetail = new ABHI_Case_Detail__c();
                 if(mapClaimDet.containsKey(mapDetailIdClaim.get(caseDet))) {
-                    //caseDetail.Claim__c = mapClaimDet.get(mapDetailIdClaim.get(caseDet));
+                    caseDetail.Claim__c = mapClaimDet.get(mapDetailIdClaim.get(caseDet));
                     caseDetail.Id = caseDet;
                     if(!mapCaseDetUpdate.containsKey(caseDetail.Id)) {
                         mapCaseDetUpdate.put(caseDetail.Id, caseDetail);                                                                            
@@ -397,12 +417,13 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapCaseDetUpdate.get(caseDetail.Id).Claim__c = mapClaimDet.get(mapDetailIdClaim.get(caseDet));
                 }
             }
-            
-            update mapCaseDetUpdate.values();
+            System.debug('@@@ mapCaseDetUpdate.values()'+ mapCaseDetUpdate.values());
+            Database.update(mapCaseDetUpdate.values(), false);
             
         }
         catch(Exception e) {
             
         }
-    } 
+    }  
+     
 }
