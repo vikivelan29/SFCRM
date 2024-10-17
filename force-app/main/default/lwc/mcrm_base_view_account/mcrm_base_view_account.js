@@ -25,6 +25,8 @@ function customerAPIs(apiName, payload) {
 			return getBenefits(payload)
 		case 'MCRM_Rewards':
 			return getRewards(payload)
+		case 'MCRM_Fitness_Score_And_Activity_Details':
+			return getFitness(payload)
 		case 'y':
 			// code block
 			break;
@@ -132,6 +134,13 @@ const getBenefits = (payload) => {
 	);
 }
 const getRewards = (payload) => {
+	return (
+		payload?.responseMap?.resultsList?.length  ? 
+		payload.responseMap.resultsList : 
+		[] 
+	);
+}
+const getFitness = (payload) => {
 	return (
 		payload?.responseMap?.resultsList?.length  ? 
 		payload.responseMap.resultsList : 
