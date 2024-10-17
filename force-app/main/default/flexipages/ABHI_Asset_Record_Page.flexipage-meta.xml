@@ -4,7 +4,15 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>                 
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Asset.Send_Communication</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CustomButton.Asset.Calculator</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -192,6 +200,26 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.LAN__c</fieldItem>
                 <identifier>RecordLAN_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sales_Manager__c</fieldItem>
+                <identifier>RecordSales_Manager__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Partner_Sales_ID__c</fieldItem>
+                <identifier>RecordPartner_Sales_ID__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
@@ -536,6 +564,16 @@
                 <identifier>RecordAgentStatus_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sales_Manager__c</fieldItem>
+                <identifier>RecordSales_Manager_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-93f7de3c-7659-409d-8c07-58cf6c758429</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -558,6 +596,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ServicingBranchName__c</fieldItem>
                 <identifier>RecordServicingBranchName_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Partner_Sales_ID__c</fieldItem>
+                <identifier>RecordPartner_Sales_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1155,6 +1203,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abhi_HealthReturnDetails</componentName>
+                <identifier>c_abhi_HealthReturnDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-e4f461c2-843a-4957-8e80-72cbd9e4c428</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>abhi_healthAssesmentDetails</componentName>
                 <identifier>c_abhi_healthAssesmentDetails2</identifier>
             </componentInstance>
@@ -1163,6 +1221,20 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-e4f461c2-843a-4957-8e80-72cbd9e4c428</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Dashboard</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab5</identifier>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -1293,11 +1365,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>New</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
@@ -1312,7 +1379,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Assets__r</value>
+                    <value>Previous_Policy_Details__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListDisplayType</name>
@@ -1325,19 +1392,31 @@
                             <value>Customer__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Issue_Date__c</value>
+                            <value>DateOfFirstEnrollment__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Maturity_Date__c</value>
+                            <value>PreviousPolicyStartDate__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Sum_Assured__c</value>
+                            <value>PreviousPolicyEndDate__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Insurer__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OptedSi__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CumulativeBonus__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ExpiringBaseSI__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Assets</value>
+                    <value>Previous Policy Details</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
@@ -1356,6 +1435,16 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-cv171heivwv</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_pssReportCmp</componentName>
+                <identifier>c_abhi_pssReportCmp</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-a30e74e0-4a7d-4c96-a751-24c425b0c71c</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1531,12 +1620,26 @@
                 <identifier>flexipage_tab13</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-a30e74e0-4a7d-4c96-a751-24c425b0c71c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>{!$Label.ABHI_Communication_History}</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab14</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>maintabs</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <componentInstance> 
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>maintabs</value>
