@@ -10,6 +10,9 @@ export default class mcrm_base_view_screen extends LightningElement {
 		errorMessage
 	};
 
+	@api showRefresh;
+	@api showPreview;
+
 	title;
 	isShowModal = false;
 	isLoading = false;
@@ -30,6 +33,8 @@ export default class mcrm_base_view_screen extends LightningElement {
 
 	connectedCallback() {
 		this.callFunction();	
+		this.showRefresh=true;
+		this.showPreview=true;
 	}
 
 	coreResult;
@@ -139,11 +144,44 @@ export default class mcrm_base_view_screen extends LightningElement {
 		return transformedJson;
 	}
 
-	closeModal(){
-    	this.isShowModal = false;
-    }
 	handleMenuSelect(){
 		this.dispatchEvent(new CustomEvent("refresh"));
 
+	}
+
+	get divBlock(){
+        return this.columns?.length==1?'width:25%':'';
+    }
+    get divClass(){
+        return this.changeView?'slds-modal__container':'';
+    }
+    get secClass(){
+        return this.changeView?'slds-modal slds-fade-in-open slds-modal_medium slds-modal_large':'';
+    }
+    get headClass(){
+        return this.changeView?'slds-modal__header':'slds-hide';
+    }
+    get bodyClass(){
+        return this.changeView?'slds-modal__content slds-p-around_medium':'';
+    }
+    get backClass(){
+        return this.changeView?'slds-backdrop slds-backdrop_open':'';
+    }
+    changeView=false;
+    handleChangeView(){
+        this.changeView=this.changeView==true?false:true;
+		if(this.changeView==true){
+			this.showPreview=false;
+		}
+        console.log('***changeView:'+this.changeView);
+    }
+
+    closeModal(){
+    	this.handleChangeView();
+		this.showPreview=true;
+    }
+	
+	get refreshClass(){
+		return (this.showPreview==true)?"slds-float_right mcrmButton mcrmRefresh":"slds-float_right mcrmButton";
 	}
 }

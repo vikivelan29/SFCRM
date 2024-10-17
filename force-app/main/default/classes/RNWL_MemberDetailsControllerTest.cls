@@ -20,7 +20,7 @@ public class RNWL_MemberDetailsControllerTest {
         asset.Type__c = 'TestAsset';
         asset.Policy_No__c = '12456';
         asset.ABHI_Policy_Id__c = '12456';
-        
+        asset.LAN__c = '12456';
         
         insert asset;
         

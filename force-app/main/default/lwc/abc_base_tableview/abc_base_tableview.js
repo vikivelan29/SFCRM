@@ -101,4 +101,32 @@ export default class Abfl_DataTableWithPagination extends LightningElement {
         });
         this.dispatchEvent(custEvent);                    
     }
+    get divBlock(){
+        return this.columns?.length==1?'width:25%':'';
+    }
+    get divClass(){
+        return this.changeView?'slds-modal__container':'';
+    }
+    get secClass(){
+        return this.changeView?'slds-modal slds-fade-in-open slds-modal_medium slds-modal_large':'';
+    }
+    get headClass(){
+        return this.changeView?'slds-modal__header':'slds-hide';
+    }
+    get bodyClass(){
+        return this.changeView?'slds-modal__content slds-p-around_medium':'';
+    }
+    get backClass(){
+        return this.changeView?'slds-backdrop slds-backdrop_open':'';
+    }
+    changeView=false;
+    @api
+    changeViewFn(){
+        this.changeView=this.changeView==true?false:true;
+        console.log('***changeView:'+this.changeView);
+    }
+
+    closeModal(){
+    	this.changeViewFn();
+    }
 }

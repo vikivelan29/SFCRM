@@ -37,7 +37,7 @@ import executeValidation from '@salesforce/apex/ASF_Case360ParaTamperingHelper.e
 import { NavigationMixin } from 'lightning/navigation';
 //import saveReassign from '@salesforce/apex/CaseProcessingHelper.performCaseAssignments';
 import asf_CaseEndStatus from '@salesforce/label/c.ASF_CaseEndStatuses';
-import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+// import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
 import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
 
 
@@ -2639,7 +2639,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     async showRejectModal() {       
         if(this.showResolvedReasons){           
             try{
-             const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });                          
+                const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });  
+                this.reasonLOV = [];
+                this.resolveReasonLOV = [];
              records.forEach(item => {
                     if(item.Type__c == 'Reject'){
                 const optionVal = {
@@ -2654,14 +2656,32 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                         };
                         this.resolveReasonLOV.push(optionVal);
                     }                   
-            });
-            this.isLoading = false;
+                });
+                this.isLoading = false;
             }catch (error) {
                 this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
                 this.isLoading = false;              
             }
         }else{
-            this.fetchRejectionReason();
+            // this.fetchRejectionReason();
+            try{
+                const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });  
+                this.reasonLOV = [];
+                this.resolveReasonLOV = [];
+                records.forEach(item => {
+                    if(item.Type__c == 'Reject'){
+                        const optionVal = {
+                            label: item.Reason__c,
+                            value: item.Reason__c
+                        };
+                        this.reasonLOV.push(optionVal);
+                    }                  
+                });
+                this.isLoading = false;
+            }catch (error) {
+                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+                this.isLoading = false;              
+            }
     }
     }
     //PR1030924-224: ZAHED : Added filter condition for wellness case - End
@@ -2727,20 +2747,20 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             });
     }
     //To get Rejection Reason:
-    fetchRejectionReason() {
-        getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
-            this.reasonLOV = [];
-            result.forEach(reason => {
-                const optionVal = {
-                    label: reason,
-                    value: reason
-                };
-                this.reasonLOV.push(optionVal);
-            });
-        }).catch(error => {
-            console.log('Error: ' + JSON.stringify(error));
-        });
-    }
+    // fetchRejectionReason() {
+    //     getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
+    //         this.reasonLOV = [];
+    //         result.forEach(reason => {
+    //             const optionVal = {
+    //                 label: reason,
+    //                 value: reason
+    //             };
+    //             this.reasonLOV.push(optionVal);
+    //         });
+    //     }).catch(error => {
+    //         console.log('Error: ' + JSON.stringify(error));
+    //     });
+    // }
 
 
     //End: Added for Complain Rejection
