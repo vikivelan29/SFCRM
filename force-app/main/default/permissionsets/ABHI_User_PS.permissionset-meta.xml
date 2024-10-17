@@ -3623,8 +3623,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Policy__c</field>
+        <editable>false</editable>
+        <field>ABHI_Case_Detail__c.Repeated__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
