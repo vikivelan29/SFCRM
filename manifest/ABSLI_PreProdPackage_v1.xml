@@ -263,6 +263,11 @@
         <members>ABHFL_AmortizationIntegration_Test</members>
         <members>ABHFL_NDCSTPHandler_Test</members>
         <members>ABHFL_WelcomeKitIntegration_Test</members>
+        <members>ABFL_InactiveOwnerCaseReassignmentTest</members>
+        <members>ABHFL_LeadCreationAPI_Test</members>
+        <members>ASF_EmailRelayLoadBalancerTest</members>
+        <members>ABFL_DMSSync_Orchestrator_Test</members>
+        <members>ABHFL_CTSTHelper</members>
 		<name>ApexClass</name>
 	</types>
     <types>
@@ -852,6 +857,7 @@
         <members>ABCL_Integrations.AbSLI_Bitly_Link</members>
         <members>ABCL_Integrations.ABSLI_Fetch_Ingenium_CurrentDate</members>
         <members>ABCL_Integrations.ABSLI_FETCH_POLICY_ESB</members>
+	<members>ABCL_Integrations.ABSLI_Fund_Value</members>
         <members>ABCL_Integrations.ABSLI_Gen_Fund_Integration</members>
         <members>ABCL_Integrations.ABSLI_Legacy_Case</members>
         <members>ABCL_Integrations.ABSLI_PAN_Verification</members>
@@ -1364,6 +1370,7 @@
         <members>ABSLI_BITLY_LOB_VAL</members>
         <members>ASF_Integration_Mandatory_Error</members>
         <members>ASF_UIActionDelay</members>
+        <members>EmailRelayThreshold</members>
         <name>CustomLabel</name>
     </types>
     <types>
@@ -1868,6 +1875,11 @@
     <types>
         <members>ABCL_Integration_Event_chn_ABCL_Integration_Event_e</members>
         <name>PlatformEventChannelMember</name>
+    </types>
+        <types>
+        <members>ABSLI Base Profile</members>
+        <members>ABSLI RPA Base Profile</members>
+        <name>Profile</name>
     </types>
 	<version>60.0</version>
 </Package>

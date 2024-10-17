@@ -1004,9 +1004,9 @@
                 <label>Medical Test Related</label>
             </value>
             <value>
-                <fullName>Alternate Test or Medial Waiver</fullName>
+                <fullName>Alternate Test or Medical Waiver</fullName>
                 <default>false</default>
-                <label>Alternate Test or Medial Waiver</label>
+                <label>Alternate Test or Medical Waiver</label>
             </value>
             <value>
                 <fullName>Video FMR Eligibility</fullName>
