@@ -1,9 +1,3 @@
-.buttonClass{
-    --sds-c-button-neutral-color-background: #689ceb;
-    --sds-c-button-brand-color-background: #2f50e3;
-    --sds-c-button-text-color: #FFF2F0;
-}
-
 article.slds-grid_horizontal-stretch{
     height: 100%;
 }

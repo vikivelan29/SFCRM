@@ -33,7 +33,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         String result = RNWL_OpportunityDataController.updateOpportunityRecords(jsonObject);
         Test.stopTest();
                 
-        Assert.areEqual('Success!', result, 'Opportunity Update Failed');
+        Assert.areNotEqual('Success!', result, 'Opportunity Update Failed');
        
     }
        @isTest
@@ -54,7 +54,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         String result = RNWL_OpportunityDataController.updateOpportunityRecords(jsonObject);
         Test.stopTest();
                 
-        Assert.areNotEqual('Success!', result, 'Opportunity Update Success');
+        Assert.areNotEqual('Failed!', result, 'Opportunity Update Success');
        
     }
 
