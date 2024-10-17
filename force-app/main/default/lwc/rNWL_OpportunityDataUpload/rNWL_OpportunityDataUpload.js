@@ -17,6 +17,7 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
     isLoading = false;
     recordStatus;
     fileReader;
+    url='/sfc/p/Bl000000pvNd/a/Bl000000dUz7/eePAzAX2mn82WNfKGX5BVj0AEoXUjaTpUAhIkhacSck';
     MAX_FILE_SIZE = 1500000;
 
     async connectedCallback() {
@@ -26,6 +27,11 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
             XLS = XLSX
         })
 
+    }
+
+    handleReset(){
+        this.fileName = '';
+        this.parsedData = ';'
     }
 
     handleUploadFinished(event) {
@@ -111,8 +117,8 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
                         this.recordStatus = recordStatus;
                         this.showMessage(this.recordStatus, 'warning');
                     } else {
-                    
-                        this.showMessage('All fleet rows were uploaded successfully','success');
+                        this.recordStatus = recordStatus;
+                        this.showMessage('All Opportunity rows were updated successfully!!','success');
                     }
                 }
                 this.isLoading = false;

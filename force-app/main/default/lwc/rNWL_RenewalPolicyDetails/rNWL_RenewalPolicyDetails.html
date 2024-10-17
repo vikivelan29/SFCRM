@@ -324,9 +324,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Address</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
-                                        </div>
+                                        <template if:true={addressFlag}>
+                                            <div class="slds-form-element__static">
+                                                {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -371,9 +373,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Sum Insured</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            ₹{policy.Sum_Assured__c}
-                                        </div>
+                                        <template if:true={sumInsuredFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.Sum_Assured__c}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -660,7 +664,14 @@
                                 </div>
                             </div>
                             <div class="slds-form__item" role="listitem" >
-                                <h2 style="margin-top:15px;margin-bottom:15px" class="slds-m-bottom_x-small slds-card__header-title">Additional</h2>
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Calling Source</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Calling_Source__c}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -680,16 +691,8 @@
                                 </div>
                             </div>
                             <div class="slds-form__item" role="listitem" >
-                                <div
-                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Sum Insured Enhancement</span>
-                                    <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
-                                            <div class="slds-form-element__static">
-                                                {sumInsusedEnhancement}
-                                            </div>
-                                        </template>
-                                    </div>
+                                <div class="slds-form-element__control">
+                                    <h2 style="margin-top:15px;margin-bottom:15px" class="slds-m-bottom_x-small slds-card__header-title">Additional</h2>
                                 </div>
                             </div>
                         </div>
@@ -733,9 +736,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Last year premium</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            ₹{policy.GrossPremium__c}
-                                        </div>
+                                        <template if:true={lastYearPremFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.GrossPremium__c}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -773,9 +778,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Net Premium</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={renCheckNetPremFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.premium.Renewal_Net_Premium}
+                                                ₹{renewalAPIData.premium.Renewal_Net_Premium}
                                             </div>
                                         </template>
                                     </div>
@@ -803,9 +808,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Gross Premium</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={renCheckGrossPremFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.premium.Renewal_Gross_Premium}
+                                                ₹{renewalAPIData.premium.Renewal_Gross_Premium}
                                             </div>
                                         </template>
                                     </div>
@@ -942,6 +947,17 @@
                                 </div>
                             </div>
                             <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Sum Insured Enhancement</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={renewalCheckFlag}>
+                                            <div class="slds-form-element__static">
+                                                {sumInsusedEnhancement}
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!--Balance HR-->

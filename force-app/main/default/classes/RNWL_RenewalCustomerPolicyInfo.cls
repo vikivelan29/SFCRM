@@ -67,7 +67,7 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
 					Policy_Lapsed__c, Policy_Number__c,
 					Policy_Renewal_Notice_Day__c,
 					Status__c, Propensity_to_Pay__c,
-					Preferred_Flag__c,
+					Preferred_Flag__c, Calling_Source__c,
 					Renewal_Calling_Flag__c
                 FROM Opportunity 
                 WHERE Id = :Id.valueOf(recordId) 
