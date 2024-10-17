@@ -1,30 +1,9 @@
 // import { updateRecord } from 'lightning/uiRecordApi';
 const wellnessCloseCasePopup = (that) => {
-    console.log('that.closureTypeSelected-->',that.closureTypeSelected);
+    // console.log('that.closureTypeSelected-->',that.closureTypeSelected);
     if (that.closureTypeSelected == 'unresolved') {
         console.log('wellnessCloseCasePopup  unresolved');
-        /* IF POPUP LEVEL VALIDATION SUCCESSFUL - CHECK FORM LEVEL VALIDATION AND EXECUTE CASE CLOSURE */
-        let isFormValidated = that.validateFields();
-        if (!isFormValidated) {
-            that.showError('error', 'Mandatory fields missing', 'Please fill all mandatory fields for this stage');
-            return false;
-        }
-        let bErrorOccured = false;
-        // CHECK IF THE SELECTED VALUE FOR TEAM STATUS IS UNRESOLVED.
-        that.template.querySelectorAll('lightning-input-field').forEach(ele => {
-            console.log('ele-->',ele);
-            if (ele.fieldName == 'Outcome__c') {
-                if (ele.value != 'Unresolved') {
-                    that.showError('error', 'Wrong Selection', 'Please select Team Resolution Status as Unresolved.');
-                    bErrorOccured = true;
-                }
-            }
-        })
-        if (!bErrorOccured) {
-            saveRejection(that);
-        }
-
-
+        return true;// usual behaviour
     }
     if(that.closureTypeSelected == 'resolved'){
         console.log('wellnessCloseCasePopup  resolved');
@@ -36,20 +15,22 @@ const wellnessCloseCasePopup = (that) => {
         }
         let bErrorOccured = false;
         console.log('36  resolved');
-        // CHECK IF THE SELECTED VALUE FOR TEAM STATUS IS UNRESOLVED.
         // Accessing the value of the comment box
         const inputVal = that.template.querySelector('.resolve-input');
         // Accessing the value of the combobox
         const selectedCombo = that.template.querySelector('.resolve-combobox');
-        if (!inputVal.value) {
-            inputVal.reportValidity()
-            that.showError('error', 'Wrong Selection', 'Please enter Resolution comments.');
+        if (!inputVal.value || !selectedCombo.value) {
+            inputVal.reportValidity();
+            selectedCombo.reportValidity();
+            // that.showError('error', 'Wrong Selection', 'Please enter Resolution comments.');
             bErrorOccured = true;
-        }else if (!selectedCombo.value) {
-            selectedCombo.reportValidity()
-            that.showError('error', 'Wrong Selection', 'Please select Resolution reason.');
-            bErrorOccured = true;
-        }else{
+        }
+        // else if (!selectedCombo.value) {
+            
+        //     // that.showError('error', 'Wrong Selection', 'Please select Resolution reason.');
+        //     bErrorOccured = true;
+        // }
+        else{
             // CHECK IF THE SELECTED VALUE FOR TEAM STATUS IS UNRESOLVED.
             that.template.querySelectorAll('lightning-input-field').forEach(ele => {
                 if (ele.fieldName == 'Resolution_Reason__c') {
@@ -81,6 +62,7 @@ const saveRejection = (that)=> {
             let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
             caseRecord = Object.fromEntries([...fieldsVar, ['Id', that.caseObj.Id], ['sobjectType', 'Case']]);
             caseRecord['Reject_Case__c'] = true;
+            caseRecord['Rejection_Reason__c'] = that.template.querySelector('.Unresolve-combobox').value;
             if (that.caseObj.Technical_Source__c == 'API') {
                 caseRecord['Technical_Source__c'] = 'LWC';
             }
@@ -95,7 +77,7 @@ const saveRejection = (that)=> {
             caseExtnRecord = Object.fromEntries([...fieldsVar, ['Id', that.caseExtensionRecord.Id]]);
             caseExtnRecord["sobjectType"] = caseExtnElement.objectApiName;
         }
-        console.log('caseRecord-->',caseRecord);
+        console.log('caseRecord-->'+JSON.stringify(caseRecord));
         console.log('caseExtnRecord-->',caseExtnRecord);
         that.saveCaseWithExtension(caseRecord, caseExtnRecord);
     }

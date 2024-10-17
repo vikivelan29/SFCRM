@@ -2,7 +2,95 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>BRE_Source__c</fullName>
     <externalId>false</externalId>
-    <formula>Asset.Source_System__c</formula>
+    <formula>IF(
+
+AND(
+
+Asset.Source_System__c  = &apos;A3S&apos;,
+
+OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))),
+
+&apos;a3s_rm&apos;,
+
+IF(
+
+AND(
+
+Asset.Source_System__c=&apos;A3S&apos;,
+
+ISPICKVAL(Source__c, &apos;Others&apos;)),
+
+&apos;a3s&apos;,
+
+IF(
+
+AND(
+
+Asset.Source_System__c=&apos;FINNRTL&apos;,
+
+OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))),
+
+&apos;finnone_rm&apos;,
+
+IF(
+
+AND(
+
+Asset.Source_System__c=&apos;FINNRTL&apos;,
+
+ISPICKVAL(Source__c, &apos;Others&apos;)),
+
+&apos;finnone&apos;,
+
+IF(
+
+AND(
+
+Asset.Source_System__c=&apos;FINNCORP&apos;,
+
+OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))
+
+),
+
+&apos;corporate_rm&apos;,
+
+IF(
+
+AND(
+
+Asset.Source_System__c=&apos;FINNCORP&apos;,
+
+ISPICKVAL(Source__c, &apos;Others&apos;)
+
+),
+
+&apos;corporate&apos;,
+
+IF(
+
+AND(
+
+Asset.Source_System__c=&apos;MINACS&apos;,
+
+OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))
+
+),
+
+&apos;corporate_rm&apos;,
+
+IF(
+
+AND(    
+
+Asset.Source_System__c=&apos;MINACS&apos;,
+
+ISPICKVAL(Source__c, &apos;Others&apos;)),
+
+&apos;corporate&apos;,
+
+NULL
+
+))))))))</formula>
     <label>BRE Source</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
