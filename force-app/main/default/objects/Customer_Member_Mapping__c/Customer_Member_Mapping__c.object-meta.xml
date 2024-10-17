@@ -175,10 +175,8 @@
     </profileSearchLayouts>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
-        <lookupDialogsAdditionalFields>Member_Name__c</lookupDialogsAdditionalFields>
-        <searchResultsAdditionalFields>Policy_Number_Text__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Member_Name__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>Read</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

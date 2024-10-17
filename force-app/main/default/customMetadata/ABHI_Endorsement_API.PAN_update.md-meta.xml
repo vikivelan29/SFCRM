@@ -14,11 +14,11 @@
         <field>Payload__c</field>
         <value xsi:type="xsd:string">{
 &quot;CrossSaleReferenceNumber&quot;: &quot;&quot;,
-&quot;IsCombi&quot;: &quot;{Asset.IsCombi__c}&quot;,
+&quot;IsCombi&quot;: &quot;{ABHI_Case_Detail__r.Policy__r.IsCombi__c}&quot;,
 &quot;Endorsement&quot;: [
 {
 &quot;Service_Request_Number&quot;: &quot;{CaseNumber}&quot;,
-&quot;Policy_Number&quot;: &quot;{Asset.Policy_No__c}&quot;,
+&quot;Policy_Number&quot;: &quot;{ABHI_Case_Detail__r.Policy__r.Policy_No__c}&quot;,
 &quot;MemObj&quot;: [
 {
 &quot;Member&quot;: [
@@ -80,7 +80,7 @@
 &quot;Country_Code&quot;: &quot;&quot;,
 &quot;Internation_Contact_No&quot;: &quot;&quot;,
 &quot;Internation_Address&quot;: &quot;&quot;,
-&quot;Flag&quot;: &quot;7&quot;
+&quot;Flag&quot;: &quot;17&quot;
 }
 ]
 }</value>
