@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VAS_Services_Concern__c</fullName>
+    <externalId>false</externalId>
+    <label>VAS Services Concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Discounted Online consultation</fullName>
+                <default>false</default>
+                <label>Discounted Online consultation</label>
+            </value>
+            <value>
+                <fullName>OPD Addon &amp; rider</fullName>
+                <default>false</default>
+                <label>OPD Addon &amp; rider</label>
+            </value>
+            <value>
+                <fullName>Critical ill-screening-optional benefit</fullName>
+                <default>false</default>
+                <label>Critical ill-screening-optional benefit</label>
+            </value>
+            <value>
+                <fullName>Counselling sessions</fullName>
+                <default>false</default>
+                <label>Counselling sessions</label>
+            </value>
+            <value>
+                <fullName>Offline consultation</fullName>
+                <default>false</default>
+                <label>Offline consultation</label>
+            </value>
+            <value>
+                <fullName>Free consultation</fullName>
+                <default>false</default>
+                <label>Free consultation</label>
+            </value>
+            <value>
+                <fullName>Rent medical equipment</fullName>
+                <default>false</default>
+                <label>Rent medical equipment</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
