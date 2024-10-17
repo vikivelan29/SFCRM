@@ -6136,7 +6136,7 @@
         <editable>false</editable>
         <field>Dispositions__c.Disposition_L7__c</field>
         <readable>false</readable>
-    </fieldPermission>
+    </fieldPermissions>
     <!--fieldPermissions>
         <editable>true</editable>
         <field>Dispositions__c.Msisdn__c</field>
