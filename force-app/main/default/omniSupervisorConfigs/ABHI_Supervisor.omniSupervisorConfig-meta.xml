@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OmniSupervisorConfig xmlns="http://soap.sforce.com/2006/04/metadata">
+    <isTimelineHidden>false</isTimelineHidden>
+    <masterLabel>ABHI Supervisor</masterLabel>
+    <omniSupervisorConfigGroup>
+        <group>ABHI_Cashless_G</group>
+    </omniSupervisorConfigGroup>
+    <omniSupervisorConfigGroup>
+        <group>ABHI_Reimbursement_G</group>
+    </omniSupervisorConfigGroup>
+    <omniSupervisorConfigProfile>
+        <profile>abhi base profile</profile>
+    </omniSupervisorConfigProfile>
+    <omniSupervisorConfigQueue>
+        <queue>ABHI_Cashless</queue>
+    </omniSupervisorConfigQueue>
+    <omniSupervisorConfigQueue>
+        <queue>ABHI_Reimbursement</queue>
+    </omniSupervisorConfigQueue>
+    <omniSupervisorConfigTab>
+        <displayOrder>0</displayOrder>
+        <tabType>Wallboard</tabType>
+    </omniSupervisorConfigTab>
+    <omniSupervisorConfigTab>
+        <displayOrder>1</displayOrder>
+        <tabType>Agents</tabType>
+    </omniSupervisorConfigTab>
+    <omniSupervisorConfigTab>
+        <displayOrder>2</displayOrder>
+        <tabType>QueuesBacklog</tabType>
+    </omniSupervisorConfigTab>
+    <omniSupervisorConfigTab>
+        <displayOrder>3</displayOrder>
+        <tabType>AssignedWork</tabType>
+    </omniSupervisorConfigTab>
+    <omniSupervisorConfigTab>
+        <displayOrder>4</displayOrder>
+        <tabType>SkillsBacklog</tabType>
+    </omniSupervisorConfigTab>
+    <skillVisibility>AllSkills</skillVisibility>
+</OmniSupervisorConfig>
