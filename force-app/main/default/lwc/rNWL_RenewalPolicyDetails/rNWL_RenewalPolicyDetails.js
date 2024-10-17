@@ -109,9 +109,9 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
 
                 this.getAdditionalData();
                 this.areDetailsVisible = true;
-            }catch(e){
+            /*}catch(e){
                 this.showNotification('error', 'Error!', 'Error displaying data : '+e.message);
-            }
+            }*/
 
         }else{
             this.oppRec = undefined;
