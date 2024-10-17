@@ -1255,7 +1255,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_Auto_Calculation</shortDescription>
-        <value>https://www.adityabirlacapital.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy</value>
+        <value>https://mtpre.adityabirlahealth.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy?</value>
     </labels>
     <labels>
         <fullName>RNWL_Product_Features</fullName>
@@ -1317,5 +1317,12 @@
         <protected>false</protected>
         <shortDescription>MCRM_WireServiceTableMdtError</shortDescription>
         <value>Oops! We couldn&apos;t retrieve the table metadata right now. Please try refreshing the page to see if that resolves the issue.</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Auto_Calculation_Private_Key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Auto_Calculation_Private_Key</shortDescription>
+        <value>5412364561234567</value>
     </labels>
 </CustomLabels>
