@@ -74,8 +74,8 @@ export default class Abhi_PolicyDetails extends LightningElement {
                     this.isLoading = false;
                 }   
             }
-            else if(StatusCode == 1001){
-                this.errorMessages = RespMessage;  //this.errorMessages = result.Message
+            else if(StatusCode == 501){
+                this.errorMessages = 'No response received from server';  //this.errorMessages = result.Message
                 this.isLoading=false;
                 this.displayError=true;
                 this.showRecords=false;
