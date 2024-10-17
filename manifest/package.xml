@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>ASF_CaseTriggerBUSpecificHandler2</members>
-		<members>ASF_CaseTriggerHandler2</members>
-		<name>ApexClass</name>
-	</types>
+        <members>ABHI</members>
+        <name>ReportFolder</name>
+    </types>
+    <types>
+        <members>ABHI_Cases_ReportType</members>
+        <members>ABHI_Cases_with_Activities</members>
+        <name>ReportType</name>
+    </types>
+    <types>
+        <members>ABHI/ABHI_Cases_Log_a_call_Report</members>
+        <members>ABHI/ABHI_Recategorized_Cases</members>
+        <name>Report</name>
+    </types>
 	<version>60.0</version>
 </Package>
