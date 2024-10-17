@@ -2,7 +2,7 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 09-25-2024
+  @last modified on  : 10-16-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
@@ -44,6 +44,14 @@
 					disabled={disableRewardsButton}>
 				</lightning-button>
 			</div>
+		</div>
+	</template>
+	<template lwc:if={showPreview}>
+		<div style={alignDiv}>
+			<lightning-button alternative-text="preview" icon-size="x-small"
+				onclick={handleChangeView} icon-name="utility:preview" class="slds-float_right mcrmButton" 
+				disabled={disablePreview}>
+			</lightning-button>
 		</div>
 	</template>
 	

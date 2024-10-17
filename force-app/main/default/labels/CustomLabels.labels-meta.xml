@@ -1174,6 +1174,13 @@
         <value>MLQRJUNK</value>
     </labels>
     <labels>
+        <fullName>MCRM_GymNameLocation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_GymNameLocation</shortDescription>
+        <value>No Partner data available for display.</value>
+    </labels>
+    <labels>
         <fullName>Wellness_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1271,6 +1278,15 @@
         <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
         <value>System Administrator,***System Admin</value>
     </labels>
+   <labels>
+        <fullName>ABHI_PolicyRequired_ErrMsg</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_PolicyRequired_ErrMsg</shortDescription>
+        <value>Please select a Policy Number</value>
+    </labels>
+</CustomLabels>
     <labels>
         <fullName>MCRM_GymLocationSelectPartnerCode</fullName>
         <categories>wellness</categories>

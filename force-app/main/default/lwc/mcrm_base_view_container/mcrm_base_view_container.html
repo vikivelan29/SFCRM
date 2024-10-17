@@ -2,7 +2,7 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 10-15-2024
+  @last modified on  : 10-17-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
@@ -16,7 +16,7 @@
 				<div>
 					<template lwc:if={showRefresh}>
 						<lightning-button slot="actions" alternative-text="Refresh" icon-size="x-small"
-							onclick={handleMenuSelect} icon-name="utility:refresh" class="slds-float_right mcrmButton mcrmRefresh">
+							onclick={handleMenuSelect} icon-name="utility:refresh" class={refreshClass}>
 						</lightning-button>
 					</template>
 					<template lwc:if={showPreview}>
@@ -48,11 +48,11 @@
 							</lightning-layout-item>
 						</lightning-layout>
 					</template>
-					<template lwc:if={showBaseView}>
+					<div class={renderBaseView}>
 						<c-abc_base_tableview columns={columns} table-data={tableData} page-size={pageSize}
 							key={fieldName}></c-abc_base_tableview>
-					</template>
-					<template lwc:elseif={isError}>
+					</div>
+					<template lwc:if={isError}>
 						<div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
 							<span class="slds-assistive-text">error</span>
 							<span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"

@@ -52,6 +52,10 @@ export default class Wellness_api_view extends LightningElement {
 			this.activeSections.push('activeSection')
 		}
     }
+	get refreshClass(){
+		return (this.showPreview==true)?"slds-float_right mcrmButton mcrmRefresh":"slds-float_right mcrmButton";
+	}
+
 
 	@wire (getTableMeta, {configName:'$dynTableAPI'})
 	tableMeta({ error, data }) {
@@ -206,4 +210,8 @@ export default class Wellness_api_view extends LightningElement {
 		console.log('****cv:'+this.template.querySelector("c-abc_base_tableview"));
 		this.template.querySelector("c-abc_base_tableview").changeViewFn();
     }
+
+	get renderBaseView(){
+		return this.showBaseView==true?'':'slds-hide';
+	}
 }
