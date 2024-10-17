@@ -324,9 +324,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Address</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
-                                        </div>
+                                        <template if:true={addressFlag}>
+                                            <div class="slds-form-element__static">
+                                                {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -371,9 +373,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Sum Insured</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            ₹{policy.Sum_Assured__c}
-                                        </div>
+                                        <template if:true={sumInsuredFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.Sum_Assured__c}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -684,7 +688,7 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Sum Insured Enhancement</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={isRenewalCheckAPI}>
+                                        <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
                                                 {sumInsusedEnhancement}
                                             </div>
@@ -733,9 +737,11 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Last year premium</span>
                                     <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            ₹{policy.GrossPremium__c}
-                                        </div>
+                                        <template if:true={lastYearPremFlag}>
+                                            <div class="slds-form-element__static">
+                                                ₹{policy.GrossPremium__c}
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -744,9 +750,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Utilize HR</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={healthFlag}>
                                             <div class="slds-form-element__static">
-                                                FROM API
+                                                {heathRetrn.TotalHealthReturnsTMBurnt}
                                             </div>
                                         </template>
                                     </div>
@@ -773,9 +779,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Net Premium</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={renCheckNetPremFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.Renewal_Net_Premium}
+                                                ₹{renewalAPIData.premium.Renewal_Net_Premium}
                                             </div>
                                         </template>
                                     </div>
@@ -803,9 +809,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Gross Premium</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={renCheckGrossPremFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.Renewal_Gross_Premium}
+                                                ₹{renewalAPIData.premium.Renewal_Gross_Premium}
                                             </div>
                                         </template>
                                     </div>
@@ -832,9 +838,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">HA/Fitness assesment</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={fitnessFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.FitnessAssessment}
+                                               {fitnessData.HealthAssesmentStatusHA}
                                             </div>
                                         </template>
                                     </div>
@@ -862,9 +868,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">AHC</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={fitnessFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.HealthAssessment}
+                                                {fitnessData.HealthAssesmentStatusAHC}
                                             </div>
                                         </template>
                                     </div>
@@ -883,9 +889,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Health heart score</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={healthFlag}>
                                             <div class="slds-form-element__static">
-                                                FROM API
+                                                {heathRetrn.HealthyHeartScore}
                                             </div>
                                         </template>
                                     </div>
@@ -902,7 +908,7 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Loading Reason</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={isRenewalCheckAPI}>
+                                        <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
                                                 {renewalAPIData.Loading_Reason}
                                             </div>
@@ -915,7 +921,7 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Split Policy</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={isRenewalCheckAPI}>
+                                        <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
                                                 {renewalAPIData.Split_Policy_Flag}
                                             </div>
@@ -933,7 +939,7 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Loading %</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={isRenewalCheckAPI}>
+                                        <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
                                                 {renewalAPIData.Loading_Rate}
                                             </div>
@@ -955,7 +961,7 @@
                                     <div class="slds-form-element__control">
                                         <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
-                                                FROM API
+                                                 {balanceHR}
                                             </div>
                                         </template>
                                     </div>
@@ -973,9 +979,9 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Total HR</span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={renewalCheckFlag}>
+                                        <template if:true={healthFlag}>
                                             <div class="slds-form-element__static">
-                                                {renewalAPIData.healthReturn}
+                                                {heathRetrn.TotalHealthReturnsTM}
                                             </div>
                                         </template>
                                     </div>
@@ -995,7 +1001,7 @@
                                     <div class="slds-form-element__control">
                                         <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
-                                                autoDebitFlag
+                                                {autoDebitFlag}
                                             </div>
                                         </template>
                                     </div>
@@ -1013,7 +1019,7 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Employee Discount </span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={isRenewalCheckAPI}>
+                                        <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
                                                 {renewalAPIData.enumIsEmployeeDiscount}
                                             </div>
@@ -1035,7 +1041,7 @@
                                     <div class="slds-form-element__control">
                                         <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
-                                                FROM API
+                                                {addDownloadStatus}
                                             </div>
                                         </template>
                                     </div>
@@ -1053,7 +1059,7 @@
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label"> KYC </span>
                                     <div class="slds-form-element__control">
-                                        <template if:true={isRenewalCheckAPI}>
+                                        <template if:true={renewalCheckFlag}>
                                             <div class="slds-form-element__static">
                                                 {renewalAPIData.CKYC_Flag}
                                             </div>
