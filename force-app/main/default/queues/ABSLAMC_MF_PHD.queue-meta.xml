@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
-    <name>ABSLAMC PHD</name>
+    <name>ABSLAMC MF PHD</name>
     <queueMembers>
         <publicGroups>
-            <publicGroup>ABSLAMC_PHD_G</publicGroup>
+            <publicGroup>ABSLAMC_MF_PHD_G</publicGroup>
         </publicGroups>
     </queueMembers>
     <queueSobject>
