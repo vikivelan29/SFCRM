@@ -16,14 +16,14 @@ public class RNWL_CreateRenewalsTest {
         Asset asset = new Asset();
         asset.Name = 'testPolicy';
         asset.Account_no__c = acc.Id;
-        asset.ABHI_Policy_Id__c = '12345678';
+        asset.LAN__c = '12345678';
         
         assetList.add(asset);
         
         Asset asset1 = new Asset();
         asset1.Name = 'test1Policy';
         asset1.Account_no__c = acc.Id;
-        asset1.ABHI_Policy_Id__c = '98777666';
+        asset1.LAN__c = '98777666';
         
         assetList.add(asset1);
         
@@ -38,14 +38,14 @@ public class RNWL_CreateRenewalsTest {
         RNWL_CreateRenewals.RenewalRequestWrapper RenewalRequest1 = new RNWL_CreateRenewals.RenewalRequestWrapper();
         RenewalRequest1.policyNumber = '12345678';
         RenewalRequest1.proposalNumber = '111222';
-        RenewalRequest1.policyInceptionDate = Date.today();
+        RenewalRequest1.policyInceptionDate = String.valueOf(Date.today());
 
         RenewalRequestWrapper.add(RenewalRequest1);
         
         RNWL_CreateRenewals.RenewalRequestWrapper RenewalRequest2 = new RNWL_CreateRenewals.RenewalRequestWrapper();
         RenewalRequest2.policyNumber = '98777666';
         RenewalRequest2.proposalNumber = '111333';
-        RenewalRequest2.policyInceptionDate = Date.today();
+        RenewalRequest2.policyInceptionDate = String.valueOf(Date.today());
 
         RenewalRequestWrapper.add(RenewalRequest2);
         
@@ -61,14 +61,14 @@ public class RNWL_CreateRenewalsTest {
         RNWL_CreateRenewals.RenewalRequestWrapper RenewalRequest1 = new RNWL_CreateRenewals.RenewalRequestWrapper();
         RenewalRequest1.policyNumber = '12345678';
         RenewalRequest1.proposalNumber = '111222';
-        RenewalRequest1.policyInceptionDate = Date.today();
+        RenewalRequest1.policyInceptionDate = String.valueOf(Date.today());
 
         RenewalRequestWrapper.add(RenewalRequest1);
         
         RNWL_CreateRenewals.RenewalRequestWrapper RenewalRequest2 = new RNWL_CreateRenewals.RenewalRequestWrapper();
         RenewalRequest2.policyNumber = '12345678';
         RenewalRequest2.proposalNumber = '111333';
-        RenewalRequest2.policyInceptionDate = Date.today();
+        RenewalRequest2.policyInceptionDate = String.valueOf(Date.today());
 
         RenewalRequestWrapper.add(RenewalRequest2);
         

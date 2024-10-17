@@ -11,18 +11,18 @@ global with sharing class RNWL_CreateRenewals {
             allPolicyIds.add(each.policyNumber);
         }
 
-        for (Asset each : [SELECT Id, ABHI_Policy_Id__c, AccountId FROM Asset WHERE ABHI_Policy_Id__c IN :allPolicyIds]) {
-            assetMap.put(each.ABHI_Policy_Id__c, each);
+        for (Asset each : [SELECT Id, LAN__c, AccountId FROM Asset WHERE LAN__c IN :allPolicyIds]) {
+            assetMap.put(each.LAN__c, each);
         }
 
         for (RenewalRequestWrapper each : renewalRequests) {
             opportunityRecordsToInsert.add(new Opportunity(
                 Policy_Number__c = each.policyNumber,
-                Policy_Inception_Date__c = each.policyInceptionDate,
+                Policy_Inception_Date__c = getDate(each.policyInceptionDate),
                 Proposal_Number__c = each.proposalNumber,
-                Policy__c = assetMap.get(each.policyNumber) == Null ? Null : assetMap.get(each.policyNumber).Id,
+                Policy__c = assetMap.get(each.policyNumber) == null ? null : assetMap.get(each.policyNumber).Id,
                 CloseDate = Date.today() + 60,
-                AccountId = assetMap.get(each.policyNumber) == Null ? Null : assetMap.get(each.policyNumber).AccountId,
+                AccountId = assetMap.get(each.policyNumber) == null ? null : assetMap.get(each.policyNumber).AccountId,
                 StageName = 'Open',
                 Name = 'RN-' + each.policyNumber
             ));
@@ -36,11 +36,6 @@ global with sharing class RNWL_CreateRenewals {
                 responseWrapper.errorRecords.add(new IndividualResponse(null, oppSaveResults[i].getErrors()[0].getMessage(), renewalRequests[i].proposalNumber));
                 responseWrapper.hasErrors = true;
             }
-            else{
-                responseWrapper.errorRecords.add(new IndividualResponse(oppSaveResults[i].getId(), null, renewalRequests[i].proposalNumber));
-            }
-            
-
         }
         return responseWrapper;
     }
@@ -48,7 +43,7 @@ global with sharing class RNWL_CreateRenewals {
     global class RenewalRequestWrapper {
         global String policyNumber;
         global String proposalNumber;
-        global Date policyInceptionDate;
+        global String policyInceptionDate;
     }
 
     global class RenewalResponseWrapper {
@@ -65,6 +60,14 @@ global with sharing class RNWL_CreateRenewals {
             this.crmID = crmID;
             this.errorMessage = errorMessage;
             this.proposalNumber = proposalNumber;
+        }
+    }
+
+    static Date getDate(String dateValue) {
+        try {
+            return Date.valueOf(dateValue);
+        } catch (Exception ex) {
+            return null;
         }
     }
 }

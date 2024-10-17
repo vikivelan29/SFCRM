@@ -36,6 +36,7 @@ public class RNWL_OpportunityTriggerHandlerTest {
     private static void test_AfterTest(){
         Asset asst = [SELECT Id, AccountId FROM Asset LIMIT 1];
         asst.ABHI_Policy_Id__c = '12-121-21-21'; 
+        asst.LAN__c = '12-121-21-21'; 
         asst.Assignee_Name__c = 'Ubona int';
         asst.IntermediaryName__c = 'Inter name';
         asst.Channel__c = 'Channel';
