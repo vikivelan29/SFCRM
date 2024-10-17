@@ -2622,11 +2622,39 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                     value: reason
                 };
                 this.reasonLOV.push(optionVal);
-            });
-            this.showRejModal = true;
-        }).catch(error => {
-            console.log('Error: ' + JSON.stringify(error));
-        });
+                    }else if(item.Type__c == 'Resolve'){
+                        const optionVal = {
+                            label: item.Reason__c,
+                            value: item.Reason__c
+                        };
+                        this.resolveReasonLOV.push(optionVal);
+                    }                   
+                });
+                this.isLoading = false;
+            }catch (error) {
+                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+                this.isLoading = false;              
+            }
+        }else{
+            // this.fetchRejectionReason();
+            try{
+                const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });  
+                this.reasonLOV = [];
+                this.resolveReasonLOV = [];
+                records.forEach(item => {
+                    if(item.Type__c != 'Resolve'){
+                        const optionVal = {
+                            label: item.Reason__c,
+                            value: item.Reason__c
+                        };
+                        this.reasonLOV.push(optionVal);
+                    }                  
+                });
+                this.isLoading = false;
+            }catch (error) {
+                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+                this.isLoading = false;              
+            }
     }
 
     handleSuccessRejection(event) {
