@@ -38,6 +38,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             ABSLI_BeforeUpdateTriggerLogic.validateTasks(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
             ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateTriggerLogic.bypassChecklistValForBulk(mAbsliCases.values());
         }  
     }
 
@@ -96,7 +97,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         System.debug(caseRec.ABSLI_Case_Detail__r.To_date__c);
                         System.debug(caseRec.ABSLI_Case_Detail__r.From_date__c);
                         // Check if the Case record is related to ABSLI business unit
-                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c)) {
+                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c) && CaseRec.Technical_Source__c != 'Email') {
                             System.debug('Inside validate date: ' + caseRec.Asset.Issue_Date__c);
                             Date issueDate = caseRec.Asset.Issue_Date__c;
                             Date toDate = caseRec.ABSLI_Case_Detail__r.To_date__c;
@@ -297,6 +298,20 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         }
     }
     
+    /**
+    * @description This method is used to bypass the checklist validation when a case is 
+    * updated via bulk case update operation
+    * @param mAbsliCases
+    */
+    public static void bypassChecklistValForBulk(List<Case> absliCases){
+        if(ABSLI_BulkCloseCaseConverterUtility.requestFromBulkClose){
+            Map<Id, Set<String>> recIdToSkipperFlag = new Map<Id, Set<String>>();
+            for(Case caseRec : absliCases){
+                recIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_VALIDATE_CHECKLISTS});
+            }
+            ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, null);
+        }
+    }
     //custom exception class
     public class MyCustomException extends Exception {}
 }
