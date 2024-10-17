@@ -66,7 +66,7 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
             requestJSON.Policy_Proposal_Cert_ClaimNumber = policyNumberText;
             
             String mobileNo = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).MobilePhone:'';
-            requestJSON.Mobile_Number = (mobileNo != null && mobileNo != '')?mobileNo:'';
+            requestJSON.Mobile_Number = (mobileNo != null && mobileNo != '')?mobileNo.right(10):'';
             
             
             
