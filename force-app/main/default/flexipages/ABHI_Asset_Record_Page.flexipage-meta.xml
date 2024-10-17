@@ -998,16 +998,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abhi_healthAssesmentDetails</componentName>
-                <identifier>c_abhi_healthAssesmentDetails</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
@@ -1097,13 +1087,123 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Asset.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Claims__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>New</value>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Member_Name__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Claim_Type__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Claim_Date__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Claim_Status__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Claim_Amount__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Total_amount_approved__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Deducted_amount__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Balance_Sum_Insured__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Claims</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abhi_healthAssesmentDetails</componentName>
+                <identifier>c_abhi_healthAssesmentDetails2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-m2h4cvao129</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-m2h4cvao129</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Medical Check-up</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-11065a6b-bab7-492a-8218-7400dfad8c4f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tabs</name>
+                    <value>Facet-11065a6b-bab7-492a-8218-7400dfad8c4f</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-20e8ec32-ded0-4eee-9327-dfd772a51122</name>
+        <type>Facet</type>
+    </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -1130,6 +1230,11 @@
         <name>Facet-59529461-ba81-4eb7-a66a-258e6d9c9a71</name>
         <type>Facet</type>
     </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
@@ -1197,6 +1302,14 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>New</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>adminFilters</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1249,10 +1362,10 @@
                     <value>Default</value>
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList6</identifier>
+                <identifier>lst_dynamicRelatedList8</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</name>
+        <name>Facet-cv171heivwv</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1296,7 +1409,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Omnidocs</value>
+                    <value>OmniDoc</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
@@ -1320,14 +1433,14 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-e6add757-99ad-4f17-8f01-57033c4fdf57</value>
+                    <value>Facet-f60ec8d4-027f-4b42-9988-22a4d88ece83</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Health Assesment Details</value>
+                    <value>Insured Person Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab5</identifier>
+                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1356,6 +1469,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-20e8ec32-ded0-4eee-9327-dfd772a51122</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Health Return</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
