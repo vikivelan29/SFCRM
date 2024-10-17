@@ -1253,6 +1253,21 @@
         <value>Movement to this stage can only be done through CAMS</value>
     </labels>
     <labels>
+        <fullName>ABHI_Claim_Details_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Claim Details Header</shortDescription>
+        <value>Claim Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_OmniDocURL</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocURL</shortDescription>
+        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+    </labels>
+    <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1281,27 +1296,20 @@
         <value>Phone - Call Centre;Email - Call Centre;Branch Walk-In;Email - Branch</value>
     </labels>
     <labels>
-        <fullName>ABHI_OmniDocURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
-        <value>Duplicate case: A case &lt;CaseNumber&gt; with same criteria is already open with source as &lt;SOURCE&gt;.</value>
-    </labels>
-	<labels>
         <fullName>ABSLI_Min_Loan_Amount</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Min_Loan_Amount</shortDescription>
         <value>5000</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>ABSLI_Complaint_Closure_Batch_Days</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
         <value>60</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>ASF_UIActionDelay</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1364,13 +1372,6 @@
         <shortDescription>ABHI Track Sources</shortDescription>
         <value>Phone-Inbound,Phone-Outbound</value>
     </labels>
-     <labels>
-        <fullName>ABHI_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI BU</shortDescription>
-        <value>ABHI</value>
-    </labels>
     <labels>
         <fullName>ABSLI_READY_RECK_IV</fullName>
         <language>en_US</language>
@@ -1414,13 +1415,6 @@
         <value>Active</value>
     </labels>
     <labels>
-        <fullName>ABHI_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI BU</shortDescription>
-        <value>ABHI</value>
-    </labels>
-    <labels>
         <fullName>ABC_ResolvedReasonsRequired</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1441,12 +1435,19 @@
         <shortDescription>ABHFL_Bitly_LOB</shortDescription>
         <value>HFLABC</value>
     </labels>
- <labels>
-        <fullName>ABHI_Track_Sources</fullName>
+    <labels>
+        <fullName>Wellness_CaseComment_add_Err_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_Track_Sources</shortDescription>
         <value>Phone-Inbound,Phone-Outbound</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Health Return Header</shortDescription>
+        <value>Health Return Details</value>
     </labels>
     <labels>
         <fullName>ASF_RetryInterval</fullName>
@@ -1454,6 +1455,13 @@
         <protected>false</protected>
         <shortDescription>ASF_RetryInterval</shortDescription>
         <value>15</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_View</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Health_Return_View</shortDescription>
+        <value>Health Return View</value>
     </labels>
     <labels>
         <fullName>ASF_RetryNumbers</fullName>
