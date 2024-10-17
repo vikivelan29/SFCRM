@@ -1,4 +1,7 @@
-<template>  
-    <lightning-datatable key-field="id" data={data} columns={columns} hide-checkbox-column>
-    </lightning-datatable> 
+<template>   
+    <template lwc:if={success}>   
+        <lightning-datatable key-field="id"  wrap-table-header="all" data={data} columns={columns} hide-checkbox-column>
+        </lightning-datatable> 
+    </template> 
+     <template lwc:elseif={showError}> {ErrorMessage} </template>
 </template>
