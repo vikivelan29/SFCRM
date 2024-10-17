@@ -17,5 +17,10 @@
     <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">3.0</value>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>Type_Attributes__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>
