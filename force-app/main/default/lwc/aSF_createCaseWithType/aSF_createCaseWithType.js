@@ -21,7 +21,6 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
-import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -45,8 +44,7 @@ import Customer_Mandatory from '@salesforce/label/c.ASF_Customer_Mandatory';
 import CRN_Basis_Case from '@salesforce/label/c.ASF_CRN_Basis_Case';
 import WithoutFA from '@salesforce/label/c.ASF_CreateSRwithoutFA';
 import WithFA from '@salesforce/label/c.ASF_CreateSRwithFA';
-// import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
-import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
+import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
 
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
@@ -234,7 +232,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
    wiredPicklistValues({ error, data}) {
        if (data){
            if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.adjustAutoCommunications(data);
+               this.noAutoCommOptions = data.values.map(item => ({
+                   label: item.label,
+                   value: item.value
+               }));
 
                this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                this.defaultRecTypeId = this.bsliRecTypeId;
@@ -337,31 +338,10 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
            this.faValidMsg = lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE != null? lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE : lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
            this.withFALabel = lanLabels[this.businessUnit].CREATE_CASE_WITH_FA != null? lanLabels[this.businessUnit].CREATE_CASE_WITH_FA : lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
-
-           // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
-           this.adjustAutoCommunications(undefined);
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
-
-    // Rajendra Singh Nagar: PR1030924-209 - Added function
-    adjustAutoCommunications(data){
-        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
-            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
-                label: item.label,
-                value: item.value
-            }));
-        }else{
-            if(data){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
-            }
-        }
-    }
-
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         console.log('hete in yext chage')
@@ -995,23 +975,18 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     //To get Rejection Reason:
     async fetchRejectionReason(cccExtId) {
-        try{
-            const records = await getSrBUReasons({ cccExternalId: cccExtId });  
+        await getSrRejectReasons({ cccExternalId: cccExtId }).then(result => {
             this.reasonLOV = [];
-            records.forEach(item => {
-                if(item.Type__c == 'Reject'){
-                    const optionVal = {
-                        label: item.Reason__c,
-                        value: item.Reason__c
-                    };
-                    this.reasonLOV.push(optionVal);
-                }                  
+            result.forEach(reason => {
+                const optionVal = {
+                    label: reason,
+                    value: reason
+                };
+                this.reasonLOV.push(optionVal);
             });
-            this.isLoading = false;
-        }catch (error) {
-            this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
-            this.isLoading = false;              
-        }
+        }).catch(error => {
+            console.log('Error: ' + JSON.stringify(error));
+        });
     }
     
 
