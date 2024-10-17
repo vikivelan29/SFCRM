@@ -86,8 +86,11 @@ public with sharing class ABHI_CaseDetailHelper {
                         abhiCaseDetRec.Policy__c = null;
                     }
                 }
-                abhiCaseDetRec.Id = cs.ABHI_Case_Detail__c;
-                abhiCaseDetList.add(abhiCaseDetRec);
+                ABHI_Case_Detail__c nullCheck = new ABHI_Case_Detail__c();
+                if(abhiCaseDetRec != nullCheck) {
+                    abhiCaseDetRec.Id = cs.ABHI_Case_Detail__c;
+                    abhiCaseDetList.add(abhiCaseDetRec);
+                }
             }
         }
 
@@ -95,4 +98,4 @@ public with sharing class ABHI_CaseDetailHelper {
             update abhiCaseDetList;
         }
     }
-} 
+}

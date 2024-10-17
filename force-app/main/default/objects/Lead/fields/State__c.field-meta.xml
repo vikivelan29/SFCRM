@@ -5,6 +5,7 @@
     <label>State</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
@@ -65,9 +66,9 @@
                 <label>JAMMU &amp; KASHMIR</label>
             </value>
             <value>
-                <fullName>JHARKAND</fullName>
+                <fullName>JHARKHAND</fullName>
                 <default>false</default>
-                <label>JHARKAND</label>
+                <label>JHARKHAND</label>
             </value>
             <value>
                 <fullName>KARNATAKA</fullName>

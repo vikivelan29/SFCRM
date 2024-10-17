@@ -36,7 +36,7 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
     @wire(fetchAssets, { accountRecordId: '$recordId' })
     wiredAssets({ error, data }) {
         if (data) {
-            console.log('Data>>>', data);
+
             this.assetRecords = data.assetRecords;
             
             this.columns = data.columnNameList;
@@ -46,9 +46,17 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
                 this.showRecords = true;
                 this.isLoading = false;
             }
+            else{
+                this.isLoading = false;
+                this.displayError = true;
+                this.displayMessage='No Policies are present for this record. Atleast 1 Policy is required to initiate Communication';
+            }
             this.paginationHelper(); // call helper method to update pagination logic
         } else if (error) {
-            console.log('Error inside--'+error);
+            this.isLoading = false;
+            this.displayError = true;
+            this.displayMessage='No Policies are present for this record. Atleast 1 Policy is required to initiate Communication';
+            console.error('Error inside--'+error);
         }
     }
 
@@ -100,7 +108,6 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
             event.preventDefault();
             let currentSelectedRec;
             let checkboxAction = event.detail.config.action;
-            console.log('checkBoxAction>>>', checkboxAction);
             if(checkboxAction === "selectAllRows") {
                 this.deselectAllCheckboxes();
                 return;
@@ -117,7 +124,6 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
             let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
             currentSelectedRec = this.assetRecords[selectedRowNo];
             this.currentSelRecord = currentSelectedRec;
-            console.log('selectedRecord>>>', JSON.stringify(this.currentSelRecord));
             this.selectSingleCheckboxLogix(selectedRows, currentSelectedRow);
         } catch (error) {
             console.error('Error in selection>>>', JSON.stringify(error));
@@ -127,13 +133,10 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
 
     //  Method Description - Logic to select only one checkbox at a time
     selectSingleCheckboxLogix(selectedRows, currentSelectedRow) {
-        console.log('selectedRowsLength>>>', selectedRows.length);
-        console.log('currentSelectedRow>>>', currentSelectedRow);
         
         if(selectedRows.length>1)
         {
             var el = this.template.querySelector('lightning-datatable');
-            console.log('el>>>', el);
              let ar = [];
              ar.push(currentSelectedRow);
              el.selectedRows = ar;
@@ -142,10 +145,8 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
 
     handleClick(event){
         let buttonLabel = event.target.label;
-        
+      
         if(buttonLabel === 'Next'){
-            console.log('Current Record>>>', JSON.stringify(this.currentSelRecord));
-            console.log('Current Record Values>>>', Object.values(this.currentSelRecord).length);
             
             if(Object.values(this.currentSelRecord).length == 0){
                 this.showToast('Error', 'Please select a record', 'error');
@@ -224,7 +225,6 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
             }
             this.recordsToDisplay.push(this.assetRecords[i]);
         }
-        console.log('RecordsTOdisplay>>', this.recordsToDisplay);
         
     }
 

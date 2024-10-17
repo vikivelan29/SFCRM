@@ -110,7 +110,7 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
             if(String.isNotBlank(subStatus)){
                 caseDetRec.Sub_Status__c = subStatus;
             }
-            if(closeCase.toLowerCase().equals('true')){
+            if(closeCase.toLowerCase().equals('yes')){
                 ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate = true;
                 caseRec.Stage__c = 'Resolved';
                 caseRec.Status = 'Resolved';
@@ -188,6 +188,9 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
                         fieldValue = String.valueOf(obj.get(fieldName));
                     }
                     fieldValue = fieldValue==null?' ':fieldValue;
+                    if(fieldName == 'IsClosed'){
+                        fieldValue = fieldValue.toUpperCase() == 'FALSE'? 'No':'Yes';
+                    }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);
