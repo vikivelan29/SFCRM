@@ -65,17 +65,7 @@
                 <fullName>Duplicate</fullName>
                 <default>false</default>
                 <label>Duplicate</label>
-            </value>
-            <value>
-                <fullName>Additional information required</fullName>
-                <default>false</default>
-                <label>Additional information required</label>
-            </value>
-            <value>
-                <fullName>Rejected</fullName>
-                <default>false</default>
-                <label>Rejected</label>
-            </value>     
+            </value>   
         </valueSetDefinition>
     </valueSet>
 </CustomField>
