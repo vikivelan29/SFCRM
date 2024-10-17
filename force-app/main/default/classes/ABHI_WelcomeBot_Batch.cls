@@ -133,6 +133,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                     botRequest.DispositionId = dispositions.Id;
 
 
+                    //disposition.Policy_Number__r = new Asset(LAN__c = dispositions.Policy_Number__c);
                     disposition.ABHI_Retry__c = dispositions.ABHI_Retry__c + 1;
                     disposition.Status__c = ABHI_Constants.PENDING;
                     disposition.Remarks__c = ABHI_Constants.SUCCESS;
@@ -146,7 +147,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
             
 
          }
-        System.debug('@@@listRequest'+JSON.serialize(listWelcome));
+        System.debug('@@@listRequest'+mapDisposition);
         String integrationName = 'ABHI_WelcomeBot';
         ABCL_Integrations__mdt integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata(integrationName);
         try {
@@ -174,6 +175,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
             }
         }
         catch(Exception e) {
+            System.debug('@@e'+e.getMessage());
             integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, e.getMessage()), true);
             ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
         }
