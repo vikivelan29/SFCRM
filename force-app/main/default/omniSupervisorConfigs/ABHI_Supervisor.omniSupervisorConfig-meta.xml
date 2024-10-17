@@ -17,25 +17,5 @@
     <omniSupervisorConfigQueue>
         <queue>ABHI_Reimbursement</queue>
     </omniSupervisorConfigQueue>
-    <omniSupervisorConfigTab>
-        <displayOrder>0</displayOrder>
-        <tabType>Wallboard</tabType>
-    </omniSupervisorConfigTab>
-    <omniSupervisorConfigTab>
-        <displayOrder>1</displayOrder>
-        <tabType>Agents</tabType>
-    </omniSupervisorConfigTab>
-    <omniSupervisorConfigTab>
-        <displayOrder>2</displayOrder>
-        <tabType>QueuesBacklog</tabType>
-    </omniSupervisorConfigTab>
-    <omniSupervisorConfigTab>
-        <displayOrder>3</displayOrder>
-        <tabType>AssignedWork</tabType>
-    </omniSupervisorConfigTab>
-    <omniSupervisorConfigTab>
-        <displayOrder>4</displayOrder>
-        <tabType>SkillsBacklog</tabType>
-    </omniSupervisorConfigTab>
     <skillVisibility>AllSkills</skillVisibility>
 </OmniSupervisorConfig>
