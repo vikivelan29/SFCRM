@@ -3,7 +3,7 @@
     <fullName>ABHI_Retry__c</fullName>
     <defaultValue>0</defaultValue>
     <externalId>false</externalId>
-    <label>Retry</label>
+    <label>Retry Record</label>
     <precision>2</precision>
     <required>false</required>
     <scale>0</scale>
