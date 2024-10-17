@@ -70,7 +70,7 @@
                 <fullName>Duplicate</fullName>
                 <default>false</default>
                 <label>Duplicate</label>
-            </value>   
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
