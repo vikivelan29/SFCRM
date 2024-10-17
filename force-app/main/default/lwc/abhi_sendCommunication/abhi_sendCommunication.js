@@ -4,6 +4,7 @@ import doComm from '@salesforce/apex/ABHI_ClickPSSCommController.doCommunication
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { getRecord } from 'lightning/uiRecordApi';
+import { getObjectInfo } from "lightning/uiObjectInfoApi";
 
 export default class Abhi_sendCommunication extends LightningElement {
 
@@ -40,6 +41,7 @@ export default class Abhi_sendCommunication extends LightningElement {
     commOptions = [];
     displayMessage='';
     displayError = false;
+    objectInfo;
     @track tempOptions = [];
     @track cols={
         emailField: '',
@@ -51,17 +53,27 @@ export default class Abhi_sendCommunication extends LightningElement {
         validationTemplateMessage:'',
         showValidation:false,
         showTemplateValidation:false
+        showValidation:false
     }
 
     connectedCallback(){
         this.isLoading=true;
     }
 
+    @wire(getObjectInfo, { objectApiName: '$objectApiName' })
+    wiredObjectInfo({ error, data }) {
+        if (data) {
+            this.objectInfo=data;
+        }
+        else if(error){
+            console.error('Error in objectIfo', error);
+            
+        }
+    }
+
     @wire(getData, { objectName: '$objectApiName' })
     wiredMetadata({error, data}){
         if(data){
-            console.log('data>>', data);
-            console.log('dataLength>>', data.length);
             
             if(data.length <= 0 ){
                 this.displayError = true;
@@ -69,12 +81,9 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.displayMessage = "You don't have access to initiate this Communication. Please close this window." ;
                 return;
             }
-            console.log('Metadata>>>', data);
             this.cols.emailField = data[0].Email_Field__c;
             this.cols.phoneField = data[0].Phone_Field__c;
-            this.fields = this.currentSelRecord?[this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name']:
-            [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name', this.objectApiName + '.Policy_No__c', this.objectApiName + '.SerialNumber',  this.objectApiName + '.Next_Premium_Date__c'];
-            console.log('Fields>>>', JSON.stringify(this.fields));
+            this.fields = this.getFields();
             this.commMetadata=data;
             this.createFormData(data);
         }
@@ -86,12 +95,33 @@ export default class Abhi_sendCommunication extends LightningElement {
         }
     }
 
+    getFields(){
+        if(this.currentSelRecord){
+          
+            console.log('In record');
+
+            return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name'];
+        }
+        else if(this.objectApiName == 'Asset'){
+            return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name', this.objectApiName + '.Policy_No__c', this.objectApiName + '.SerialNumber',  this.objectApiName + '.Next_Premium_Date__c'];
+        }
+        else{
+            if(this.objectInfo.fields){
+                for (const key in this.objectInfo.fields) {
+                    if (this.objectInfo.fields[key].dataType=='Reference' && this.objectInfo.fields[key].referenceToInfos[0] && this.objectInfo.fields[key].referenceToInfos[0].apiName == 'Asset') {
+                        this.assetReferenceField = key; 
+                    }
+                }
+                return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.' + this.assetReferenceField];
+            }
+        }
+    }
+
     @wire(getRecord, { recordId: '$recordId', fields: '$fields'})
     wiredRecord({ error, data }) {
         if (error) {
             console.error('Error getting RecordData', error);    
-        } else if (data) {
-            console.log('Account Data>>', data);    
+        } else if (data) {    
           this.fetchedRecord = data;
         }
       }
@@ -99,16 +129,16 @@ export default class Abhi_sendCommunication extends LightningElement {
     handleClick(event){
         try {
             let buttonLabel = event.target.label;
+            let validData = this.validateData();
             if(buttonLabel === 'Send'){
-                if(this.formData.template != '' && this.validateData()){
+                if(this.formData.template != '' && validData){
                     this.formData.phoneNumber=this.checkedToggle?'':this.formData.phoneNumber;
                     this.formData.emailId=this.checkedToggle?'':this.formData.emailId;
-                    console.log('lookupField>>', this.assetLookupField);
                     
-                    let recordIdVar = (this.currentSelRecord && this.assetLookupField)?this.currentSelRecord[this.assetLookupField]:this.recordId;
+                    let recordIdVar = this.fetchRecordId();
+                    
                     doComm({"objectName" : this.objectApiName, "recordId": recordIdVar, "formData": JSON.stringify(this.formData)})
                     .then(result => {
-                        console.log('Result>>>', result);
                         if(result.statusCode == 1000){
                             this.dispatchEvent(new CloseActionScreenEvent({ bubbles: true, composed: true }));
                             this.showToast('Success', result.message, 'success');
@@ -119,15 +149,19 @@ export default class Abhi_sendCommunication extends LightningElement {
                         
                     })
                     .catch(error => {
-                        console.log('Error in Comm:', JSON.stringify(error));
                         this.showToast('Error', error.body.message, 'error');
                     });
                 }
+
                 else if(this.formData.template == ''){
                     this.validation.showTemplateValidation=true;
                     this.validation.validationTemplateMessage='Please select a valid Template';
                     if(this.template.querySelector('.com_box') && !this.template.querySelector('.com_box').classList.contains('slds-has-error'))
                         this.template.querySelector('.com_box').classList.add('slds-has-error');
+
+                else{
+                    this.showToast('Error', 'Please ensure correct data is entered', 'error');
+
                 }
             }
         } catch (error) {
@@ -137,17 +171,45 @@ export default class Abhi_sendCommunication extends LightningElement {
         
     }
 
+    fetchRecordId(){
+        if(this.objectApiName == 'Asset'){
+            return this.recordId;
+        }
+        else if(this.currentSelRecord && this.assetLookupField){
+            return this.currentSelRecord[this.assetLookupField];
+        }
+        else if(this.assetReferenceField){
+            return this.fetchedRecord.fields[this.assetReferenceField].value;
+        }
+    }
+
     validateData(){
+        
         if(!this.checkedToggle && (this.showContact.showPhone && this.formData.phoneNumber == '') || (this.showContact.showEmail && this.formData.emailId == '')){
             if(this.showContact.showPhone){
                 this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
                 this.validation.showValidation=true;
                 this.template.querySelector('.tel_inp').classList.add('slds-has-error');
             }
+
             
             return false;
         }
         else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){   
+
+            // if(this.showContact.showEmail){
+            //     //add for email
+            // }
+
+            if(this.showContact.showEmail){
+                //add for email
+            }
+
+            
+            return false;
+        }
+        else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){
+           
             this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
             this.validation.showValidation=true;
             this.template.querySelector('.tel_inp').classList.add('slds-has-error');
@@ -158,7 +220,6 @@ export default class Abhi_sendCommunication extends LightningElement {
     createFormData(data){
        
         try {
-            console.log('In createFormData>>>', data);
             this.returnedMetaData = data;
             let commArr=[];
             data.forEach(element => {
@@ -170,7 +231,6 @@ export default class Abhi_sendCommunication extends LightningElement {
                     commArr.push(element.CommunicationType__c);
                 }
             });
-            console.log('commOptions>>>', this.commOptions);
             this.showData=true;
             this.isLoading=false;
         } catch (error) {
@@ -197,15 +257,17 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
             if(this.template.querySelector('.com_box') && this.template.querySelector('.com_box').classList.contains('slds-has-error'))
                 this.template.querySelector('.com_box').classList.remove('slds-has-error');
+            if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
+                this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
             let selectedLabel = event.target.label;
             let selectedVal = event.detail.value;
             this.formData.template = '';
             
             if(selectedLabel == 'Communication Type'){
+                this.formData.commType = selectedVal;
                 this.formData.alertCode = '0';
                 let tempOptionArr=[];
                 this.returnedMetaData.forEach(element => {
-                    console.log('element>>>', element);
                     
                     if(element.CommunicationType__c == selectedVal){
                         if(this.formData.alertCode == '0'){
@@ -220,14 +282,12 @@ export default class Abhi_sendCommunication extends LightningElement {
                 
                 this.tempOptions = tempOptionArr;
                 this.showContact.showTemplate = true;
-                console.log('tempOptions>>>', this.tempOptions);
-                
+
             }
             if(selectedLabel == 'Template'){
                 this.formData.template = selectedVal;
             }
             let phoneField = this.cols.phoneField.includes('.')?this.fetchedRecord.fields[this.cols.phoneField.split('.')[0]].value.fields[this.cols.phoneField.split('.')[1]].value:this.fetchedRecord.fields[this.cols.phoneField].value;
-            console.log('phoneField>>>', phoneField);
             
             let emailField = this.cols.emailField.includes('.')?this.fetchedRecord.fields[this.cols.emailField.split('.')[0]].value.fields[this.cols.emailField.split('.')[1]].value:this.fetchedRecord.fields[this.cols.emailField].value;
             if(selectedVal == 'SMS' || selectedVal == 'Whatsapp'){
@@ -237,6 +297,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.toggleDisabled = phoneField!=null?false:true;
                 this.checkedToggle = phoneField!=null?true:false;
                 this.recordDetails.Phone = phoneField!=null?phoneField:'';
+                
             }
             else if(selectedVal == 'Email'){
                 this.showContact.showEmail=true;
@@ -246,6 +307,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.recordDetails.Email = emailField!=null?emailField:'';
                 
             }
+            
         } catch (error) {
             console.error('Error in handleChange>>>', JSON.stringify(error));
             
@@ -261,17 +323,17 @@ export default class Abhi_sendCommunication extends LightningElement {
         this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
         if(this.template.querySelector('.com_box') && this.template.querySelector('.com_box').classList.contains('slds-has-error'))
         this.template.querySelector('.com_box').classList.remove('slds-has-error');
+        if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
+        this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
         if(inputType == 'toggle'){
             this.checkedToggle = !this.checkedToggle;
         }
         if(inputType == 'tel'){
             let phoneNumber = event.detail.value;
-            console.log('PhoneNumber>>', phoneNumber);
             this.formData.phoneNumber = phoneNumber;
         }
         if(inputType == 'email'){
             let emailId = event.detail.value;
-            console.log('emailId>>', emailId);
             this.formData.emailId = emailId;
         }
      }
