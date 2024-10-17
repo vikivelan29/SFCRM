@@ -1747,99 +1747,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Policy Document%3A Address Details are required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Policy Document%3A the shared document is unclear</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Policy Document%3A we need the transaction details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Policy issuance%3A the shared document is unclear</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Policy issuance%3A we need the transaction details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Policy issuance%3A we require additional documents</fullName>
+            <fullName>Additional information required</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Rejected</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A Auto Debit is Inactive</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A DND is already activated</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A it doesn%27t meet the policy T%26C%27s</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A the shared document is unclear</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A we cannot trace the policy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A we need the transaction details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A we require additional documents</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A we were unable to contact you</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reports%3A we cannot trace the reports</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reports%3A we need your appointment details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Resolution Provided</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reversal Processed</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAT%3A the call was declined</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAT%3A the call went unanswered</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAT%3A we were unable to reach you</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAT%3A your phone was switched off</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Settled %26 Recovery not initiated</fullName>
             <default>false</default>
         </values>
     </picklistValues>
