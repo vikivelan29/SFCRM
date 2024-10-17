@@ -1116,7 +1116,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_OmniDocViewController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_OmniDocViewController_Test</apexClass>
