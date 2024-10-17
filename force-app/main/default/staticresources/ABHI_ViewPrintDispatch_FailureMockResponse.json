@@ -1,0 +1,14 @@
+{
+    "vendorPrintDispatchDetails": null,
+    "response": {
+        "responseCode": "501",
+        "responseMessage": null,
+        "messages": [
+            {
+                "messageCode": "101",
+                "messageType": null,
+                "messageDescription": "Please provide valid policy number"
+            }
+        ]
+    }
+}
