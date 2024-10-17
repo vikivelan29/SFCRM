@@ -19,20 +19,32 @@ public with sharing class RNWL_NonIndAccountRenewalController {
             
             String policyNumber = oppList[0].Policy_Number__c;
 			String responseBody = getResponseFromFiles(opportunityId , 'Renewal Group Check');
+            Policy_Detail_Wrapper details = new Policy_Detail_Wrapper();
 
             if(String.isBlank(responseBody)){
-                String payload = '{"lead_Id":"","master_policy_number":"","certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
+                String payload = '{"lead_Id":null,"master_policy_number":null,"certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
+                
                 ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('RNWL_Non_Ind_Account', payload, null);
                 String fileName = 'Renewal Group Check-'+Date.today();
                 system.debug(responseWrapper);
                 responseBody = responseWrapper.responseBody;
                 if(String.isNotBlank(responseBody)){
                     uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Group Check');
+                }else{
+                    details.hasError = true;
+                    details.errorMessage = 'API Call Failed Please Retry'; 
+                    return details;
                 }
             }
             
             ResponseBodyWrapper respWrapper = (ResponseBodyWrapper)JSON.deserialize(responseBody, ResponseBodyWrapper.class);
-            Policy_Detail_Wrapper details = new Policy_Detail_Wrapper();
+            
+            if(respWrapper.error != null && respWrapper.error[0].ErrorCode != '00' 
+                && respWrapper.error[0].ErrorMessage != 'Success'){
+                    details.hasError = true;
+                    details.errorMessage = respWrapper.error[0].ErrorMessage; 
+                    return details;
+            }
 
             List<Policy_Details> policyDetails      = new List<Policy_Details>();
             List<Premium_Details> premiumDetails    = new List<Premium_Details>();
@@ -123,11 +135,14 @@ public with sharing class RNWL_NonIndAccountRenewalController {
             details.nomineeDetails  = nomineeDetails;
             details.renewalInfos    = renewalInfos;
             details.combiDetails    = combiDetails;
+            details.hasError        = false;
+            details.errorMessage    = null;
 
             if(String.isNotBlank(renewedProposalNumber) && oppList[0].Proposal_Number__c != renewedProposalNumber){
                 oppList[0].Proposal_Number__c = renewedProposalNumber;
                 update oppList[0];
             }
+            
             return details;
         } catch (Exception e) {
             system.debug(e.getMessage());
@@ -264,6 +279,8 @@ public with sharing class RNWL_NonIndAccountRenewalController {
 
     // Response wrappers as per sections on UI: 
     public class Policy_Detail_Wrapper{
+        @AuraEnabled public Boolean hasError;
+        @AuraEnabled public String errorMessage;
         @AuraEnabled public List<Policy_Details> policyDetails;
         @AuraEnabled public List<Premium_Details> premiumDetails;
         @AuraEnabled public List<Member_Details> memberDetails;

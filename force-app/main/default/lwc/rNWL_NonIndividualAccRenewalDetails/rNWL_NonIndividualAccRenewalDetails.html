@@ -25,6 +25,12 @@
                     </div>
                 </template>
             </template>
-        </template>
-    </div>
+        </div>
+    </template>
+
+    <template if:true={hasError}>
+        <div class="slds-box">
+            <p>Renewal Check API returned the following error - {errorMessage}</p>
+        </div>
+    </template>
 </template>
