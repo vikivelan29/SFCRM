@@ -325,7 +325,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 
                 existingCaseUniqueKey = exstingCaseAccountId + '-' + exstingCaseAssetId + '-' + exstingCaseCCCExternalId;
                 Case newCase  = mapOfNewUniqueCaseList.get(existingCaseUniqueKey) != null ? mapOfNewUniqueCaseList.get(existingCaseUniqueKey) : new Case();
-                String sourceOfnewCase = newCase?.Source__c.toLowerCase() ?? '';
+                String sourceOfnewCase = newCase?.Source__c?.toLowerCase() ?? '';
                 Boolean dedupeCheck = mapOfcccExtIdToCCCRec.get(newCase.CCC_External_Id__c)?.Dedupe_Check__c;
 
                 if(newCase != null && !sourceToExcludeList.contains(sourceOfnewCase) && !sourceOfnewCase.containsIgnoreCase('BOT') && dedupeCheck) {
@@ -404,6 +404,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
         catch(Exception e) {
             
         }
-    }  
-     
+    } 
 }
