@@ -56,6 +56,8 @@ public with sharing class RNWL_NonIndAccountRenewalController {
             String masterPolicyNumber;
             Boolean combiFlag = false;
 
+            Set<String> memberCodes = new Set<String>();
+
             for(cls_policyData data: respWrapper.response.policyData){
                 if(data.Certificate_number != null && data.certificate_number == policyNumber){
                     Policy_Details plcDetail = (Policy_Details)JSON.deserialize((JSON.serialize(data)) , Policy_Details.class);
@@ -73,7 +75,11 @@ public with sharing class RNWL_NonIndAccountRenewalController {
                         memberDetail.NetPremium_U       = member.MemberproductComponents[0]?.NetPremium_U;
                         memberDetail.CB                 = member.MemberproductComponents[0]?.CB;
                         memberDetail.Hr_Amount          = member.MemberproductComponents[0]?.Hr_Amount;
+                        memberDetail.Member_Code        = member.Member_Code;
                         memberDetails.add(memberDetail);
+                        if(String.isNotBlank(memberDetail.Member_Code)){
+                            memberCodes.add(memberDetail.Member_Code);
+                        }
                     }
                 
                     Nominee_Details nomineeDetail = (Nominee_Details)JSON.deserialize((JSON.serialize(data.Nominee_Details)) , Nominee_Details.class);
@@ -101,7 +107,7 @@ public with sharing class RNWL_NonIndAccountRenewalController {
                 }
             }
 
-            if(!renewdMasterPolicyNumbers.isEmpty()){
+            if(renewdMasterPolicyNumbers.size() > 0 ){
                 List<Asset> assets = [SELECT id,Account.Name , 
                                                 Issue_Date__c, 
                                                 Maturity_Date__c, 
@@ -127,6 +133,24 @@ public with sharing class RNWL_NonIndAccountRenewalController {
                     
                     combiDetails.add(combiDetail);
                 }                        
+            }
+
+            if(memberCodes.size() > 0 ){
+                List<Account> accList = [SELECT Id,Chronic_Disease__c,PED__c,Client_Code__c
+                                         FROM Account 
+                                         WHERE Client_Code__c IN :memberCodes];
+                Map<String,Account> clientCodeToAcc = new Map<String,Account>();
+
+                for(Account acc : accList){
+                    clientCodeToAcc.put(acc.Client_Code__c , acc);
+                }
+                
+                for(Member_Details memberDetail : memberDetails){
+                    if(clientCodeToAcc.containsKey(memberDetail.Member_Code)){
+                        memberDetail.Chronic_Disease = clientCodeToAcc.get(memberDetail.Member_Code).Chronic_Disease__c;
+                        memberDetail.Disease_Disclose = clientCodeToAcc.get(memberDetail.Member_Code).PED__c;
+                    }
+                }
             }
 
             details.policyDetails   = policyDetails;
@@ -327,6 +351,9 @@ public with sharing class RNWL_NonIndAccountRenewalController {
         @AuraEnabled public String NetPremium_U;
         @AuraEnabled public String CB;
         @AuraEnabled public String Hr_Amount;
+        @AuraEnabled public String Chronic_Disease;
+        @AuraEnabled public String Disease_Disclose;
+        public String Member_Code;
     }
 
     public class Nominee_Details{
