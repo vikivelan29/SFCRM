@@ -14,6 +14,8 @@ export default class Wellness_api_view extends LightningElement {
     @api recordId;
 	@api intAPIName;
     @api isShowDate = false;
+	@api showRefresh;
+	@api showPreview;
 
 	@api objectApiName;
 
@@ -200,5 +202,9 @@ export default class Wellness_api_view extends LightningElement {
 			let dateObj = new Date(element[fieldName]);
 			element[fieldName] = this.formatDateToCustomString(dateObj);
 		}
+	}
+
+	get renderBaseView(){
+		return this.showBaseViewScreen==true?'':'slds-hide';
 	}
 }
