@@ -8,13 +8,12 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
     }
     public override void BeforeDelete(Map<Id, SObject> oldItems){
         validateCaseComment(null, (Map<Id, CaseComment>)oldItems);
-    } 
-    
+    }    
     public static void validateCaseComment(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){            
             createFeedItem(newList, oldMap);
             return;
-        }
+        }        
         Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
         Boolean isDelete = newList==null ? true : false;
         Boolean isUpdate = (oldMap!=null && newList!=null) ? true : false;
@@ -50,9 +49,9 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
                 //[END]
             } 
             createFeedItem(newList, oldMap);
-        }
-         
+        }         
     }
+
     
     public static void createFeedItem(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         Boolean isDelete = newList==null ? true : false;

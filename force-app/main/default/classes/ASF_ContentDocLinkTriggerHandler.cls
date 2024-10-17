@@ -12,16 +12,15 @@ public with sharing class ASF_ContentDocLinkTriggerHandler extends ASF_VTriggerH
 
     public override void BeforeDelete(Map<Id, SObject> oldItems){
         ASF_CaseFileUploadTriggerHelper.validateFileDelete(null, (Map<Id, ContentDocumentLink>)oldItems);
-    }
-    
+    }    
     //Added by Zahed [PR1030924-211]
     public override void BeforeInsert(List<SObject> newItems){
          ASF_CaseFileUploadTriggerHelper.validateCaseFile((List<ContentDocumentLink>)newItems);
     }
+    
     /*public override void AfterInsert(Map<Id, SObject> newMap){
         checkForClosedCase(newMap);
-    }
-    
+    }    
     public static void checkForClosedCase(Map<Id, SObject> contentLinksMap){
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
             return ;
@@ -38,6 +37,7 @@ public with sharing class ASF_ContentDocLinkTriggerHandler extends ASF_VTriggerH
                 closedCaseIds.add(caseRec.Id);
             }
     	}
+
         if(!contentDocLinkandCaseMap.isEmpty()){
             for (ContentDocumentLink cdLinkRec : (List<ContentDocumentLink>)contentLinksMap.values()) {
                 //validation for create link for uploaded file on a closed case
