@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Member__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Member</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Please select the appropriate member associated with the policy.</errorMessage>
+        <filterItems>
+            <field>Customer_Member_Mapping__c.Policy_Number__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Policy__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Customer_Member_Mapping__c</referenceTo>
+    <relationshipLabel>ABHI Case Details</relationshipLabel>
+    <relationshipName>ABHI_Case_Details</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
