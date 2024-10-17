@@ -49,10 +49,10 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLIG User Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -60,10 +60,10 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLI User Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -72,10 +72,10 @@
         <description>Share ABFL User with Each Other.</description>
         <label>Share ABFL User with ABFL Users</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -83,10 +83,10 @@
         <accessLevel>Read</accessLevel>
         <label>Share ABHFL User with ABHFL Users</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -94,10 +94,10 @@
         <accessLevel>Read</accessLevel>
         <label>Share ABHI User with ABHI Users</label>
         <sharedTo>
-            <group>ABHI_Users</group>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <group>ABHI_Users</group>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -106,21 +106,10 @@
         <description>Sharing Payment user with each other</description>
         <label>Share Payment User with Payment Users</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>Payments_Service_Agent</roleAndSubordinatesInternal>
+            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinatesInternal>Payments_Service_Agent</roleAndSubordinatesInternal>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>Wellness_User_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>Wellness User Sharing</label>
-        <sharedTo>
-            <role>Wellness_Service_Agent</role>
-        </sharedTo>
-        <sharedFrom>
-            <role>Wellness_Service_Agent</role>
+            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>
