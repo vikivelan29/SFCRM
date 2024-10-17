@@ -1,59 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>ABHI_BusinessLogic_Helper</members>
-		<members>ABHI_BusinessLogic_Helper_Test</members>
-		<members>ABHI_Repeated_Case_Batch</members>
-		<members>ABHI_Repeated_Case_Batch_Test</members>
-		<members>ASF_CaseTriggerBUSpecificHandler</members>
+		<members>ASF_CaseTriggerBUSpecificHandler2</members>
+		<members>ASF_CaseTriggerHandler2</members>
 		<name>ApexClass</name>
-	</types>
-	<types>
-		<members>ABHI_Case_Detail__c.Repeated__c</members>
-		<members>ABHI_Create_Case_Validations__mdt.Source__c</members>
-		<members>ASF_Case_Category_Config__c.Dedupe_Check__c</members>
-		<members>Case.Rejection_Reason__c</members>
-		<name>CustomField</name>
-	</types>
-	<types>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_10</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_11</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_12</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_13</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_14</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_15</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_16</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_17</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_2</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_3</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_4</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_5</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_6</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_7</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_8</members>
-		<members>ABHI_Create_Case_Validations.Source_to_exclude_9</members>
-		<members>LOB_Rejection_Reason.ABHI_RejectionReason_10</members>
-		<members>LOB_Rejection_Reason.ABHI_RejectionReason_8</members>
-		<members>LOB_Rejection_Reason.ABHI_RejectionReason_9</members>
-		<name>CustomMetadata</name>
-	</types>
-	<types>
-		<members>ABHI_Asset_Record_Page</members>
-		<members>ABHI_Case_Framework_Lightning_Page</members>
-		<members>ABHI_Customer_Page</members>
-		<name>FlexiPage</name>
-	</types>
-	<types>
-		<members>Create_Case</members>
-		<name>PermissionSet</name>
-	</types>
-	<types>
-		<members>Case.ABHI_Framework_Snapshot</members>
-		<name>QuickAction</name>
-	</types>
-	<types>
-		<members>Case.Framework</members>
-		<name>RecordType</name>
 	</types>
 	<version>60.0</version>
 </Package>
