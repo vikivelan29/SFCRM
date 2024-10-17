@@ -3,32 +3,41 @@ import getTableMeta from '@salesforce/apex/MCRM_APIController.fetchTableMetadata
 import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithParams';
 import { subscribe, MessageContext } from 'lightning/messageService';
 import ViewEvent from '@salesforce/messageChannel/mcrmviewevents__c';
-import GymLocationNotAvailable from '@salesforce/label/c.MCRM_GymNameLocation';
-import RewardsDataNotAvailable from '@salesforce/label/c.MCRM_RewardsDataNotAvailable';
+import MCRM_GymLocationSelectPartnerCode from '@salesforce/label/c.MCRM_GymLocationSelectPartnerCode';
+import MCRM_RewardsSelectPartnerBenefitCode from '@salesforce/label/c.MCRM_RewardsSelectPartnerBenefitCode';
+import MCRM_WireServiceTableMdtError from '@salesforce/label/c.MCRM_WireServiceTableMdtError';
+import MCRM_InvokeApiError from '@salesforce/label/c.MCRM_InvokeApiError';
+import MCRM_MissingDataError from '@salesforce/label/c.MCRM_MissingDataError';
+import { customerAPIs } from 'c/mcrm_base_view_account';
 
 export default class Mcrm_bv_container_extension extends LightningElement {
 
 	label = {
-		GymLocationNotAvailable,
-		RewardsDataNotAvailable
+		MCRM_GymLocationSelectPartnerCode,
+		MCRM_RewardsSelectPartnerBenefitCode,
+		MCRM_WireServiceTableMdtError,
+		MCRM_InvokeApiError,
+		MCRM_MissingDataError
 	};
 
 	// Configs
 	@api recordId;
 	@api dynTableExAPI;
+	@api showPreview;
 	pcvalue;
 	bcvalue;
 	options;
 	partnerCodeOptions;
 	benefitCodeOptions;
 	pageSize;
+	isError = false;
+	errorMessage = "";
 
 	// Internals
 	showBaseView = false;
-	showPartner = false;
-	showRewards = false;
 	columns;
 	@track tableData;
+	@track isShowInitialMessage = true;
 	isLoading = false;
 
 	get hasNoData() {
@@ -55,12 +64,25 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	}
 
 	get noDataMessage(){
-		if (this.showPartner){
-			return this.label.GymLocationNotAvailable;
-		} else {
-			return this.label.RewardsDataNotAvailable;
+		if (this.isGymNameLocation){
+			return this.label.MCRM_GymLocationSelectPartnerCode;
+		} else if(this.isRewards){
+			return this.label.MCRM_RewardsSelectPartnerBenefitCode;
 		}
 	}
+
+	get isRewards(){
+		return this.dynTableExAPI == 'MCRM_Rewards';
+	}
+
+	get isGymNameLocation(){
+		return this.dynTableExAPI == 'MCRM_GymNameLocation';
+	}
+
+	get isActiveDay(){
+		return this.dynTableExAPI == 'MCRM_ActiveDays';
+	}
+
 
 	@wire(MessageContext)
 	messageContext;
@@ -78,12 +100,17 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 				}))
 			];
 		} else if (error) {
-			this.showToast('Error', 'Error fetching data.', 'Error');
+			this.showError(this.label.MCRM_WireServiceTableMdtError);
 		}
 	}
 
 	connectedCallback() {
 		this.subscribeToMessageChannel();
+		if(this.isActiveDay){
+			this.isShowInitialMessage = false;
+		}
+
+		this.showPreview=false;
 	}
 
 	subscribeToMessageChannel() {
@@ -95,21 +122,26 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	}
 
 	handleMessage(message) {
+		console.log('***handleMessage:'+JSON.stringify(message));
 		this.isLoading = true;
 		if (this.dynTableExAPI == 'MCRM_ActiveDays' && message.name == 'MCRM_ActiveDayURL') {
+			console.log('***MCRM_ActiveDays:'+JSON.stringify(message));
 			this.getActiveDays(message.payLoad);
 		} else if (this.dynTableExAPI == 'MCRM_GymNameLocation' && message.name == 'MCRM_Gym_Voucher') {
 			this.getGymNameLocation(message.payLoad);
 		} else if (this.dynTableExAPI == 'MCRM_Rewards' && message.name == 'MCRM_Benefits'){
 			this.getRewards(message.payLoad);
 		}
-
+		
 		this.showBaseView = true;
 		this.isLoading = false;
+		this.showPreview=true;
 	}
-
+	
 	getActiveDays(message) {
+		console.log('***getActiveDays:'+JSON.stringify(message));
 		let responseArray = [];
+		this.isShowInitialMessage = false;
 		message.responseMap.resultsList.scores.forEach(score => {
 			score.activities.forEach(activity => {
 				responseArray.push(
@@ -132,8 +164,6 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		// reset vars
 		this.pcvalue = '';
 		this.tableData = [];
-
-		this.showPartner = true;
 		let partnerList = this.generateOptionsFromArray(message, 'partnerCd');
 		this.options = partnerList;
 	}
@@ -145,7 +175,6 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		this.tableData = [];
 
 
-		this.showRewards = true;
 		let responseArray = [];
 		responseArray = message.responseMap.resultsList;
 		let partnerList = this.generateOptionsFromArray(responseArray, 'partnerCd');
@@ -175,33 +204,36 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	}
 
 	invokeAPI(parameters) {
+		this.isLoading = true;
+		this.isError = false;
+		this.errorMessage = "";
 		fetchAPIResponse({ recId: this.recordId, intName: this.dynTableExAPI, params: parameters })
 			.then((result) => {
-				let payLoad = JSON.parse(result.payload);
-
+				this.isShowInitialMessage = false;
+				let payLoad = result.payload ? JSON.parse(result.payload) : undefined;
+				
 				// Check validity of response
 				if (result?.statusCode == 200 && payLoad) {
-					let responseArray = [];
-
-					if(!Array.isArray(payLoad.responseMap.resultsList)){
-						responseArray.push(payLoad.responseMap.resultsList);
-					}  else {
-						responseArray = payLoad.responseMap.resultsList;
-					}
-					this.template.querySelector("c-abc_base_tableview").refreshTable(responseArray);
-					this.tableData = JSON.parse(JSON.stringify(responseArray));
+					this.tableData = customerAPIs(this.dynTableExAPI, payLoad);
+				}
+				this.isLoading = false;
+				if (this.tableData && this.tableData.length > 0) {
+					this.showBaseView = true;
+					setTimeout(() => {
+						this.template.querySelector("c-abc_base_tableview").refreshTable(responseArray);
+					}, 200);
 
 				} else {
-					let res = JSON.parse(result?.payload);
-					if (res?.error?.description) {
-						this.showToast("Error", res.error.description, 'error');
-					} else {
-						this.showToast("Error", "There seems to be an error child", 'error');
-					}
+					this.handleError(
+						result,
+						payLoad
+					);
 				}
 			})
 			.catch((error) => {
-				this.showToast("Error", "Admin: There seems to be an error", 'error');
+				this.isShowInitialMessage = false;
+				this.isLoading = false;
+				this.showError(this.label.MCRM_InvokeApiError);
 			});
 	}
 
@@ -223,4 +255,57 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 
 		this.invokeAPI(params);
 	}
+
+	handleError(result, payLoad ){
+		let errorMessages = [];
+		// let res = result.payload ? JSON.parse(result?.payload) : undefined;
+		if (result.statusCode == 200) {
+			// Success responses (200)
+
+			if (payLoad && (Array.isArray(payLoad) && payLoad.length === 0) || 
+			(typeof payLoad === 'object' && Object.keys(payLoad).length === 0)) {
+				errorMessages.push(this.label.MCRM_MissingDataError);
+			}else{
+				// Check if responseMap is empty or resultsList is null
+				if (!payLoad.responseMap ||
+					Object.keys(payLoad.responseMap).length === 0 ||
+					payLoad.responseMap.resultsList === null) {
+					// Check for service messages
+					if (payLoad.serviceMessages) {
+						payLoad.serviceMessages.forEach(message => {
+							if (message.businessDesc) {
+								errorMessages.push(message.businessDesc);
+							}
+						});
+					}
+				}
+			}
+		}
+		if(result.statusCode > 200 || errorMessages.length == 0){
+			let error = payLoad?.message || payLoad?.error?.description || this.label.MCRM_MissingDataError;
+			errorMessages.push(error);
+		}
+		if(errorMessages.length > 0){
+			let error = errorMessages.join('. ');
+			this.showError(error);
+		}
+	}
+
+	showError(message) {
+		this.showBaseView = false;
+		this.isError = true;
+		this.errorMessage = message;
+    }
+
+	get disablePreview(){
+		return this.tableData?.length == 0;
+	}
+
+	get alignDiv(){
+		return (this.isGymNameLocation ||this.isRewards)?"":"padding-top: 15px;";
+	}
+
+	handleChangeView(event) {
+		this.template.querySelector("c-abc_base_tableview").changeViewFn();
+    }
 }

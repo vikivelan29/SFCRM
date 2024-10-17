@@ -45,7 +45,8 @@ import Customer_Mandatory from '@salesforce/label/c.ASF_Customer_Mandatory';
 import CRN_Basis_Case from '@salesforce/label/c.ASF_CRN_Basis_Case';
 import WithoutFA from '@salesforce/label/c.ASF_CreateSRwithoutFA';
 import WithFA from '@salesforce/label/c.ASF_CreateSRwithFA';
-import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+// import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
 
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
@@ -994,18 +995,23 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     //To get Rejection Reason:
     async fetchRejectionReason(cccExtId) {
-        await getSrRejectReasons({ cccExternalId: cccExtId }).then(result => {
+        try{
+            const records = await getSrBUReasons({ cccExternalId: cccExtId });  
             this.reasonLOV = [];
-            result.forEach(reason => {
-                const optionVal = {
-                    label: reason,
-                    value: reason
-                };
-                this.reasonLOV.push(optionVal);
+            records.forEach(item => {
+                if(item.Type__c == 'Reject'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.reasonLOV.push(optionVal);
+                }                  
             });
-        }).catch(error => {
-            console.log('Error: ' + JSON.stringify(error));
-        });
+            this.isLoading = false;
+        }catch (error) {
+            this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+            this.isLoading = false;              
+        }
     }
     
 

@@ -13,7 +13,9 @@ const columns = [
     { label: 'Mobile Number', fieldName: 'Mobile_Number' ,wrapText: true },
     { label: 'Relation', fieldName: 'Relation' ,wrapText: true },
     { label: 'Chronic', fieldName: 'Chronic', wrapText: true  },
-    { label: 'CB', fieldName: 'CB', wrapText: true }
+    { label: 'CB', fieldName: 'CB', wrapText: true },
+    { label: 'Chronic Disease', fieldName: 'Chronic_Disease', wrapText: true },
+    { label: 'Disease Disclose', fieldName: 'PED', wrapText: true }
 ];  
 
 export default class RNWL_IndividualAccRenewalDetails extends LightningElement {  

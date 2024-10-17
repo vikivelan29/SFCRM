@@ -12,7 +12,7 @@ public class RNWL_OpportunityTriggerHelper {
 * @return - void .
 * @Description - Invoked from BeforeInsert this method pre-populates fields on Opps from Asset record.
 *****************************************************************************************************************/
-    public static void setOpportunityFieldValues(List<Opportunity> newOppsList){
+    /*public static void setOpportunityFieldValues(List<Opportunity> newOppsList){
         
         Set<Id> policyIdSet = new Set<Id>();
         Map<Id, Id> policyAccIdMap = new Map<Id, Id>();
@@ -33,7 +33,7 @@ public class RNWL_OpportunityTriggerHelper {
             opp.StageName = 'Open'; 
             opp.Name = 'RN-' + opp.Policy_Number__c;            
         }
-    }
+    }*/
     
     
     /****************************************************************************************************************

@@ -13,6 +13,7 @@
             <property name="isShowDate" label="Show Dates" type="Boolean" description="Show From and To Dates" default="false"/>
             <property name="isCollapsed" label="Collapse Section" type="Boolean" default="true"/>
             <property name="showRefresh" label="Show Refresh" type="Boolean" default="true"/>
+            <property name="showPreview" label="Show Preview" type="Boolean" default="true"/>
             <property name="passPayload" label="Pass Payload" type="Boolean" default="false" description="Use this to pass payload which can be used for other components."/>
 
             <supportedFormFactors>

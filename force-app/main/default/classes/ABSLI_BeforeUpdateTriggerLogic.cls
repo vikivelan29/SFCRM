@@ -37,7 +37,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             ABSLI_BeforeUpdateTriggerLogic.validateFromDateToDate(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.validateTasks(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
-            ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(mAbsliCases.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
         }  
     }
 
@@ -96,7 +96,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                         System.debug(caseRec.ABSLI_Case_Detail__r.To_date__c);
                         System.debug(caseRec.ABSLI_Case_Detail__r.From_date__c);
                         // Check if the Case record is related to ABSLI business unit
-                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c)) {
+                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c) && CaseRec.Technical_Source__c != 'Email') {
                             System.debug('Inside validate date: ' + caseRec.Asset.Issue_Date__c);
                             Date issueDate = caseRec.Asset.Issue_Date__c;
                             Date toDate = caseRec.ABSLI_Case_Detail__r.To_date__c;
@@ -115,6 +115,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                                 caseError.addError('From Date should not be greater than To Date');
                                 newMap.put(caseRec.Id,caseError);
                             }
+
                         }
                         //Validate before3PM scenario
                         if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypesBefore3PM.contains(caseRec.CCC_External_Id__c) && caseRec.Stage__c == 'Open') {
@@ -141,7 +142,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                                 }  
                             }
                         }
-                    }
+                   }  
                 }
     }
     /**

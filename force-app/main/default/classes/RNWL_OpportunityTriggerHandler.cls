@@ -4,10 +4,10 @@ public class RNWL_OpportunityTriggerHandler extends ASF_VTriggerHandler {
         return isDisabled('Opportunity');
     }
     
-    public override void beforeInsert(List<Sobject> newItemsOpportunity) {
+    /*public override void beforeInsert(List<Sobject> newItemsOpportunity) {
         if(isTriggerDisabled()){return;}
-       	RNWL_OpportunityTriggerHelper.setOpportunityFieldValues(newItemsOpportunity);
-    }
+        RNWL_OpportunityTriggerHelper.setOpportunityFieldValues(newItemsOpportunity);
+    }*/
     
     public override void afterInsert(Map<Id, SObject> newOpps) {
         if(isTriggerDisabled()){return;}
@@ -17,7 +17,7 @@ public class RNWL_OpportunityTriggerHandler extends ASF_VTriggerHandler {
     public override void beforeUpdate(map<Id, Sobject> newOppMap, map<Id, Sobject> oldOppMap){
         if(isTriggerDisabled()){return;}
         system.debug('beforeUpdate');
-       	RNWL_OpportunityTriggerHelper.setBeforeUpdateOppFieldValues(newOppMap.values(), (Map<Id, Opportunity>)oldOppMap);
+        RNWL_OpportunityTriggerHelper.setBeforeUpdateOppFieldValues(newOppMap.values(), (Map<Id, Opportunity>)oldOppMap);
     }
     
     public override void afterUpdate(Map<Id, SObject> newOpps, Map<Id, SObject> oldOpps) {

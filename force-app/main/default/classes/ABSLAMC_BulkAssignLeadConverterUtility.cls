@@ -38,7 +38,7 @@ public with sharing class ABSLAMC_BulkAssignLeadConverterUtility implements ASF_
             }
             rows.put(lineItemId, keyValueMap);
         }
-        for(Lead leadRec : [Select Id, Lead_Number__c from Lead where Lead_Number__c IN :leadNumbers WITH SYSTEM_MODE]){
+        for(Lead leadRec : [Select Id, Lead_Number__c from Lead where Lead_Number__c IN :leadNumbers AND Business_Unit__c =:ABSLAMCBU WITH SYSTEM_MODE]){
             leadNumberToLeadMap.put(leadRec.Lead_Number__c, leadRec);
         }
         for(User usr :[Select Id, FederationIdentifier from User where FederationIdentifier IN :federationIds AND  IsActive = true AND Business_Unit__c =:ABSLAMCBU]){
