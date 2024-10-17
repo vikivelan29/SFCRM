@@ -4,12 +4,14 @@ import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadScript } from 'lightning/platformResourceLoader';
 import sheetjs from '@salesforce/resourceUrl/SheetJS';
-
+import template from '@salesforce/resourceUrl/RNWL_BulkUploadTemplate';
 let XLS = {};
 
 export default class OpportunityDataUpload extends NavigationMixin(LightningElement) {
     @track acceptedFormats = ['.xls', '.xlsx'];
-
+    label ={
+    template
+    };
     filesUploaded = [];
     fileName;
     parsedData;
@@ -17,7 +19,6 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
     isLoading = false;
     recordStatus;
     fileReader;
-    url='/sfc/p/Bl000000pvNd/a/Bl000000dUz7/eePAzAX2mn82WNfKGX5BVj0AEoXUjaTpUAhIkhacSck';
     MAX_FILE_SIZE = 1500000;
 
     async connectedCallback() {
