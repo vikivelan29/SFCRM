@@ -70,9 +70,9 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
             }catch(e){
                 console.log('Error displaying data : '+e.message);
             }
-            else{
+            /*else{
                 this.apiList = ['Renewal Check', 'Health Return', 'Fitness Assessment', 'AppRegDetails'];
-            }
+            }*/
 
             this.dateOfBirth = this.getISTDateFormat(new Date(this.account.PersonBirthdate));
             this.policyStartDate = this.getISTDateFormat(new Date(this.policy.Issue_Date__c));
