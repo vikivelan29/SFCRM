@@ -204,6 +204,11 @@ export default class Wellness_api_view extends LightningElement {
 		}
 	}
 
+	handleChangeView(event) {
+		console.log('****cv:'+this.template.querySelector("c-abc_base_tableview"));
+		this.template.querySelector("c-abc_base_tableview").changeViewFn();
+    }
+
 	get renderBaseView(){
 		return this.showBaseViewScreen==true?'':'slds-hide';
 	}
