@@ -3,6 +3,7 @@
     <fullName>Renewal_Request__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Reference to the renewal request for which this notification was sent out</description>
+    <externalId>false</externalId>
     <label>Renewal Request</label>
     <referenceTo>Opportunity</referenceTo>
     <relationshipLabel>Communication Logs</relationshipLabel>
