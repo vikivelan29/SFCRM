@@ -112,7 +112,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>PAN_Number__c</field>
+                <field>PAN__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -211,6 +211,17 @@
         <fields>EVENT.LOCATION</fields>
         <fields>TASK.WHAT_NAME</fields>
         <relatedList>RelatedActivityList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>SMS_Msg_Body__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>ASF_Communication_Log__c.Account__c</relatedList>
+        <sortField>CREATED_DATE</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
