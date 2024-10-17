@@ -267,6 +267,7 @@
         <members>ABHFL_LeadCreationAPI_Test</members>
         <members>ASF_EmailRelayLoadBalancerTest</members>
         <members>ABFL_DMSSync_Orchestrator_Test</members>
+        <members>ABHFL_CTSTHelper</members>
 		<name>ApexClass</name>
 	</types>
     <types>
@@ -1874,6 +1875,11 @@
     <types>
         <members>ABCL_Integration_Event_chn_ABCL_Integration_Event_e</members>
         <name>PlatformEventChannelMember</name>
+    </types>
+        <types>
+        <members>ABSLI Base Profile</members>
+        <members>ABSLI RPA Base Profile</members>
+        <name>Profile</name>
     </types>
 	<version>60.0</version>
 </Package>
