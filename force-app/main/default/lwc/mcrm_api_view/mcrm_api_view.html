@@ -1,3 +1,13 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 10-17-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0   10-17-2024   rsinghnagar@salesforce.com   Initial Version
+-->
 <template>
     <lightning-card>
         <div class="slds-m-around_medium">
@@ -28,10 +38,10 @@
                     </lightning-layout-item>
                 </lightning-layout>
             </template>
-            <template lwc:if={showBaseViewScreen}>
+            <div class={renderBaseView}>
                 <c-mcrm_base_view_screen api_id={intAPIName} payload-info={payloadInfo} onrefresh={handleRefresh}></c-mcrm_base_view_screen>
-            </template>
-            <template lwc:elseif={isError}>
+            </div>
+            <template lwc:if={isError}>
                 <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
                     <span class="slds-assistive-text">error</span>
                     <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
