@@ -1532,8 +1532,8 @@
         <fullName>ABSLI_BITLY_LOB_VAL</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLI_BITLY_LOB_VAL</shortDescription>
-        <value>ABCABS</value>
+        <shortDescription>OppDetailsToastErrorMessage</shortDescription>
+        <value>We&apos;re unable to fetch details from following APIs. Please try again later -</value>
     </labels>
     <labels>
         <fullName>ASF_Integration_Mandatory_Error</fullName>
