@@ -87,7 +87,7 @@
                 <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
+        <!--itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
@@ -128,7 +128,7 @@
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
             </componentInstance>
-        </itemInstances>
+        </itemInstances-->
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
