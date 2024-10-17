@@ -80,7 +80,7 @@
                 <fullName>Claim: we stand by our prior decision</fullName>
                 <default>false</default>
                 <label>Duplicate</label>
-            </value>   
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
