@@ -226,6 +226,9 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     handleChange(event){
         try {
+            this.validation.showValidation = false;
+            if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
+                this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
             let selectedLabel = event.target.label;
             let selectedVal = event.detail.value;
             this.formData.template = '';
@@ -249,7 +252,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 
                 this.tempOptions = tempOptionArr;
                 this.showContact.showTemplate = true;
-                
+
             }
             if(selectedLabel == 'Template'){
                 this.formData.template = selectedVal;
@@ -264,6 +267,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.toggleDisabled = phoneField!=null?false:true;
                 this.checkedToggle = phoneField!=null?true:false;
                 this.recordDetails.Phone = phoneField!=null?phoneField:'';
+                
             }
             else if(selectedVal == 'Email'){
                 this.showContact.showEmail=true;
@@ -273,6 +277,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.recordDetails.Email = emailField!=null?emailField:'';
                 
             }
+            
         } catch (error) {
             console.error('Error in handleChange>>>', JSON.stringify(error));
             
