@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>New_Nominee_Relationship__c</fullName>
+    <externalId>false</externalId>
     <label>New Nominee Relationship</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
@@ -11,289 +12,114 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>R054</fullName>
+                <fullName>Self</fullName>
                 <default>false</default>
-                <label>AUDITOR</label>
+                <label>Self</label>
             </value>
             <value>
-                <fullName>R032</fullName>
+                <fullName>Spouse</fullName>
                 <default>false</default>
-                <label>AUNT</label>
+                <label>Spouse</label>
             </value>
             <value>
-                <fullName>R027</fullName>
+                <fullName>Dependent Son</fullName>
                 <default>false</default>
-                <label>AUTHORIZED SIGNATORY</label>
+                <label>Dependent Son</label>
             </value>
             <value>
-                <fullName>R053</fullName>
+                <fullName>Son</fullName>
                 <default>false</default>
-                <label>BANKER</label>
+                <label>Son</label>
             </value>
             <value>
-                <fullName>R052</fullName>
+                <fullName>Daughter</fullName>
                 <default>false</default>
-                <label>BENEFICIARY OWNER</label>
+                <label>Daughter</label>
             </value>
             <value>
-                <fullName>R009</fullName>
+                <fullName>Dependent Daughter</fullName>
                 <default>false</default>
-                <label>BROTHER</label>
+                <label>Dependent Daughter</label>
             </value>
             <value>
-                <fullName>R017</fullName>
+                <fullName>Mother</fullName>
                 <default>false</default>
-                <label>BROTHER IN-LAW</label>
+                <label>Mother</label>
             </value>
             <value>
-                <fullName>R049</fullName>
+                <fullName>Father</fullName>
                 <default>false</default>
-                <label>CO-DIRECTOR</label>
+                <label>Father</label>
             </value>
             <value>
-                <fullName>R048</fullName>
+                <fullName>Mother-In-Law</fullName>
                 <default>false</default>
-                <label>CO-PARTNERS</label>
+                <label>Mother-In-Law</label>
             </value>
             <value>
-                <fullName>R051</fullName>
+                <fullName>Father-In-Law</fullName>
                 <default>false</default>
-                <label>CONTACT PERSON</label>
+                <label>Father-In-Law</label>
             </value>
             <value>
-                <fullName>R050</fullName>
+                <fullName>Brother</fullName>
                 <default>false</default>
-                <label>COUSIN BROTHER</label>
+                <label>Brother</label>
             </value>
             <value>
-                <fullName>R047</fullName>
+                <fullName>Sister</fullName>
                 <default>false</default>
-                <label>COUSIN SISTER</label>
+                <label>Sister</label>
             </value>
             <value>
-                <fullName>R016</fullName>
+                <fullName>Grandfather</fullName>
                 <default>false</default>
-                <label>DAUGHTER IN-LAW</label>
+                <label>Grandfather</label>
             </value>
             <value>
-                <fullName>R004</fullName>
+                <fullName>Grandmother</fullName>
                 <default>false</default>
-                <label>DEPENDENT DAUGHTER</label>
+                <label>Grandmother</label>
             </value>
             <value>
-                <fullName>D</fullName>
+                <fullName>Grandson</fullName>
                 <default>false</default>
-                <label>DEPENDENT PARENT</label>
+                <label>Grandson</label>
             </value>
             <value>
-                <fullName>R003</fullName>
+                <fullName>Granddaughter</fullName>
                 <default>false</default>
-                <label>DEPENDENT SON</label>
+                <label>Granddaughter</label>
             </value>
             <value>
-                <fullName>R046</fullName>
+                <fullName>Son-in-law</fullName>
                 <default>false</default>
-                <label>DIRECTOR</label>
+                <label>Son-in-law</label>
             </value>
             <value>
-                <fullName>R024</fullName>
+                <fullName>Brother in-law</fullName>
                 <default>false</default>
-                <label>EMPLOYER-EMPLOYEE</label>
+                <label>Brother in-law</label>
             </value>
             <value>
-                <fullName>R045</fullName>
+                <fullName>Sister in-law</fullName>
                 <default>false</default>
-                <label>EXECUTOR</label>
+                <label>Sister in-law</label>
             </value>
             <value>
-                <fullName>R006</fullName>
+                <fullName>Nephew</fullName>
                 <default>false</default>
-                <label>FATHER</label>
+                <label>Nephew</label>
             </value>
             <value>
-                <fullName>R008</fullName>
+                <fullName>Niece</fullName>
                 <default>false</default>
-                <label>FATHER-IN-LAW</label>
+                <label>Niece</label>
             </value>
             <value>
-                <fullName>R044</fullName>
+                <fullName>Uncle</fullName>
                 <default>false</default>
-                <label>FRIEND</label>
-            </value>
-            <value>
-                <fullName>R031</fullName>
-                <default>false</default>
-                <label>GRAND FATHER (MATERNAL)</label>
-            </value>
-            <value>
-                <fullName>R030</fullName>
-                <default>false</default>
-                <label>GRAND MOTHER (MATERNAL)</label>
-            </value>
-            <value>
-                <fullName>R014</fullName>
-                <default>false</default>
-                <label>GRANDDAUGHTER</label>
-            </value>
-            <value>
-                <fullName>R011</fullName>
-                <default>false</default>
-                <label>GRANDFATHER</label>
-            </value>
-            <value>
-                <fullName>R012</fullName>
-                <default>false</default>
-                <label>GRANDMOTHER</label>
-            </value>
-            <value>
-                <fullName>R013</fullName>
-                <default>false</default>
-                <label>GRANDSON</label>
-            </value>
-            <value>
-                <fullName>R043</fullName>
-                <default>false</default>
-                <label>GUARANTOR</label>
-            </value>
-            <value>
-                <fullName>R042</fullName>
-                <default>false</default>
-                <label>HOLDING CO</label>
-            </value>
-            <value>
-                <fullName>R023</fullName>
-                <default>false</default>
-                <label>HUF (HINDU UNDIVIDED FAMILY)</label>
-            </value>
-            <value>
-                <fullName>R041</fullName>
-                <default>false</default>
-                <label>INTRODUCER</label>
-            </value>
-            <value>
-                <fullName>R040</fullName>
-                <default>false</default>
-                <label>LEGAL GUARDIAN</label>
-            </value>
-            <value>
-                <fullName>110</fullName>
-                <default>false</default>
-                <label>LIVE IN PARTNER</label>
-            </value>
-            <value>
-                <fullName>R039</fullName>
-                <default>false</default>
-                <label>MANDATEE</label>
-            </value>
-            <value>
-                <fullName>R005</fullName>
-                <default>false</default>
-                <label>MOTHER</label>
-            </value>
-            <value>
-                <fullName>R007</fullName>
-                <default>false</default>
-                <label>MOTHER-IN-LAW</label>
-            </value>
-            <value>
-                <fullName>R038</fullName>
-                <default>false</default>
-                <label>NATURAL GUARDIAN</label>
-            </value>
-            <value>
-                <fullName>R019</fullName>
-                <default>false</default>
-                <label>NEPHEW</label>
-            </value>
-            <value>
-                <fullName>R020</fullName>
-                <default>false</default>
-                <label>NIECE</label>
-            </value>
-            <value>
-                <fullName>R037</fullName>
-                <default>false</default>
-                <label>NOMINEE</label>
-            </value>
-            <value>
-                <fullName>R056</fullName>
-                <default>false</default>
-                <label>NON EMPLOYER-EMPLOYEE</label>
-            </value>
-            <value>
-                <fullName>R036</fullName>
-                <default>false</default>
-                <label>OTHERS</label>
-            </value>
-            <value>
-                <fullName>R021</fullName>
-                <default>false</default>
-                <label>PARTNERSHIP</label>
-            </value>
-            <value>
-                <fullName>R028</fullName>
-                <default>false</default>
-                <label>POWER OF ATTORNEY HOLDER</label>
-            </value>
-            <value>
-                <fullName>R022</fullName>
-                <default>false</default>
-                <label>PROPRIETORSHIP</label>
-            </value>
-            <value>
-                <fullName>R035</fullName>
-                <default>false</default>
-                <label>RELATIONSHIP MANAGER</label>
-            </value>
-            <value>
-                <fullName>R029</fullName>
-                <default>false</default>
-                <label>RELATIVE</label>
-            </value>
-            <value>
-                <fullName>R001</fullName>
-                <default>false</default>
-                <label>SELF</label>
-            </value>
-            <value>
-                <fullName>R034</fullName>
-                <default>false</default>
-                <label>SHAREHOLDER</label>
-            </value>
-            <value>
-                <fullName>R010</fullName>
-                <default>false</default>
-                <label>SISTER</label>
-            </value>
-            <value>
-                <fullName>R018</fullName>
-                <default>false</default>
-                <label>SISTER IN-LAW</label>
-            </value>
-            <value>
-                <fullName>R015</fullName>
-                <default>false</default>
-                <label>SON IN-LAW</label>
-            </value>
-            <value>
-                <fullName>R002</fullName>
-                <default>false</default>
-                <label>SPOUSE</label>
-            </value>
-            <value>
-                <fullName>R033</fullName>
-                <default>false</default>
-                <label>SUBSIDIARY</label>
-            </value>
-            <value>
-                <fullName>R026</fullName>
-                <default>false</default>
-                <label>TRUSTEE -TESTING</label>
-            </value>
-            <value>
-                <fullName>R025</fullName>
-                <default>false</default>
-                <label>UNCLE</label>
+                <label>Uncle</label>
             </value>
         </valueSetDefinition>
     </valueSet>
