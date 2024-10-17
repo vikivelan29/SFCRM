@@ -113,6 +113,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Previous_Stage__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Recategorisation_Reason__c</field>
             <table>Case</table>
         </columns>
