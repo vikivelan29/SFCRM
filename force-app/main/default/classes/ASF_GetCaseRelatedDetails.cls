@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 10-16-2024
- * @last modified by  : rsinghnagar@salesforce.com
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   09-20-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @SuppressWarnings('PMD.PropertyNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_GetCaseRelatedDetails {
     
@@ -588,8 +578,5 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
                     }
                 return reasonValues;
     }
-    
-    
-    
     
 }

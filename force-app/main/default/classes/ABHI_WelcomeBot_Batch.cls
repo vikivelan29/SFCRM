@@ -34,10 +34,10 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Policy_Number__r.Account.Client_Code__c,Policy_Number__r.Account.Is_Chronic__c,
                       Policy_Number__r.Account.CMP_OPD__c, Policy_Number__r.Account.Chronic_care__c,
                       Policy_Number__r.PolicyType__c, Policy_Number__r.Policy_No__c, Policy_Number__r.ProductName__c,
-                      Policy_Number__r.Plan_Name__c, Policy_Number__r.LAN__c, 
+                      Policy_Number__r.Plan_Name__c, Policy_Number__r.LAN__c, ABHI_Retry__c,
                       Policy_Number__r.Account.State__c, Policy_Number__r.Channel__c, Policy_Number__r.Source__c
                       from Dispositions__c  
-                      WHERE Status__c = :ABHI_Constants.FAILURE]);
+                      WHERE Status__c = :ABHI_Constants.FAILURE AND ABHI_Retry__c <= :Integer.valueOf(Label.ABHI_Retry)]);
         return scope;
 	}
     
@@ -134,7 +134,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
 
 
                     //disposition.Policy_Number__r = new Asset(LAN__c = dispositions.Policy_Number__c);
-                    //disposition.ABHI_Retry__c = dispositions.ABHI_Retry__c + 1;
+                    disposition.ABHI_Retry__c = dispositions.ABHI_Retry__c + 1;
                     disposition.Status__c = ABHI_Constants.PENDING;
                     disposition.Remarks__c = ABHI_Constants.SUCCESS;
                     disposition.Id = dispositions.Id;
