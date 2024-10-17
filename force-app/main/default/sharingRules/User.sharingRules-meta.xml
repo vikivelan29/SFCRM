@@ -1,14 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingOwnerRules>
+        <fullName>ABSLAMC_AIF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC_AIF_Users</label>
+        <sharedTo>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_MF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC_MF_Users</label>
+        <sharedTo>
+            <group>ABSLAMC_MF_All_Teams_G</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABSLAMC_MF_All_Teams_G</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_PMS_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC_PMS_Users</label>
+        <sharedTo>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_RE_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC_RE_Users</label>
+        <sharedTo>
+            <group>ABSLAMC_RE_All_Teams_G</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABSLAMC_RE_All_Teams_G</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
         <fullName>ABSLIG_User_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABSLIG User Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -16,10 +60,10 @@
         <accessLevel>Read</accessLevel>
         <label>ABSLI User Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -28,10 +72,10 @@
         <description>Share ABFL User with Each Other.</description>
         <label>Share ABFL User with ABFL Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -39,10 +83,21 @@
         <accessLevel>Read</accessLevel>
         <label>Share ABHFL User with ABHFL Users</label>
         <sharedTo>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Share_ABHI_User_with_ABHI_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Share ABHI User with ABHI Users</label>
+        <sharedTo>
+            <group>ABHI_Users</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABHI_Users</group>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
@@ -51,54 +106,21 @@
         <description>Sharing Payment user with each other</description>
         <label>Share Payment User with Payment Users</label>
         <sharedTo>
-            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinatesInternal>Payments_Service_Agent</roleAndSubordinatesInternal>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
+            <roleAndSubordinatesInternal>Payments_Service_Agent</roleAndSubordinatesInternal>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
-        <fullName>ABSLAMC_Share_AIF_Users</fullName>
+        <fullName>Wellness_User_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABSLAMC - Share AIF Users</label>
+        <label>Wellness User Sharing</label>
         <sharedTo>
-            <group>ABSLAMC_AIF_All_Teams_G</group>
+            <role>Wellness_Service_Agent</role>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABSLAMC_AIF_Executive_Leadership</roleAndSubordinates>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>ABSLAMC_Share_MF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC - Share MF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_MF_All_Teams_G</group>
-        </sharedTo>
-        <sharedFrom>
-            <roleAndSubordinates>ABSLAMC_MF_Executive_Leadership</roleAndSubordinates>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>ABSLAMC_Share_PMS_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC - Share PMS Users</label>
-        <sharedTo>
-            <group>ABSLAMC_PMS_All_Teams_G</group>
-        </sharedTo>
-        <sharedFrom>
-            <roleAndSubordinates>ABSLAMC_PMS_Executive_Leadership</roleAndSubordinates>
-        </sharedFrom>
-    </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>ABSLAMC_Share_RE_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC - Share RE Users</label>
-        <sharedTo>
-            <group>ABSLAMC_RE_All_Teams_G</group>
-        </sharedTo>
-        <sharedFrom>
-            <roleAndSubordinates>ABSLAMC_RE_Executive_Leadership</roleAndSubordinates>
+            <role>Wellness_Service_Agent</role>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>
