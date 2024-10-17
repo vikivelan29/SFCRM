@@ -26,11 +26,6 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
     isLoading = false;
     recordStatus = false;
     fileReader;
-    @track errorRecords = {}
-    data = [];
-    columns = columns;
-    
-    columnHeader = ['Policy Number', 'Final Eligibility', 'Propensity to Pay', 'Renewal Calling Flag', 'Calling Source', 'Upsell SI 1', 'Upsell SI 2', 'Upsell SI 3', 'Upsell SI 4', 'Upsell SI 5', 'Max Upsell', 'Bucket', 'Error Message']
     MAX_FILE_SIZE = 1500000;
 
     async connectedCallback() {
