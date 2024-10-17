@@ -66,6 +66,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                 this.getNomiteeDetails();
 
                 this.getAdditionalData();
+                
                 this.areDetailsVisible = true;
             }catch(e){
                 console.log('Error displaying data : '+e.message);
@@ -81,96 +82,131 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     //////////////////////////////////Imperative methods//////////////////////////////////////////////////
 
     getAdditionalData(){
-        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.oppRec.Proposal_Number__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.accountId }).then(response => {
+
+        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.oppRec.Proposal_Number__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.accountId }).then(response => {            
             if(response){
                 this.prepareAdditionalData(response);
             }
         }).catch(error =>{ 
             console.log('error----',error.message);
-            this.showNotification('error', 'Error!', this.label.toastErrorMsg);
         });
+
     }
 
     prepareAdditionalData(data){
                 let renCheckhArray = [];
                 let healthArray = [];
                 let fitnessArray = [];
-
+                let apiErrMsg = '';
                 for (let key in data) {
 
+                    //For individual Or RUGs
                     if((key == 'Renewal Check' || key == 'Renewal Group Check') && data[key]){
-                       renCheckhArray = JSON.parse(data[key]).response.policyData;
-                    }
-
-                    if(key == 'Health Return' && data[key]){
-                        healthArray = JSON.parse(data[key]).Response;
-                        if(healthArray){
-                            healthArray.forEach((item) => {
-                                if(this.account.MMI_Customer_ID__c == item.vchClientCode){
-                                    this.heathRetrn = item;
-                                    this.healthFlag = true;
-                                    this.balanceHR = this.heathRetrn.TotalHealthReturnsTM - this.heathRetrn.TotalHealthReturnsTMBurnt;
-                                }
-                            })
+                        if(JSON.parse(data[key]).error[0].ErrorCode != '00'){
+                           apiErrMsg = 'Current Renewal Details, ';
                         }
-                        
+                        else{
+                            renCheckhArray = JSON.parse(data[key]).response.policyData;
+                        }
                     }
+                    //for Health returns
+                    if(key == 'Health Return' && data[key]){
+                        if(JSON.parse(data[key]).Message.includes('Fail')){
+                           apiErrMsg = apiErrMsg + 'Health Returns, ';
+                        }
+                        else{
+                            healthArray = JSON.parse(data[key]).Response;
+                            if(healthArray){
+                                healthArray.forEach((item) => {
+                                    if(this.account.MMI_Customer_ID__c == item.vchClientCode){
+                                        this.heathRetrn = item;
+                                        this.healthFlag = true;
+                                        this.balanceHR = this.heathRetrn.TotalHealthReturnsTM - this.heathRetrn.TotalHealthReturnsTMBurnt;
+                                    }
+                                })
+                            }
+                        }
+                    }
+                    //For Fitness assessment
                     if(key == 'Fitness Assessment' && data[key]){
-                        fitnessArray = JSON.parse(data[key]).Response;
-                        fitnessArray.forEach((item) => {
-                            if(this.account.MMI_Customer_ID__c == item.vchClientCode){
-                                this.fitnessData = item;   
-                                this.fitnessFlag = true;                 
+                        if(JSON.parse(data[key]).Message.includes('Fail')){
+                           apiErrMsg = apiErrMsg + 'Health Assessment, ';
+                        }
+                        else{
+                            fitnessArray = JSON.parse(data[key]).Response;
+                            if(fitnessArray){
+                                fitnessArray.forEach((item) => {
+                                    if(this.account.MMI_Customer_ID__c == item.vchClientCode){
+                                        this.fitnessData = item;   
+                                        this.fitnessFlag = true;                 
+                                    }
+                                })
+                            }
+                        }
+                    }
+                    //for App registration details
+                    if(key == 'AppRegDetails' && data[key]){
+                        if(JSON.parse(data[key]).Message.includes('Fail')){
+                           apiErrMsg = apiErrMsg + 'App Registration Details';
+                        }
+                        else{
+                            this.addDownloadStatus = JSON.parse(data[key]).AppRegDetails.IsAppDowloaded;
+                        }
+                    }
+                }
+                if(apiErrMsg != ''){
+                    this.showNotification('error', 'Error!', this.label.toastErrorMsg + ' : ' + apiErrMsg);
+                }
+                if(this.apiList && renCheckhArray){
+                    if(this.apiList.includes('Renewal Check')){                
+                        renCheckhArray.forEach((item) => {
+                            if(this.oppRec.Policy_Number__c == item.Policy_number){
+                                this.renewalAPIData = item;
+                                this.autoDebitFlag = this.renewalAPIData.AutoDebitFlag;
+                                this.sumInsusedEnhancement = this.renewalAPIData.Upsell_Flag == 'Yes' ? this.renewalAPIData.Upsell_SumInsured : '';
                             }
                         })
                     }
-                    if(key == 'AppRegDetails' && data[key]){
-                        this.addDownloadStatus = JSON.parse(data[key]).AppRegDetails.IsAppDowloaded;
+                    else if (this.apiList.includes('Renewal Group Check')){
+                        renCheckhArray.forEach((item) => {
+                            if(this.oppRec.Policy_Number__c == item.Certificate_number){
+                                this.renewalAPIData = item;
+                                this.autoDebitFlag = this.renewalAPIData.Auto_Debit;
+                            }
+                        })
                     }
-                }
-
-                if(this.apiList && this.apiList.includes('Renewal Check') && renCheckhArray){                
-                    renCheckhArray.forEach((item) => {
-                        if(this.oppRec.Policy_Number__c == item.Policy_number){
-                            this.renewalAPIData = item;
-                            this.autoDebitFlag = this.renewalAPIData.AutoDebitFlag;
-                            this.sumInsusedEnhancement = this.renewalAPIData.Upsell_Flag == 'Yes' ? this.renewalAPIData.Upsell_SumInsured : '';
-                        }
-                    })
-                }
-                else{
-                    renCheckhArray.forEach((item) => {
-                        if(this.oppRec.Policy_Number__c == item.Certificate_number){
-                            this.renewalAPIData = item;
-                            this.autoDebitFlag = this.renewalAPIData.Auto_Debit;
-                        }
-                    })
-                }
-                this.renewalCheckFlag = this.renewalAPIData ? true : false;
+                    this.renewalCheckFlag = this.renewalAPIData ? true : false;
+                } 
                 
     }    
 
     getNomiteeDetails(){
 
         getNomineesClaims({ policyId : this.policyId }).then(result => {
-
-            this.claimsCounts = result.Claims__r.length;
-            if(result.PolicyNumber__r.length > 0){
-                this.nomineeContacts = result.PolicyNumber__r[0].NomineeContactNumber__c;
-                this.nomineesNames = result.PolicyNumber__r[0].Name;
-            } 
-
-            result.PolicyNumber__r.forEach((item) => {
+            if(result){
+                if(result.Claims__r){
+                    this.claimsCounts = result.Claims__r.length;
+                }
                 
-                if(item.NomineeContactNumber__c && this.nomineeContacts != item.NomineeContactNumber__c){
-                    this.nomineeContacts = this.nomineeContacts + ', ' + item.NomineeContactNumber__c;
+                if(result.PolicyNumber__r){
+                    if(result.PolicyNumber__r.length > 0){
+                        this.nomineeContacts = result.PolicyNumber__r[0].NomineeContactNumber__c;
+                        this.nomineesNames = result.PolicyNumber__r[0].Name;
+                    } 
+
+                    result.PolicyNumber__r.forEach((item) => {
+                        
+                        if(item.NomineeContactNumber__c && this.nomineeContacts != item.NomineeContactNumber__c){
+                            this.nomineeContacts = this.nomineeContacts + ', ' + item.NomineeContactNumber__c;
+                        }
+                        if(item.Name && this.nomineesNames != item.Name){
+                            this.nomineesNames = this.nomineesNames + ', ' + item.Name;
+                        }
+                    });
                 }
-                if(item.Name && this.nomineesNames != item.Name){
-                    this.nomineesNames = this.nomineesNames + ', ' + item.Name;
-                }
-            });
+            }
         }).catch(error => {
-            console.error('Error getting Nominee details', error);
+            console.error('Error getting Nominee details', error.message);
         });
 
     }
