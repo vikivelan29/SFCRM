@@ -6,5 +6,7 @@
     <fields>Policy__c</fields>
     <fields>StageName</fields>
     <fields>CloseDate</fields>
+    <fields>Status__c</fields>
+    <fields>Calling_Source__c</fields>
     <label>New Awesome Compact Layout</label>
 </CompactLayout>
