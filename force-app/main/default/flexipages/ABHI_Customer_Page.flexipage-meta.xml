@@ -1144,7 +1144,7 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
