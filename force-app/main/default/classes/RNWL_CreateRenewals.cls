@@ -1,0 +1,70 @@
+@RestResource(urlMapping='/CreateRenewals/*')
+global with sharing class RNWL_CreateRenewals {
+    @HttpPost
+    global static RenewalResponseWrapper doPost(List<RenewalRequestWrapper> renewalRequests) {
+        List<Opportunity> opportunityRecordsToInsert = new List<Opportunity>();
+        Map<String, Asset> assetMap = new Map<String, Asset>();
+        Set<String> allPolicyIds = new Set<String>();
+        RenewalResponseWrapper responseWrapper = new RenewalResponseWrapper();
+
+        for (RenewalRequestWrapper each : renewalRequests) {
+            allPolicyIds.add(each.policyNumber);
+        }
+
+        for (Asset each : [SELECT Id, ABHI_Policy_Id__c, AccountId FROM Asset WHERE ABHI_Policy_Id__c IN :allPolicyIds]) {
+            assetMap.put(each.ABHI_Policy_Id__c, each);
+        }
+
+        for (RenewalRequestWrapper each : renewalRequests) {
+            opportunityRecordsToInsert.add(new Opportunity(
+                Policy_Number__c = each.policyNumber,
+                Policy_Inception_Date__c = each.policyInceptionDate,
+                Proposal_Number__c = each.proposalNumber,
+                Policy__c = assetMap.get(each.policyNumber) == Null ? Null : assetMap.get(each.policyNumber).Id,
+                CloseDate = Date.today() + 60,
+                AccountId = assetMap.get(each.policyNumber) == Null ? Null : assetMap.get(each.policyNumber).AccountId,
+                StageName = 'Open',
+                Name = 'RN-' + each.policyNumber
+            ));
+        }
+
+        List<Database.SaveResult> oppSaveResults = Database.insert(opportunityRecordsToInsert, false);
+        responseWrapper.errorRecords = new List<IndividualResponse>();
+        
+        for (Integer i = 0; i < oppSaveResults.size(); i++) {
+            if (!oppSaveResults[i].isSuccess()) {
+                responseWrapper.errorRecords.add(new IndividualResponse(null, oppSaveResults[i].getErrors()[0].getMessage(), renewalRequests[i].proposalNumber));
+                responseWrapper.hasErrors = true;
+            }
+            else{
+                responseWrapper.errorRecords.add(new IndividualResponse(oppSaveResults[i].getId(), null, renewalRequests[i].proposalNumber));
+            }
+            
+
+        }
+        return responseWrapper;
+    }
+
+    global class RenewalRequestWrapper {
+        global String policyNumber;
+        global String proposalNumber;
+        global Date policyInceptionDate;
+    }
+
+    global class RenewalResponseWrapper {
+        global List<IndividualResponse> errorRecords;
+        global Boolean hasErrors = false;
+    }
+
+    global class IndividualResponse {
+        global String crmID;
+        global String errorMessage;
+        global String proposalNumber;
+
+        global IndividualResponse(String crmID, String errorMessage, String proposalNumber) {
+            this.crmID = crmID;
+            this.errorMessage = errorMessage;
+            this.proposalNumber = proposalNumber;
+        }
+    }
+}

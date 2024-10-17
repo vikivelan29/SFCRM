@@ -1,0 +1,16 @@
+<template> 
+
+        <lightning-accordion allow-multiple-sections-open onsectiontoggle={handleSectionToggle} active-section-name="A">
+        <template for:each={data} for:item="health">    
+            
+            <div key={health.Header}>  
+                <lightning-accordion-section class="slds-page-header slds-page-header__name-meta" name={health.Header} label={health.Header}>
+                    <lightning-datatable key-field="id" wrap-table-header="all" data={health.Response} columns={columns} hide-checkbox-column >
+                    </lightning-datatable>
+                </lightning-accordion-section>
+ 
+            </div>  
+            
+        </template> 
+        </lightning-accordion>
+</template>
