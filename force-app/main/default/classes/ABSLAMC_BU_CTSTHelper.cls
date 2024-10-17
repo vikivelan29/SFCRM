@@ -44,6 +44,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
     string atleastOneApprRecordErrMsg = label.ABSLAMC_NoApprovalRecordsFound;
     string approvalReqErrMsg = 'Approval is required, but no approved or rejected records found';
     Set<Id> relatedCaseDetailRecordIds = new Set<Id>();
+    Map<Id, ABSLAMC_Case_Detail__c> relatedBRecordsMap = new Map<Id, ABSLAMC_Case_Detail__c>();
     
     for (Case caseRec : newMapCase.values()) {
         Case oldCaseRec = oldMapCase.get(caseRec.Id);
@@ -62,11 +63,13 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
                 }
             }
     }
-    Map<Id, ABSLAMC_Case_Detail__c> relatedBRecordsMap = new Map<Id, ABSLAMC_Case_Detail__c>([
+    if(!relatedCaseDetailRecordIds.isEmpty()){
+     relatedBRecordsMap = new Map<Id, ABSLAMC_Case_Detail__c>([
         SELECT Id, Approval_Required__c 
         FROM ABSLAMC_Case_Detail__c 
         WHERE Id IN :relatedCaseDetailRecordIds
     ]);
+    }
     
     if (!caseIdToCCCMap.isEmpty()) {
 
@@ -112,11 +115,10 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
                     Boolean validApprovalExists = false;
                     
                     if (approvals != null && !approvals.isEmpty()) {
-                        for (ASF_Case_Approv__c approval : approvals) {
-                            if (approval.Approval_Status__c == ABSLAMC_Constants.APPROVEDSTATUS) {
-                                    validApprovalExists = true;
-                                    break;
-                                }
+                        ASF_Case_Approv__c latestApproval = approvals[0];
+                            
+                        if (latestApproval.Approval_Status__c == ABSLAMC_Constants.APPROVEDSTATUS){
+                            validApprovalExists = true;
                         }
                     }
                     

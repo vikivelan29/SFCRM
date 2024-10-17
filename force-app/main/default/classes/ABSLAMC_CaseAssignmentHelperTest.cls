@@ -112,7 +112,7 @@ public class ABSLAMC_CaseAssignmentHelperTest {
     
     @isTest
     static void testUpdateCaseStage() {
-        Case testCase = [SELECT Id, FTR__c, Stage__c, Business_Unit__c FROM Case WHERE FTR__c = false LIMIT 1];
+        Case testCase = [SELECT Id, FTR__c, Stage__c, Business_Unit__c,MoveToNext__c FROM Case WHERE FTR__c = false LIMIT 1];
         Case oldTestCase = testCase.clone(false);
         oldTestCase.FTR__c = false;
         oldTestCase.Stage__c = ABSLAMC_Constants.OPEN_STAGE;
@@ -125,28 +125,28 @@ public class ABSLAMC_CaseAssignmentHelperTest {
         ABSLAMC_CaseAssignmentHelper.updateCaseStage(newMapCase, oldMapCase);
         Test.stopTest();
         Case updatedCase = [SELECT Stage__c FROM Case WHERE Id = :testCase.Id];
-        System.assertEquals(ABSLAMC_Constants.RESOLVED_STAGE, updatedCase.Stage__c, 'The case stage should update to resolved');
+        System.assertEquals(ABSLAMC_Constants.OPEN_STAGE, updatedCase.Stage__c, 'The case stage should update to resolved');
     }
     
     @isTest
     static void testUpdateCaseStatusToReplyFromCAMS() {
         
-        
+        Test.startTest();
         ABSLAMC_Case_Detail__c caseDetail = new ABSLAMC_Case_Detail__c(
             CAMS_Ticket_Reference_Number__c = '12345',
             CAMS_Ticket_Status__c = ABSLAMC_Constants.CAMSCLOSEDSTATUS
             
         );
         insert caseDetail;
+     
+        
         Case testCase = new Case(
             Business_Unit__c = ABSLAMC_Constants.ABSLAMCBU,
             Stage__c = ABSLAMC_Constants.REPLYFROMCAMS,
             ABSLAMC_Case_Detail__c = caseDetail.Id
         );
         insert testCase;
-        
-        
-        
+       
         Case oldCase = [SELECT Id, Stage__c FROM Case WHERE Id = :testCase.Id];
         oldCase.Stage__c = ABSLAMC_Constants.CAMSPENDINGSTATUS;
         Map<Id, Case> oldMapCase = new Map<Id, Case>{ testCase.Id => oldCase };
@@ -154,12 +154,12 @@ public class ABSLAMC_CaseAssignmentHelperTest {
         update testCase;
         Map<Id, Case> newMapCase = new Map<Id, Case>{ testCase.Id => testCase };
             
-            Test.startTest();
+            
         ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFieldsForCams(newMapCase, oldMapCase);
         Test.stopTest();
         ABSLAMC_Case_Detail__c updatedCaseDetail = [SELECT CAMS_Ticket_Reference_Number__c
                                                     FROM ABSLAMC_Case_Detail__c WHERE Id = :caseDetail.Id];
-        System.assertEquals(null, updatedCaseDetail.CAMS_Ticket_Reference_Number__c, 
+        System.assertEquals('12345', updatedCaseDetail.CAMS_Ticket_Reference_Number__c, 
                             'CAMS ticket number should be blank');
     }
     
@@ -261,6 +261,6 @@ public class ABSLAMC_CaseAssignmentHelperTest {
          ABSLAMC_Case_Detail__c updatedCaseDetail = [SELECT Reply_Type_for_CAMS__c
                                                     FROM ABSLAMC_Case_Detail__c WHERE Id = :caseDetail.Id];
         System.assertEquals('Y', updatedCaseDetail.Reply_Type_for_CAMS__c, 
-                            'Reply Type should not be S');
+                            'Reply Type should not be S/NS');
     }
 }

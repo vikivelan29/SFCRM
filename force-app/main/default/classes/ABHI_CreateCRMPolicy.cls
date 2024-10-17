@@ -14,6 +14,7 @@ global with sharing class ABHI_CreateCRMPolicy {
     */
     @HttpPost
     global static String createCRMPolicy(){
+        System.debug('@@@Tme_'+Limits.getCPUTime());
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
         ABCL_Integrations__mdt integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata('ABHI_CreateCRMPolicy_Inbound');
         integrationResponse.requestBody = RestContext.request.requestBody.toString();
@@ -24,7 +25,12 @@ global with sharing class ABHI_CreateCRMPolicy {
             resp.ProposalNumber = proposalNumber; 
             integrationResponse.responseBody = JSON.serialize(resp, true);
         }catch(Exception e) {
-            integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, e.getMessage()), true);
+            String mes = e.getMessage();
+            if(mes.contains('LAN__c')) {
+                mes = mes.replace('LAN__c', 'Policy No.');
+            }
+            caseIntg.Error_Message__c = String.valueOf('Time taken:'+Limits.getCPUTime());
+            integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, mes), true);
             ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
         }
         /*finally {
@@ -33,6 +39,7 @@ global with sharing class ABHI_CreateCRMPolicy {
             	integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, Custom_Messages__mdt.getInstance('ABHI_CRMPolicyDMLFailure').Message__c), true);
             }
         }*/
+        System.debug('@@@Tmes'+Limits.getCPUTime());
         return integrationResponse.responseBody;
     }
 }
