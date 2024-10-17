@@ -1,6 +1,7 @@
 import { LightningElement,api,track } from 'lwc';
 import fetchAPIResponse from '@salesforce/apex/MCRM_APIController.invokeAPIwithParams';
 import { contractAPIs } from 'c/mcrm_base_view_asset';
+import { customerAPIs } from 'c/mcrm_base_view_account';
 import MCRM_InvokeApiError from '@salesforce/label/c.MCRM_InvokeApiError';
 import MCRM_MissingDataError from '@salesforce/label/c.MCRM_MissingDataError';
 
@@ -56,6 +57,8 @@ export default class Wellness_api_view extends LightningElement {
 				this.payloadInfo = result;
 				if(this.objectApiName=='Asset'){
 					tableData = contractAPIs(this.intAPIName, payLoad);
+				}else{
+					tableData = customerAPIs(this.intAPIName, payLoad);
 				}
 				// if(this.isShowDate){
                 //     let pl = {rows:[]};
@@ -65,6 +68,22 @@ export default class Wellness_api_view extends LightningElement {
 			}
 			this.showSpinner = false;
 			if (tableData && tableData.length > 0) {
+				if(this.intAPIName == 'MCRM_Fitness_Score_And_Activity_Details'){
+					// Iterate through the results list and format date fields
+					payLoad.responseMap.resultsList.forEach(element => {
+						this.formatDateField.call(this, element, 'startDate');
+						this.formatDateField.call(this, element, 'expiryDate');
+						this.formatDateField.call(this, element, 'scoreDate');
+
+						if (element.activities != null && element.activities.length > 0) {
+							element.activities.forEach(activity => {
+								this.formatDateField.call(this, activity, 'effFromDate');
+								this.formatDateField.call(this, activity, 'effToDate');
+							});
+						}
+					});
+					this.payloadInfo.payload = JSON.stringify(payLoad);
+				}
 				this.showBaseViewScreen = true;
 			} else {
 				this.handleError(
@@ -82,6 +101,7 @@ export default class Wellness_api_view extends LightningElement {
 			this.showError(this.label.MCRM_InvokeApiError);
 		});
     }
+
 
 	handleError(result, payLoad ){
 		let errorMessages = [];
@@ -163,5 +183,22 @@ export default class Wellness_api_view extends LightningElement {
 
 	handleRefresh(){
 		this.invokeAPI();
+	}
+	// Function to check if the string is a valid date
+	isValidDate(dateStr) {
+    	const date = new Date(dateStr);
+    	return !isNaN(date.getTime());
+	}
+
+	formatDateToCustomString(date) {
+		const options = { day: '2-digit', month: 'short', year: 'numeric' };
+		return date.toLocaleDateString('en-GB', options)?.replace(',', '')?.replace(/ /g, '-');;
+	}
+
+	formatDateField(element, fieldName) {
+		if (element[fieldName] != null && this.isValidDate(element[fieldName])) {
+			let dateObj = new Date(element[fieldName]);
+			element[fieldName] = this.formatDateToCustomString(dateObj);
+		}
 	}
 }

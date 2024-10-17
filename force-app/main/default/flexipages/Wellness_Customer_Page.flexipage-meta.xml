@@ -975,6 +975,10 @@
                     <name>dynTableExAPI</name>
                     <value>MCRM_GymNameLocation</value>
                 </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
+                </componentInstanceProperties>
                 <componentName>mcrm_bv_container_extension</componentName>
                 <identifier>c_mcrm_bv_container_extension2</identifier>
             </componentInstance>
@@ -1064,6 +1068,10 @@
                 <componentInstanceProperties>
                     <name>dynTableExAPI</name>
                     <value>MCRM_ActiveDays</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentName>mcrm_bv_container_extension</componentName>
                 <identifier>c_mcrm_bv_container_extension</identifier>
@@ -1365,11 +1373,33 @@
                     <name>dynTableExAPI</name>
                     <value>MCRM_Rewards</value>
                 </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showPreview</name>
+                    <value>true</value>
+                </componentInstanceProperties>
                 <componentName>mcrm_bv_container_extension</componentName>
                 <identifier>c_mcrm_bv_container_extension3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-bd09083e-bce7-4f2c-969a-778772e5907b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>intAPIName</name>
+                    <value>MCRM_Fitness_Score_And_Activity_Details</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>isShowDate</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>mcrm_api_view</componentName>
+                <identifier>c_mcrm_api_view</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-aaa39e43-a18b-41d5-8df3-36329b60d37a</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1487,6 +1517,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab17</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-aaa39e43-a18b-41d5-8df3-36329b60d37a</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Fitness Score And Activity Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3b71646e-6310-404c-a468-44b68e0dc68a</name>
