@@ -122,24 +122,21 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	}
 
 	handleMessage(message) {
-		console.log('***handleMessage:'+JSON.stringify(message));
 		this.isLoading = true;
 		if (this.dynTableExAPI == 'MCRM_ActiveDays' && message.name == 'MCRM_ActiveDayURL') {
-			console.log('***MCRM_ActiveDays:'+JSON.stringify(message));
 			this.getActiveDays(message.payLoad);
 		} else if (this.dynTableExAPI == 'MCRM_GymNameLocation' && message.name == 'MCRM_Gym_Voucher') {
 			this.getGymNameLocation(message.payLoad);
 		} else if (this.dynTableExAPI == 'MCRM_Rewards' && message.name == 'MCRM_Benefits'){
 			this.getRewards(message.payLoad);
 		}
-		
+
 		this.showBaseView = true;
 		this.isLoading = false;
 		this.showPreview=true;
 	}
-	
+
 	getActiveDays(message) {
-		console.log('***getActiveDays:'+JSON.stringify(message));
 		let responseArray = [];
 		this.isShowInitialMessage = false;
 		message.responseMap.resultsList.scores.forEach(score => {
