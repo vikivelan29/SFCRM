@@ -154,8 +154,7 @@ public class ASF_GetCaseRelatedDetails_Test {
         cccRec4.Type__c = 'Complaint';
       //  cccRec4.document_type__c = 'Physical';
         // Set other required fields
-        insert cccRec4;
-        
+        insert cccRec4;        
         // Create a test ASF_Case_Category_Config__c record
         ASF_Case_Category_Config__c cccRec5 = new ASF_Case_Category_Config__c();
         cccRec5.CCC_External_Id__c = 'TestExternalId42';
@@ -238,8 +237,7 @@ public class ASF_GetCaseRelatedDetails_Test {
         Case caseRecord = [SELECT Id,Type_Text__c,Stage__c,AccountId,Sub_Type_Text__c,CCC_External_Id__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-RC-01' LIMIT 1];
         
         List<string> fieldNames = new List<string>();
-        List<string> fieldValues= new List<string>();
-        
+        List<string> fieldValues= new List<string>();        
         Task task1 = new Task(WhatId  = caseRecord.Id);
         insert task1;
         
@@ -255,8 +253,7 @@ public class ASF_GetCaseRelatedDetails_Test {
         ASF_Checklist__c chk1 = new ASF_Checklist__c(Case__c = caseRecord.Id, Status__c ='Completed', Label__c= 'New Ceck Label');
         insert chk1;
         
-        List<ASF_Checklist__c>lstCheck = new List<ASF_Checklist__c>();
-            
+        List<ASF_Checklist__c>lstCheck = new List<ASF_Checklist__c>();            
           ASF_Checklist__c chk2 = new ASF_Checklist__c(Case__c = caseRecord.Id, Status__c ='Completed', Label__c= 'New Ceck Label1');
           lstCheck.add(chk2);
 
@@ -285,7 +282,6 @@ public class ASF_GetCaseRelatedDetails_Test {
         }catch(Exception e){}
 		    System.assertEquals('CCC-CC-RC-01', caseRecord.CCC_External_Id__c);
         //GetCaseRelatedDetails.getLatestApprovalRecord(caseRecord.Id);
-
         Test.stopTest();
     }
 }

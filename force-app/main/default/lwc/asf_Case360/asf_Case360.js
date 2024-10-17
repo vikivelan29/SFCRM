@@ -2669,7 +2669,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.reasonLOV = [];
                 this.resolveReasonLOV = [];
                 records.forEach(item => {
-                    if(item.Type__c == 'Reject'){
+                    if(item.Type__c != 'Resolve'){
                         const optionVal = {
                             label: item.Reason__c,
                             value: item.Reason__c
