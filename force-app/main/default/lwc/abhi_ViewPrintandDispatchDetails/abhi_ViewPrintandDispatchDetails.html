@@ -1,0 +1,82 @@
+<template>
+    <lightning-card variant="narrow">
+    <h1 slot="title">View Print and Dispatch Details</h1> 
+        <div lwc:if={isLoading} >
+            <div class="slds-backdrop" role="presentation"></div>
+                <div class="slds-fade-in-open slds-modal_large">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+        </div>
+        <div lwc:if = {displayError}>
+            <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium" style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
+                <span style="font-size: 0.90rem;">{errorMessages}</span> 
+            </div>  
+        </div>
+        <template lwc:if={showRecords}>
+        <table class="slds-table slds-table_cell-buffer slds-table_header-hidden slds-table_bordered">
+            <!--class="table-style"-->
+            <thead class="slds-assistive-text">
+                <tr class="slds-line-height_reset">
+                    <th>Name</th>
+                    <th>value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={paginatedTableData} for:item="item">
+                    <tr key={item.attributeCode}>
+                        <td>{item.attributeCode}</td>
+                        <td>{item.attributeValue}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+         <!-- Pagination Controls -->
+         <div class="slds-align_absolute-center" style="height:5rem">
+            <lightning-button 
+                disabled={bDisableFirst} 
+                icon-name="utility:jump_to_left" 
+                label="First"
+                class="slds-p-horizontal_x-small" 
+                alternative-text="first page" 
+                onclick={firstPage}>
+            </lightning-button>
+            <lightning-button 
+                disabled={bDisableFirst} 
+                icon-name="utility:chevronleft" 
+                label="Previous"
+                alternative-text="Previous" 
+                onclick={previousPage}>
+            </lightning-button>
+            &nbsp;
+            <span class="slds-badge">
+                Showing {pageNumber} &nbsp;of&nbsp; {totalPages} &nbsp;&nbsp;Page(s)
+            </span>
+            &nbsp;
+            <lightning-button 
+                disabled={bDisableLast} 
+                icon-name="utility:chevronright" 
+                label="Next"
+                alternative-text="Next" 
+                onclick={nextPage} 
+                class="slds-p-horizontal_x-small"
+                icon-position="right">
+            </lightning-button>
+            <lightning-button 
+                disabled={bDisableLast} 
+                icon-name="utility:jump_to_right" 
+                label="Last"
+                alternative-text="last page" 
+                onclick={lastPage} 
+                icon-position="right">
+            </lightning-button>
+        </div>
+    </template>
+        <div slot="actions"  onkeyup={handleKeyUp} class="slds-p-horizontal_small slds-m-bottom_small slds-clearfix" style="width: 200px;">
+            <div class="slds-float_right slds-grid">
+                <lightning-button-icon icon-name="utility:refresh"  alternative-text="Refresh" title="Refresh" style="margin-top:auto;" onclick={handleRefresh}></lightning-button-icon>
+                
+            </div>
+        </div>
+    </lightning-card> 
+</template>

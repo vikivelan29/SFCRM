@@ -21,9 +21,10 @@
                 </lightning-layout-item>
                 <lightning-layout-item size="3" class="slds-m-right_x-small">
                     <div class="slds-m-bottom_small">
-                        <lightning-combobox name="Select Policy" label="Select Policy" value={selectedAsset} placeholder="Select Policy"
+                        <!--<lightning-combobox name="Select Policy" label="Select Policy" value={selectedAsset} placeholder="Select Policy"
                             options={options} onchange={handleChange} disabled={disabled}>
-                        </lightning-combobox>
+                        </lightning-combobox>-->
+                        <lightning-input type="text" label="Policy Number" placeholder="Enter Policy Number" value={selectedAsset} onchange={handleChange} disabled={disabled}></lightning-input>
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item size="3" class="slds-m-right_x-small">

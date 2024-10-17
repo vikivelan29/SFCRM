@@ -96,7 +96,7 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
                     caseInt.Case__c  = caseRecord.Id;
                     caseInt.Integration_Ext_Id__c = integ.External_Id__c;
                     caseInt.Status__c = ABSLI_Constants.PENDING;
-                    //caseInt.Is_Validation_Success__c = true;
+                    caseInt.Is_Validation_Success__c = true;
                     caseInt.Request__c  =  JSON.serialize(new RQServiceRequest(source,policyNumber));
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     newCaseIntegrations.add(caseInt);
@@ -208,6 +208,8 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
                             : String.join(medicalsList, ',');
                     
                         caseExt.Medicals__c = medicalsFieldValue;
+                    }else{
+                        caseExt.Medicals__c = '';
                     }
                     if(coiList.size()>0){
                         String coiString = String.JOIN(coiList,',');
@@ -280,18 +282,17 @@ public class ABSLI_RQServiceIntegration implements ASF_IntegrationInvocable{
         public coiform COIFORMS;
     }
     public class MedicalRequirements {
-        public List<String> MEDICALDETAILS_LIST; 
-        public String MEDICALDETAILS_SINGLE; 
-
-        public List<String> getMedicalsList() {
-            List<String> medicalsList = new List<String>();
-            if (MEDICALDETAILS_LIST != null) {
-                medicalsList = MEDICALDETAILS_LIST;
-            } else if (MEDICALDETAILS_SINGLE != null) {
-                medicalsList.add(MEDICALDETAILS_SINGLE);
-            }
-            return medicalsList;
+        public List<String> MEDICALDETAILS;
+    
+    public List<String> getMedicalsList() {
+        List<String> medicalsList = new List<String>();
+        
+        if (MEDICALDETAILS != null) {
+            medicalsList = MEDICALDETAILS;
         }
+        
+        return medicalsList;
+    	}
     }
     public class coiform{
         public List<String> FORM;

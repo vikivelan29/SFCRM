@@ -44,7 +44,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
             SELECT AccountId, Account.Name, Account.RecordType.Name, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c, Account.isPersonAccount,
                     Account.PAN__c, Account.ARN_Number__c,
                     CaseNumber, ABSLAMC_Case_Detail__r.Caller_Type__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c, Nature__c,
-                    createdBy.Name, createdDate, ClosedDate, owner.name, LAN__c, FTR__c, Ageing_Number_Of_Days__c, Status, Stage__c, isClosed,LOB__c
+                    createdBy.Name, createdDate, ClosedDate, owner.name, LAN__c, FTR__c, Ageing_Number_Of_Days__c, Status, Stage__c, isClosed,LOB__c,Channel__c
             FROM Case
             WHERE Id =:caseId
         ];
@@ -167,7 +167,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         caseIntOut.Business_Unit__c  = 'ABSLAMC';
         caseIntOut.ServiceName__c  = 'Litmus Survey';
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
-        caseIntOut.Integration_Name__c  = 'Litmus API';
+        caseIntOut.Integration_Name__c  = 'Litmus';
         caseIntOut.Request_Payload__c  =  jsonBody;
         Database.SaveResult publishResult = EventBus.publish(caseIntOut);
     }
@@ -192,18 +192,18 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         userEml  = caseAccount.isPersonAccount ?  caseAccount.PersonEmail : (con.size()>0?con[0].Email:'');
 
         ABCL_LitmusSurveyWrapper litmusApiWrappObj = new ABCL_LitmusSurveyWrapper();
-        litmusApiWrappObj.appId = cccRecord.Litmus_Project__c;
-        litmusApiWrappObj.userPhone = userPhne;
-        litmusApiWrappObj.userEmail = userEml;
-        litmusApiWrappObj.tag_case_sub_type = caseRecord.Sub_Type_Text__c;
+        litmusApiWrappObj.app_id = cccRecord.Litmus_Project__c;
+        litmusApiWrappObj.user_phone = userPhne;
+        litmusApiWrappObj.user_email = userEml;
+        litmusApiWrappObj.tag_sub_type = caseRecord.Sub_Type_Text__c;
         litmusApiWrappObj.name = caseAccount.Name;
-        litmusApiWrappObj.tag_case_id = caseRecord.CaseNumber;
+        litmusApiWrappObj.tag_case_number = caseRecord.CaseNumber;
         litmusApiWrappObj.tag_case_type = caseRecord.Type_Text__c;
         litmusApiWrappObj.tag_sla_deadline = String.valueOf(cccRecord.Overall_Case_Closure_SLA__c);
         litmusApiWrappObj.tag_category = caseRecord.Nature__c;
         litmusApiWrappObj.tag_created_by = caseRecord.createdBy.Name;
         litmusApiWrappObj.tag_created_on = String.valueOf(caseRecord.createdDate);
-        litmusApiWrappObj.tag_source = caseRecord.Source__c;
+        litmusApiWrappObj.tag_source = caseRecord.Channel__c;
         litmusApiWrappObj.tag_resolved_on = String.valueOf(caseRecord.ClosedDate);
         litmusApiWrappObj.tag_owner = caseRecord.owner.name;
         litmusApiWrappObj.tag_loan_account_no = caseRecord.LAN__c;
