@@ -94,6 +94,7 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     getFields(){
         if(this.currentSelRecord){
+          
             console.log('In record');
 
             return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name'];
