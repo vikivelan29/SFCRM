@@ -2419,7 +2419,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.Latest_Notes__c</field>
+        <field>Case.ClaimNo_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Customer_Member_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Claim__c.Hospital_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
