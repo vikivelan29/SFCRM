@@ -3,40 +3,30 @@ function customerAPIs(apiName, payload) {
 	switch (apiName) {
 		case 'MCRM_Gym_Voucher':
 			return getGymVoucher(payload)
-			break;
 		case 'MCRM_GymNameLocation':
 			return getGymLocation(payload)
-			break;
 		case 'MCRM_TotalActiveDays':
 			return getTotalActiveDays(payload)
-			break;
 		case 'MCRM_ActiveDayURL':
 			return getActiveDayURL(payload)
-			break;
 		case 'MCRM_Assessments_Online_Questionnaire':
 			return getAssessmentsOnlineQuestionnaire(payload)
-			break;
 		case 'MCRM_Assessments_Active_Age':
 			return getAssessmentsActiveAge(payload)
-			break;
 		case 'MCRM_Improve_My_Status':
 			return getImproveMyStatus(payload)
-			break;
 		case 'MCRM_Lifestyle_Voucher':
 			return getLifestyleVoucher(payload)
-			break;
 		case 'MCRM_Wallet_Transaction':
 			return getWalletTransaction(payload)
-			break;
 		case 'MCRM_Devices':
 			return getDevices(payload)
-			break;
 		case 'MCRM_Benefits':
 			return getBenefits(payload)
-			break;
 		case 'MCRM_Rewards':
 			return getRewards(payload)
-			break;
+		case 'MCRM_Fitness_Score_And_Activity_Details':
+			return getFitness(payload)
 		case 'y':
 			// code block
 			break;
@@ -57,18 +47,34 @@ const getGymVoucher = (payload) => {
 	return flattenArray;
 }
 
+const getGymLocation = (payload) => {
+	return (
+		payload?.responseMap?.resultsList != null  ? 
+		[payload.responseMap.resultsList] : 
+		[] 
+	);
+}
+
 const getTotalActiveDays = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
+	if(!payload || 
+		!payload.responseMap || 
+		!payload.responseMap.resultsList || 
+		!Array.isArray(payload.responseMap.resultsList.assessmentDetails) || 
+		payload.responseMap.resultsList.assessmentDetails.length === 0) {
+		// Return an empty array if checks fail
+		return [];
+	}
 	return payload.responseMap.resultsList.assessmentDetails;
 }
 
 const getActiveDayURL = (payload) => {
-	// Columns should be mapped as per dynamic table configuration
-	let responseArray = [];
-	responseArray.push(payload.responseMap.resultsList);
-	return responseArray;
+	return (
+		payload?.responseMap?.resultsList != null  ? 
+		[payload.responseMap.resultsList] : 
+		[] 
+	);
 }
-
 
 const getAssessmentsOnlineQuestionnaire = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
@@ -79,7 +85,11 @@ const getAssessmentsOnlineQuestionnaire = (payload) => {
 const getAssessmentsActiveAge = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
 	// Iterate over flattening each object
-	return [payload];
+	let responseArray = [];
+	if(payload && payload != null){
+		responseArray.push(payload);
+	}
+	return responseArray;
 }
 const getImproveMyStatus = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
@@ -88,32 +98,54 @@ const getImproveMyStatus = (payload) => {
 }
 const getLifestyleVoucher = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
-	// Iterate over flattening each object
+	if (!payload || 
+        !Array.isArray(payload.resultList) || 
+        payload.resultList.length === 0) {
+        // Return an empty array if checks fail
+        return [];
+    }
 	return payload.resultList;
 }
 
 const getWalletTransaction = (payload) => {
-	// Columns should be mapped as per dynamic table configuration
-	// Iterate over flattening each object
-
-	return [payload];
+	let responseArray = [];
+	if(payload && payload != null){
+		responseArray.push(payload);
+	}
+	return responseArray;
 }
 
 const getDevices = (payload) => {
-	// Columns should be mapped as per dynamic table configuration
-	// Iterate over flattening each object
-
-	return payload.responseMap.resultsList.apps;
+	// Return the apps if valid, or an empty array if checks fail
+    return (
+        payload?.responseMap?.resultsList?.apps?.length ? 
+        payload.responseMap.resultsList.apps : 
+        []
+    );
 }
 const getBenefits = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
 	// Iterate over flattening each object
 
-	return payload.responseMap.resultsList;
+	return (
+		payload?.responseMap?.resultsList?.length  ? 
+		payload.responseMap.resultsList : 
+		[] 
+	);
 }
 const getRewards = (payload) => {
-	// Columns should be mapped as per dynamic table configuration
-	return payload.responseMap.resultsList;
+	return (
+		payload?.responseMap?.resultsList?.length  ? 
+		payload.responseMap.resultsList : 
+		[] 
+	);
+}
+const getFitness = (payload) => {
+	return (
+		payload?.responseMap?.resultsList?.length  ? 
+		payload.responseMap.resultsList : 
+		[] 
+	);
 }
 const flattenObj = (ob) => {
 

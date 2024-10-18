@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Update Alternate Email ID</label>
+    <protected>false</protected>
+    <values>
+        <field>Is_Closed__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Mandatory_Fields__c</field>
+        <value xsi:type="xsd:string">ABHI_Case_Detail__r.Alternate_Email_Id__c,Description,ABHI_Case_Detail__r.Member__c</value>
+    </values>
+    <values>
+        <field>Payload__c</field>
+        <value xsi:type="xsd:string">{
+&quot;CrossSaleReferenceNumber&quot;: &quot;&quot;,
+&quot;IsCombi&quot;: &quot;{ABHI_Case_Detail__r.Policy__r.IsCombi__c}&quot;,
+&quot;Endorsement&quot;: [
+{
+&quot;Service_Request_Number&quot;: &quot;{CaseNumber}&quot;,
+&quot;Policy_Number&quot;: &quot;{ABHI_Case_Detail__r.Policy__r.Policy_No__c}&quot;,
+&quot;MemObj&quot;: [
+{
+&quot;Member&quot;: [
+{
+&quot;MemberNo&quot;: &quot;&quot;,
+&quot;MemberCode&quot;: &quot;&quot;,
+&quot;Member_FirstName&quot;: &quot;&quot;,
+&quot;Member_LastName&quot;: &quot;&quot;,
+&quot;Member_ContactNumber&quot;: &quot;&quot;,
+&quot;Member_AlternateNumber&quot;: &quot;&quot;,
+&quot;Member_EmailId&quot;: &quot;&quot;,
+&quot;Member_AlternateEmailId&quot;: &quot;&quot;,
+&quot;Member_AdharNumber&quot;: &quot;&quot;,
+&quot;Member_PAN&quot;: &quot;&quot;,
+&quot;Member_Height&quot;: &quot;&quot;,
+&quot;Member_Weight&quot;: &quot;&quot;,
+&quot;Member_AnnualIncome&quot;: &quot;&quot;,
+&quot;Member_Occupation&quot;: &quot;&quot;,
+&quot;Member_Education&quot;: &quot;&quot;,
+&quot;Member_PED&quot;: &quot;&quot;
+}
+]
+}
+],
+&quot;Home_Address1&quot;: &quot;&quot;,
+&quot;Home_Address2&quot;: &quot;&quot;,
+&quot;Home_Address3&quot;: &quot;&quot;,
+&quot;Home_Pincode&quot;: &quot;&quot;,
+&quot;Home_Mobile1&quot;: &quot;&quot;,
+&quot;Home_Mobile2&quot;: &quot;&quot;,
+&quot;Home_Mobile3&quot;: &quot;&quot;,
+&quot;Home_LandLine1&quot;: &quot;&quot;,
+&quot;Home_LandLine2&quot;: &quot;&quot;,
+&quot;Home_FaxNo&quot;: &quot;&quot;,
+&quot;Home_Area&quot;: &quot;&quot;,
+&quot;SameASHome&quot;: &quot;&quot;,
+&quot;Mailling_Address1&quot;: &quot;&quot;,
+&quot;Mailling_Address2&quot;: &quot;&quot;,
+&quot;Mailling_Address3&quot;: &quot;&quot;,
+&quot;Mailling_Pincode&quot;: &quot;&quot;,
+&quot;Mailling_Mobile1&quot;: &quot;&quot;,
+&quot;Mailling_Mobile2&quot;: &quot;&quot;,
+&quot;Mailling_Mobile3&quot;: &quot;&quot;,
+&quot;Mailling_LandLine1&quot;: &quot;&quot;,
+&quot;Mailling_LandLine2&quot;: &quot;&quot;,
+&quot;Mailling_FaxNo&quot;: &quot;&quot;,
+&quot;Mailling_Area&quot;: &quot;&quot;,
+&quot;Email1&quot;: &quot;&quot;,
+&quot;Email2&quot;: &quot;&quot;,
+&quot;Email3&quot;: &quot;&quot;,
+&quot;Alternateemail&quot;: &quot;{ABHI_Case_Detail__r.Alternate_Email_Id__c}&quot;,
+&quot;AADHAR_Number&quot;: &quot;&quot;,
+&quot;PAN&quot;: &quot;&quot;,
+&quot;Nominee_Relationship&quot;: &quot;&quot;,
+&quot;Nominee_Name&quot;: &quot;&quot;,
+&quot;Nominee_Contact_Number&quot;: &quot;&quot;,
+&quot;Height&quot;: &quot;&quot;,
+&quot;Weight&quot;: &quot;&quot;,
+&quot;Country_Code&quot;: &quot;&quot;,
+&quot;Internation_Contact_No&quot;: &quot;&quot;,
+&quot;Internation_Address&quot;: &quot;&quot;,
+&quot;Flag&quot;: &quot;2&quot;
+}
+]
+}</value>
+    </values>
+</CustomMetadata>

@@ -66,6 +66,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }
         }
     }
+
     public static void validateCaseFileUpdate(Map<Id, ContentDocument> newMap, Map<Id, ContentDocument> oldMap){
         Boolean isDelete = newMap==null ? true : false;
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
@@ -140,8 +141,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }
         }
         return docId;
-    }
-    
+    }    
     @AuraEnabled
     public static String deleteFileById(String fileId, String comment) {
         String result = 'Error';
@@ -180,14 +180,14 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                     delete contentDocRec;
                     insert feedItemList;
                 } 
-                result = contentDocId;
-                
+                result = contentDocId;                
             }catch(Exception e) {
                 throw new AuraHandledException(e.getMessage());
             }
         }
         return result;
     }
+    
     
     public static void createFeedItem(Map<Id, ContentDocument> newMap, List<ContentDocumentLink> newList, String objname){
         Map<Id, String> emailMessageIds = new Map<Id, String>();

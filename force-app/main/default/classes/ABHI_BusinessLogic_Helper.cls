@@ -338,7 +338,12 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
         }
     }
-    public void searchAndAssocFieldsForAPICases(List<Case> newListCase,  Map<Id, Case> oldMapOfCases, String triggerContext) {
+    /* 
+    * @description - Update Claim and memeber id on Case Detail
+    * @param List<Case> newListCase
+    * @param oldMapOfCases
+    */
+    public void searchAndAssocFieldsForAPICases(List<Case> newListCase,  Map<Id, Case> oldMapOfCases) {
         Set<Id> setCaseDetail = new Set<Id>();
         Map<Id, String> mapDetailIdClaim = new Map<Id, String>();
         Map<Id, String> mapDetailIdCustomer = new Map<Id, String>();
@@ -417,12 +422,14 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapCaseDetUpdate.get(caseDetail.Id).Claim__c = mapClaimDet.get(mapDetailIdClaim.get(caseDet));
                 }
             }
-            System.debug('@@@ mapCaseDetUpdate.values()'+ mapCaseDetUpdate.values());
             Database.update(mapCaseDetUpdate.values(), false);
             
         }
         catch(Exception e) {
-            
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('searchAndAssocFieldsForAPICases');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
         }
     }  
      
