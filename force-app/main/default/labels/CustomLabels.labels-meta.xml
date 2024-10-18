@@ -1403,24 +1403,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OppDetailsToastErrorMessage</shortDescription>
-        <value
-    >We&apos;re unable to fetch details from following APIs. Please try again later -</value>
+        <value>We&apos;re unable to fetch details from following APIs. Please try again later -</value>
     </labels>
     <labels>
         <fullName>MCRM_ResolutionRemarks</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MCRM_ResolutionRemarks</shortDescription>
-        <value
-    >Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
+        <value>Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
     </labels>
     <labels>
         <fullName>RNWL_Auto_Calculation</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_Auto_Calculation</shortDescription>
-        <value
-    >https://mtpre.adityabirlahealth.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy?</value>
+        <value>https://mtpre.adityabirlahealth.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy?</value>
     </labels>
     <labels>
         <fullName>RNWL_Product_Features</fullName>
