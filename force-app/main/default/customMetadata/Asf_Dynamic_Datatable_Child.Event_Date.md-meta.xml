@@ -8,14 +8,14 @@
     </values>
     <values>
         <field>Asf_Dynamic_Datatable_Parent__c</field>
-        <value xsi:type="xsd:string">MCRM_PointsScoreTransactionDetails</value>
+        <value xsi:type="xsd:string">Abhi_FAdata_view</value>
     </values>
     <values>
         <field>Data_Type__c</field>
-        <value xsi:type="xsd:string">date</value>
+        <value xsi:type="xsd:string">Text</value>
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">1.0</value>
+        <value xsi:type="xsd:double">2.0</value>
     </values>
 </CustomMetadata>
