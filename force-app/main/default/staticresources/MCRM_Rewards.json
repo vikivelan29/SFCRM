@@ -1,0 +1,40 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVAUSGSERINF001",
+            "businessCode": "USGSERINF001",
+            "businessDesc": "Found entry(ies)",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2022-10-25T13:21:09.085+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": [
+            {
+                "partnerCd": "PAR-Zomato",
+                "partnerName": "Zomato",
+                "benefitCd": "BNR-Zomato",
+                "benefitDescr": "Zomato Silver",
+                "contrcatNo": 10086101,
+                "contractMemberId": 73614,
+                "transactionDate": "2022-09-15",
+                "actualPrice": 1,
+                "discountPrice": 0.99,
+                "totalSaving": 0.01,
+                "benefitType": "DISCOUNT",
+                "partnerTxnId": "20220915121306",
+                "eventOccuredDate": "2022-09-15 12:07:54.0",
+                "eventReceivedDate": "2022-09-15 12:12:44.566",
+                "benefitThreshold": 1,
+                "utilisedBenefit": 1,
+                "availableBenefit": 0,
+                "benefitPercentage": 1,
+                "benefitId": 341,
+                "customerId": "1176919",
+                "contractNo": 10086101,
+                "referenceNumber": "MM-10086102"
+            }
+        ]
+    }
+}
