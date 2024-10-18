@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>Wellness_Account_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <accountSettings>
-            <caseAccessLevel>Read</caseAccessLevel>
-            <contactAccessLevel>Read</contactAccessLevel>
-            <opportunityAccessLevel>None</opportunityAccessLevel>
-        </accountSettings>
-        <description>Used in Wellness</description>
-        <label>Wellness Account Sharing</label>
-        <sharedTo>
-            <role>Wellness_Service_Agent</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Wellness</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
         <fullName>ABFL_Customer_Access</fullName>
         <accessLevel>Read</accessLevel>
         <accountSettings>
@@ -30,7 +10,7 @@
         </accountSettings>
         <label>ABFL Customer Access</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
@@ -46,75 +26,6 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABHI_Account_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <accountSettings>
-            <caseAccessLevel>Read</caseAccessLevel>
-            <contactAccessLevel>Read</contactAccessLevel>
-            <opportunityAccessLevel>None</opportunityAccessLevel>
-        </accountSettings>
-        <label>ABHI Account Sharing</label>
-        <sharedTo>
-            <roleAndSubordinatesInternal>ABHI_Service_Manager</roleAndSubordinatesInternal>
-            <group>ABSLAMC_PMS_All_Teams_G</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_AIF_Accounts_Share_to_AIF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <accountSettings>
-            <caseAccessLevel>None</caseAccessLevel>
-            <contactAccessLevel>Read</contactAccessLevel>
-            <opportunityAccessLevel>None</opportunityAccessLevel>
-        </accountSettings>
-        <label>ABSLAMC AIF Accounts Share to AIF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
-            <group>ABSLAMC_RE_All_Teams_G</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Line_of_Business__c</field>
-            <operation>equals</operation>
-            <value>AIF</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_MF_Accounts_Share_to_MF_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <accountSettings>
-            <caseAccessLevel>None</caseAccessLevel>
-            <contactAccessLevel>Read</contactAccessLevel>
-            <opportunityAccessLevel>None</opportunityAccessLevel>
-        </accountSettings>
-        <label>ABSLAMC MF Accounts Share to MF Users</label>
-        <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Line_of_Business__c</field>
-            <operation>equals</operation>
-            <value>MF</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
         <fullName>ABSLAMC_PMS_Accounts_Share_to_PMS_Users</fullName>
         <accessLevel>Read</accessLevel>
         <accountSettings>
@@ -124,7 +35,7 @@
         </accountSettings>
         <label>ABSLAMC PMS Accounts Share to PMS Users</label>
         <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -148,7 +59,7 @@
         </accountSettings>
         <label>ABSLAMC RE Accounts Share to RE Users</label>
         <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
+            <group>ABSLAMC_RE_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -172,7 +83,7 @@
         </accountSettings>
         <label>ABSLIG Account Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -191,7 +102,7 @@
         </accountSettings>
         <label>ABSLI Account Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -210,7 +121,7 @@
         </accountSettings>
         <label>ABSLI Advisor Account Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -234,7 +145,7 @@
         </accountSettings>
         <label>All ABFL Customer To ABFL User</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Customer_Service_Operations</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Customer_Service_Operations</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -254,8 +165,7 @@
         <description>ABHFL role</description>
         <label>All ABHFL Customer To ABHFL User</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
-            <group>ABSLAMC_AIF_All_Teams_G</group>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -274,13 +184,99 @@
         </accountSettings>
         <label>All Payment Customer To Payment User</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>Payments_Service_Agent</roleAndSubordinatesInternal>
-            <group>ABSLAMC_MF_All_Teams_G</group>
+            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>Payments</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHI_Account_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>Read</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>ABHI Account Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_AIF_Accounts_Share_to_AIF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>ABSLAMC AIF Accounts Share to AIF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_of_Business__c</field>
+            <operation>equals</operation>
+            <value>AIF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_MF_Accounts_Share_to_MF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>None</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <label>ABSLAMC MF Accounts Share to MF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_MF_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_of_Business__c</field>
+            <operation>equals</operation>
+            <value>MF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Wellness_Account_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>Read</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Used in Wellness</description>
+        <label>Wellness Account Sharing</label>
+        <sharedTo>
+            <role>Wellness_Service_Agent</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Wellness</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
