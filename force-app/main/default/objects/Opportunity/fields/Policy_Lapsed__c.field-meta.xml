@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Policy_Lapsed__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(TODAY() &gt;  Grace_Period_End__c , &apos;Deep Lapsed&apos;, IF(TODAY() &gt;  Policy_Lapse_Date__c , &apos;Lapsed&apos;, &apos;No&apos;))</formula>
+    <label>Policy Lapsed</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

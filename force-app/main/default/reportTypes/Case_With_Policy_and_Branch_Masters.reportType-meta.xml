@@ -103,6 +103,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Created_Date_Value__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Bulk_Action__c</field>
             <table>Case</table>
         </columns>
@@ -708,11 +713,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Signature_Validation__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Skip_Dedupe__c</field>
             <table>Case</table>
         </columns>
@@ -904,6 +904,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Id</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
             <table>Case</table>
         </columns>
         <columns>
@@ -3850,6 +3855,26 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Case_Detail__c.Litmus_Triggered__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Branch_Name__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Branch_Code__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Zone__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Region__c</field>
             <table>Case</table>
         </columns>
         <masterLabel>Cases</masterLabel>

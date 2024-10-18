@@ -12,20 +12,24 @@ public with sharing class ABHI_BusinessLogic_Helper {
     public List<Case> abhiNewCaseList;
 
     /**
-     * @description  Calling ABHI specific Business Logic method
-     * @param mapOfBUToNewCs - map of BU to new cases
-     * @param oldMapOfCases -  map of Id to old cases
-     * @param triggerContext -  Trigger Context
-     */
+    * @description  Calling ABHI specific Business Logic method
+    * @param mapOfBUToNewCs - map of BU to new cases
+    * @param oldMapOfCases -  map of Id to old cases
+    * @param triggerContext -  Trigger Context
+    */
     public void abhiHandlerMethod(Map<String, List<Case>> mapOfBUToNewCs,  Map<Id, Case> oldMapOfCases, String triggerContext) {
 
         if(mapOfBUToNewCs.containsKey('ABHI') && mapOfBUToNewCs.get('ABHI').size() > 0) {
+            ABHI_CaseDetailHelper abhiCsDetHelperObj = new ABHI_CaseDetailHelper();
             mapOfBUToNewCase = mapOfBUToNewCs;
             mapOfIdToOldCase = oldMapOfCases;
             abhiNewCaseList = mapOfBUToNewCs.get('ABHI');
 
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
+            }
+            else {
+                abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }
         }
     }
