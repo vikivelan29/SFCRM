@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Framework</fullName>
     <active>true</active>
@@ -70,19 +70,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLAMC</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>ABSLIG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -94,7 +86,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -133,7 +133,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Alternate Test or Medial Waiver</fullName>
+            <fullName>Alternate Test or Medical Waiver</fullName>
             <default>false</default>
         </values>
         <values>
@@ -221,7 +221,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Customer unable to deposit maturity benefit cheque</fullName>
+            <fullName
+      >Customer unable to deposit maturity benefit cheque</fullName>
             <default>false</default>
         </values>
         <values>
@@ -249,7 +250,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Dishonor charges deducted by bank %2F dishonor communication recd</fullName>
+            <fullName
+      >Dishonor charges deducted by bank %2F dishonor communication recd</fullName>
             <default>false</default>
         </values>
         <values>
@@ -265,7 +267,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Duplicate Policy Document Related - Undertaking form</fullName>
+            <fullName
+      >Duplicate Policy Document Related - Undertaking form</fullName>
             <default>false</default>
         </values>
         <values>
@@ -345,7 +348,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Life assured%27s signature forged on proposal form</fullName>
+            <fullName
+      >Life assured%27s signature forged on proposal form</fullName>
             <default>false</default>
         </values>
         <values>
@@ -513,11 +517,13 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Partial withdrawal refund credited to wrong account number%2F wrong policy</fullName>
+            <fullName
+      >Partial withdrawal refund credited to wrong account number%2F wrong policy</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Partial withdrawal request delayed%2F not received by customer</fullName>
+            <fullName
+      >Partial withdrawal request delayed%2F not received by customer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -561,7 +567,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Premium paid certificate %2F Policy Statement from Chatbot</fullName>
+            <fullName
+      >Premium paid certificate %2F Policy Statement from Chatbot</fullName>
             <default>false</default>
         </values>
         <values>
@@ -597,7 +604,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Rectification in Investment profile %2F Fund Related</fullName>
+            <fullName
+      >Rectification in Investment profile %2F Fund Related</fullName>
             <default>false</default>
         </values>
         <values>
@@ -745,7 +753,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Shortage requirement completed%2FRevival with Loan excluded</fullName>
+            <fullName
+      >Shortage requirement completed%2FRevival with Loan excluded</fullName>
             <default>false</default>
         </values>
         <values>
@@ -753,7 +762,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
+            <fullName
+      >Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
             <default>false</default>
         </values>
         <values>
@@ -801,7 +811,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
+            <fullName
+      >Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
             <default>false</default>
         </values>
         <values>
@@ -913,7 +924,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Website Premium paid certificate %2F Policy Statement</fullName>
+            <fullName
+      >Website Premium paid certificate %2F Policy Statement</fullName>
             <default>false</default>
         </values>
         <values>
@@ -979,10 +991,6 @@
         </values>
         <values>
             <fullName>ABHFL Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLAMC Email</fullName>
             <default>false</default>
         </values>
         <values>
