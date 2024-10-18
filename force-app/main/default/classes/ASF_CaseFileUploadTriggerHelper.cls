@@ -243,4 +243,36 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }   
         }
     } 
+    /**
+    * @description : PR1030924-211: Method created to validate Case File.
+    * @author zahedali.mohammed@salesforce.com | 09-24-2024 
+    * @param List<ContentDocumentLink> newFiles
+    * @return void
+    **/
+    public static void validateCaseFile(List<ContentDocumentLink> newFiles){
+        try{
+            Set<Id> recordIds = new Set<Id>();
+            for (ContentDocumentLink link : newFiles) {
+                if (link.LinkedEntityId != null) {
+                    recordIds.add(link.LinkedEntityId);
+                }
+            }
+            
+            Map<Id, SObject> recordMap = new Map<Id, SObject>(
+                [SELECT OwnerId,Business_Unit__c FROM Case WHERE Id IN :recordIds]
+            );
+            
+            for (ContentDocumentLink link : newFiles) {
+                SObject record = recordMap.get(link.LinkedEntityId);
+                if (record != null && record.get('Business_Unit__c')==System.label.Wellness_BU) {                   
+                    Id ownerId = (Id) record.get('OwnerId');                 
+                    if (ownerId != UserInfo.getUserId() && !Test.isRunningTest()) {
+                        link.addError(System.Label.Wellness_CaseComment_add_Err_Msg);
+                    }
+                }
+            }
+        }catch(Exception e){
+            system.debug('Error-->'+e.getMessage());
+        }
+    }
 }

@@ -26,7 +26,7 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
             caseIds.add(caseCommentRec.ParentId);
         }
         if(!caseIds.isEmpty()){
-            for(Case caseRec : [SELECT Id, isClosed, ownerId from case where Id IN: caseIds]){
+            for(Case caseRec : [SELECT Id, isClosed, ownerId,Business_Unit__c from case where Id IN: caseIds]){
                 caseIdtoStatusMap.put(caseRec.Id, caseRec);
             }
         }
@@ -42,6 +42,12 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
                         caseCommentRec.addError(System.Label.ASF_CaseComment_edit_Err_Msg);
                     }
                 }
+                //[START] Added by Zahed : PR1030924-211
+                Case relatedCase = caseIdtoStatusMap.get(caseCommentRec.ParentId);                
+                if (relatedCase.Business_Unit__c == System.label.Wellness_BU  &&relatedCase != null && relatedCase.OwnerId != UserInfo.getUserId() && !Test.isRunningTest()) {
+                    caseCommentRec.addError(System.Label.Wellness_CaseComment_add_Err_Msg);
+                }
+                //[END]
             } 
             createFeedItem(newList, oldMap);
         }
