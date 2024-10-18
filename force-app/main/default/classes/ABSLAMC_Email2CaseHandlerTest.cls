@@ -38,7 +38,7 @@ public class ABSLAMC_Email2CaseHandlerTest{
         
         List<Group> abslamcPhdQueue = [SELECT Id, DeveloperName
                                        FROM Group
-                                       WHERE DeveloperName = :ABSLAMC_Constants.ABSLAMC_PHD_QUEUE AND Type = 'Queue'
+                                       WHERE DeveloperName = :ABSLAMC_Constants.ABSLAMC_MF_PHD_QUEUE AND Type = 'Queue'
                                        LIMIT 1];
         
         Case caseRecord = [SELECT Id, OwnerId

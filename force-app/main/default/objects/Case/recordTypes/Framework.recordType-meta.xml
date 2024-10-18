@@ -1129,6 +1129,14 @@
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Additional information required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>

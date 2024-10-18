@@ -1292,6 +1292,13 @@
         <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
         <value>System Administrator,***System Admin</value>
     </labels>
+    <labels>
+        <fullName>ABHI_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
    <labels>
         <fullName>ABHI_PolicyRequired_ErrMsg</fullName>
         <categories>ABHI</categories>
@@ -1347,5 +1354,12 @@
         <protected>false</protected>
         <shortDescription>MCRM_WireServiceTableMdtError</shortDescription>
         <value>Oops! We couldn&apos;t retrieve the table metadata right now. Please try refreshing the page to see if that resolves the issue.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Queue_error_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Queue error message</shortDescription>
+        <value>Selected Queue is not from the Same LOB</value>
     </labels>
 </CustomLabels>
