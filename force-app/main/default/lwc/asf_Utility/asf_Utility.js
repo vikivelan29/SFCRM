@@ -221,7 +221,7 @@ export class asf_Utility {
                parentJS.dispatchEvent(
                    new ShowToastEvent({
                        title: 'Success',
-                       message: parentJS.businessUnit === ABSLAMC_BU ? 'Case Updated' : 'SR Updated', //ABSLAMC Bug199 Change SR to Case
+                       message: 'Case Updated', //ABSLAMC Bug199 Change SR to Case for all BUs
                        variant: 'success',
                    }),
                );
