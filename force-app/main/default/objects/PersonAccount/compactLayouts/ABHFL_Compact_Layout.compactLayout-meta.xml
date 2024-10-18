@@ -11,7 +11,5 @@
     <fields>RecordTypeId</fields>
     <fields>Customer_Type__c</fields>
     <fields>Postal_Code__c</fields>
-    <fields>Status__c</fields>
-    <fields>Business_Unit__pc</fields>
     <label>ABHFL Compact Layout</label>
 </CompactLayout>
