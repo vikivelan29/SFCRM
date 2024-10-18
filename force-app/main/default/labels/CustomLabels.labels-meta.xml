@@ -1253,6 +1253,13 @@
         <value>is mandatory for current stage</value>
     </labels>
     <labels>
+        <fullName>ABSLAMC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC BU</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
         <fullName>ABSLAMC_BackStageSatisfactoryReolyType</fullName>
         <language>en_US</language>
         <protected>false</protected>
