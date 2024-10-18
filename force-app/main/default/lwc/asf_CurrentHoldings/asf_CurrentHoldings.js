@@ -121,7 +121,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
     
     showModalForCreateCaseWithOutAsset(event){	
         this.withoutAsset = true;
-        //this.showCreateCaseModal = true;
+        this.showCreateCaseModal = true;
         let allowCreateCase = true;
 
         // Add changes for Product listing LWC i.e asf_FetchAssetsRelatedToAccount

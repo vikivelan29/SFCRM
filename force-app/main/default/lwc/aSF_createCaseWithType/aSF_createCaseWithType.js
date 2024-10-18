@@ -20,6 +20,7 @@ import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
@@ -58,6 +59,7 @@ import USER_ID from '@salesforce/user/Id';
 import CloseCaseWithoutCustomerLbl from '@salesforce/label/c.ASF_CloseCaseWithoutCustomer';
 import CreateCaseWithProspectLbl from '@salesforce/label/c.ASF_CreateCaseWithProspect';
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
+import UnresolvedCommentsNotReqBUs from '@salesforce/label/c.ABAMC_NonMandatoryUnresCommentsBUs';
 
 
 
@@ -182,6 +184,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     strDefaultChannel = '';
     currentObj = CASE_OBJECT.objectApiName;
 
+    UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
+
     get stageOptions() {
         return [
             { label: 'Pending for Rejection', value: 'Pending for Rejection' },
@@ -207,6 +211,17 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             return (this.isNotSelectedReject || this.isNotSelected || this.rejectBtnCalled || (!this.isFTRJourney));
         }
 
+    }
+
+    //Added for ABSLAMC Bug195, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
+    get optionalResComment(){
+        const listOfBUs = this.UnresolvedCommentsNotReqBUs.split(',');
+        if(listOfBUs.includes(this.businessUnit)){
+            return false;
+        } else{
+            return true;
+        }
+        
     }
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
@@ -303,7 +318,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
-            if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != ''){
+            if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != '' && this.businessUnit != ABSLAMC_BU){//ABSLAMC Bug203 Hide Create Case with Prospect btn
                 this.showOnProspectTagging = true;
             }
 
@@ -840,7 +855,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
     saveRejection(event) {
         console.log('this.rejectedDetails.length' + this.rejectedDetails.length);
-        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU) {
+        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU && this.optionalResComment) {//Added for ABSLAMC Bug195, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
