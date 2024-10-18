@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ABHI_7_B2_In Individual Plan_Baby Entry Age of 5 Yrs</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Addition of New Born Child for Service Request bearing SR No. {{{Case.CaseNumber}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

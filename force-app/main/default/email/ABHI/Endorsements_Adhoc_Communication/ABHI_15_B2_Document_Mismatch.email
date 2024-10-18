@@ -1,0 +1,65 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear Customer / </span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}},</p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Greetings from Aditya Birla Health Insurance Company Limited!!</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Thank You for trusting Us with your Health Insurance needs and we assure you the best of our services.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">This communication is with reference to our earlier email(s) dated { DD/MM/YYYY &amp; DD/MM/YYYY } regarding your Service Request No. </span></span></span></span></span></span>{{{Case.CaseNumber}}}.</p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We have received the following documents from your end.</span></span></span></span></span></span></p>
+&nbsp;
+
+<ul>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{ Document Name }</span></span></span></span></span></span></li>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{ Document Name }</span></span></span></span></span></span></li>
+</ul>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">However, on scrutiny of the same, we noticed that the information / documents shared does not match the information documented in your Policy No. {{{Case.LAN__c}}} and is not conclusive for processing your request. Thus, we will not be able to consider the above documents.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We advise you to submit the below document{s) at the earliest to assist us in processing your request.</span></span></span></span></span></span></p>
+&nbsp;
+
+<ul>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{ Document Name }</span></span></span></span></span></span></li>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{ Document Name }</span></span></span></span></span></span></li>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{ Document Name }</span></span></span></span></span></span></li>
+</ul>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We are unable to process your request until we receive the mandatory documents. Please visit </span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">{ document upload link }</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> to upload scanned copies of the documents or you may email them to us at </span></span></span></span></span></span><a href="mailto:care.healthinsurance@adityabirlacapital.com" style="text-decoration:none"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#0563c1"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:underline"><span style="-webkit-text-decoration-skip:none"><span style="text-decoration-skip-ink:none">care.healthinsurance@adityabirlacapital.com</span></span></span></span></span></span></span></span></a><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none"> </span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">from your registered email ID.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">Please Note:</span></span></span></span></span></span></p>
+&nbsp;
+
+<ul>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">All Service Requests are tracked by the SR Number. It is advised to quote the same in the subject line for all future communications and to avoid raising duplicate or multiple requests of similar nature.</span></span></span></span></span></span></li>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">The size of the attachments cannot exceed 8 MB</span></span></span></span></span></span></li>
+</ul>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Regards,</span></span></span></span></span></span><br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Bilal</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Aditya Birla Health Insurance Co. Ltd.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:center"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:italic"><span style="text-decoration:none">This is an auto-generated email.</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:center">&nbsp;</p>
+
+<p style="line-height:1.3800000000000001; text-align:justify">&nbsp;</p>
+</body>
+</html>

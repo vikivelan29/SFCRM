@@ -38,20 +38,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Member_Id__c</fieldItem>
-                <identifier>RecordMember_Id_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Name</fieldItem>
-                <identifier>RecordNameField</identifier>
+                <fieldItem>Record.Member__c</fieldItem>
+                <identifier>RecordMember__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -60,8 +50,15 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Do_you_track_these__c</fieldItem>
-                <identifier>RecordDo_you_track_these_cField</identifier>
+                <fieldItem>Record.What_activities_are_you_currently_doing__c</fieldItem>
+                <identifier>RecordWhat_activities_are_you_currently_doing_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Category__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>None(FA)</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -70,10 +67,48 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.How_do_you_track_your_activity__c</fieldItem>
-                <identifier>RecordHow_do_you_track_your_activity_cField</identifier>
+                <fieldItem>Record.Frequency_in_a_month__c</fieldItem>
+                <identifier>RecordFrequency_in_a_month_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Category__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>None(FA)</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Which_phone_are_you_using__c</fieldItem>
+                <identifier>RecordWhich_phone_are_you_using_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Category__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>None(FA)</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Preferred_Language__c</fieldItem>
+                <identifier>RecordPreferred_Language_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-dddb9cca-2179-41d1-853d-316814384cc6</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -90,8 +125,15 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Waiting_Period_Permanent_Exclusion__c</fieldItem>
-                <identifier>RecordWaiting_Period_Permanent_Exclusion_cField</identifier>
+                <fieldItem>Record.Do_you_track_these__c</fieldItem>
+                <identifier>RecordDo_you_track_these_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Category__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>None(FA)</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -100,58 +142,15 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Activity_Details__c</fieldItem>
-                <identifier>RecordActivity_Details_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.OwnerId</fieldItem>
-                <identifier>RecordOwnerIdField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Member__c</fieldItem>
-                <identifier>RecordMember__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-dddb9cca-2179-41d1-853d-316814384cc6</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Active_on_Social_Media__c</fieldItem>
-                <identifier>RecordActive_on_Social_Media_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Frequency_in_a_month__c</fieldItem>
-                <identifier>RecordFrequency_in_a_month_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.What_activities_are_you_currently_doing__c</fieldItem>
-                <identifier>RecordWhat_activities_are_you_currently_doing_cField</identifier>
+                <fieldItem>Record.How_do_you_track_your_activity__c</fieldItem>
+                <identifier>RecordHow_do_you_track_your_activity_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Category__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>None(FA)</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -162,36 +161,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Preferred_Communication_Mode__c</fieldItem>
                 <identifier>RecordPreferred_Communication_Mode_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Preferred_Language__c</fieldItem>
-                <identifier>RecordPreferred_Language_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Which_phone_are_you_using__c</fieldItem>
-                <identifier>RecordWhich_phone_are_you_using_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Health_Return__c</fieldItem>
-                <identifier>RecordHealth_Return_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-baac37e5-b3e1-41a2-9355-2999d3130a84</name>
@@ -308,12 +277,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>force:recordDetailPanelMobile</componentName>
-                <identifier>force_recordDetailPanelMobile</identifier>
             </componentInstance>
         </itemInstances>
         <name>detailTabContent</name>

@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Channel__c</field>
-        <value xsi:type="xsd:string">Grievance</value>
+        <value xsi:type="xsd:string">Email,IGMS,Manual</value>
     </values>
     <values>
         <field>Complaint_Type__c</field>
