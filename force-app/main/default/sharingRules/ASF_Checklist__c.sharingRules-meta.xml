@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>Wellness_Checklist_Sharing</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Wellness Checklist Sharing</label>
-        <sharedTo>
-            <role>Wellness_Service_Agent</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Wellness</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
         <fullName>ABFL_Checklist_sharing_Rule</fullName>
         <accessLevel>Edit</accessLevel>
         <label>ABFL Checklist sharing Rule</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
@@ -39,12 +25,26 @@
         <accessLevel>Edit</accessLevel>
         <label>ABHFL Checklist sharing Rule</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Payments_Checklist_sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Payments Checklist sharing Rule</label>
+        <sharedTo>
+            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Payments</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -101,7 +101,7 @@
         <criteriaItems>
             <field>Line_Of_Business__c</field>
             <operation>equals</operation>
-            <value>PMS</value>
+            <value>PMS</value> 
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -125,30 +125,16 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABSLI_Checklist_sharing_Rule</fullName>
+        <fullName>Wellness_Checklist_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
-        <label>ABSLI Checklist sharing Rule</label>
+        <label>Wellness Checklist Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
+            <role>Wellness_Service_Agent</role>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Payments_Checklist_sharing_Rule</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Payments Checklist sharing Rule</label>
-        <sharedTo>
-            <roleAndSubordinatesInternal>Payments_Service_Agent</roleAndSubordinatesInternal>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
+            <value>Wellness</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

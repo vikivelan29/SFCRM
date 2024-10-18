@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Api_Name__c</field>
-        <value xsi:type="xsd:string">name</value>
+        <value xsi:type="xsd:string">Name</value>
     </values>
     <values>
         <field>Asf_Dynamic_Datatable_Parent__c</field>
-        <value xsi:type="xsd:string">MCRM_ActiveDays</value>
+        <value xsi:type="xsd:string">ABHI_HealthAssesmentDetailsView</value>
     </values>
     <values>
         <field>Data_Type__c</field>
@@ -16,7 +16,6 @@
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">3.0</value>
         <value xsi:type="xsd:double">1.0</value>
     </values>
     <values>
