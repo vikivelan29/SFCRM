@@ -438,8 +438,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NumberOfLives__c</fieldItem>
-                <identifier>RecordNumberOfLives_cField</identifier>
+                <fieldItem>Record.CountOfLives__c</fieldItem>
+                <identifier>RecordCountOfLives_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-468c4180-eb37-4b8b-8c19-a868ed64e272</name>
@@ -540,8 +540,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.AgentStatus__c</fieldItem>
-                <identifier>RecordAgentStatus_cField</identifier>
+                <fieldItem>Record.SRMName__c</fieldItem>
+                <identifier>RecordSRMName_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -550,8 +550,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Sales_Manager__c</fieldItem>
-                <identifier>RecordSales_Manager_cField</identifier>
+                <fieldItem>Record.SRMCode__c</fieldItem>
+                <identifier>RecordSRMCode_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-93f7de3c-7659-409d-8c07-58cf6c758429</name>
@@ -584,8 +584,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Partner_Sales_ID__c</fieldItem>
-                <identifier>RecordPartner_Sales_ID_cField</identifier>
+                <fieldItem>Record.IntermediaryEmailId__c</fieldItem>
+                <identifier>RecordIntermediaryEmailId_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -594,8 +594,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.IntermediaryEmailId__c</fieldItem>
-                <identifier>RecordIntermediaryEmailId_cField</identifier>
+                <fieldItem>Record.AgentStatus__c</fieldItem>
+                <identifier>RecordAgentStatus_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
