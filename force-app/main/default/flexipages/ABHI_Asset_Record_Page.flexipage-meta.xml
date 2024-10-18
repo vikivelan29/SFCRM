@@ -438,8 +438,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.NumberOfLives__c</fieldItem>
-                <identifier>RecordNumberOfLives_cField</identifier>
+                <fieldItem>Record.CountOfLives__c</fieldItem>
+                <identifier>RecordCountOfLives_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-468c4180-eb37-4b8b-8c19-a868ed64e272</name>
