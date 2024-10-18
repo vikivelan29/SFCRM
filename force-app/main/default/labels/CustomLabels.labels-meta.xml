@@ -30,7 +30,7 @@
         <shortDescription>ABHI Communication History</shortDescription>
         <value>Communication History</value>
     </labels>
-    <labels>
+     <labels>
         <fullName>ABHI_Retry</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1111,6 +1111,13 @@
         <value>is mandatory for current stage</value>
     </labels>
     <labels>
+        <fullName>ABSLAMC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC BU</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
         <fullName>ABSLAMC_BackStageSatisfactoryReolyType</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1293,6 +1300,13 @@
         <value>System Administrator,***System Admin</value>
     </labels>
     <labels>
+        <fullName>ABHI_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+   <labels>
         <fullName>ABHI_PolicyRequired_ErrMsg</fullName>
         <categories>ABHI</categories>
         <language>en_US</language>
