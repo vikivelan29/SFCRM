@@ -926,14 +926,16 @@ public without sharing class ASF_CaseSLAHandlerV1 {
                                 updatedCase.SLA_Broken__c = true;
                                 updatedCase.SLA_Broken_DateTime__c = System.now();
                             }
-                            percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(overallTimeSpent)),updatedCase);
+                            Datetime starttime = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, - Integer.valueOf(overallTimeSpent));
+                            percntCls.setOverallPercSLAFields(closeSlaSec,updatedCase.BusinessHoursId,starttime,updatedCase);
                         }
                         updatedCase.Stage_SLA_1__c = null;
                         updatedCase.Stage_SLA_2__c = null;
                         updatedCase.Stage_SLA_3__c = null;
                         if(sla1Sec != null){
                             updatedCase.Stage_SLA_1__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla1Sec - timeSpentInLong));
-                            percntCls.setStagePercSLAFields(sla1Sec,updatedCase.BusinessHoursId,updatedCase.Case_Stage_Change_Date__c.addSeconds(- Integer.valueOf(timeSpent!=null?timeSpent:'0')),updatedCase);
+                            Datetime stageStartTime = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, - Integer.valueOf(timeSpent!=null?timeSpent:'0'));
+                            percntCls.setStagePercSLAFields(sla1Sec,updatedCase.BusinessHoursId,stageStartTime,updatedCase);
                         } 
                         if(sla2Sec != null){
                             updatedCase.Stage_SLA_2__c = BusinessHours.add(updatedCase.BusinessHoursId, updatedCase.Case_Stage_Change_Date__c, (sla2Sec - timeSpentInLong));
