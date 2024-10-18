@@ -656,6 +656,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapCaseDetUpdate.get(caseDetail.Id).Claim__c = mapClaimDet.get(mapDetailIdClaim.get(caseDet));
                 }
             }
+            System.debug('@@@ mapCaseDetUpdate.values()'+ mapCaseDetUpdate.values());
+            Database.update(mapCaseDetUpdate.values(), false);
             
             /* for(Id caseDet : mapDetailIdCover.keyset()) {
                 caseDetail = new ABHI_Case_Detail__c();
