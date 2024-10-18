@@ -55,7 +55,6 @@ import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension'
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
-import MCRM_BU from '@salesforce/label/c.Wellness_BU'; // PR970457-117 added MCRM_BU
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
@@ -416,7 +415,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU) || (this.businessUnit === MCRM_BU))) { // PR970457-117 added MCRM_BU
+        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU))) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
