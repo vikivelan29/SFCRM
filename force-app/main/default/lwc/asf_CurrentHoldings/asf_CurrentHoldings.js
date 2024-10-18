@@ -135,6 +135,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
             }
         }
 
+        // Added validation for ABHI BU when no asset is selected in overview component on click of Create Case Button
         if(this.infoObject.hasOwnProperty("businessUnit")) {
             let businessUnit = this.infoObject.businessUnit;
             if(businessUnit == 'ABHI' && this.withoutAsset){
