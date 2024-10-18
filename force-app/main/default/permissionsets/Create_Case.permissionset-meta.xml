@@ -3348,6 +3348,16 @@
     </fieldPermissions>
      <fieldPermissions>
         <editable>true</editable>
+        <field>Case.ClaimNo_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Customer_Member_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
         <field>Case.ABHI_Case_Detail__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5231,6 +5241,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.System__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_Category_Config__c.Dedupe_Check__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
