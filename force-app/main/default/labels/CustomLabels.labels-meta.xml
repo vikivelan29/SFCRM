@@ -220,20 +220,6 @@
         <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
     </labels>
     <labels>
-        <fullName>ABFL_Retail_Int_Failed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
-        <value>Active</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_Retail_Int_Failed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL Case Dedupe Active</shortDescription>
-        <value>Active</value>
-    </labels>
-    <labels>
         <fullName>ABHFL_Complaint_Investigation_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -650,8 +636,8 @@
         <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Base URL For Bitly</shortDescription>
-        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
     </labels>
     <labels>
         <fullName>Case_Closed_Validation_Message</fullName>
@@ -710,20 +696,6 @@
         <value>https://uatbpmdms.adityabirlafinance.com/IntegrationDMS/odencrequestDecrypt.jsp?Application=DOC_VIEW&amp;cabinetName=abfl&amp;sessionIndexSet=false&amp;</value>
     </labels>
     <labels>
-        <fullName>EmailRelayThreshold</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
-    </labels>
-    <labels>
-        <fullName>EmailRelayThreshold</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EmailRelayThreshold</shortDescription>
-        <value>8000</value>
-    </labels>
-    <labels>
         <fullName>EndUserProfiles</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -759,20 +731,6 @@
         <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
     </labels>
     <labels>
-        <fullName>Impact_Field_Error</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Impact Field Error</shortDescription>
-        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
-    </labels>
-    <labels>
-        <fullName>Impact_Field_Error</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Impact Field Error</shortDescription>
-        <value>You cannot select Tenure Value for Impact for partially disbursed loan. Please select the correct value for Impact field to proceed further.</value>
-    </labels>
-    <labels>
         <fullName>Incomplete_Checklist_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -799,34 +757,6 @@
         <protected>false</protected>
         <shortDescription>Maker_Owner_Error_Message</shortDescription>
         <value>This user cannot be assigned as the user has worked on the Case in the Maker stage.</value>
-    </labels>
-    <labels>
-        <fullName>Manual_Synching</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Manual_Synching</shortDescription>
-        <value>Manual Synching</value>
-    </labels>
-    <labels>
-        <fullName>No_DMS_File</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No DMS File</shortDescription>
-        <value>No file available for syncing.</value>
-    </labels>
-        <labels>
-        <fullName>Manual_Synching</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Manual_Synching</shortDescription>
-        <value>Manual Synching</value>
-    </labels>
-    <labels>
-        <fullName>No_DMS_File</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No DMS File</shortDescription>
-        <value>No file available for syncing.</value>
     </labels>
     <labels>
         <fullName>Owner_Change_Validation_Message</fullName>
@@ -982,20 +912,6 @@
         <protected>false</protected>
         <shortDescription>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</shortDescription>
         <value>EBOT has generated an email. Kindly have a look!</value>
-    </labels>
-    <labels>
-        <fullName>ABSLIG_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG BU</shortDescription>
-        <value>ABSLIG</value>
-    </labels>
-    <labels>
-        <fullName>ABSLIG_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLIG BU</shortDescription>
-        <value>ABSLIG</value>
     </labels>
     <labels>
         <fullName>ABSLIG_E2C</fullName>
@@ -1368,6 +1284,14 @@
     </labels>
     <labels>
         <fullName>Wellness_BU</fullName>
+        <fullName>ABHI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI BU</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_READY_RECK_IV</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Wellness BU</shortDescription>
@@ -1432,13 +1356,6 @@
         <value>Wellness</value>
     </labels>
     <labels>
-        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
-        <value>You do not have access to update/delete this comment</value>
-    </labels>
-    <labels>
         <fullName>ABHFL_Bitly_LOB</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1480,11 +1397,32 @@
         <shortDescription>ASF_RetryNumbers</shortDescription>
         <value>2</value>
     </labels>
-     <labels>
-        <fullName>ABHI_BU</fullName>
+    <labels>
+        <fullName>OppDetailsToastErrorMessage</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI BU</shortDescription>
-        <value>ABHI</value>
+        <shortDescription>OppDetailsToastErrorMessage</shortDescription>
+        <value>We&apos;re not able to fetch the details currently. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Auto_Calculation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Auto_Calculation</shortDescription>
+        <value>https://www.adityabirlacapital.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Product_Features</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Product_Features</shortDescription>
+        <value>https://adityabirlafinancialsharedservices--abhil.sandbox.lightning.force.com/lightning/o/Product2/list?filterName=AllProducts&amp;ws=%2Flightning%2Fr%2FOpportunity%2F006Bl00000D3c2tIAB%2Fview</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Seller_Portal_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Seller_Portal_Link</shortDescription>
+        <value>https://happy.adityabirlacapital.com/#renewPaSales</value>
     </labels>
 </CustomLabels>
