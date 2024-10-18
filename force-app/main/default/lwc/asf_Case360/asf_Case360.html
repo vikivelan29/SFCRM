@@ -189,7 +189,7 @@
                 <template for:each={caseFieldsMetadata} for:item="ccfield">
                   <template if:true={ccfield.isCase}>
                     <!--<lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
-                                                padding="around-small" class="slds-form__item slds-no-space">-->
+                                              padding="around-small" class="slds-form__item slds-no-space">-->
                     <div key={ccfield.Id} class={ccfield.divEditClass}>
                       <template if:true={ccfield.bSearchablePicklist}>
                         <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
@@ -294,7 +294,7 @@
                   <template for:each={caseFieldsMetadata} for:item="ccfield">
                     <template if:false={ccfield.isCase}>
                       <!--<lightning-layout-item key={ccfield.Id} size={ccfield.layoutItemSize}
-                                                    padding="around-small" class="slds-form__item slds-no-space">-->
+                                                  padding="around-small" class="slds-form__item slds-no-space">-->
                       <div key={ccfield.Id} class={ccfield.divEditClass}>
                         <!-- <span class="slds-badge">{ccfield.DisplayOrder}</span> -->
                         <template if:true={ccfield.bSearchablePicklist}>
@@ -847,8 +847,8 @@
                 ></lightning-input-field>
 
                 <!--div class="slds-m-top_medium">
-                           
-                        </div-->
+                         
+                      </div-->
                 <div class="slds-align_absolute-center custom-footer">
                   <lightning-button
                     label="Cancel"
