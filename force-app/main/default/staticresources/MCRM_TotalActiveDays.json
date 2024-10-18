@@ -1,0 +1,29 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVASATXSRCINF001",
+            "businessCode": "SATXSRCINF001",
+            "businessDesc": "Result found",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-09-19T12:14:42.723+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": {
+            "assessmentDetails": [
+                {
+                    "avgCal": 0.0,
+                    "avgSteps": 1.3333333333333333,
+                    "avgGymVisits": 0.0,
+                    "totalCal": 0.0,
+                    "totalSteps": 12.0,
+                    "totalGymVisits": 0.0,
+                    "totalActiveDayz": 12.0,
+                    "isActiveToday": "N",
+                    "totalADForPolicyDates": 0.0
+                }
+            ]
+        }
+    }
+}

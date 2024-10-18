@@ -19,19 +19,32 @@ public with sharing class RNWL_NonIndAccountRenewalController {
             
             String policyNumber = oppList[0].Policy_Number__c;
 			String responseBody = getResponseFromFiles(opportunityId , 'Renewal Group Check');
+            Policy_Detail_Wrapper details = new Policy_Detail_Wrapper();
 
             if(String.isBlank(responseBody)){
-                String payload = '{"lead_Id":"","master_policy_number":"","certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
+                String payload = '{"lead_Id":null,"master_policy_number":null,"certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
+                
                 ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('RNWL_Non_Ind_Account', payload, null);
                 String fileName = 'Renewal Group Check-'+Date.today();
+                system.debug(responseWrapper);
                 responseBody = responseWrapper.responseBody;
                 if(String.isNotBlank(responseBody)){
                     uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Group Check');
+                }else{
+                    details.hasError = true;
+                    details.errorMessage = 'API Call Failed Please Retry'; 
+                    return details;
                 }
             }
             
             ResponseBodyWrapper respWrapper = (ResponseBodyWrapper)JSON.deserialize(responseBody, ResponseBodyWrapper.class);
-            Policy_Detail_Wrapper details = new Policy_Detail_Wrapper();
+            
+            if(respWrapper.error != null && respWrapper.error[0].ErrorCode != '00' 
+                && respWrapper.error[0].ErrorMessage != 'Success'){
+                    details.hasError = true;
+                    details.errorMessage = respWrapper.error[0].ErrorMessage; 
+                    return details;
+            }
 
             List<Policy_Details> policyDetails      = new List<Policy_Details>();
             List<Premium_Details> premiumDetails    = new List<Premium_Details>();
@@ -42,6 +55,8 @@ public with sharing class RNWL_NonIndAccountRenewalController {
 
             String masterPolicyNumber;
             Boolean combiFlag = false;
+
+            Set<String> memberCodes = new Set<String>();
 
             for(cls_policyData data: respWrapper.response.policyData){
                 if(data.Certificate_number != null && data.certificate_number == policyNumber){
@@ -60,7 +75,11 @@ public with sharing class RNWL_NonIndAccountRenewalController {
                         memberDetail.NetPremium_U       = member.MemberproductComponents[0]?.NetPremium_U;
                         memberDetail.CB                 = member.MemberproductComponents[0]?.CB;
                         memberDetail.Hr_Amount          = member.MemberproductComponents[0]?.Hr_Amount;
+                        memberDetail.Member_Code        = member.Member_Code;
                         memberDetails.add(memberDetail);
+                        if(String.isNotBlank(memberDetail.Member_Code)){
+                            memberCodes.add(memberDetail.Member_Code);
+                        }
                     }
                 
                     Nominee_Details nomineeDetail = (Nominee_Details)JSON.deserialize((JSON.serialize(data.Nominee_Details)) , Nominee_Details.class);
@@ -88,7 +107,7 @@ public with sharing class RNWL_NonIndAccountRenewalController {
                 }
             }
 
-            if(!renewdMasterPolicyNumbers.isEmpty()){
+            if(renewdMasterPolicyNumbers.size() > 0 ){
                 List<Asset> assets = [SELECT id,Account.Name , 
                                                 Issue_Date__c, 
                                                 Maturity_Date__c, 
@@ -116,17 +135,38 @@ public with sharing class RNWL_NonIndAccountRenewalController {
                 }                        
             }
 
+            if(memberCodes.size() > 0 ){
+                List<Account> accList = [SELECT Id,Chronic_Disease__c,PED__c,Client_Code__c
+                                         FROM Account 
+                                         WHERE Client_Code__c IN :memberCodes];
+                Map<String,Account> clientCodeToAcc = new Map<String,Account>();
+
+                for(Account acc : accList){
+                    clientCodeToAcc.put(acc.Client_Code__c , acc);
+                }
+                
+                for(Member_Details memberDetail : memberDetails){
+                    if(clientCodeToAcc.containsKey(memberDetail.Member_Code)){
+                        memberDetail.Chronic_Disease = clientCodeToAcc.get(memberDetail.Member_Code).Chronic_Disease__c;
+                        memberDetail.Disease_Disclose = clientCodeToAcc.get(memberDetail.Member_Code).PED__c;
+                    }
+                }
+            }
+
             details.policyDetails   = policyDetails;
             details.premiumDetails  = premiumDetails;
             details.memberDetails   = memberDetails;
             details.nomineeDetails  = nomineeDetails;
             details.renewalInfos    = renewalInfos;
             details.combiDetails    = combiDetails;
+            details.hasError        = false;
+            details.errorMessage    = null;
 
             if(String.isNotBlank(renewedProposalNumber) && oppList[0].Proposal_Number__c != renewedProposalNumber){
                 oppList[0].Proposal_Number__c = renewedProposalNumber;
                 update oppList[0];
             }
+            
             return details;
         } catch (Exception e) {
             system.debug(e.getMessage());
@@ -263,6 +303,8 @@ public with sharing class RNWL_NonIndAccountRenewalController {
 
     // Response wrappers as per sections on UI: 
     public class Policy_Detail_Wrapper{
+        @AuraEnabled public Boolean hasError;
+        @AuraEnabled public String errorMessage;
         @AuraEnabled public List<Policy_Details> policyDetails;
         @AuraEnabled public List<Premium_Details> premiumDetails;
         @AuraEnabled public List<Member_Details> memberDetails;
@@ -309,6 +351,9 @@ public with sharing class RNWL_NonIndAccountRenewalController {
         @AuraEnabled public String NetPremium_U;
         @AuraEnabled public String CB;
         @AuraEnabled public String Hr_Amount;
+        @AuraEnabled public String Chronic_Disease;
+        @AuraEnabled public String Disease_Disclose;
+        public String Member_Code;
     }
 
     public class Nominee_Details{

@@ -1,23 +1,36 @@
 <template>
-    <div class="slds-scrollable_y" style="max-height:25rem;">
-        <template for:each={data} for:item="currentItem" for:index="index">
-            <template if:true={currentItem.sectionAvailable}>
-                <div class="slds-grid slds-grid_vertical slds-box slds-m-top_x-small" key={currentItem}>
-                    <h2 class="slds-m-bottom_x-small slds-card__header-title">{currentItem.sectionLabel}</h2>
-                    <template lwc:if={currentItem.message}>
-                        <p class="slds-m-top_x-small">{currentItem.message}</p>
-                    </template>
-                    <template lwc:else>
-                        <lightning-datatable
-                            key-field="id"
-                            data={currentItem.records}
-                            columns={currentItem.headres}
-                            wrap-table-header
-                            hide-checkbox-column>
-                        </lightning-datatable>
-                    </template>
-                </div>
+
+    <template if:true={showSpinner}>
+        <lightning-spinner variant="brand" alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
+
+    <template if:false={hasError}>
+        <div class="slds-scrollable_y" style="max-height:25rem;">
+            <template for:each={data} for:item="currentItem" for:index="index">
+                <template if:true={currentItem.sectionAvailable}>
+                    <div class="slds-grid slds-grid_vertical slds-box slds-m-top_x-small" key={currentItem}>
+                        <h2 class="slds-m-bottom_x-small slds-card__header-title">{currentItem.sectionLabel}</h2>
+                        <template lwc:if={currentItem.message}>
+                            <p class="slds-m-top_x-small">{currentItem.message}</p>
+                        </template>
+                        <template lwc:else>
+                            <lightning-datatable
+                                key-field="id"
+                                data={currentItem.records}
+                                columns={currentItem.headres}
+                                wrap-table-header="all" 
+                                hide-checkbox-column>
+                            </lightning-datatable>
+                        </template>
+                    </div>
+                </template>
             </template>
-        </template>
-    </div>
+        </div>
+    </template>
+
+    <template if:true={hasError}>
+        <div class="slds-box">
+            <p>Renewal Check API returned the following error - {errorMessage}</p>
+        </div>
+    </template>
 </template>
