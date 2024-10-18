@@ -65,11 +65,13 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 //Fetch all metadata values and store it in map
                 for (String key : metadataRecords.keySet()) {
                     ABHI_Create_Case_Validations__mdt metadataRecord = metadataRecords.get(key);
-                    if(!natureToGroupMap.containsKey(metadataRecord.Nature__c)){
-                        natureToGroupMap.put(metadataRecord.Nature__c, new List<String>());
+                    if(metadataRecord.Validation_Name__c == 'NatureValidation'){
+                        if(!natureToGroupMap.containsKey(metadataRecord.Nature__c)){
+                            natureToGroupMap.put(metadataRecord.Nature__c, new List<String>());
+                        }
+                        natureToGroupMap.get(metadataRecord.Nature__c).addAll(metadataRecord.Public_Groups__c.split(';'));
+                        groupNames.addAll(metadataRecord.Public_Groups__c.split(';'));
                     }
-                    natureToGroupMap.get(metadataRecord.Nature__c).addAll(metadataRecord.Public_Groups__c.split(';'));
-                    groupNames.addAll(metadataRecord.Public_Groups__c.split(';'));
                 }
                 //validate if user is part of the queue
                 if(natureToGroupMap.containsKey(String.valueOf(jsonMap.get('Nature__c')))){
