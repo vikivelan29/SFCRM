@@ -1220,10 +1220,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Chatbot</fullName>
-            <default>false</default>
-        </values>
-                <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
