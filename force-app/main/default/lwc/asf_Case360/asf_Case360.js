@@ -38,7 +38,7 @@ import { NavigationMixin } from 'lightning/navigation';
 //import saveReassign from '@salesforce/apex/CaseProcessingHelper.performCaseAssignments';
 import asf_CaseEndStatus from '@salesforce/label/c.ASF_CaseEndStatuses';
 import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
-import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
+
 
 //Code optimization imports - Nov 2023 - Santanu
 import fetchUserAndCaseDetails from '@salesforce/apex/ASF_Case360Controller.fetchUserAndCaseDetails';
@@ -2614,37 +2614,20 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.selectedReason = '';
     }
 
-    //PR1030924-224: ZAHED : Added filter condition for wellness case - Start
-    showRejectModal() {       
-        if(this.showResolvedReasons){           
-            console.log('***showResolvedReasons->');
-            getSrBUReasons({ cccExternalId: this.cccExternalId }).then(result => {               
-                result.forEach(item => {
-                    if(item.Type__c == 'Reject'){
-                        const optionVal = {
-                            label: item.Reason__c,
-                            value: item.Reason__c
-                        };
-                        this.reasonLOV.push(optionVal);
-                    }else if(item.Type__c == 'Resolve'){
-                        const optionVal = {
-                            label: item.Reason__c,
-                            value: item.Reason__c
-                        };
-                        this.resolveReasonLOV.push(optionVal);
-                    }    
-                });                
-                // this.showRejModal = true;
-            }).catch(error => {
-                console.log('Error: ' + JSON.stringify(error));
-                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+    showRejectModal() {
+        getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
+            result.forEach(reason => {
+                const optionVal = {
+                    label: reason,
+                    value: reason
+                };
+                this.reasonLOV.push(optionVal);
             });
-        }else{
-            // console.log('fetchRejectionReason else -->');
-            this.fetchRejectionReason();
-        }
+            this.showRejModal = true;
+        }).catch(error => {
+            console.log('Error: ' + JSON.stringify(error));
+        });
     }
-    //PR1030924-224: ZAHED : Added filter condition for wellness case - End
 
     handleSuccessRejection(event) {
         this.showRejModal = false
