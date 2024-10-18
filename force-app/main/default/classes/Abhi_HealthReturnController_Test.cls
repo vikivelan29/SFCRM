@@ -15,7 +15,7 @@ public class Abhi_HealthReturnController_Test {
         Test.stopTest();
 
         // Assertions for success scenario
-        System.assertEquals(1000, response.StatusCode, 'StatusCode should be 1000 for a successfull response');
+        System.assertEquals(1000, response.StatusCode, 'StatusCode should be 1000 for a successful response');
     }
 
     @isTest
