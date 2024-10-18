@@ -36,8 +36,7 @@ public class ASF_CustomerEmailInvocable_Test {
             
             ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
         }
-    }
-    
+    }    
     @isTest
     public static void ABFL_SuppressEmailHelperTest(){
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
@@ -48,8 +47,7 @@ public class ASF_CustomerEmailInvocable_Test {
             c.Source__c = 'RM-No Email';
         }
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
-        update cases;
-        
+        update cases;        
         if(cases.size()>0){
             List<ASF_Case_Category_Config__c> cccRecords = [SELECT ID,Business_Unit__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =:cases[0].CCC_External_Id__c];
             for(ASF_Case_Category_Config__c ccc : cccRecords){
@@ -61,17 +59,17 @@ public class ASF_CustomerEmailInvocable_Test {
             wrapper.caseStatus = 'Resolved';
             wrapper.cccRecord = cccRecords[0];
             wrapper.templateName = 'Generic_SR_Created';
-            wrappers.add(wrapper);
-            
+            wrappers.add(wrapper);            
             List<ASF_CustomerEmailInvocable.EmailOutputWrapper> outputWrappers = ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
             System.assertEquals(outputWrappers[0].supressEmail,true,'Supression Logic working as expected');
-            
-            
-        }
-        
-        
+                        
+        }       
     }
     
+    /**
+	* @description : Below Test class written for MCRM_SuppressEmailHelper Apex class.
+	* @author zahedali.mohammed@salesforce.com | 09-27-2024
+	**/
     @isTest
     public static void MCRM_SuppressEmailHelperTest(){
         Id frameworkRecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
@@ -96,10 +94,9 @@ public class ASF_CustomerEmailInvocable_Test {
             wrapper.cccRecord = cccRecords[0];
             wrapper.templateName = 'Generic_SR_Created';
             wrappers.add(wrapper);
-            
+            system.debug('cccRecords[0] '+cccRecords[0]);
             List<ASF_CustomerEmailInvocable.EmailOutputWrapper> outputWrappers = ASF_CustomerEmailInvocable.getEmailTemplateName(wrappers);
             System.assertEquals(outputWrappers[0].supressEmail,false,'Supression Logic working as expected');
-            
             
         }
     }

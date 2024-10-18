@@ -1,13 +1,15 @@
-/**
-* @description This class is called by the Flow for Case Email 
+/*********************************************************
+*@description  :  This class is called by the Flow for Case Email 
 * for Customers. It can return a custom email template
 * in case of supression / exception scenarios
 * The BU classes will be called from here, and
 *********************************************************/
 public without sharing class ASF_CustomerEmailInvocable {
-    
-    /**
-* @description The Flow must pass the case record id,
+     /****************************************************************************************************************
+    * @Function - getEmailTemplateName
+    * @param cases 
+    * @return  List<EmailOutputWrapper>
+    * @description - The Flow must pass the case record id,
 * Based on the BU stamped, the BU class is called
 * If Blank or Null is returned, the Flow takes the usual route of finding the template
 * names from CC and sends email 
