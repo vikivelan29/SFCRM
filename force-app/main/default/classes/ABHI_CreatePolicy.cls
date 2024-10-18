@@ -291,7 +291,7 @@ public without sharing class ABHI_CreatePolicy {
                     policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != ''?Date.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):null);
                 }
                 when 'Boolean' {
-                    policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != 'No'?true:false);
+                    policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != 'No'?Boolean.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):false);
                     
                 }
                 when 'ID' {
@@ -358,7 +358,7 @@ public without sharing class ABHI_CreatePolicy {
                         //policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != ''?(Date)(nominee.get(nomineeMapping.split(':')[0])):null);
                     }
                     when 'Boolean' {
-                        policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != 'No'?true:false); 
+                        policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != 'No'?Boolean.valueOf(nominee.get(nomineeMapping.split(':')[0]).toString()):false); 
                     }
                     when 'ID' {
                         policyNominee.put(nomineeFieldMapping.get(nomineeMapping), policy.Id);
