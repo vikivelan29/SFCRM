@@ -44,7 +44,7 @@
     </values>
     <values>
         <field>ALERTV1__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Account.Name</value>
     </values>
     <values>
         <field>ALERTV20__c</field>
