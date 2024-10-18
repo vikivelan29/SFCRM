@@ -2,13 +2,10 @@
 public class ASF_CaseFileUploadTriggerHelper_Test {
 
     @testSetup
-    static void setupData(){
-        
+    static void setupData(){        
         ContentVersion cv = new ContentVersion(Title = 'Test Content',PathOnClient = 'test.pdf',VersionData = Blob.valueOf('Test Content'));
         insert cv;
-
         ASF_TestDataFactory.createCaseRecords(0);
-
         ContentDocumentLink cdl = new ContentDocumentLink(
             ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :cv.Id].ContentDocumentId,
             LinkedEntityId = [select Id from case LIMIT 1].Id,

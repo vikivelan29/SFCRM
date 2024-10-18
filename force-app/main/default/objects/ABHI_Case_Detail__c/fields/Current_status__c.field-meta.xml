@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_status__c</fullName>
+    <externalId>false</externalId>
+    <label>Current status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Under medication</fullName>
+                <default>false</default>
+                <label>Under medication</label>
+            </value>
+            <value>
+                <fullName>Completely cured</fullName>
+                <default>false</default>
+                <label>Completely cured</label>
+            </value>
+            <value>
+                <fullName>Untreated</fullName>
+                <default>false</default>
+                <label>Untreated</label>
+            </value>
+            <value>
+                <fullName>Planned for surgery</fullName>
+                <default>false</default>
+                <label>Planned for surgery</label>
+            </value>
+            <value>
+                <fullName>Unaware/Not Sure</fullName>
+                <default>false</default>
+                <label>Unaware/Not Sure</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 09-23-2024
- * @last modified by  : rsinghnagar@salesforce.com
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   09-20-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 @SuppressWarnings('PMD.PropertyNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_GetCaseRelatedDetails {
     
@@ -512,6 +502,7 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
             return null;
         }
     }
+    /*
     @AuraEnabled
     public static List<String> getRejectionReasons(String cccExternalId){
         List<String> reasonValues = new List<String>();
@@ -533,20 +524,21 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
             }            
             for(LOB_Rejection_Reason__mdt buReason : [SELECT LOB__c, Reason__c 
                                                       FROM LOB_Rejection_Reason__mdt 
-                                                      WHERE LOB__c  LIKE :buList ORDER BY Reason__c]){
+                                                      WHERE LOB__c LIKE :buList ORDER BY Reason__c]){
                                                           reasonValues.add(buReason.Reason__c);
                                                       }
                     }
         if(reasonValues.isEmpty()){
             for(LOB_Rejection_Reason__mdt buReason : [SELECT LOB__c, Reason__c 
-                                                      FROM LOB_Rejection_Reason__mdt
+                                                      FROM LOB_Rejection_Reason__mdt 
                                                       ORDER BY Reason__c]){
                                                           reasonValues.add(buReason.Reason__c);
                                                       }
                     }
                 return reasonValues;
     }
-    
+    */
+
     /**
     * @description : PR1030924-224: Method created to get resolved & rejected reasons.
     * @author zahedali.mohammed@salesforce.com | 09-23-2024 
@@ -579,5 +571,5 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
                                                       }
         }
         return reasonValues;
-    }
+    } 
 }
