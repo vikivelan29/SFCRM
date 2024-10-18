@@ -143,7 +143,9 @@ export default class Asf_CurrentHoldings extends LightningElement {
                 this.showNotification("Error", this.ABHI_PolicyRequiredErrMsgLabel, 'error');
             }
         }
-        if(allowCreateCase) this.showCreateCaseModal = true;
+        if(allowCreateCase) {
+            this.showCreateCaseModal = true;
+        }
 
     }
 
