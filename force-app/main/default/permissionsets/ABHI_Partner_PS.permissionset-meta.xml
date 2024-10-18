@@ -1544,11 +1544,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Existing_Nominee_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABHI_Case_Detail__c.Existing_Nominee_Relationship__c</field>
         <readable>true</readable>
     </fieldPermissions>
