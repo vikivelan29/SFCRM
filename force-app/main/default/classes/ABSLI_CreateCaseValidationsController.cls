@@ -133,7 +133,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         try{
             PolicyGenFundRequestWrapper requestWrap = new PolicyGenFundRequestWrapper();
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-            Asset policy = [SELECT Id, Name,Policy_No__c,Type__c, Effective_Date__c FROM Asset WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
+            Asset policy = [SELECT Id, Name,Policy_No__c,Type__c, Policy_Identification__c, Effective_Date__c FROM Asset WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
             if(policy!=null)
             {
@@ -166,6 +166,9 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                                 return 'Maximum loan amount should be equal to or greater than 5000.';
                             }  
                         }else if(String.valueOf(jsonMap.get('CCC_External_Id__c'))=='PCPT033'){
+                            if(policy.Policy_Identification__c==ABSLI_Constants.ASSIGNMENT_ISSUE_TYPE_VALIDATION){
+                                return 'Policy Identification is not valid for Loan payout.';
+                            }
                          	if(Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)>0 && !String.isBlank(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE)){
                                 caseExt.Max_Loan_Amount__c = Decimal.valueOf(responseWrapper.BFID_RESPONSE.MAX_LOAD_AMOUNT_AVAILABLE);
                             }else{
