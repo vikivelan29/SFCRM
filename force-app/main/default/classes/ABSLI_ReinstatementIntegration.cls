@@ -308,8 +308,12 @@ public with sharing class ABSLI_ReinstatementIntegration implements ASF_Integrat
         
         if(String.isNotBlank(COI) && reinstatementAmount > 0){
             // RCD Condition
-            if(medicals != '' && (pxResponse =='not clean' || pxResponse == 'clean')){
+            if(pxResponse != null && pxResponse != ''){
+                pxResponse = pxResponse.toLowerCase();
+            }
+            if(medicals != '' && medicals !=null && (pxResponse =='not clean' || pxResponse == 'clean')){
                 stateCode = 'RCD';
+
             }
             else if (pxResponse == 'clean' && bCroppedSignatured == false)
             {
