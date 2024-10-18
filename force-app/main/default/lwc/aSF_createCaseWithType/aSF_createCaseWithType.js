@@ -59,6 +59,7 @@ import USER_ID from '@salesforce/user/Id';
 import CloseCaseWithoutCustomerLbl from '@salesforce/label/c.ASF_CloseCaseWithoutCustomer';
 import CreateCaseWithProspectLbl from '@salesforce/label/c.ASF_CreateCaseWithProspect';
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
+import UnresolvedCommentsNotReqBUs from '@salesforce/label/c.ABAMC_NonMandatoryUnresCommentsBUs';
 
 
 
@@ -183,6 +184,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     strDefaultChannel = '';
     currentObj = CASE_OBJECT.objectApiName;
 
+    UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
+
     get stageOptions() {
         return [
             { label: 'Pending for Rejection', value: 'Pending for Rejection' },
@@ -208,6 +211,17 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             return (this.isNotSelectedReject || this.isNotSelected || this.rejectBtnCalled || (!this.isFTRJourney));
         }
 
+    }
+
+    //Added for ABSLAMC Bug195, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
+    get optionalResComment(){
+        const listOfBUs = this.UnresolvedCommentsNotReqBUs.split(',');
+        if(listOfBUs.includes(this.businessUnit)){
+            return false;
+        } else{
+            return true;
+        }
+        
     }
 
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
@@ -841,7 +855,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
     saveRejection(event) {
         console.log('this.rejectedDetails.length' + this.rejectedDetails.length);
-        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU) {
+        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU && this.optionalResComment) {//Added for ABSLAMC Bug195, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
