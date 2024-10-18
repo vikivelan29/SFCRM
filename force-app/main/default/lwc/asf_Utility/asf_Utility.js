@@ -40,6 +40,7 @@ import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import POLICY_NO from '@salesforce/schema/ABSLIG_Case_Detail__c.Policy_ID__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 
 // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
@@ -220,7 +221,7 @@ export class asf_Utility {
                parentJS.dispatchEvent(
                    new ShowToastEvent({
                        title: 'Success',
-                       message: 'SR Updated ',
+                       message: parentJS.businessUnit === ABSLAMC_BU ? 'Case Updated' : 'SR Updated', //ABSLAMC Bug199 Change SR to Case
                        variant: 'success',
                    }),
                );
