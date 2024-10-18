@@ -9,7 +9,7 @@
                         <valueListItems>
                             <value>Case.Manual_Approval</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -20,22 +20,33 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.ASF_Clone_SR</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.ASF_Is_Cloneable__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.Reopen</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -46,12 +57,17 @@
                                     <operator>NE</operator>
                                     <rightValue>Complaint</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.EscalateCase</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsEscalated}</leftValue>
                                     <operator>EQUAL</operator>
@@ -67,22 +83,38 @@
                                     <operator>NE</operator>
                                     <rightValue>Complaint</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.ReCategorize</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.AmIOwner__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -103,12 +135,17 @@
                                     <operator>NE</operator>
                                     <rightValue>Complaint</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.Upload_File</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
+                                <booleanFilter>1 AND 2 AND (3 OR 4) AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Allow_file_upload__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -129,15 +166,26 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>Pending CPU Banking</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.Relate_Duplicate</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>ABHI Partner Base Profile</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
