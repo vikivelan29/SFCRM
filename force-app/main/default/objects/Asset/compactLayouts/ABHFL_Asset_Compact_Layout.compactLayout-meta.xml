@@ -10,9 +10,6 @@
     <fields>LAN__c</fields>
     <fields>Product2Id</fields>
     <fields>Segment__c</fields>
-    <fields>Sanction_Amount__c</fields>
-    <fields>Application_Number__c</fields>
-    <fields>ProductName__c</fields>
-    <fields>Plan_Name__c</fields>
+    <fields>Sanction_Amount__c</fields>    
     <label>ABHFL Asset Compact Layout</label>
 </CompactLayout>
