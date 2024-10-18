@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABHFL_Compact_Layout</fullName>
-    <fields>RecordTypeId</fields>
-    <fields>Client_Code__c</fields>
     <fields>Name</fields>
-    <fields>Customer_Type__c</fields>
+    <fields>Client_Code__c</fields>
     <fields>PersonMobilePhone</fields>
+    <fields>PersonEmail</fields>
+    <fields>PersonBirthdate</fields>
+    <fields>Language_Preference__c</fields>
+    <fields>KYC_Done_Date__c</fields>
+    <fields>RecordTypeId</fields>
+    <fields>Customer_Type__c</fields>
     <fields>Postal_Code__c</fields>
     <fields>Status__c</fields>
     <fields>Business_Unit__pc</fields>
-    <fields>PersonEmail</fields>
     <label>ABHFL Compact Layout</label>
 </CompactLayout>
