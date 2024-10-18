@@ -14,19 +14,19 @@ public class RNWL_HelpLinksController {
                 Opportunity opp = [SELECT ID,Policy_Number__c ,AccountId,Account.Phone FROM Opportunity WHERE ID =: recordId];
                 String link = System.Label.RNWL_Auto_Calculation ;
                 String algorithmName = 'AES128';
-                String exampleIV = 'Example of IV24';
                 Blob key = Blob.valueOf(System.Label.RNWL_Auto_Calculation_Private_Key);
+                Blob ivParam = key;
                 Blob policyValue = Blob.valueOf(opp.Policy_Number__c);
-                Blob policyEncrypted = Crypto.encryptWithManagedIV(algorithmName, key, policyValue);
+                Blob policyEncrypted = Crypto.encrypt(algorithmName, key, ivParam, policyValue);
                 String policyEncryptedString = EncodingUtil.base64Encode(policyEncrypted);
                 String mobileEncryptedString = '';
                 if(opp.AccountId != null && opp.Account.Phone !=null){
                     Blob mobileValue = Blob.valueOf(opp.Account.Phone);
-                	Blob mobileEncrypted = Crypto.encryptWithManagedIV(algorithmName, key, mobileValue);
+                    Blob mobileEncrypted = Crypto.encrypt(algorithmName, key, ivParam, mobileValue);
                     mobileEncryptedString = EncodingUtil.base64Encode(mobileEncrypted);
                 } 
                 Blob sourceValue = Blob.valueOf('Salesforce');
-                Blob sourceEncrypted = Crypto.encryptWithManagedIV(algorithmName, key, sourceValue);
+                Blob sourceEncrypted = Crypto.encrypt(algorithmName, key, ivParam, sourceValue);
                 String sourceEncryptedString = EncodingUtil.base64Encode(sourceEncrypted);
                 String finalLink = link + 'p=' + policyEncryptedString + '&m=' + mobileEncryptedString + '&d=&s=' + sourceEncryptedString;
                 system.debug('***** finalLink ' + finalLink);
