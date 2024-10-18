@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Digital_Concern__c</fullName>
+    <externalId>false</externalId>
+    <label>Digital Concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Email mobile already exists</fullName>
+                <default>false</default>
+                <label>Email mobile already exists</label>
+            </value>
+            <value>
+                <fullName>Group user&apos;s error</fullName>
+                <default>false</default>
+                <label>Group user&apos;s error</label>
+            </value>
+            <value>
+                <fullName>Technical error while registering</fullName>
+                <default>false</default>
+                <label>Technical error while registering</label>
+            </value>
+            <value>
+                <fullName>unable to login(Password Error)</fullName>
+                <default>false</default>
+                <label>unable to login(Password Error)</label>
+            </value>
+            <value>
+                <fullName>unable to login(Member ID error)</fullName>
+                <default>false</default>
+                <label>unable to login(Member ID error)</label>
+            </value>
+            <value>
+                <fullName>unable to login(OTP Error)</fullName>
+                <default>false</default>
+                <label>unable to login(OTP Error)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

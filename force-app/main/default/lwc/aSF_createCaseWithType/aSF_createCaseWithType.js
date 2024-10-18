@@ -45,7 +45,7 @@ import Customer_Mandatory from '@salesforce/label/c.ASF_Customer_Mandatory';
 import CRN_Basis_Case from '@salesforce/label/c.ASF_CRN_Basis_Case';
 import WithoutFA from '@salesforce/label/c.ASF_CreateSRwithoutFA';
 import WithFA from '@salesforce/label/c.ASF_CreateSRwithFA';
-// import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+//import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
 import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
 
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
@@ -993,13 +993,15 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
 
-    //To get Rejection Reason:
+    //To get Rejection Reason: 
+    //PR1030924-224 - Zahed - modifed as part of 
     async fetchRejectionReason(cccExtId) {
         try{
             const records = await getSrBUReasons({ cccExternalId: cccExtId });  
             this.reasonLOV = [];
+           // this.reasonLOV.push(optionVal);
             records.forEach(item => {
-                if(item.Type__c == 'Reject'){
+                if(item.Type__c == 'Reject' || item.Type__c != 'Resolve'){
                     const optionVal = {
                         label: item.Reason__c,
                         value: item.Reason__c

@@ -30,6 +30,20 @@
         <shortDescription>ABHI Communication History</shortDescription>
         <value>Communication History</value>
     </labels>
+     <labels>
+        <fullName>ABHI_Retry</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Retry</shortDescription>
+        <value>3</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_WelcomeBatchSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_WelcomeBatchSize</shortDescription>
+        <value>200</value>
+    </labels>
     <labels>
         <fullName>ABSLI_Update_CCC_ID</fullName>
         <language>en_US</language>
@@ -602,8 +616,8 @@
         <fullName>EmailRelayThreshold</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Base URL For Bitly</shortDescription>
-        <value>https://mf.adityabirlasunlife.com/Pages/Secured/Individual/OneABC/Login.aspx</value>
+        <shortDescription>EmailRelayThreshold</shortDescription>
+        <value>8000</value>
     </labels>
     <labels>
         <fullName>Case_Closed_Validation_Message</fullName>
@@ -1241,7 +1255,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OppDetailsToastErrorMessage</shortDescription>
-        <value>We&apos;re not able to fetch the details currently. Please try again later.</value>
+        <value>We&apos;re unable to fetch details from following APIs. Please try again later -</value>
     </labels>
     <labels>
         <fullName>MCRM_ResolutionRemarks</fullName>
@@ -1255,7 +1269,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_Auto_Calculation</shortDescription>
-        <value>https://www.adityabirlacapital.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy</value>
+        <value>https://mtpre.adityabirlahealth.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy?</value>
     </labels>
     <labels>
         <fullName>RNWL_Product_Features</fullName>
@@ -1286,7 +1300,14 @@
         <shortDescription>ABHI_PolicyRequired_ErrMsg</shortDescription>
         <value>Please select a Policy Number</value>
     </labels>
-</CustomLabels>
+    <labels>
+        <fullName>RNWL_Auto_Calculation_Private_Key</fullName>
+        <categories>Renewals</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Auto_Calculation_Private_Key</shortDescription>
+        <value>5412364561234567</value>
+    </labels>
     <labels>
         <fullName>MCRM_GymLocationSelectPartnerCode</fullName>
         <categories>wellness</categories>
@@ -1326,5 +1347,12 @@
         <protected>false</protected>
         <shortDescription>MCRM_WireServiceTableMdtError</shortDescription>
         <value>Oops! We couldn&apos;t retrieve the table metadata right now. Please try refreshing the page to see if that resolves the issue.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Queue_error_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Queue error message</shortDescription>
+        <value>Selected Queue is not from the Same LOB</value>
     </labels>
 </CustomLabels>
