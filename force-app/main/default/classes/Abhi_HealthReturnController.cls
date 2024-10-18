@@ -30,7 +30,7 @@ public with sharing class Abhi_HealthReturnController {
           respWrapper = (ResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ResponseWrapper.class);
           respWrapper.StatusCode = 1000;
       }
-      else if(integrationResponse.statusCode == 400) {
+      else {
         Custom_Messages__mdt cm = Custom_Messages__mdt.getInstance('ABHI_No_Response_Received');
         respWrapper.Message = cm.Message__c;
         respWrapper.StatusCode = integrationResponse.statusCode;
