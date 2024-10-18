@@ -155,5 +155,37 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
         }
     }
 }
-    
+   
+/**
+    * @param newCaseList - list of new value cases from trigger
+    * @param olCasesMap - Map of old value cases from trigger
+    * @return null
+    * @description - calling this method in Before update trigger to assign to the correct LOB of the Case LOB - Bug-200 AMC bug tracker
+    */
+    public static void CheckQueueAssignementSpecificToLOB(Map<Id, Case> newCaseMap, Map<Id, Case> oldCasesMap){
+        list<String> queueIdList = new List<String>();
+        for (Case caseRec : newCaseMap.values()) {
+            Case oldcase = oldCasesMap.get(caseRec.Id);
+            if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && caseRec.OwnerId != oldCase.OwnerId && !String.valueOf(caseRec.OwnerId).startsWith('005') ){
+                queueIdList.add(caseRec.OwnerId);
+            }
+        }
+        if(queueIdList.size()>0){
+            map<String, String> queueIdwithDeveloperName = new map<String, String>();
+            for(Group qObj : [SELECT Id, DeveloperName  FROM Group where Type = 'Queue' AND Id IN : queueIdList]){
+                queueIdwithDeveloperName.put(qObj.Id, qObj.DeveloperName);
+            }
+            for(Case caseRec : newCaseMap.values()) {
+            Case oldcase = oldCasesMap.get(caseRec.Id);
+            if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && caseRec.OwnerId != oldCase.OwnerId && !String.valueOf(caseRec.OwnerId).startsWith('005') ){
+                if(queueIdwithDeveloperName.keySet().contains(caseRec.OwnerId)){
+                    String[] qDevNameArr = queueIdwithDeveloperName.get(caseRec.OwnerId).split('_');
+                    if(qDevNameArr[1] !=caseRec.Line_Of_Business__c){
+                        caseRec.addError(System.label.ABSLAMC_Queue_error_message);
+                    }
+                }
+            }
+        }
+        }
+    }
 }

@@ -1,0 +1,11 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p>Dear Customer,<br />
+We are pleased to inform you that your Service Request No.&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been successfully processed. Please refer to our email from&nbsp;ABHI.service@adityabirlacapital.com for your revised endorsement schedule, which confirms the changes made.<br />
+Regards,<br />
+ABHI</p>
+</body>
+</html>

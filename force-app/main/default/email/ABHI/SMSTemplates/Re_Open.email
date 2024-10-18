@@ -1,0 +1,9 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear Customer,<br />
+Your Service Request No.&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been reopened. We aim to resolve it by {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}.<br />
+Regards,<br />
+ABHI</body>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABHI_16</label>
+    <protected>false</protected>
+    <values>
+        <field>CCValue__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Channel__c</field>
+        <value xsi:type="xsd:string">Auto</value>
+    </values>
+    <values>
+        <field>Complaint_Type__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Exclusion_Bu_s__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>IsActive__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>LOB__c</field>
+        <value xsi:type="xsd:string">ABHI</value>
+    </values>
+    <values>
+        <field>New_Source__c</field>
+        <value xsi:type="xsd:string">Sprinkler</value>
+    </values>
+    <values>
+        <field>Source_Code__c</field>
+        <value xsi:type="xsd:string">016</value>
+    </values>
+    <values>
+        <field>Source__c</field>
+        <value xsi:type="xsd:string">Sprinkler</value>
+    </values>
+    <values>
+        <field>Sub_Source__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">LOB</value>
+    </values>
+</CustomMetadata>

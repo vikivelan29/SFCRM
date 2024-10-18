@@ -32,6 +32,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	pageSize;
 	isError = false;
 	errorMessage = "";
+	isShowExtension = true;
 
 	// Internals
 	showBaseView = false;
@@ -124,16 +125,29 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	handleMessage(message) {
 		this.isLoading = true;
 		if (this.dynTableExAPI == 'MCRM_ActiveDays' && message.name == 'MCRM_ActiveDayURL') {
-			this.getActiveDays(message.payLoad);
+			if(message.payLoadType == 'showExtension'){
+				this.isShowExtension = message.payLoad.showExtension;
+			}else{
+				this.getActiveDays(message.payLoad);
+			}
 		} else if (this.dynTableExAPI == 'MCRM_GymNameLocation' && message.name == 'MCRM_Gym_Voucher') {
-			this.getGymNameLocation(message.payLoad);
+			if(message.payLoadType == 'showExtension'){
+				this.isShowExtension = message.payLoad.showExtension;
+			}else{
+				this.getGymNameLocation(message.payLoad);
+			}
 		} else if (this.dynTableExAPI == 'MCRM_Rewards' && message.name == 'MCRM_Benefits'){
-			this.getRewards(message.payLoad);
+			if(message.payLoadType == 'showExtension'){
+				this.isShowExtension = message.payLoad.showExtension;
+			}else{
+				this.getRewards(message.payLoad);
+			}
 		}
-
-		this.showBaseView = true;
 		this.isLoading = false;
-		this.showPreview=true;
+		if(message.payLoadType != 'showExtension'){
+			this.showBaseView = true;
+			this.showPreview=true;
+		}
 	}
 
 	getActiveDays(message) {
