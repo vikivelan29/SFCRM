@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>MCRM Total Medals And Tier Status Score</label>
+    <protected>false</protected>
+    <values>
+        <field>Attribute_Mapping__c</field>
+        <value xsi:type="xsd:string">categoryPercentage</value>
+    </values>
+    <values>
+        <field>DynamicScreenHeader__c</field>
+        <value xsi:type="xsd:string">MCRM_Total_Medals_And_Tier_Status_Score</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">5.0</value>
+    </values>
+    <values>
+        <field>Section_Name__c</field>
+        <value xsi:type="xsd:string">Total Medals And Tier Status</value>
+    </values>
+    <values>
+        <field>Table_Columns__c</field>
+        <value xsi:type="xsd:string">categoryName:Category Name,categoryPercentage:Category Percentage</value>
+    </values>
+    <values>
+        <field>Table_Page_Size__c</field>
+        <value xsi:type="xsd:double">5.0</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">Table</value>
+    </values>
+</CustomMetadata>
