@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ABHI_18_B2_Decision remains Unchanged</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Policy Benefits remain Unchanged concerning your Service Request bearing SR No. {{{Case.CaseNumber}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
