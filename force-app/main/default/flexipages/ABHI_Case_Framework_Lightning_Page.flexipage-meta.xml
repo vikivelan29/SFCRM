@@ -30,7 +30,7 @@
                         <valueListItems>
                             <value>Case.ASF_Clone_SR</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.ASF_Is_Cloneable__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -41,16 +41,12 @@
                                     <operator>NE</operator>
                                     <rightValue>ABHI Partner Base Profile</rightValue>
                                 </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Account.Name}</leftValue>
-                                    <operator>NE</operator>
-                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.Reopen</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -65,21 +61,6 @@
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>ABHI Partner Base Profile</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Reopened__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Source__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Social Media</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Channel__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Social Media</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -133,7 +114,7 @@
                         <valueListItems>
                             <value>Case.ReCategorize</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.AmIOwner__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -205,37 +186,6 @@
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>ABHI Partner Base Profile</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Reopen_Case</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Nature__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Complaint</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Stage__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Resolved</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Reopened__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Relate_Duplicate</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.IsClosed}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
