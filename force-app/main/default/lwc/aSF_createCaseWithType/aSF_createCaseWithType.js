@@ -20,6 +20,7 @@ import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
@@ -303,7 +304,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
-            if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != ''){
+            if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != '' && this.businessUnit != ABSLAMC_BU){//ABSLAMC Bug203 Hide Create Case with Prospect btn
                 this.showOnProspectTagging = true;
             }
 
