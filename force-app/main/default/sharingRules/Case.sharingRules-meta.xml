@@ -19,7 +19,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABFL Cases to ABFL Users</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
@@ -35,19 +35,48 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABHI_Case_Sharing</fullName>
+        <fullName>Share_ABHFL_Cases_to_ABHFL_Users</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABHI Case Sharing</label>
+        <label>Share ABHFL Cases to ABHFL Users</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABHI_Service_Manager</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABHI</value>
+            <value>ABHFL</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_Payment_Cases_to_Payment_Users</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Share Payment Cases to Payment Users</label>
+        <sharedTo>
+            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Payments</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+     <sharingCriteriaRules>
+        <fullName>ABSLI_Case_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLI Case Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    
     <sharingCriteriaRules>
         <fullName>ABSLAMC_AIF_Cases_Share_to_AIF_Users</fullName>
         <accessLevel>Read</accessLevel>
@@ -125,58 +154,16 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABSLIG_Case_Sharing</fullName>
+        <fullName>ABHI_Case_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABSLIG Case Sharing</label>
+        <label>ABHI Case Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLIG</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLI_Case_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLI Case Sharing</label>
-        <sharedTo>
-            <roleAndSubordinatesInternal>ABSLI_Service_Agent</roleAndSubordinatesInternal>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Share_ABHFL_Cases_to_ABHFL_Users</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>Share ABHFL Cases to ABHFL Users</label>
-        <sharedTo>
-            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHFL</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Share_Payment_Cases_to_Payment_Users</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Share Payment Cases to Payment Users</label>
-        <sharedTo>
-            <roleAndSubordinatesInternal>Payments_Service_Agent</roleAndSubordinatesInternal>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Payments</value>
+            <value>ABHI</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
