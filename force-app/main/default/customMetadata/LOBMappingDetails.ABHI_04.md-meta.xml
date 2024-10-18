@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>New_Source__c</field>
-        <value xsi:type="xsd:string">Abcd_app,Distributor_WA_Bot,Customer_Portal,Customer_App,Customer_WA_Bot,Customer_Chatbot,Unified_SalesPortal,Unified_WA_Bot,Unified_Chatbot,Unified_SalesApp,Ubona_WelcomeBOT,Ubona_RenewalBOT,OneABC,IGMS,Social Media,Ubona_IVRVoiceBOT</value>
+        <value xsi:type="xsd:string">Customer_Portal,Customer_App,Customer_WA_Bot,Customer_Chatbot,Unified_SalesPortal,Unified_WA_Bot,Unified_Chatbot,Unified_SalesApp,Ubona_WelcomeBOT,Ubona_RenewalBOT,OneABC,IGMS,Social Media,Ubona_IVRVoiceBOT</value>
     </values>
     <values>
         <field>Source_Code__c</field>
@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>Source__c</field>
-        <value xsi:type="xsd:string">Abcd_app,Distributor_WA_Bot,Customer_Portal,Customer_App,Customer_WA_Bot,Customer_Chatbot,Unified_SalesPortal,Unified_WA_Bot,Unified_Chatbot,Unified_SalesApp,Ubona_WelcomeBOT,Ubona_RenewalBOT,OneABC,IGMS,Social Media,Ubona_IVRVoiceBOT</value>
+        <value xsi:type="xsd:string">Customer_Portal,Customer_App,Customer_WA_Bot,Customer_Chatbot,Unified_SalesPortal,Unified_WA_Bot,Unified_Chatbot,Unified_SalesApp,Ubona_WelcomeBOT,Ubona_RenewalBOT,OneABC,IGMS,Social Media,Ubona_IVRVoiceBOT</value>
     </values>
     <values>
         <field>Sub_Source__c</field>
