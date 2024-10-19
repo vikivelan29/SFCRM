@@ -1,0 +1,34 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear Customer / </span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}},</p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Greetings from Aditya Birla Health Insurance Company Limited!!</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Thank You for trusting Us with your Health Insurance needs and we assure you the best of our services.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Your Service Request No. </span></span></span></span></span></span>{{{Case.CaseNumber}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> has been successfully processed on { DD/MM/YYYY }.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We hereby attach the updated Policy Schedule for Policy No. {{{Case.LAN__c}}} issued by the Insurer for your reference.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We are committed to serving you always and wish you the very best in your Health Journey.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Regards,</span></span></span></span></span></span><br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Aditya Birla Health Insurance Co. Ltd.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:center"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:italic"><span style="text-decoration:none">This is an auto-generated email.</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:center">&nbsp;</p>
+
+<p style="line-height:1.3800000000000001; text-align:justify">&nbsp;</p>
+</body>
+</html>
