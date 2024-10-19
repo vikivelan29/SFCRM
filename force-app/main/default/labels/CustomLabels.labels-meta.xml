@@ -9,6 +9,34 @@
         <value>5</value>
     </labels>
     <labels>
+        <fullName>ABHI_Communication_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Communication History</shortDescription>
+        <value>Communication History</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Retry</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Retry</shortDescription>
+        <value>3</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_WelcomeBatchSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_WelcomeBatchSize</shortDescription>
+        <value>200</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_Update_CCC_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI Update CCC ID</shortDescription>
+        <value>EC0001,EC0002,EC0003</value>
+    </labels>
+    <labels>
         <fullName>ASF_Recat_Approval_Required_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -981,7 +1009,140 @@
         <fullName>BUsToHideEbotFeedbackInRecat</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments</value>
+        <shortDescription>ABHI Health Return Header</shortDescription>
+        <value>Health Return Details</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Health_Return_View</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Health_Return_View</shortDescription>
+        <value>Health Return View</value>
+    </labels>
+    <labels>
+        <fullName>ASF_RetryInterval</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_RetryInterval</shortDescription>
+        <value>15</value>
+    </labels>
+    <labels>
+        <fullName>ASF_RetryNumbers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_RetryNumbers</shortDescription>
+        <value>2</value>
+    </labels>
+    <labels>
+        <fullName>OppDetailsToastErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OppDetailsToastErrorMessage</shortDescription>
+        <value>We&apos;re unable to fetch details from following APIs. Please try again later -</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_ResolutionRemarks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_ResolutionRemarks</shortDescription>
+        <value>Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Auto_Calculation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Auto_Calculation</shortDescription>
+        <value>https://mtpre.adityabirlahealth.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy?</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Product_Features</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Product_Features</shortDescription>
+        <value>/lightning/o/Product2/list?filterName=ABHI_Products</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Seller_Portal_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Seller_Portal_Link</shortDescription>
+        <value>https://happy.adityabirlacapital.com/#renewPaSales</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseDuplicateAdminByPass</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
+        <value>System Administrator,***System Admin</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_PolicyRequired_ErrMsg</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_PolicyRequired_ErrMsg</shortDescription>
+        <value>Please select a Policy Number</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Auto_Calculation_Private_Key</fullName>
+        <categories>Renewals</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Auto_Calculation_Private_Key</shortDescription>
+        <value>5891233561234567</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_GymLocationSelectPartnerCode</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_GymLocationSelectPartnerCode</shortDescription>
+        <value>Please choose a value from the Partner Code dropdown menu and click on the Result button.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_InvokeApiError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_InvokeApiError</shortDescription>
+        <value>An Error Occurred: We&apos;re experiencing an issue on our end. Please try again later. If the problem persists, please contact your administrator for assistance.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_MissingDataError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_MissingDataError</shortDescription>
+        <value>We&apos;re Sorry! It looks like we couldn&apos;t find the information you were looking for. This might be due to a temporary issue or missing data. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_RewardsSelectPartnerBenefitCode</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_RewardsSelectPartnerBenefitCode</shortDescription>
+        <value>Please choose a value from the Partner Code and Benefit Code dropdown menu and click on the Rewards button.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_WireServiceTableMdtError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_WireServiceTableMdtError</shortDescription>
+        <value>Oops! We couldn&apos;t retrieve the table metadata right now. Please try refreshing the page to see if that resolves the issue.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Queue_error_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Queue error message</shortDescription>
+        <value>Selected Queue is not from the Same LOB</value>
     </labels>
 </CustomLabels>
