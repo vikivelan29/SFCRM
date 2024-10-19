@@ -468,6 +468,42 @@
                                     </div>
                                 </div> 
                             </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Intermediary-classification</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Channel__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Customer Segment , Policy Lapse Date, Intermediary Mobile Number-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Customer Segment </span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.Customer_Segment__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Policy Lapse Date</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policyLapseDate}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="slds-form__item" role="listitem" >
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
@@ -881,7 +917,7 @@
                                     <span class="slds-form-element__label">Chronic Type</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            <lightning-input class="slds-p-left_xx-large" type="checkbox" checked={isChronic} disabled=""></lightning-input>
+                                            {masterPolicyNumber}
                                         </div>
                                     </div>
                                 </div>

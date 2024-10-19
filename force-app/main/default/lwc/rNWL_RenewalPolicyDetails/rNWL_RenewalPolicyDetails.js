@@ -14,7 +14,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     @track fitnessFlag = false; healthFlag = false;
     @track nomineeContacts; nomineesNames; claimsCounts; isPolicyRenewed;
     @track maturityDate; policyLapseDate; policyLapsed; policyStartDate; dateOfBirth; masterPolicyNumber;
-    @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus; inceptionDate;
+    @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus;
     @track renewalAPIData; goGreenFlag; isChronic;
     @track autoDebitFlag; sumInsusedEnhancement; addressFlag; addressString;
     @track balanceHR;apiList;error;data;addDownloadStatus;
