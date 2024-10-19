@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Used for HI Renewals</description>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -29,6 +28,51 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-34c2aef9-45e2-4e6d-8b16-7b9675c1b089</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>rNWL_MemberDetails</componentName>
+                <identifier>c_rNWL_MemberDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-7d252d5f-612d-48b4-8dcb-ca5038c309e8</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>rNWL_HealthReturns</componentName>
+                <identifier>c_rNWL_HealthReturns</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d77ea593-2c00-47fa-aa45-7c03198c02ca</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>createQuickActionName</name>
+                    <value>NewOpportunity</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>lookupFieldName</name>
+                    <value>Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>titleFieldName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>updateQuickActionName</name>
+                    <value>Opportunity.Upsell</value>
+                </componentInstanceProperties>
+                <componentName>console:relatedRecord</componentName>
+                <identifier>console_relatedRecord</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-8df354cd-a215-4a2d-9ce0-ae36e712c348</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -88,7 +132,7 @@
                 <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
-        <!--itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
@@ -129,7 +173,7 @@
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
             </componentInstance>
-        </itemInstances-->
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
@@ -176,16 +220,8 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>decorate</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;a href=&quot;https://happy.adityabirlacapital.com/#renewPaSales/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Seller Portal&lt;/a&gt;   &lt;a href=&quot;https://www.salesforce.com/in/editions-pricing/overview/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Product Features&lt;/a&gt;  &lt;a href=&quot;https://www.adityabirlacapital.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Premium Calculator&lt;/a&gt;&lt;/p&gt;</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:richText</componentName>
-                <identifier>flexipage_richText</identifier>
+                <componentName>rNWL_HelpLinks</componentName>
+                <identifier>c_rNWL_HelpLinks</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -329,7 +365,7 @@
                             <value>Claim_Amount__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Reverse_Amount__c</value>
+                            <value>Reserve_Amount__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Paid_Amount__c</value>
@@ -338,7 +374,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Claims for Parent Asset</value>
+                    <value>Claims Details</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
@@ -353,7 +389,7 @@
                     <value>Default</value>
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList2</identifier>
+                <identifier>lst_dynamicRelatedList9</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -460,22 +496,10 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Agent_Name__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Calling_Mode__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Calling_Unit__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Call_Date_Time__c</value>
+                            <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Next_Call_Back_Date_Time__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Remarks__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Disposition_L1__c</value>
@@ -484,16 +508,28 @@
                             <value>Disposition_L2__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Disposition_L3__c</value>
+                            <value>Disposition_L4__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Disposition_L4__c</value>
+                            <value>Call_Date_Time__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Agent_Name__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Remarks__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Calling_Unit__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Calling_Mode__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Dispositions</value>
+                    <value>Phone Call Audit</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
@@ -509,6 +545,164 @@
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>1</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Dispositions__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Next_Call_Back_Date_Time__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L1__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L2__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L4__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Call_Date_Time__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Agent_Name__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Remarks__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Calling_Unit__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Calling_Mode__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Best Disposition</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Priority__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Ascending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>1</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Dispositions__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Next_Call_Back_Date_Time__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L1__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L2__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L4__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Call_Date_Time__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Agent_Name__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Remarks__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Calling_Unit__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Calling_Mode__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Last Disposition</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Call_Date_Time__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Descending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList5</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
