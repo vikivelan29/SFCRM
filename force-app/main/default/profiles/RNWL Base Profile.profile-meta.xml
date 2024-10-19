@@ -200,7 +200,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_IntegrationCallout</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_IntegrationCallout_Test</apexClass>
@@ -1068,7 +1068,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_HealthAssesmentDetails</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_HealthAssesmentDetails_Test</apexClass>
@@ -1188,7 +1188,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_ViewPolicyInformation_Controller</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_ViewPrintandDispatchDetails</apexClass>
@@ -2364,7 +2364,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Abhi_HealthReturnController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Abhi_HealthReturnController_Test</apexClass>
