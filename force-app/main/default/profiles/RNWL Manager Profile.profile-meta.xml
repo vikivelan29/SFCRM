@@ -16083,6 +16083,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product2.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product2.Discontinue_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -17227,7 +17232,16 @@
         <layout>CaseInteraction-Case Feed Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Claim__c-Claim Layout</layout>
+        <layout>Claim__c-Claim RNWL Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Collections__c-Collection Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product2-RNWL Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Dispositions__c-Dispositions RNWL Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ContentVersion-Content Version</layout>
