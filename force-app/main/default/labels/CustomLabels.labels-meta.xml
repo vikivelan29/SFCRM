@@ -30,7 +30,7 @@
         <shortDescription>ABHI Communication History</shortDescription>
         <value>Communication History</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>ABHI_Retry</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1283,7 +1283,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_Product_Features</shortDescription>
-        <value>https://adityabirlafinancialsharedservices--abhil.sandbox.lightning.force.com/lightning/o/Product2/list?filterName=AllProducts&amp;ws=%2Flightning%2Fr%2FOpportunity%2F006Bl00000D3c2tIAB%2Fview</value>
+        <value>/lightning/o/Product2/list?filterName=ABHI_Products</value>
     </labels>
     <labels>
         <fullName>RNWL_Seller_Portal_Link</fullName>
@@ -1306,7 +1306,7 @@
         <shortDescription>ABHI Case Dedupe Active</shortDescription>
         <value>Active</value>
     </labels>
-   <labels>
+    <labels>
         <fullName>ABHI_PolicyRequired_ErrMsg</fullName>
         <categories>ABHI</categories>
         <language>en_US</language>
