@@ -125,7 +125,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
         let allowCreateCase = true;
 
         // Add changes for Product listing LWC i.e asf_FetchAssetsRelatedToAccount
-        if(this.infoObject.hasOwnProperty("isAsset")) {
+        if(this.infoObject != undefined && this.infoObject.hasOwnProperty("isAsset")) {
             let isAsset = this.infoObject.isAsset;
             if(isAsset == "false") {
                 this.withoutAsset = true;
@@ -136,7 +136,7 @@ export default class Asf_CurrentHoldings extends LightningElement {
         }
 
         // Added validation for ABHI BU when no asset is selected in overview component on click of Create Case Button
-        if(this.infoObject.hasOwnProperty("businessUnit")) {
+        if(this.infoObject != undefined && this.infoObject.hasOwnProperty("businessUnit")) {
             let businessUnit = this.infoObject.businessUnit;
             if(businessUnit == 'ABHI' && this.withoutAsset){
                 allowCreateCase = false;
