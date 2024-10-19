@@ -965,8 +965,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
 
     }
     handleClose(event) {
-        //this.fetchRejectionReason();
-        this.showRejectModal();
+        this.fetchRejectionReason();
+        //this.showRejectModal();
         /* ADDED BELOW CODE TO SET RESOLUTION COMMENT FIELDS VALUE IF IT IS ALREADY POPULATED ON PARENT FORM BEFORE OPENING POP-UP */
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
             //Resolution_Remarks__c - ABHFL
@@ -1151,15 +1151,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
      */
     saveCaseAndExtn(event) {
         this.skipMoveToNextStage = true;
-       /* if(this.caseBusinessUnit = 'ABHI') {
-            this.skipMoveToNextStage = false;
-        }
-        else {
-            this.skipMoveToNextStage = true;
-        }*/
         this.validateFields();
         this.template.querySelector('.hiddenSubmitBtn').click();
-        console.log('submit btn clicked1'+this.caseBusinessUnit);
+        console.log('submit btn clicked');
     }
     handleMoveToNext(event) {
         this.skipMoveToNextStage = false;
@@ -2634,57 +2628,46 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.showLoading = false;
         this.selectedReason = '';
     }
-    //PR1030924-224: ZAHED : Added filter condition for wellness case - Start
-    
-    async showRejectModal() {       
+
+    showRejectModal() {
+        getSrBUReasons({ cccExternalId: this.cccExternalId }).then(result => {
+            this.processReasons(result); //PR1030924-224 - Zahed/Raj: Added method to unify response processing
+            this.showRejModal = true;
+        }).catch(error => {
+            console.log('Error: ' + JSON.stringify(error));
+        });
+    }
+
+    processReasons(records){
         if(this.showResolvedReasons){           
-            try{
-                const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });  
-                this.reasonLOV = [];
-                this.resolveReasonLOV = [];
-             records.forEach(item => {
-                    if(item.Type__c == 'Reject'){
-                const optionVal = {
-                            label: item.Reason__c,
-                            value: item.Reason__c
-                };
-                this.reasonLOV.push(optionVal);
-                    }else if(item.Type__c == 'Resolve'){
-                        const optionVal = {
-                            label: item.Reason__c,
-                            value: item.Reason__c
-                        };
-                        this.resolveReasonLOV.push(optionVal);
-                    }                   
-                });
-                this.isLoading = false;
-            }catch (error) {
-                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
-                this.isLoading = false;              
-            }
+            records.forEach(item => {
+                if(item.Type__c == 'Reject'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.reasonLOV.push(optionVal);
+                }else if(item.Type__c == 'Resolve'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.resolveReasonLOV.push(optionVal);
+                }                   
+            });
+            this.isLoading=false;
         }else{
-            // this.fetchRejectionReason();
-            try{
-                const records = await getSrBUReasons({ cccExternalId: this.cccExternalId });  
-                this.reasonLOV = [];
-                this.resolveReasonLOV = [];
-                records.forEach(item => {
-                    if(item.Type__c != 'Resolve'){
-                        const optionVal = {
-                            label: item.Reason__c,
-                            value: item.Reason__c
-                        };
-                        this.reasonLOV.push(optionVal);
-                    }                  
-                });
-                this.isLoading = false;
-            }catch (error) {
-                this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
-                this.isLoading = false;              
-            }
+            records.forEach(item => {
+                if(item.Type__c != 'Resolve'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.reasonLOV.push(optionVal);
+                }                  
+            });
+        }
     }
-    }
-    //PR1030924-224: ZAHED : Added filter condition for wellness case - End
 
     handleSuccessRejection(event) {
         this.showRejModal = false
@@ -2747,20 +2730,13 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             });
     }
     //To get Rejection Reason:
-    // fetchRejectionReason() {
-    //     getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
-    //         this.reasonLOV = [];
-    //         result.forEach(reason => {
-    //             const optionVal = {
-    //                 label: reason,
-    //                 value: reason
-    //             };
-    //             this.reasonLOV.push(optionVal);
-    //         });
-    //     }).catch(error => {
-    //         console.log('Error: ' + JSON.stringify(error));
-    //     });
-    // }
+    fetchRejectionReason() {
+        getSrBUReasons({ cccExternalId: this.cccExternalId }).then(result => {
+            this.processReasons(result); //PR1030924-224 - Zahed/Raj: Added method to unify response processing
+        }).catch(error => {
+            console.log('Error: ' + JSON.stringify(error));
+        });
+    }
 
 
     //End: Added for Complain Rejection
