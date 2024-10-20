@@ -70,6 +70,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
@@ -82,7 +90,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABHI</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -95,6 +103,57 @@
         </values>
         <values>
             <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Feature_Skipper_Flag__c</picklist>
+        <values>
+            <fullName>SKIP_APPROVAL_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_ASSIGNMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_CLOSE_CASE_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_INTEGRATION_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_OWNER_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_PERI_GENERATE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_ENTRY_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_EXIT_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_CHECKLISTS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_RECAT_PARAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_TASKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATION_CHECKS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -954,6 +1013,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Line_Of_Business__c</picklist>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RE</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Nature__c</picklist>
         <values>
             <fullName>Complaint</fullName>
@@ -979,7 +1057,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>WhatsApp</fullName> 
+            <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -991,6 +1069,14 @@
         </values>
         <values>
             <fullName>ABHFL Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABHI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLAMC Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1023,10 +1109,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABHI Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1090,6 +1172,10 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
+            <fullName>Additional information required</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Cancelled</fullName>
             <default>false</default>
         </values>
@@ -1133,6 +1219,10 @@
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>
@@ -1150,15 +1240,26 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>ResolutionReason__c</picklist>
+        <values>
+            <fullName>Closed as Exception</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed as Junk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Information Provided</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Problem Solved</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Source__c</picklist>
-        <values>
-            <fullName>Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Web (Mobile App)</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>ABCD App</fullName>
             <default>false</default>
@@ -1213,6 +1314,10 @@
         </values>
         <values>
             <fullName>Call Center</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Centre</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1368,15 +1473,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>NCH</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>MH</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>MOBILEAPP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NCH</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1409,6 +1514,10 @@
         </values>
         <values>
             <fullName>Payment Link</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1492,6 +1601,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Web %28Mobile App%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Webform</fullName>
             <default>false</default>
         </values>
@@ -1515,11 +1628,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Open</fullName>
+            <fullName>In Progress with SA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>In Progress with SA</fullName>
+            <fullName>Open</fullName>
             <default>false</default>
         </values>
     </picklistValues>
