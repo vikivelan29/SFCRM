@@ -1523,6 +1523,10 @@
             <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Call Centre</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
