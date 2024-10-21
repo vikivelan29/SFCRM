@@ -16,6 +16,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from "lightning/navigation";
 import { reduceErrors } from 'c/asf_ldsUtils';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 
 
 /* Apex method imports */
@@ -28,6 +29,8 @@ import { getRecord } from "lightning/uiRecordApi";
 
 import ACCOUNT_NAME from "@salesforce/schema/Case.Account.Id";
 import ASSET_NAME from "@salesforce/schema/Case.Asset.Id";
+import BUSINESS_UNIT from "@salesforce/schema/Case.Business_Unit__c";
+import ASSET_ID from "@salesforce/schema/Customer_Member_Mapping__c.Policy_Number__c";
 
 export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(LightningElement) {
     /* API variables */
@@ -42,7 +45,10 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     showStartPage = false;
     initialValue;
     filter = {}; 
+    filterCm = {};
+    cmRecordId;
     newAssetSelected = 'NA';
+    caseBusinessUnit = '';
     matchingInfo = {
         primaryField: { fieldPath: "Name" },
         additionalFields: [{ fieldPath: "LAN__c"}],
@@ -51,14 +57,40 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     displayInfo = {
         additionalFields: ["LAN__c"] 
     };
+    matchingInfoCm = {
+        primaryField: { fieldPath: "Member_Name__c"},
+        additionalFields: [{ fieldPath: "Policy_Number__r.Name"}],
+    };
 
+    displayInfoCm = {
+        additionalFields: ["Client_Id__r.Client_Code__c"]
+    };
+
+    get showCustomerMember(){
+        return (this.caseBusinessUnit == ABHI_BU);
+    }
     handleChange(event) {
         this.newAssetSelected = event.detail.recordId;
         console.log(`Selected record: ${event.detail.recordId}`);
-        this.template.querySelector("lightning-record-picker").reportValidity();
+        this.template.querySelector(".assetPicker").reportValidity();
+    }
+    handleCMChange(event) {
+        console.log('selected rec--'+event.detail.recordId+'--'+JSON.stringify(event.detail));
+        this.cmRecordId = event.detail.recordId;
+        this.template.querySelector(".cmPicker").reportValidity();
     }
 
-    @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME,ASSET_NAME] })
+    @wire(getRecord, { recordId: "$cmRecordId", fields: [ASSET_ID] })
+    user({ error, data}) {
+        if (data){
+           this.newAssetSelected = data.fields.Policy_Number__c.value;
+           console.log('new asset--'+this.newAssetSelected);
+        } else if (error){
+            console.log('error in get CM record--'+JSON.stringify(error));
+        }
+    }
+
+    @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME,ASSET_NAME,BUSINESS_UNIT] })
         wiredRecord({ error, data }) {
             if (error) {
                 let errMsg = reduceErrors(error);
@@ -71,8 +103,9 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             } 
             else if (data) {
                 console.log('data', JSON.stringify(data));
-                this.accountId = data.fields.Account.value.Id;
+                this.accountId = data.fields.Account.value.id;
                 this.accountName = data.fields.Account.displayValue;
+                this.caseBusinessUnit = data.fields.Business_Unit__c.value;
                 this.filter = {
                     criteria: [
                       {
@@ -82,6 +115,15 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                       },
                     ],
                   };
+                  this.filterCm = {
+                    criteria: [
+                      {
+                        fieldPath: "Client_Id__r.Id",
+                        operator: "eq",
+                        value: this.accountId,
+                      },
+                    ],
+                };
                 if(data.fields.Asset != undefined && data.fields.Asset.value != undefined ){
 
                     this.initialValue = data.fields.Asset.value.Id;
@@ -117,8 +159,8 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
         let clonedCaseRecord = {};
         let clonedCaseExtnRecords = {}; //Its a map of objectapiname to cloned record
         let isFAMandatory = false;
-
-        if(!this.template.querySelector("lightning-record-picker").reportValidity()){
+        let componentName = this.showCustomerMember ? '.cmPicker' : '.assetPicker';
+        if(!this.template.querySelector(componentName).reportValidity()){
             const event = new ShowToastEvent({
                 variant: 'error',
                 title: 'Error on asset selector',
@@ -169,7 +211,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             //checks whether folio is mandatory on CCC, throws error when user proceeds to cloning the case without selecting folio
             isFAMandatory = specificFields.isFAMandatory;
             if(isFAMandatory && (this.newAssetSelected == 'NA' || !this.newAssetSelected)){
-               let recpicker = this.template.querySelector("lightning-record-picker");
+               let recpicker = this.template.querySelector(componentName);
                recpicker.setCustomValidity('Please select an asset');
                recpicker.reportValidity();
                recpicker.setCustomValidity('');

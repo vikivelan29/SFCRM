@@ -76,10 +76,10 @@ public with sharing class ABHI_CaseDetailHelper {
                     abhiCaseDetRec.Policy__c = cs?.AssetId;
                 }
                 else if(triggerContext == 'AfterASFCodeInAfterUpdate') {
+                    abhiCaseDetRec.Policy__c = cs?.AssetId;
                     Case oldCase = mapOfIdToOldCase.get(cs.Id);
                     if(String.isNotBlank(cs.AssetId) && cs.AssetId != oldCase.AssetId) {      
                         abhiCaseDetRec.Claim__c = null;
-                        abhiCaseDetRec.Policy__c = cs?.AssetId;
                     }
                     else if(String.isBlank(cs.AssetId)) {
                         abhiCaseDetRec.Claim__c = null;
