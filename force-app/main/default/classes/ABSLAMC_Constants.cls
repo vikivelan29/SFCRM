@@ -15,7 +15,7 @@ public with Sharing class ABSLAMC_Constants {
     public static final String AWAITING_RESPONSE_FROM_APP_SUPPORT = 'Awaiting Response from App Support'; 
     public static final String ABSLAMCBU = 'ABSLAMC'; 
     public static final String ABSLAMC_CASE_ORIGIN = 'ABSLAMC Email';
-    public static final String ABSLAMC_PHD_QUEUE= 'ABSLAMC_PHD';
+    public static final String ABSLAMC_MF_PHD_QUEUE= 'ABSLAMC_MF_PHD';
     public static final String ABSLAMC_HWC_REASON_SOCIAL_MEDIA = 'Social Media';
     public static final String Y = 'Y';
     public static final String REPLYFROMCAMS = 'Reply Received from CAMS';
@@ -39,4 +39,9 @@ public with Sharing class ABSLAMC_Constants {
     public static final String APPROVEDSTATUS = 'Approved';
     public static final String RECALLEDSTATUS = 'Recalled';
     public static final String REJECTEDSTATUS = 'Rejected';
+    public static final String SPRINKLRAPI = 'Sprinklr-UpdateCase API';
+    public static final String SPRINKLRINT = 'Sprinklr-UpdateCase';
+    public static final String SPRINKLR = 'SPRINKLR';
+    public static final String RT_LEAD = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('ABSLAMC_Leads').getRecordTypeId();
+
 }

@@ -19,7 +19,7 @@ public class ASF_BulkCsvController_Test {
     @isTest
     private static void getMetadataDetailsTest() {
         Test.startTest();
-        ASF_BulkCsvController.getMetadataDetails(); 
+            ASF_BulkCsvController.getMetadataDetails('TestObjName'); 
         Test.stopTest();     
     }
     @isTest

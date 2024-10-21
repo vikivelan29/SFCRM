@@ -1,8 +1,7 @@
 <template>
 <lightning-card>
             <div class="slds-p-around_medium">
-             Please ensure that the file you upload follows <a href={url} target="_blank">this template</a>
-            
+             Please ensure that the file you upload follows <a href={label.template} target="_blank">this template</a>
         </div>
     <div>
     
@@ -26,7 +25,7 @@
     </lightning-layout-item>
         
     </div>
-     <div class="slds-col slds-size_1-of-6">
+     <div class="slds-col slds-size_2-of-6">
     <lightning-layout-item  class="slds-p-horizontal_small"
             flexibility="auto">
                     <lightning-button class="slds-m-top--medium" label='Reset' onclick={handleReset} variant="brand"></lightning-button>

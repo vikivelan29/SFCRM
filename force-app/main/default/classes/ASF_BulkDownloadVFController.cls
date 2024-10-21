@@ -1,21 +1,21 @@
 public class ASF_BulkDownloadVFController {
-	
-    public List<Case> selectedCasesList {get; set;}
-    public String strCaseIds {get; set;}
+
+    public List<sObject> selectedRecordsList {get; set;}
+    public String strRecIds {get; set;}
     
     /****************************************************************************************************
      * @Description - StandardSetController Constructor
     *****************************************************************************************************/
 
     public ASF_BulkDownloadVFController(ApexPages.StandardSetController cntlr){
-        selectedCasesList = cntlr.getSelected(); //get selected records from cases list view
-        strCaseIds = '';
+        selectedRecordsList = cntlr.getSelected(); //get selected records from cases list view
+        strRecIds = '';
           
         //build list of ids string concatenated with comma  
-           for(Case objCase : selectedCasesList){
-            strCaseIds += objCase.Id + ',';                        
+           for(sObject obj : selectedRecordsList){
+            strRecIds += obj.Id + ',';                        
             }
-            strCaseIds = strCaseIds.removeEnd(',');
+            strRecIds = strRecIds.removeEnd(',');
         
    } 
 
