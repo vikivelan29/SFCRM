@@ -10,7 +10,7 @@
         <field>Fields_to_Fetch__c</field>
         <value xsi:type="xsd:string">Contract #:LAN__r.ContractId__c:url,
 Plan Name:LAN__r.Plan_Name__c,
-Tier: LAN__r.Tier__c,
+Tier:LAN__r.Tier__c,
 Contract Start Date:LAN__r.ContractStartDate__c:date,
 Contract End Date:LAN__r.ContractEndDate__c:date,
 Payment:LAN__r.Payment__c,
