@@ -169,7 +169,8 @@ public with sharing class  ASF_CaseUIController {
                 
                 asstList = [select id, Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
                             Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c, LOB__c, 
-                            Policy_No__c, ContractId__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c
+                            Policy_No__c,ContractId__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c, 
+                            Plan_Name__c, ContractStartDate__c, ContractEndDate__c
                             from asset where Id =:assetIds OR AccountId =:accountId];
             }
             conAssetWrapper wrapper = new conAssetWrapper(asstList);

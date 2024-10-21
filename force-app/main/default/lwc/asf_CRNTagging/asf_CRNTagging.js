@@ -182,7 +182,6 @@ export default class Asf_CRNTagging extends LightningElement {
     handleAccAction(event) {
         this.isDisabledUpdateCaseButton = false;
         const row = event.detail.selectedRows;
-        this.selectedCustomerData = row[0];
         this.selectedCustomer = row[0].recordId;
         this.showLANForCustomer = false;
         if(row[0].objectType == 'Customer'){
