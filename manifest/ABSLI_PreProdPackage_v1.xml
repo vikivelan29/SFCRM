@@ -1538,12 +1538,10 @@
         <members>ABSLI_Dispatch_Polad_Team_G</members>
         <members>ABSLI_Email_Management_G</members>
         <members>ABSLI_Email_management_HO_G</members>
-        <members>ABSLI_Fund_Transfer_Team_G</members>
         <members>ABSLI_HO_Dispatch_Team_G</members>
         <members>ABSLI_HO_Reinstatement_Team_G</members>
         <members>ABSLI_Mpower_Team_G</members>
         <members>ABSLI_PI_Refund_Team_G</members>
-        <members>ABSLI_PI_Team_G</members>
         <members>ABSLI_PS_Internal_G</members>
         <members>ABSLI_Policy_Document_Team_G</members>
         <members>ABSLI_Policy_Servicing_Team_G</members>
@@ -1599,7 +1597,6 @@
         <members>Case.ABSLI_Dispatch_Polad_Team_Case</members>
         <members>Case.ABSLI_Email_Management_Case</members>
         <members>Case.ABSLI_Email_management_HO_Case</members>
-        <members>Case.ABSLI_Fund_Tranfer_Team_Case</members>
         <members>Case.ABSLI_HO_Dispatch_Team_Case</members>
         <members>Case.ABSLI_HO_Reinstatement_Team_Case</members>
         <members>Case.ABSLI_Mode_Change_Soft_Resolved_Cases</members>
@@ -1740,7 +1737,6 @@
         <members>ABSLI_Dispatch_Polad_Team</members>
         <members>ABSLI_Email_Management</members>
         <members>ABSLI_Email_management_HO</members>
-        <members>ABSLI_Fund_Tranfer_Team</members>
         <members>ABSLI_HO_Dispatch_Team</members>
         <members>ABSLI_HO_Reinstatement_Team</members>
         <members>ABSLI_Mpower_Team</members>
