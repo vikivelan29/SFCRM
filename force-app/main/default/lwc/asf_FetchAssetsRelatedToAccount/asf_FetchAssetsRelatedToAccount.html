@@ -1,8 +1,18 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 09-04-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0   09-04-2024   rsinghnagar@salesforce.com   Initial Version
+-->
 <template>
         <template if:true={isRenderDatatable}>
             <lightning-card>
                 <div>
-                    <lightning-datatable class="slds-resizable" key-field="Id" data={recordsToDisplay} columns={columns} onrowselection={onSelectedRow}  min-column-width="155" selected-rows={preSelectedRows}>
+                    <lightning-datatable class="slds-resizable" key-field="id" data={recordsToDisplay} columns={columns} onrowselection={onSelectedRow}  min-column-width="155">
                     </lightning-datatable>
                 </div>
             </lightning-card>
