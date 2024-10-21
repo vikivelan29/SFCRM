@@ -622,6 +622,11 @@
                 <default>false</default>
                 <label>Web (Mobile App)</label>
             </value>
+            <value>
+                <fullName>Call Centre</fullName>
+                <default>false</default>
+                <label>Call Centre</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -23,6 +23,10 @@
         <value xsi:type="xsd:string">Bulk Close Case</value>
     </values>
     <values>
+        <field>FieldApiName__c</field>
+        <value xsi:type="xsd:string">CaseNumber</value>
+    </values>
+    <values>
         <field>Fields_Name__c</field>
         <value xsi:type="xsd:string">Case number,Team Resolution Status,Resolution Comments,Reason for Delay,RCA Comments If any</value>
     </values>
