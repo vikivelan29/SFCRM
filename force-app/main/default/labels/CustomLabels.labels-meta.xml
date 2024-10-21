@@ -30,7 +30,7 @@
         <shortDescription>ABHI Communication History</shortDescription>
         <value>Communication History</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>ABHI_Retry</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1253,6 +1253,13 @@
         <value>is mandatory for current stage</value>
     </labels>
     <labels>
+        <fullName>ABSLAMC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC BU</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
         <fullName>ABSLAMC_BackStageSatisfactoryReolyType</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1403,32 +1410,28 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OppDetailsToastErrorMessage</shortDescription>
-        <value
-    >We&apos;re unable to fetch details from following APIs. Please try again later -</value>
+        <value>We&apos;re unable to fetch details from following APIs. Please try again later -</value>
     </labels>
     <labels>
         <fullName>MCRM_ResolutionRemarks</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MCRM_ResolutionRemarks</shortDescription>
-        <value
-    >Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
+        <value>Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
     </labels>
     <labels>
         <fullName>RNWL_Auto_Calculation</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_Auto_Calculation</shortDescription>
-        <value
-    >https://mtpre.adityabirlahealth.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy?</value>
+        <value>https://mtpre.adityabirlahealth.com/healthinsurance/buy-insurance-online/v2/renewal-renew-policy?</value>
     </labels>
     <labels>
         <fullName>RNWL_Product_Features</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_Product_Features</shortDescription>
-        <value
-    >https://adityabirlafinancialsharedservices--abhil.sandbox.lightning.force.com/lightning/o/Product2/list?filterName=AllProducts&amp;ws=%2Flightning%2Fr%2FOpportunity%2F006Bl00000D3c2tIAB%2Fview</value>
+        <value>/lightning/o/Product2/list?filterName=ABHI_Products</value>
     </labels>
     <labels>
         <fullName>RNWL_Seller_Portal_Link</fullName>
@@ -1444,7 +1447,14 @@
         <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
         <value>System Administrator,***System Admin</value>
     </labels>
-   <labels>
+    <labels>
+        <fullName>ABHI_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
         <fullName>ABHI_PolicyRequired_ErrMsg</fullName>
         <categories>ABHI</categories>
         <language>en_US</language>
@@ -1458,7 +1468,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_Auto_Calculation_Private_Key</shortDescription>
-        <value>5412364561234567</value>
+        <value>5891233561234567</value>
     </labels>
     <labels>
         <fullName>MCRM_GymLocationSelectPartnerCode</fullName>
