@@ -432,6 +432,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
         }
-    }  
-     
+    }   
 }

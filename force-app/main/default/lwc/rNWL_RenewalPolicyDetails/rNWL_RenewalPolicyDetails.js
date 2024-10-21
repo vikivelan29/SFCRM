@@ -17,7 +17,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     @track areDetailsVisible = false; renewalCheckFlag = false; nominees = []; 
     @track fitnessFlag = false; healthFlag = false;
     @track nomineeContacts; nomineesNames; claimsCounts; isPolicyRenewed;
-    @track maturityDate; policyLapseDate; policyLapsed; policyStartDate; dateOfBirth;
+    @track maturityDate; policyLapseDate; policyLapsed; policyStartDate; dateOfBirth; masterPolicyNumber;
     @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus;
     @track renewalAPIData; goGreenFlag; isChronic;
     @track autoDebitFlag; sumInsusedEnhancement; addressFlag; 
@@ -52,7 +52,8 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                         var matDate = new Date(this.policy.Maturity_Date__c);
                         this.policyLapseDate = this.getISTDateFormat(new Date(matDate.setDate(matDate.getDate() + 30)));
                     }   
-                    this.goGreenFlag = this.policy.GoGreen__c; 
+                    this.goGreenFlag = this.policy.GoGreen__c;
+                    this.masterPolicyNumber = this.policy.MasterPolicyNumber__r?.Name;
                 }
                 
                 
