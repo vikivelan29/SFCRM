@@ -21,7 +21,8 @@ public with sharing class RNWL_MemberDetailsController {
         try {
             // Fetch stored responses first
             mapOfAPINameToResponse = RNWL_StoredResponseUtility.getResponseFromFiles(opportunityId, lstFileSrcAPI);
-            if (mapOfAPINameToResponse.size() == lstFileSrcAPI.size()) { 
+            if (mapOfAPINameToResponse.size() == lstFileSrcAPI.size()) {
+                System.debug('All Response returned from Files: ' + mapOfAPINameToResponse.keySet());
                 return mapOfAPINameToResponse;
             }
             
@@ -139,19 +140,23 @@ public with sharing class RNWL_MemberDetailsController {
         List<Object> lstError = new List<Object>();
         if(objError instanceOf List<Object>){
             lstError = (List<Object>) objError;  
-        } 
+        }
+        else{
+            lstError.add(objError);
+        }
         
         for(Object obj : lstError){
-            
             map<String, object> mapErrorToMessage = (map<String, object>)obj;
             String strErrorCode = String.valueOf(mapErrorToMessage.get('ErrorCode'));
-            String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage'));  
-            if(strErrorCode != '00'){
+            String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage')); 
+            if(strErrorCode != '00' && strErrorCode != '0' ){
                 getErrorInstance(strErrorCode, strErrorMessage, 'Renewal', mapOfMemberIdToMembers);
                 return mapOfMemberIdToMembers; 
             }
         }  
-        List<Object> rawPolicyData = (List<Object>)responseBody.get('policyData'); 
+        List<Object> rawPolicyData = (List<Object>)responseBody.get('policyData');
+        
+        system.debug('rawPolicyData : '+rawPolicyData);
         
         for(Object objPolicy : rawPolicyData){ 
             Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy;  
@@ -179,7 +184,8 @@ public with sharing class RNWL_MemberDetailsController {
             }
         } 
         if(mapOfMemberIdToMembers.isEmpty()){
-            getErrorInstance('01', 'Policy is not Matching', 'Renewal', mapOfMemberIdToMembers); 
+            getErrorInstance('01', 'Policy is not Matching', 'Renewal', mapOfMemberIdToMembers);
+            system.debug('mapOfMemberIdToMembers'+mapOfMemberIdToMembers);
             return mapOfMemberIdToMembers; 
         } 
         return mapOfMemberIdToMembers;
@@ -204,7 +210,9 @@ public with sharing class RNWL_MemberDetailsController {
         Map<String, List<Response>> mapOfNameIdToHealthReturn = new Map<String, List<Response>>();
         Map<String, Map<String, String>> mapFitness = new Map<String, Map<String, String>>();
         list<UIResponseWrapper> lstUIResponseWrapper = new list<UIResponseWrapper>();
-          
+        
+        system.debug('issueDate'+issueDate); 
+        
         mapOfAPINameToResponse = getAPIResponseDetails(opportunityId, assetId, policyNum, proposalNo, lstFileSrcAPI, null);
         
         if(mapOfAPINameToResponse.containsKey(RNWL_Constants.FITNESS_API_NAME)){ 
@@ -230,8 +238,10 @@ public with sharing class RNWL_MemberDetailsController {
         
         if(mapOfAPINameToResponse.containsKey(RNWL_Constants.HEALTH_API_NAME)){  
             ResponseWrapper rawHealthReturn = (ResponseWrapper) JSON.deserialize(mapOfAPINameToResponse.get(RNWL_Constants.HEALTH_API_NAME), ResponseWrapper.class);
-             
-            if(rawHealthReturn.StatusCode == 1000){  
+            
+            system.debug('rawHealthReturn'+rawHealthReturn); 
+            if(rawHealthReturn.StatusCode == 1000){ 
+                
                 if(rawHealthReturn.Response == null || rawHealthReturn.Response.isEmpty()){ 
                     lstUIResponseWrapper.add(new UIResponseWrapper('No Record Found' , new List<Response>()));
                     return lstUIResponseWrapper;
@@ -269,9 +279,12 @@ public with sharing class RNWL_MemberDetailsController {
                     Integer issueKey = issueDate.month() > 9 ? Integer.valueOf( String.valueOf(issueDate.year()) + String.valueOf(issueDate.month()) ) : Integer.valueOf( String.valueOf(issueDate.year()) + '0' + String.valueOf(issueDate.month()) );
                     Date expireDate = (issueDate.toStartOfMonth()).addYears(1);
                     Integer expireKey = expireDate.month() > 9 ? Integer.valueOf( String.valueOf(expireDate.year()) + String.valueOf(expireDate.month()) )  : Integer.valueOf( String.valueOf(expireDate.year()) + '0' + String.valueOf(expireDate.month()) );
-                     
+                    
+                    system.debug('issueKey'+issueKey);
+                    system.debug('expireKey'+expireKey);
                     for(integer month : months){ 
-                        Response objResponse = mapMonthsToResponse.get(month);  
+                        Response objResponse = mapMonthsToResponse.get(month); 
+                        system.debug('month'+month);
                         if(month >= issueKey && month < expireKey){
                             objResponse.TotalActiveDays = Integer.valueOf(objResponse.ActiveDays) + activeDays; 
                         }else{

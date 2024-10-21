@@ -39,6 +39,4 @@ public class RNWL_Constants {
     public static final String RENEWAL_POLICY_NUM_KEY = 'Policy_number'; 
     public static final String RENEWAL_GRP_POLICY_NUM_KEY = 'Certificate_number';
     
-    public static final String OMNIDOC_TEMPLATE_DEVELOPER_NAME = 'RNWL_OMNI_DOC_SEND_EMAIL_1729862200868';
-    public static final String FROM_ADDRESS_DISPLAY_NAME = 'ABHI Renewals';
 }

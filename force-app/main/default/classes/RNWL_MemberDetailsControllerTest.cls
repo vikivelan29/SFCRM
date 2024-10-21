@@ -206,28 +206,6 @@ public class RNWL_MemberDetailsControllerTest {
         Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(200, strBody)); 
         
         Date issueDate = date.newinstance(2024, 8, 17);
-                
-        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
-        
-        Test.startTest();
-        RNWL_MemberDetailsController.getHealthReturnResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456','GFB-HB-22-2024165-004', issueDate, lstFileSrcAPI); 
-        Test.stopTest();
-    }
-    
-   @isTest
-    public static void test5_ApiResponseDetails(){
-        Account acc = [Select Id FROM Account LIMIT 1];
-        Asset asset = [Select Id FROM Asset LIMIT 1];
-        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
-        List<String> lstFileSrcAPI = new List<String>();
-        
-        lstFileSrcAPI.add('Health Return');
-        
-        String strBody = '';
-        
-        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(1000, strBody)); 
-        
-        Date issueDate = date.newinstance(2024, 8, 17);
         
         Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
         

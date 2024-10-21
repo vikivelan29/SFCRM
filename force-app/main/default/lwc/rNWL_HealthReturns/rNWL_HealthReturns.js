@@ -52,8 +52,11 @@ export default class RNWL_HealthReturns extends LightningElement {
                 this.policyNumber = getFieldValue(data, POLICY_ID_FIELD);   
                 this.policyId = getFieldValue(data, POLICY_RECORD_ID_FIELD);  
                 this.proposalNo = getFieldValue(data, PROPOSAL_No_FIELD); 
-                this.masterPolicyNum = getFieldValue(data, MASTER_POLICY_ID_FIELD );   
+                this.masterPolicyNum = getFieldValue(data, MASTER_POLICY_ID_FIELD ); 
                 this.issueDate = getFieldValue(data, ISSUE_DATE_FIELD ); 
+
+                console.log('policyNumber',this.policyNumber); 
+
                 this.lstAPINames = ['Health Return', 'Fitness Assessment']; 
                 this.getResponseData(); 
         }
@@ -79,7 +82,9 @@ export default class RNWL_HealthReturns extends LightningElement {
       this.dispatchEvent(evt);
     }
 
-    getResponseData(){    
+    getResponseData(){  
+        console.error('getResponseData ');
+        
         getHealthReturnResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policyNumber , proposalNo : this.proposalNo, masterPolicyNum : this.masterPolicyNum, issueDate : this.issueDate, lstFileSrcAPI : this.lstAPINames }).
         then(result => { 
             if(result) {   
