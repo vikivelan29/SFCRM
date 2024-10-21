@@ -110,6 +110,8 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		if(this.isActiveDay){
 			this.isShowInitialMessage = false;
 		}
+
+		this.showPreview=false; 
 	}
 
 	subscribeToMessageChannel() {
