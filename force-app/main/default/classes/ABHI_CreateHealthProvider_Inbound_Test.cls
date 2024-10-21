@@ -27,10 +27,8 @@ private class ABHI_CreateHealthProvider_Inbound_Test {
     static void testCreateRecordsSuccess(){
         List<Health_Provider__c> hpList = new List<Health_Provider__c>();
         Health_Provider__c hp = new Health_Provider__c(
-            Source__c = 'CustomerPortal',
             Provider_Code__c = '12345');
         Health_Provider__c hp1 = new Health_Provider__c(
-            Source__c = 'CustomerPortal',
             Provider_Code__c = '12367');
         hpList.add(hp);
         hpList.add(hp1);

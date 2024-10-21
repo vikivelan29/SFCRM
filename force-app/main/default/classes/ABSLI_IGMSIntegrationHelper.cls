@@ -66,7 +66,7 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
             requestJSON.Policy_Proposal_Cert_ClaimNumber = policyNumberText;
             
             String mobileNo = mAccountPrimaryContact.containsKey(caseRecord.AccountId)?mAccountPrimaryContact.get(caseRecord.AccountId).MobilePhone:'';
-            requestJSON.Mobile_Number = (mobileNo != null && mobileNo != '')?mobileNo:'';
+            requestJSON.Mobile_Number = (mobileNo != null && mobileNo != '')?mobileNo.right(10):'';
             
             
             
@@ -83,6 +83,7 @@ public with sharing class ABSLI_IGMSIntegrationHelper {
                     caseInteg.Request__c = requestBody;
                     caseInteg.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     caseInteg.Is_Validation_Success__c = true;
+                    caseInteg.Do_Not_Retry_Integration__c = intSpec.Do_Not_Retry_Integration__c;
                     newCaseIntegrations.add(caseInteg);
                     
                     Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e();

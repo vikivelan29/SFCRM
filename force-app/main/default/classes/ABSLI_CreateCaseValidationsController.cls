@@ -12,7 +12,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         try {
             Asset policy = ABSLI_CreateCaseValidationsController.getPolicyDetails(caseRecord);
             if(policy!=null){
-                if(policy.Plan_Name__c.contains(ABSLI_Constants.SARAL_HEALTH_PLAN_NAME)){ 
+                if(!String.isBlank(policy.Plan_Name__c) && policy.Plan_Name__c.contains(ABSLI_Constants.SARAL_HEALTH_PLAN_NAME)){ 
                     return 'Success';
                 }else{
                     return 'Policy is not eligible for Penal Interest Payout - Saral Health Reimbursement.';
@@ -133,7 +133,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         try{
             PolicyGenFundRequestWrapper requestWrap = new PolicyGenFundRequestWrapper();
             Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-            Asset policy = [SELECT Id, Name,Policy_No__c, Effective_Date__c FROM Asset WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
+            Asset policy = [SELECT Id, Name,Policy_No__c,Type__c, Effective_Date__c FROM Asset WHERE Business_Unit__c=:ABSLI_Constants.BUSINESS_UNIT
                            AND Id=:String.valueOf(jsonMap.get('AssetId'))];
             if(policy!=null)
             {
@@ -147,6 +147,11 @@ public without sharing class ABSLI_CreateCaseValidationsController {
                 }
                	requestWrap.effective_date = policy.Effective_Date__c!=null ? (effectiveDateTime.format('dd-MM-yyyy')) : '';*/
                 requestWrap.source = ABSLI_Constants.GEN_FUND_SOURCE;
+                if(policy.Type__c!='ULIP'){
+                    requestWrap.PolicyType = 'NonUlip';
+                }else{
+                    requestWrap.PolicyType = '';
+                }
                 ABCL_IntegrationCallout.IntegrationResponseWrapper genFundResponse = ABCL_IntegrationCallout.executeCallout(ABSLI_Constants.POLICY_GEN_FUND_INTEGRATION_METADATA,
                                                                                                                     JSON.serialize(requestWrap),
                                                                                                                     null);
@@ -471,6 +476,7 @@ public without sharing class ABSLI_CreateCaseValidationsController {
         public String policy_id{get;set;}
         public String effective_date{get;set;}
         public String source{get;set;}
+        public String PolicyType{get;set;}
     }
     
     public class GenFundResponseWrapper{

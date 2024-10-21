@@ -37,6 +37,11 @@
                 <label>Pending Customer Confirmation/documentation</label>
             </value>
             <value>
+                <fullName>Out of Scope Request</fullName>
+                <default>false</default>
+                <label>Out of Scope Request</label>
+            </value>
+            <value>
                 <fullName>Out-of-Scope Request</fullName>
                 <default>false</default>
                 <label>Out-of-Scope Request</label>

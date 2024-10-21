@@ -80,7 +80,9 @@ public with sharing class ABCL_EmailMessageHelper {
         for (EmailMessage email : emails) {
             if (String.isNotBlank(email.ParentId) && email.ParentId.getSObjectType() == Case.getSObjectType() && 
             email.Incoming == true && ((String.isBlank(email.Headers)|| !email.Headers.contains('In-Reply-To:')) ||
-           (email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null ))){
+           (email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null )) &&
+                String.isBlank(EmailMessages.getRecordIdFromEmail(email.subject, '', email.textBody))){ // i.e. emailmessage doesn't have threading Id embedded
+
                 lEMessages.add(email);
             }
         }

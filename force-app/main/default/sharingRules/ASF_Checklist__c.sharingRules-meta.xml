@@ -53,7 +53,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABSLAMC AIF Checklist Share to AIF Users</label>
         <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -72,7 +72,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABSLAMC MF Checklist Share to MF Users</label>
         <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
+            <group>ABSLAMC_MF_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -91,7 +91,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABSLAMC PMS Checklist Share to PMS Users</label>
         <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -110,7 +110,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABSLAMC RE Checklist Share to RE Users</label>
         <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
+            <group>ABSLAMC_RE_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -121,6 +121,20 @@
             <field>Line_Of_Business__c</field>
             <operation>equals</operation>
             <value>RE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Wellness_Checklist_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Wellness Checklist Sharing</label>
+        <sharedTo>
+            <role>Wellness_Service_Agent</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Wellness</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
