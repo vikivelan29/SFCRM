@@ -49,8 +49,7 @@
 						</lightning-layout>
 					</template>
 					<div class={renderBaseView}>
-						<c-abc_base_tableview columns={columns} table-data={tableData} page-size={pageSize}
-							key={fieldName}></c-abc_base_tableview>
+						<c-abc_base_tableview columns={columns} table-data={tableData} page-size={pageSize}></c-abc_base_tableview>
 					</div>
 					<template lwc:if={isError}>
 						<div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
