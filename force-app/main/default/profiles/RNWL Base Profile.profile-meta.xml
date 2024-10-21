@@ -200,7 +200,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_IntegrationCallout</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_IntegrationCallout_Test</apexClass>
@@ -1068,7 +1068,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_HealthAssesmentDetails</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_HealthAssesmentDetails_Test</apexClass>
@@ -1188,7 +1188,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_ViewPolicyInformation_Controller</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_ViewPrintandDispatchDetails</apexClass>
@@ -2364,7 +2364,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Abhi_HealthReturnController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Abhi_HealthReturnController_Test</apexClass>
@@ -15634,11 +15634,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Dispositions__c.Policy_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Dispositions__c.Priority__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -15730,6 +15725,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.waittime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Dispositions__c.Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Dispositions__c.Calling_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -17604,6 +17609,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Product2.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Product2.Discontinue_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -18748,7 +18758,16 @@
         <layout>CaseInteraction-Case Feed Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Claim__c-Claim Layout</layout>
+        <layout>Claim__c-Claim RNWL Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Collections__c-Collection Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product2-RNWL Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Dispositions__c-Dispositions RNWL Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ContentVersion-Content Version</layout>

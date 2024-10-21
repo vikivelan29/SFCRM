@@ -5,7 +5,8 @@
 *Last Modified:  12/09/2024
 *@description  :  This class is used for calling Renewal Policy Details 
 *********************************************************/
-public with sharing class RNWL_IndividualAccRenewalController {
+//Making the class without sharing because end user context will update the record.
+public without sharing class RNWL_IndividualAccRenewalController {
     /****************************************************************************************************************
 * @LOB - RNWL
 * @Function - getPolicyRenewalDetails
@@ -17,25 +18,20 @@ public with sharing class RNWL_IndividualAccRenewalController {
     @AuraEnabled
     public static List<RNWL_RenewalWrapper> getPolicyRenewalDetails(String opportunityId){
         try{    
-            List<Opportunity> oppList = [SELECT Id,Policy_Number__c,Proposal_Number__c
+            List<Opportunity> oppList = [SELECT Id,Policy_Number__c,Proposal_Number__c,Premium_Amount__c 
                                          FROM Opportunity WHERE Id=:opportunityId LIMIT 1];
             
             List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
             
-            String policyNumber = oppList[0].Policy_Number__c; 
-            
-            Map<String, Object> rawResponseMap = new Map<String, Object>(); 
-            
+            String policyNumber = oppList[0].Policy_Number__c;  
+            Map<String, Object> rawResponseMap = new Map<String, Object>();              
             Map<String, String> mapAPIResponse = RNWL_StoredResponseUtility.getResponseFromFiles(opportunityId , new List<String>{'Renewal Check'});
-            
             String responseBody = mapAPIResponse.containsKey('Renewal Check') ? mapAPIResponse.get('Renewal Check') : ''  ;
-            
             set<String> setMemberId = new set<String>(); 
             
             if(String.isBlank(responseBody)){ 
                 
                 responseBody = RNWL_StoredResponseUtility.getRenewalDetails(policyNumber, 'Renewal Check', 'RNWL_RenewalDetail');
-                RNWL_StoredResponseUtility.uploadFileToOpportunity(opportunityId);
                 
                 if(String.isBlank(responseBody)) {  
                     getRenewalWrapperErrorInstance('400', 'API Call Failed Please Retry', lstRenewalWrapper);
@@ -54,6 +50,8 @@ public with sharing class RNWL_IndividualAccRenewalController {
                         return lstRenewalWrapper;    
                     } 
                 } 
+
+                RNWL_StoredResponseUtility.uploadFileToOpportunity(opportunityId);
             }
             else{
                 system.debug('responseBody From File-'+responseBody);
@@ -82,8 +80,6 @@ public with sharing class RNWL_IndividualAccRenewalController {
                     objRenewalWrapper.Upsell_Net_Premium = String.valueOf(policyData_Map.get('Upsell_Net_Premium'));
                     objRenewalWrapper.Upsell_Gross_Premium = String.valueOf(policyData_Map.get('Upsell_Gross_Premium'));
                     
-                    system.debug('policyData_Map Cross_sell_Reference_Number'+policyData_Map.get('Cross_sell_Reference_Number'));
-                    system.debug('policyData_Map Is_cross_sell'+policyData_Map.get('Is_cross_sell'));
                     if(policyData_Map.containsKey('Is_cross_sell') && String.valueOf(policyData_Map.get('Is_cross_sell')) == 'Y'){
                         objRenewalWrapper.Is_cross_sell = 'Y';
                     } 
@@ -149,11 +145,25 @@ public with sharing class RNWL_IndividualAccRenewalController {
             Map<String,object> renewInfoMap = (Map<String,object>)renewInfoList[0];
             String renewedProposalNumber = renewInfoMap.containsKey('Renewed_Policy_Proposal_Number') ?  String.valueOf(renewInfoMap.get('Renewed_Policy_Proposal_Number')) : '';
             
+            Boolean isUpdatedNeeded = false;
+            
+            if(!lstRenewalWrapper.isEmpty() && oppList[0].Premium_Amount__c != Decimal.valueOf(lstRenewalWrapper[0].Renewal_Gross_Premium)) {
+                oppList[0].Premium_Amount__c = Decimal.valueOf(lstRenewalWrapper[0].Renewal_Gross_Premium);
+                isUpdatedNeeded = true;
+            }
+            
             if(String.isNotBlank(renewedProposalNumber) && oppList[0].Proposal_Number__c != renewedProposalNumber){
-                oppList[0].Proposal_Number__c = renewedProposalNumber;
+                oppList[0].Proposal_Number__c = renewedProposalNumber;    
+                isUpdatedNeeded = true;
+            }
+            
+            if(isUpdatedNeeded) {
                 system.debug(oppList);
                 update oppList[0];
             }
+            
+            
+            
             
             return lstRenewalWrapper;      
             

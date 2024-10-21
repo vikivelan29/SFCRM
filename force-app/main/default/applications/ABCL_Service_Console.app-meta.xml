@@ -212,6 +212,22 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Wellness_Asset_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Wellness CRM Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Wellness_Asset_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Wellness CRM Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ABSLAMC_Folio_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Asset</pageOrSobjectType>
@@ -1589,6 +1605,76 @@
         <recordType>Case.Interaction</recordType>
         <type>Flexipage</type>
         <profile>ABSLAMC Base User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Partner_Asset_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Partner Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Case_Framework_Lightning_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Framework</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Partner Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Partner Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Partner Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Partner Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Partner Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Case_Framework_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Framework</recordType>
+        <type>Flexipage</type>
+        <profile>ABHI Partner Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Partner_Asset_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Partner Base Profile</profile>
     </profileActionOverrides>
     <tabs>Health_Provider__c</tabs>
     <tabs>Claim__c</tabs>

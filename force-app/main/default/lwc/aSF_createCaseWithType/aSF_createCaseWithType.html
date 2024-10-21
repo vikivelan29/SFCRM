@@ -185,7 +185,7 @@
                                         <lightning-layout-item padding="around-small" size="12">
                                             <lightning-layout-item padding="around-small" size="6">
                                                 <template if:true={displayRejectionReason}>
-                                                    <lightning-textarea name="rejectedDetails" required
+                                                    <lightning-textarea name="rejectedDetails" required={optionalResComment}
                                                         label="Close Unresolved Details" variant="label-stacked"
                                                         value={rejectedDetails} onchange={setRejectedDetails}
                                                         placeholder="type here..."></lightning-textarea>

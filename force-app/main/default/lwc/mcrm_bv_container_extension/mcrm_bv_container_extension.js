@@ -111,7 +111,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 			this.isShowInitialMessage = false;
 		}
 
-		this.showPreview=false;
+		this.showPreview=false; 
 	}
 
 	subscribeToMessageChannel() {
@@ -318,5 +318,5 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 
 	handleChangeView(event) {
 		this.template.querySelector("c-abc_base_tableview").changeViewFn();
-    }
+    } 
 }
