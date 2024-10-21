@@ -1,7 +1,7 @@
 @isTest
 public class RNWL_DispositionsTriggerHelperTest {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
-    private final static Profile BASE_RNWL_PROFILE = [SELECT Id FROM Profile WHERE name='RNWL Base Profile' LIMIT 1];
+
     @TestSetup
     public static void setup(){
         User objUser = new User(profileId = SYSTEMADMIN_PROFILE.Id, email = 'test1@salesforce.com',
@@ -9,11 +9,8 @@ public class RNWL_DispositionsTriggerHelperTest {
                                 alias = 'test', lastname = 'lastname', emailencodingkey = 'UTF-8', localesidkey = 'en_US',
                                 languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true);
 
-        User baseUser = new User(profileId = BASE_RNWL_PROFILE.Id, email = 'test1@salesforce.com',
-                                Username = 'Test2'+String.valueOf(Integer.valueof((Math.random() * 11)))+'@mock.com',
-                                alias = 'test', lastname = 'lastname', emailencodingkey = 'UTF-8', localesidkey = 'en_US',
-                                languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true);
-        insert new List<User>{objUser, baseUser};
+        
+        insert objUser;
 
         Account acc = ASF_TestDataFactory.insertBusinessAccount('test', 'strCRN');
         
@@ -25,16 +22,16 @@ public class RNWL_DispositionsTriggerHelperTest {
         Account acc = [Select Id FROM Account LIMIT 1];
         Asset asset = [Select Id FROM Asset LIMIT 1];
         Opportunity oppRec = RNWL_TestDataFactory.createOpportunityRecords(acc.Id, asset.Id);
-        User agent = [SELECT Id, Profile.Name FROM User WHERE Profile.Name = 'RNWL Base Profile' LIMIT 1];
         Test.startTest();
             Dispositions__c disp = new Dispositions__c();
-            disp.Agent_Name__c = agent.Id;
+            disp.Category__c = 'Renewal';
             disp.Policy_Number__c = asset.Id;
             insert disp;
         Test.stopTest();
         disp = [SELECT Id, Renewal_Request__c FROM Dispositions__c WHERE Id = :disp.id];
         System.assertEquals(oppRec.Id, disp.Renewal_Request__c, 'Uhhh Ohhh! Renewal Request is not updated!');
     }
+    
     @isTest
     public static void test_BeforeTest(){
         Account acc = [Select Id FROM Account LIMIT 1];
