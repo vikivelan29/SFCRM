@@ -197,7 +197,6 @@ export default class Wellness_api_view extends LightningElement {
     }
 
 	handleToggleSection(event) {
-		console.log(event.detail.openSections);
 		
 		let payLoad = {'showExtension': event.detail.openSections.length > 0 };
 		publish(this.messageContext, ViewEvent, {payLoad,'name':this.dynTableAPI,'payLoadType':'showExtension'});
@@ -212,7 +211,6 @@ export default class Wellness_api_view extends LightningElement {
     }
 
 	handleChangeView(event) {
-		console.log('****cv:'+this.template.querySelector("c-abc_base_tableview"));
 		this.template.querySelector("c-abc_base_tableview").changeViewFn();
     }
 
