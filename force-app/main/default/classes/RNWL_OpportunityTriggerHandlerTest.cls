@@ -24,6 +24,20 @@ public class RNWL_OpportunityTriggerHandlerTest {
         ASF_TestDataFactory.insertBusinessAccount('test before opp', 'strCRN');  
     }
     
+    //To cover RNWL_RenewalCustomerPolicyInfo class
+    @isTest
+    private static void rNWL_RenewalCustomerPolicyInfo_Test(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = RNWL_TestDataFactory.createOpportunityRecords(acc.Id, asset.Id);
+        
+        Test.startTest();
+        	RNWL_RenewalCustomerPolicyInfo.getOppRec(opp.Id);
+        	RNWL_RenewalCustomerPolicyInfo.getNomineesClaims(asset.Id);
+        Test.stopTest();
+        
+    }
+    
     @isTest
     public static void test_BeforeTest(){
         Account acc = [Select Id FROM Account LIMIT 1];
@@ -147,4 +161,6 @@ public class RNWL_OpportunityTriggerHandlerTest {
             
         } 
     }
+    
+    
 }
