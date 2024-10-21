@@ -1634,24 +1634,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Case_Pre_Framework_Lightning_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Interaction</recordType>
-        <type>Flexipage</type>
-        <profile>ABHI Partner Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHI_Case_Pre_Framework_Lightning_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Interaction</recordType>
-        <type>Flexipage</type>
-        <profile>ABHI Partner Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>ABHI_Partner_Asset_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Asset</pageOrSobjectType>
