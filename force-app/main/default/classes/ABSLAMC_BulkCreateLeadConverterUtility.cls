@@ -10,7 +10,7 @@
 public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
-        //{'LOB':'MF',Folio':'1234566899', 'CLIENT CODE (LOB + PAN/PEKRN)' : 'MF-22344', 'PAN' : 'EH12458590', 'PERKN': 'EhG78794','Customer Type - Prospect / Existing customer' : 'Existing Customer',
+        //{'LOB':'MF',Folio':'1234566899', 'CLIENT CODE (LOB + PAN/PEKRN)' : 'MF-22344', 'PAN' : 'EH12458590', 'PEKRN': 'EhG78794','Customer Type - Prospect / Existing customer' : 'Existing Customer',
         //'First Name':'TestLead','Last Name': 'TestlastName', 'Lead Category': 'Winback','Lead Type':'MF Transaction Related Outcall','Lead Sub-Type': 'Activity - TRO SIP Expiry','Comments/Remarks': 'someComments','Lead Status': 'Open','Assigned User - AD ID' : '12345'}
        ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
@@ -30,8 +30,8 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             if(String.isNotBlank(keyValueMap.get('Folio'))){
                 lans.add(keyValueMap.get('Folio').trim());
             }
-            if(String.isNotBlank(keyValueMap.get('CLIENT CODE - LOB +PAN/PERKN'))){
-                clientCodes.add(keyValueMap.get('CLIENT CODE - LOB +PAN/PERKN').trim());
+            if(String.isNotBlank(keyValueMap.get('CLIENT CODE - LOB +PAN/PEKRN'))){
+                clientCodes.add(keyValueMap.get('CLIENT CODE - LOB +PAN/PEKRN').trim());
             }
             if(String.isNotBlank(keyValueMap.get('Assigned User - AD ID'))){
                 federationIds.add(keyValueMap.get('Assigned User - AD ID').trim());
@@ -55,9 +55,9 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             Map<String, String> keyValueMap = rows.get(lineItemId);
             String lob = keyValueMap.get('LOB').trim();
             String folio = keyValueMap.get('Folio').trim();
-            String clientCode = keyValueMap.get('CLIENT CODE - LOB +PAN/PERKN').trim();
+            String clientCode = keyValueMap.get('CLIENT CODE - LOB +PAN/PEKRN').trim();
             String pan = String.isNotBlank(keyValueMap.get('PAN'))?keyValueMap.get('PAN').trim(): '';
-            String perkn = String.isNotBlank(keyValueMap.get('PERKN'))?keyValueMap.get('PERKN').trim(): '';
+            String perkn = String.isNotBlank(keyValueMap.get('PEKRN'))?keyValueMap.get('PEKRN').trim(): '';
             String mobile = String.isNotBlank(keyValueMap.get('Mobile No'))?keyValueMap.get('Mobile No').trim(): '';
             String customerType = String.isNotBlank(keyValueMap.get('Customer Type - Prospect / Existing customer'))?keyValueMap.get('Customer Type - Prospect / Existing customer').trim(): '';
             String firstName = String.isNotBlank(keyValueMap.get('First Name'))?keyValueMap.get('First Name').trim():'';
@@ -112,7 +112,7 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             }
             if((clientCode == null || clientCode.trim() == '') && (customerType == 'Existing Customer')){
                 keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'CLIENT CODE - LOB +PAN/PERKN  is required');
+                keyValueMap.put('Message', 'CLIENT CODE - LOB +PAN/PEKRN  is required');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
@@ -152,9 +152,9 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'LOB__c'=>'LOB',
             'Folio_for_existing_customer__r.LAN__c'=>'Folio',
-            'Account__r.LOB_Client_Code__c'=> 'CLIENT CODE - LOB +PAN/PERKN',
+            'Account__r.LOB_Client_Code__c'=> 'CLIENT CODE - LOB +PAN/PEKRN',
             'PANNO__c'=> 'PAN',
-            'PEKRN__c'=> 'PERKN',
+            'PEKRN__c'=> 'PEKRN',
             'MobilePhone'=>'Mobile No',
             'Customer Type - Prospect / Existing customer' => 'Customer Type - Prospect / Existing customer',
             'FirstName'=>'First Name',
@@ -169,9 +169,9 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'LOB'=>'LOB__c', 
             'Folio'=>'Folio_for_existing_customer__r.LAN__c',
-            'CLIENT CODE - LOB +PAN/PERKN'=> 'Account__r.LOB_Client_Code__c',
+            'CLIENT CODE - LOB +PAN/PEKRN'=> 'Account__r.LOB_Client_Code__c',
             'PAN'=>'PANNO__c',
-            'PERKN'=> 'PEKRN__c',
+            'PEKRN'=> 'PEKRN__c',
             'Mobile No'=>'MobilePhone',
             'Customer Type - Prospect / Existing customer' => 'Dummy',
             'First Name'=>'FirstName',
@@ -229,10 +229,10 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
                     }
                     else if(fieldName == 'Folio_for_existing_customer__r.LAN__c' || fieldName == 'Account__r.LOB_Client_Code__c'){
                          if(String.isNotBlank((String)obj.get('Folio_for_existing_customer__c'))){
-                        	fieldValue = (String)obj.getSObject('Folio_for_existing_customer__r').get('LAN__c'); 
+                        	fieldValue = obj.getSObject('Folio_for_existing_customer__r') != null ? (String)obj.getSObject('Folio_for_existing_customer__r').get('LAN__c') : ''; 
                          }
                          if(String.isNotBlank((String)obj.get('Account__c'))){
-                        	fieldValue = (String)obj.getSObject('Account__r').get('LOB_Client_Code__c');
+                        	fieldValue = obj.getSObject('Account__r') != null ? (String)obj.getSObject('Account__r').get('LOB_Client_Code__c') : null;
                             customerType = fieldValue !=null ? 'Existing Customer' : 'Prospect'; 
                         }
                     }
@@ -256,7 +256,8 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             
             for (Integer i = 0; i < listOfRecordsAsMap.size(); i++){
                Id usrId = listOfRecordsAsMap[i].get('Assigned User - AD ID');
-               listOfRecordsAsMap[i].put('Assigned User - AD ID', mapOfOwnerFedIden.get(usrId));
+               String FedId = String.isNotBlank(mapOfOwnerFedIden.get(usrId)) ? mapOfOwnerFedIden.get(usrId) : '';
+               listOfRecordsAsMap[i].put('Assigned User - AD ID', FedId);
             }           
             
         }
