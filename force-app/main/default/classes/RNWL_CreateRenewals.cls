@@ -1,3 +1,9 @@
+/******************************************************************************************
+ * Class         :  RNWL_CreateRenewals
+ * Author        :  Joshna
+ * Created Date  :  06/10/2024
+ * Description   :  Inbound custom REST service used by JARVIS to create ABHI Renewal Quotes
+*******************************************************************************************/
 @RestResource(urlMapping='/CreateRenewals/*')
 global with sharing class RNWL_CreateRenewals {
     @HttpPost

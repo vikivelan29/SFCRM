@@ -23,20 +23,15 @@ public without sharing class RNWL_IndividualAccRenewalController {
             
             List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
             
-            String policyNumber = oppList[0].Policy_Number__c; 
-            
-            Map<String, Object> rawResponseMap = new Map<String, Object>(); 
-            
+            String policyNumber = oppList[0].Policy_Number__c;  
+            Map<String, Object> rawResponseMap = new Map<String, Object>();              
             Map<String, String> mapAPIResponse = RNWL_StoredResponseUtility.getResponseFromFiles(opportunityId , new List<String>{'Renewal Check'});
-            
             String responseBody = mapAPIResponse.containsKey('Renewal Check') ? mapAPIResponse.get('Renewal Check') : ''  ;
-            
             set<String> setMemberId = new set<String>(); 
             
             if(String.isBlank(responseBody)){ 
                 
                 responseBody = RNWL_StoredResponseUtility.getRenewalDetails(policyNumber, 'Renewal Check', 'RNWL_RenewalDetail');
-                RNWL_StoredResponseUtility.uploadFileToOpportunity(opportunityId);
                 
                 if(String.isBlank(responseBody)) {  
                     getRenewalWrapperErrorInstance('400', 'API Call Failed Please Retry', lstRenewalWrapper);
@@ -55,6 +50,8 @@ public without sharing class RNWL_IndividualAccRenewalController {
                         return lstRenewalWrapper;    
                     } 
                 } 
+
+                RNWL_StoredResponseUtility.uploadFileToOpportunity(opportunityId);
             }
             else{
                 system.debug('responseBody From File-'+responseBody);
@@ -83,8 +80,6 @@ public without sharing class RNWL_IndividualAccRenewalController {
                     objRenewalWrapper.Upsell_Net_Premium = String.valueOf(policyData_Map.get('Upsell_Net_Premium'));
                     objRenewalWrapper.Upsell_Gross_Premium = String.valueOf(policyData_Map.get('Upsell_Gross_Premium'));
                     
-                    system.debug('policyData_Map Cross_sell_Reference_Number'+policyData_Map.get('Cross_sell_Reference_Number'));
-                    system.debug('policyData_Map Is_cross_sell'+policyData_Map.get('Is_cross_sell'));
                     if(policyData_Map.containsKey('Is_cross_sell') && String.valueOf(policyData_Map.get('Is_cross_sell')) == 'Y'){
                         objRenewalWrapper.Is_cross_sell = 'Y';
                     } 

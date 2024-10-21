@@ -3,11 +3,18 @@
     <fullName>ABHI_Products</fullName>
     <columns>PRODUCT2.NAME</columns>
     <columns>Description__c</columns>
+    <columns>PRODUCT2.FAMILY</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Business_Unit__c</field>
         <operation>equals</operation>
         <value>ABHI</value>
     </filters>
+    <filters>
+        <field>PRODUCT2.ACTIVE</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
     <label>ABHI Products</label>
+    <language>en_US</language>
 </ListView>
