@@ -2,7 +2,7 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 10-15-2024
+  @last modified on  : 10-17-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
@@ -16,7 +16,7 @@
 				<div>
 					<template lwc:if={showRefresh}>
 						<lightning-button slot="actions" alternative-text="Refresh" icon-size="x-small"
-							onclick={handleMenuSelect} icon-name="utility:refresh" class="slds-float_right mcrmButton mcrmRefresh">
+							onclick={handleMenuSelect} icon-name="utility:refresh" class={refreshClass}>
 						</lightning-button>
 					</template>
 					<template lwc:if={showPreview}>
