@@ -4,24 +4,38 @@
             <template lwc:if={isLoading}>
                 <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
             </template>
-            <lightning-record-picker
-                label="Select an Asset"
-                placeholder="Search..."
-                object-api-name="Asset"
-                onchange={handleChange} 
-                filter={filter}
-                matching-info={matchingInfo}
-                display-info={displayInfo}
+            <template if:false={showCustomerMember}>
+                <lightning-record-picker
+                    label="Select an Asset"
+                    placeholder="Search..."
+                    object-api-name="Asset"
+                    onchange={handleChange} 
+                    filter={filter}
+                    matching-info={matchingInfo}
+                    display-info={displayInfo}
+                    class="assetPicker"
                 ></lightning-record-picker>
-
+            </template>
+            <template if:true={showCustomerMember}>
+                <lightning-record-picker
+                    label="Select a Customer Member"
+                    placeholder="Search..."
+                    object-api-name="Customer_Member_Mapping__c"
+                    onchange={handleCMChange} 
+                    filter={filterCm}
+                    matching-info={matchingInfoCm}
+                    display-info={displayInfoCm}
+                    class="cmPicker"
+                ></lightning-record-picker>
+            </template>
             <br/> <br/> Please press Confirm to clone this Case
 
-            <br/>
-            <div slot="footer">
+            <br/><br/>
+            <footer class="slds-modal__footer">
                 <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
                 <lightning-button variant="brand" label="Confirm" class="slds-m-left_x-small"
                 onclick={proceedCloning}></lightning-button>
-            </div>
+            </footer>
         </lightning-quick-action-panel>
     </template> 
     
