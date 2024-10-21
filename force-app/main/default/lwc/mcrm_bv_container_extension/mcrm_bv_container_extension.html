@@ -1,0 +1,87 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 10-16-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0   09-22-2024   rsinghnagar@salesforce.com   Initial Version
+-->
+<template>
+	<template lwc:if={isShowExtension}>
+		<template lwc:if={isLoading}>
+			<lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+		</template>
+		<template lwc:if={isGymNameLocation}>
+			<div class="slds-grid">
+				<div class="slds-col slds-size--1-of-3 slds-p-left_small">
+					<lightning-combobox name="partners" label="Select Partner" value={pcvalue}
+						placeholder="Select Partner" options={options} onchange={handleChange}
+						dropdown-alignment="auto"></lightning-combobox>
+				</div>
+				<div class="slds-align-bottom slds-col slds-p-left_small">
+					<lightning-button label="Result" name="partnerCodeButton" alternative-text="Refresh"
+						icon-size="x-small" onclick={handleClick} icon-name="utility:data_transforms"
+						class="alignButton" disabled={disablePartnerCodeButton}>
+					</lightning-button>
+				</div>
+			</div>
+		</template>
+		<template lwc:if={isRewards}>
+			<div class="slds-grid">
+				<div class="slds-col slds-size--2-of-6 slds-p-left_small">
+					<lightning-combobox name="partnerCode" label="Partner Code" value={pcvalue}
+						placeholder="Select Partner Code" options={partnerCodeOptions} onchange={handleChange}
+						dropdown-alignment="auto"></lightning-combobox>
+				</div>
+				<div class="slds-col slds-size--2-of-6 slds-p-left_small">
+					<lightning-combobox name="benefitCode" label="Benefit Code" value={bcvalue}
+						placeholder="Select Benefit Code" options={benefitCodeOptions} onchange={handleChange}
+						dropdown-alignment="auto"></lightning-combobox>
+				</div>
+				<div class="slds-align-bottom slds-col slds-p-left_small">
+					<lightning-button label="Rewards" name="rewardsButton" alternative-text="Refresh"
+						icon-size="x-small" onclick={handleClick} icon-name="utility:data_transforms"
+						class="alignButton" disabled={disableRewardsButton}>
+					</lightning-button>
+				</div>
+			</div>
+		</template>
+		<template lwc:if={showPreview}>
+			<div style={alignDiv}>
+				<lightning-button alternative-text="preview" icon-size="x-small" onclick={handleChangeView}
+					icon-name="utility:preview" class="slds-float_right mcrmButton" disabled={disablePreview}>
+				</lightning-button>
+			</div>
+		</template>
+
+		<div lwc:if={isShowInitialMessage}>
+			<lightning-card class="slds-card_empty">
+				<div class="slds-m-around--small slds-box">
+					{noDataMessage}
+				</div>
+			</lightning-card>
+		</div>
+		<div lwc:elseif={showBaseView}>
+			<div class="slds-m-around--small">
+				<c-abc_base_tableview columns={columns} table-data={tableData}
+					page-size={pageSize}></c-abc_base_tableview>
+			</div>
+		</div>
+		<div lwc:elseif={isError}>
+			<div class="slds-notify slds-notify_alert slds-alert_error slds-m-top--medium" role="alert">
+				<span class="slds-assistive-text">error</span>
+				<span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
+					title="Description of icon when needed">
+					<lightning-icon icon-name="utility:error" alternative-text="Error" size="xx-small" title="Error"
+						variant="inverse"></lightning-icon>
+				</span>
+				<h2>
+					{errorMessage}
+				</h2>
+				<div class="slds-notify__close"></div>
+			</div>
+		</div>
+	</template>
+</template>

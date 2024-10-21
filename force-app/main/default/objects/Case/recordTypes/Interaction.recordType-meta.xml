@@ -54,6 +54,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
@@ -71,6 +75,10 @@
         </values>
         <values>
             <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -109,7 +117,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Alternate Test or Medial Waiver</fullName>
+            <fullName>Alternate Test or Medical Waiver</fullName>
             <default>false</default>
         </values>
         <values>
@@ -958,6 +966,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI Email</fullName>
             <default>false</default>
         </values>
@@ -991,6 +1003,10 @@
         </values>
         <values>
             <fullName>ABHI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>

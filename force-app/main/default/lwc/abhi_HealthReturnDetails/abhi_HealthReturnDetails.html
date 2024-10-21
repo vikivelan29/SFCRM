@@ -1,0 +1,87 @@
+<template>
+    <lightning-card variant="narrow">
+        <div>
+            <template if:true={isLoading}>
+                <lightning-spinner class="slds-m-top_x-small" alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+            <template if:true={showTitle}>
+                <div class="slds-grid">
+                    <div class="slds-col_bump-right">
+                        <h3 slot="title"><b>{label.healthReturnViewTitle}</b></h3>
+                    </div>
+                    <div>
+                        <lightning-button-icon class="slds-m-right_xx-small" onclick={handleRefresh}
+                            icon-name="utility:refresh" size="medium"
+                            alternative-text="Refresh"></lightning-button-icon>
+                    </div>
+                </div>
+            </template>
+            <template if:true={displayError}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium"
+                    style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small"
+                        class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{displayError}</span>
+                </div>
+            </template>
+            <template if:true={healthReturnData}>
+                <div class="slds-m-top_xxx-small">
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="6">
+                            <lightning-input type="text" label="Member ID" name="vchClientCode" read-only
+                                value={healthReturnFormData.vchClientCode} variant="label-inline"
+                                onchange={changeHandler}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <lightning-input type="number" label="Total Health return earned"
+                                name="TotalHealthReturnsTMEarned" formatter="number" read-only
+                                value={healthReturnFormData.TotalHealthReturnsTMEarned} variant="label-inline"
+                                onchange={changeHandler}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <lightning-input type="text" label="Member Name" name="Name" read-only
+                                value={healthReturnFormData.Name} variant="label-inline"
+                                onchange={changeHandler}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <lightning-input type="number" label="Total Health return Burned"
+                                name="TotalHealthReturnsTMBurnt" formatter="number" read-only
+                                value={healthReturnFormData.TotalHealthReturnsTMBurnt} variant="label-inline"
+                                onchange={changeHandler}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <lightning-input type="number" label="Total Active Days" name="TotalActiveDays"
+                                formatter="number" read-only value={healthReturnFormData.TotalActiveDays}
+                                variant="label-inline" onchange={changeHandler}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <lightning-input type="number" label="Balanced Health return" name="BalanceHealthReturns"
+                                formatter="number" read-only value={healthReturnFormData.BalanceHealthReturns}
+                                variant="label-inline" onchange={changeHandler}></lightning-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+
+            </template>
+        </div>
+        <div>
+            <template if:true={showTitle}>
+                <h3 slot="title"><b>{label.healthReturnHeader}</b></h3>
+            </template>
+            <template if:true={displayError}>
+                <div class="slds-grid slds-align_absolute-center slds-box slds-box_xx-small slds-text-color_error slds-m-bottom_medium"
+                    style="font-size: 1.25rem; max-width: 80%; text-align: center;">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" size="small"
+                        class="slds-m-right_small"></lightning-icon>
+                    <span style="font-size: 0.90rem;">{displayError}</span>
+                </div>
+            </template>
+            <template if:true={healthReturnData}>
+                <div class="slds-card slds-m-top_medium">
+                    <c-abfl_-data-table-with-pagination columns={columns} table-data={healthReturnData}
+                        page-size={label.pageSize} onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
