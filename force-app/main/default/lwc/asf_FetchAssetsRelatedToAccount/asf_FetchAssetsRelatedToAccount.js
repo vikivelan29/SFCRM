@@ -107,6 +107,9 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
             if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].Policy_No__c){
                 tempAssetRec.assetLanRecLink = assetRecordLink;
             } 
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].ContractId__c){
+                tempAssetRec.assetLanRecLink = assetRecordLink;
+            } 
 
             return tempAssetRec;
         });
@@ -161,10 +164,10 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
         let selectedRows=event.detail.selectedRows;
         if(selectedRows && selectedRows.length != 0){
             let currentSelectedRow = event.detail.config.value;
-            //let getRowNo = Number(currentSelectedRow.split("-")[1]);
-            //let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
-            //currentSelectedRec = this.assetRecords[selectedRowNo];
-            currentSelectedRec = this.recordsToDisplay.find(record => record.Id === currentSelectedRow);
+            
+            let getRowNo = Number(currentSelectedRow.split("-")[1]);
+            let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
+            currentSelectedRec = this.assetRecords[selectedRowNo];
             this.currentSelRecord = currentSelectedRec;
             
             if(selectedRows.length == 1){
