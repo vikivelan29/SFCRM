@@ -66,6 +66,13 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            if(closeCase.trim() != '' && closeCase.trim().toLowerCase() != 'yes' && closeCase.trim().toLowerCase() != 'no'){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Close Case value is Invalid. Valid values are Yes or No');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
             if(!caseNumberToCaseMap.containsKey(caseNumber)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Case Number');
