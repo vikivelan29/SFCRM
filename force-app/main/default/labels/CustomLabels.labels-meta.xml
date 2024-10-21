@@ -933,8 +933,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value
-    >ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABSLAMC Email</value>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABSLAMC Email</value>
     </labels>
     <labels>
         <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>

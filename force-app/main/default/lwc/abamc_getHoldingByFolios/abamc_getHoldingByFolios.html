@@ -1,0 +1,64 @@
+<template>
+    <!-- Loading Spinner -->
+    <template lwc:if={loading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <!-- SIP Table -->
+    <template lwc:if={showTable}>
+        <lightning-card title="SIP Details">
+            <div style="height: 200px; overflow-y: auto;">
+                <lightning-datatable
+                    key-field="id"
+                    data={paginatedSIPData}
+                    columns={sipColumns}
+                    hide-checkbox-column="true"
+                    sorted-by={sortedBySIP}
+                    sorted-direction={sortedDirectionSIP}
+                    onsort={handleSortSIP}
+                    data-id="sip"
+                    onrowaction={viewRecordSIP}>
+                </lightning-datatable>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-controls">
+                <lightning-button disabled={isFirstPageSIP} icon-name="utility:jump_to_left" label="First" class="slds-p-horizontal_x-small" alternative-text="first page" onclick={handleFirstPageSIP}></lightning-button>
+                <lightning-button disabled={isFirstPageSIP} icon-name="utility:chevronleft" label="Previous" alternative-text="Previous" onclick={handlePrevPageSIP}></lightning-button>
+                &nbsp;
+                <span class="slds-badge">{pageSIPInfo}</span>
+                &nbsp;
+                <lightning-button disabled={isLastPageSIP} icon-name="utility:chevronright" label="Next" alternative-text="Next" onclick={handleNextPageSIP} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+                <lightning-button disabled={isLastPageSIP} icon-name="utility:jump_to_right" label="Last" alternative-text="last page" onclick={handleLastPageSIP} icon-position="right"></lightning-button>
+             </div>
+        </lightning-card>
+    </template>
+
+    <template lwc:if={showTable}>
+        <lightning-card title="Holdings Details" class="slds-m-top_medium">
+            <div style="height: 200px; overflow-y: auto;">
+                <lightning-datatable
+                    key-field="id"
+                    data={paginatedHoldingsData}
+                    columns={holdingsColumns}
+                    hide-checkbox-column="true"
+                    sorted-by={sortedBy}
+                    sorted-direction={sortedDirection}
+                    onsort={handleSortHoldings}
+                    data-id="holdings"
+                    onrowaction={viewRecordSIP}>
+                </lightning-datatable>
+            </div>
+
+            <div class="pagination-controls">
+                <lightning-button disabled={isFirstPageHoldings} icon-name="utility:jump_to_left" label="First" data-table-type="holdings" class="slds-p-horizontal_x-small" onclick={handleFirstPageHoldings}></lightning-button>
+                <lightning-button disabled={isFirstPageHoldings} icon-name="utility:chevronleft" label="Previous" data-table-type="holdings" onclick={handlePrevPageHoldings}></lightning-button>
+                &nbsp;
+                <span class="slds-badge">{pageHoldingsInfo}</span>
+                &nbsp;
+                <lightning-button disabled={isLastPageHoldings} icon-name="utility:chevronright" label="Next" data-table-type="holdings" class="slds-p-horizontal_x-small" onclick={handleNextPageHoldings}></lightning-button>
+                <lightning-button disabled={isLastPageHoldings} icon-name="utility:jump_to_right" label="Last" data-table-type="holdings" onclick={handleLastPageHoldings}></lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+</template>

@@ -19,7 +19,7 @@ import DOWNLOAD_LIMIT_MESSAGE from '@salesforce/label/c.ASF_BulkDownloadLimit_Ms
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
     @api strURL = '';
     @api strButtonName = '';
-    @api selectedCases= '';
+    @api selectedRecords= '';
     cmpTitle = 'Welcome to the Bulk Data Uploader';
     @track UploadFile = 'Upload CSV';
     @track strDownloadTemplate = 'Download Template';
@@ -76,7 +76,9 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     allLineItems;
     currentChunkIndex = 0;
     boolShowCTST = false;
-   
+
+    @api objectApiName;
+    uploadLabel = 'Please upload the CSV file here. The maximum case limit is 50k and max file size allowed is 20 MB.';
     //Disable Upload Button
     get noOperationTypeValue(){
         if(!this.operationRecordTypeValue ){
@@ -86,7 +88,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     }
 
     //Fetches the access and operation details based on the logged In user's business Unit
-    @wire(getMetadataDetails)
+    @wire(getMetadataDetails, { objectAPIName: '$objectApiName' })
     wiredMetaResult({ error, data }) {
         if (data) {
             let objErrorPicklist = {'label':'No Relevant Values Found', 'value':'No Relevant Values Found'};
@@ -133,6 +135,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             this.boolShowUploadButton = true;
             this.boolShowFileUploadButton = true;
         }
+        this.uploadLabel = 'Please upload the CSV file here. The maximum '+ this.objectApiName  +' limit is 50k and max file size allowed is 20 MB.';
         this.listViewId = this.strURL.split('filterName%3D')[1].split('&')[0];
         this.loadValidationFile();
         this.showLoadingSpinner = false;
@@ -204,7 +207,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
         generateCSVFile({ strConfigName: this.selectedConfigRec.DeveloperName, 
                             strURL:this.strURL,
-                            strSelectedRecords : this.selectedCases,
+                            strSelectedRecords : this.selectedRecords,
                             listViewId : this.listViewId })
             .then(result => {
                 this.boolDisplayLoadingText = false;
@@ -322,7 +325,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
      //This method handles logic of 'Go Back' Button
      handleListViewNavigation() {
         const baseURL = window.location.origin;
-        const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
+        const listViewUrl = `${baseURL}/lightning/o/${this.objectApiName}/list?filterName=${this.listViewId}`;
         window.open(listViewUrl,"_self");
     }
 

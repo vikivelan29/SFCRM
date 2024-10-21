@@ -276,7 +276,6 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         if (this.caseStage != '') {
             fields.Case_Stage_At_Creation__c = this.caseStage;
         }
-
         if (fields['Approval_Type__c'] == null || fields['Approval_Type__c'] == undefined || fields['Approval_Type__c'] == "") {
             fields['Approval_Type__c'] = 'Parallel - All to approve';
             let staticField = this.arr_Statisfields.find((field)=>{return 'Approval_Type__c' == field.fieldAPIName});
@@ -284,7 +283,6 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
                 fields['Approval_Type__c'] = staticField.defaulSelectedOption;
             }
         }
-
         if (fields['Approval_Type__c'].startsWith('Parallel')) {
             if (fields[this.approver1] != null) {
                 let temp_approverFields = [this.approver2, this.approver3, this.approver4, this.approver5];
