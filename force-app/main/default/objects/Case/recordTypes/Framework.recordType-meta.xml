@@ -97,10 +97,6 @@
             <fullName>Wellness</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ABSLAMC</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>

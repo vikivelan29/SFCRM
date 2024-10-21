@@ -76,14 +76,14 @@
                                             variant="label-hidden"></lightning-radio-group>
                                     </template>
                                     <template if:true={infoField.displayType.input}>
-                                        <template if:true={infoField.displayType.defaulSelectedOption}>
+                                        <template if:true={infoField.defaulSelectedOption}>
                                         <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
                                             variant="label-stacked" onchange={handleInputFieldChange}
                                             required={infoField.requiredField}
                                             value={infoField.defaulSelectedOption} disabled={infoField.readOnly}
                                             class={infoField.fieldClassList}></lightning-input-field>
                                         </template>
-                                        <template if:false={infoField.displayType.defaulSelectedOption}>
+                                        <template if:false={infoField.defaulSelectedOption}>
                                             <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
                                             variant="label-stacked" onchange={handleInputFieldChange}
                                             required={infoField.requiredField} disabled={infoField.readOnly}
