@@ -21,22 +21,19 @@ public without sharing class RNWL_IndividualAccRenewalController {
             List<Opportunity> oppList = [SELECT Id,Policy_Number__c,Proposal_Number__c,Premium_Amount__c 
                                          FROM Opportunity WHERE Id=:opportunityId LIMIT 1];
             
-            String policyNumber = oppList[0].Policy_Number__c;
+            List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
             
-            Map<String, Object> rawResponseMap = new Map<String, Object>(); 
-            
+            String policyNumber = oppList[0].Policy_Number__c;  
+            Map<String, Object> rawResponseMap = new Map<String, Object>();              
             Map<String, String> mapAPIResponse = RNWL_StoredResponseUtility.getResponseFromFiles(opportunityId , new List<String>{'Renewal Check'});
-            
             String responseBody = mapAPIResponse.containsKey('Renewal Check') ? mapAPIResponse.get('Renewal Check') : ''  ;
-            
             set<String> setMemberId = new set<String>(); 
             
             if(String.isBlank(responseBody)){ 
                 String payload = '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}';
                 system.debug('payload'+payload);
                 
-                ABCL_IntegrationCallout.IntegrationResponseWrapper renewalDetailResponse = ABCL_IntegrationCallout.executeCallout('RNWL_RenewalDetail', payload, null);
-                String fileName = 'Renewal Check-'+Date.today(); 
+                responseBody = RNWL_StoredResponseUtility.getRenewalDetails(policyNumber, 'Renewal Check', 'RNWL_RenewalDetail');
                 
                 responseBody = renewalDetailResponse.responseBody;
                 
@@ -82,7 +79,11 @@ public without sharing class RNWL_IndividualAccRenewalController {
                         
                     }
                 } 
-            }else{
+
+                RNWL_StoredResponseUtility.uploadFileToOpportunity(opportunityId);
+            }
+            else{
+                system.debug('responseBody From File-'+responseBody);
                 rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
             }
             
@@ -108,8 +109,6 @@ public without sharing class RNWL_IndividualAccRenewalController {
                     objRenewalWrapper.Upsell_Net_Premium = String.valueOf(policyData_Map.get('Upsell_Net_Premium'));
                     objRenewalWrapper.Upsell_Gross_Premium = String.valueOf(policyData_Map.get('Upsell_Gross_Premium'));
                     
-                    system.debug('policyData_Map Cross_sell_Reference_Number'+policyData_Map.get('Cross_sell_Reference_Number'));
-                    system.debug('policyData_Map Is_cross_sell'+policyData_Map.get('Is_cross_sell'));
                     if(policyData_Map.containsKey('Is_cross_sell') && String.valueOf(policyData_Map.get('Is_cross_sell')) == 'Y'){
                         objRenewalWrapper.Is_cross_sell = 'Y';
                     } 
