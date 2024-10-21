@@ -39,4 +39,9 @@ public with Sharing class ABSLAMC_Constants {
     public static final String APPROVEDSTATUS = 'Approved';
     public static final String RECALLEDSTATUS = 'Recalled';
     public static final String REJECTEDSTATUS = 'Rejected';
+    public static final String SPRINKLRAPI = 'Sprinklr-UpdateCase API';
+    public static final String SPRINKLRINT = 'Sprinklr-UpdateCase';
+    public static final String SPRINKLR = 'SPRINKLR';
+    public static final String RT_LEAD = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('ABSLAMC_Leads').getRecordTypeId();
+
 }

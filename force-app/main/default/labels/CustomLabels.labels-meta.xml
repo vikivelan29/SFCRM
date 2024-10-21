@@ -1562,4 +1562,11 @@
         <shortDescription>ABSLAMC Queue error message</shortDescription>
         <value>Selected Queue is not from the Same LOB</value>
     </labels>
+    <labels>
+        <fullName>RNWL_UbonaCampaignId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_UbonaCampaignId</shortDescription>
+        <value>85008514</value>
+    </labels>
 </CustomLabels>

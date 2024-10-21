@@ -40,7 +40,7 @@ public class ABSLAMC_BulkAssignCaseConverterUtility implements ASF_BulkCSVToReco
         Map<String, Case> caseNumberToCaseMap = new Map<String, Case>();
         Map<String, Id> queueUserNameIdMap = new Map<String, Id>();
         Map<String, Id> userAdIdMap = new Map<String, Id>();
-        for(Case caseRec : [Select Id, CaseNumber from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
+        for(Case caseRec : [Select Id, CaseNumber from Case where CaseNumber IN :caseNumbers AND Business_Unit__c =:ABSLAMCBU WITH SYSTEM_MODE]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
         for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and DeveloperName LIKE 'ABSLAMC_%' and name IN: ownerTeamNames]){

@@ -20,6 +20,7 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterUtility implements ASF_B
         Set<String> caseNumbers = new Set<String>();
         Set<String> rejectionReasonList = new Set<String>();
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
+        String ABSLAMCBU = ABSLAMC_Constants.ABSLAMCBU;
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
@@ -31,7 +32,7 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterUtility implements ASF_B
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, CCC_External_Id__c, RecordTypeId, AccountId from Case where CaseNumber IN :caseNumbers]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, CCC_External_Id__c, RecordTypeId, AccountId from Case where CaseNumber IN :caseNumbers AND Business_Unit__c =:ABSLAMCBU]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
             
         }
@@ -131,6 +132,9 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterUtility implements ASF_B
                 caseRec.Pending_Clarification__c = false;
                 caseRec.moved_back__c = false;
                 caseRec.Is_Manual_Moved__c = true;
+                ABSLAMC_Case_Detail__c casedetails = new ABSLAMC_Case_Detail__c();
+                casedetails.Resolution_Comments__c= resolutionComments;
+                caseRec.Bulk_CaseDetail_JSON__c = JSON.serialize(casedetails);
                 caseRec.Resolution_Comments__c = resolutionComments;
             }else if(caseStage == 'Unresolved'){
                 caseRec.Reject_Case__c = true;
@@ -155,7 +159,7 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterUtility implements ASF_B
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'CaseNumber'=>'Case Number',
             'Stage__c'=> 'Closure Stage(Resolved/ Unresolved)',
-            'Resolution_Comments__c'=>'Resolution Remarks(For Resolved Stage)',
+            'ABSLAMC_Case_Detail__r.Resolution_Comments__c'=>'Resolution Remarks(For Resolved Stage)',
             'Rejected_Reason__c'=>'Close Unresolved Details(For Unresolved Stage)',
             'Rejection_Reason__c'=> 'Close Unresolved Reason(For Unresolved Stage)',
             'No_Auto_Communication__c'=> 'Send Auto Communication?'  
@@ -164,7 +168,7 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterUtility implements ASF_B
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'Case Number'=>'CaseNumber',
             'Closure Stage(Resolved/ Unresolved)' => 'Stage__c',
-            'Resolution Remarks(For Resolved Stage)'=>'Resolution_Comments__c',
+            'Resolution Remarks(For Resolved Stage)'=>  'ABSLAMC_Case_Detail__r.Resolution_Comments__c', //'Resolution_Comments__c',
             'Close Unresolved Details(For Unresolved Stage)' => 'Rejected_Reason__c',
             'Close Unresolved Reason(For Unresolved Stage)' => 'Rejection_Reason__c',
             'Send Auto Communication?'=>'No_Auto_Communication__c'
@@ -205,11 +209,16 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterUtility implements ASF_B
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
-                    String fieldValue = (String)obj.get(fieldName);
-                    fieldValue = fieldValue==null?' ':fieldValue;
-                    if(fieldName == 'No_Auto_Communication__c'){
-                       fieldValue = fieldValue == null ? 'Yes' : 'No';
+                    String fieldValue;
+                    if(fieldName.contains('.') && obj.getSobject((fieldName.split('\\.'))[0]) != null){
+                        fieldValue = (String)obj.getSobject(fieldName.split('\\.')[0]).get(fieldName.split('\\.')[1]);
+                    }else if(!fieldName.contains('.')){
+                        fieldValue = (String)obj.get(fieldName);
+                        if(fieldName == 'No_Auto_Communication__c'){
+                            fieldValue = fieldValue == null ? 'Yes' : 'No';
+                        }
                     }
+                    fieldValue = fieldValue==null?' ':fieldValue;
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);

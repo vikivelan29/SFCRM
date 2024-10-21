@@ -27,7 +27,7 @@
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 25px;font-style:normal;" valign="bottom">Greetings from Aditya Birla Sun Life AMC Ltd - Portfolio Managers!</td>
 											</tr>
 											<tr>
-												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We sincerely apologize for the delay in addressing your concern under case ID <span style="font-weight:normal;">{{{Case.CaseNumber}}} {{{Case.Type__c}}}</span>.</td>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We sincerely apologize for the delay in addressing your concern under case ID&nbsp;<span style="font-weight:normal;"><b>{{{Case.CaseNumber}}} {{{Case.Nature__c}}} </b></span>.</td>
 											</tr>
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">Please be assured that our dedicated team is actively working on resolving this and will provide you an update shortly.</td>
@@ -41,7 +41,7 @@
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom"><br />
 												Best Regards,<br />
-												Portfolio Management Service Team<br />
+												<b>Portfolio Management Service Team</b><br />
 												Aditya Birla Sun Life AMC Ltd &ndash; Portfolio Managers</td>
 											</tr>
 											<tr>

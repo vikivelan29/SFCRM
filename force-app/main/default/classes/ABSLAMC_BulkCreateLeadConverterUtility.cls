@@ -66,7 +66,6 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             String leadType = String.isNotBlank(keyValueMap.get('Lead Type'))?keyValueMap.get('Lead Type').trim(): '';
             String leadSubType = String.isNotBlank(keyValueMap.get('Lead Sub-Type'))?keyValueMap.get('Lead Sub-Type').trim(): '';
             String comments = String.isNotBlank(keyValueMap.get('Comments/Remarks'))?keyValueMap.get('Comments/Remarks').trim(): '';
-            String status = String.isNotBlank(keyValueMap.get('Lead Status'))?keyValueMap.get('Lead Status').trim(): '';
             String assignedUser = String.isNotBlank(keyValueMap.get('Assigned User - AD ID'))?keyValueMap.get('Assigned User - AD ID').trim(): '';
             
             if(lob == null || lob.trim() == ''){
@@ -139,7 +138,8 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             leadRec.Lead_Type__c = leadType;
             leadRec.Lead_Subtype__c = leadSubType;
             leadRec.Comments_Remarks__c = comments;
-            leadRec.Status = status;
+            leadRec.Status = 'Open';
+            leadRec.RecordTypeId = ABSLAMC_Constants.RT_LEAD;
             leadRec.OwnerId = userFedIdToUserMap.get(assignedUser);
             resultWrapper.resultRecords.put(lineItemId, leadRec);
             resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
@@ -152,7 +152,7 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'LOB__c'=>'LOB',
             'Folio_for_existing_customer__r.LAN__c'=>'Folio',
-            'Account__r.LOB_Client_Code__c'=> 'CLIENT CODE - LOB +PAN/PERKN',
+            'Account__r.LOB_Client_Code__c'=> 'CLIENT CODE - LOB +PAN/PEKRN',
             'PANNO__c'=> 'PAN',
             'PEKRN__c'=> 'PEKRN',
             'MobilePhone'=>'Mobile No',
@@ -163,14 +163,13 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             'Lead_Type__c'=> 'Lead Type',
             'Lead_Subtype__c'=> 'Lead Sub-Type',
             'Comments_Remarks__c'=>'Comments/Remarks',
-            'OwnerId' => 'Assigned User - AD ID',
-            'Status'=>'Lead Status'
+            'OwnerId' => 'Assigned User - AD ID'
                 
         };
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'LOB'=>'LOB__c', 
             'Folio'=>'Folio_for_existing_customer__r.LAN__c',
-            'CLIENT CODE - LOB +PAN/PERKN'=> 'Account__r.LOB_Client_Code__c',
+            'CLIENT CODE - LOB +PAN/PEKRN'=> 'Account__r.LOB_Client_Code__c',
             'PAN'=>'PANNO__c',
             'PEKRN'=> 'PEKRN__c',
             'Mobile No'=>'MobilePhone',
@@ -181,8 +180,7 @@ public with sharing class ABSLAMC_BulkCreateLeadConverterUtility implements ASF_
             'Lead Type'=>'Lead_Type__c',
             'Lead Sub-Type'=>'Lead_Subtype__c',
             'Comments/Remarks'=>'Comments_Remarks__c',
-            'Assigned User - AD ID' => 'OwnerId',
-            'Lead Status'=>'Status'
+            'Assigned User - AD ID' => 'OwnerId'
         };
         List<String> fieldNames = new List<String>();
         for(String columnName : columnNames){
