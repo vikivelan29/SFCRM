@@ -80,7 +80,7 @@ public class Abhi_HealthReturnController_Test {
     }
     
     @SuppressWarnings('PMD.ApexDoc')
-    // Mock class for the integration callout
+    // Mock class for the integration callout.
     private class ABCL_IntegrationCalloutMock implements HttpCalloutMock {
         private ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper;
 
