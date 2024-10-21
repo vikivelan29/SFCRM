@@ -12,6 +12,7 @@ import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+import WellnessBU from '@salesforce/label/c.Wellness_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
 
 // VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
@@ -45,6 +46,7 @@ export default class Asf_CRNTagging extends LightningElement {
     @track loggedInUserBusinessUnit = '';
     @track dupeLead=[];
     @track showDupeList=false;
+    @track selectedCustomerData;
     disableCreateBtn = false;
     isDisabledUpdateCaseButton = true;
     accountCrn;
@@ -224,6 +226,8 @@ export default class Asf_CRNTagging extends LightningElement {
             selectedAsstId = this.selectedAsset.Id;
             if(this.loggedInUserBusinessUnit === ABSLI_BU || this.loggedInUserBusinessUnit === ABSLIG_BU){
                 selectedFANum = this.selectedAsset.Policy_No__c;
+            }else if(this.loggedInUserBusinessUnit === WellnessBU){
+                selectedFANum = this.selectedAsset.ContractId__c;
             }else{
                 selectedFANum = this.selectedAsset.LAN__c;
             }
