@@ -8,7 +8,7 @@
 				}
 
 				.ReadMsgBody,
-				.ExternalClass {
+				.ExternalClass{
 					width: 100%;
 				}
 
