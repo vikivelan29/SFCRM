@@ -4,7 +4,6 @@
     <columns>PRODUCT2.NAME</columns>
     <columns>Description__c</columns>
     <columns>PRODUCT2.FAMILY</columns>
-    <columns>PRODUCT2.ACTIVE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Business_Unit__c</field>
