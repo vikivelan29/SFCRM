@@ -1,7 +1,7 @@
-/*********************************************************
+/********************************************************* 
 *Class        :  RNWL_IndividualAccRenewalController
-*Author       :  Raj Raghuwanshi 
-*Created Date :  12/09/2024
+*Author       :  Raj Raghuwanshi  
+*Created Date :  12/09/2024 
 *Last Modified:  12/09/2024
 *@description  :  This class is used for calling Renewal Policy Details 
 *********************************************************/
@@ -30,54 +30,25 @@ public without sharing class RNWL_IndividualAccRenewalController {
             set<String> setMemberId = new set<String>(); 
             
             if(String.isBlank(responseBody)){ 
-                String payload = '{"Policy_Number":"' + policyNumber + '","Source":"CRON-JOB"}';
-                system.debug('payload'+payload);
                 
                 responseBody = RNWL_StoredResponseUtility.getRenewalDetails(policyNumber, 'Renewal Check', 'RNWL_RenewalDetail');
                 
-                responseBody = renewalDetailResponse.responseBody;
-                
-                if(String.isBlank(responseBody)) {
-                    RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
-                    objRenewalWrapper.ErrorCode = '400';
-                    objRenewalWrapper.ErrorMessage = 'API Call Failed Please Retry'; 
-                    List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
-                    lstRenewalWrapper.add(objRenewalWrapper);
+                if(String.isBlank(responseBody)) {  
+                    getRenewalWrapperErrorInstance('400', 'API Call Failed Please Retry', lstRenewalWrapper);
                     return lstRenewalWrapper;
                 }
                 
                 rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
                 
-                Object objError = rawResponseMap.get('error');
-                
-                List<Object> lstError = new List<Object>();
-                
-                system.debug('objError'+objError); 
-                
-                if(objError instanceOf List<Object>){
-                    lstError = (List<Object>) objError;  
-                }
-                else{
-                    lstError.add(objError);
-                }
-                
-                for(Object obj : lstError){
+                for(Object obj : (List<Object>)rawResponseMap.get('error')){
                     map<String, object> mapErrorToMessage = (map<String, object>)obj;
-                    String strErrorCode = String.valueOf(mapErrorToMessage.get('ErrorCode'));
-                    String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage'));
+                    String strErrorCode = String.valueOf(mapErrorToMessage.get('ErrorCode'));  
                     
-                    if(String.isNotBlank(responseBody) && (strErrorCode == '00' || strErrorCode == '0')){
-                        RNWL_NonIndAccountRenewalController.uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Check');
-                    }
-                    else{
-                        RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
-                        objRenewalWrapper.ErrorCode = strErrorCode;
-                        objRenewalWrapper.ErrorMessage = strErrorMessage; 
-                        List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
-                        lstRenewalWrapper.add(objRenewalWrapper);
-                        return lstRenewalWrapper;
-                        
-                    }
+                    if(strErrorCode != '00'){
+                        system.debug('strErrorCode'+strErrorCode); 
+                        getRenewalWrapperErrorInstance(strErrorCode, String.valueOf(mapErrorToMessage.get('ErrorMessage')), lstRenewalWrapper);
+                        return lstRenewalWrapper;    
+                    } 
                 } 
 
                 RNWL_StoredResponseUtility.uploadFileToOpportunity(opportunityId);
@@ -87,15 +58,15 @@ public without sharing class RNWL_IndividualAccRenewalController {
                 rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
             }
             
-            
             List<Object> rawPolicyData = (List<Object>)((Map<String, Object>)rawResponseMap.get('response')).get('policyData');
             
-            List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
-             
             for(object objPolicy : rawPolicyData){
                 
                 Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy;
                 if(policyNumber == String.valueOf(policyData_Map.get('Policy_number'))){
+                    
+                    system.debug('policyData_Map'+ policyData_Map);
+                    
                     RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
                     
                     objRenewalWrapper.Id = Crypto.getRandomInteger();
@@ -123,18 +94,18 @@ public without sharing class RNWL_IndividualAccRenewalController {
                     objRenewalWrapper.Nominee_Name = String.valueOf(nominee_Map.get('Nominee_Name'));
                     objRenewalWrapper.Nominee_Address = String.valueOf(nominee_Map.get('Nominee_Address'));
                     objRenewalWrapper.Nominee_Contact_No = String.valueOf(nominee_Map.get('Nominee_Contact_No'));
-
+                    
                     Map<String, Object> premium_Map = (Map<String, Object>)policyData_Map.get('premium');
                     
                     objRenewalWrapper.Renewal_Net_Premium = String.valueOf(premium_Map.get('Renewal_Net_Premium'));
                     objRenewalWrapper.Renewal_Gross_Premium = String.valueOf(premium_Map.get('Renewal_Gross_Premium'));
                     objRenewalWrapper.Upsell_Gross_Premium = String.valueOf(premium_Map.get('Upsell_Gross_Premium'));
                     objRenewalWrapper.Upsell_Net_Premium = String.valueOf(premium_Map.get('Upsell_Net_Premium'));  
-    
+                    
                     List<Object> lstMember = (List<Object>) policyData_Map.get('Members');
-                        
+                    
                     List<RNWL_RenewalWrapper.cls_Members> lstRenewalMembers = new List<RNWL_RenewalWrapper.cls_Members>();
-                        
+                    
                     for(object member : lstMember){
                         
                         Map<String, Object> member_Map = (Map<String, Object>)member;
