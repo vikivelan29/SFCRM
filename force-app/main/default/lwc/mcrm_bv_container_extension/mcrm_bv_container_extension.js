@@ -111,7 +111,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 			this.isShowInitialMessage = false;
 		}
 
-		this.showPreview=false;
+		this.showPreview=false; 
 	}
 
 	subscribeToMessageChannel() {
