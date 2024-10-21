@@ -70,37 +70,23 @@ public class RNWL_DispositionsTriggerHelper {
 *****************************************************************************************************************/
     public static void setRenewalRequestOnDisposition(List<Dispositions__c> dispositions){
 
-        Set<Id> allUserIds = new Set<Id>();
-        Set<Id> userIds = new Set<Id>();
         Set<Id> policyIds = new Set<Id>();
         Map<Id, Id> polToOppMap = new Map<Id, Id>();
 
-        List<Dispositions__c> dispList = new List<Dispositions__c>();
         for(Dispositions__c disp : dispositions){
-            if(disp.Agent_Name__c != null && disp.Policy_Number__c != null){
-                allUserIds.add(disp.Agent_Name__c);
+            if(disp.Category__c == 'Renewal' && disp.Policy_Number__c != null){
                 policyIds.add(disp.Policy_Number__c);
             }
         }
 
-        if(allUserIds.size() == 0 || policyIds.size() == 0){
-            return;
-        }
-
-        for(User us : [SELECT Id, Profile.Name FROM User WHERE Id IN :allUserIds]){
-            if(us.Profile.Name == 'RNWL Base Profile'){
-                userIds.add(us.Id);
-            }
-        }
+        if(policyIds.size() == 0){ return; }
 
         for(Opportunity opp : [SELECT Id, Policy__c FROM Opportunity WHERE Policy__c IN : policyIds]){
             polToOppMap.put(opp.Policy__c, opp.Id);
         }
 
         for(Dispositions__c disp : dispositions){
-            if(userIds.size() > 0 &&  userIds.contains(disp.Agent_Name__c)){
                 disp.Renewal_Request__c = polToOppMap.get(disp.Policy_Number__c);
-            }
         }
     }
 }
