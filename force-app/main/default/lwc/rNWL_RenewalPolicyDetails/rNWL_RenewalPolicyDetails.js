@@ -18,7 +18,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     @track fitnessFlag = false; healthFlag = false;
     @track nomineeContacts; nomineesNames; claimsCounts; isPolicyRenewed;
     @track maturityDate; policyLapseDate; policyLapsed; policyStartDate; dateOfBirth; masterPolicyNumber;
-    @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus;
+    @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus; inceptionDate;
     @track renewalAPIData; goGreenFlag; isChronic;
     @track autoDebitFlag; sumInsusedEnhancement; addressFlag; 
     @track balanceHR;apiList;error;data;addDownloadStatus;
@@ -60,6 +60,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                 this.graceStartDate = this.oppRec.Grace_Period_Start__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_Start__c)) : '';
                 this.graceEndDate = this.oppRec.Grace_Period_End__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_End__c)) : '';
                 this.polRenewalNoticeDay = this.oppRec.Policy_Renewal_Notice_Day__c ? this.getISTDateFormat(new Date(this.oppRec.Policy_Renewal_Notice_Day__c)) : '';   
+                this.inceptionDate = this.oppRec.Policy_Inception_Date__c ? this.getISTDateFormat(new Date(this.oppRec.Policy_Inception_Date__c)) : ''; 
                 
                 this.renStatus = this.oppRec.Status__c == 'Renewed' ? 'Payment Received' : 'In Progress';
                 this.isPolicyRenewed = this.oppRec.Status__c == 'Renewed' ? 'Yes' : 'No';
@@ -146,7 +147,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     //For individual Or RUGs
                     if((key == 'Renewal Check' || key == 'Renewal Group Check') && data[key]){
                         if(JSON.parse(data[key]).error[0].ErrorCode != '00'){
-                           apiErrMsg = 'Current Renewal Details, ';
+                           apiErrMsg = 'Current Renewal Details';
                         }
                         else{
                             renCheckhArray = JSON.parse(data[key]).response.policyData;
@@ -155,7 +156,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     //for Health returns
                     if(key == 'Health Return' && data[key]){
                         if(JSON.parse(data[key]).Message.includes('Fail')){
-                           apiErrMsg = apiErrMsg + 'Health Returns, ';
+                           apiErrMsg = apiErrMsg +', ' + 'Health Returns';
                         }
                         else{
                             healthArray = JSON.parse(data[key]).Response;
@@ -173,7 +174,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     //For Fitness assessment
                     if(key == 'Fitness Assessment' && data[key]){
                         if(JSON.parse(data[key]).Message.includes('Fail')){
-                           apiErrMsg = apiErrMsg + 'Health Assessment, ';
+                           apiErrMsg = apiErrMsg + ', ' + 'Health Assessment';
                         }
                         else{
                             fitnessArray = JSON.parse(data[key]).Response;
@@ -190,7 +191,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     //for App registration details
                     if(key == 'AppRegDetails' && data[key]){
                         if(JSON.parse(data[key]).Message.includes('Fail')){
-                           apiErrMsg = apiErrMsg + 'App Registration Details';
+                           apiErrMsg = apiErrMsg + ', ' + 'App Registration Details';
                         }
                         else{
                             this.addDownloadStatus = JSON.parse(data[key]).AppRegDetails.IsAppDowloaded;

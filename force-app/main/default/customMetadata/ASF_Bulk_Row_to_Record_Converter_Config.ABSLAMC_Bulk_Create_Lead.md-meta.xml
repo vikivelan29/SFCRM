@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>Fields_Name__c</field>
-        <value xsi:type="xsd:string">LOB,Folio,CLIENT CODE - LOB +PAN/PERKN,PAN,PERKN,Mobile No,Customer Type - Prospect / Existing customer,First Name,Last Name,Lead Category,Lead Type,Lead Sub-Type,Comments/Remarks,Assigned User - AD ID,Lead Status</value>
+        <value xsi:type="xsd:string">LOB,Folio,CLIENT CODE - LOB +PAN/PEKRN,PAN,PEKRN,Mobile No,Customer Type - Prospect / Existing customer,First Name,Last Name,Lead Category,Lead Type,Lead Sub-Type,Comments/Remarks,Assigned User - AD ID</value>
     </values>
     <values>
         <field>Max_File_Size__c</field>
