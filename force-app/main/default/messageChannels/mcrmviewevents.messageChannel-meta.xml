@@ -10,5 +10,9 @@
         <description>This can be used for reference.</description>
         <fieldName>Name</fieldName>
     </lightningMessageFields>
+    <lightningMessageFields>
+        <description>This can be used to set the payload type</description>
+        <fieldName>payLoadType</fieldName>
+    </lightningMessageFields>
     <masterLabel>mcrmviewevents</masterLabel>
 </LightningMessageChannel>

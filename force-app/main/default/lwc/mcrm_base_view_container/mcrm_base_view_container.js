@@ -197,6 +197,11 @@ export default class Wellness_api_view extends LightningElement {
     }
 
 	handleToggleSection(event) {
+		console.log(event.detail.openSections);
+		
+		let payLoad = {'showExtension': event.detail.openSections.length > 0 };
+		publish(this.messageContext, ViewEvent, {payLoad,'name':this.dynTableAPI,'payLoadType':'showExtension'});
+
 		if(this.isShowDate==false && this.fireApiOnLoad==true){
 			this.invokeAPI();
 		}

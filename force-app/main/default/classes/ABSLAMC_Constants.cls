@@ -15,7 +15,7 @@ public with Sharing class ABSLAMC_Constants {
     public static final String AWAITING_RESPONSE_FROM_APP_SUPPORT = 'Awaiting Response from App Support'; 
     public static final String ABSLAMCBU = 'ABSLAMC'; 
     public static final String ABSLAMC_CASE_ORIGIN = 'ABSLAMC Email';
-    public static final String ABSLAMC_PHD_QUEUE= 'ABSLAMC_PHD';
+    public static final String ABSLAMC_MF_PHD_QUEUE= 'ABSLAMC_MF_PHD';
     public static final String ABSLAMC_HWC_REASON_SOCIAL_MEDIA = 'Social Media';
     public static final String Y = 'Y';
     public static final String REPLYFROMCAMS = 'Reply Received from CAMS';
@@ -44,4 +44,13 @@ public with Sharing class ABSLAMC_Constants {
     public static final String SPRINKLR = 'SPRINKLR';
     public static final String RT_LEAD = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('ABSLAMC_Leads').getRecordTypeId();
 
+    public static final String SRC_CALLCENTRE = 'Call Centre';
+    public static final String SRC_BRANCH = 'Branch';
+    public static final String CHNL_EMAIL = 'Email';
+    public static final String CHNL_PHONE = 'Phone';
+    public static final Map<String, String> LITMUS_APPID_MAP = new Map<String, String>{
+        SRC_CALLCENTRE+CHNL_EMAIL => '15kk_touchpoint',
+        SRC_CALLCENTRE+CHNL_PHONE => '9nu0_touchpoint',
+        SRC_BRANCH => '0xzr_touchpoint'
+    };
 }

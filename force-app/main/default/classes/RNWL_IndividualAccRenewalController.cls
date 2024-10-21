@@ -5,7 +5,8 @@
 *Last Modified:  12/09/2024
 *@description  :  This class is used for calling Renewal Policy Details 
 *********************************************************/
-public with sharing class RNWL_IndividualAccRenewalController {
+//Making the class without sharing because end user context will update the record.
+public without sharing class RNWL_IndividualAccRenewalController {
     /****************************************************************************************************************
 * @LOB - RNWL
 * @Function - getPolicyRenewalDetails
@@ -17,7 +18,7 @@ public with sharing class RNWL_IndividualAccRenewalController {
     @AuraEnabled
     public static List<RNWL_RenewalWrapper> getPolicyRenewalDetails(String opportunityId){
         try{    
-            List<Opportunity> oppList = [SELECT Id,Policy_Number__c,Proposal_Number__c
+            List<Opportunity> oppList = [SELECT Id,Policy_Number__c,Proposal_Number__c,Premium_Amount__c 
                                          FROM Opportunity WHERE Id=:opportunityId LIMIT 1];
             
             List<RNWL_RenewalWrapper> lstRenewalWrapper = new List<RNWL_RenewalWrapper>();
@@ -149,11 +150,25 @@ public with sharing class RNWL_IndividualAccRenewalController {
             Map<String,object> renewInfoMap = (Map<String,object>)renewInfoList[0];
             String renewedProposalNumber = renewInfoMap.containsKey('Renewed_Policy_Proposal_Number') ?  String.valueOf(renewInfoMap.get('Renewed_Policy_Proposal_Number')) : '';
             
+            Boolean isUpdatedNeeded = false;
+            
+            if(!lstRenewalWrapper.isEmpty() && oppList[0].Premium_Amount__c != Decimal.valueOf(lstRenewalWrapper[0].Renewal_Gross_Premium)) {
+                oppList[0].Premium_Amount__c = Decimal.valueOf(lstRenewalWrapper[0].Renewal_Gross_Premium);
+                isUpdatedNeeded = true;
+            }
+            
             if(String.isNotBlank(renewedProposalNumber) && oppList[0].Proposal_Number__c != renewedProposalNumber){
-                oppList[0].Proposal_Number__c = renewedProposalNumber;
+                oppList[0].Proposal_Number__c = renewedProposalNumber;    
+                isUpdatedNeeded = true;
+            }
+            
+            if(isUpdatedNeeded) {
                 system.debug(oppList);
                 update oppList[0];
             }
+            
+            
+            
             
             return lstRenewalWrapper;      
             
