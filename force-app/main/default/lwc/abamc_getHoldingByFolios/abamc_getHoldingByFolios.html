@@ -59,8 +59,8 @@
                     data={paginatedHoldingsData}
                     columns={holdingsColumns}
                     hide-checkbox-column="true"
-                    sorted-by={sortedBy}
-                    sorted-direction={sortedDirection}
+                    sorted-by={sortedByHoldings}
+                    sorted-direction={sortedDirectionHoldings}
                     onsort={handleSortHoldings}
                     data-id="holdings"
                     onrowaction={viewRecordSIP}>
@@ -81,6 +81,12 @@
 </template>
 
   
+    <template lwc:if={noDataFound}>
+        <div class="slds-text-color_error slds-p-around_medium">
+            <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+            No holdings data found for the selected folio.
+        </div>
+    </template>
 
    
     <template if:true={isModalOpen}>
