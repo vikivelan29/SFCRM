@@ -5,12 +5,8 @@ import getNomineesClaims from '@salesforce/apex/RNWL_RenewalCustomerPolicyInfo.g
 import getAPIResponse from '@salesforce/apex/RNWL_MemberDetailsController.getAPIResponseDetails';
 import toastErrorMsg from '@salesforce/label/c.OppDetailsToastErrorMessage';
 
-
 export default class RNWL_RenewalPolicyDetails extends LightningElement {
-
-    label = {
-        toastErrorMsg
-    };
+    label = { toastErrorMsg };
 
     @api recordId;policyId;accountId;
     @track account; policy; oppRec; heathRetrn; fitnessData;
@@ -73,53 +69,10 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                 this.getAdditionalData();
                 
                 this.areDetailsVisible = true;
-            }catch(e){
+            } catch(e){
                 console.log('Error displaying data : '+e.message);
             }
-            /*else{
-                this.apiList = ['Renewal Check', 'Health Return', 'Fitness Assessment', 'AppRegDetails'];
-            }*/
-
-            this.dateOfBirth = this.getISTDateFormat(new Date(this.account.PersonBirthdate));
-            this.policyStartDate = this.getISTDateFormat(new Date(this.policy.Issue_Date__c));
-            this.maturityDate = this.getISTDateFormat(new Date(this.policy.Maturity_Date__c));
-
-            if(this.policy.Maturity_Date__c != null){
-                var matDate = new Date(this.policy.Maturity_Date__c);
-                this.policyLapseDate = this.getISTDateFormat(new Date(matDate.setDate(matDate.getDate() + 30)));
-            }    
-            
-            this.graceStartDate = this.getISTDateFormat(new Date(this.oppRec.Grace_Period_Start__c));
-            this.graceEndDate = this.getISTDateFormat(new Date(this.oppRec.Grace_Period_End__c));
-            this.polRenewalNoticeDay = this.getISTDateFormat(new Date(this.oppRec.Policy_Renewal_Notice_Day__c));   
-            this.goGreenFlag = this.policy.GoGreen__c;
-            this.isChronic = this.account.Is_Chronic__c;
-            this.renStatus = this.oppRec.Status__c == 'Renewed' ? 'Payment Received' : 'In Progress';
-            this.isPolicyRenewed = this.oppRec.Status__c == 'Renewed' ? 'Yes' : 'No';
-
-            this.getNomiteeDetails(); 
-                if(this.policy.Maturity_Date__c != null){
-                    var matDate = new Date(this.policy.Maturity_Date__c);
-                    this.policyLapseDate = this.getISTDateFormat(new Date(matDate.setDate(matDate.getDate() + 30)));
-                }    
-                
-                this.graceStartDate = this.oppRec.Grace_Period_Start__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_Start__c)) : '';
-                this.graceEndDate = this.oppRec.Grace_Period_End__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_End__c)) : '';
-                this.polRenewalNoticeDay = this.oppRec.Policy_Renewal_Notice_Day__c ? this.getISTDateFormat(new Date(this.oppRec.Policy_Renewal_Notice_Day__c)) : '';   
-                this.goGreenFlag = this.policy.GoGreen__c;
-                this.isChronic = this.account.Is_Chronic__c;
-                this.renStatus = this.oppRec.Status__c == 'Renewed' ? 'Payment Received' : 'In Progress';
-                this.isPolicyRenewed = this.oppRec.Status__c == 'Renewed' ? 'Yes' : 'No';
-
-                this.getNomiteeDetails();
-
-                this.getAdditionalData();
-                this.areDetailsVisible = true;
-            /*}catch(e){
-                this.showNotification('error', 'Error!', 'Error displaying data : '+e.message);
-            }*/
-
-        }else{
+        } else {
             this.oppRec = undefined;
             this.error = error; 
             console.log('this.error----',this.error);
