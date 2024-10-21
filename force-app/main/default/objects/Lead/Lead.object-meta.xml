@@ -265,7 +265,7 @@
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
         <excludedStandardButtons>NewFromDocument</excludedStandardButtons>
         <excludedStandardButtons>New</excludedStandardButtons>
-        <excludedStandardButtons>IntelligenceView</excludedStandardButtons>
+        <!-- <excludedStandardButtons>IntelligenceView</excludedStandardButtons> commenting to sync with branch as it is causing deployment issue--> 
         <excludedStandardButtons>Accept</excludedStandardButtons>
         <excludedStandardButtons>ChangeStatus</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
