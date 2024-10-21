@@ -48,9 +48,10 @@ public with Sharing class ABSLAMC_Constants {
     public static final String SRC_BRANCH = 'Branch';
     public static final String CHNL_EMAIL = 'Email';
     public static final String CHNL_PHONE = 'Phone';
+    public static final String CHNL_BR_WALKIN = 'Branch Walk-In';
     public static final Map<String, String> LITMUS_APPID_MAP = new Map<String, String>{
         SRC_CALLCENTRE+CHNL_EMAIL => '15kk_touchpoint',
         SRC_CALLCENTRE+CHNL_PHONE => '9nu0_touchpoint',
-        SRC_BRANCH => '0xzr_touchpoint'
+        SRC_BRANCH+CHNL_BR_WALKIN => '0xzr_touchpoint'
     };
 }
