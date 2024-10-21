@@ -99,6 +99,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                 let healthArray = [];
                 let fitnessArray = [];
                 let apiErrMsg = '';
+
                 for (let key in data) {
 
                     //For individual Or RUGs
@@ -112,7 +113,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     }
                     //for Health returns
                     if(key == 'Health Return' && data[key]){
-                        if(JSON.parse(data[key]).Message && JSON.parse(data[key]).Message.includes('Fail')){
+                        if(JSON.parse(data[key]).Message.includes('Fail')){
                             if(apiErrMsg != ''){
                                 apiErrMsg = apiErrMsg +', ';
                             }
@@ -135,7 +136,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     }
                     //For Fitness assessment
                     if(key == 'Fitness Assessment' && data[key]){
-                        if(JSON.parse(data[key]).Message && JSON.parse(data[key]).Message.includes('Fail')){
+                        if(JSON.parse(data[key]).Message.includes('Fail')){
                             if(apiErrMsg != ''){
                                 apiErrMsg = apiErrMsg +', ';
                             }
@@ -157,7 +158,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     }
                     //For App registration details
                     if(key == 'AppRegDetails' && data[key]){
-                        if(JSON.parse(data[key]).Message && JSON.parse(data[key]).Message.includes('Fail')){
+                        if(JSON.parse(data[key]).Message.includes('Fail')){
                             if(apiErrMsg != ''){
                                 apiErrMsg = apiErrMsg +', ';
                             }
