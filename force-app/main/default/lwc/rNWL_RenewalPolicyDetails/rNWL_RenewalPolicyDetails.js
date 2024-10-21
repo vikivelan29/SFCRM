@@ -5,12 +5,8 @@ import getNomineesClaims from '@salesforce/apex/RNWL_RenewalCustomerPolicyInfo.g
 import getAPIResponse from '@salesforce/apex/RNWL_MemberDetailsController.getAPIResponseDetails';
 import toastErrorMsg from '@salesforce/label/c.OppDetailsToastErrorMessage';
 
-
 export default class RNWL_RenewalPolicyDetails extends LightningElement {
-
-    label = {
-        toastErrorMsg
-    };
+    label = { toastErrorMsg };
 
     @api recordId;policyId;accountId;
     @track account; policy; oppRec; heathRetrn; fitnessData;
@@ -73,11 +69,10 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                 this.getAdditionalData();
                 
                 this.areDetailsVisible = true;
-            }catch(e){
+            } catch(e){
                 console.log('Error displaying data : '+e.message);
             }
-
-        }else{
+        } else {
             this.oppRec = undefined;
             this.error = error; 
             console.log('this.error----',this.error);
