@@ -6,17 +6,18 @@ import POLICY_RECORD_ID_FIELD from "@salesforce/schema/Opportunity.Policy__c";
 import PROPOSAL_No_FIELD from "@salesforce/schema/Opportunity.Policy__r.SerialNumber";
 import POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy_Number__c";
 import MASTER_POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy__r.MasterPolicyNumber__r.LAN__c";
+import ISSUE_DATE_FIELD from "@salesforce/schema/Opportunity.Policy__r.Issue_Date__c";
 
 import getHealthReturnResponse from '@salesforce/apex/RNWL_MemberDetailsController.getHealthReturnResponse';
 
-const fields = [POLICY_RECORD_ID_FIELD, POLICY_ID_FIELD, PROPOSAL_No_FIELD, MASTER_POLICY_ID_FIELD ];
+const fields = [POLICY_RECORD_ID_FIELD, POLICY_ID_FIELD, PROPOSAL_No_FIELD, MASTER_POLICY_ID_FIELD, ISSUE_DATE_FIELD];
 
 const columns = [
     { label: 'Full Name', fieldName: 'Name',wrapText: true}, // , initialWidth : 150},
     { label: 'Policy No', fieldName: 'vchPolicyNumber', wrapText: true}, // ,initialWidth : 150 },
     { label: 'Master Policy No', fieldName: 'MasterPolicyNumber', wrapText: true }, //,initialWidth : 150 },
     { label: 'Year', fieldName: 'Year',wrapText: true  },
-    { label: 'Month', fieldName: 'Month', wrapText: true   }, 
+    { label: 'Month', fieldName: 'MonthName', wrapText: true   }, 
     { label: 'HR%', fieldName: 'HRPercentage', wrapText: true }, 
     { label: 'HHS', fieldName: 'HealthyHeartScore', wrapText: true  }, 
     { label: 'AD', fieldName: 'ActiveDays', wrapText: true  },
@@ -41,6 +42,7 @@ export default class RNWL_HealthReturns extends LightningElement {
     policyId;
     policyNumber;
     proposalNo;
+    issueDate;
     columns = columns; 
     activeSectionsMessage = '';
      
@@ -52,6 +54,7 @@ export default class RNWL_HealthReturns extends LightningElement {
                 this.policyId = getFieldValue(data, POLICY_RECORD_ID_FIELD);  
                 this.proposalNo = getFieldValue(data, PROPOSAL_No_FIELD); 
                 this.masterPolicyNum = getFieldValue(data, MASTER_POLICY_ID_FIELD ); 
+                this.issueDate = getFieldValue(data, ISSUE_DATE_FIELD ); 
 
                 console.log('policyNumber',this.policyNumber); 
 
@@ -78,7 +81,7 @@ export default class RNWL_HealthReturns extends LightningElement {
     getResponseData(){  
         console.error('getResponseData ');
         
-        getHealthReturnResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policyNumber , proposalNo : this.proposalNo, masterPolicyNum : this.masterPolicyNum, lstFileSrcAPI : this.lstAPINames }).
+        getHealthReturnResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policyNumber , proposalNo : this.proposalNo, masterPolicyNum : this.masterPolicyNum, issueDate : this.issueDate, lstFileSrcAPI : this.lstAPINames }).
         then(result => { 
             if(result){  
  
