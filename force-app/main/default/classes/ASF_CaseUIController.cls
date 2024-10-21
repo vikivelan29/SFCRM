@@ -83,7 +83,7 @@ public with sharing class  ASF_CaseUIController {
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
                     Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp OR Advisor_Code__c LIKE : userInp),
-                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR Application_Number__c LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR ContractId__c LIKE : userInp OR Application_Number__c LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE Name LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
@@ -116,7 +116,7 @@ public with sharing class  ASF_CaseUIController {
                 accIdSet.add(accId);
             }
             
-            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount,RecordType.Name,Advisor_Code__c from account where ID IN:accIdSet];
+            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount,RecordType.Name,Advisor_Code__c,PAN_Number__c,Business_Unit__c from account where ID IN:accIdSet];
             Map<Id,contact> accIdConMap = new Map<Id,contact>();
             Set<Id> businessAccIdSet = new Set<Id>();
             for(Account accRec : accList){
@@ -130,13 +130,14 @@ public with sharing class  ASF_CaseUIController {
             for(Account customer : accList){
                 searchResponse custResp;
                 String customerType = customer.RecordType.Name == 'ABSLI Advisor' ? 'Advisor' : 'Customer';
+                String panValue = customer.Business_Unit__c == ABHI_Constants.ABHI ? customer.PAN_Number__c : customer.PAN__c;
                 if(customer.IsPersonAccount){
-                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name,customer.Advisor_Code__c);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),panValue,customer.RecordType.Name,customer.Advisor_Code__c);
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
 
-                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name,customer.Advisor_Code__c);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,panValue,customer.RecordType.Name,customer.Advisor_Code__c);
                 }
                 
                 lstResponse.add(custResp);
@@ -168,7 +169,8 @@ public with sharing class  ASF_CaseUIController {
                 
                 asstList = [select id, Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
                             Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c, LOB__c, 
-                            Policy_No__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c
+                            Policy_No__c,ContractId__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c, 
+                            Plan_Name__c, ContractStartDate__c, ContractEndDate__c
                             from asset where Id =:assetIds OR AccountId =:accountId];
             }
             conAssetWrapper wrapper = new conAssetWrapper(asstList);

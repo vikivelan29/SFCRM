@@ -169,7 +169,7 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
                 totalScoreForPeriod: resultsList.totalScoreForPeriod,
             }];
             let scoresList = resultsList.scores;
-            scoresList = scoresList.sort((a, b) => new Date(a.activeDate) - new Date(b.activeDate));
+            scoresList = scoresList.sort((a, b) => this.parseDate(a.activeDate) - this.parseDate(b.activeDate)); //PR1030924-595
 
             this.scoresList = scoresList.flatMap(score => 
                 score.activities.map(activity => ({
@@ -191,6 +191,22 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             this.error = 'No valid response from API';
         }
     }
+
+    //PR1030924-595
+    parseDate(dateString) {
+        // Check if the date string contains slashes (indicating a "dd/mm/yyyy" format)
+        if (dateString.includes('/')) {
+            let [datePart, timePart] = dateString.split(' ');
+            let [day, month, year] = datePart.split('/');
+            
+            // Manually construct the date in "yyyy-mm-ddTHH:MM:SS" format
+            return new Date(`${year}-${month}-${day}T${timePart}`);
+        }
+    
+        // If it's in a standard ISO format, use Date constructor directly
+        return new Date(dateString);
+    }
+
     handleRefresh(){
         this.handleSearch();
     }

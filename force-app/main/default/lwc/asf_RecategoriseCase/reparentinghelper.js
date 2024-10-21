@@ -167,9 +167,9 @@ const updateAccountAndAssetOnCase=async (event,parentJS)=>{
                             title: 'Error',
                             message: errMsg,
                             variant: 'error',
-                            mode: 'dismissable'
+                            mode: 'dismissible'
                         });
-                        this.dispatchEvent(event);
+                        parentJS.dispatchEvent(event);
                     }
                 }
             }

@@ -79,7 +79,7 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
 
     @IsTest(seeAllData = false)
     static void prePopulateFieldsBeforeUpdate_Test() {
-        User userRecord = [SELECT Id
+        User userRecord = [SELECT Id, LOB__c
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
         System.runAs(userRecord){
@@ -105,7 +105,7 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
 
             Test.startTest();
             List<Lead> leadList = [SELECT Id, Line_Of_Business__c FROM Lead WHERE Id =:newLead.Id];
-            Assert.areEqual(newLead.LOB__c, leadList[0].Line_Of_Business__c, 'Line_Of_Business__c field on lead record should have been populated');
+            Assert.areEqual(userRecord.LOB__c.split(';')[0], leadList[0].Line_Of_Business__c, 'Line_Of_Business__c field on lead record should have been populated');
             Test.stopTest();
         }
     }

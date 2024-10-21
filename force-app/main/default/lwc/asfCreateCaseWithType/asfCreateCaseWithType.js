@@ -55,9 +55,13 @@ import USER_ID from '@salesforce/user/Id';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import updateCaseExtension from '@salesforce/apex/ABHFL_CTSTHelper.updateCaseExtension'
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
+import MCRM_BU from '@salesforce/label/c.Wellness_BU'; // PR970457-117 added MCRM_BU
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
+import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class AsfCreateCaseWithType extends NavigationMixin(LightningElement) {
@@ -161,6 +165,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     @api bsliRecTypeId;
     currentObj = CASE_OBJECT.objectApiName;
 
+    //ABHI
+    abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
+
     
     //utility method
     showError(variant, title, error) {
@@ -177,11 +184,31 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+
+           // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
+           this.adjustAutoCommunications(undefined);
         } else if (error){
             console.log('error in get record--'+JSON.stringify(error));
         }
     }
 
+    // Rajendra Singh Nagar: PR1030924-209 - Added function
+    adjustAutoCommunications(data){
+        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
+            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }else{
+            if(data){
+                this.noAutoCommOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
+            }
+        }
+    }
+    
     connectedCallback() {
         console.log('accId ---> ' + this.accountId);
         console.log('assestid ---> ' + JSON.stringify(this.fieldToBeStampedOnCase));
@@ -252,10 +279,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
+                this.adjustAutoCommunications(data);
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;
@@ -311,6 +335,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
+                    console.log('result data table--'+JSON.stringify(result));
                     console.log('result data table--'+JSON.stringify(result.lstCCCrecords));
                     this.strSource = result.strSource;
                     this.complaintType = result.complaintType;
@@ -397,8 +422,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 }
                 this.populateSubSourceFld();
             }
-            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
+            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU || this.businessUnit === ABHI_BU){
                 this.showAutoCommunication = false;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -407,7 +435,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU))) {
+        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU) || (this.businessUnit === MCRM_BU))) { // PR970457-117 added MCRM_BU
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -673,9 +701,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         const caseRecord = { apiName: CASE_OBJECT.objectApiName, fields: fields };
         this.loaded = false;
         if(selected.Validation_method_during_creation__c){
-            console.log('invoing validator');
+            console.log('invoking validator');
             let methodName = selected.Validation_method_during_creation__c;
-            let validationResult = await validator[methodName](caseRecord);
+            let validationResult = await validator[methodName](caseRecord,'account');
             console.log('returned with dynamic method '+JSON.stringify(validationResult));
             if(validationResult.isSuccess == false){
                 this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
@@ -907,6 +935,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 btnActive = false;
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                btnActive = false;
+                this.isPhoneInbound = true;
             }
         } else {
             btnActive = false;
@@ -1165,7 +1197,4 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             // setting theme would have no effect
         });
     }
-
-
-
 }

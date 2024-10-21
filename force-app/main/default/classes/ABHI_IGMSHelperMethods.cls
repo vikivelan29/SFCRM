@@ -71,12 +71,12 @@ public class ABHI_IGMSHelperMethods {
             ABCL_Logger.push('associateCustomerForAPIFromPhoneNumber failed for ABHI');
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
-            throw new AuraHandledException(e.getMessage());
         }
     }
     public static void associateAssetIgms(List<Case> cases){
         List<Case> abhiCases = new List<Case>();
         Set<String> proposalClaimNo = new Set<String>();
+        Boolean updatedCase = false; // Tracking if an update has occurred
         List<Case> fetchedCases = [SELECT ID,Business_Unit__c,Technical_Source__c,AccountId,AssetId,ABHI_Case_Detail__c,ABHI_Case_Detail__r.Policy_Proposal_Cert_Claim_Number__c,ABHI_Case_Detail__r.Proposal_Or_Cover_Note_Number__c,ABHI_Case_Detail__r.Claim_No__c FROM CASE WHERE ID IN:cases];
         system.debug('casess '+ cases );
         try{
@@ -106,6 +106,7 @@ public class ABHI_IGMSHelperMethods {
                         Case  objCase = new Case (Id = cs.Id );
                         objCase.AccountId = foundAsset[0].AccountId;
                         objCase.AssetID  = foundAsset[0].Id;
+                        objCase.typeSubTypeMismatch__c =false;
                         updateCase.add(objCase);
                     }
                 }
@@ -116,6 +117,7 @@ public class ABHI_IGMSHelperMethods {
                             Case  objCase = new Case (Id = cs.Id );
                             objCase.AccountId = foundAssetClaim[0].Policy_Number__r.AccountID;
                             objCase.AssetID  = foundAssetClaim[0].Policy_Number__c;
+                            objCase.typeSubTypeMismatch__c =false;
                             updateCase.add(objCase);
                         }
                     }
@@ -123,9 +125,10 @@ public class ABHI_IGMSHelperMethods {
                 if(!updateCase.isEmpty()){
                     system.debug('updateCaseas '+updateCase);
                     update updateCase;
+                    updatedCase = true;
                 }
             }
-            else {
+            if (!updatedCase) {
                 associateCustomerForAPIFromPhoneNumber(cases);
             }
         }
@@ -135,7 +138,6 @@ public class ABHI_IGMSHelperMethods {
             ABCL_Logger.push('associateCustomerForAPIFromPhoneNumber failed for ABHI');
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
-            throw new AuraHandledException(e.getMessage());
         }
     }
 }

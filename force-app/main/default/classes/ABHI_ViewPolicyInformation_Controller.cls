@@ -85,6 +85,7 @@ public with sharing class ABHI_ViewPolicyInformation_Controller {
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')
 	public class AppRegDetails{
 		@AuraEnabled public String IsRegistered{get;set;}
+        @AuraEnabled public String IsAppDowloaded{get;set;}
 	}
 
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')

@@ -197,7 +197,7 @@ blankSourcePresent = true;
                 //If the incoming subject of the case is not blank, system will no longer overwrite it, 
                 //irrespective of origin/source of the case. PR970457-1880
                 if(String.isBlank(caseRec.Subject)){
-                    caseRec.Subject = 'Case - '+caseRec.Type_Text__c;
+                    caseRec.Subject = 'Case - '+appliedCCC.Type__c;
                 }
                 if(!isUpdate || (isUpdate && caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
             
@@ -1766,7 +1766,7 @@ User will now be forced to go recategorize.
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
                     if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null && caseRec.Business_Unit__c != ASF_Constants.ABSLIG_BU
-                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null)){
+                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null) && !(caseRec.Business_Unit__c == 'ABHI' && caseRec.Source__c == 'IGMS')){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  

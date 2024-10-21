@@ -35,7 +35,7 @@
         </accountSettings>
         <label>ABSLAMC PMS Accounts Share to PMS Users</label>
         <sharedTo>
-            <group>ABSLAMC_PMS_Users</group>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -59,7 +59,7 @@
         </accountSettings>
         <label>ABSLAMC RE Accounts Share to RE Users</label>
         <sharedTo>
-            <group>ABSLAMC_RE_Users</group>
+            <group>ABSLAMC_RE_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -222,7 +222,7 @@
         </accountSettings>
         <label>ABSLAMC AIF Accounts Share to AIF Users</label>
         <sharedTo>
-            <group>ABSLAMC_AIF_Users</group>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -246,7 +246,7 @@
         </accountSettings>
         <label>ABSLAMC MF Accounts Share to MF Users</label>
         <sharedTo>
-            <group>ABSLAMC_MF_Users</group>
+            <group>ABSLAMC_MF_All_Teams_G</group>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
@@ -257,6 +257,26 @@
             <field>Line_of_Business__c</field>
             <operation>equals</operation>
             <value>MF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Wellness_Account_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <accountSettings>
+            <caseAccessLevel>Read</caseAccessLevel>
+            <contactAccessLevel>Read</contactAccessLevel>
+            <opportunityAccessLevel>None</opportunityAccessLevel>
+        </accountSettings>
+        <description>Used in Wellness</description>
+        <label>Wellness Account Sharing</label>
+        <sharedTo>
+            <role>Wellness_Service_Agent</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Wellness</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
