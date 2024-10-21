@@ -14,10 +14,8 @@
 public class RNWL_OpportunityDataController {
     @AuraEnabled
     public static String updateOpportunityRecords(String oppData) {
-    System.debug('@@oppData '+oppData);
     List<String> oppUpdateStatus = new List<String>();
     List<Object> listOfOppRecords = (List<Object>) JSON.deserializeUntyped(oppData.replace('\\', ''));
-    System.debug('@@listOfOppRecords '+listOfOppRecords);
     Set<String> externalIdSet = new Set<String>();
     List<Opportunity> oppListToUpdate = new List<Opportunity>();
      
@@ -32,34 +30,41 @@ public class RNWL_OpportunityDataController {
         for(Opportunity opp : oppList){
             oppIdAndExternalId.put(opp.Policy_Number__c,opp.Id);
         }
-        System.debug('@@oppIdAndExternalId '+oppIdAndExternalId);
 
         for(Object each : listOfOppRecords){
         Map<String, Object> eachOppRecord = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(each));
         String oppId = oppIdAndExternalId.get(String.valueOf(eachOppRecord.get('Policy Number')));
         oppListToUpdate.add(new Opportunity(
         Id = oppId,
-        Upsell_Eligibility_Flag__c = String.valueOf(eachOppRecord.get('Upsell Eligibility Flag')),
+        Upsell_Eligibility_Flag__c = String.valueOf(eachOppRecord.get('Final Eligibility')),
         Propensity_to_Pay__c = String.valueOf(eachOppRecord.get('Propensity to Pay')),
         Renewal_Calling_Flag__c = String.valueOf(eachOppRecord.get('Renewal Calling Flag')),
-        Calling_Source__c = String.valueOf(eachOppRecord.get('Calling Source'))
+        Calling_Source__c = String.valueOf(eachOppRecord.get('Calling Source')),
+        Upsell_SI_1__c = Integer.valueOf(eachOppRecord.get('Upsell SI 1')),
+        Upsell_SI_2__c = Integer.valueOf(eachOppRecord.get('Upsell SI 2')),
+        Upsell_SI_3__c = Integer.valueOf(eachOppRecord.get('Upsell SI 3')),
+        Upsell_SI_4__c = Integer.valueOf(eachOppRecord.get('Upsell SI 4')),
+        Upsell_SI_5__c = Integer.valueOf(eachOppRecord.get('Upsell SI 5')),
+        Max_Upsell__c  = Integer.valueOf(eachOppRecord.get('Max Upsell')),
+        Bucket__c  = String.valueOf(eachOppRecord.get('Bucket'))
         ));
         }
         Database.SaveResult[] saveResult;
         if(!oppListToUpdate.isEmpty()){
             saveResult = Database.update(oppListToUpdate, false);
-            System.debug('@@@saveResult' +saveResult);
         }
+        Integer i=0;
         for (Database.SaveResult each : saveResult) {
             if (each.isSuccess()) {
-                oppUpdateStatus.add('Success!');
+                oppUpdateStatus.add('Success!: Renewal Request Id - ' + each.getId());
             } else {
                 List<String> errorMessageList = new List<String>();
                 for (Database.Error err : each.getErrors()) {
-                    errorMessageList.add(err.getMessage());
+                    errorMessageList.add('Renewal Request Id : '+oppListToUpdate.get(i).Id + ': ' + err.getMessage());
                 }
-                oppUpdateStatus.add('Opportunity Update failed due to following reasons - ' + String.join(errorMessageList, ','));
+                oppUpdateStatus.add('Opportunity Update failed due to following reasons : ' + String.join(errorMessageList, ','));
             }
+            i++;
         }
 
     return JSON.serialize(oppUpdateStatus);

@@ -4,12 +4,14 @@ import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadScript } from 'lightning/platformResourceLoader';
 import sheetjs from '@salesforce/resourceUrl/SheetJS';
-
+import template from '@salesforce/resourceUrl/RNWL_BulkUploadTemplate';
 let XLS = {};
 
 export default class OpportunityDataUpload extends NavigationMixin(LightningElement) {
     @track acceptedFormats = ['.xls', '.xlsx'];
-
+    label ={
+    template
+    };
     filesUploaded = [];
     fileName;
     parsedData;
@@ -26,6 +28,11 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
             XLS = XLSX
         })
 
+    }
+
+    handleReset(){
+        this.fileName = '';
+        this.parsedData = ';'
     }
 
     handleUploadFinished(event) {
@@ -111,8 +118,8 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
                         this.recordStatus = recordStatus;
                         this.showMessage(this.recordStatus, 'warning');
                     } else {
-                    
-                        this.showMessage('All fleet rows were uploaded successfully','success');
+                        this.recordStatus = recordStatus;
+                        this.showMessage('All Opportunity rows were updated successfully!!','success');
                     }
                 }
                 this.isLoading = false;

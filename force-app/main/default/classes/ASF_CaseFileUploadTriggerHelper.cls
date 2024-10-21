@@ -1,18 +1,8 @@
-/**
- * @description       : 
- * @author            : rsinghnagar@salesforce.com
- * @group             : 
- * @last modified on  : 07-01-2024
- * @last modified by  : rsinghnagar@salesforce.com 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   07-01-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 public without sharing class ASF_CaseFileUploadTriggerHelper {
-	
+    
     public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
     public static Boolean isCustomDelete = false;
-  	    
+    
     public static void validateFileDelete(List<ContentDocumentLink> newList, Map<Id, ContentDocumentLink> oldMap){
         Boolean isDelete = newList==null ? true : false;
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
@@ -76,6 +66,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }
         }
     }
+
     public static void validateCaseFileUpdate(Map<Id, ContentDocument> newMap, Map<Id, ContentDocument> oldMap){
         Boolean isDelete = newMap==null ? true : false;
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
@@ -89,8 +80,8 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
         Map<Id,List<Id>> contentDocandLinkMap = new Map<Id,List<Id>>();
         List<Id> closedCaseIds = new List<Id>();
         Map<Id, ContentDocument> contentDocMap = !isDelete ? newMap : oldMap;
-     	for(ContentDocumentLink cdLinkRec : [SELECT Id, LinkedEntityId, LinkedEntity.Type, ContentDocumentId FROM ContentDocumentLink WHERE ContentDocumentId IN: contentDocMap.keySet()]){
-         
+        for(ContentDocumentLink cdLinkRec : [SELECT Id, LinkedEntityId, LinkedEntity.Type, ContentDocumentId FROM ContentDocumentLink WHERE ContentDocumentId IN: contentDocMap.keySet()]){
+            
             if(cdLinkRec.LinkedEntity.Type == 'Case'){
                 contentDocLinkandCaseMap.put(cdLinkRec.Id,cdLinkRec.LinkedEntityId);
                 if(!contentDocandLinkMap.containsKey(cdLinkRec.ContentDocumentId)){
@@ -107,9 +98,9 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                 if(String.valueOf(emailMessageRec.RelatedToId).startsWith('500')){
                     contentDocLinkandCaseMap.put(contentDocLinkandEMMap.get(emailMessageRec.Id).Id,emailMessageRec.RelatedToId);
                     if(!contentDocandLinkMap.containsKey(contentDocLinkandEMMap.get(emailMessageRec.Id).ContentDocumentId)){
-                    contentDocandLinkMap.put(contentDocLinkandEMMap.get(emailMessageRec.Id).ContentDocumentId, new List<Id>());
-                }
-                contentDocandLinkMap.get(contentDocLinkandEMMap.get(emailMessageRec.Id).ContentDocumentId).add(contentDocLinkandEMMap.get(emailMessageRec.Id).Id);
+                        contentDocandLinkMap.put(contentDocLinkandEMMap.get(emailMessageRec.Id).ContentDocumentId, new List<Id>());
+                    }
+                    contentDocandLinkMap.get(contentDocLinkandEMMap.get(emailMessageRec.Id).ContentDocumentId).add(contentDocLinkandEMMap.get(emailMessageRec.Id).Id);
                 }
             }
         }
@@ -117,7 +108,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             for(Case caseRec : [select Id, isClosed from case where ID IN: contentDocLinkandCaseMap.values() and isClosed = true]){
                 closedCaseIds.add(caseRec.Id);
             }
-    	}
+        }
         if(!contentDocLinkandCaseMap.isEmpty()){
             for (ContentDocument contentDocRec : contentDocMap.values()) {
                 //validation for upload new version, edit and delete file details of closed case
@@ -144,14 +135,13 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
         if(contentVersionId != null){
             try{
                 Id contentDocumentId = [SELECT Id, ContentDocumentId from ContentVersion where Id =: contentVersionId LIMIT 1].contentDocumentId;
-				docId = contentDocumentId;           
+                docId = contentDocumentId;           
             }catch(Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        	}
+                throw new AuraHandledException(e.getMessage());
+            }
         }
         return docId;
-    }
-    
+    }    
     @AuraEnabled
     public static String deleteFileById(String fileId, String comment) {
         String result = 'Error';
@@ -162,7 +152,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                 String contentDocId = ASF_CaseFileUploadTriggerHelper.fetchContentDoc(fileId);
                 ContentDocument contentDocRec = [SELECT Id, Title from ContentDocument where Id =: contentDocId];
                 List<ContentDocumentLink> contentdocLinkList = [SELECT Id, LinkedEntityId, LinkedEntity.Type from ContentDocumentLink 
-                                                         		WHERE ContentDocumentId =: contentDocId];
+                                                                WHERE ContentDocumentId =: contentDocId];
                 if(!contentdocLinkList.isEmpty()){
                     List<FeedItem> feedItemList = new List<FeedItem>();
                     for(ContentDocumentLink contentLinkRec : contentdocLinkList){
@@ -190,14 +180,14 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                     delete contentDocRec;
                     insert feedItemList;
                 } 
-                result = contentDocId;
-                
+                result = contentDocId;                
             }catch(Exception e) {
-            	throw new AuraHandledException(e.getMessage());
-        	}
+                throw new AuraHandledException(e.getMessage());
+            }
         }
         return result;
     }
+    
     
     public static void createFeedItem(Map<Id, ContentDocument> newMap, List<ContentDocumentLink> newList, String objname){
         Map<Id, String> emailMessageIds = new Map<Id, String>();
@@ -253,4 +243,36 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }   
         }
     } 
+    /**
+    * @description : PR1030924-211: Method created to validate Case File.
+    * @author zahedali.mohammed@salesforce.com | 09-24-2024 
+    * @param List<ContentDocumentLink> newFiles
+    * @return void
+    **/
+    public static void validateCaseFile(List<ContentDocumentLink> newFiles){
+        try{
+            Set<Id> recordIds = new Set<Id>();
+            for (ContentDocumentLink link : newFiles) {
+                if (link.LinkedEntityId != null) {
+                    recordIds.add(link.LinkedEntityId);
+                }
+            }
+            
+            Map<Id, SObject> recordMap = new Map<Id, SObject>(
+                [SELECT OwnerId,Business_Unit__c FROM Case WHERE Id IN :recordIds]
+            );
+            
+            for (ContentDocumentLink link : newFiles) {
+                SObject record = recordMap.get(link.LinkedEntityId);
+                if (record != null && record.get('Business_Unit__c')==System.label.Wellness_BU) {                   
+                    Id ownerId = (Id) record.get('OwnerId');                 
+                    if (ownerId != UserInfo.getUserId() && !Test.isRunningTest()) {
+                        link.addError(System.Label.Wellness_CaseComment_add_Err_Msg);
+                    }
+                }
+            }
+        }catch(Exception e){
+            system.debug('Error-->'+e.getMessage());
+        }
+    }
 }

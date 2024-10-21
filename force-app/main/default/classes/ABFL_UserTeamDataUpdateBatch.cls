@@ -2,7 +2,7 @@
  * @description       : Update/Assign Queue, PublicGroup details on User Record, which the User is assigned to.
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-14-2024
+ * @last modified on  : 09-23-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
@@ -24,7 +24,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
     **/
     public ABFL_UserTeamDataUpdateBatch(){
                
-       for(GroupMember grp : [SELECT GroupId,Group.Name,UserOrGroupId FROM GroupMember WHERE Group.Type = 'Queue' AND Group.DeveloperName LIKE 'ABFL%'])
+       for(GroupMember grp : [SELECT GroupId,Group.Name,UserOrGroupId FROM GroupMember WHERE Group.Type = 'Queue' AND (Group.DeveloperName LIKE 'ABFL%' OR Group.DeveloperName LIKE 'Wellness%')])
         {
             // UserOrGroupId is Public Group ID & GroupId is Queue Id
             if(!String.valueOf(grp.UserOrGroupId).startsWith('005')){
@@ -43,10 +43,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
     public Database.QueryLocator start(Database.BatchableContext bc) {
         
         // Query ALL Active User records
-        return Database.getQueryLocator([
-            SELECT Id, Name, Assigned_Team__c,managerGroupId__c  
-            FROM USER             
-            WHERE IsActive = TRUE AND Business_Unit__c = :ABFL_Constants.ABFL]);            
+        return Database.getQueryLocator('SELECT Id, Name, Assigned_Team__c,managerGroupId__c FROM USER WHERE IsActive = TRUE AND Business_Unit__c IN ('+'\''+ABFL_Constants.ABFL+'\''+','+'\''+MCRM_Constants.MCRMBU+'\''+')'+(Test.isRunningTest()?' AND username like \'adminUserabcl@gmail.com%\'':''));
     }
     
     /**
@@ -61,7 +58,7 @@ public class ABFL_UserTeamDataUpdateBatch implements Database.Batchable<sObject>
             for (User u : scope) {
                 userIds.add(u.Id);
             }
-            List<GroupMember> grpMemList = [SELECT UserOrGroupId, Group.Name, Group.type, GroupId FROM GroupMember WHERE Group.DeveloperName LIKE 'ABFL%' AND UserOrGroupId IN :userIds order by SystemModstamp DESC];
+            List<GroupMember> grpMemList = [SELECT UserOrGroupId, Group.Name, Group.type, GroupId FROM GroupMember WHERE (Group.DeveloperName LIKE 'ABFL%' OR Group.DeveloperName LIKE 'Wellness%') AND UserOrGroupId IN :userIds order by SystemModstamp DESC];
             for(GroupMember grp : grpMemList){
                 if(grp.Group.type == 'Regular'){
                     if(!userVsPublicgrp.containsKey(grp.UserOrGroupId)){

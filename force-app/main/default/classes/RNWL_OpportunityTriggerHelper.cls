@@ -12,7 +12,7 @@ public class RNWL_OpportunityTriggerHelper {
 * @return - void .
 * @Description - Invoked from BeforeInsert this method pre-populates fields on Opps from Asset record.
 *****************************************************************************************************************/
-    public static void setOpportunityFieldValues(List<Opportunity> newOppsList){
+    /*public static void setOpportunityFieldValues(List<Opportunity> newOppsList){
         
         Set<Id> policyIdSet = new Set<Id>();
         Map<Id, Id> policyAccIdMap = new Map<Id, Id>();
@@ -33,7 +33,7 @@ public class RNWL_OpportunityTriggerHelper {
             opp.StageName = 'Open'; 
             opp.Name = 'RN-' + opp.Policy_Number__c;            
         }
-    }
+    }*/
     
     
     /****************************************************************************************************************
@@ -136,13 +136,49 @@ public class RNWL_OpportunityTriggerHelper {
         
     } 
     
-    /*****************************************************************************************************************
+    public static void tagOppOnDisposition(List<Opportunity> newOpps){
+
+        Map<Id, Id> oppToPolicyIdMap = new Map<Id, Id>();
+        List<Dispositions__c> updateDispList = new List<Dispositions__c>();
+
+        for(Opportunity opp : newOpps){
+            oppToPolicyIdMap.put(opp.Policy__c, opp.Id);
+        }
+
+        List<Asset> policiesList = getPolicies(oppToPolicyIdMap.keySet());
+        if(policiesList.size() == 0){ return; }
+
+        for(Asset pol : policiesList){
+            if(pol.Dispositions__r.size() == 0){ return; }
+            for(Dispositions__c disp : pol.Dispositions__r){
+
+                if(disp.Agent_Name__r.Profile.Name == 'RNWL Base Profile'){
+                    updateDispList.add(
+                        new Dispositions__c(
+                            Id = disp.Id, 
+                            Renewal_Request__c = oppToPolicyIdMap.get(pol.Id))
+                    );
+                }
+                
+            }
+        }
+
+        if(updateDispList.size() > 0){
+            update updateDispList;
+        }
+    }
+    
+/*****************************************************************************************************************
 *                                      Data Getters
 *****************************************************************************************************************/
     
     private static List<Asset> getPolicies(Set<Id> policyIdSet){
         return [SELECT 
-                Id, AccountId
+                Id, AccountId, 
+                    (SELECT Id, 
+                        Agent_Name__r.Profile.Name,
+                        Renewal_Request__c
+                    FROM Dispositions__r)
                 FROM Asset 
                 WHERE Id IN : policyIdSet];
         

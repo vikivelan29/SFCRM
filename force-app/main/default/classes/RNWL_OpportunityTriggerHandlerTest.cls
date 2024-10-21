@@ -3,14 +3,21 @@ public class RNWL_OpportunityTriggerHandlerTest {
     
     
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
-    
+    private final static Profile BASE_RNWL_PROFILE = [SELECT Id FROM Profile WHERE name='RNWL Base Profile' LIMIT 1];
+
     @TestSetup
     public static void setup(){
         User objUser = new User(profileId = SYSTEMADMIN_PROFILE.Id, email = 'test1@salesforce.com',
                                 Username = 'Test1'+String.valueOf(Integer.valueof((Math.random() * 10)))+'@mock.com',
                                 alias = 'test', lastname = 'lastname', emailencodingkey = 'UTF-8', localesidkey = 'en_US',
                                 languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true);
-        insert objUser;
+        
+        User baseUser = new User(profileId = BASE_RNWL_PROFILE.Id, email = 'test1@salesforce.com',
+                                Username = 'Test1'+String.valueOf(Integer.valueof((Math.random() * 11)))+'@mock.com',
+                                alias = 'test', lastname = 'lastname', emailencodingkey = 'UTF-8', localesidkey = 'en_US',
+                                languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true);
+        insert new List<User>{objUser, baseUser};
+
         Account acc = ASF_TestDataFactory.insertBusinessAccount('test', 'strCRN');
         
         Asset asset = ASF_TestDataFactory.createAsset(acc.Id,''); 
@@ -21,21 +28,31 @@ public class RNWL_OpportunityTriggerHandlerTest {
     public static void test_BeforeTest(){
         Account acc = [Select Id FROM Account LIMIT 1];
         Asset asset = [Select Id FROM Asset LIMIT 1];
+       	User agent = [SELECT Id, Profile.Name FROM User WHERE Profile.Name = 'RNWL Base Profile' LIMIT 1];
+        
+        Dispositions__c disp = new Dispositions__c(); 
+        disp.Agent_Name__c = agent.Id;
+        disp.Policy_Number__c = asset.Id;
+        insert disp;
+        
         Test.startTest();
-        Opportunity objOpportunity = RNWL_TestDataFactory.createOpportunityRecords(acc.Id, asset.Id);
+            Opportunity objOpportunity = RNWL_TestDataFactory.createOpportunityRecords(acc.Id, asset.Id);
         Test.stopTest();
         
         List<Opportunity> oppList = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity WHERE Id =: objOpportunity.Id];
+        disp = [SELECT Id, Renewal_Request__c FROM Dispositions__c WHERE Id = :disp.id];
         
-        Assert.areEqual(date.today()+60, oppList[0].CloseDate, 'Expected date.today()+60 , Not found');
-        Assert.areEqual('Open', oppList[0].StageName, 'Expected StageName Open , Not found');
+        System.assertEquals(objOpportunity.Id, disp.Renewal_Request__c, 'Uhhh Ohhh! Renewal Request is not updated!');
+        //Assert.areEqual(date.today()+60, oppList[0].CloseDate, 'Expected date.today()+60 , Not found');
+        //Assert.areEqual('Open', oppList[0].StageName, 'Expected StageName Open , Not found');
         Assert.areEqual(asset.Id, oppList[0].Policy__c, 'Account Id mismatch');
     }
-    
+
     @isTest
     private static void test_AfterTest(){
         Asset asst = [SELECT Id, AccountId FROM Asset LIMIT 1];
         asst.ABHI_Policy_Id__c = '12-121-21-21'; 
+        asst.LAN__c = '12-121-21-21'; 
         asst.Assignee_Name__c = 'Ubona int';
         asst.IntermediaryName__c = 'Inter name';
         asst.Channel__c = 'Channel';

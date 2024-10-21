@@ -143,12 +143,62 @@
                                 </div>
                             </div>
                         </div>
+                    </div> 
+                    <div class="slds-form__row">
+                        <div class="slds-form__item" role="listitem">
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Is cross-sell:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Is_cross_sell}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Cross-sell Reference Number:</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Cross_sell_Reference_Number}
+                                    </div>
+                                </div>
+                            </div> 
+                        </div> 
+                        <div class="slds-form__item" role="listitem">
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Loading :</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Loading_Reason}
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>  
+                    </div>
+                    <div class="slds-form__row">
+                        <div class="slds-form__item" role="listitem">
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Loading % :</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {policy.Loading_Rate}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__item" role="listitem">
+                           
+                        </div> 
+                        <div class="slds-form__item" role="listitem">
+                          
+                        </div>  
                     </div>
                 </div>
             </div>
             <div class="slds-col">
                 <h2 class="slds-m-bottom_x-small slds-m-top_small slds-card__header-title">Members</h2>
-                <lightning-datatable key-field="id" data={policy.Members} columns={columns} hide-checkbox-column>
+                <lightning-datatable key-field="id" wrap-table-header="all" data={policy.Members} columns={columns} hide-checkbox-column>
                 </lightning-datatable>
             </div>
         </div>

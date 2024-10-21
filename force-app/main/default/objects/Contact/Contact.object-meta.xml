@@ -327,6 +327,15 @@
     <enableFeeds>true</enableFeeds>
     <enableHistory>false</enableHistory>
     <externalSharingModel>ControlledByParent</externalSharingModel>
+    <profileSearchLayouts>
+        <fields>FULL_NAME</fields>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>CONTACT.PHONE1</fields>
+        <fields>CONTACT.EMAIL</fields>
+        <fields>CORE.USERS.ALIAS</fields>
+        <fields>CONTACT.PHONE3</fields>
+        <profileName>Wellness CRM Base Profile</profileName>
+    </profileSearchLayouts>
     <searchLayouts>
         <customTabListAdditionalFields>FULL_NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>

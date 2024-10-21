@@ -40,6 +40,11 @@
         <default>false</default>
         <label>ABHI</label>
     </customValue>
+    <customValue>
+        <fullName>Wellness</fullName>
+        <default>false</default>
+        <label>Wellness</label>
+    </customValue>
     <masterLabel>Business Unit</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
