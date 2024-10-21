@@ -82,15 +82,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1135,14 +1135,6 @@
         </values>
         <values>
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Additional information required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rejected</fullName>
             <default>false</default>
         </values>
     </picklistValues>
