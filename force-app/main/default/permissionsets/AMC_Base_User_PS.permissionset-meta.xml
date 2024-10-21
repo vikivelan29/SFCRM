@@ -352,6 +352,10 @@
         <apexClass>ASF_redirectToCaseApprovalVFController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABSLAMC_HoldingsByFolioController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>HideCaseWithProspect</name>
@@ -518,6 +522,26 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABSLAMC_Case_Detail__c.Transaction_Channel_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLAMC_Case_Detail__c.Application_Name_Type_By_App_Support__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLAMC_Case_Detail__c.Application_Name_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLAMC_Case_Detail__c.Nature_Of_Issue_By_App_Support__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLAMC_Case_Detail__c.Nature_Of_Issue__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4286,6 +4310,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Case_Details_JSON__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Case_Assigned_Team__c</field>
         <readable>true</readable>
@@ -4848,11 +4877,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Short_URL__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.Signature_Validation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5648,6 +5672,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Phone</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.PlatformEventInitiatedBy__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

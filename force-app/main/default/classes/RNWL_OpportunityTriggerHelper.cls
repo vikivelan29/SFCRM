@@ -149,17 +149,17 @@ public class RNWL_OpportunityTriggerHelper {
         if(policiesList.size() == 0){ return; }
 
         for(Asset pol : policiesList){
+            
             if(pol.Dispositions__r.size() == 0){ return; }
+            
             for(Dispositions__c disp : pol.Dispositions__r){
-
-                if(disp.Agent_Name__r.Profile.Name == 'RNWL Base Profile'){
+                if(disp.Category__c == 'Renewal' && disp.Renewal_Request__c == null){
                     updateDispList.add(
                         new Dispositions__c(
                             Id = disp.Id, 
                             Renewal_Request__c = oppToPolicyIdMap.get(pol.Id))
                     );
                 }
-                
             }
         }
 
@@ -176,7 +176,7 @@ public class RNWL_OpportunityTriggerHelper {
         return [SELECT 
                 Id, AccountId, 
                     (SELECT Id, 
-                        Agent_Name__r.Profile.Name,
+                        Category__c,
                         Renewal_Request__c
                     FROM Dispositions__r)
                 FROM Asset 
