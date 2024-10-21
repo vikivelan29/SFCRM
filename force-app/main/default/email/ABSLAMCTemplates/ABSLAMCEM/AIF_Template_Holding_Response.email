@@ -27,7 +27,7 @@
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 25px;font-style:normal;" valign="bottom">Greetings from Aditya Birla Sun Life AMC Ltd - Investment Managers to Alternative Investment Fund!</td>
 											</tr>
 											<tr>
-												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We sincerely apologize for the delay in addressing your concern under case ID <span style="font-weight:normal;">{{{Case.Type__c}}} </span>Please be assured that our dedicated team is actively working on resolving this and will provide you an update shortly.</td>
+												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight: normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We sincerely apologize for the delay in addressing your concern under case ID <span style="font-weight:normal;"><b>{{{Case.CaseNumber}}} {{{Case.Type__c}}}</b></span>.Please be assured that our dedicated team is actively working on resolving this and will provide you an update shortly.</td>
 											</tr>
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom">We regret the inconvenience caused to you in this regard, and truly appreciate your patience.</td>
@@ -37,9 +37,9 @@
 											</tr>
 											<tr>
 												<td align="left" style="font-family:'Anek Latin', sans-serif; font-size:16px; font-weight:normal; color:#272727; padding-top:10px; padding-right:0px; padding-bottom:0px; padding-left:0px; text-align:left; line-height: 22px;font-style:normal;" valign="bottom"><br />
-												Warm regards,<br />
-												Client Relations<br />
-												Aditya Birla Sun Life Mutual Fund.<br />
+												Best Regards,<br />
+												<b>Alternate Investments Service Team</b><br />
+												Aditya Birla Sun Life AMC Ltd<br />
 												&ndash; Investment Managers to Alternate Investment Fund</td>
 											</tr>
 											<tr>

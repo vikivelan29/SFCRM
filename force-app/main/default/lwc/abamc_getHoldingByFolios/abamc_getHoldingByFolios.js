@@ -62,7 +62,8 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
      @track totalRecordsHoldings = 0;
      @track totalPagesHoldings = 0;
      @track recordsPerPageHoldings = 5;
-     noDataFound = false;
+     noSIPDataFound = false;
+     noHoldingsDataFound = false;
 
      @track isModalOpen = false;
      @track modalContent = '';
@@ -122,7 +123,7 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
                     'id': item.ID
                 }));
                 if (!parsedData || parsedData.length === 0) {
-                    this.noDataFound = true; 
+                    this.noSIPDataFound = true; 
                 } else {
                 this.sipData = parsedData;
                 this.totalRecordsSIP = parsedData.length;
@@ -206,7 +207,7 @@ export default class Abamc_getHoldingByFolios extends LightningElement {
             }));
 
             if (!parsedData || parsedData.length === 0) {
-                this.noDataFound = true; 
+                this.noHoldingsDataFound = true; 
             } else {
                 this.holdingsData = parsedData;
                 this.totalRecordsHoldings = parsedData.length;
