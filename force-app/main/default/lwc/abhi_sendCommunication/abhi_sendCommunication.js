@@ -62,8 +62,6 @@ export default class Abhi_sendCommunication extends LightningElement {
     @wire(getObjectInfo, { objectApiName: '$objectApiName' })
     wiredObjectInfo({ error, data }) {
         if (data) {
-            console.log('Data>>>', data);
-            
             this.objectInfo=data;
         }
         else if(error){
