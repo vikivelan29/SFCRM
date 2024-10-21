@@ -42,8 +42,8 @@
                     data={paginatedHoldingsData}
                     columns={holdingsColumns}
                     hide-checkbox-column="true"
-                    sorted-by={sortedBy}
-                    sorted-direction={sortedDirection}
+                    sorted-by={sortedByHoldings}
+                    sorted-direction={sortedDirectionHoldings}
                     onsort={handleSortHoldings}
                     data-id="holdings"
                     onrowaction={viewRecordSIP}>
@@ -61,4 +61,39 @@
             </div>
         </lightning-card>
     </template>
+    <template lwc:if={noDataFound}>
+        <div class="slds-text-color_error slds-p-around_medium">
+            <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+            No holdings data found for the selected folio.
+        </div>
+    </template>
+
+   
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">{modalHeader}</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div lwc:dom="manual" class="custom-table" data-id="table-content">
+                    </div>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Okay" onclick={closeModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+   
+    
 </template>
