@@ -31,9 +31,6 @@ import ACCOUNT_NAME from "@salesforce/schema/Case.Account.Id";
 import ASSET_NAME from "@salesforce/schema/Case.Asset.Id";
 import BUSINESS_UNIT from "@salesforce/schema/Case.Business_Unit__c";
 import ASSET_ID from "@salesforce/schema/Customer_Member_Mapping__c.Policy_Number__c";
-import CLIENT_CODE from "@salesforce/schema/Customer_Member_Mapping__c.MemberId__r.Client_Code__c";
-import SELECTED_ACCOUNT_ID from "@salesforce/schema/Customer_Member_Mapping__c.MemberId__c";
-import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 
 export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(LightningElement) {
     /* API variables */
@@ -52,8 +49,6 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     cmRecordId;
     newAssetSelected = 'NA';
     caseBusinessUnit = '';
-    selectedClientCode = '';
-    selectedAccountId = '';
     matchingInfo = {
         primaryField: { fieldPath: "Name" },
         additionalFields: [{ fieldPath: "LAN__c"}],
@@ -68,7 +63,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     };
 
     displayInfoCm = {
-        additionalFields: ["MemberId__r.Client_Code__c"]
+        additionalFields: ["Client_Id__r.Client_Code__c"]
     };
 
     get showCustomerMember(){
@@ -85,12 +80,11 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
         this.template.querySelector(".cmPicker").reportValidity();
     }
 
-    @wire(getRecord, { recordId: "$cmRecordId", fields: [ASSET_ID,CLIENT_CODE,SELECTED_ACCOUNT_ID] })
+    @wire(getRecord, { recordId: "$cmRecordId", fields: [ASSET_ID] })
     user({ error, data}) {
         if (data){
            this.newAssetSelected = data.fields.Policy_Number__c.value;
-           this.selectedClientCode = data.fields.MemberId__r.value.fields.Client_Code__c.value;
-           this.selectedAccountId = data.fields.MemberId__c.value;
+           console.log('new asset--'+this.newAssetSelected);
         } else if (error){
             console.log('error in get CM record--'+JSON.stringify(error));
         }
@@ -109,20 +103,9 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             } 
             else if (data) {
                 console.log('data', JSON.stringify(data));
-                this.accountId = data.fields.Account?.value?.id;
-                this.accountName = data.fields.Account?.displayValue;
+                this.accountId = data.fields.Account.value.id;
+                this.accountName = data.fields.Account.displayValue;
                 this.caseBusinessUnit = data.fields.Business_Unit__c.value;
-                if(this.caseBusinessUnit && this.caseBusinessUnit === ABSLAMC_BU){
-                    this.filter = {
-                        criteria: [
-                          {
-                            fieldPath: "AccountId",
-                            operator: "eq",
-                            value: this.accountId,
-                          },
-                        ],
-                      };
-                } else {
                 this.filter = {
                     criteria: [
                       {
@@ -137,11 +120,10 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                       {
                         fieldPath: "Client_Id__r.Id",
                         operator: "eq",
-                        value: this.accountId ?? '',
+                        value: this.accountId,
                       },
                     ],
                 };
-            }
                 if(data.fields.Asset != undefined && data.fields.Asset.value != undefined ){
 
                     this.initialValue = data.fields.Asset.value.Id;
