@@ -29,7 +29,7 @@ public with sharing class ABSLAMC_BulkCloseLeadConverterUtility implements ASF_B
             rows.put(lineItemId, keyValueMap);
         }
         Map<String, Lead> leadMap = new Map<String,Lead>();
-        for(Lead leadRec : [Select Id, Status, Lead_Number__c from Lead where Lead_Number__c IN :leadIds WITH SYSTEM_MODE]){
+        for(Lead leadRec : [SELECT Id, Status, Lead_Number__c FROM Lead WHERE Lead_Number__c IN :leadIds AND Business_Unit__c = 'ABSLAMC' WITH SYSTEM_MODE]){
             leadMap.put(leadRec.Lead_Number__c, leadRec);
         }
 
