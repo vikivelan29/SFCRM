@@ -201,7 +201,6 @@ public class ABSLAMC_BusinessLogic_HelperClass {
                         isAuthorized = true;
                     }
                     if (!isAuthorized) {
-                        system.debug('ainside if not authroized');
                         lead.addError(ABSLAMC_Constants.LEADOWNERCHANGEFORUSER);
                     }
                 }
