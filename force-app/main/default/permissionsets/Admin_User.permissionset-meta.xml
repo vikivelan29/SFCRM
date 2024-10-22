@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
         <apexClass>ABCL_BaseViewController</apexClass>
@@ -36,6 +36,16 @@
         <enabled>true</enabled>
         <name>Case_Ownership_Management</name>
     </customPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABCLLogRecording__c.Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABCLLogRecording__c.SOQL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.ABCCustomerTAT__c</field>
@@ -424,6 +434,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.OneABCId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABFL_Case_Detail__c.Open_Stage_Owner_Email_Team__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABFL_Case_Detail__c.Open_Stage_Owner_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -818,7 +838,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHFL_Case_Detail__c.Complaint_Investigation_Response_Json__c</field>
+        <field
+    >ABHFL_Case_Detail__c.Complaint_Investigation_Response_Json__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -852,7 +873,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Correct_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1217,7 +1238,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ABHFL_Case_Detail__c.Priority1__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1478,7 +1499,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.AutoCreateCaseExtension_Technical_Field__c</field>
+        <field
+    >ABSLI_Case_Detail__c.AutoCreateCaseExtension_Technical_Field__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1803,7 +1825,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Duplicate_Case_SMS_Metadata__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Duplicate_Case_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1838,37 +1861,44 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_1__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Holding_Response_Email_Template_1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_2__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Holding_Response_Email_Template_2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template_4__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Holding_Response_Email_Template_4__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Holding_Response_Email_Template__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Holding_Response_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Metadata__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Holding_Response_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Template_1__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Holding_Response_SMS_Template_1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Holding_Response_SMS_Template_4__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Holding_Response_SMS_Template_4__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1928,7 +1958,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Multiple_Child_Component_Name__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Multiple_Child_Component_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1973,17 +2004,20 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Override_Closed_communication__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Override_Closed_communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Override_Open_communication__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Override_Open_communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Override_Rejected_communication__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Override_Rejected_communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2018,17 +2052,20 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Recategorisation_Email_Template__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Recategorisation_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Recategorisation_SMS_Metadata__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Recategorisation_SMS_Metadata__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Rejected_Case_Email_Template__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Rejected_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2053,7 +2090,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Resolved_Case_Email_Template__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Resolved_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2063,7 +2101,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2078,22 +2117,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.SR_Classification_filter_field__c</field>
+        <field
+    >ASF_Case_Category_Config__c.SR_Classification_filter_field__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.SR_Classification_filter_value__c</field>
+        <field
+    >ASF_Case_Category_Config__c.SR_Classification_filter_value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Send_Closed_stage_communications__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Send_Closed_stage_communications__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Send_Duplicate_stage_communications__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Send_Duplicate_stage_communications__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2108,12 +2151,14 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Send_Recategorisation_Communication__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Send_Recategorisation_Communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Send_Rejected_stage_communications__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Send_Rejected_stage_communications__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2128,7 +2173,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Send_open_stage_communications__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Send_open_stage_communications__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2168,7 +2214,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Category_Config__c.Validation_method_during_creation__c</field>
+        <field
+    >ASF_Case_Category_Config__c.Validation_method_during_creation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2238,7 +2285,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Email_Config__c.Recategorisation_Email_Template__c</field>
+        <field
+    >ASF_Case_Email_Config__c.Recategorisation_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2273,7 +2321,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Case_Email_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
+        <field
+    >ASF_Case_Email_Config__c.Resolved_Duplicate_Case_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2358,7 +2407,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Field_Config__c.Multi_Picklist_Max_Allowed_Values__c</field>
+        <field
+    >ASF_Case_Field_Config__c.Multi_Picklist_Max_Allowed_Values__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2733,7 +2783,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_Case_Stage_Config__c.Backward_Last_Action_User_Queue__c</field>
+        <field
+    >ASF_Case_Stage_Config__c.Backward_Last_Action_User_Queue__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3468,7 +3519,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ASF_FieldConfigurationRecord__c.Small_Device_Column_Width__c</field>
+        <field
+    >ASF_FieldConfigurationRecord__c.Small_Device_Column_Width__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
