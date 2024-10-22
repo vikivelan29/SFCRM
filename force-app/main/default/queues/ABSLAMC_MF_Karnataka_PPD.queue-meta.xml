@@ -7,6 +7,7 @@
             <publicGroup>ABSLAMC_MF_Karnataka_PPD_G</publicGroup>
         </publicGroups>
     </queueMembers>
+    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>
