@@ -1,13 +1,3 @@
-/**
-* @description       : 
-* @author            : rsinghnagar@salesforce.com
-* @group             : 
-* @last modified on  : 06-30-2024
-* @last modified by  : rsinghnagar@salesforce.com 
-* Modifications Log
-* Ver   Date         Author                       Modification
-* 1.0   06-30-2024   rsinghnagar@salesforce.com   Initial Version
-**/
 public without sharing class ASF_CaseFileUploadTriggerHelper {
     
     public static Boolean isSuperUser = FeatureManagement.checkPermission('Bypass_Case_Validation');
@@ -76,6 +66,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }
         }
     }
+
     public static void validateCaseFileUpdate(Map<Id, ContentDocument> newMap, Map<Id, ContentDocument> oldMap){
         Boolean isDelete = newMap==null ? true : false;
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
@@ -150,8 +141,7 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }
         }
         return docId;
-    }
-    
+    }    
     @AuraEnabled
     public static String deleteFileById(String fileId, String comment) {
         String result = 'Error';
@@ -190,14 +180,14 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                     delete contentDocRec;
                     insert feedItemList;
                 } 
-                result = contentDocId;
-                
+                result = contentDocId;                
             }catch(Exception e) {
                 throw new AuraHandledException(e.getMessage());
             }
         }
         return result;
     }
+    
     
     public static void createFeedItem(Map<Id, ContentDocument> newMap, List<ContentDocumentLink> newList, String objname){
         Map<Id, String> emailMessageIds = new Map<Id, String>();
@@ -253,7 +243,44 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }   
         }
     } 
-    
+    /**
+    * @description : PR1030924-211: Method created to validate Case File.
+    * @author zahedali.mohammed@salesforce.com | 09-24-2024 
+    * @param List<ContentDocumentLink> newFiles
+    * @return void
+    **/
+    public static void validateCaseFile(List<ContentDocumentLink> newFiles){
+        try{
+            Set<Id> recordIds = new Set<Id>();
+            for (ContentDocumentLink link : newFiles) {
+                if (link.LinkedEntityId != null) {
+                    recordIds.add(link.LinkedEntityId);
+                }
+            }
+            
+            Map<Id, SObject> recordMap = new Map<Id, SObject>(
+                [SELECT OwnerId,Business_Unit__c FROM Case WHERE Id IN :recordIds]
+            );
+            
+            for (ContentDocumentLink link : newFiles) {
+                SObject record = recordMap.get(link.LinkedEntityId);
+                if (record != null && record.get('Business_Unit__c')==System.label.Wellness_BU) {                   
+                    Id ownerId = (Id) record.get('OwnerId');                 
+                    if (ownerId != UserInfo.getUserId() && !Test.isRunningTest()) {
+                        link.addError(System.Label.Wellness_CaseComment_add_Err_Msg);
+                    }
+                }
+            }
+        }catch(Exception e){
+            system.debug('Error-->'+e.getMessage());
+        }
+    }
+
+        /****************************************************************************************************************
+* @param newMap
+* @description - for firing notification on file upload for sprinklr cases
+*****************************************************************************************************************/
+
     public static void checkifCaseAttachmentAdded(Map<Id, ContentDocumentLink> newMap) {
         
         Map<Id, Id> contentDocLinkToCaseMap = new Map<Id, Id>();
@@ -297,7 +324,5 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             ABSLAMC_SprinklrHelper.fireSystemNotification(caseMap,'File Upload');
         }
     }
-    
-    
-    
+
 }
