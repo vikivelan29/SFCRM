@@ -6425,6 +6425,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Conversion_Details__c.Converted_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Conversion_Details__c.Folio_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6441,6 +6446,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Conversion_Details__c.Lead__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Conversion_Details__c.SIP_Frequency__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6466,6 +6476,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Conversion_Details__c.Scheme_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Conversion_Details__c.Transaction_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

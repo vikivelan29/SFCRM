@@ -120,4 +120,34 @@ public class ABSLAMC_BusinessLogic_HelperClass {
             
         }
     }
+
+    /****************************************************************************************************************
+     * @Function - closeEligibleLeads
+     * @param - newConversionDetailsMap
+     * @return - void
+     * @Description - close related lead records if the any of the Conversion_Details__c record has Converted_Flag__c as true
+     ***********************************************************/
+    public static void closeEligibleLeads(Map<Id, Conversion_Details__c> newConversionDetailsMap) {
+        Set<Id> eligibleLeadsSet = new Set<Id>();
+        Map<Id, Lead> leasdsToUpdateMap = new Map<Id, Lead>();
+
+        for(Conversion_Details__c conversionDetailRecord :newConversionDetailsMap.values()) {
+            if(conversionDetailRecord.Business_Unit__c == 'ABSLAMC' && conversionDetailRecord.Converted_Flag__c == true) {
+                eligibleLeadsSet.add(conversionDetailRecord.Lead__c);
+            }
+        }
+
+        if(eligibleLeadsSet.size() > 0) {
+            for(Id leadId :eligibleLeadsSet) {
+                Lead leadRecord = new Lead();
+                leadRecord.Id = leadId;
+                leadRecord.Status = 'Won';
+                leasdsToUpdateMap.put(leadRecord.Id, leadRecord);
+            }
+        }
+
+        if(leasdsToUpdateMap.size() > 0){
+            update leasdsToUpdateMap.values();
+        }
+    }
 }
