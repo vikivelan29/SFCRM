@@ -35,15 +35,6 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     showCustomerNPSbyNumber;
     customerBU = '';
 
-    // PR1030924-300: Added by Rajendra - Start
-    get isShowNPS(){
-        if(this.customerBU=='Wellness'){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
     loadNpsScore() {
         getNpsScore({ customerId: this.recordId })
             .then(result => {
