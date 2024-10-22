@@ -351,6 +351,34 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Activity - Lead Campaign</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Lead Dormant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Lead Existing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Lead NFO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Lead Prospect</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Lead Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Lead Zero Balance</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Activity - POST- Redemption Saved by SRM</fullName>
             <default>false</default>
         </values>
@@ -385,6 +413,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Lead_Type__c</picklist>
+        <values>
+            <fullName>MF Retention</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>MF Service To Sales</fullName>
             <default>false</default>
