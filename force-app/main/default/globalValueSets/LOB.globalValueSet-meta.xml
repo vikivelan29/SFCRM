@@ -51,9 +51,9 @@
         <label>ABWM</label>
     </customValue>
     <customValue>
-        <fullName>ABSLI</fullName>
+        <fullName>ABFL</fullName>
         <default>false</default>
-        <label>ABSLI</label>
+        <label>ABFL</label>
     </customValue>
     <customValue>
         <fullName>ABSLIG</fullName>
@@ -61,34 +61,9 @@
         <label>ABSLIG</label>
     </customValue>
     <customValue>
-        <fullName>ABFL</fullName>
+        <fullName>Wellness</fullName>
         <default>false</default>
-        <label>ABFL</label>
-    </customValue>
-    <customValue>
-        <fullName>AIF</fullName>
-        <default>false</default>
-        <label>AIF</label>
-    </customValue>
-    <customValue>
-        <fullName>PMS</fullName>
-        <default>false</default>
-        <label>PMS</label>
-    </customValue>
-    <customValue>
-        <fullName>MF</fullName>
-        <default>false</default>
-        <label>MF</label>
-    </customValue>
-    <customValue>
-        <fullName>RE</fullName>
-        <default>false</default>
-        <label>RE</label>
-    </customValue>
-    <customValue>
-        <fullName>ABHI</fullName>
-        <default>false</default>
-        <label>ABHI</label>
+        <label>Wellness</label>
     </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>
