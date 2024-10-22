@@ -125,7 +125,7 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
             ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)mRecordTypeVsCases.get(frameworkRTId),(Map<Id, Case>)oldItems);
             for(String businessUnit : mapOfBUToCases.keySet()){
                 if(businessUnit == 'ABSLAMC'){
-                    ABSLAMC_SprinklrHelper.createCaseComments((new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
         }
         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
