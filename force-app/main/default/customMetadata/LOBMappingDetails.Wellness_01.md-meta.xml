@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>New_Source__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Email,Phone,Web (Mobile App),Walkin</value>
     </values>
     <values>
         <field>Source_Code__c</field>
