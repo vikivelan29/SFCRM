@@ -8,11 +8,11 @@
     </values>
     <values>
         <field>EnableMockResponse__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>EndPoint__c</field>
-        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abfl/odpeventoutcome</value>
+        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-abhmw/totalactivedays</value>
     </values>
     <values>
         <field>Exception_Log__c</field>
@@ -53,5 +53,13 @@
     <values>
         <field>StoreAsAttachment__c</field>
         <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Timeout__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>URL_Parameters__c</field>
+        <value xsi:type="xsd:string">customerId={customerId}</value>
     </values>
 </CustomMetadata>
