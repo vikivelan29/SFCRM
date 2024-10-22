@@ -19,6 +19,9 @@ public class RNWL_OpportunityTriggerHandlerTest {
         
         RNWL_TestDataFactory.insertBusinessAccount('test before opp', 'strCRN');  
         
+        Asset asset = ASF_TestDataFactory.createAsset(acc.Id,''); 
+        ASF_TestDataFactory.insertBusinessAccount('test before opp', 'strCRN');  
+        
     }
     
     //To cover RNWL_RenewalCustomerPolicyInfo class 
@@ -85,8 +88,6 @@ public class RNWL_OpportunityTriggerHandlerTest {
     private static void test_UpdatePolicyAndAccount(){
         Asset asst = [SELECT Id, AccountId, Calling_Source__c FROM Asset LIMIT 1];
         Opportunity opp = RNWL_TestDataFactory.createOpportunityRecords(asst.AccountId, asst.Id);
-        RNWL_TestDataFactory.createCase(asst.AccountId, asst.Id);
-        
         System.assertEquals(asst.Calling_Source__c, null, 'On Asset field is not Null To begin With!!!');
         
         Test.startTest();
