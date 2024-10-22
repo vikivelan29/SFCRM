@@ -10,7 +10,8 @@ public with sharing class  ASF_CaseUIController {
 
     @AuraEnabled
     public static Map<String,sObject> CreateProspectAndUpdateOnCase(Case caseToInsert,Lead prospectRecord){
-        Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();        
+        Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();
+        
         Id salesProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Sales').getRecordTypeId();
         Id serviceProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
         User loggedInUser = [SELECT ID FROM User WHERE Id =: UserInfo.getUserId()];
@@ -31,10 +32,12 @@ public with sharing class  ASF_CaseUIController {
             prospectRecord.RecordTypeId = serviceProspectRTId;
             if(prospectRecord.Sales_Prospect__c == true){
                 prospectRecord.RecordTypeId = salesProspectRTId;
-            }            
+            }
+            
             insert prospectRecord;
             mObjectVsRecId.put('Lead',prospectRecord);
-        }        
+        }
+        
         if(caseToInsert != null){
             String sObjectName = '';
             if(caseToInsert.Lead__c == null){
@@ -43,8 +46,10 @@ public with sharing class  ASF_CaseUIController {
                     caseToInsert.put('Lead__c',prospectRecord.Id);
                     caseToInsert.AccountId = null;
                     caseToInsert.ContactId = null;
-                }                
-            }            
+                }
+                
+            }
+            
             update caseToInsert;
             mObjectVsRecId.put('Case',caseToInsert);
         }
@@ -55,13 +60,15 @@ public with sharing class  ASF_CaseUIController {
     //get Asset Records for the time of selection while creating Case
     @AuraEnabled(Cacheable=true)
     public static List<searchResponse> getMatchingAccount(string userInp, boolean accPreSelected) {
-        List<searchResponse> lstResponse = new List<searchResponse>();        
+        List<searchResponse> lstResponse = new List<searchResponse>();
+        
         if(userInp!=null){
             Set<id> accIdSet = new Set<id>();
             if(!accPreSelected){
                 List<contact> conList = New List<contact>();//database.query(queryField);
                 String searchString = '*'+String.escapeSingleQuotes(userInp)+'*';
-                userInp = '%'+userInp+'%';                
+                userInp = '%'+userInp+'%';
+                
                 System.debug('userInp-'+userInp);
               /*  List<List<SObject>> searchList =  
                     [FIND :searchString IN ALL FIELDS 
@@ -76,7 +83,7 @@ public with sharing class  ASF_CaseUIController {
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
                     Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp OR Advisor_Code__c LIKE : userInp),
-                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR Application_Number__c LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR ContractId__c LIKE : userInp OR Application_Number__c LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE Name LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
@@ -162,7 +169,7 @@ public with sharing class  ASF_CaseUIController {
                 
                 asstList = [select id, Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
                             Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c, LOB__c, 
-                            Policy_No__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c, 
+                            Policy_No__c,ContractId__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c, 
                             Plan_Name__c, ContractStartDate__c, ContractEndDate__c
                             from asset where Id =:assetIds OR AccountId =:accountId];
             }

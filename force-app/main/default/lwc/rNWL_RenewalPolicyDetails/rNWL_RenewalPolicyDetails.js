@@ -5,12 +5,8 @@ import getNomineesClaims from '@salesforce/apex/RNWL_RenewalCustomerPolicyInfo.g
 import getAPIResponse from '@salesforce/apex/RNWL_MemberDetailsController.getAPIResponseDetails';
 import toastErrorMsg from '@salesforce/label/c.OppDetailsToastErrorMessage';
 
-
 export default class RNWL_RenewalPolicyDetails extends LightningElement {
-
-    label = {
-        toastErrorMsg
-    };
+    label = { toastErrorMsg };
 
     @api recordId;policyId;accountId;
     @track account; policy; oppRec; heathRetrn; fitnessData;
@@ -18,9 +14,9 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     @track fitnessFlag = false; healthFlag = false;
     @track nomineeContacts; nomineesNames; claimsCounts; isPolicyRenewed;
     @track maturityDate; policyLapseDate; policyLapsed; policyStartDate; dateOfBirth; masterPolicyNumber;
-    @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus;
+    @track polRenewalNoticeDay;graceEndDate;graceStartDate; renStatus; inceptionDate;
     @track renewalAPIData; goGreenFlag; isChronic;
-    @track autoDebitFlag; sumInsusedEnhancement; addressFlag; 
+    @track autoDebitFlag; sumInsusedEnhancement; addressFlag; addressString;
     @track balanceHR;apiList;error;data;addDownloadStatus;
 
     @wire(getOppRec, {recordId: '$recordId'})
@@ -39,7 +35,11 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     else{
                         this.apiList = ['Renewal Check', 'Health Return', 'Fitness Assessment', 'AppRegDetails'];
                     }
-
+                    this.addressString = this.account.BillingStreet ? (this.account.BillingStreet + ', ') : '';
+                    this.addressString = this.addressString + (this.account.BillingCity ? (this.account.BillingCity + ', ') : '');
+                    this.addressString = this.addressString + (this.account.BillingState ? this.account.BillingState : '');
+                    this.addressString = this.addressString + (this.account.BillingPostalCode ? ('-'+this.account.BillingPostalCode) : '');
+                    
                     this.addressFlag = this.account.BillingAddress ? true : false;
                     this.dateOfBirth = this.account.PersonBirthdate ? this.getISTDateFormat(new Date(this.account.PersonBirthdate)) : '';
                     this.isChronic = this.account.Is_Chronic__c;
@@ -56,66 +56,23 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     this.masterPolicyNumber = this.policy.MasterPolicyNumber__r?.Name;
                 }
                 
-                
                 this.graceStartDate = this.oppRec.Grace_Period_Start__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_Start__c)) : '';
                 this.graceEndDate = this.oppRec.Grace_Period_End__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_End__c)) : '';
                 this.polRenewalNoticeDay = this.oppRec.Policy_Renewal_Notice_Day__c ? this.getISTDateFormat(new Date(this.oppRec.Policy_Renewal_Notice_Day__c)) : '';   
+                this.inceptionDate = this.oppRec.Policy_Inception_Date__c ? this.getISTDateFormat(new Date(this.oppRec.Policy_Inception_Date__c)) : ''; 
                 
                 this.renStatus = this.oppRec.Status__c == 'Renewed' ? 'Payment Received' : 'In Progress';
                 this.isPolicyRenewed = this.oppRec.Status__c == 'Renewed' ? 'Yes' : 'No';
 
                 this.getNomiteeDetails();
-
+                
                 this.getAdditionalData();
                 
                 this.areDetailsVisible = true;
-            }catch(e){
+            } catch(e){
                 console.log('Error displaying data : '+e.message);
             }
-            /*else{
-                this.apiList = ['Renewal Check', 'Health Return', 'Fitness Assessment', 'AppRegDetails'];
-            }*/
-
-            this.dateOfBirth = this.getISTDateFormat(new Date(this.account.PersonBirthdate));
-            this.policyStartDate = this.getISTDateFormat(new Date(this.policy.Issue_Date__c));
-            this.maturityDate = this.getISTDateFormat(new Date(this.policy.Maturity_Date__c));
-
-            if(this.policy.Maturity_Date__c != null){
-                var matDate = new Date(this.policy.Maturity_Date__c);
-                this.policyLapseDate = this.getISTDateFormat(new Date(matDate.setDate(matDate.getDate() + 30)));
-            }    
-            
-            this.graceStartDate = this.getISTDateFormat(new Date(this.oppRec.Grace_Period_Start__c));
-            this.graceEndDate = this.getISTDateFormat(new Date(this.oppRec.Grace_Period_End__c));
-            this.polRenewalNoticeDay = this.getISTDateFormat(new Date(this.oppRec.Policy_Renewal_Notice_Day__c));   
-            this.goGreenFlag = this.policy.GoGreen__c;
-            this.isChronic = this.account.Is_Chronic__c;
-            this.renStatus = this.oppRec.Status__c == 'Renewed' ? 'Payment Received' : 'In Progress';
-            this.isPolicyRenewed = this.oppRec.Status__c == 'Renewed' ? 'Yes' : 'No';
-
-            this.getNomiteeDetails(); 
-                if(this.policy.Maturity_Date__c != null){
-                    var matDate = new Date(this.policy.Maturity_Date__c);
-                    this.policyLapseDate = this.getISTDateFormat(new Date(matDate.setDate(matDate.getDate() + 30)));
-                }    
-                
-                this.graceStartDate = this.oppRec.Grace_Period_Start__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_Start__c)) : '';
-                this.graceEndDate = this.oppRec.Grace_Period_End__c ? this.getISTDateFormat(new Date(this.oppRec.Grace_Period_End__c)) : '';
-                this.polRenewalNoticeDay = this.oppRec.Policy_Renewal_Notice_Day__c ? this.getISTDateFormat(new Date(this.oppRec.Policy_Renewal_Notice_Day__c)) : '';   
-                this.goGreenFlag = this.policy.GoGreen__c;
-                this.isChronic = this.account.Is_Chronic__c;
-                this.renStatus = this.oppRec.Status__c == 'Renewed' ? 'Payment Received' : 'In Progress';
-                this.isPolicyRenewed = this.oppRec.Status__c == 'Renewed' ? 'Yes' : 'No';
-
-                this.getNomiteeDetails();
-
-                this.getAdditionalData();
-                this.areDetailsVisible = true;
-            /*}catch(e){
-                this.showNotification('error', 'Error!', 'Error displaying data : '+e.message);
-            }*/
-
-        }else{
+        } else {
             this.oppRec = undefined;
             this.error = error; 
             console.log('this.error----',this.error);
@@ -137,16 +94,18 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     }
 
     prepareAdditionalData(data){
+        
                 let renCheckhArray = [];
                 let healthArray = [];
                 let fitnessArray = [];
                 let apiErrMsg = '';
+
                 for (let key in data) {
 
                     //For individual Or RUGs
                     if((key == 'Renewal Check' || key == 'Renewal Group Check') && data[key]){
                         if(JSON.parse(data[key]).error[0].ErrorCode != '00'){
-                           apiErrMsg = 'Current Renewal Details, ';
+                           apiErrMsg = 'Current Renewal Details';
                         }
                         else{
                             renCheckhArray = JSON.parse(data[key]).response.policyData;
@@ -155,7 +114,10 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     //for Health returns
                     if(key == 'Health Return' && data[key]){
                         if(JSON.parse(data[key]).Message.includes('Fail')){
-                           apiErrMsg = apiErrMsg + 'Health Returns, ';
+                            if(apiErrMsg != ''){
+                                apiErrMsg = apiErrMsg +', ';
+                            }
+                            apiErrMsg = apiErrMsg + 'Health Returns';
                         }
                         else{
                             healthArray = JSON.parse(data[key]).Response;
@@ -173,7 +135,10 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     //For Fitness assessment
                     if(key == 'Fitness Assessment' && data[key]){
                         if(JSON.parse(data[key]).Message.includes('Fail')){
-                           apiErrMsg = apiErrMsg + 'Health Assessment, ';
+                            if(apiErrMsg != ''){
+                                apiErrMsg = apiErrMsg +', ';
+                            }
+                            apiErrMsg = apiErrMsg + 'Health Assessment';
                         }
                         else{
                             fitnessArray = JSON.parse(data[key]).Response;
@@ -190,7 +155,10 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     //for App registration details
                     if(key == 'AppRegDetails' && data[key]){
                         if(JSON.parse(data[key]).Message.includes('Fail')){
-                           apiErrMsg = apiErrMsg + 'App Registration Details';
+                            if(apiErrMsg != ''){
+                                apiErrMsg = apiErrMsg +', ';
+                            }
+                            apiErrMsg = apiErrMsg + 'App Registration Details';
                         }
                         else{
                             this.addDownloadStatus = JSON.parse(data[key]).AppRegDetails.IsAppDowloaded;

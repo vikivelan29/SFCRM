@@ -933,8 +933,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value
-    >ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABSLAMC Email</value>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABSLAMC Email</value>
     </labels>
     <labels>
         <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
@@ -1555,5 +1554,19 @@
         <protected>false</protected>
         <shortDescription>MCRM_WireServiceTableMdtError</shortDescription>
         <value>Oops! We couldn&apos;t retrieve the table metadata right now. Please try refreshing the page to see if that resolves the issue.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Queue_error_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Queue error message</shortDescription>
+        <value>Selected Queue is not from the Same LOB</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_UbonaCampaignId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_UbonaCampaignId</shortDescription>
+        <value>85008514</value>
     </labels>
 </CustomLabels>

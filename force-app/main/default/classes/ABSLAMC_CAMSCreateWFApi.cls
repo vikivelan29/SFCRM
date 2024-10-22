@@ -18,7 +18,7 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
     public Case getCaseRec(String caseId){
         
         Case caseRecord = [SELECT CaseNumber, CCC_External_Id__c, Source__c, Business_Unit__c, Nature__c, LAN__c,
-                           Pending_Clarification__c, Stage__c, MoveToNext__c
+                           Pending_Clarification__c, Stage__c, MoveToNext__c, LOB__c
                            FROM Case
                            WHERE Id =:caseId
         ];
@@ -147,6 +147,7 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
         CAMSCreateWfReqWrapperObj.messagePriority = (caseDetail.Critical_Request__c == 'Yes') ?  '1' : '2'; 
         CAMSCreateWfReqWrapperObj.msgCompStatus = 'N';
         CAMSCreateWfReqWrapperObj.talismaID = caseRecord.CaseNumber;
+        CAMSCreateWfReqWrapperObj.lob = caseRecord.LOB__c;
         
         String reqBody = JSON.serialize(CAMSCreateWfReqWrapperObj);
       
@@ -183,7 +184,8 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
         public string messageDesc;
         public string messagePriority;
         public string msgCompStatus;
-        public string talismaID;         
+        public string talismaID; 
+        public string lob;        
     }
     
     
