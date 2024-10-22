@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
-    <name>ABSLAMC MF Bihar_Jharkhand PPD</name>
-    <queueMembers>
-        <publicGroups>
-            <publicGroup>ABSLAMC_MF_Bihar_Jharkhand_PPD_G</publicGroup>
-        </publicGroups>
-    </queueMembers>
+    <name>ABSLAMC Call Centre Email Escalations</name>
     <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
         <sobjectType>Case</sobjectType>
