@@ -150,4 +150,73 @@ public class ABSLAMC_BusinessLogic_HelperClass {
             update leasdsToUpdateMap.values();
         }
     }
-}
+    /****************************************************************************************************************
+     * @Function - validateLeadOwnerChange
+     * @param - newLeadMap
+     * @param - oldLeadMap
+     * @return - void
+     * @Description - allows lead owner to be changed only for 
+                     1)Current User is the owner of the lead
+                     2)Current User is the manager of the lead owner upto 5 levels
+                     3)Current User is member of the queue, when Lead is assigned to a queue previously
+     *****************************************************************************************************************/ 
+    public static void validateLeadOwnerChange(Map<Id, Lead> newLeadMap, Map<Id, Lead> oldLeadMap){
+        
+      String userProfile = [SELECT Profile.Name FROM User WHERE Id = :UserInfo.getUserId()].Profile.Name;
+      if (userProfile ==  ABSLAMC_Constants.ADMINUSERPROILENAME || userProfile == ABSLAMC_Constants.APIUSERPROILENAME) {
+           return;
+       }
+        
+        Set<Id> userIds = new Set<Id>();
+        Set<Id> queueGroupIds = new Set<Id>();
+        for (Lead lead : newLeadMap.values()) {
+            Lead oldLead = oldLeadMap.get(lead.Id);
+            if (lead.OwnerId != oldLead.OwnerId) {
+                userIds.add(lead.OwnerId);
+                
+                 if (!String.valueOf(oldLead.OwnerId).startsWith('00G')) {
+                      userIds.add(oldLead.OwnerId);
+                 } else {
+                     queueGroupIds.add(oldLead.OwnerId);
+                 }
+            }
+        }
+        Map<Id, User> userMap = new Map<Id, User>([SELECT Id, ManagerId FROM User WHERE Id IN :userIds]);
+        Map<Id, Group> queueGroupMap = new Map<Id, Group>([SELECT Id, Type FROM Group WHERE Id IN :queueGroupIds]);
+        
+        for (Lead lead : newLeadMap.values()) {
+            Lead oldLead = oldLeadMap.get(lead.Id);
+             if (lead.OwnerId != oldLead.OwnerId) {
+                User newUser = userMap.get(lead.OwnerId);
+                User oldUser = userMap.get(oldLead.OwnerId);
+                Boolean isAuthorized = false;
+                if (oldUser != null) {
+                    Set<Id> managerIds = new Set<Id>();
+                    Id managerId = oldUser.ManagerId;
+                    for (Integer level = 0; level < 5 && managerId != null; level++) {
+                        managerIds.add(managerId);
+                        managerId = userMap.get(managerId) != null ? userMap.get(managerId).ManagerId : null;
+                    }
+                    if (oldLead.OwnerId == UserInfo.getUserId() || managerIds.contains(UserInfo.getUserId())) {
+                        isAuthorized = true;
+                    }
+                    if (!isAuthorized) {
+                        system.debug('ainside if not authroized');
+                        lead.addError(ABSLAMC_Constants.LEADOWNERCHANGEFORUSER);
+                    }
+                }
+                if (String.valueOf(oldLead.OwnerId).startsWith('00G')) {
+                    Group oldOwnerGroup = queueGroupMap.get(oldLead.OwnerId);
+                    Set<Id> memberIds = new Set<Id>();
+                    List<GroupMember> groupMembers = [SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :oldOwnerGroup.Id];
+                    for (GroupMember gm : groupMembers) {
+                        memberIds.add(gm.UserOrGroupId);
+                    }
+                    if (!memberIds.contains(lead.OwnerId)) {
+                        lead.addError(ABSLAMC_Constants.LEADOWNERCHANGEFORQUEUE);
+                    }
+                }
+                }
+            }
+        }
+    }

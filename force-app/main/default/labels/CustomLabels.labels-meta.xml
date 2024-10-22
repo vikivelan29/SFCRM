@@ -1383,4 +1383,18 @@
         <shortDescription>RNWL_UbonaCampaignId</shortDescription>
         <value>85008514</value>
     </labels>
+    <labels>
+        <fullName>ABSLAMC_SprinklrUpdateSpecificBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_SprinklrUpdateSpecificBUs</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
 </CustomLabels>
