@@ -2,12 +2,12 @@
 * @description       : 
 * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
 * @group             : 
-* @last modified on  : 05-13-2024
+* @last modified on  : 10-21-2024
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.StdCyclomaticComplexity')
 public without sharing class ASF_AssocCustomerForAPICases {
-    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM','ABSLI', 'ABSLAMC','ABHI'};
+    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM','ABSLI', 'ABSLAMC','ABHI','Wellness'};
         
         /**
 * @description : Associate AccountId and AssetId based on text fields.
@@ -57,7 +57,7 @@ public without sharing class ASF_AssocCustomerForAPICases {
                 } 
             }
             if(caseLANNo.size()>0){
-                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE (LAN__c =: caseLANNo OR Policy_No__c =:caseLANNo) AND Business_Unit__c =: LINE_OF_BUSINESS]){
+                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE (LAN__c =: caseLANNo OR Policy_No__c =:caseLANNo OR ContractId__c =:caseLANNo) AND Business_Unit__c =: LINE_OF_BUSINESS]){
                     
                     String assetExternalId = ast.LAN__c;
 

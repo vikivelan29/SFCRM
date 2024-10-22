@@ -86,8 +86,10 @@ public class RNWL_MemberDetailsControllerTest {
         
         Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
         
+        Date issueDate = date.newinstance(2023, 3, 17);
+        
         Test.startTest();
-        RNWL_MemberDetailsController.getHealthReturnResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456','GFB-HB-22-2024165-004',lstFileSrcAPI); 
+        RNWL_MemberDetailsController.getHealthReturnResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456','GFB-HB-22-2024165-004', issueDate, lstFileSrcAPI); 
         RNWL_MemberDetailsController.getAPIResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456',lstFileSrcAPI); 
         Test.stopTest();
     }
@@ -104,10 +106,12 @@ public class RNWL_MemberDetailsControllerTest {
         String strBody = '{ "Response": [ { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "8", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "10", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "9", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "20", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "10", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "4", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552251", "Name": "PRADIP Second", "Year": "2024", "Month": "5", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "0", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552251", "Name": "PRADIP Second", "Year": "2024", "Month": "9", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "7", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" } ], "StatusCode": 1000, "message": "Success" }';
         Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(200, strBody)); 
         
+        Date issueDate = date.newinstance(2024, 8, 17);
+        
         Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
         
         Test.startTest();
-        RNWL_MemberDetailsController.getHealthReturnResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456','GFB-HB-22-2024165-004',lstFileSrcAPI); 
+        RNWL_MemberDetailsController.getHealthReturnResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456','GFB-HB-22-2024165-004', issueDate, lstFileSrcAPI); 
         Test.stopTest();
     }
     
