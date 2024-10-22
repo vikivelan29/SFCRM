@@ -189,22 +189,6 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Case.Escalate_Case</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Nature__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Complaint</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Stage__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Resolved</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -280,32 +264,6 @@
                 <identifier>c_asf_Case360</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>CaseComments</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer4</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-5493224c-7658-4932-898f-37ddbf39fa4e</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -334,24 +292,20 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
+                <fieldItem>Record.ABHI_Case_Detail__r.Sync_Status__c</fieldItem>
+                <identifier>RecordABHI_Case_Detail_rSync_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABHI_Case_Detail__r.First_Resolution_Date_time__c</fieldItem>
+                <identifier>RecordABHI_Case_Detail_rFirst_Resolution_Date_time_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.ABHI_Case_Detail__r.IGMS_Complaint_Against_Type__c</fieldItem>
                 <identifier>RecordABHI_Case_Detail_rIGMS_Complaint_Against_Type_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.ABHI_Case_Detail__r.IGMS_Branch_Code__c</fieldItem>
-                <identifier>RecordABHI_Case_Detail_rIGMS_Branch_Code_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Existing_Pan_Card_Number__c</fieldItem>
-                <identifier>RecordExisting_Pan_Card_Number__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ca0e8d0a-3eec-4299-b0f8-cb2507ae0939</name>
@@ -378,6 +332,12 @@
             <fieldInstance>
                 <fieldItem>Record.ABHI_Case_Detail__r.User_Type__c</fieldItem>
                 <identifier>RecordABHI_Case_Detail_rUser_Type_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABHI_Case_Detail__r.IGMS_Branch_Code__c</fieldItem>
+                <identifier>RecordABHI_Case_Detail_rIGMS_Branch_Code_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1283,7 +1243,7 @@
         </properties>
         <properties>
             <name>saveOptions</name>
-            <value>[{&quot;name&quot;:&quot;UseDefaultAssignmentRule&quot;,&quot;value&quot;:&quot;SHOW_CHECKBOX_WITH_DEFAULT_OFF&quot;},{&quot;name&quot;:&quot;triggerOtherEmail&quot;,&quot;value&quot;:&quot;SHOW_CHECKBOX_WITH_DEFAULT_OFF&quot;}]</value>
+            <value>[{&quot;name&quot;:&quot;UseDefaultAssignmentRule&quot;,&quot;value&quot;:&quot;NONE&quot;},{&quot;name&quot;:&quot;triggerOtherEmail&quot;,&quot;value&quot;:&quot;SHOW_CHECKBOX_WITH_DEFAULT_OFF&quot;}]</value>
         </properties>
     </template>
     <type>RecordPage</type>
