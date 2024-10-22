@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>ABSLAMC CAMS BO Access</label>
+    <mutingPermissionSets>ABSLAMC_CAMS_BO_Access_Muted</mutingPermissionSets>
+    <permissionSets>ABCL_Export_Reports</permissionSets>
+    <permissionSets>Create_Case</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

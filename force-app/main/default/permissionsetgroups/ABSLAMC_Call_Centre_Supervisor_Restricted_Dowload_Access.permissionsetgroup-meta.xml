@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>ABSLAMC Call Centre Supervisor Restricted Dowload Access</label>
+    <mutingPermissionSets>ABSLAMC_Call_Centre_Supervisor_Restricted_Dowload_Access_Muted</mutingPermissionSets>
+    <permissionSets>ABCL_Create_Reports</permissionSets>
+    <permissionSets>AMC_Base_User_PS</permissionSets>
+    <permissionSets>Create_Case</permissionSets>
+    <permissionSets>List_View_Management_Access</permissionSets>
+    <permissionSets>Manage_Bulk_Assignment</permissionSets>
+    <permissionSets>Manage_Bulk_Lead_Assignment</permissionSets>
+    <permissionSets>Manage_Bulk_Lead_Close</permissionSets>
+    <permissionSets>Manage_Case_Ownership</permissionSets>
+    <permissionSets>Manage_Lead_Ownership</permissionSets>
+    <permissionSets>OmniSupervisor</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>
