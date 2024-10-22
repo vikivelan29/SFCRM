@@ -4,9 +4,6 @@
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
-        <field>Case$Subject</field>
-    </columns>
-    <columns>
         <field>Case.Activities$CreatedBy</field>
     </columns>
     <columns>
@@ -19,10 +16,10 @@
         <field>Case$Nature__c</field>
     </columns>
     <columns>
-        <field>Case$Sub_Type_Text__c</field>
+        <field>Case$Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$Type_Text__c</field>
+        <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
         <field>Case$Asset.Policy_No__c</field>
@@ -31,7 +28,7 @@
         <field>Case.Activities$Description</field>
     </columns>
     <columns>
-        <field>Case.Activities$Subject</field>
+        <field>Case$Subject</field>
     </columns>
     <description>A report on Activity based on “Logging a Call” for ABHI Cases</description>
     <filter>
@@ -64,6 +61,7 @@
             <operator>equals</operator>
             <value>Open</value>
         </criteriaItems>
+        <language>en_US</language>
     </filter>
     <format>Tabular</format>
     <name>ABHI Cases Log a call Report</name>
