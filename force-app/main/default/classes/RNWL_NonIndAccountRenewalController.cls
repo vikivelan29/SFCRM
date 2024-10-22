@@ -38,8 +38,7 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                         return details;
                 }
                 else if(String.isNotBlank(responseBody)){
-                    RNWL_StoredResponseUtility.mapOfFileNameToResponse = new Map<String,String>{'Renewal Group Check'=>responseBody};
-                    RNWL_StoredResponseUtility.uploadFileToOpportunity(oppList[0].Id);
+                    uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Group Check');
                 }else{
                     details.hasError = true;
                     details.errorMessage = 'API Call Failed Please Retry'; 
