@@ -4,23 +4,19 @@
     <protected>false</protected>
     <values>
         <field>Api_Name__c</field>
-        <value xsi:type="xsd:string">InstrumentNumber</value>
+        <value xsi:type="xsd:string">instrumentNumber</value>
     </values>
     <values>
         <field>Asf_Dynamic_Datatable_Parent__c</field>
-        <value xsi:type="xsd:string">ABHI_ReceiptDetailsView</value>
+        <value xsi:type="xsd:string">MCRM_BillingDetails</value>
     </values>
     <values>
         <field>Data_Type__c</field>
-        <value xsi:type="xsd:string">Text</value>
+        <value xsi:type="xsd:string">text</value>
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">7.0</value>
-    </values>
-    <values>
-        <field>Type_Attributes__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">11.0</value>
     </values>
     <values>
         <field>Type_Attributes__c</field>
