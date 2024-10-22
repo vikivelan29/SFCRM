@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>ABSLAMC App Support Access</label>
+    <mutingPermissionSets>ABSLAMC_App_Support_Access_Muted</mutingPermissionSets>
+    <permissionSets>ABCL_Create_Reports</permissionSets>
+    <permissionSets>ABCL_Export_Reports</permissionSets>
+    <permissionSets>Create_Case</permissionSets>
+    <permissionSets>List_View_Management_Access</permissionSets>
+    <permissionSets>Manage_Case_Ownership</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>
