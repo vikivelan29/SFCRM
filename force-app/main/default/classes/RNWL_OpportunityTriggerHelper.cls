@@ -90,11 +90,12 @@ public class RNWL_OpportunityTriggerHelper {
     } 
     
     /****************************************************************************************************************
-* @Function - afterUpdateOpp
-* @param newItemsOpportunity ,oldItemsOpportunity -  map of Opportunities from trigger.newMap and trigger.oldMap.
-* @return - void .
-* @Description - Invoked from After Update this method publish event
-*****************************************************************************************************************/
+    * @Function - afterUpdateOpp
+    * @param newItemsOpportunity ,oldItemsOpportunity -  map of Opportunities from trigger.newMap and trigger.oldMap.
+    * @return - void .
+    * @Description - Invoked from After Update this method publish event 
+    * 				 Updates the field Calling SOurce on Asset and Account when Opps Calling Source Changes
+    *****************************************************************************************************************/
     public static void afterUpdateOpp(List<Opportunity> newItemsOpportunity, map<Id, Opportunity> oldItemsOpportunity){
         
         //For Calling Source Update
@@ -161,12 +162,12 @@ public class RNWL_OpportunityTriggerHelper {
         }
         
     } 
-/****************************************************************************************************************
-* @Function - tagOppOnDisposition
-* @param newOpps -  list of Opportunities from trigger.new
-* @return - void .
-* @Description - Invoked from After Update, this method updates Renewal_Request field on Disposition for Renewal Category
-*****************************************************************************************************************/
+    /****************************************************************************************************************
+    * @Function - tagOppOnDisposition
+    * @param newOpps -  list of Opportunities from trigger.new
+    * @return - void .
+    * @Description - Invoked from After Update, this method updates Renewal_Request field on Disposition for Renewal Category
+    *****************************************************************************************************************/
     public static void tagOppOnDisposition(List<Opportunity> newOpps){
 
         Map<Id, Id> oppToPolicyIdMap = new Map<Id, Id>();
