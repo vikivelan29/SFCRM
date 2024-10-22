@@ -495,6 +495,14 @@
         <relatedList>RelatedCommentsList</relatedList>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Link__c</fields>
+        <fields>Recording_Date__c</fields>
+        <relatedList>CallRecordingLink__c.Case__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedLists>

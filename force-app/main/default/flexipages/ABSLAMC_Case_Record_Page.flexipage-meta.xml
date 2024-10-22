@@ -199,6 +199,32 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Case.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Call_Recording_Links__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
                     <value>NONE</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -210,7 +236,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer6</identifier>
+                <identifier>force_relatedListSingleContainer8</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -407,6 +433,58 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
+<flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sprinklr_Case_Reference_Number__c</fieldItem>
+                <identifier>RecordSprinklr_Case_Reference_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-1286b1af-f7ac-43f9-b413-2518f322cbce</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Notes_from_Sprinklr__c</fieldItem>
+                <identifier>RecordNotes_from_Sprinklr_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-e06bc8f9-eb93-47c6-99c3-b013c3eefc1c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1286b1af-f7ac-43f9-b413-2518f322cbce</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-e06bc8f9-eb93-47c6-99c3-b013c3eefc1c</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-8d894d74-eee3-492e-a8f7-c9d8f34a38c0</name>
+        <type>Facet</type>
+    </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
@@ -426,6 +504,36 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Rejected_Reason__c</fieldItem>
                 <identifier>RecordRejected_Reason_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+<itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sprinklr_Case_Reference_Number__c</fieldItem>
+                <identifier>RecordSprinklr_Case_Reference_Number__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Notes_from_Sprinklr__c</fieldItem>
+                <identifier>RecordNotes_from_Sprinklr__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Latest_Notes__c</fieldItem>
+                <identifier>RecordLatest_Notes__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ad11d826-8847-4398-95cc-9603254220cf</name>
@@ -528,6 +636,31 @@
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord</identifier>
+            </componentInstance>
+        </itemInstances>
+<itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-8d894d74-eee3-492e-a8f7-c9d8f34a38c0</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Sprinklr Fields</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Source__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Social Media</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
