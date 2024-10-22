@@ -255,6 +255,13 @@
         <value>200</value>
     </labels>
     <labels>
+        <fullName>ASF_BUs_Eligible_For_IDAM_Processing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF BUs Eligible For IDAM Processing</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
         <fullName>ASF_BulkDownloadLimit_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
