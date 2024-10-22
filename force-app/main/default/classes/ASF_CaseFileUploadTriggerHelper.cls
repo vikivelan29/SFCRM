@@ -320,8 +320,9 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
                                 AND Id IN :caseIds]);
                 
             }
-            
+            if(!caseMap.isEmpty()){
             ABSLAMC_SprinklrHelper.fireSystemNotification(caseMap,'File Upload');
+            }
         }
     }
 
