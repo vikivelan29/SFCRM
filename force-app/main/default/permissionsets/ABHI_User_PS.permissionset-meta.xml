@@ -2087,17 +2087,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Health_Intent__c.Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Health_Intent__c.Do_you_track_these__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Health_Intent__c.Frequency_in_a_month__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2107,7 +2107,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Health_Intent__c.How_do_you_track_your_activity__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2117,12 +2117,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Health_Intent__c.Preferred_Communication_Mode__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Health_Intent__c.Preferred_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2142,12 +2142,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Health_Intent__c.What_activities_are_you_currently_doing__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Health_Intent__c.Which_phone_are_you_using__c</field>
         <readable>true</readable>
     </fieldPermissions>
