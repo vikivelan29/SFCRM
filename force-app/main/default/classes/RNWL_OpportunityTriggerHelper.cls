@@ -70,11 +70,7 @@ public class RNWL_OpportunityTriggerHelper {
         
         //For Calling Source Update
         Set<Id> oppIdSet = new Set<Id>();
-        List<Case> caseRecordsToUpdate = new List<Case>();
-        List<Asset> assetRecordsToUpdate = new List<Asset>();
-        List<Account> accountRecordsToUpdate = new List<Account>();
-        Set<Id> recordsAdded = new Set<Id>();
-        Set<Id> polIdSet = new Set<Id>();
+        List<sObject> recordsToUpdate = new List<sObject>();
         
         // FOr PE
         List<ABCL_Integration_Event__e> lstIntegrationEvent = new List<ABCL_Integration_Event__e>();
@@ -99,8 +95,7 @@ public class RNWL_OpportunityTriggerHelper {
             //For Calling Source Update
             if(objOpportunity.Calling_Source__c != null &&
               objOpportunity.Calling_Source__c != objOldOpportunity.Calling_Source__c){
-                 oppIdSet.add(objOpportunity.Id);
-                 polIdSet.add(objOpportunity.Policy__c);
+              	 oppIdSet.add(objOpportunity.Id);   
             }            
         } 
         //For PE
@@ -123,52 +118,26 @@ public class RNWL_OpportunityTriggerHelper {
         //For Calling Source Update
         if(oppIdSet.size() > 0){ 
             List<Opportunity> oppsChanged = getOpportunitiesById(oppIdSet);
-            Map<Id, List<Case>> assetIdtoCaseMap = New Map<Id, List<Case>>();
-            
-            for(Asset asst :  getPolicies(polIdSet)){
-                assetIdtoCaseMap.put(asst.Id, asst.Cases);
-            }
-            
             for(Opportunity opp : oppsChanged){
-                
                 if(opp.Calling_Source__c != opp.Policy__r.Calling_Source__c){
-                    //Asset update
-                    if (!recordsAdded.contains(opp.Policy__c)) {
-                        assetRecordsToUpdate.add(new Asset(Id = opp.Policy__c, Calling_Source__c = opp.Calling_Source__c));
-                    }
-                    recordsAdded.add(opp.Policy__c);
-                    //Case Update
-                    List<Case> cases = assetIdtoCaseMap.get(opp.Policy__c);
-                    if(cases.size() == 0){ Continue; }
-                    for(Case cas : assetIdtoCaseMap.get(opp.Policy__c)){
-                        if(opp.Calling_Source__c == cas.Calling_Source__c){ Continue; }
-                        if (!recordsAdded.contains(cas.Id)) {
-                            caseRecordsToUpdate.add(new Case(Id = cas.Id, Calling_Source__c = opp.Calling_Source__c));
-                        }
-                        recordsAdded.add(cas.Id);
-                    }
+                    recordsToUpdate.add(new Asset(Id = opp.Policy__c, Calling_Source__c = opp.Calling_Source__c));
                 }
-                //Account Update
                 if(opp.Calling_Source__c != opp.Account.Calling_Source__c){
-                    if (!recordsAdded.contains(opp.AccountId)) {
-                        accountRecordsToUpdate.add(new Account(Id = opp.AccountId, Calling_Source__c = opp.Calling_Source__c));
-                    }
-                    recordsAdded.add(opp.AccountId);
+                    recordsToUpdate.add(new Account(Id = opp.AccountId, Calling_Source__c = opp.Calling_Source__c));
                 }
             }
-            ASF_TriggerSkipperUtility.markTriggerRun('Case');
-            ABCL_AssetTriggerHandler.TriggerDisabled = true;
-            if(assetRecordsToUpdate.size() > 0) update assetRecordsToUpdate;
-            if(caseRecordsToUpdate.size() > 0) update caseRecordsToUpdate;
-            if(accountRecordsToUpdate.size() > 0) update accountRecordsToUpdate;
+            if(recordsToUpdate.size() > 0){
+                update recordsToUpdate;
+            }
         }
+        
     } 
-    /****************************************************************************************************************
-    * @Function - tagOppOnDisposition
-    * @param newOpps -  list of Opportunities from trigger.new
-    * @return - void .
-    * @Description - Invoked from After Update, this method updates Renewal_Request field on Disposition for Renewal Category
-    *****************************************************************************************************************/
+/****************************************************************************************************************
+* @Function - tagOppOnDisposition
+* @param newOpps -  list of Opportunities from trigger.new
+* @return - void .
+* @Description - Invoked from After Update, this method updates Renewal_Request field on Disposition for Renewal Category
+*****************************************************************************************************************/
     public static void tagOppOnDisposition(List<Opportunity> newOpps){
 
         Map<Id, Id> oppToPolicyIdMap = new Map<Id, Id>();
@@ -265,10 +234,11 @@ public class RNWL_OpportunityTriggerHelper {
             SELECT Id, AccountId,
                 Policy__c, 
                 Calling_Source__c,
-                Policy__r.Calling_Source__c,
+            	Policy__r.Calling_Source__c,
                 Account.Calling_Source__c
             FROM Opportunity
             WHERE Id IN :oppIds
         ];
     }
+    
 }
