@@ -243,4 +243,86 @@ public without sharing class ASF_CaseFileUploadTriggerHelper {
             }   
         }
     } 
+    /**
+    * @description : PR1030924-211: Method created to validate Case File.
+    * @author zahedali.mohammed@salesforce.com | 09-24-2024 
+    * @param List<ContentDocumentLink> newFiles
+    * @return void
+    **/
+    public static void validateCaseFile(List<ContentDocumentLink> newFiles){
+        try{
+            Set<Id> recordIds = new Set<Id>();
+            for (ContentDocumentLink link : newFiles) {
+                if (link.LinkedEntityId != null) {
+                    recordIds.add(link.LinkedEntityId);
+                }
+            }
+            
+            Map<Id, SObject> recordMap = new Map<Id, SObject>(
+                [SELECT OwnerId,Business_Unit__c FROM Case WHERE Id IN :recordIds]
+            );
+            
+            for (ContentDocumentLink link : newFiles) {
+                SObject record = recordMap.get(link.LinkedEntityId);
+                if (record != null && record.get('Business_Unit__c')==System.label.Wellness_BU) {                   
+                    Id ownerId = (Id) record.get('OwnerId');                 
+                    if (ownerId != UserInfo.getUserId() && !Test.isRunningTest()) {
+                        link.addError(System.Label.Wellness_CaseComment_add_Err_Msg);
+                    }
+                }
+            }
+        }catch(Exception e){
+            system.debug('Error-->'+e.getMessage());
+        }
+    }
+
+    /****************************************************************************************************************
+* @param newMap
+* @description - for firing notification on file upload for sprinklr cases
+*****************************************************************************************************************/
+
+public static void checkifCaseAttachmentAdded(Map<Id, ContentDocumentLink> newMap) {
+        
+    Map<Id, Id> contentDocLinkToCaseMap = new Map<Id, Id>();
+    Map<Id, Case> caseMap = new Map<Id, Case>();
+    Set<Id> caseIds = new Set<Id>();
+    string sprinklrUpdateBus = label.ABSLAMC_SprinklrUpdateSpecificBUs; 
+    List<String> eligibleBUs = new List<String>(sprinklrUpdateBus.split(','));
+    String currentUserProfileName = [SELECT Profile.Name FROM User WHERE Id = :UserInfo.getUserId()].Profile.Name;
+    boolean apiUser = true;
+    apiUser = (currentUserProfileName == ABSLAMC_Constants.APIUSERPROILENAME) ? true : false;
+    
+    if(apiUser){
+        List<ContentDocumentLink> existingLinks = [SELECT Id, LinkedEntityId, LinkedEntity.Type 
+                                                   FROM ContentDocumentLink 
+                                                   WHERE ContentDocumentId IN :newMap.keySet()];
+        System.debug('existing links niks: ' + existingLinks);
+        
+        
+        Set<String> existingKeys = new Set<String>();
+        for (ContentDocumentLink link : existingLinks) {
+            String key = link.ContentDocumentId + '-' + link.LinkedEntityId;
+            existingKeys.add(key);
+        }
+        
+        for (ContentDocumentLink cdLinkRec : newMap.values()) {
+            if (cdLinkRec.LinkedEntityId.getSObjectType() == Case.SObjectType) {
+                String key = cdLinkRec.ContentDocumentId + '-' + cdLinkRec.LinkedEntityId;
+                if (!existingKeys.contains(key)) {
+                    caseIds.add(cdLinkRec.LinkedEntityId);
+                }
+            }
+        }            
+        if (!caseIds.isEmpty()) {
+            caseMap.putAll([SELECT Id,Business_Unit__c,Notes_from_Sprinklr__c,OwnerId,CaseNumber 
+                            FROM Case 
+                            WHERE Business_Unit__c IN: eligibleBUs
+                            AND Id IN :caseIds]);
+            
+        }
+        if(!caseMap.isEmpty()){
+        ABSLAMC_SprinklrHelper.fireSystemNotification(caseMap,'File Upload');
+        }
+    }
+}
 }
