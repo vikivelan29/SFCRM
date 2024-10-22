@@ -149,6 +149,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_CaseAssignmentHelper.updateCaseStage(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_BU_CTSTHelper.validateManualApproval(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    ABSLAMC_SprinklrHelper.blankOutLatestNotes((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
                     ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue 
                 }
                 else if(businessUnit == 'ABHI'){
@@ -167,6 +168,10 @@ public class ASF_CaseTriggerBUSpecificHandler {
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             ABCL_CommonCLass.populateResolutionCommentOnCaseDetail((List<Case>)mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
             ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)mRecordTypeVsCases.get(frameworkRTId),(Map<Id, Case>)oldItems);
+            for(String businessUnit : mapOfBUToCases.keySet()){
+                if(businessUnit == 'ABSLAMC'){
+                    ABSLAMC_SprinklrHelper.createCaseComments((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+                }
         }
         
     }
