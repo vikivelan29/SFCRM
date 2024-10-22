@@ -79,24 +79,54 @@ public class ASF_CaseTriggerBUSpecificHandler extends ASF_TriggerCustomEventHand
     }
     // INSERT CONTEXT - ENDS HERE
     
-    // UPDATE CONTEXT - ENDS HERE
-    /**
-     * @description  Executes before the ASF code runs in before update context
-     * @param newItems - map of new cases
-     * @param oldItems - map of old cases
-     */
-    public override void executeBeforeASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-        //ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
+    public void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems.values());
+        Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems.values());
+        
+        if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+            for(String businessUnit : mapOfBUToCases.keySet()){
+                if(businessUnit == 'ABHFL'){
+                    if(Label.ABHFL_Case_Dedupe_Active=='Active'){
+                        ABHFL_CTSTHelper.runDuplicateCheckForUpdate(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);    
+                    }
+                    ABHFL_CTSTHelper.preClosureStopAtCPUBanking(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
+                    ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
+                }
+                else if(businessUnit == 'ABFL'){
+                    ABFL_OwnerChangeWithLocation.updateCaseOwnerAtVerificationStage(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)),(Map<Id, Case>)oldItems);
+                    
+                }
+                else if(businessUnit == 'ABSLI'){
+                    ABSLI_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic(new Map<Id,Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }
+                else if(businessUnit == 'ABSLAMC'){
+                    ABSLAMC_CaseAssignmentHelper.updateAssignmentOnStageChange(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    ABSLAMC_CaseAssignmentHelper.updateCaseStage(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    ABSLAMC_BU_CTSTHelper.validateManualApproval(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    ABSLAMC_SprinklrHelper.blankOutLatestNotes((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+                    ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue 
+                }
+                else if(businessUnit == 'ABHI'){
+                    ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
+                    abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate'); 
+                }
+            }
+        }
+        
     }
-
-    /**
-     * @description  Executes after the ASF code runs in before update context
-     * @param newItems - map of new cases
-     * @param oldItems - map of old cases
-     */
-    public override void executeAfterASFCodeInBeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
-        if(Label.ABHFL_Case_Dedupe_Active=='Active'){
-            ABHFL_CTSTHelper.runDuplicateCheckForUpdate((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);    
+    
+    public void executeBeforeASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems.values());
+        Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems.values());
+        
+        if(mRecordTypeVsCases.containsKey(frameworkRTId)){
+            ABCL_CommonCLass.populateResolutionCommentOnCaseDetail((List<Case>)mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
+            ABFL_OwnerChangeWithLocation.updateSpocWrtLocation((List<Case>)mRecordTypeVsCases.get(frameworkRTId),(Map<Id, Case>)oldItems);
+            for(String businessUnit : mapOfBUToCases.keySet()){
+                if(businessUnit == 'ABSLAMC'){
+                    ABSLAMC_SprinklrHelper.createCaseComments((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+                }
         }
         ABHFL_CTSTHelper.preClosureStopAtCPUBanking((List<Case>)newItems.values(),(Map<Id, Case>)oldItems); 
         ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
