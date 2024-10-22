@@ -10,7 +10,9 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     @api recordId;
     @api objectApiName;
-    isAbhfl;;
+    isAbhfl;
+    isWellness;
+    isOther;
     @track caseRecord;
     @track records;
     @track fieldArr = 'id';
@@ -44,7 +46,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
                 console.error('Error loading NPS record', error);
             });
     }
-    
+
     claculateNPSRating() {
 
         this.showCustomerNPSbyNumber = undefined;
@@ -60,13 +62,13 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         if(this.businessUnit && (this.businessUnit !== lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
             if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined) {
                 this.showCustomerNPSbyNumber =  "❌";
-            }
+        }
             else if(this.showCustomerNPSbyNumber > 0 && this.showCustomerNPSbyNumber <= 3){
                 this.showCustomerNPSbyNumber =  "🙁";
             }
             else if(this.showCustomerNPSbyNumber > 3 &&  this.showCustomerNPSbyNumber <= 6){
                 this.showCustomerNPSbyNumber =  "😐";
-            }
+        }
             else if(this.showCustomerNPSbyNumber > 6 && this.showCustomerNPSbyNumber <= 10){
                 this.showCustomerNPSbyNumber =  "😁";
             }
@@ -102,6 +104,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         if (data) {
             const businessUnitValue = getFieldValue(data, BUSINESS_UNIT);
             this.isAbhfl = businessUnitValue === 'ABHFL';
+            this.isWellness = businessUnitValue === 'Wellness';
+            this.isOther = (businessUnitValue !== 'ABHFL' && businessUnitValue !== 'Wellness');
             this.customerBU = businessUnitValue ?? '';
             this.loadNpsScore();
         } else if (error) {

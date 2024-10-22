@@ -62,6 +62,41 @@
                 <default>false</default>
                 <label>Activity - SIP Cancellation Saved Winback</label>
             </value>
+            <value>
+                <fullName>Activity - Lead Prospect</fullName>
+                <default>false</default>
+                <label>Activity - Lead Prospect</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Existing</fullName>
+                <default>false</default>
+                <label>Activity - Lead Existing</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Referral</fullName>
+                <default>false</default>
+                <label>Activity - Lead Referral</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead NFO</fullName>
+                <default>false</default>
+                <label>Activity - Lead NFO</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Campaign</fullName>
+                <default>false</default>
+                <label>Activity - Lead Campaign</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Dormant</fullName>
+                <default>false</default>
+                <label>Activity - Lead Dormant</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Zero Balance</fullName>
+                <default>false</default>
+                <label>Activity - Lead Zero Balance</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>MF Transaction Related Outcall</controllingFieldValue>
@@ -89,18 +124,46 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <valueName>Activity - Lead Prospect</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <valueName>Activity - Lead Existing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <valueName>Activity - Lead Referral</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <valueName>Activity - Lead NFO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <valueName>Activity - Lead Campaign</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <valueName>Activity - Lead Dormant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <valueName>Activity - Lead Zero Balance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF Retention</controllingFieldValue>
             <valueName>Activity - POST- Redemption Saved by SRM</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <controllingFieldValue>MF Retention</controllingFieldValue>
             <valueName>Activity - PRE-Redemption Saved by SRM</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <controllingFieldValue>MF Retention</controllingFieldValue>
             <valueName>Activity - Redemption Saved by Sales RM</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>MF Service To Sales</controllingFieldValue>
+            <controllingFieldValue>MF Retention</controllingFieldValue>
             <valueName>Activity - SIP Cancellation Saved Winback</valueName>
         </valueSettings>
     </valueSet>
