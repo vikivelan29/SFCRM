@@ -39,8 +39,6 @@ public with sharing class LeadTriggerHandler extends ASF_VTriggerHandler {
   public override void beforeUpdate(Map<Id, SObject> newItemsLead, Map<Id, SObject> oldItemsLead) {
     if(!TriggerDisabled) {
       ABSLAMC_BusinessLogic_HelperClass.prePopulateFieldsBeforeUpdate((Map<Id, Lead>) newItemsLead, (Map<Id, Lead>) oldItemsLead);
-      ABSLAMC_BusinessLogic_HelperClass.validateLeadOwnerChange((Map<Id, Lead>) newItemsLead, (Map<Id, Lead>) oldItemsLead);
-      
     }
   }
 }
