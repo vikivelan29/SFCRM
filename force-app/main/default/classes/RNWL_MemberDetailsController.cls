@@ -145,7 +145,9 @@ public with sharing class RNWL_MemberDetailsController {
             
             map<String, object> mapErrorToMessage = (map<String, object>)obj;
             String strErrorCode = String.valueOf(mapErrorToMessage.get('ErrorCode'));
-            String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage'));  
+            String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage')); 
+            system.debug('mapErrorToMessage'+obj);
+            system.debug('strErrorCode'+strErrorCode);
             if(strErrorCode != '00'){
                 getErrorInstance(strErrorCode, strErrorMessage, 'Renewal', mapOfMemberIdToMembers);
                 return mapOfMemberIdToMembers; 
