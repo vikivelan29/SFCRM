@@ -3,20 +3,16 @@
     <fullName>Ageing_Number_Of_Days__c</fullName>
     <description>&quot;Ageing here is calculated on calendar days from 
 Open cases - Today() - created date
-Closed case - resolved date - created date&quot;</description>
+  Closed case - resolved date - created date&quot;</description>
     <externalId>false</externalId>
     <formula>IF(
-    NOT(ISPICKVAL(Status, &quot;Resolved&quot;)),
-    TODAY() - DATEVALUE(CreatedDate),
+    OR(ISPICKVAL(Status, &quot;Resolved&quot;), ISPICKVAL(Status, &quot;Unresolved&quot;), ISPICKVAL(Status, &quot;Closed Duplicate&quot;)),
     IF(
-        ISPICKVAL(Status, &quot;Resolved&quot;),
-        IF(
-            NOT(ISBLANK(ClosedDate)),
-            DATEVALUE(ClosedDate) - DATEVALUE(CreatedDate),
-            0 
-        ),
-        0  
-    )
+        NOT(ISBLANK(ClosedDate)),
+        DATEVALUE(ClosedDate) - DATEVALUE(CreatedDate),
+        0
+    ),
+    TODAY() - DATEVALUE(CreatedDate)
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Ageing (Number Of Days)</label>
