@@ -50,7 +50,7 @@
                         <valueListItems>
                             <value>Case.Reopen</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -70,16 +70,6 @@
                                     <leftValue>{!Record.Reopened__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Source__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Social Media</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Channel__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Social Media</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
