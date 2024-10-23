@@ -2657,6 +2657,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             });
             this.isLoading=false;
         }else{
+            this.reasonLOV = [];
             records.forEach(item => {
                 if(item.Type__c != 'Resolve'){
                     const optionVal = {
@@ -2957,7 +2958,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.template.querySelectorAll('lightning-input-field').forEach(ele => {
                     if(ele.fieldName == fieldApiNm){
                         ele.value = fieldVal;
-                        ele.focus();
                     }
                 });
             }
