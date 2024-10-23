@@ -36,9 +36,13 @@ const getPointsScoreTransactionDetails = (payload) => {
 	);
 }
 const getRefundDetails = (payload) => {
-	
-	return payload;
+	let responseArray = [];
+	if(payload && payload != null){
+		responseArray.push(payload);
+	}
+	return responseArray;
 }
+
 const getBillingDetails = (payload) => {
 	
 	return payload;
