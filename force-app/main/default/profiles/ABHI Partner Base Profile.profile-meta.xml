@@ -2093,11 +2093,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.Relationship_Manager_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.Rider_Opted__c</field>
         <readable>false</readable>
     </fieldPermissions>

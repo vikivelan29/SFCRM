@@ -2508,7 +2508,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.Relationship_Manager_Name__c</field>
+        <field>Account.Relationship_Manager_Name_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Relationship_Manager_Email_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
