@@ -8,6 +8,8 @@ public class RNWL_DispositionsTriggerHandler extends ASF_VTriggerHandler{
         if(isTriggerDisabled()){return;}
         
        	RNWL_DispositionsTriggerHelper.setBeforeInsertDispositionsPriorityFieldValue(newItemsDispositions);
+        RNWL_DispositionsTriggerHelper.setRenewalRequestOnDisposition(newItemsDispositions);
+
     }
     
         public override void afterInsert(Map<Id,SObject> newDispositionsMap) {

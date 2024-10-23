@@ -1,32 +1,32 @@
 /**
  * @description       : Batch Class to assign ABSLI VRM Role Users to Account Teams for the Assets they have access to.
  * @author            : dhinesh.t@salesforce.com
- * @group             : 
+ * @group             :
  * @last modified on  : 06-03-2024
  * @last modified by  : dhinesh.t@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   06-03-2024   dhinesh.t@salesforce.com   Initial Version
 **/
-global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>,  Schedulable {  
+global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>,  Schedulable {
      /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Function - start function of batch 
+     * @Function - start function of batch
      * @param bC - Batchable Context
      * @return Database.getQueryLocator
-     * @description - Method to get the satsifying asset records that VRM Role have access to    
+     * @description - Method to get the satsifying asset records that VRM Role have access to
      *****************************************************************************************************************/
-    global Database.QueryLocator start(Database.BatchableContext bC) {   
+    global Database.QueryLocator start(Database.BatchableContext bC) {
     return Database.getQueryLocator([
-        SELECT Id, Name, Assign_to_DM__c, Channel__c, Loyalty_Service_Agent_Name__c, AccountId 
-        FROM Asset 
-        WHERE (Assign_to_DM__c = 'Yes' OR Channel__c = 'DM' OR Loyalty_Service_Agent_Name__c != null) AND Business_Unit__c = 'ABSLI'
+        SELECT Id, Name, Assign_to_DM__c, Channel__c, Loyalty_Service_Agent_Name__c, AccountId
+        FROM Asset
+        WHERE (Assign_to_DM__c = 'Yes' OR Channel__c = 'DM' OR Loyalty_Service_Agent_Name__c != null) AND Business_Unit__c = 'ABSLI' AND Processing_State__c = 'Pending' AND LastModifiedDate >= LAST_N_DAYS:2
     ]);
 	}
-    
+
      /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Function - execute function of batch 
+     * @Function - execute function of batch
      * @param bC - Batchable Context
      * @param scope - List of Assets
      * @description - Method to assign VRM role users as account Team Members to the accounts retrieved.
@@ -70,13 +70,28 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
     	// Insert AccountTeamMember records
     	if (!accountTeamMembersToInsert.isEmpty()) {
         	insert accountTeamMembersToInsert;
-    	}	
+    	}
+        
+        ABCL_AssetTriggerHandler.TriggerDisabled = True;
+         try {
+            List<Asset> assetsToUpdate = new List<Asset>();
+            for (Asset asset : scope) {
+                asset.Processing_State__c = 'Completed'; 
+                assetsToUpdate.add(asset);
+            }
+    
+            if (!assetsToUpdate.isEmpty()) {
+                update assetsToUpdate;
+            }
+        } finally {
+            ABCL_AssetTriggerHandler.TriggerDisabled = false;
+        }
 	}
 
 
     /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Function - finish function of batch 
+     * @Function - finish function of batch
      * @param bC - Batchable Context
      * @description - Method to assign VRM role users as account Team Members to the accounts retrieved.
      *****************************************************************************************************************/
@@ -86,11 +101,11 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
 
     /****************************************************************************************************************
      * @LOB - ABSLI
-     * @Function - execute function of Schedulable 
+     * @Function - execute function of Schedulable
      * @param SC - Batchable Context
      * @description - Execute function of Schedulable
-     *****************************************************************************************************************/    
-    public void execute(SchedulableContext SC) {
+     *****************************************************************************************************************/
+    public void execute(SchedulableContext sc) {
         // specify the task or method to be executed
     }
 }

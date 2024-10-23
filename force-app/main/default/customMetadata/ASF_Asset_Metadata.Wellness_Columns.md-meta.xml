@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Fields_to_Fetch__c</field>
-        <value xsi:type="xsd:string">Contract #:LAN__r.LAN__c:url,
+        <value xsi:type="xsd:string">Contract #:LAN__r.ContractId__c:url,
 Plan Name:LAN__r.Plan_Name__c,
 Tier:LAN__r.Tier__c,
 Contract Start Date:LAN__r.ContractStartDate__c:date,

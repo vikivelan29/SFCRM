@@ -70,23 +70,12 @@ public class RNWL_UbonaIntegrationController {
         ubonaWrap.payloadId = opp.Name;
         ubonaWrap.payloadEncrypted = false;
         payld.requestId = opp.Name;
-        
-        String recType = acc?.RecordType?.Name;
-        
-        if(recType != null 
-           && recType == 'Individual' 
-           && acc.PersonMobilePhone != null){
-            payld.msisdn = acc.PersonMobilePhone;
-        }
-        else if(recType != null 
-                && recType == 'Non-Individual' 
-                && acc.Phone != null){
-            payld.msisdn = acc.Phone;
-        }
+
         payld.scheduledTime = String.valueOf(System.now().getTime());
         payld.agentId = '';
-        payld.campaign = '85008514';
+        payld.campaign = System.label.RNWL_UbonaCampaignId;//'85008514';
         if(acc != null){
+            payld.msisdn = acc.Phone;
             payld.customerInfo = acc.Name;
             contxt.customerName = acc.Name;
             contxt.state = acc.BillingState; 
@@ -109,7 +98,25 @@ public class RNWL_UbonaIntegrationController {
         payld.context = contxt;
         ubonaWrap.payload = payld;
         
-        String reqBody = JSON.serialize(ubonaWrap);
+        String reqBody = replaceWithActualTags(JSON.serialize(ubonaWrap));
+        
+        return reqBody;
+    }
+    
+    
+    private static String replaceWithActualTags(String reqBody){
+        reqBody = reqBody.replace('"customerName":', '"Customer Name":');
+        reqBody = reqBody.replace('"intermediary":', '"Intermediary":');
+        reqBody = reqBody.replace('"newChannel":', '"New Channel":');
+        reqBody = reqBody.replace('"nextPremiumDate":', '"Next Premium Date":');
+        reqBody = reqBody.replace('"policyDueDate":', '"Policy Due Date":');
+        reqBody = reqBody.replace('"policyNumber":', '"Policy Number":');
+        reqBody = reqBody.replace('"productName":', '"Product Name":');
+        reqBody = reqBody.replace('"renewalGrossPremiumFrom":', '"Renewal Gross Premium-From":');
+        reqBody = reqBody.replace('"rnNumber":', '"RN Number":');
+        reqBody = reqBody.replace('"state":', '"State":');
+        reqBody = reqBody.replace('"stp_NSTP":', '"STP NSTP":');
+        reqBody = reqBody.replace('"sumInsured":', '"SUM INSURED":');
         return reqBody;
     }
     

@@ -6,12 +6,13 @@
 *@description   :  This class is used to get the Renewal Policy Details for 
                    Non-Individual Account type
 ****************************************************************************/
-public with sharing class RNWL_NonIndAccountRenewalController {
+//Making the class without sharing because end user context will update the record.
+public without sharing class RNWL_NonIndAccountRenewalController {
     
     @AuraEnabled
     public static Policy_Detail_Wrapper getRenewalDetails_NonIndAcc(String opportunityId){
         try {
-			List<Opportunity> oppList = [SELECT Id,Policy_Number__c,
+			List<Opportunity> oppList = [SELECT Id,Policy_Number__c, Premium_Amount__c,
                                                 Proposal_Number__c
                                          FROM Opportunity 
                                          WHERE Id=:opportunityId 
@@ -161,9 +162,20 @@ public with sharing class RNWL_NonIndAccountRenewalController {
             details.combiDetails    = combiDetails;
             details.hasError        = false;
             details.errorMessage    = null;
-
+			 
+            Boolean isUpdatedNeeded = false;
+            
+            if(!premiumDetails.isEmpty() && oppList[0].Premium_Amount__c != Decimal.valueOf(premiumDetails[0].Renewal_Gross_Premium)){
+                oppList[0].Premium_Amount__c = Decimal.valueOf(premiumDetails[0].Renewal_Gross_Premium);
+                isUpdatedNeeded = true;
+            }
+            
             if(String.isNotBlank(renewedProposalNumber) && oppList[0].Proposal_Number__c != renewedProposalNumber){
-                oppList[0].Proposal_Number__c = renewedProposalNumber;
+                oppList[0].Proposal_Number__c = renewedProposalNumber;  
+                isUpdatedNeeded = true;
+            }
+            
+            if(isUpdatedNeeded){
                 update oppList[0];
             }
             
