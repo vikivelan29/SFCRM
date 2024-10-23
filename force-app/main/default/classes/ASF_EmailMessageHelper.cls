@@ -70,9 +70,14 @@ public without sharing class ASF_EmailMessageHelper {
         if(!caseIds.isEmpty()){
             existingCases = fetchCaseDetails(caseIds);
             for(Case caseRec : existingCases){
+                /*
                 if(caseRec.IsClosed && (caseRec.Is_Reopen_Allowed__c == false || (caseRec.Is_Reopen_Allowed__c == true && 
                  !(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
                   && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c)))){
+                    bNewCaseByReplyToCloseCase = true;
+                }
+*/
+                if(caseRec.IsClosed){
                     bNewCaseByReplyToCloseCase = true;
                 }
             }
@@ -148,6 +153,13 @@ public without sharing class ASF_EmailMessageHelper {
                               }else{
                                   // else create new case and reparent EmailMessage
                                   Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
+                                  String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
+                                   newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
+                                   if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
+                                       ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
+                                       //newCase.Sent_to_EBOT__c = onEmailMdt.Send_to_EBOT__c;
+                                       newCase.Origin = onEmailMdt.Case_Origin__c ;
+                                   }
                                   oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
                                   //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                                   // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
@@ -232,8 +244,8 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.RecordTypeId = ASF_Constants.RT_INTERACTION;
         newCase.SuppliedEmail = closedCase.SuppliedEmail;
         newCase.SuppliedName = closedCase.SuppliedName;
-        newCase.Business_Unit__c = closedCase.Business_Unit__c;
+        //newCase.Business_Unit__c = closedCase.Business_Unit__c;
         return newCase;
-    }   
+    }  
     
 }

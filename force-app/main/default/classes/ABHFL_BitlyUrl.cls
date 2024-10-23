@@ -313,7 +313,7 @@ public with sharing class ABHFL_BitlyUrl implements ASF_IntegrationInvocable {
 
         BitlyRequestWrapper(string longURL, String lob, Integer expiryDay){
             this.LongURL = longURL;
-            this.LOB = lob;
+            this.LOB = System.Label.ABHFL_Bitly_LOB; // Custom Label has added for WO0000000091712 by Yogesh
             this.ExpiryDay = expiryDay;
         }
     }
