@@ -37,7 +37,8 @@ const getPointsScoreTransactionDetails = (payload) => {
 }
 const getRefundDetails = (payload) => {
 	let responseArray = [];
-	if(payload && payload != null){
+	//if there are only 2 props in object, api response is failed
+	if(payload && payload != null && Object.keys(payload).length > 2){
 		responseArray.push(payload);
 	}
 	return responseArray;
