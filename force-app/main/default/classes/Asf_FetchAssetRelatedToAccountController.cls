@@ -109,6 +109,12 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                         typeAttrbtObj.tooltip = toolTp;
 
                     }
+                    else if(fieldApiName == 'LAN__r.ContractId__c') {
+                        colNameObj.fieldName = 'assetLanRecLink';
+                        toolTp.fieldName = fieldApiName;
+                        typeAttrbtObj.tooltip = toolTp;
+
+                    }
                     typeAttrLabelObj.fieldName = fieldApiName;
                     typeAttrbtObj.label  = typeAttrLabelObj;
                     typeAttrbtObj.target = '_self';

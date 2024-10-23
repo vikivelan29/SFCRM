@@ -843,7 +843,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Case Type</displayNameOverride>
             <field>Type_Text__c</field>
             <table>Case</table>
         </columns>

@@ -19,6 +19,7 @@ public with sharing class ABCL_CommonCLass_Test {
         caseList.add(new Case(Business_Unit__c = 'ABWM', Stage__c = 'Open'));
         caseList.add(new Case(Business_Unit__c = 'Payments', Stage__c = 'Open'));
         caseList.add(new Case(Business_Unit__c = 'ABSLIG', Stage__c = 'Open'));
+        caseList.add(new Case(Business_Unit__c = 'Wellness', Stage__c = 'Open'));//PR1030924-213 : Zahed added wellness condition
         insert caseList;
     }
 

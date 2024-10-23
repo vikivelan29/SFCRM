@@ -23,7 +23,6 @@ public with sharing class Abhi_ViewClaimDetails_Controller {
         String integrationName = 'ABHI_View_Claim_Details_API_Details';
         String requestPayload = JSON.serialize(abhilClassObj.prepareRequestPayload(policyNo));
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName, requestPayload, null);
-
         ResponseWrapper respWrapper = new ResponseWrapper();
 
         if(String.isNotBlank(integrationResponse.responseBody)){        

@@ -210,6 +210,23 @@ const abhiNatureCaseVal = async (input,reqFrom) => {
         return new ValidationWrapper(false, error.message.body);//error response
     }
 }
+const abhiNatureCaseVal = async (input,reqFrom) => {
+    try{
+        let result = await abhiCaseValidation({caseRecord:JSON.stringify(input.fields)});
+        if(result){
+            //if result is as expected, then
+            if(result=='Success'){
+                return new ValidationWrapper(true, result);
+            }else{
+                return new ValidationWrapper(false, result);
+            }
+           //success response
+        }
+    } catch(error){
+        console.log('abhiNatureCaseVal'+JSON.stringify(error));
+        return new ValidationWrapper(false, error.message.body);//error response
+    }
+}
 
 //include new validation methods inside method export block
 export {

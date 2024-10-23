@@ -59,6 +59,7 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
 					Policy__r.PolicySubStatus__c,
 					Policy__r.GrossPremium__c,
 					Policy__r.MasterPolicyNumber__c,
+					Policy__r.MasterPolicyNumber__r.Name,
 					Policy__r.IntermediaryCode__c, 
 					Policy__r.Intermediary_Branch_Code__c,
 					Policy__r.SerialNumber,

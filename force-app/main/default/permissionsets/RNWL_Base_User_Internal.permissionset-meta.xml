@@ -507,11 +507,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.CustomerType__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.Customer_Category__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1072,11 +1067,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.AgentCode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.AgentStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1103,16 +1093,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Annuity_Mode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ApplicationDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ApplicationStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1293,26 +1273,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ContactId</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ContractEndDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ContractGroup__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ContractIssueDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ContractStartDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1552,32 +1512,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.EmployerGroup__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.Employer_Business_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ExternalIdentifier</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.FAComplete__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.FADateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.FAStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1628,21 +1568,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Guranted_Monthly_Addition__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.HAComplete__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.HADateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.HAStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1907,11 +1832,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.MaximumPointsLimit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.Method_Of_Payment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2057,11 +1977,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Payment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.Plan_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2162,16 +2077,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Program__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.PromoCode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.Property_Detail__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2267,16 +2172,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.RenewalFlag__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.RenewedFlag__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.Repayment_Mode__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2318,11 +2213,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Rider_Sum_Assured__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Role__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2503,11 +2393,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Terminal_Bonus__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Tier__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3172,11 +3057,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.ProductText__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Case.Prospect_Payload__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3258,11 +3138,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Requested_Recat_Json__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.ResolutionReason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3462,11 +3337,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.WellnessCaseDetail__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Case.Winning_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3662,11 +3532,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Claim__c.Policy_No_Formula__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Claim__c.Policy_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3822,22 +3687,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.BuyerAttributes</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Customer_Since__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Department</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.DepartmentGroup</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4082,11 +3937,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.TitleType</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.UniqueKey__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4232,26 +4082,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Dispositions__c.ABHI_Retry__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.AgentDialTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.AgentRingTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.AgentTalkTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Dispositions__c.Agent_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4268,11 +4098,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.Calling_Unit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.CustomerTalkTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4312,11 +4137,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Dispositions__c.Msisdn__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Dispositions__c.Next_Call_Back_Date_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4338,86 +4158,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Dispositions__c.Renewal_Request__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.callDisposeTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.callStatus__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.campaignId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.customDisposition__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.customerInfo__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.hangupCauseCode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.hangupReason__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.hangupTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.ivrLanguage__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.ivrSkill__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.ivrTime1__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.ivrTime2__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.requestId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.waittime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

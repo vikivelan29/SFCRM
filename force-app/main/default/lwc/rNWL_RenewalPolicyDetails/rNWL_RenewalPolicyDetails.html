@@ -326,7 +326,8 @@
                                     <div class="slds-form-element__control">
                                         <template if:true={addressFlag}>
                                             <div class="slds-form-element__static">
-                                                {account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}
+                                                {addressString}
+                                                <!--{account.BillingStreet}, {account.BillingCity}, {account.BillingState}-{account.BillingPostalCode}-->
                                             </div>
                                         </template>
                                     </div>
@@ -423,7 +424,7 @@
                                     <span class="slds-form-element__label">Intermediary-classification</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {policy.Channel}
+                                            {policy.Channel__c}
                                         </div>
                                     </div>
                                 </div>
@@ -658,7 +659,7 @@
                                     <span class="slds-form-element__label">First Policy Inception date</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {oppRec.Policy_Inception_Date__c}
+                                            {inceptionDate}
                                         </div>
                                     </div>
                                 </div>
@@ -857,7 +858,7 @@
                                     <span class="slds-form-element__label">Master Policy no.</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {account.MasterPolicyNumber__c}
+                                            {masterPolicyNumber}
                                         </div>
                                     </div>
                                 </div>

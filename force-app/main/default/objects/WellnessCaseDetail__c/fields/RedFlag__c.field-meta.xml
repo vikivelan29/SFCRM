@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_List__c</fullName>
+    <defaultValue>false</defaultValue>
+    <externalId>false</externalId>
+    <label>Check List</label>
     <fullName>RedFlag__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <label>Red Flag</label>
     <trackHistory>true</trackHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

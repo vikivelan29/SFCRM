@@ -111,7 +111,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 			this.isShowInitialMessage = false;
 		}
 
-		this.showPreview=false;
+		this.showPreview=false; 
 	}
 
 	subscribeToMessageChannel() {
@@ -123,6 +123,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	}
 
 	handleMessage(message) {
+		console.log('***handleMessage:'+JSON.stringify(message));
 		this.isLoading = true;
 		if (this.dynTableExAPI == 'MCRM_ActiveDays' && message.name == 'MCRM_ActiveDayURL') {
 			if(message.payLoadType == 'showExtension'){
@@ -149,8 +150,9 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 			this.showPreview=true;
 		}
 	}
-
+	
 	getActiveDays(message) {
+		console.log('***getActiveDays:'+JSON.stringify(message));
 		let responseArray = [];
 		this.isShowInitialMessage = false;
 		message.responseMap.resultsList.scores.forEach(score => {
@@ -318,5 +320,5 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 
 	handleChangeView(event) {
 		this.template.querySelector("c-abc_base_tableview").changeViewFn();
-    }
+    } 
 }

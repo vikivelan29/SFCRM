@@ -6,7 +6,6 @@
 * @description  :  Class for Email Templates
 *********************************************************/
 
-@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount')
 public without sharing class ASF_CaseEmailController {
     /*********************************************************
     * @description - Use for Store case record.    
@@ -310,17 +309,6 @@ public without sharing class ASF_CaseEmailController {
         }
     }
 
-    /****************************************************************************************************************
-    * @Function - setDateTimeField
-    * @return - void
-    * @param field - Name of field
-    * @param objectFields - hold Object fields details
-    * @param relationShipfield - holds the relationship field API Names
-    * @param fieldValue - Holds the value of the field from record
-    * @param resultMap - holds the map of fields with value of record
-    * @param dateFormat - hold the format of date to which it should be displayed
-    * @description - Used for setting the date time fields;
-    *****************************************************************************************************************/
     private static void setDateTimeField(String field, Map<String,Schema.SObjectField> objectFields, List<String> relationShipfield, object fieldValue, Map<String, String> resultMap, String dateFormat){
         if(objectFields.containsKey(relationShipfield.get(1))){
             String dataType=string.valueOf(objectFields.get(relationShipfield.get(1)).getDescribe().getType());

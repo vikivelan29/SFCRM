@@ -327,7 +327,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.loaded = true;
             })
             .catch(error => {
-                console.log('ERR: ', error);
                 this.accounts = null;
                 this.isNotSelected = true;
                 this.loaded = true;

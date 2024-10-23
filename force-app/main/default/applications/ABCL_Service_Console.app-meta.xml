@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <comment
+    >Action override created by Lightning App Builder during activation.</comment>
         <content>SR_Request_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -11,7 +12,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <comment
+    >Action override created by Lightning App Builder during activation.</comment>
         <content>SR_Request_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -20,7 +22,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <comment
+    >Action override created by Lightning App Builder during activation.</comment>
         <content>Case_Category_Config_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -29,7 +32,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <comment
+    >Action override created by Lightning App Builder during activation.</comment>
         <content>Case_Category_Config_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -38,7 +42,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <comment
+    >Action override created by Lightning App Builder during activation.</comment>
         <content>ASF_Case_Integration_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -47,7 +52,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <comment
+    >Action override created by Lightning App Builder during activation.</comment>
         <content>ASF_Case_Integration_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -56,7 +62,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <comment
+    >Action override created by Lightning App Builder during activation.</comment>
         <content>Account_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -65,7 +72,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <comment
+    >Action override created by Lightning App Builder during activation.</comment>
         <content>Account_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -352,38 +360,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHFL_Asset_Detail_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHFL Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHFL_Asset_Detail_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHFL Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHFL_Asset_Detail_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHFL_Asset_Detail_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>ABFL_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
@@ -1571,6 +1547,33 @@
         <recordType>Lead.Service</recordType>
         <type>Flexipage</type>
         <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>RNWL_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.HI_Renewals</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>RNWL_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.HI_Renewals</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>RNWL_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.HI_Renewals</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Manager Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -1617,11 +1620,16 @@
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Asset</tabs>
+    <tabs>standard-Opportunity</tabs>
+    <tabs>Bulk_Upload</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ABCL_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
+        <mappings>
+            <tab>Bulk_Upload</tab>
+        </mappings>
         <mappings>
             <tab>Claim__c</tab>
         </mappings>
@@ -1658,6 +1666,9 @@
         </mappings>
         <mappings>
             <tab>standard-Asset</tab>
+        </mappings>
+      	<mappings>
+            <tab>standard-Opportunity</tab>
         </mappings>
         <mappings>
             <tab>standard-report</tab>

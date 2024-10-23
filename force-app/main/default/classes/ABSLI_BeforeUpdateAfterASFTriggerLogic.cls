@@ -153,7 +153,7 @@ public with sharing class ABSLI_BeforeUpdateAfterASFTriggerLogic {
 				 if (caseDetail != null  && emailContactSubTypes.contains(caseRec.CCC_External_Id__c) && caseDetail.Source_Request_submitted_by__c != null) {
                        if (caseDetail.Source_Request_submitted_by__c != 'Customer' && caseRec.Stage__c != 'Unresolved') {
                             Case caseError = newMap.get(caseRec.Id);
-                           	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Unresolve the case.');
+                           	caseError.addError('Source (Request Submitted by) should be Customer in order to proceed further. Kindly Unresolve the case.');
                             newMap.put(caseRec.Id,caseError);
                        }   
                  }

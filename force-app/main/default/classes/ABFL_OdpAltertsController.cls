@@ -1,7 +1,7 @@
 /**
  * @description       : Class to handle Odp Alerts
  * @group             : ABFL
- * @last modified on  : 07-12-2024
+ * @last modified on  : 06-28-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * 
  * Modifications Log
@@ -9,7 +9,7 @@
  * 1.0      28-12-2023     svyavhare@salesforce.com          Initial Version
  **/
 
-public with sharing class ABFL_OdpAltertsController {
+ public with sharing class ABFL_OdpAltertsController {
 
     /****************************************************************************************************************
     * @LOB - ABFL
@@ -29,7 +29,7 @@ public with sharing class ABFL_OdpAltertsController {
             String payload = JSON.serialize(new PayloadWrapper(accObj.Client_Code__c));
             ABCL_IntegrationCallout.IntegrationResponseWrapper odpResponseWrp = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
             if(odpResponseWrp.responseBody == '[]'){
-                odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"There are no ODP alert available.\"}]');
+                odpAlertResponseList = ODPAlertResponse.parse('[{\"messageText\":\"There is no odp alert avalible\"}]');
             }else{
                 odpAlertResponseList = ODPAlertResponse.parse(odpResponseWrp.responseBody);
             }

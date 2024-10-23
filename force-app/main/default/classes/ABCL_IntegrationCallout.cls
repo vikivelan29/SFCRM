@@ -6,7 +6,7 @@
 *Description  :  Outbound Callout Logger
 *********************************************************/
 public with sharing class ABCL_IntegrationCallout {
-    public static string caseId; 
+    public static string caseId;
     public static string accountId;
 
     /****************************************************************************************************************
@@ -34,7 +34,7 @@ public with sharing class ABCL_IntegrationCallout {
            endPointURL= buildURLParameters(urlParameters,integrationMdt.EndPoint__c);                                                  
         }                                              
         
-        // Build HttpRequest
+        //  Build HttpRequest
         request.setMethod(integrationMdt.Protocol__c);
         request.setEndPoint(endPointURL);
 	if(integrationMdt.Timeout__c != null){

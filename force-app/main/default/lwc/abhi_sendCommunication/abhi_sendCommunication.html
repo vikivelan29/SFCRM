@@ -51,12 +51,9 @@
                             <lightning-input type="email" label="Registered Email" name="email1"
                                 value={recordDetails.Email} readonly></lightning-input>
                         </div>
-                        <div lwc:else class="slds-col slds-size_1-of-2 slds-p-right_small email_inp">
+                        <div lwc:else class="slds-col slds-size_1-of-2 slds-p-right_small">
                             <lightning-input type="email" label="Enter a valid Email Address" name="email"
-                                onchange={handleInputChange} ></lightning-input>
-                        </div>
-                        <div lwc:if={validation.showValidation} class="slds-col slds-text-color_error slds-text-body_small">
-                            {validation.validationMessage}
+                                onchange={handleInputChange}></lightning-input>
                         </div>
                     </div>
                 </div>

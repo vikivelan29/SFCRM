@@ -4,15 +4,15 @@
     <protected>false</protected>
     <values>
         <field>Api_Name__c</field>
-        <value xsi:type="xsd:string">actualAge</value>
+        <value xsi:type="xsd:string">ActualAge</value>
     </values>
     <values>
         <field>Asf_Dynamic_Datatable_Parent__c</field>
-        <value xsi:type="xsd:string">MCRM_Assessments_Active_Age</value>
+        <value xsi:type="xsd:string">ABHI_ActiveAgeDetails</value>
     </values>
     <values>
         <field>Data_Type__c</field>
-        <value xsi:type="xsd:string">number</value>
+        <value xsi:type="xsd:string">Integer</value>
     </values>
     <values>
         <field>Order__c</field>

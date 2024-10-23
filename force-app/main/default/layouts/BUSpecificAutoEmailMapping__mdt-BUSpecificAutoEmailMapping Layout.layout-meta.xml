@@ -62,6 +62,7 @@
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
+        <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
     <showEmailCheckbox>false</showEmailCheckbox>

@@ -71,7 +71,6 @@ public class ABHI_IGMSHelperMethods {
             ABCL_Logger.push('associateCustomerForAPIFromPhoneNumber failed for ABHI');
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
-            throw new AuraHandledException(e.getMessage());
         }
     }
     public static void associateAssetIgms(List<Case> cases){
@@ -139,7 +138,6 @@ public class ABHI_IGMSHelperMethods {
             ABCL_Logger.push('associateCustomerForAPIFromPhoneNumber failed for ABHI');
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
-            throw new AuraHandledException(e.getMessage());
         }
     }
 }
