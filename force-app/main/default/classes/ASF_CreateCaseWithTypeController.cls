@@ -141,7 +141,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob) {
         objCaseDetailsWrapper = getUserDetails();
         String userBu=objCaseDetailsWrapper.userBu;
-        string searchKeyword = '%' + String.escapeSingleQuotes(keyword) + '%';
+        string searchKeyword = '%' + keyword + '%';
         if(asssetProductType == '' || asssetProductType ==null ) {
             asssetProductType ='';
         }
