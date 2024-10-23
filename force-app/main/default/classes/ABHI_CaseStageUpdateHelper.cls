@@ -1,7 +1,14 @@
+/***************************************
+*Class        :  ABHI_CaseStageUpdateHelper
+*Author       :  Kuldeep Mishra
+*Created Date :  15/10/2024
+*Last Modified:  15/10/2024
+*@description :  This class is used as trigger helper class.
+***************************************/
 public with sharing class ABHI_CaseStageUpdateHelper {
       public static void MoveToStageMethod(List<Case> newCases, List<Case> oldCases) {
-        DateTime currentDateTime = System.now();
-        DateTime twoHoursFromNow = currentDateTime.addHours(2);
+        //DateTime currentDateTime = System.now();
+        //DateTime twoHoursFromNow = currentDateTime.addHours(2);
           
           Set<String> cccExternalIds = new Set<String>();
     for (Case newCase : newCases) {
@@ -11,7 +18,7 @@ public with sharing class ABHI_CaseStageUpdateHelper {
     }
 
 Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Case_Category_Config__c >(
-        [SELECT Id,CCC_External_Id__c,(SELECT Id, Order__c FROM Case_Stage_Configs__r)
+        [SELECT Id,CCC_External_Id__c,Overall_Case_Closure_SLA__c,(SELECT Id, Order__c FROM Case_Stage_Configs__r)
          FROM ASF_Case_Category_Config__c 
          WHERE CCC_External_Id__c IN :cccExternalIds]
     );
@@ -29,28 +36,27 @@ Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Ca
                 return; // Skip processing if the field has changed
                 
             }
-
             Integer orderValue = 0;
           if (newCase.CCC_External_Id__c != null) {
         if (configMapByExternalId.containsKey(newCase.CCC_External_Id__c)) {
                     ASF_Case_Category_Config__c config = configMapByExternalId.get(newCase.CCC_External_Id__c);
+                    Decimal overallSLA = config.Overall_Case_Closure_SLA__c;
+            System.debug('Overall SLA: ' + overallSLA);
             if (!config.Case_Stage_Configs__r.isEmpty()) {
                 orderValue = (Integer)config.Case_Stage_Configs__r[0].Order__c;
-                System.debug('Order value for case ' + newCase.Id + ': ' + orderValue);
-            }
+              System.debug('Order Value: ' + orderValue);
+            }if (orderValue == 1 && overallSLA != null && overallSLA <= 2) {
+                        newCase.MoveToNext__c = true;
+                System.debug('MoveToNext condition met: ' + (orderValue == 1 && overallSLA != null && overallSLA <= 2));
+                    } else {
+                        System.debug('MoveToNext__c condition not met for case ' + newCase.Id);
+                           }
         } else {
             System.debug('CCC_External_Id not found in config map: ' + newCase.CCC_External_Id__c);
         }
     } else {
         System.debug('CCC_External_Id is null for case: ' + newCase.Id);
-    }
-
-            // Check Overall_Case_Closure_SLA__c and required condtions
-            if (orderValue == 1 && newCase.Overall_Case_Closure_SLA__c != null && newCase.Overall_Case_Closure_SLA__c <= twoHoursFromNow && newCase.Overall_Case_Closure_SLA__c > currentDateTime) { 
-                newCase.MoveToNext__c  = true;    
-            }else{
-                System.debug('MoveToNext__c condition not met');
-            }
+    }      
         }
     }
 
