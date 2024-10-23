@@ -37,7 +37,7 @@ public class ABSLI_BulkAssignCaseConverter_Test {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         case caserec = [select CaseNumber from Case LIMIT 1];
-        String newOwner = [select id,name from group where type = 'Queue' and developerName = 'ABSLI_CAMS_Team' LIMIT 1].name;
+        String newOwner = [select id,name from group where type = 'Queue' and developerName = 'ABSLI_Complaints_Team' LIMIT 1].name;
         Map<Id, String> jsonRows = new Map<Id, String>();
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","New Owner":"'+newOwner+'", "Internal comments":"Owner change"}');
         ABSLI_BulkAssignCaseConverterUtility utility = new ABSLI_BulkAssignCaseConverterUtility();

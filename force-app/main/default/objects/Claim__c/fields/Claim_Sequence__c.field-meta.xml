@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Claim_Sequence__c</fullName>
-    <displayFormat>CL-{00000}</displayFormat>
+    <displayFormat>CL-{0000}</displayFormat>
     <externalId>true</externalId>
     <label>Claim Sequence</label>
     <trackHistory>false</trackHistory>

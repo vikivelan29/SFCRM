@@ -27,6 +27,10 @@
         <value xsi:type="xsd:string">Bulk Case Assignment</value>
     </values>
     <values>
+        <field>FieldApiName__c</field>
+        <value xsi:type="xsd:string">CaseNumber</value>
+    </values>
+    <values>
         <field>Fields_Name__c</field>
         <value xsi:type="xsd:string">Case number,New Owner,Internal comments</value>
     </values>

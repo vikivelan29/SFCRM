@@ -1,0 +1,60 @@
+<!--
+  @description       : 
+  @author            : rsinghnagar@salesforce.com
+  @group             : 
+  @last modified on  : 10-17-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  Ver   Date         Author                       Modification
+  1.0   10-17-2024   rsinghnagar@salesforce.com   Initial Version
+-->
+<template>
+    <lightning-card>
+        <div class="slds-m-around_medium">
+            <template lwc:if={showSpinner}>
+                <!-- <div class="slds-backdrop" role="presentation"></div> -->
+                <!-- <div class="slds-fade-in-open slds-modal_large"> -->
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                <!-- </div> -->
+            </template>
+            <template lwc:if={isShowDate}>
+                <lightning-layout class="slds-m-bottom_large slds-grid slds-wrap">
+                    <lightning-layout-item size="4" class="slds-m-right_x-small">
+                        <lightning-input type="date" name="Startdate" value={startDate}
+                            onchange={handleStartDateChange} label="From Date" class="inpFieldCheckValidity"
+                            format='YYYY-MM-dd' required>
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" class="slds-m-right_small">
+                        <lightning-input type="date" name="Enddate" value={endDate}
+                            onchange={handleEndDateChange} min={startDate} label="End Date"
+                            message-when-range-underflow="Please choose a date more than the start date"
+                            class="inpFieldCheckValidity" format='YYYY-MM-dd' required>
+                        </lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="auto" class="slds-m-top_medium slds-m-left_medium" style="margin-top: 1.3rem;">
+                        <lightning-button variant="brand" label="Search" onclick={handleSearchClick}
+                            disabled={isSearchDisabled}></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+            <div class={renderBaseView}>
+                <c-mcrm_base_view_screen api_id={intAPIName} payload-info={payloadInfo} onrefresh={handleRefresh}></c-mcrm_base_view_screen>
+            </div>
+            <template lwc:if={isError}>
+                <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
+                        title="Description of icon when needed">
+                        <lightning-icon icon-name="utility:error" alternative-text="Error" size="xx-small"
+                            title="Error" variant="inverse"></lightning-icon>
+                    </span>
+                    <h2>
+                        {errorMessage}
+                    </h2>
+                    <div class="slds-notify__close"></div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

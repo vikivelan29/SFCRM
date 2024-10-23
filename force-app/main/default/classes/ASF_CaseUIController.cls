@@ -83,7 +83,7 @@ public with sharing class  ASF_CaseUIController {
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
                     Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp OR Advisor_Code__c LIKE : userInp),
-                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR Application_Number__c LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR ContractId__c LIKE : userInp OR Application_Number__c LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE Name LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
@@ -169,7 +169,8 @@ public with sharing class  ASF_CaseUIController {
                 
                 asstList = [select id, Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
                             Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c, LOB__c, 
-                            Policy_No__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c
+                            Policy_No__c,ContractId__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c, 
+                            Plan_Name__c, ContractStartDate__c, ContractEndDate__c
                             from asset where Id =:assetIds OR AccountId =:accountId];
             }
             conAssetWrapper wrapper = new conAssetWrapper(asstList);

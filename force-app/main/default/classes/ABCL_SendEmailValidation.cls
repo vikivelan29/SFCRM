@@ -23,13 +23,13 @@ public with sharing class ABCL_SendEmailValidation {
         Quiddity currentType = reqInfo.getQuiddity();
        // system.debug('currentTypevalue '+currentType);
         String runningUserFullName = UserInfo.getName();
-        
+         Set<Id> caseIds = new Set<Id>(); //[START]Zahed :  PR1030924-211:   
         if((currentType != Quiddity.QUICK_ACTION && currentType != Quiddity.SYNCHRONOUS) || runningUserFullName.contains('Platform')){
             if(!Test.isRunningTest()){
                 return;
             }
         } 
-        for (EmailMessage email : newEmails) {
+        for (EmailMessage email : newEmails) {                 
             if(!email.Incoming && email.ParentId != null){
                 if(email.ParentId.getSObjectType() == Case.sObjectType){
                     outgoingCaseEmails.add(email);
@@ -37,6 +37,11 @@ public with sharing class ABCL_SendEmailValidation {
                    //  system.debug('mdtAllowedAddress '+selectedFromAddress);
                 }
             }
+             //[START]Zahed :  PR1030924-211:   
+            if(email.ParentId.getSObjectType() == Case.getSObjectType()){                           
+                caseIds.add(email.ParentId);
+            }
+            //[END]
         }
         // we can extend the logic for this method by adding business unit on this custom metadata. Getting allowed business unit value.
         ABFL_Email_Validation_Configuration__mdt mdtAllowedBusinessUnit = ABFL_Email_Validation_Configuration__mdt.getInstance('Business_Unit'); 
@@ -48,11 +53,11 @@ public with sharing class ABCL_SendEmailValidation {
             // Getting restricted FROM address.For the restricted FROM email address email should not go to external domain.
             ABFL_Email_Validation_Configuration__mdt mdtRestrictedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance('Restricted_From_Address'); 
             // Getting allowed FROM address according to the team assigned on user.
-             ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance(userTeam[0].Team__c);
-             // below code checks if FROM address selected is part of user's team allowed FROM address, if not throwing an error.
-             if(mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c != null){
+            ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance(userTeam[0].Team__c);
+            // below code checks if FROM address selected is part of user's team allowed FROM address, if not throwing an error.
+            if(mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c != null){
                 allowedFromAddress= mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c.split(',');
-                String loggedInUserEmail = UserInfo.getUserEmail();
+                String loggedInUserEmail = UserInfo.getUserEmail();                
                 for (String domain : allowedFromAddress) {
                     if (selectedFromAddress.contains(domain.toLowerCase())) {
                         isAllowedFromAddress = true;
@@ -64,6 +69,17 @@ public with sharing class ABCL_SendEmailValidation {
                     email.addError(system.label.Error_From_Address);
                     }
                 } 
+               //[START]Zahed :  PR1030924-211: below code added to validate Email.    
+                Map<Id, Case> casesMap = new Map<Id, Case>([SELECT Id, OwnerId FROM Case WHERE Id IN :caseIds]);          
+                for (EmailMessage email : newEmails) {          
+                    if (email.ParentId != null && email.ParentId.getSObjectType() == Case.SObjectType) {                
+                        Case relatedCase = casesMap.get(email.ParentId);               
+                        if (relatedCase != null && relatedCase.OwnerId != UserInfo.getUserId()) {
+                            email.addError(System.Label.Wellness_CaseComment_add_Err_Msg);
+                        }
+                    }
+                }
+                //[END]
             }  
              // below code checks if FROM address selected is allowed to send an email to external email ,if not then throwing an error.
              if(mdtRestrictedFromAddress.Email_Addresses_Allowed_Long__c != null){

@@ -4,11 +4,11 @@
     <externalId>false</externalId>
     <formula>IF(
 
-AND(
+	AND(
 
-Asset.Source_System__c  = &apos;A3S&apos;,
+	Asset.Source_System__c  = &apos;A3S&apos;,
 
-OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))),
+	OR(ISPICKVAL(Source__c, &apos;IVR-no email&apos;),ISPICKVAL(Source__c, &apos;RM-no email&apos;))),
 
 &apos;a3s_rm&apos;,
 
@@ -18,7 +18,7 @@ AND(
 
 Asset.Source_System__c=&apos;A3S&apos;,
 
-ISPICKVAL(Source__c, &apos;Others&apos;)),
+NOT(ISPICKVAL(Source__c, &apos;IVR-no email&apos;))),
 
 &apos;a3s&apos;,
 
@@ -38,7 +38,7 @@ AND(
 
 Asset.Source_System__c=&apos;FINNRTL&apos;,
 
-ISPICKVAL(Source__c, &apos;Others&apos;)),
+NOT(ISPICKVAL(Source__c, &apos;IVR-no email&apos;))),
 
 &apos;finnone&apos;,
 
@@ -60,7 +60,7 @@ AND(
 
 Asset.Source_System__c=&apos;FINNCORP&apos;,
 
-ISPICKVAL(Source__c, &apos;Others&apos;)
+NOT(ISPICKVAL(Source__c, &apos;IVR-no email&apos;))
 
 ),
 
@@ -84,7 +84,7 @@ AND(
 
 Asset.Source_System__c=&apos;MINACS&apos;,
 
-ISPICKVAL(Source__c, &apos;Others&apos;)),
+NOT(ISPICKVAL(Source__c, &apos;IVR-no email&apos;))),
 
 &apos;corporate&apos;,
 

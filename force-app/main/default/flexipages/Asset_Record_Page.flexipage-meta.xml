@@ -125,6 +125,24 @@
                 <identifier>RecordProperty_Detail_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Origin__c</fieldItem>
+                <identifier>RecordOrigin__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.BranchText__c</fieldItem>
+                <identifier>RecordBranchText__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.PlanCode__c</fieldItem>
+                <identifier>RecordPlanCode__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
         <type>Facet</type>
     </flexiPageRegions>

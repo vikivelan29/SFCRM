@@ -24,7 +24,7 @@
             <value>
                 <fullName>settlement letter</fullName>
                 <default>false</default>
-                <label>settlement letter</label>
+                <label>Settlement letter</label>
             </value>
             <value>
                 <fullName>Denial letter</fullName>
