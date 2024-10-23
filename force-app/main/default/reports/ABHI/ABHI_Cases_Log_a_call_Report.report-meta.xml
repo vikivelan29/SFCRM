@@ -74,7 +74,6 @@
             <operator>equals</operator>
             <value>Open</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>
