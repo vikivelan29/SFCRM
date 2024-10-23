@@ -269,10 +269,14 @@
         <members>ABFL_DMSSync_Orchestrator_Test</members>
         <members>ABHFL_CTSTHelper</members>
         <members>ABFL_LegacyView_Test</members>
+        <members>ABCL_AssetTriggerHelper</members>
+        <members>ABCL_AssetTriggerHandler</members>
+        <members>ABSLI_RemoveAccountTeamBatch2</members>
 		<name>ApexClass</name>
 	</types>
     <types>
 		<members>LeadTrigger</members>
+        <members>ABCL_AssetTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
 	<types>
@@ -744,6 +748,7 @@
         <members>Asset.Vesting_Age__c</members>
         <members>Asset.Withdrawal_available_amount__c</members>
         <members>Asset.Zone__c</members>
+        <members>Asset.Processing_State__c</members>
         <members>Branch_Master__c.Branch_City__c</members>
         <members>Branch_Master__c.Branch_State__c</members>
         <members>Branch_Master__c.Business_Unit__c</members>
@@ -1773,6 +1778,7 @@
         <members>ABSLIReports/Prospect_RelatedUnregistered_Open_Cases_ojR</members>
         <members>ABSLIReports/Queries_Pending_report</members>
         <members>ABSLIReports/Queries_Repeat_Analysis</members>
+        <members>ABSLIReports/STP_Cases_GSB</members>
         <members>ABSLIReports/QueryComplaintsReportingSet2/Cases_grouped_by_Branch_Code_wrt_to_comp</members>
         <members>ABSLIReports/QueryComplaintsReportingSet2/Cases_grouped_by_Channel_wrt_to_complain</members>
         <members>ABSLIReports/QueryComplaintsReportingSet2/Cases_grouped_by_issuance_buckets</members>
