@@ -2935,7 +2935,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 this.template.querySelectorAll('lightning-input-field').forEach(ele => {
                     if(ele.fieldName == fieldApiNm){
                         ele.value = fieldVal;
-                        ele.focus();
                     }
                 });
             }
