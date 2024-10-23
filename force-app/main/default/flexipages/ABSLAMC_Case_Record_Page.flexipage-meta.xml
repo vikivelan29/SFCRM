@@ -50,7 +50,7 @@
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <booleanFilter>1 AND (2 OR 4) AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
@@ -65,6 +65,11 @@
                                     <leftValue>{!Record.Stage__c}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>Pending with CAMS</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.OwnerId_Text__c}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>00G</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
