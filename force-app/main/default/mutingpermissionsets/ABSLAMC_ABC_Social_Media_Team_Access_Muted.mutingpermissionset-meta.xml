@@ -28,15 +28,6 @@
         <object>Lead</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>RecordAlert</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Lead.ABSLAMC_Leads</recordType>
         <visible>true</visible>
