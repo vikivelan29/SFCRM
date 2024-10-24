@@ -10,6 +10,6 @@
     <filterScope>Everything</filterScope>
     <label>ABHFL Assets</label>
     <sharedTo>
-        <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>
