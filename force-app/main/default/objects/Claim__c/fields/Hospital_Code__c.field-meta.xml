@@ -3,6 +3,7 @@
     <fullName>Hospital_Code__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>ABHI</description>
+    <externalId>false</externalId>
     <label>Hospital Name</label>
     <referenceTo>Health_Provider__c</referenceTo>
     <relationshipLabel>Claims (Hospital Code)</relationshipLabel>
