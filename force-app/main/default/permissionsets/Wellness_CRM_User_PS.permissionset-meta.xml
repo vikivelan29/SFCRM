@@ -2686,9 +2686,7 @@
     </fieldPermissions>
     <flowAccesses>
         <enabled>true</enabled>
-        <flow>
-ABFL_Update_Preferred_Name;
-    </flow>
+        <flow>ABFL_Update_Preferred_Name</flow>
     </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Wellness CRM User PS</label>
