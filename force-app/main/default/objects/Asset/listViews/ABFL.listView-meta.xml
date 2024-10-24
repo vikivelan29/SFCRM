@@ -16,7 +16,7 @@
     </filters>
     <label>ABFL</label>
     <sharedTo>
-        <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
-        <roleAndSubordinatesInternal>ABFL_Service_Agent</roleAndSubordinatesInternal>
+        <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+        <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
     </sharedTo>
 </ListView>
