@@ -57,7 +57,6 @@ Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Ca
         } 
     }   
         }
-          //update newCases;
     }
 
 }
