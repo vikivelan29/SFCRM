@@ -515,6 +515,7 @@
         <members>ABSLI_Case_Detail__c.Waiver_percentage__c</members>
         <members>ABSLI_Case_Detail__c.WhatsApp_Opt_Out_Indicator__c</members>
         <members>ABSLI_Case_Detail__c.Withdrawal_Amount_Available__c</members>
+        <members>ABSLI_Case_Detail__c.Reason__c</members>
         <members>ABSLI_Create_Case_Validations__mdt.Asset_Values__c</members>
         <members>ABSLI_Create_Case_Validations__mdt.Business_Unit__c</members>
         <members>ABSLI_Create_Case_Validations__mdt.Error_Message__c</members>
