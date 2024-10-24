@@ -40,6 +40,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             else {
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
+                abhiCsDetHelperObj.captureReopenFieldsOnCaseReopen(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }
         }
     }
@@ -193,7 +194,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         }        
         return result;
     }
-	
+    
     /**
      * @description  Calling ABHI specific case validations before case creation
      * @param caseRecord - the case that is created from create case page
@@ -221,7 +222,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                   && jsonMap.get('AssetId') != null && jsonMap.get('AccountId') != null){
                       
                      Account accountRec = [select Id,Is_Chronic__c, CMP_OPD__c, Chronic_care__c from account where Id=: String.valueOf(jsonMap.get('AccountId'))];
-				     Asset assetRec = [select Id, ProductName__c, Plan_Name__c from asset where Id=: String.valueOf(jsonMap.get('AssetId'))];  
+                     Asset assetRec = [select Id, ProductName__c, Plan_Name__c from asset where Id=: String.valueOf(jsonMap.get('AssetId'))];  
                      
                       if(assetRec.ProductName__c != 'Active One' && accountRec.Is_Chronic__c == false){
                           result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));
@@ -311,11 +312,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             mapOfcccExtIdToCCCRec.put(cccRecord.CCC_External_Id__c, cccRecord);
         }
         List<Case> dupeCaseList = [SELECT Id, Sub_Type_Text__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
-                           	FROM Case 
+                            FROM Case 
                             WHERE (AccountId IN :accIdList)
-                           	AND CCC_External_Id__c IN :mapOfcccExtIdToCaseList.keySet()
-                           	AND (AssetId IN :policyIdList)
-                           	AND isClosed!=true WITH SECURITY_ENFORCED];
+                            AND CCC_External_Id__c IN :mapOfcccExtIdToCaseList.keySet()
+                            AND (AssetId IN :policyIdList)
+                            AND isClosed!=true WITH SECURITY_ENFORCED];
 
         for(Case dupeCase: dupeCaseList) {
             
@@ -432,5 +433,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
         }
-    }   
+    }  
 }
