@@ -196,11 +196,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Case_SLA_History__c.Is_Owner_Changed__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>ASF_Integration__c.Auto_Run_on_Load__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2681,7 +2676,9 @@
     </fieldPermissions>
     <flowAccesses>
         <enabled>true</enabled>
-        <flow>ABFL_Update_Preferred_Name</flow>
+        <flow>
+ABFL_Update_Preferred_Name;
+    </flow>
     </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Wellness CRM User PS</label>
