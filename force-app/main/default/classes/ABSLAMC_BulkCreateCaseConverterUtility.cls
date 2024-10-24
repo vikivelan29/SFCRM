@@ -7,7 +7,6 @@
 *********************************************************/
 @SuppressWarnings('PMD.ApexSOQLInjection')
 
-
 public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
@@ -379,7 +378,4 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
 
         return listOfRecordsAsMap;
     }
-
-
-
 }
