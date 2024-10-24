@@ -34,16 +34,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-                dedupeLogicOnCaseCreation(triggerContext);
-                populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
-                dedupeLogicOnCaseCreation(triggerContext);
-                populateFieldsOnCase(abhiNewCaseList, null);//RNWL
-                ABHI_CaseCreationValidation.checkCreateCaseValidations(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
+                dedupeLogicOnCaseCreation();
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
-                ABHI_BusinessLogic_Helper.abhiActiveOneValidationOnRecat(abhiNewCaseList, mapOfIdToOldCase);
             }
             /*else if(triggerContext == 'AfterASFCodeInAfterInsert') {
                 abhiCsDetHelperObj.updateAccountFieldsonCaseDetail(abhiNewCaseList);
@@ -155,7 +150,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         
         if(!lstSecondStageCommNew.isEmpty() && mapSecondStageCommOld != null && !mapSecondStageCommOld.Values()?.isEmpty()){
             for(Case objCase: lstSecondStageCommNew){
-                if(strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c)){
+                if((!objCase.moved_back__c || objCase.Reopened__c) && (strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c))){
                     setCCCExternalIds.add(objCase.CCC_External_Id__c);
                     setCaseIdsToQuery.add(objCase.Id);
                 }
@@ -348,8 +343,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
                       if(assetRec.ProductName__c != 'Activ One' && accountRec.Is_Chronic__c == false){
                           result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));
                       }
-                      else if((assetRec.ProductName__c == 'Activ One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true))
-                             && (assetRec.ProductName__c == 'Activ One' && !(assetRec.Plan_Name__c == 'VYTL'))){
+                      else if((assetRec.ProductName__c == 'Active One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true))
+                             && !(assetRec.Plan_Name__c == 'VYTL')){
                               result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));    
                       }
                       
@@ -626,4 +621,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
             logtheException(e);
         }
     }  
+     
 }
