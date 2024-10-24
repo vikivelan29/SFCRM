@@ -62,15 +62,7 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterUtility implements ASF_B
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;  
             }
-            
             if(caseStage == 'Unresolved'){  
-               if(unresolvedDetails == null || unresolvedDetails.trim() == '') {
-                   keyValueMap.put('Result', 'FAILURE');
-                   keyValueMap.put('Message', 'Close Unresolved Details(For Unresolved Stage) is required');
-                   resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-                   resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-                   continue; 
-               }
                if(unresolvedReason == null || unresolvedReason.trim() == '') {
                    keyValueMap.put('Result', 'FAILURE');
                    keyValueMap.put('Message', 'Close Unresolved Reason(For Unresolved Stage) is required');
