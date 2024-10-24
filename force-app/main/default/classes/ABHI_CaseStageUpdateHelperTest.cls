@@ -3,7 +3,7 @@ private class ABHI_CaseStageUpdateHelperTest {
     @isTest
     static void testMoveToStageMethod() {
         // Create a Case Category Config
-        ASF_Case_Category_Config__c caseConfig = new ASF_Case_Category_Config__c(Type__c='Digital', Sub_Type__c='unable to Lync and Sync App & Device', CCC_External_Id__c = 'TEST_ID',Overall_Case_Closure_SLA__c=2);
+        ASF_Case_Category_Config__c caseConfig = new ASF_Case_Category_Config__c(Type__c='Digital', Sub_Type__c='unable to Lync and Sync App & Device', CCC_External_Id__c = 'TEST_ID',Overall_Case_Closure_SLA__c=2,Nature__c ='Request');
         insert caseConfig;
 
         // Create a Case Stage Config and link it to the Case Category Config
