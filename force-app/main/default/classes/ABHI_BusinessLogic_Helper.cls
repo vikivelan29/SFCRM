@@ -40,6 +40,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             else {
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
+                abhiCsDetHelperObj.captureReopenFieldsOnCaseReopen(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }
         }
     }
@@ -64,7 +65,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         
         if(!lstSecondStageCommNew.isEmpty() && mapSecondStageCommOld != null && !mapSecondStageCommOld.Values()?.isEmpty()){
             for(Case objCase: lstSecondStageCommNew){
-                if(!objCase.moved_back__c && !objCase.IsClosed && (strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c))){
+                if((!objCase.moved_back__c || objCase.Reopened__c) && (strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c))){
                     setCCCExternalIds.add(objCase.CCC_External_Id__c);
                     lstCasesToWorkUpon.add(objCase);
                 }
@@ -432,5 +433,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
         }
-    }   
+    }  
 }

@@ -140,16 +140,16 @@ public with sharing class RNWL_MemberDetailsController {
         List<Object> lstError = new List<Object>();
         if(objError instanceOf List<Object>){
             lstError = (List<Object>) objError;  
-        }
-        else{
-            lstError.add(objError);
-        }
+        } 
         
         for(Object obj : lstError){
+            
             map<String, object> mapErrorToMessage = (map<String, object>)obj;
             String strErrorCode = String.valueOf(mapErrorToMessage.get('ErrorCode'));
             String strErrorMessage = String.valueOf(mapErrorToMessage.get('ErrorMessage')); 
-            if(strErrorCode != '00' && strErrorCode != '0' ){
+            system.debug('mapErrorToMessage'+obj);
+            system.debug('strErrorCode'+strErrorCode);
+            if(strErrorCode != '00'){
                 getErrorInstance(strErrorCode, strErrorMessage, 'Renewal', mapOfMemberIdToMembers);
                 return mapOfMemberIdToMembers; 
             }

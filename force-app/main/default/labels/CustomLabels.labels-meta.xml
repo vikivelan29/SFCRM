@@ -1045,7 +1045,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_OmniDocURL</shortDescription>
-        <value>https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+        <value>https://omnidocsuat.adityabirlahealth.com/omnidocs/WebApiRequestRedirection?Application=WebAPI_abhi_uat&cabinetName=abhi_uat</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
@@ -1351,7 +1351,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MCRM_MissingDataError</shortDescription>
-        <value>We&apos;re Sorry! It looks like we couldn&apos;t find the information you were looking for. This might be due to a temporary issue or missing data. Please try again later.</value>
+        <value>We&apos;re Sorry! It looks like we couldn&apos;t find the information you were looking for. This may be due to missing data. Please try again later.</value>
     </labels>
     <labels>
         <fullName>MCRM_RewardsSelectPartnerBenefitCode</fullName>

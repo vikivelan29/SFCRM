@@ -17,6 +17,7 @@ public class RNWL_OpportunityTriggerHandlerTest {
         
         Asset asset = ASF_TestDataFactory.createAsset(acc.Id,''); 
         ASF_TestDataFactory.insertBusinessAccount('test before opp', 'strCRN');  
+        
     }
     
     //To cover RNWL_RenewalCustomerPolicyInfo class
@@ -78,6 +79,24 @@ public class RNWL_OpportunityTriggerHandlerTest {
         System.assertEquals(1, RNWL_UbonaIntegrationController.publishResults.size());
         System.assertEquals(true, RNWL_UbonaIntegrationController.publishResults[0].success);
     }
+
+    @isTest
+    private static void test_UpdatePolicyAndAccount(){
+        Asset asst = [SELECT Id, AccountId, Calling_Source__c FROM Asset LIMIT 1];
+        Opportunity opp = RNWL_TestDataFactory.createOpportunityRecords(asst.AccountId, asst.Id);
+        System.assertEquals(asst.Calling_Source__c, null, 'On Asset field is not Null To begin With!!!');
+        
+        Test.startTest();
+            opp.Calling_Source__c = 'Ubona BOT';
+            update opp;
+        Test.stopTest();
+
+        opp = [SELECT Id, AccountId, Policy__c, Calling_Source__c, Policy__r.Calling_Source__c, Account.Calling_Source__c FROM Opportunity WHERE Id = :opp.Id];
+        System.assertEquals('Ubona BOT', opp.Account.Calling_Source__c, 'Account field is not Updated!!!');
+        System.assertEquals('Ubona BOT', opp.Policy__r.Calling_Source__c, 'Asset field is not Updated!!!');
+
+    }
+
     
     @isTest
     private static void test_UpdateTest(){  
