@@ -1,0 +1,41 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear </span></span></span><span style="background-color:#ffff00"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">{{{Case.Customer_name_formula__c}}}</span></span></span></span><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">,</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Thank you for choosing Aditya Birla Health Insurance as your health-first partner. We've dedicated ourselves to providing you with the best health cover, unwavering support for your wellbeing and remain committed to maintaining this level of care whenever you need us.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">This is in reference to the above-mentioned Service Request No. </span></span></span></span></span></span>{{{Case.CaseNumber}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> We wish to inform you that</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">--------------------------</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{your claim is currently under medical assessment on the basis of the received documents. We expect your claim to be processed within &lt;</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="background-color:#ffff00"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">7</span></span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&gt; business days.}</span></span></span></span></span></span></p>
+
+<p style="line-height: 1.2; text-align: center;"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">OR</span></span></span></span></span></span></p>
+
+<p style="line-height:1.2; text-align:justify">&nbsp;</p>
+
+<p style="line-height: 1.2;"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{The claim has been processed and the amount will be credited within 2 to 3 working days. }</span></span></span></span></span></span><br />
+&nbsp;</p>
+
+<p style="line-height: 1.2; text-align: center;"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">OR</span></span></span></span></span></span><br />
+&nbsp;</p>
+
+<p style="line-height: 1.2;"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{ The Claim could not be accepted on account of &lt;</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="background-color:#ffff00"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Rejection Reason</span></span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&gt;</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">-------------------------</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">For your convenience, we are marking your service request as 'Resolved' for now.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We are committed to providing you with the best service at all times. Should you have any further questions, feel free to reach out.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We appreciate your patience and understanding during this time.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Regards,</span></span></span></span></span></span><br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Aditya Birla Health Insurance Co. Limited</span></span></span></span></span></span></p>
+<br />
+<br />
+&nbsp;</body>
+</html>

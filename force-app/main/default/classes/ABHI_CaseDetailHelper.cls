@@ -133,12 +133,13 @@ public with sharing class ABHI_CaseDetailHelper {
                  }
             }
             
-            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Resolution_Comments__c 
+            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Case_Reopened_By_Id__c, Resolution_Comments__c 
                                                    FROM ABHI_Case_Detail__c 
                                                    WHERE Id IN: abhiCaseDetIdsReopened] ) {
                 Case cs = mapofCaseDetailToReopenedCase.get(abhiCaseDet.Id);
                  if(cs != null) {
                      abhiCaseDet.Case_Reopened_By__c = cs.OwnerText__c;
+                     abhiCaseDet.Case_Reopened_By_Id__c = cs.OwnerId;
                      abhiCaseDetList.add(abhiCaseDet);
                  }
             }

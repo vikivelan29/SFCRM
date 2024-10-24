@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Fields_Name__c</field>
-        <value xsi:type="xsd:string">Case number,Case Resolved Comments,Case Resolved Reason,Stage,Close Unresolved Reason,Close Unresolved Details,Stop Communication</value>
+        <value xsi:type="xsd:string">Case number,Case Resolved Comments,Stage,Close Unresolved Reason,Close Unresolved Details,Stop Communication</value>
     </values>
     <values>
         <field>Max_File_Size__c</field>
