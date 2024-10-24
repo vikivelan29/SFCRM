@@ -33,10 +33,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-                ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
+            }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
+                ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
             else {
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
@@ -65,7 +66,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         
         if(!lstSecondStageCommNew.isEmpty() && mapSecondStageCommOld != null && !mapSecondStageCommOld.Values()?.isEmpty()){
             for(Case objCase: lstSecondStageCommNew){
-                if(!objCase.moved_back__c && !objCase.IsClosed && (strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c))){
+                if((!objCase.moved_back__c || objCase.Reopened__c) && (strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c))){
                     setCCCExternalIds.add(objCase.CCC_External_Id__c);
                     lstCasesToWorkUpon.add(objCase);
                 }
@@ -227,7 +228,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                       if(assetRec.ProductName__c != 'Active One' && accountRec.Is_Chronic__c == false){
                           result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));
                       }
-                      else if(assetRec.ProductName__c == 'Active One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true)
+                      else if((assetRec.ProductName__c == 'Active One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true))
                              && !(assetRec.Plan_Name__c == 'VYTL')){
                               result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));    
                       }
@@ -434,4 +435,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
             ABCL_Logger.emit();
         }
     }  
+     
 }
