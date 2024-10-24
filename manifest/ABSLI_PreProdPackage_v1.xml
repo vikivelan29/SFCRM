@@ -1563,6 +1563,7 @@
         <members>ABSLI_Post_Issuance_Team_G</members>        
         <members>ABSLI_Pre_Issuance_Team_G</members>
 		<members>ABSLI_Set_Alerts_G</members>
+        <members>ABSLI_UW_Query_Followup_G</members>
 		<name>Group</name>
 	</types>
     <types>
@@ -1624,6 +1625,8 @@
         <members>Case.ABSLI_Post_Issuance_Team_Case</members>        
         <members>Case.ABSLI_Pre_Issuance_Team_Case</members>
 		<members>Case.ABSLI_Set_Alerts_Case</members>
+        <members>Case.ABSLI_UW_Query_Followup_Case</members>
+		<name>ListView</name>
 		<name>ListView</name>
 	</types>
     <types>
@@ -1762,6 +1765,7 @@
         <members>ABSLI_Post_Issuance_Team</members>        
         <members>ABSLI_Pre_Issuance_Team</members>
 		<members>ABSLI_Set_Alerts</members>
+        <members>ABSLI_UW_Query_Followup</members>
 		<name>Queue</name>
 	</types>
     <types>
