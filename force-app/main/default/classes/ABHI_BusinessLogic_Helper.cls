@@ -305,7 +305,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             mapOfNewUniqueCaseList.put(uniqueKeyForCase, cas);
         }
 
-        caseCategoryConfigs = [SELECT Id, CCC_External_Id__c, Dedupe_Check__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mapOfcccExtIdToCaseList.keySet() WITH SECURITY_ENFORCED];
+        caseCategoryConfigs = [SELECT Id, CCC_External_Id__c, Exclude_Dedupe__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mapOfcccExtIdToCaseList.keySet() WITH SECURITY_ENFORCED];
         
         for(ASF_Case_Category_Config__c cccRecord: caseCategoryConfigs){
             mapOfcccExtIdToCCCRec.put(cccRecord.CCC_External_Id__c, cccRecord);
@@ -329,9 +329,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 existingCaseUniqueKey = exstingCaseAccountId + '-' + exstingCaseAssetId + '-' + exstingCaseCCCExternalId;
                 Case newCase  = mapOfNewUniqueCaseList.get(existingCaseUniqueKey) != null ? mapOfNewUniqueCaseList.get(existingCaseUniqueKey) : new Case();
                 String sourceOfnewCase = newCase?.Source__c?.toLowerCase() ?? '';
-                Boolean dedupeCheck = mapOfcccExtIdToCCCRec.get(newCase.CCC_External_Id__c)?.Dedupe_Check__c;
+                Boolean excludeDedupeCTST = mapOfcccExtIdToCCCRec.get(newCase.CCC_External_Id__c)?.Exclude_Dedupe__c;
 
-                if(newCase != null && !sourceToExcludeList.contains(sourceOfnewCase) && !sourceOfnewCase.containsIgnoreCase('BOT') && dedupeCheck) {
+                if(!excludeDedupeCTST && newCase != null && !sourceToExcludeList.contains(sourceOfnewCase)) {
                     Case cs = mapOfNewUniqueCaseList.get(existingCaseUniqueKey);
                     cs.addError('Existing case available in CRM# '+dupeCase.CaseNumber+',CaseSubType# '+dupeCase.Sub_Type_Text__c);
                 }
