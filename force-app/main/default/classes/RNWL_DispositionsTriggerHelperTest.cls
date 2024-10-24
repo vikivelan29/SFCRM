@@ -1,6 +1,7 @@
 @isTest
 public class RNWL_DispositionsTriggerHelperTest {
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
+
     @TestSetup
     public static void setup(){
         User objUser = new User(profileId = SYSTEMADMIN_PROFILE.Id, email = 'test1@salesforce.com',
