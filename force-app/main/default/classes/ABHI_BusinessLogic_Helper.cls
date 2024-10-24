@@ -40,6 +40,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             else {
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
+                abhiCsDetHelperObj.captureReopenFieldsOnCaseReopen(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }
         }
     }
@@ -432,5 +433,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
             ABCL_Logger.message(e.getMessage());
             ABCL_Logger.emit();
         }
-    }   
+    }  
 }
