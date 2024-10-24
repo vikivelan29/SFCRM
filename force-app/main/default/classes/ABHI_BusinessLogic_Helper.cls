@@ -489,7 +489,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             mapOfNewUniqueCaseList.put(uniqueKeyForCase, cas);
         }
 
-        caseCategoryConfigs = [SELECT Id, CCC_External_Id__c, Exclude_Dedupe__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mapOfcccExtIdToCaseList.keySet()];
+        caseCategoryConfigs = [SELECT Id, CCC_External_Id__c, Exclude_Dedupe__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mapOfcccExtIdToCaseList.keySet() WITH SECURITY_ENFORCED];
         
         for(ASF_Case_Category_Config__c cccRecord: caseCategoryConfigs){
             mapOfcccExtIdToCCCRec.put(cccRecord.CCC_External_Id__c, cccRecord);
