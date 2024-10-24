@@ -17,7 +17,7 @@ public with sharing class ABHI_CaseStageUpdateHelper {
         }
 
 Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Case_Category_Config__c >(
-        [SELECT Id,CCC_External_Id__c,Overall_Case_Closure_SLA__c,(SELECT Id,Order__c,StageName__c FROM Case_Stage_Configs__r)
+        [SELECT Id,CCC_External_Id__c,Overall_Case_Closure_SLA__c,Nature__c,(SELECT Id,Order__c,StageName__c FROM Case_Stage_Configs__r)
          FROM ASF_Case_Category_Config__c 
          WHERE CCC_External_Id__c IN :cccExternalIds]
     );
@@ -37,16 +37,18 @@ Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Ca
             }
             Integer orderValue = 0;
             String StageName;
+
           if (newCase.CCC_External_Id__c != null) {
         if (configMapByExternalId.containsKey(newCase.CCC_External_Id__c)) {
                 ASF_Case_Category_Config__c config = configMapByExternalId.get(newCase.CCC_External_Id__c);
                 Decimal overallSLA = config.Overall_Case_Closure_SLA__c;
+                String Nature = config.Nature__c;
             System.debug('Overall SLA: ' + overallSLA);
             if (!config.Case_Stage_Configs__r.isEmpty()) {
                 orderValue = (Integer)config.Case_Stage_Configs__r[0].Order__c;
                 StageName = config.Case_Stage_Configs__r[0].StageName__c;
               System.debug('Order Value: ' + orderValue);
-            }if (orderValue == 1 && overallSLA != null && overallSLA <= 2 && newCase.Stage__c == StageName){
+            }if (Nature=='Request' && newCase.Stage__c == StageName){
                 newCase.MoveToNext__c = true;     
                     } else {
                         System.debug('MoveToNext__c condition not met for case ' + newCase.Id);
