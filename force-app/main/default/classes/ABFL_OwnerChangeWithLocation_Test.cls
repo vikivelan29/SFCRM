@@ -121,7 +121,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
         //ABFL_Location_Master__c loc = [SELECT Id,Code__c,SPOC__c FROM ABFL_Location_Master__c WHERE Code__c = 'JOD' LIMIT 1];
         Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
-        system.runAs(usr)
+        //system.runAs(usr)
         { 
             Test.startTest(); 
             objCase[0].OwnerId= queueRecord.Id;
@@ -136,7 +136,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
         User usr = [SELECT Id FROM User WHERE Username = 'cdefghijk5657123456@gmail.com' LIMIT 1];
        // ABFL_Location_Master__c loc = [SELECT Id,Code__c,SPOC__c FROM ABFL_Location_Master__c WHERE Code__c = 'JAI' LIMIT 1];
         Group queueRecord = [SELECT Id FROM Group WHERE Type = 'Queue' AND DeveloperName = 'ABFL_Mortgage_CS' LIMIT 1];
-        system.runAs(usr)
+        //system.runAs(usr)
         { 
             Test.startTest(); 
             objCase[0].OwnerId= queueRecord.Id;
