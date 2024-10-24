@@ -11,7 +11,8 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterUtility implements ASF_
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
         //{'LOB':'MF','Issue Code':'MF1234', 'Category': 'Nature', 'Type' : 'Dcreject', 'Sub-Type': 'dcreject-checkquepayment','CLIENT CODE (LOB + PAN/PEKRN)' : 'MF-22344',
-        //'Folio':'1234566899','Owner Team': 'queue name', 'Owner AD ID': 'federation Id','Source':'Email','Channel': 'Social Media','Caller Type': 'Investor','Critical Request flag (Y/N)': 'Yes','PHD Compaint Source' : '', 'Description':'DescriptionXYZ', 'Send Auto Communication?':TRUE}
+        //'Folio':'1234566899','Owner Team': 'queue name', 'Owner AD ID': 'federation Id','Source':'Email',
+        //'Channel': 'Social Media','Caller Type': 'Investor','Critical Request flag (Y/N)': 'Yes','PHD Compaint Source' : '', 'Description':'DescriptionXYZ', 'Send Auto Communication?':TRUE}
 
         ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
