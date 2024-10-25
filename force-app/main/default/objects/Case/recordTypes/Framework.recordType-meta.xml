@@ -516,6 +516,7 @@
             <fullName>PPC</fullName>
             <default>false</default>
         </values>
+        <values>
             <fullName
       >Partial withdrawal refund credited to wrong account number%2F wrong policy</fullName>
             <default>false</default>
@@ -766,14 +767,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Show Cause Letter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Stale cheque</fullName>
             <default>false</default>
         </values>
@@ -818,7 +811,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
+            <fullName
+      >Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
             <default>false</default>
         </values>
         <values>
@@ -930,7 +924,8 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Website Premium paid certificate %2F Policy Statement</fullName>
+            <fullName
+      >Website Premium paid certificate %2F Policy Statement</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1140,14 +1135,6 @@
         </values>
         <values>
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Additional information required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rejected</fullName>
             <default>false</default>
         </values>
     </picklistValues>
