@@ -3,7 +3,7 @@
     <apiVersion>62.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>RNWL Premium Renewal Reminder - Not Contacted</name>
+    <name>RNWL Renewal Reminder to Right Party</name>
     <style>none</style>
     <subject>Renewal Reminder to Right Party</subject>
     <type>visualforce</type>

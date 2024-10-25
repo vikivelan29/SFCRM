@@ -3,7 +3,7 @@
     <available>true</available>
     <description>Win Back Campaign</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Win Back Campaign</name>
+    <name>RNWL Win Back Campaign</name>
     <relatedEntityType>Opportunity</relatedEntityType>
     <style>none</style>
     <subject>Renewal of your Health Insurance Policy No. {{{Opportunity.Policy_Number__c}}}</subject>

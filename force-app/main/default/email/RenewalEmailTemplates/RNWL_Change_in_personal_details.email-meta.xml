@@ -3,7 +3,7 @@
     <available>true</available>
     <description>Change in Personal Details for Policy No</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Change in personal details</name>
+    <name>RNWL Change in personal details</name>
     <relatedEntityType>Opportunity</relatedEntityType>
     <style>none</style>
     <subject>Change in Personal Details for Policy No. {{{Opportunity.Policy_Number__c}}}</subject>

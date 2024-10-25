@@ -3,7 +3,7 @@
     <apiVersion>62.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Request for payment link</name>
+    <name>RNWL Request for payment link</name>
     <style>none</style>
     <type>visualforce</type>
     <uiType>Aloha</uiType>

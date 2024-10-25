@@ -3,7 +3,7 @@
     <available>true</available>
     <description>Rejection of enhanced Sum Insured Request</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Rejection for Upsell</name>
+    <name>RNWL Rejection for Upsell</name>
     <relatedEntityType>Opportunity</relatedEntityType>
     <style>none</style>
     <subject>Rejection of enhanced Sum Insured Request for Policy No. {{{Opportunity.Policy_Number__c}}}</subject>
