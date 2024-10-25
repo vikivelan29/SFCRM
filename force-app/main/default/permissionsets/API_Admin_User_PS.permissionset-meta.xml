@@ -9125,6 +9125,7 @@
         <field>Policy_Nominee__c.NomineePercentage__c</field>
         <readable>true</readable>
     </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>Policy_Nominee__c.Policy_Number__c</field>
@@ -10406,10 +10407,6 @@
     </objectPermissions>
     <recordTypeVisibilities>
         <recordType>Account.Non_Individual</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <recordType>PersonAccount.ABSLI_Advisor</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
