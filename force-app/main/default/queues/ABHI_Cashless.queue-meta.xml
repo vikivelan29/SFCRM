@@ -5,10 +5,6 @@
     <queueMembers>
         <publicGroups>
             <publicGroup>ABHI_Cashless_G</publicGroup>
-    <name>ABHI Claims - DRM claims</name>
-    <queueMembers>
-        <publicGroups>
-            <publicGroup>ABHI_Claims_DRM_claims_G</publicGroup>
         </publicGroups>
     </queueMembers>
     <queueSobject>
