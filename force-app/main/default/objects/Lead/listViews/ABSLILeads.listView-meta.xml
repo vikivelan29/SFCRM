@@ -13,6 +13,6 @@
     </filters>
     <label>ABSLI Leads</label>
     <sharedTo>
-        <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
+        <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
     </sharedTo>
 </ListView>
