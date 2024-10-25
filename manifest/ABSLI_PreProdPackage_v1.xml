@@ -858,6 +858,10 @@
         <members>Asf_Dynamic_Datatable_Child__mdt.Type_Attributes__c</members>
 		<name>CustomField</name>
 	</types>
+    <types>
+		<members>Case.Tasks</members>
+		<name>CustomFeedFilter</name>
+	</types>
 	<types>
 		<members>ABCL_Integrations.ABSLI_Bank_Branch_Detail</members>
         <members>ABCL_Integrations.ABSLI_Bank_ESB_Integration</members>
@@ -1627,7 +1631,7 @@
         <members>Case.ABSLI_Pre_Issuance_Team_Case</members>
 		<members>Case.ABSLI_Set_Alerts_Case</members>
         <members>Case.ABSLI_UW_Query_Followup_Case</members>
-		<name>ListView</name>
+        <members>Lead.ABSLILeads</members>
 		<name>ListView</name>
 	</types>
     <types>
