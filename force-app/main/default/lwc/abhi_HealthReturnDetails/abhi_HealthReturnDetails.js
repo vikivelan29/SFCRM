@@ -93,7 +93,7 @@ export default class Abhi_HealthReturnDetails extends LightningElement {
                     this.healthReturnFormData = this.initHealthReturnFormData();
                 }
                 else {
-                    this.displayError = statusCode === 400 ? result?.Message : `Error: ${result?.Message}`;
+                    this.displayError = `Error: ${result?.Message}`;
                     this.healthReturnData = false;
                 }
             })
@@ -125,5 +125,5 @@ export default class Abhi_HealthReturnDetails extends LightningElement {
     handleRefresh() {
         this.isLoading = true;
         this.fetchHealthReturn_Data();
-    } 
+    }
 }
