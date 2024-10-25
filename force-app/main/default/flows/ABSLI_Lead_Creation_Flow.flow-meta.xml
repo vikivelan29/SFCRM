@@ -654,6 +654,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Policy_Number__c</field>
+            <value>
+                <elementReference>Policy_Number</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Product_LK__c</field>
             <value>
                 <elementReference>Product_Picklist</elementReference>
@@ -844,6 +850,28 @@
                         <elementReference>customerRequired</elementReference>
                     </isReadOnly>
                     <isRequired>false</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>recordId</leftValueReference>
+                            <operator>IsNull</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>Policy_Number</name>
+                    <dataType>String</dataType>
+                    <fieldText>Policy Number</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;Policy Number should be Number and cannot exceed 9 digits&lt;/p&gt;</errorMessage>
+                        <formulaExpression>REGEX({!Policy_Number}, &quot;^[0-9]{1,9}$&quot;)</formulaExpression>
+                    </validationRule>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
@@ -1178,6 +1206,10 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;Application Number should be alphanumeric and cannot exceed 10 characters&lt;/p&gt;</errorMessage>
+                        <formulaExpression>REGEX({!Application_No}, &quot;^[a-zA-Z0-9]{1,10}$&quot;)</formulaExpression>
+                    </validationRule>
                 </fields>
                 <fields>
                     <name>ANI_Number</name>

@@ -45,7 +45,7 @@ public class ABCL_AssetTriggerHelper {
 *****************************************************************************************************************/
     public static void updateProccessingStateduringInsert(List<Asset> newItems){ 
         for(Asset objAsset: newItems){
-            if(objAsset.Business_Unit__c == 'ABSLI' && (objAsset.Assign_to_DM__c == 'Yes' || objAsset.Channel__c == 'DM' || objAsset.Loyalty_Service_Agent_Name__c != null)){
+            if(objAsset.Business_Unit__c == 'ABSLI' && (objAsset.Assign_to_DM__c == 'Yes' || objAsset.Channel__c == 'DM' || (objAsset.Loyalty_Service_Agent_Name__c != null && objAsset.Loyalty_Service_Agent_Name__c != ''))){
             	objAsset.Processing_State__c = 'Pending';
         	}    
     	}

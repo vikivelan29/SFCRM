@@ -165,7 +165,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     }
                 }
                 if(apiErrMsg != ''){
-                    this.showNotification('error', 'Error!', this.label.toastErrorMsg + ' : ' + apiErrMsg);
+                    this.showNotification('error', 'Error!', this.label.toastErrorMsg + ' ' + apiErrMsg);
                 }
                 if(this.apiList && renCheckhArray){
                     if(this.apiList.includes('Renewal Check')){                
