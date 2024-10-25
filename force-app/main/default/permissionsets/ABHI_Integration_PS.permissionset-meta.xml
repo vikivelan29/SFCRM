@@ -992,6 +992,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+
         <field>Asset.AgentStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
