@@ -5,7 +5,7 @@
           <apex:outputPanel layout="block">
             <table style="width:100%; border-collapse:collapse; margin-top:20px; border: 1px solid #000;">
                <tr>
-                  <td colspan="3" style="text-align: center; font-weight: bold;"> {!objOpp.Plan_Name__c}</td>
+                  <td colspan="3" style="text-align: center; font-weight: bold;"> {!objOpp.Policy__r.Name}</td>
                </tr>
                <tr>
                   <th style="border: 1px solid #000; padding: 10px;">Name(s) of the Insured Members</th>
