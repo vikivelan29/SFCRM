@@ -99,7 +99,6 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                 let healthArray = [];
                 let fitnessArray = [];
                 let apiErrMsg = '';
-
                 for (let key in data) {
 
                     //For individual Or RUGs
