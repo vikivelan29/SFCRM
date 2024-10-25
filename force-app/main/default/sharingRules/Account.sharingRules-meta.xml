@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
-        <fullName>Wellness_Account_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <accountSettings>
-            <caseAccessLevel>Read</caseAccessLevel>
-            <contactAccessLevel>Read</contactAccessLevel>
-            <opportunityAccessLevel>None</opportunityAccessLevel>
-        </accountSettings>
-        <description>Used in Wellness</description>
-        <label>Wellness Account Sharing</label>
-        <sharedTo>
-            <role>Wellness_Service_Agent</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>Wellness</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
         <fullName>ABFL_Customer_Access</fullName>
         <accessLevel>Read</accessLevel>
         <accountSettings>
@@ -30,7 +10,7 @@
         </accountSettings>
         <label>ABFL Customer Access</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
@@ -182,9 +162,10 @@
             <contactAccessLevel>Read</contactAccessLevel>
             <opportunityAccessLevel>None</opportunityAccessLevel>
         </accountSettings>
-        <label>ABHI Account Sharing</label>
+        <description>ABHFL role</description>
+        <label>All ABHFL Customer To ABHFL User</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABHI_Service_Manager</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
