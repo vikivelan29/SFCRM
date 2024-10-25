@@ -856,6 +856,7 @@
         <members>Account.Supervisor_Mobile_Number__c</members>
         <members>ASF_Bulk_Row_to_Record_Converter_Config__mdt.Run_Assignment_Rule_on_Create__c</members>
         <members>Asf_Dynamic_Datatable_Child__mdt.Type_Attributes__c</members>
+        <members>Lead.Policy_Number__c</members>
 		<name>CustomField</name>
 	</types>
     <types>
@@ -1346,6 +1347,7 @@
         <members>LOBMappingDetails__mdt</members>
         <members>LOBVsAPIChannels__mdt</members>
         <members>IGMS_Classification_Mapping__mdt</members>
+        <members>ASF_Case_Integration__c</members>
 		<name>CustomObject</name>
 	</types>
     <types>
