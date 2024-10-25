@@ -4,7 +4,7 @@ global with sharing class RNWL_EmailTemplateVFCController{
     
     global Opportunity objOpp{
         get {
-            objOpp = [Select Id, Plan_Name__c, Account.RecordType.Name, Policy_Number__c, Premium_Amount__c FROM Opportunity WHERE Id =: oppId];
+            objOpp = [Select Id, Account.RecordType.Name, Policy_Number__c, Premium_Amount__c , Policy__c, Policy__r.Name, Policy__r.Sum_Assured__c FROM Opportunity WHERE Id =: oppId];
             return objOpp; 
         }
         set;
@@ -42,9 +42,16 @@ global with sharing class RNWL_EmailTemplateVFCController{
                         
                         for(object member : lstRawMember){   
                             Map<String, Object> member_Map = (Map<String, Object>)member;   
+                            String strInsured = '-';    
+                            List<Object> lstMemberproduct = (List<Object>)member_Map.get('MemberproductComponents');
+                            
+                            if(!lstMemberproduct.isEmpty()){
+                                Map<String, Object> memberCP_Map = (Map<String, Object>)lstMemberproduct[0];   
+                                strInsured = String.valueOf(memberCP_Map.get('SumInsured'));
+                            }  
                             MemberUIResponseWrapper objMemberUIResponseWrapper = new MemberUIResponseWrapper();
                             objMemberUIResponseWrapper.Name = String.valueOf(member_Map.get('Name'));
-                            objMemberUIResponseWrapper.SumAssured = String.valueOf(member_Map.get('SumInsured'));
+                            objMemberUIResponseWrapper.SumAssured = strInsured; 
                             lstMembers.add(objMemberUIResponseWrapper);
                         } 
                     }
