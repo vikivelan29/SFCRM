@@ -19,7 +19,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABFL Cases to ABFL Users</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
         </sharedTo>
         <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
