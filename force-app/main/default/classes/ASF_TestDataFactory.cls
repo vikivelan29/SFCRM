@@ -69,6 +69,7 @@ public with sharing class ASF_TestDataFactory {
        objAccount.LastName = String.isNotBlank(strLastName)?strLastName:'TestFirstName';
        objAccount.Client_Code__c = String.isNotBlank(strCRN)? strCRN: String.valueOf( Integer.valueof((Math.random() * 100)));
        objAccount.RecordTypeId = recordTypeId;
+       objAccount.PersonEmail='test@testing.com'; 
        if(Schema.sObjectType.Account.isCreateable()){
             insert objAccount;
        }
