@@ -1346,6 +1346,7 @@
         <members>LOBMappingDetails__mdt</members>
         <members>LOBVsAPIChannels__mdt</members>
         <members>IGMS_Classification_Mapping__mdt</members>
+        <members>ASF_Case_Integration__c</members>
 		<name>CustomObject</name>
 	</types>
     <types>
