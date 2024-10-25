@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
         <apexClass>ABCL_AssetTriggerHandler</apexClass>
@@ -192,6 +192,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_SLA_History__c.Assigned_Team__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Case_SLA_History__c.Is_Owner_Changed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -962,6 +967,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.PlanCode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Plan_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2622,6 +2632,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>WellnessCaseDetail__c.ActivitySubject__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WellnessCaseDetail__c.Billable_Time_Actual__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WellnessCaseDetail__c.Billable_Time_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
