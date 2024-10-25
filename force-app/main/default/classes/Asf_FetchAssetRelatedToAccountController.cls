@@ -97,6 +97,10 @@ public with sharing class Asf_FetchAssetRelatedToAccountController {
                     typeAttrbtObj.month = 'numeric';
                     typeAttrbtObj.year  = 'numeric';
                 }
+                else if(fieldType == 'date-local') {
+                    typeAttrbtObj.day   = '2-digit';
+                    typeAttrbtObj.month = '2-digit';
+                }
                 else if(fieldType == 'url') {
                     if(fieldApiName == 'LAN__r.Name') {
                         colNameObj.fieldName = 'assetNameRecLink';

@@ -13,6 +13,7 @@ SR nature: {!Case.Nature__c}
 SR type : {!Case.Type_Text__c}
 Created Date/Time: {!Case.CreatedDate}
 Created By: {!Case.CreatedBy}
+Overall Case Closure SLA: {!Case.Overall_Case_Closure_SLA__c}
 =============================================================================
 SR Assignment Details
 =============================================================================
