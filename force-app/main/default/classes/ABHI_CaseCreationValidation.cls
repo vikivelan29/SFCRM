@@ -5,8 +5,6 @@ public class ABHI_CaseCreationValidation {
         List<Case> validCases = new List<Case>();
         Map<Id,Asset> caseIdVsPolicy = new Map<Id,Asset>();
         Set<Id> policyIds = new Set<Id>();
-        Map<id,Case> caseIdVsCase = new Map<Id,Case>();
-        List<String> plan = new List<String>{'Premier Plan', 'Classic Plan', 'Standard Plan'};
         for(Case c: cases){
             if(c.Business_Unit__c=='ABHI' && c.Technical_Source__c=='LWC'){
             	issueCodes.add(c.CCC_External_Id__c);
@@ -15,17 +13,10 @@ public class ABHI_CaseCreationValidation {
             }
         }
         
-        Map<Id, Asset> policyMap = new Map<Id, Asset>([SELECT Id, Status, Plan_Name__c FROM Asset WHERE Id IN :policyIds]);
+        Map<Id, Asset> policyMap = new Map<Id, Asset>([SELECT Id, Status FROM Asset WHERE Id IN :policyIds]);
         for(Case c: validCases){
             if(policyMap.containsKey(c.AssetId)){
                 caseIdVsPolicy.put(c.Id,policyMap.get(c.AssetId));
-                caseIdVsCase.put(c.Id,c);
-            }
-        }
-        
-        for(Case c: validCases){
-            if(caseIdVsCase.containskey(c.Id) && caseIdVsCase.get(c.Id).CCC_External_Id__c == 'ABHI_Endorsement_Request17' && caseIdVsPolicy.containskey(c.Id) && plan.contains(caseIdVsPolicy.get(c.Id).Plan_Name__c)){
-                c.addError('Addition of new born member is not allowed as per policy T&C');
             }
         }
         if(issueCodes.size()>0 && !caseIdVsPolicy.isEmpty()){
@@ -43,7 +34,7 @@ public class ABHI_CaseCreationValidation {
                 if(issueCodeVsMdt.containsKey(cs.CCC_External_Id__c) &&
                    issueCodeVsMdt.get(cs.CCC_External_Id__c).Business_Unit__c=='ABHI')
                 {
-                	List<String> policyStatuses = issueCodeVsMdt.get(cs.CCC_External_Id__c)?.Asset_Status__c?.split(',');
+                	List<String> policyStatuses = issueCodeVsMdt.get(cs.CCC_External_Id__c).Asset_Status__c.split(',');
                     String oprtr = issueCodeVsMdt.get(cs.CCC_External_Id__c).Operator__c;
                     switch on oprtr{
                         when 'IN'{

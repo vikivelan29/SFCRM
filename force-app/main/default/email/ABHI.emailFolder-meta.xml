@@ -3,7 +3,7 @@
     <folderShares>
         <accessLevel>Manage</accessLevel>
         <sharedTo>ABHI_Service_Manager</sharedTo>
-        <sharedToType>RoleAndSubordinates</sharedToType>
+        <sharedToType>RoleAndSubordinatesInternal</sharedToType>
     </folderShares>
     <name>ABHI</name>
 </EmailTemplateFolder>
