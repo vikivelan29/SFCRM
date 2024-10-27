@@ -8,7 +8,8 @@ public with sharing class ASF_TriggerSkipperUtility {
         'Case-Before'=>true,
         'Case-After'=>true,
         'User-After'=>true,
-        'ASF_Case_Integration__c-After'=>true
+        'ASF_Case_Integration__c-After'=>true,
+        'CaseComment-Before'=>true
     };
     
     
