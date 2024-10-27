@@ -15,9 +15,19 @@ public class RNWL_DispositionsTriggerHelper {
                 String L1= dispositionsPriorityMap.get(name).L1__c;
                 String L2= dispositionsPriorityMap.get(name).L2__c;
                 String L3= dispositionsPriorityMap.get(name).L3__c;
-                If(L1 == disp.Disposition_L1__c && L2 == disp.Disposition_L2__c && L3 == disp.Disposition_L3__c){
+                String L4= dispositionsPriorityMap.get(name).L4__c;
+				String L5= dispositionsPriorityMap.get(name).L5__c;
+				String L6= dispositionsPriorityMap.get(name).L6__c;
+				String L7= dispositionsPriorityMap.get(name).L7__c;                
+                String type = dispositionsPriorityMap.get(name).Type__c;
+                If(L1 == disp.Disposition_L1__c && L2 == disp.Disposition_L2__c && L3 == disp.Disposition_L3__c && type == 'Priority'){
                     disp.Priority__c = dispositionsPriorityMap.get(name).Priority__c;
-                }
+                } 
+                If(L1 == disp.Disposition_L1__c && L2 == disp.Disposition_L2__c && L3 == disp.Disposition_L3__c && 
+                   L4 == disp.Disposition_L4__c  && L5 == disp.Disposition_L5__c && L6 == disp.Disposition_L6__c && 
+                   L7 == disp.Disposition_L7__c && type == 'Dashboard'){
+                    disp.Dashboard_Category__c = dispositionsPriorityMap.get(name).Dashboard_Category__c;
+                } 
 		    }
         }
         
@@ -45,8 +55,9 @@ public class RNWL_DispositionsTriggerHelper {
                 String L1= dispositionsPriorityMap.get(name).L1__c;
                 String L2= dispositionsPriorityMap.get(name).L2__c;
                 String L3= dispositionsPriorityMap.get(name).L3__c;
+                String type = dispositionsPriorityMap.get(name).Type__c;
                 Integer priority = (Integer) dispositionsPriorityMap.get(name).Priority__c;
-                If(L1 == disItem.Disposition_L1__c && L2 == disItem.Disposition_L2__c && L3 == disItem.Disposition_L3__c){
+                If(L1 == disItem.Disposition_L1__c && L2 == disItem.Disposition_L2__c && L3 == disItem.Disposition_L3__c && type == 'Priority'){
                     if(disItem.Priority__c != priority){
                         Dispositions__c dispObj = new Dispositions__c();
                         dispObj.Id = disItem.Id;
@@ -87,6 +98,42 @@ public class RNWL_DispositionsTriggerHelper {
 
         for(Dispositions__c disp : dispositions){
                 disp.Renewal_Request__c = polToOppMap.get(disp.Policy_Number__c);
+        }
+    }
+
+    public static void updateDispositionsOnOpportunity(Map<Id, Dispositions__c> newItems, Map<Id, Dispositions__c> oldItems){
+        Set<Id> oppIds = new Set<Id>();
+
+        try{
+            for(Dispositions__c dis : newItems.values()){
+                if(oldItems == null 
+                || oldItems.get(dis.Id).Renewal_Request__c != dis.Renewal_Request__c 
+                || oldItems.get(dis.Id).Priority__c != dis.Priority__c){
+                    if(dis.Renewal_Request__c != null)oppIds.add(dis.Renewal_Request__c);
+                }
+            }
+    
+            if(oppIds.size() > 0){
+                List<Opportunity> relatedRenewalReq = [SELECT Id, 
+                                                            (SELECT ID,Priority__c 
+                                                            FROM Dispositions__r ORDER BY CreatedDate DESC)
+                                                       FROM Opportunity WHERE ID IN:oppIds ];
+                
+                for(Opportunity opp : relatedRenewalReq){
+                    opp.Latest_Disposition__c = opp.Dispositions__r[0].Id;
+    
+                    Integer priority;
+                    for(Dispositions__c disp : opp.Dispositions__r){
+                        if(disp.Priority__c != null && (priority == null || disp.Priority__c < priority)){
+                            opp.Best_Disposition__c = disp.Id;
+                        }
+                    }
+                }       
+                
+                update relatedRenewalReq;
+            }
+        }catch(Exception e){
+            System.debug(e.getMessage());
         }
     }
 }
