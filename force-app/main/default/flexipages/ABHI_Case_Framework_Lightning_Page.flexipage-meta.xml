@@ -208,27 +208,6 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Case.Reopen_Case</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Nature__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Complaint</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Stage__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Resolved</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Reopened__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -332,30 +311,20 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
+                <fieldItem>Record.ABHI_Case_Detail__r.Sync_Status__c</fieldItem>
+                <identifier>RecordABHI_Case_Detail_rSync_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABHI_Case_Detail__r.First_Resolution_Date_time__c</fieldItem>
+                <identifier>RecordABHI_Case_Detail_rFirst_Resolution_Date_time_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.ABHI_Case_Detail__r.IGMS_Complaint_Against_Type__c</fieldItem>
                 <identifier>RecordABHI_Case_Detail_rIGMS_Complaint_Against_Type_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.ABHI_Case_Detail__r.IGMS_Branch_Code__c</fieldItem>
-                <identifier>RecordABHI_Case_Detail_rIGMS_Branch_Code_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Existing_Pan_Card_Number__c</fieldItem>
-                <identifier>RecordExisting_Pan_Card_Number__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Proposal_Number__c</fieldItem>
-                <identifier>RecordProposal_Number__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ca0e8d0a-3eec-4299-b0f8-cb2507ae0939</name>
@@ -382,6 +351,12 @@
             <fieldInstance>
                 <fieldItem>Record.ABHI_Case_Detail__r.User_Type__c</fieldItem>
                 <identifier>RecordABHI_Case_Detail_rUser_Type_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABHI_Case_Detail__r.IGMS_Branch_Code__c</fieldItem>
+                <identifier>RecordABHI_Case_Detail_rIGMS_Branch_Code_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1419,7 +1394,7 @@
         </properties>
         <properties>
             <name>saveOptions</name>
-            <value>[{&quot;name&quot;:&quot;UseDefaultAssignmentRule&quot;,&quot;value&quot;:&quot;SHOW_CHECKBOX_WITH_DEFAULT_OFF&quot;},{&quot;name&quot;:&quot;triggerOtherEmail&quot;,&quot;value&quot;:&quot;SHOW_CHECKBOX_WITH_DEFAULT_OFF&quot;}]</value>
+            <value>[{&quot;name&quot;:&quot;UseDefaultAssignmentRule&quot;,&quot;value&quot;:&quot;NONE&quot;},{&quot;name&quot;:&quot;triggerOtherEmail&quot;,&quot;value&quot;:&quot;SHOW_CHECKBOX_WITH_DEFAULT_OFF&quot;}]</value>
         </properties>
     </template>
     <type>RecordPage</type>
