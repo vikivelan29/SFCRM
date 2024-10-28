@@ -1880,6 +1880,7 @@
         <members>ABSLI_Case_Detail__c.Req_Loan_is_greater_than_max_loan</members>
         <members>ABSLI_Case_Detail__c.Req_Loan_is_less_than_min_loan</members>
         <members>Lead.MobilePhone_Validation</members>
+        <members>User.Restrict_User_Record_Updation</members>
 		<name>ValidationRule</name>
 	</types>
     <types>
