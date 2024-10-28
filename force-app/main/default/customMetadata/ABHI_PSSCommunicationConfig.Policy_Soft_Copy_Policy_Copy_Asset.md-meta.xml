@@ -3,6 +3,166 @@
     <label>Policy Soft Copy(Policy Copy)Asset</label>
     <protected>false</protected>
     <values>
+        <field>ALERTV10__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV11__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV12__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV13__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV14__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV15__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV16__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV17__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV18__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV19__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV1__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV20__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV21__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV22__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV23__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV24__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV25__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV26__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV27__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV28__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV29__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV2__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV30__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV31__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV32__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV33__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV34__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV35__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV36__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV37__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV38__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV39__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV3__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV40__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV4__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV5__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV6__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV7__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV8__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ALERTV9__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Alert_Code__c</field>
         <value xsi:type="xsd:double">2.0</value>
     </values>

@@ -25,12 +25,12 @@
                                 <lightning-layout-item padding="around-small" size="12">
                                     <lightning-input type="password" label="PAN" value={PAN_Number} required
                                         disabled={showFetchResponse}
-                                        onchange={handleOriginalTextChange}></lightning-input>
+                                        onchange={handleOriginalTextChange} pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"></lightning-input>
                                 </lightning-layout-item>
                                 
                                 <lightning-layout-item padding="around-small" size="12">
                                     <lightning-input type={confirmFieldType} required class="slds-m-top_small" label="Re enter PAN"
-                                    onchange={handleConfirmTextChange} disabled={showFetchResponse}></lightning-input>
+                                    onchange={handleConfirmTextChange} disabled={showFetchResponse} pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"></lightning-input>
                                 </lightning-layout-item>
                                 <lightning-layout-item padding="around-small" size="12">
                                     <lightning-input type="text" label="Name" required

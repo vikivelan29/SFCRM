@@ -83,7 +83,16 @@ public with sharing class ABHI_CreatePolicy {
             //Get master account Id
             masterPolicy = [SELECT Id,AccountId, Account.LOB_Client_Code__c FROM Asset WHERE LAN__c = :masterPolicyNumber];
            
-        }    
+        }   
+        //throw exception if master policy doesn't exists
+        if(!String.isBlank(masterPolicyNumber) && (masterPolicy == null || masterPolicy.isEmpty())) {
+            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
+            ABCL_Integrations__mdt integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata('ABHI_CreateCRMPolicy_Inbound');
+            ASF_Case_Integration__c caseIntg = new ASF_Case_Integration__c(Type__c = 'CreateCRMPolicy');
+            integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, ABHI_Constants.MASTER_POLICY_ERROR), true);
+            ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
+            throw new IllegalArgumentException(integrationResponse.responseBody);
+        }
         //<-------- Customer data starts ------>
         for(Map<String,Object> customer : mapCustList) {
             acc = new Account();
@@ -97,10 +106,10 @@ public with sharing class ABHI_CreatePolicy {
             //isBusinessAccount = customer.get('CustomerType') == 'Group' ? true : false;
             
             if(customer.get('AddressType') == ABHI_Constants.PERMANENT) {
-                acc.put('BillingStreet', createAddress((String)customer.get('AddressLine1'), (String)customer.get('AddressLine2'), (String)customer.get('AddressLine3')));
+                acc.put('Street_Address_1__c', createAddress((String)customer.get('AddressLine1'), (String)customer.get('AddressLine2'), (String)customer.get('AddressLine3')));
             }
             else if(customer.get('AddressType') == ABHI_Constants.OTHER) {
-                acc.put('ShippingAddress', createAddress((String)customer.get('address2Line1'), (String)customer.get('Address2Line2'), (String)customer.get('Address3Line3')));
+                acc.put('Street_Address_2__c', createAddress((String)customer.get('Address2Line1'), (String)customer.get('Address2Line2'), (String)customer.get('Address3Line3')));
             }    
             //Creating contact for business accounts
             if(isBusinessAccount) {
@@ -174,6 +183,9 @@ public with sharing class ABHI_CreatePolicy {
                             refObject.put(mapObjectFieldMapping.get('Customer_Member_Mapping').get(json).split(':')[1], cusMap.get(json.split(':')[0]));
                             cusMemMapping.putSObject(mapObjectFieldMapping.get('Customer_Member_Mapping').get(json).split(':')[0], refObject);
                         }
+                        when 'Date' {
+                            cusMemMapping.put(mapObjectFieldMapping.get('Customer_Member_Mapping').get(json), cusMap.get(json.split(':')[0]) != null && cusMap.get(json.split(':')[0]) != ''?Date.valueOf(cusMap.get(json.split(':')[0])).toString():null);
+                        }
                         when else {
                             cusMemMapping.put(mapObjectFieldMapping.get('Customer_Member_Mapping').get(json), cusMap.get(json.split(':')[0]));
                         }
@@ -207,7 +219,7 @@ public with sharing class ABHI_CreatePolicy {
         
         if(!mapPreviousPolicyList.isEmpty()) {
             List<Previous_Policy_Details__c> previousPolicy = createPreviousPolicy(mapPreviousPolicyList, mapObjectFieldMapping.get('Previous_Policy_Details'), policy);
-        	upsert previousPolicy PreviousPolicyNumber__c ;
+        	upsert previousPolicy ;
         }
         ABHI_CreateCRMPolicy.proposalNumber = policyMap.get('ProposalNumber').toString();
         //return  policyMap.get('ProposalNumber').toString();
@@ -231,7 +243,7 @@ public with sharing class ABHI_CreatePolicy {
                     policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != ''?Date.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):null);
                 }
                 when 'Boolean' {
-                    policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null?Boolean.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):false);
+                    policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != 'No'?Boolean.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):false);
                     
                 }
                 when 'ID' {
@@ -257,7 +269,6 @@ public with sharing class ABHI_CreatePolicy {
         /*Setting LAN__c ext Id to the Policy no
          First time PolicyNumber will be blank*/
         if(policyMap.get('PolicyNumber') != null) {
-            System.debug('@@@LAN__c'+policyMap.get('PolicyNumber'));
             policy.put('LAN__c', policyMap.get('PolicyNumber'));
             policy.put('Name', policyMap.get('PolicyNumber'));
         }
@@ -298,7 +309,7 @@ public with sharing class ABHI_CreatePolicy {
                         //policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != ''?(Date)(nominee.get(nomineeMapping.split(':')[0])):null);
                     }
                     when 'Boolean' {
-                        policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null?Boolean.valueOf(nominee.get(nomineeMapping.split(':')[0]).toString()):false); 
+                        policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != 'No'?Boolean.valueOf(nominee.get(nomineeMapping.split(':')[0]).toString()):false); 
                     }
                     when 'ID' {
                         policyNominee.put(nomineeFieldMapping.get(nomineeMapping), policy.Id);
@@ -359,9 +370,9 @@ public with sharing class ABHI_CreatePolicy {
     * @description - this method creates address based on input
     */
     private static String createAddress(String street1, String street2, String street3) {
-        String result = (street1 != NULL ? street1 : '')+
-            (street2 != NULL ? street2 : '')+
-            (street3 != NULL ? street3 : '');
+        String result = (street1 != null && street1 != 'null'? street1 : '')+
+            (street2 != null && street2 != 'null' ? street2 : '')+
+            (street3 != null && street3 != 'null'? street3 : '');
         
         return result.length()>255?result.substring(0, 255):result;
     }

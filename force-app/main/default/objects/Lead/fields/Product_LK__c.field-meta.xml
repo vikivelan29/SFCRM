@@ -6,10 +6,16 @@
     <label>Product</label>
     <lookupFilter>
         <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
         <filterItems>
             <field>Product2.Business_Unit__c</field>
             <operation>equals</operation>
             <valueField>$User.Business_Unit__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Product2.Business_Unit__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Business_Unit__c</valueField>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
@@ -18,6 +24,5 @@
     <relationshipName>Leads</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
     <type>Lookup</type>
 </CustomField>

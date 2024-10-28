@@ -1,0 +1,21 @@
+{
+    "contractNo": 10217056,
+    "totalPointScore": 95.00,
+    "tierLevel": "Bronze",
+    "pointToRetainCurrLevel": 0,
+    "categoryPercentage": [
+        {
+            "categoryName": "Know your Health",
+            "categoryPercentage": "6.00 %"
+        },
+        {
+            "categoryName": "Get Active",
+            "categoryPercentage": "3.00 %"
+        },
+        {
+            "categoryName": "Bonus Medals",
+            "categoryPercentage": "6.00 %"
+        }
+    ],
+    "memberDetails": []
+}

@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">Call disconnected</value>
+        <value xsi:type="xsd:string">Call Disconnected</value>
     </values>
 </CustomMetadata>

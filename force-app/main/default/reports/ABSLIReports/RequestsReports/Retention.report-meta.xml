@@ -71,13 +71,25 @@
     <columns>
         <field>Case$Asset.Advisor__c.Agent_Sub_Category__c</field>
     </columns>
+    <columns>
+        <field>Case$Asset.Channel__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Branch_Code__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Zone__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Region__c</field>
+    </columns>
     <filter>
         <criteriaItems>
             <column>Case$CCC_External_Id__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>PPAY003</value>
+            <value>PPAY003,PPAY001</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>

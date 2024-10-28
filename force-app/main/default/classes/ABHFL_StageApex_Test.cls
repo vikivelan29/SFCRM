@@ -8,7 +8,7 @@ public class ABHFL_StageApex_Test {
         //Create BranchMaster
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
-	branchMstr.UniqueKey__c = '234234';
+	branchMstr.UniqueKey__c = 'ABHFL_250004_MEEUP21_2/507#MEERUT';
         insert branchMstr;
         //Create Asset
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
@@ -20,6 +20,7 @@ public class ABHFL_StageApex_Test {
         //Create Case Extension record
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
+        caseDetail.Preferred_Branch__c = branchMstr.UniqueKey__c;
         insert caseDetail;
        
         //Create Case

@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">Conected</value>
+        <value xsi:type="xsd:string">Connected</value>
     </values>
 </CustomMetadata>

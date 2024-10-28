@@ -1,0 +1,47 @@
+{
+    "Response": [
+        {
+            "vchPolicyNumber": "21-23-3927597-00",
+            "vchClientCode": "PT97112011",
+            "Name": "NEHA GOYAL",
+            "Year": "2023",
+            "Month": "8",
+            "HealthAssessment": "0",
+            "HealthyHeartScore": "",
+            "FitnessAssessment": "0",
+            "ActiveDays": "5",
+            "HealthReturnsforrespectivemonth": "0.0",
+            "ChronicMgmtProgramCompliance": "",
+            "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0",
+            "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0",
+            "TotalHealthReturnsTMEarned": "50.0",
+            "TotalHealthReturnsTMBurnt": "40.0",
+            "TotalHealthReturnsTM": "30",
+            "HealthQuestionnaire": "",
+            "HRPercentage": "0.0"
+        },
+        {
+            "vchPolicyNumber": "21-23-3927597-00",
+            "vchClientCode": "PT97112011",
+            "Name": "NEHA GOYAL",
+            "Year": "2023",
+            "Month": "9",
+            "HealthAssessment": "80",
+            "HealthyHeartScore": "",
+            "FitnessAssessment": "90",
+            "ActiveDays": "50",
+            "HealthReturnsforrespectivemonth": "60",
+            "ChronicMgmtProgramCompliance": "",
+            "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "60",
+            "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "50",
+            "TotalHealthReturnsTMEarned": "50",
+            "TotalHealthReturnsTMBurnt": "30",
+            "TotalHealthReturnsTM": "20",
+            "HealthQuestionnaire": "Completed",
+            "HRPercentage": "20"
+        }
+    ],
+    "StatusCode": 1000,
+    "Message": "Success"
+
+}

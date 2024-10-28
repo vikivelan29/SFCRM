@@ -119,6 +119,9 @@
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -203,6 +206,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -289,6 +295,9 @@
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -365,6 +374,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

@@ -3,5 +3,5 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">Dear Customer, Fund Value details for your Aditya Birla Sunlife Insurance Pol No.{{{ASF_Communication_Log__c.Policy_No__c}}} as on Date: {{{ASF_Communication_Log__c.CreatedDate}}} is Rs.{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}<br />
-For more information please download your policy account statement from below link. https://abcap.co.in/gMUPgro Regards, ABSLI</body>
+For more information please download your policy account statement from below link. https://abcap.co.in/ABCABS/47358J6 Regards, ABSLI</body>
 </html>

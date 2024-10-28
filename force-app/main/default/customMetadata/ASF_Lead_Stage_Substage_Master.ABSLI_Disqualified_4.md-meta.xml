@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">Hung up</value>
+        <value xsi:type="xsd:string">Hung Up</value>
     </values>
 </CustomMetadata>

@@ -8,6 +8,7 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Business_Unit__c</controllingField>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -45,6 +46,23 @@
                 <default>false</default>
                 <label>Sanctioned</label>
             </value>
+            <value>
+                <fullName>Open</fullName>
+                <default>false</default>
+                <label>Open</label>
+            </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Disqualified</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Qualified</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Open</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

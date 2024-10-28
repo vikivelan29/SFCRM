@@ -55,6 +55,7 @@ public with sharing class ABCL_CommonCLass {
         if(bhList.size() > 0) {
             
             for(BusinessHours bh : bhList) {
+                system.debug('line no 58 BH-->'+bh);
                 String bussHrName = bh.Name;
                 if(bussHrName.containsIgnoreCase('ABHFL')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABHFL', bh);
@@ -73,6 +74,11 @@ public with sharing class ABCL_CommonCLass {
                 }
                 else if(bussHrName.containsIgnoreCase('ABSLAMC')){
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLAMC', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ABHI')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABHI', bh);
+                }else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
+                    mapOf_BusinessUnit_To_BusinessHr.put('Wellness', bh);
                 }
             }
             
@@ -144,10 +150,10 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /**
-* @Function - populateCreatedDateRange
-* @param newItems -  map of Case from trigger.new.
-* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
-**/
+	* @Function - populateCreatedDateRange
+	* @param newItems -  map of Case from trigger.new.
+	* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
+	**/
     public void populateCreatedDateRange(List<Case> newItems) {
         
         Datetime currentDatetime = System.now();
@@ -166,11 +172,11 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /**
-* @Function - populateCreatedDateRange
-* @param calculateMinutes -  Time in minutes.
-* @return - String
-* @description - Method to calculate the SLA Overwrite Identifier
-**/
+	* @Function - populateCreatedDateRange
+	* @param calculateMinutes -  Time in minutes.
+	* @return - String
+	* @description - Method to calculate the SLA Overwrite Identifier
+	**/
     @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         

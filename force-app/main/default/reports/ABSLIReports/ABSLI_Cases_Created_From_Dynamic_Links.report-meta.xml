@@ -72,6 +72,18 @@
     <columns>
         <field>ASF_Communication_Log__c$Case__c.ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
     </columns>
+    <columns>
+        <field>ASF_Communication_Log__c$CreatedBy.Branch_Name__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Communication_Log__c$CreatedBy.Branch_Code__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Communication_Log__c$CreatedBy.Region__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Communication_Log__c$CreatedBy.Zone__c</field>
+    </columns>
     <description>This report is useful to get Cases Created from Dynamic Link SMS.</description>
     <filter>
         <criteriaItems>

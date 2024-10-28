@@ -3,7 +3,7 @@
     <fullName>ZoneOfCover__c</fullName>
     <description>ABHI</description>
     <externalId>false</externalId>
-    <label>Zone Of Cover</label>
+    <label>Policy Zone</label>
     <length>100</length>
     <required>false</required>
     <trackHistory>false</trackHistory>

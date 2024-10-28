@@ -283,11 +283,131 @@
             <fullName>Unattended</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Open</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Lead_Sub_Stage__c</picklist>
         <values>
+            <fullName>Application Logged</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Appointment Scheduled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Busy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Back</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Disconnected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Connected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Different Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Existing Customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow Up</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Fresh</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Funds Not Available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hung Up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Language Barrier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Looking For Job</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical Unfit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Met Follow Up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Met Not Interested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Serviceable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Contacted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Eligible</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Interested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Met Not Interested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Reachable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opted Competitors Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Plan to Invest Later</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ringing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switched Off</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wrong No%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>

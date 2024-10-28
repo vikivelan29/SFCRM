@@ -5,7 +5,7 @@ public with sharing class ABSLI_DtoCLeadIntegration {
         for(Lead ld : newleads){
             leadIds.add(ld.Id);
         }
-        List<Lead> leads = [SELECT ID,FirstName,LastName,External_Lead_ID__c,Rating,Name,MobilePhone,Email,Asset__c,Asset__r.Policy_No__c,
+        List<Lead> leads = [SELECT ID,FirstName,LastName,External_Lead_ID__c,Rating,Name,MobilePhone,Email,
                             City__c,PIN_Code__c,Product_LK__c,Product_LK__r.Name, 
                             OwnerId, Owner.Name,ABSLI_Lead_Type__c FROM Lead WHERE Id =: leadIds];
         for(Lead ld : leads){

@@ -4,6 +4,40 @@
         <active>true</active>
         <default>false</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
+        <fridayStartTime>09:30:00.000Z</fridayStartTime>
+        <mondayEndTime>18:30:00.000Z</mondayEndTime>
+        <mondayStartTime>09:30:00.000Z</mondayStartTime>
+        <name>ABHI</name>
+        <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
+        <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
+        <timeZoneId>Asia/Kolkata</timeZoneId>
+        <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
+        <tuesdayStartTime>09:30:00.000Z</tuesdayStartTime>
+        <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
+        <wednesdayStartTime>09:30:00.000Z</wednesdayStartTime>
+    </businessHours>
+    <businessHours>
+        <active>true</active>
+        <default>false</default>
+        <fridayEndTime>18:30:00.000Z</fridayEndTime>
+        <fridayStartTime>09:30:00.000Z</fridayStartTime>
+        <mondayEndTime>18:30:00.000Z</mondayEndTime>
+        <mondayStartTime>09:30:00.000Z</mondayStartTime>
+        <name>Wellness</name>
+        <saturdayEndTime>18:30:00.000Z</saturdayEndTime>
+        <saturdayStartTime>09:30:00.000Z</saturdayStartTime>
+        <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
+        <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
+        <timeZoneId>Asia/Kolkata</timeZoneId>
+        <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
+        <tuesdayStartTime>09:30:00.000Z</tuesdayStartTime>
+        <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
+        <wednesdayStartTime>09:30:00.000Z</wednesdayStartTime>
+    </businessHours>
+    <businessHours>
+        <active>true</active>
+        <default>false</default>
+        <fridayEndTime>18:30:00.000Z</fridayEndTime>
         <fridayStartTime>09:00:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
         <mondayStartTime>09:00:00.000Z</mondayStartTime>
@@ -181,6 +215,30 @@
         <name>1st Saturday SEP</name>
     </holidays>
     <holidays>
+        <activityDate>2024-07-17</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>17th July</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-06-17</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>17th June EID</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-11-01</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>1st Nov</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-03-25</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>25th March</name>
+    </holidays>
+    <holidays>
         <activityDate>2024-04-13</activityDate>
         <businessHours>ABHFL</businessHours>
         <description>2nd Saturday APR</description>
@@ -264,15 +322,30 @@
         <name>2nd Saturday SEP</name>
     </holidays>
     <holidays>
+        <activityDate>2024-03-08</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>8th March</name>
+    </holidays>
+    <holidays>
+        <activityDate>2024-04-09</activityDate>
+        <businessHours>ABHI</businessHours>
+        <isRecurring>false</isRecurring>
+        <name>9th April</name>
+    </holidays>
+    <holidays>
         <activityDate>2024-06-17</activityDate>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>false</isRecurring>
         <name>Bakri EID (Id-Uz-Zuha)</name>
     </holidays>
     <holidays>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>ABHI</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>true</isRecurring>
         <name>Christmas Day / Shri Parshvanath Jayanti</name>
         <recurrenceDayOfMonth>25</recurrenceDayOfMonth>
@@ -284,6 +357,7 @@
         <activityDate>2024-04-09</activityDate>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>false</isRecurring>
         <name>Gudi Padava / Ugadi / Cheti Chand / Telugu New Year&apos;s Day / Sajibu Nongmapanba</name>
     </holidays>
@@ -291,6 +365,8 @@
         <activityDate>2024-11-15</activityDate>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>ABHI</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>false</isRecurring>
         <name>Guru Nanak Jayanti / Lord Birsa Munda Jayanti State Foundation Day / Kartika Pur</name>
     </holidays>
@@ -298,12 +374,15 @@
         <activityDate>2024-03-25</activityDate>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>false</isRecurring>
         <name>Holi / Yaosang (Dol Jatra)</name>
     </holidays>
     <holidays>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>ABHI</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>true</isRecurring>
         <name>Independence Day / Parsi New Year</name>
         <recurrenceDayOfMonth>15</recurrenceDayOfMonth>
@@ -315,6 +394,7 @@
         <activityDate>2024-11-01</activityDate>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>false</isRecurring>
         <name>Kannada Rajyothsava / Diwali Amavasya / Puducherry Liberation Day / Vishwakarma</name>
     </holidays>
@@ -322,12 +402,15 @@
         <activityDate>2024-03-08</activityDate>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>false</isRecurring>
         <name>Maha Shivaratri &amp; International Women Day</name>
     </holidays>
     <holidays>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>ABHI</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>true</isRecurring>
         <name>Mahatma Gandhi Jayanti</name>
         <recurrenceDayOfMonth>2</recurrenceDayOfMonth>
@@ -338,6 +421,8 @@
     <holidays>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>ABHI</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>true</isRecurring>
         <name>May Day / Labour Day / Maharashtra Din</name>
         <recurrenceDayOfMonth>1</recurrenceDayOfMonth>
@@ -349,11 +434,19 @@
         <activityDate>2024-07-17</activityDate>
         <businessHours>ABFL</businessHours>
         <businessHours>ABHFL</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>false</isRecurring>
         <name>Muharram</name>
     </holidays>
     <holidays>
+        <activityDate>2024-01-26</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Republic Day</name>
+    </holidays>
+    <holidays>
         <businessHours>ABFL</businessHours>
+        <businessHours>ABHI</businessHours>
+        <businessHours>Wellness</businessHours>
         <isRecurring>true</isRecurring>
         <name>Republic Day</name>
         <recurrenceDayOfMonth>26</recurrenceDayOfMonth>
