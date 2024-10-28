@@ -1817,6 +1817,18 @@
         <members>ABSLIReports/RequestsReports/Retention</members>
         <members>ABSLIReports/Top_10_misselling_products1</members>
         <members>ABSLIReports/Weekly_MD_review_v1</members>
+        <members>ABSLIReports/New_Cases_with_Case_SLA_Histories_Report_crQ</members>
+	    <members>ABSLIReports/Productivity_Queries_5x1</members>
+		<members>QueryComplaintsReportingSet2/Created_Report</members>
+		<members>QueryComplaintsReportingSet2/Resolved_data</members>
+		<members>QueryComplaintsReportingSet2/ERN_cases_all_complaints</members>
+		<members>ABSLIReports/CRM_Dump_Resolved_Data</members>
+		<members>ABSLIReports/UW_Query_Management</members>
+		<members>ABSLIReports/UW_Query_Management_resolved</members>
+		<members>ABSLIReports/Case_Advanced_Find_View</members>
+		<members>ABSLIReports/Pre_Post_Issuance_Cases_View_New</members>
+		<members>ABSLIReports/Claim_Report_Open_Cases</members>
+		<members>ABSLIReports/Lead_Report_ll5</members>        
 		<name>Report</name>
 	</types>
     <types>
@@ -1828,6 +1840,7 @@
     <types>
 		<members>Case_With_Policy_and_Branch_Masters</members>
         <members>ABSLI_Dynamic_Link_Report</members>
+        <members>ABSLI_Leads</members>
 		<name>ReportType</name>
 	</types>
     <types>

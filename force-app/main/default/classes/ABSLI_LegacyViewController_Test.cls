@@ -87,7 +87,8 @@ public class ABSLI_LegacyViewController_Test {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABSLI_LegacyMockResponseGenerator());
         Test.startTest();
-        ABSLI_LegacyViewController.ResponseWrapper res = ABSLI_LegacyViewController.getLegacyData('277956','','','','ABFL','');
+        Account acc = [SELECT ID FROM Account WHERE RecordType.Name='Individual' LIMIT 1];
+        ABSLI_LegacyViewController.ResponseWrapper res = ABSLI_LegacyViewController.getLegacyData(acc.Id,'','','','ABFL','');
         Test.stopTest();
         System.assertEquals(200,res.statusCode, 'code');
         System.assertEquals('1', res.ReturnCode, 'return code');
@@ -97,7 +98,8 @@ public class ABSLI_LegacyViewController_Test {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABSLI_LegacyMockFailureResponseGenerator());
         Test.startTest();
-        ABSLI_LegacyViewController.ResponseWrapper res = ABSLI_LegacyViewController.getLegacyData('27795','','','','ABFL','');
+        Account acc = [SELECT ID FROM Account WHERE RecordType.Name='Individual' LIMIT 1];
+        ABSLI_LegacyViewController.ResponseWrapper res = ABSLI_LegacyViewController.getLegacyData(acc.Id,'','','','ABFL','');
         Test.stopTest();
         System.assertEquals(404,res.statusCode, 'statusCode');
     }
