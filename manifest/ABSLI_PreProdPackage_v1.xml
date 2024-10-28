@@ -1603,7 +1603,6 @@
         <members>Case.ABSLI_CAMS_Customer_Payout_Team_Case</members>
         <members>Case.ABSLI_CAMS_Profile_Update_Case</members>
         <members>Case.ABSLI_CAMS_Reinstatement_Team_Case</members>
-        <members>Case.ABSLI_Claims_Payout_Case</members>
         <members>Case.ABSLI_Claims_Team_Case</members>
         <members>Case.ABSLI_Complaints_Team_Case</members>
         <members>Case.ABSLI_DOB_Change_EVA_Benefit_Team_Case</members>
@@ -1745,7 +1744,6 @@
         <members>ABSLI_CAMS_Customer_Payout_Team</members>
         <members>ABSLI_CAMS_Profile_Update</members>
         <members>ABSLI_CAMS_Reinstatement_Team</members>
-        <members>ABSLI_Claims_Payout</members>
         <members>ABSLI_Claims_Team</members>
         <members>ABSLI_Complaints_Team</members>
         <members>ABSLI_DOB_Change_EVA_Benefit_Team</members>
