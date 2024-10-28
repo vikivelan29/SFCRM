@@ -10,6 +10,10 @@ public with sharing class Payments_BulkCaseUpdateUtility implements ASF_BulkCSVT
         resultWrapper.resultJSONRows = new Map<Id, String>();
         resultWrapper.resultRecords = new Map<Id, SObject>();
 
+        List<Case> caseList = [Select id,description from case where casenumber='00360283'];
+        caseList[0].description = 'Test in payments class';
+        update caseList;
+        
         Set<String> caseNumbers = new Set<String>();
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
@@ -208,8 +212,8 @@ public with sharing class Payments_BulkCaseUpdateUtility implements ASF_BulkCSVT
 
         return listOfRecordsAsMap;
     }
-
-    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+    
+    /*public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
         return new List<Map<String,String>>();
-    }
+    }*/
 }
