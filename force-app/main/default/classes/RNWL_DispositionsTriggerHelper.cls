@@ -100,12 +100,19 @@ public class RNWL_DispositionsTriggerHelper {
                 disp.Renewal_Request__c = polToOppMap.get(disp.Policy_Number__c);
         }
     }
+    
+    /****************************************************************************************************************
+    * @Function - updateDispositionsOnOpportunity
+    * @param newOppsList, oldItems -  list of Dispositons from trigger.newMap and oldmap.
+    * @return - void .
+    * @Description - after insert and after update to update Best_Disposition__c, Latest_Disposition__c and Disposition_Count__c on opp
+    *****************************************************************************************************************/
 
-    public static void updateDispositionsOnOpportunity(Map<Id, Dispositions__c> newItems, Map<Id, Dispositions__c> oldItems){
+    public static void updateDispositionsOnOpportunity(List<Dispositions__c> newItems, Map<Id, Dispositions__c> oldItems){
         Set<Id> oppIds = new Set<Id>();
 
         try{
-            for(Dispositions__c dis : newItems.values()){
+            for(Dispositions__c dis : newItems){
                 if(oldItems == null 
                 || oldItems.get(dis.Id).Renewal_Request__c != dis.Renewal_Request__c 
                 || oldItems.get(dis.Id).Priority__c != dis.Priority__c){
@@ -128,6 +135,8 @@ public class RNWL_DispositionsTriggerHelper {
                             opp.Best_Disposition__c = disp.Id;
                         }
                     }
+                    //Disposition Count Update on Opp
+                    opp.Disposition_Count__c = opp.Dispositions__r.size();
                 }       
                 
                 update relatedRenewalReq;

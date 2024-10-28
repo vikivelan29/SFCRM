@@ -12,11 +12,17 @@ public class RNWL_DispositionsTriggerHandler extends ASF_VTriggerHandler{
 
     }
     
-        public override void afterInsert(Map<Id,SObject> newDispositionsMap) {
+    public override void afterInsert(Map<Id,Sobject> newDispositionsMap) {
         if(isTriggerDisabled()){return;}
         
        	RNWL_DispositionsTriggerHelper.setAfterInsertDispositionsPriorityFieldValue(newDispositionsMap.values());
-            
+        
+        RNWL_DispositionsTriggerHelper.updateDispositionsOnOpportunity((List<Dispositions__c>)newDispositionsMap.values() , null);
     }
 
+    public override void afterUpdate(Map<Id, Sobject> newItems, Map<Id, Sobject> oldItems) {
+        if(isTriggerDisabled()){return;}
+
+        RNWL_DispositionsTriggerHelper.updateDispositionsOnOpportunity((List<Dispositions__c>)newItems.values(), (Map<Id,Dispositions__c>)oldItems);
+    }
 }
