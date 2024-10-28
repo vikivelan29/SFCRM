@@ -272,6 +272,7 @@
         <members>ABCL_AssetTriggerHelper</members>
         <members>ABCL_AssetTriggerHandler</members>
         <members>ABSLI_RemoveAccountTeamBatch2</members>
+        <members>ABFL_UserTeamDataUpdateBatchTest</members>
 		<name>ApexClass</name>
 	</types>
     <types>
