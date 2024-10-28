@@ -4,7 +4,7 @@
         <application>ABCL_Service_Console</application>
         <visible>true</visible>
     </applicationVisibilities>
-    <description>Base user permission for all internal renewals users</description>
+    <description>Base user permission for all external renewals users</description>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Communication_Log__c.Account__c</field>
@@ -4681,7 +4681,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>RNWL Base User (Internal)</label>
+    <label>RNWL Base User (Agent)</label>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
