@@ -1590,6 +1590,15 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>RNWL_Opportunity_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.HI_Renewals</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ABSLAMC_Pre_Framework_Lightning_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
@@ -1687,11 +1696,16 @@
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Asset</tabs>
+    <tabs>standard-Opportunity</tabs>
+    <tabs>Bulk_Upload</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ABCL_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
+        <mappings>
+            <tab>Bulk_Upload</tab>
+        </mappings>
         <mappings>
             <tab>Claim__c</tab>
         </mappings>
@@ -1728,6 +1742,9 @@
         </mappings>
         <mappings>
             <tab>standard-Asset</tab>
+        </mappings>
+	<mappings>
+            <tab>standard-Opportunity</tab>
         </mappings>
         <mappings>
             <tab>standard-report</tab>

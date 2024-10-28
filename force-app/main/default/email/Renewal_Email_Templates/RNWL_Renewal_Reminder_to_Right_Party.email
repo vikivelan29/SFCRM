@@ -1,0 +1,34 @@
+<messaging:emailTemplate subject="Opportunities to verify" recipientType="User" relatedToType="Opportunity">
+   <messaging:htmlEmailBody >
+   <p>
+         Subject: Request for Payment Link for Policy No. {!relatedTo.Policy_Number__c} <br/><br/>
+         Policy No.: {!relatedTo.Policy_Number__c} <br/>
+         Plan Name:  {!relatedTo.Plan_Name__c}
+         <br/><br/>Dear {!relatedTo.Customer_Name__c},
+         <br/><br/> We value your relationship with us and thank you for trusting us with your health insurance needs.
+         We wish to inform you that your Health Insurance Policy is due for Renewal on {DD/MM/YYYY}.
+         We tried reaching you on your registered mobile number, however, { Mr. / Ms. Relations} Name  answered the call on your behalf. 
+         We advise you to renew your policy to stay protected from any medical emergencies at all times.<br/><br/>
+        
+         We have shared the details of your existing policy below for your ready reference: <br/><br/>
+
+         <c:RNWL_MemberListVfc oppIdValue="{!relatedTo.Id}" />
+         <br/>
+         Payment Link : 
+         <apex:outputLink value="{!relatedTo.Payment_Link__c}" id="theLink">Payment Link</apex:outputLink> 
+         <br/><br/>
+      
+         It is advisable to have your contact details updated with us to receive timely updates. You can also <br/>
+         share an alternative Mobile No. for times you are unreachable on your primary contact number. 
+         <br/>
+         In case of any further assistance, please feel free to reach out to us on our toll-free number <br/>
+         1800-270-7000 or email us at care.healthinsurance@adityabirlacapital.com. We advise you to 
+         download the Activ Health App – a one stop solution for all your health needs. You may also use our <br/>
+         self-service options on our WhatsApp number +91 882800035. <br/><br/> 
+         
+         We wish you the best of health at all times! <br/><br/>
+         Warm Regards, <br/>      
+         Aditya Birla Health Insurance <br/><br/>
+      </p>
+   </messaging:htmlEmailBody>
+</messaging:emailTemplate>
