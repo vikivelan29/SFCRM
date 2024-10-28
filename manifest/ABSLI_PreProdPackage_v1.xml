@@ -1820,9 +1820,9 @@
         <members>ABSLIReports/Weekly_MD_review_v1</members>
         <members>ABSLIReports/New_Cases_with_Case_SLA_Histories_Report_crQ</members>
 	    <members>ABSLIReports/Productivity_Queries_5x1</members>
-		<members>QueryComplaintsReportingSet2/Created_Report</members>
-		<members>QueryComplaintsReportingSet2/Resolved_data</members>
-		<members>QueryComplaintsReportingSet2/ERN_cases_all_complaints</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/Created_Report</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/Resolved_data</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/ERN_cases_all_complaints</members>
 		<members>ABSLIReports/CRM_Dump_Resolved_Data</members>
 		<members>ABSLIReports/UW_Query_Management</members>
 		<members>ABSLIReports/UW_Query_Management_resolved</members>

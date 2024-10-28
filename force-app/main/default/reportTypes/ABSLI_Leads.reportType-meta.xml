@@ -38,11 +38,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Comments__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Country</field>
             <table>Lead</table>
         </columns>
@@ -114,16 +109,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABSLI_Lead_Type__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Line_Of_Business__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Lead_Number__c</field>
             <table>Lead</table>
         </columns>
         <columns>
