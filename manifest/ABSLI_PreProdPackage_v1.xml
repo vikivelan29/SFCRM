@@ -801,6 +801,7 @@
         <members>Lead.API_Response_Message__c</members>
         <members>Lead.ABSLI_Lead_Type__c</members>
         <members>Lead.Account__c</members>
+        <members>Lead.Asset__c</members>
         <members>Lead.Address_Line_1__c</members>
         <members>Lead.Address_Line_2__c</members>
         <members>Lead.Address_Line_3__c</members>
