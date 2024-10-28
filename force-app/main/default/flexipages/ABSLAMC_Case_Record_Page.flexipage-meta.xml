@@ -537,6 +537,89 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>5</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Case.AccountId</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Cases</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>CARD</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>CASES.CASE_NUMBER</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Stage__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OWNER_NAME</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Cases</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>CASES.CASE_NUMBER</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Descending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-8d894d74-eee3-492e-a8f7-c9d8f34a38c0</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Sprinklr Fields</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection3</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Source__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Social Media</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
                 <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>
