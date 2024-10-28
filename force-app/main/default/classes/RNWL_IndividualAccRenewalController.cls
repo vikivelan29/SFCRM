@@ -63,7 +63,9 @@ public without sharing class RNWL_IndividualAccRenewalController {
             for(object objPolicy : rawPolicyData){
                 
                 Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy;
-                 
+                
+                system.debug('policyNumber'+policyNumber);
+                system.debug('policyNumbertwo'+String.valueOf(policyData_Map.get('Policy_number')));
                 if(policyNumber == String.valueOf(policyData_Map.get('Policy_number'))){
                       
                     RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();

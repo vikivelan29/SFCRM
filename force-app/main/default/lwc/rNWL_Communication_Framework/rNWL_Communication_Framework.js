@@ -34,9 +34,6 @@ export default class RNWL_Communication_Framework extends LightningElement {
     selectedTemplate;
     templateOptions=[];
 
-    phoneNumInfo="i. ‘Enter the Number’ field will allow single additional mobile number.\nii. Mobile should be given in standard 10 digit format (without ‘0’ and ‘+91’)";
-    emailInfo = "i. ‘Send To email’ allow to have single additional email address.\nii. ‘Send CC emails’ allow to have multiple additional email address, which  can  be semicolon separated (;)";
-    
     ccEmailHelpText='Please use ";" separated valid emails';
 
     communicationOptions = [
@@ -48,8 +45,8 @@ export default class RNWL_Communication_Framework extends LightningElement {
     @wire(getRecord, { recordId: '$recordId', fields }) 
     record({ error, data }){
         if (data) {
-            this.currentPhone = getFieldValue(data, ACCOUNT_Phone) ? getFieldValue(data, ACCOUNT_Phone) : 'NA'; 
-            this.currentEmail = getFieldValue(data, ACCOUNT_Email) ? getFieldValue(data, ACCOUNT_Email) : 'NA'; 
+            this.currentPhone = getFieldValue(data, ACCOUNT_Phone); 
+            this.currentEmail = getFieldValue(data, ACCOUNT_Email); 
         }else if(error){
             console.log('error-', JSON.stringify(error));
         }

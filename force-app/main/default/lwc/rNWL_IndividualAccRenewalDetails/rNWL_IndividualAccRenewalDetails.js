@@ -53,8 +53,7 @@ export default class RNWL_IndividualAccRenewalDetails extends LightningElement {
     @track error;  
     @track ErrorMessage;   
     @track showData; 
-    @track showError;  
-    isLoading = true; 
+    @track showError;   
     columns = columns;   
     columns_CombiPolicy=columns_CombiPolicy; 
     columns_CombiDispositions=columns_CombiDispositions;
