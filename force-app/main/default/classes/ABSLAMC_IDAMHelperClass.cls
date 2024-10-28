@@ -15,7 +15,7 @@ public class ABSLAMC_IDAMHelperClass {
     }
 
     public static void handleLOBChanges(Map<Id, User> newUsersMap, Map<Id, User> oldUsersMap) {
-        ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the  case trigger
+        ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the case trigger
         
         List<GroupMember> groupMembersToAdd = new List<GroupMember>();
         List<GroupMember> groupMembersToRemove = new List<GroupMember>();
@@ -54,11 +54,11 @@ public class ABSLAMC_IDAMHelperClass {
                 // Get new LOB values (after ';' split)
                 Set<String> newLOBSet = new Set<String>(userRecord.LOB__c != null ? userRecord.LOB__c.split(';') : new String[]{});
                 
-                // If in "after insert" context, add all LOBs except the first
-                if(Trigger.isAfter && Trigger.isInsert && newLOBSet.size() > 1) {
-                    // Add user to groups for all eligible LOBs except the first one
+                // If in "after insert" context, add all LOBs
+                if(Trigger.isAfter && Trigger.isInsert && newLOBSet.size() > 0) {
+                    // Add user to groups for all eligible LOBs
                     List<String> newLOBList = new List<String>(newLOBSet);
-                    for (Integer i = 1; i < newLOBList.size(); i++) {
+                    for (Integer i = 0; i < newLOBList.size(); i++) {
                         String lob = newLOBList[i];
                         if (lob != null && lobToGroupIdMap.containsKey(lob)) {
                             groupMembersToAdd.add(new GroupMember(GroupId = lobToGroupIdMap.get(lob), UserOrGroupId = userRecord.Id));
@@ -124,7 +124,7 @@ public class ABSLAMC_IDAMHelperClass {
     }
     
     public static void evaluateSLATargetUpdates(Map<Id, User> newUsersMap, Map<Id, User> oldUsersMap) {
-        ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the  case trigger
+        ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the case trigger
         
         Set<Id> updatedManagersSet = new Set<Id>();
         Set<Id> updatedEmailUserSet = new Set<Id>();
@@ -149,7 +149,7 @@ public class ABSLAMC_IDAMHelperClass {
     }
 
     public static void updateSLATargetsOnUserEmailChange(List<UserChangeEvent> userChangeEvtList) {
-        ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the  case trigger
+        ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the case trigger
 
         Set<String> userIdsSet = new Set<String>();
         List<Case> casesToUpdateList = new List<Case>();
@@ -223,7 +223,7 @@ public class ABSLAMC_IDAMHelperClass {
 
                 // Perform bulk update on updated users
                 if (!usersToUpdateList.isEmpty()) {
-                    ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the  case trigger
+                    ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the case trigger
                     update usersToUpdateList;
                 }
             }
@@ -231,7 +231,7 @@ public class ABSLAMC_IDAMHelperClass {
     }
     
     private static void updateSLATargetsOnManagerChange(Set<Id> updatedManagersSet, Set<String> emailsToCheckSet, Map<Id, User> oldUsersMap) {
-        ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the  case trigger
+        ASF_TriggerSkipperUtility.markTriggerRun('Case'); // Disable the case trigger
 
         List<Case> casesToUpdateList = new List<Case>();
         
@@ -296,6 +296,7 @@ public class ABSLAMC_IDAMHelperClass {
         
         // Perform bulk update on modified cases
         if (!casesToUpdateList.isEmpty()) {
+            ASF_TriggerSkipperUtility.markTriggerRun('User');
             update casesToUpdateList;
         }
     }
