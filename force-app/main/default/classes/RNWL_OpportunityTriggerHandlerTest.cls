@@ -172,8 +172,8 @@ public class RNWL_OpportunityTriggerHandlerTest {
             if(objOpportunity.Name == 'Dialer Cancel Status Failed Opp' )
                 System.assertEquals(objOpportunity.Dialer_Status__c , 'Cancel Call Request Failed'); 
             
-            if(objOpportunity.Name == 'Dialer Paid' )
-                System.assertEquals(objOpportunity.Dialer_Status__c , 'Cancel Call Request Submitted'); 
+            if(objOpportunity.Name == 'Dialer Cancel Status submit Opp' )
+                System.assertEquals(objOpportunity.Dialer_Status__c , 'Schedule Call Request Submitted'); 
             
         } 
     }

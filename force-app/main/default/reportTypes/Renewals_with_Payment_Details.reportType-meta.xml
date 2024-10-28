@@ -109,7 +109,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Issue Date</displayNameOverride>
+            <displayNameOverride>Policy Issue Date</displayNameOverride>
             <field>Renewal_Request__c.Policy__c.Issue_Date__c</field>
             <table>Collections__c</table>
         </columns>
@@ -122,27 +122,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Renewal_Request__c.Name</field>
-            <table>Collections__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Renewal_Request__c.Renewed_Policy__c</field>
-            <table>Collections__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Policy Issue Date</displayNameOverride>
-            <field>Renewal_Request__c.Renewed_Policy__c.Issue_Date__c</field>
-            <table>Collections__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Gross_Payment_Amount__c</field>
-            <table>Collections__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Renewed_Date__c</field>
             <table>Collections__c</table>
         </columns>
         <masterLabel>Collections</masterLabel>
