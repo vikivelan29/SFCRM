@@ -15,8 +15,8 @@
     <columns>CORE.USERS.ALIAS</columns>
     <columns>Ageing_Business_Days__c</columns>
     <columns>Stage__c</columns>
-    <columns>SR_TAT_elapsed__c</columns>
     <columns>Overall_Case_Closure_SLA__c</columns>
+    <columns>SR_TAT_elapsed__c</columns>
     <queue>ABSLAMC_MF_Issue_Management_Unit</queue>
     <sharedTo>
         <allInternalUsers></allInternalUsers>
