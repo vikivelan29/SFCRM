@@ -13,8 +13,8 @@
     <columns>CORE.USERS.ALIAS</columns>
     <columns>Ageing_Business_Days__c</columns>
     <columns>Stage__c</columns>
-    <columns>SR_TAT_elapsed__c</columns>
     <columns>Overall_Case_Closure_SLA__c</columns>
+    <columns>SR_TAT_elapsed__c</columns>
     <filterScope>Mine</filterScope>
     <label>My AMC Cases</label>
     <sharedTo>
