@@ -602,6 +602,22 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>ABSLI_Asset_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABSLI RPA Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABSLI_Asset_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABSLI RPA Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Case_Pre_Framework_Lightning_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>

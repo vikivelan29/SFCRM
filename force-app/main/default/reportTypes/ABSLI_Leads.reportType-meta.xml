@@ -148,11 +148,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Lead_Subtype__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Street</field>
             <table>Lead</table>
         </columns>

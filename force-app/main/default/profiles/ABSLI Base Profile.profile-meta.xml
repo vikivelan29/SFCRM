@@ -304,4 +304,7 @@
     <layoutAssignments>
         <layout>Task-ABSLI Task Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Branch_Master__c-ABSLI Branch Master Layout</layout>
+    </layoutAssignments>
 </Profile>
