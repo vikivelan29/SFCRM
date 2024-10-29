@@ -3,6 +3,9 @@ public class RNWL_DispositionsTriggerHelper {
  public static Map<String,Integer> dispositionPriorityMap = new Map<String,Integer>();
  public static Map<String,String> dispositionDashboardMap = new Map<String,String>();
     
+ public static Map<String,Integer> dispositionPriorityMap = new Map<String,Integer>();
+ public static Map<String,String> dispositionDashboardMap = new Map<String,String>();
+    
 /****************************************************************************************************************
 * @Function - setBeforeInsertDispositionsPriorityFieldValue
 * @param newOppsList -  list of Dispositons from trigger.new.
@@ -19,7 +22,7 @@ public class RNWL_DispositionsTriggerHelper {
         for(Dispositions__c disp :newDispositionsitems){
                 disp.Priority__c = dispositionPriorityMap.get(disp.Disposition_L1__c+'-'+disp.Disposition_L2__c+'-'+disp.Disposition_L3__c);
                 disp.Dashboard_Category__c = dispositionDashboardMap.get(disp.Disposition_L1__c+'-'+disp.Disposition_L2__c+'-'+disp.Disposition_L3__c);
-            }  
+		    }  
         
     }
     
@@ -52,6 +55,7 @@ public class RNWL_DispositionsTriggerHelper {
                         dispObj.Priority__c = priority;
                         dispObj.Dashboard_Category__c = dashboard;
                         dispositionsItemsToUpdate.add(dispObj);
+                        break;
                     }  
             }
             if(!dispositionsItemsToUpdate.isEmpty()){
@@ -92,12 +96,12 @@ public class RNWL_DispositionsTriggerHelper {
         for(String name: dispositionsMetadata.keySet()){
             
                 if(dispositionsMetadata.get(name).Type__c == 'Priority'){
-                    dispositionPriorityMap.put(dispositionsMetadata.get(name).L1__c+'-'+dispositionsMetadata.get(name).L2__c+'-'+dispositionsMetadata.get(name).L3__c,(Integer)dispositionsMetadata.get(name).Priority__c);
+                	dispositionPriorityMap.put(dispositionsMetadata.get(name).L1__c+'-'+dispositionsMetadata.get(name).L2__c+'-'+dispositionsMetadata.get(name).L3__c,(Integer)dispositionsMetadata.get(name).Priority__c);
                 }
-                else{
-                    dispositionDashboardMap.put(dispositionsMetadata.get(name).L1__c+'-'+dispositionsMetadata.get(name).L2__c+'-'+dispositionsMetadata.get(name).L3__c,dispositionsMetadata.get(name).Dashboard_Category__c);
-                }
-            }
+            	else{
+                	dispositionDashboardMap.put(dispositionsMetadata.get(name).L1__c+'-'+dispositionsMetadata.get(name).L2__c+'-'+dispositionsMetadata.get(name).L3__c,dispositionsMetadata.get(name).Dashboard_Category__c);
+            	}
+        	}
     }
     
     /****************************************************************************************************************
@@ -111,12 +115,43 @@ public class RNWL_DispositionsTriggerHelper {
     // this method signature should be redeployed so commenting around the signature
         Set<Id> oppIds = new Set<Id>();
 
-        for(Dispositions__c dis : newItems){
-            if(oldItems == null 
-               || oldItems.get(dis.Id).Renewal_Request__c != dis.Renewal_Request__c 
-               || oldItems.get(dis.Id).Priority__c != dis.Priority__c){
-                   if(dis.Renewal_Request__c != null)oppIds.add(dis.Renewal_Request__c);
-               }
+        try{
+            for(Dispositions__c dis : newItems){
+                if(oldItems == null 
+                || oldItems.get(dis.Id).Renewal_Request__c != dis.Renewal_Request__c 
+                || oldItems.get(dis.Id).Priority__c != dis.Priority__c){
+                    if(dis.Renewal_Request__c != null)oppIds.add(dis.Renewal_Request__c);
+                }
+            }
+    
+            if(oppIds.size() > 0){
+                List<Opportunity> relatedRenewalReq = [SELECT Id, OwnerId ,
+                                                            (SELECT ID,Priority__c ,Agent_Name__c
+                                                            FROM Dispositions__r ORDER BY CreatedDate DESC)
+                                                       FROM Opportunity WHERE ID IN:oppIds ];
+                
+                for(Opportunity opp : relatedRenewalReq){
+                    opp.Latest_Disposition__c = opp.Dispositions__r[0].Id;
+    
+                    Integer priority;
+                    for(Dispositions__c disp : opp.Dispositions__r){
+                        if(disp.Priority__c != null && (priority == null || disp.Priority__c < priority)){
+                            opp.Best_Disposition__c = disp.Id;
+                            
+                            if(disp.Agent_Name__c != null && opp.OwnerId != disp.Agent_Name__c){
+                                opp.OwnerId = disp.Agent_Name__c;
+                            }
+                        }
+                    }
+                    //Disposition Count Update on Opp
+                    opp.Disposition_Count__c = opp.Dispositions__r.size();
+                }       
+                
+                
+                update relatedRenewalReq;
+            }
+        }catch(Exception e){
+            System.debug(e.getMessage());
         }
         
         if(oppIds.size() == 0){return;}
