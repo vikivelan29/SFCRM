@@ -32,6 +32,7 @@ public class RNWL_DispositionsTriggerHelperTest {
         System.assertEquals(oppRec.Id, disp.Renewal_Request__c, 'Uhhh Ohhh! Renewal Request is not updated!');
     }
     
+    
     @isTest
     public static void test_BeforeTest(){
         Account acc = [Select Id FROM Account LIMIT 1];
@@ -54,6 +55,7 @@ public class RNWL_DispositionsTriggerHelperTest {
         dispRec1.Disposition_L1__c = 'Promise to Pay';
         dispRec1.Disposition_L2__c = 'PTP- Online/CP/Wallet';
         dispRec1.Disposition_L3__c = 'Will Renew As per RN';
+        dispRec1.Category__c = 'Renewal';
         
         Update dispRec1;
         
