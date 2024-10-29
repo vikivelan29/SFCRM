@@ -63,6 +63,7 @@ public without sharing class RNWL_NonIndAccountRenewalController {
             List<Nominee_Details> nomineeDetails    = new List<Nominee_Details>();
             List<Renewal_Info> renewalInfos         = new List<Renewal_Info>();
             List<Combi_Policy_Details> combiDetails = new List<Combi_Policy_Details>();
+            List<Combi_Policy_Disposition_Details> combiDispositionDetails = new List<Combi_Policy_Disposition_Details>();
 
             String masterPolicyNumber;
             Boolean combiFlag = false;
@@ -143,7 +144,34 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                     combiDetail.combi_Policy_ProductType = ast.ProductName__c;
                     
                     combiDetails.add(combiDetail);
-                }                        
+                }      
+                
+                List<Dispositions__c> relatedDispositions = [SELECT Id,Name,Call_Date_Time__c,Renewal_Request__r.Policy_Number__c,
+                                                                    Disposition_L1__c,Disposition_L2__c,Disposition_L3__c,
+                                                                    Next_Call_Back_Date_Time__c,Remarks__c,Calling_Unit__c,
+                                                                    Calling_Mode__c , Agent_Name__r.Name
+                                                             FROM Dispositions__c 
+                                                             WHERE Renewal_Request__r.Policy_Number__c IN :renewdMasterPolicyNumbers];
+
+                Map<String, List<RNWL_RenewalWrapper.cls_RelatedDispositions>> relatedDispostionsMap = new Map<String, List<RNWL_RenewalWrapper.cls_RelatedDispositions>>();
+
+                for(Dispositions__c disp : relatedDispositions){
+                    Combi_Policy_Disposition_Details combiDisp = new Combi_Policy_Disposition_Details();
+                    combiDisp.Disposition_Name          = disp.Name; 
+                    combiDisp.Disposition_Url           = '/'+disp.Id; 
+                    combiDisp.Combi_Policy_Number       = disp.Renewal_Request__r.Policy_Number__c;
+                    combiDisp.Next_CallBack_Datetime    = String.valueOf(disp.Next_Call_Back_Date_Time__c);
+                    combiDisp.Disostion_L1              = disp.Disposition_L1__c;
+                    combiDisp.Disostion_L2              = disp.Disposition_L2__c;
+                    combiDisp.Disostion_L3              = disp.Disposition_L3__c;
+                    combiDisp.Call_DateTime             = String.valueOf(disp.Call_Date_Time__c);
+                    combiDisp.Agent_Name                = disp.Agent_Name__r?.Name;
+                    combiDisp.Remark                    = disp.Remarks__c;
+                    combiDisp.Calling_Unit              = disp.Calling_Unit__c;
+                    combiDisp.Calling_Mode              = disp.Calling_Mode__c;
+
+                    combiDispositionDetails.add(combiDisp);
+                }
             }
 
             if(memberCodes.size() > 0 ){
@@ -170,6 +198,7 @@ public without sharing class RNWL_NonIndAccountRenewalController {
             details.nomineeDetails  = nomineeDetails;
             details.renewalInfos    = renewalInfos;
             details.combiDetails    = combiDetails;
+            details.combiDispositionDetails = combiDispositionDetails;
             details.hasError        = false;
             details.errorMessage    = null;
 			 
@@ -333,6 +362,7 @@ public without sharing class RNWL_NonIndAccountRenewalController {
         @AuraEnabled public List<Nominee_Details> nomineeDetails;
         @AuraEnabled public List<Renewal_Info> renewalInfos;
         @AuraEnabled public List<Combi_Policy_Details> combiDetails;
+        @AuraEnabled public List<Combi_Policy_Disposition_Details> combiDispositionDetails;
     }
 
     public class Policy_Details{
@@ -402,5 +432,20 @@ public without sharing class RNWL_NonIndAccountRenewalController {
         @AuraEnabled public String combi_Policy_Product;
         @AuraEnabled public String combi_Policy_SubPlan;
         @AuraEnabled public String combi_Policy_ProductType;
+    }
+
+    public class Combi_Policy_Disposition_Details{
+        @AuraEnabled public String Disposition_Url;
+        @AuraEnabled public String Disposition_Name;
+        @AuraEnabled public String Combi_Policy_Number;
+        @AuraEnabled public String Next_CallBack_Datetime;
+        @AuraEnabled public String Disostion_L1;
+        @AuraEnabled public String Disostion_L2;
+        @AuraEnabled public String Disostion_L3;
+        @AuraEnabled public String Call_DateTime;
+        @AuraEnabled public String Agent_Name;
+        @AuraEnabled public String Remark;
+        @AuraEnabled public String Calling_Unit;
+        @AuraEnabled public String Calling_Mode;
     }
 }

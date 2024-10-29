@@ -89,6 +89,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABSLAMC_AccountIndicatorController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ASF_AccountCommPETriggerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4585,6 +4589,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.ContactId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Created_By_User_formula__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

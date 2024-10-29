@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Used for HI Renewals</description>
+    <description>Used for Health Insurance Renewals</description>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
@@ -127,7 +127,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>URL Documents</value>
+                    <value>OmniDocs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab4</identifier>
@@ -509,7 +509,7 @@
                             <value>Disposition_L2__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Disposition_L4__c</value>
+                            <value>Disposition_L3__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Call_Date_Time__c</value>
@@ -555,6 +555,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Priority__c|NOT_EQUAL|</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
