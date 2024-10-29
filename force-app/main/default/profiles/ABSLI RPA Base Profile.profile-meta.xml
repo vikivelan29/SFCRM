@@ -302,4 +302,8 @@
     <layoutAssignments>
         <layout>Branch_Master__c-ABSLI Branch Master Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-ABSLI Lead Layout</layout>
+        <recordType>Lead.Sales</recordType>
+    </layoutAssignments>
 </Profile>
