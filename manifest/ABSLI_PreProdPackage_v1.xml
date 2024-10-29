@@ -1685,6 +1685,7 @@
         <members>asfCreateCaseWithType</members>
         <members>aBSLI_redirectToReadyReckenor</members>
         <members>absli_policyClientView</members>
+        <members>asf_DMSViewDatatable</members>
 		<name>LightningComponentBundle</name>
 	</types>
     <types>
