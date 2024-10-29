@@ -268,10 +268,16 @@
         <members>ASF_EmailRelayLoadBalancerTest</members>
         <members>ABFL_DMSSync_Orchestrator_Test</members>
         <members>ABHFL_CTSTHelper</members>
+        <members>ABFL_LegacyView_Test</members>
+        <members>ABCL_AssetTriggerHelper</members>
+        <members>ABCL_AssetTriggerHandler</members>
+        <members>ABSLI_RemoveAccountTeamBatch2</members>
+        <members>ABFL_UserTeamDataUpdateBatchTest</members>
 		<name>ApexClass</name>
 	</types>
     <types>
 		<members>LeadTrigger</members>
+        <members>ABCL_AssetTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
 	<types>
@@ -510,6 +516,7 @@
         <members>ABSLI_Case_Detail__c.Waiver_percentage__c</members>
         <members>ABSLI_Case_Detail__c.WhatsApp_Opt_Out_Indicator__c</members>
         <members>ABSLI_Case_Detail__c.Withdrawal_Amount_Available__c</members>
+        <members>ABSLI_Case_Detail__c.Reason__c</members>
         <members>ABSLI_Create_Case_Validations__mdt.Asset_Values__c</members>
         <members>ABSLI_Create_Case_Validations__mdt.Business_Unit__c</members>
         <members>ABSLI_Create_Case_Validations__mdt.Error_Message__c</members>
@@ -743,6 +750,7 @@
         <members>Asset.Vesting_Age__c</members>
         <members>Asset.Withdrawal_available_amount__c</members>
         <members>Asset.Zone__c</members>
+        <members>Asset.Processing_State__c</members>
         <members>Branch_Master__c.Branch_City__c</members>
         <members>Branch_Master__c.Branch_State__c</members>
         <members>Branch_Master__c.Business_Unit__c</members>
@@ -794,6 +802,7 @@
         <members>Lead.API_Response_Message__c</members>
         <members>Lead.ABSLI_Lead_Type__c</members>
         <members>Lead.Account__c</members>
+        <members>Lead.Asset__c</members>
         <members>Lead.Address_Line_1__c</members>
         <members>Lead.Address_Line_2__c</members>
         <members>Lead.Address_Line_3__c</members>
@@ -849,7 +858,12 @@
         <members>Account.Supervisor_Mobile_Number__c</members>
         <members>ASF_Bulk_Row_to_Record_Converter_Config__mdt.Run_Assignment_Rule_on_Create__c</members>
         <members>Asf_Dynamic_Datatable_Child__mdt.Type_Attributes__c</members>
+        <members>Lead.Policy_Number__c</members>
 		<name>CustomField</name>
+	</types>
+    <types>
+		<members>Case.Tasks</members>
+		<name>CustomFeedFilter</name>
 	</types>
 	<types>
 		<members>ABCL_Integrations.ABSLI_Bank_Branch_Detail</members>
@@ -1335,6 +1349,7 @@
         <members>LOBMappingDetails__mdt</members>
         <members>LOBVsAPIChannels__mdt</members>
         <members>IGMS_Classification_Mapping__mdt</members>
+        <members>ASF_Case_Integration__c</members>
 		<name>CustomObject</name>
 	</types>
     <types>
@@ -1538,12 +1553,10 @@
         <members>ABSLI_Dispatch_Polad_Team_G</members>
         <members>ABSLI_Email_Management_G</members>
         <members>ABSLI_Email_management_HO_G</members>
-        <members>ABSLI_Fund_Transfer_Team_G</members>
         <members>ABSLI_HO_Dispatch_Team_G</members>
         <members>ABSLI_HO_Reinstatement_Team_G</members>
         <members>ABSLI_Mpower_Team_G</members>
         <members>ABSLI_PI_Refund_Team_G</members>
-        <members>ABSLI_PI_Team_G</members>
         <members>ABSLI_PS_Internal_G</members>
         <members>ABSLI_Policy_Document_Team_G</members>
         <members>ABSLI_Policy_Servicing_Team_G</members>
@@ -1559,6 +1572,7 @@
         <members>ABSLI_Post_Issuance_Team_G</members>        
         <members>ABSLI_Pre_Issuance_Team_G</members>
 		<members>ABSLI_Set_Alerts_G</members>
+        <members>ABSLI_UW_Query_Followup_G</members>
 		<name>Group</name>
 	</types>
     <types>
@@ -1591,7 +1605,6 @@
         <members>Case.ABSLI_CAMS_Customer_Payout_Team_Case</members>
         <members>Case.ABSLI_CAMS_Profile_Update_Case</members>
         <members>Case.ABSLI_CAMS_Reinstatement_Team_Case</members>
-        <members>Case.ABSLI_Claims_Payout_Case</members>
         <members>Case.ABSLI_Claims_Team_Case</members>
         <members>Case.ABSLI_Complaints_Team_Case</members>
         <members>Case.ABSLI_DOB_Change_EVA_Benefit_Team_Case</members>
@@ -1599,7 +1612,6 @@
         <members>Case.ABSLI_Dispatch_Polad_Team_Case</members>
         <members>Case.ABSLI_Email_Management_Case</members>
         <members>Case.ABSLI_Email_management_HO_Case</members>
-        <members>Case.ABSLI_Fund_Tranfer_Team_Case</members>
         <members>Case.ABSLI_HO_Dispatch_Team_Case</members>
         <members>Case.ABSLI_HO_Reinstatement_Team_Case</members>
         <members>Case.ABSLI_Mode_Change_Soft_Resolved_Cases</members>
@@ -1621,6 +1633,8 @@
         <members>Case.ABSLI_Post_Issuance_Team_Case</members>        
         <members>Case.ABSLI_Pre_Issuance_Team_Case</members>
 		<members>Case.ABSLI_Set_Alerts_Case</members>
+        <members>Case.ABSLI_UW_Query_Followup_Case</members>
+        <members>Lead.ABSLILeads</members>
 		<name>ListView</name>
 	</types>
     <types>
@@ -1732,7 +1746,6 @@
         <members>ABSLI_CAMS_Customer_Payout_Team</members>
         <members>ABSLI_CAMS_Profile_Update</members>
         <members>ABSLI_CAMS_Reinstatement_Team</members>
-        <members>ABSLI_Claims_Payout</members>
         <members>ABSLI_Claims_Team</members>
         <members>ABSLI_Complaints_Team</members>
         <members>ABSLI_DOB_Change_EVA_Benefit_Team</members>
@@ -1740,7 +1753,6 @@
         <members>ABSLI_Dispatch_Polad_Team</members>
         <members>ABSLI_Email_Management</members>
         <members>ABSLI_Email_management_HO</members>
-        <members>ABSLI_Fund_Tranfer_Team</members>
         <members>ABSLI_HO_Dispatch_Team</members>
         <members>ABSLI_HO_Reinstatement_Team</members>
         <members>ABSLI_Mpower_Team</members>
@@ -1760,6 +1772,7 @@
         <members>ABSLI_Post_Issuance_Team</members>        
         <members>ABSLI_Pre_Issuance_Team</members>
 		<members>ABSLI_Set_Alerts</members>
+        <members>ABSLI_UW_Query_Followup</members>
 		<name>Queue</name>
 	</types>
     <types>
@@ -1776,6 +1789,7 @@
         <members>ABSLIReports/Prospect_RelatedUnregistered_Open_Cases_ojR</members>
         <members>ABSLIReports/Queries_Pending_report</members>
         <members>ABSLIReports/Queries_Repeat_Analysis</members>
+        <members>ABSLIReports/STP_Cases_GSB</members>
         <members>ABSLIReports/QueryComplaintsReportingSet2/Cases_grouped_by_Branch_Code_wrt_to_comp</members>
         <members>ABSLIReports/QueryComplaintsReportingSet2/Cases_grouped_by_Channel_wrt_to_complain</members>
         <members>ABSLIReports/QueryComplaintsReportingSet2/Cases_grouped_by_issuance_buckets</members>
@@ -1804,6 +1818,18 @@
         <members>ABSLIReports/RequestsReports/Retention</members>
         <members>ABSLIReports/Top_10_misselling_products1</members>
         <members>ABSLIReports/Weekly_MD_review_v1</members>
+        <members>ABSLIReports/New_Cases_with_Case_SLA_Histories_Report_crQ</members>
+	    <members>ABSLIReports/Productivity_Queries_5x1</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/Created_Report</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/Resolved_data</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/ERN_cases_all_complaints</members>
+		<members>ABSLIReports/CRM_Dump_Resolved_Data</members>
+		<members>ABSLIReports/UW_Query_Management</members>
+		<members>ABSLIReports/UW_Query_Management_resolved</members>
+		<members>ABSLIReports/Case_Advanced_Find_View</members>
+		<members>ABSLIReports/Pre_Post_Issuance_Cases_View_New</members>
+		<members>ABSLIReports/Claim_Report_Open_Cases</members>
+		<members>ABSLIReports/Lead_Report_ll5</members>        
 		<name>Report</name>
 	</types>
     <types>
@@ -1815,6 +1841,7 @@
     <types>
 		<members>Case_With_Policy_and_Branch_Masters</members>
         <members>ABSLI_Dynamic_Link_Report</members>
+        <members>ABSLI_Leads</members>
 		<name>ReportType</name>
 	</types>
     <types>
@@ -1866,6 +1893,7 @@
         <members>ABSLI_Case_Detail__c.Req_Loan_is_greater_than_max_loan</members>
         <members>ABSLI_Case_Detail__c.Req_Loan_is_less_than_min_loan</members>
         <members>Lead.MobilePhone_Validation</members>
+        <members>User.Restrict_User_Record_Updation</members>
 		<name>ValidationRule</name>
 	</types>
     <types>

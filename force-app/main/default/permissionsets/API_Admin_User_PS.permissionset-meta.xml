@@ -696,6 +696,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.RCA_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8508,6 +8513,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.ULIP_Type_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Asset.Processing_State__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -983,7 +983,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_ARS_IV_KEY</shortDescription>
-        <value>tDgbshCSrQpi8fqLBcFWN9Sx55GaRWKo</value>
+        <value>ux8634W2FczDqtFDscbDdFxroSbukNmm</value>
     </labels>
     <labels>
         <fullName>ABSLI_ARS_IV_VALUE</fullName>
@@ -991,7 +991,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_ARS_IV_VALUE</shortDescription>
-        <value>OmEpJ51QoM98ZIJ5</value>
+        <value>uQB5hR_562PPG5Nn</value>
     </labels>
     <labels>
         <fullName>ABSLI_ARS_URL</fullName>
@@ -999,7 +999,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_ARS_URL</shortDescription>
-        <value>https://ikshauat.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</value>
+        <value>https://servace.adityabirlasunlifeinsurance.com/App/CustomerDataScreen.cshtml?</value>
     </labels>
     <labels>
         <fullName>ABSLI_BU</fullName>
@@ -1119,14 +1119,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_Ready_Reck_URL</shortDescription>
-        <value>http://10.155.8.204:94/rtpWS/?rcase=</value>
+        <value>http://10.155.1.90/rtp/web/jsp/login.jsp?rcase=</value>
     </labels>
     <labels>
         <fullName>ABSLI_STATICURL</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI_STATICURL</shortDescription>
-        <value>https://lifeinsuranceservicinguat.adityabirlacapital.com/customer-login/</value>
+        <value>https://lifeinsuranceservicing.adityabirlacapital.com/customer-login/</value>
     </labels>
     <labels>
         <fullName>ABSLI_Track_Sources</fullName>

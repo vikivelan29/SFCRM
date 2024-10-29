@@ -38,6 +38,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             ABSLI_BeforeUpdateTriggerLogic.validateTasks(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
             ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateTriggerLogic.bypassChecklistValForBulk(mAbsliCases.values());
         }  
     }
 
@@ -297,6 +298,20 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         }
     }
     
+    /**
+    * @description This method is used to bypass the checklist validation when a case is 
+    * updated via bulk case update operation
+    * @param mAbsliCases
+    */
+    public static void bypassChecklistValForBulk(List<Case> absliCases){
+        if(ABSLI_BulkCloseCaseConverterUtility.requestFromBulkClose){
+            Map<Id, Set<String>> recIdToSkipperFlag = new Map<Id, Set<String>>();
+            for(Case caseRec : absliCases){
+                recIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_VALIDATE_CHECKLISTS});
+            }
+            ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, null);
+        }
+    }
     //custom exception class
     public class MyCustomException extends Exception {}
 }

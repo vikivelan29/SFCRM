@@ -4,7 +4,7 @@
         <field>SUBJECT</field>
     </columns>
     <columns>
-        <field>CREATED_DATEONLY</field>
+        <field>CREATED_DATE</field>
     </columns>
     <columns>
         <field>CASE_NUMBER</field>
@@ -20,6 +20,9 @@
     </columns>
     <columns>
         <field>LAST_UPDATEONLY</field>
+    </columns>
+    <columns>
+        <field>CLOSED_DATE</field>
     </columns>
     <columns>
         <field>OWNER</field>
@@ -52,10 +55,10 @@
         <field>Asset.Advisor__c</field>
     </columns>
     <columns>
-        <field>ASSET.CREATED_DATE</field>
+        <field>CREATED_DATEONLY</field>
     </columns>
     <columns>
-        <field>ASSET.LAST_UPDATE</field>
+        <field>CLOSED_DATEONLY</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
@@ -68,6 +71,9 @@
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
         <field>Case.Ageing_Number_Of_Days__c</field>
+    </columns>
+    <columns>
+        <field>Asset.Servicing_Agent__c</field>
     </columns>
     <description>ABSLI - Query &amp; Complaints Reporting Set - 1</description>
     <filter>

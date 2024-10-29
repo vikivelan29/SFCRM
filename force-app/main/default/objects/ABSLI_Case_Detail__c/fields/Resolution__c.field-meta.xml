@@ -33,11 +33,6 @@
                 <label>Letter sent to customer</label>
             </value>
             <value>
-                <fullName>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</fullName>
-                <default>false</default>
-                <label>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</label>
-            </value>
-            <value>
                 <fullName>Policy has been reinstated</fullName>
                 <default>false</default>
                 <label>Policy has been reinstated</label>
@@ -313,6 +308,11 @@
                 <label>Valid identity proof not received</label>
             </value>
             <value>
+                <fullName>NEFT payout processed and it will be credited to the customer&apos;s account within next 5 working days</fullName>
+                <default>false</default>
+                <label>NEFT payout processed and it will be credited to the customer&apos;s account within next 5 working days</label>
+            </value>
+            <value>
                 <fullName>Age Proof not clear</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -547,15 +547,15 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Resolved</controllingFieldValue>
-            <valueName>NEFT payout processed and it will be credited to the customer’s account within next 5 working days</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Resolved</controllingFieldValue>
             <valueName>Policy has been reinstated</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Resolved</controllingFieldValue>
             <valueName>Request has been processed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Resolved</controllingFieldValue>
+            <valueName>NEFT payout processed and it will be credited to the customer&apos;s account within next 5 working days</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Unresolved</controllingFieldValue>
