@@ -5,7 +5,7 @@
 *Last Modified  :  21/10/2024
 *@description   :  Class is used for RNWL communication templates on renewal Request
 ************************************************************************************/
-public without sharing class RNWL_CommunicationFrameworkController {
+public with sharing class RNWL_CommunicationFrameworkController {
     
     @AuraEnabled
     public static List<RNWL_Communications__mdt> fetchCommunicationMDT() {
