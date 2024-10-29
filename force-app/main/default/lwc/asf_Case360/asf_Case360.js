@@ -2766,16 +2766,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         this.fieldNameToSearch = '';
         this.bConfirmationTextNotMatching = true;
     }
-    varifyConfirmFieldPopup(event){
-        
-        this.template.querySelectorAll('lightning-input-field').forEach(ele => {
-            if(ele.fieldName == this.fieldNameToSearch){
-                ele.value = this.originalTextValue;
-                this.cancelConfirmFieldPopup();
-                this.handleDynamicComponentOpen();
-            }
-        });
-    }
+    
     handleConfirmTextChange(event){
         let val = event.target.value;
         this.confirmTextValue = val;
@@ -2835,16 +2826,6 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             refreshApex(this.processApexReturnValue);
         }
         
-    }
-
-    handleDynamicComponentOpen(){
-        console.log('handleDynamicComponentOpen');
-        let payload = { 'source': 'case360', 
-        'recordId': this.recordId, 
-        'componentName': 'c/absli_FetchBankDetails',
-        'now' : Date.now() };
-        fireEventNoPageRef(this.pageRef, "openLWCFromEvent", payload);
-        console.log('fireEventNoPageRef done');
     }
 
     handleCase360FieldExtn(event){
