@@ -5,6 +5,6 @@
     <label>ABSLI CAMS Profile Update</label>
     <queue>ABSLI_CAMS_Profile_Update</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLI_CAMS_Profile_Update_G</group>
     </sharedTo>
 </ListView>
