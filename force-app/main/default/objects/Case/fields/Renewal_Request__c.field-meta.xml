@@ -3,6 +3,7 @@
     <fullName>Renewal_Request__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Used for tracking the renewal for which this case was reported. This is automatically tagged based on the policy if a renewal user creates the case</description>
+    <externalId>false</externalId>
     <label>Renewal Request</label>
     <referenceTo>Opportunity</referenceTo>
     <relationshipLabel>Cases</relationshipLabel>
