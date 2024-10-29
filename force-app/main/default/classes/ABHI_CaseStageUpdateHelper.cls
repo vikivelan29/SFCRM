@@ -1,8 +1,8 @@
 public with sharing class ABHI_CaseStageUpdateHelper {
       public static void MoveToStageMethod(List<Case> newCases, List<Case> oldCases) {
-        DateTime currentDateTime = System.now();
-        DateTime twoHoursFromNow = currentDateTime.addHours(2);
-          
+        //DateTime currentDateTime = System.now();
+        //DateTime twoHoursFromNow = currentDateTime.addHours(2);
+          Boolean STPcheck;
           Set<String> cccExternalIds = new Set<String>();
     for (Case newCase : newCases) {
         if (newCase.CCC_External_Id__c != null) {
@@ -11,7 +11,7 @@ public with sharing class ABHI_CaseStageUpdateHelper {
     }
 
 Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Case_Category_Config__c >(
-        [SELECT Id,CCC_External_Id__c,(SELECT Id, Order__c FROM Case_Stage_Configs__r)
+        [SELECT Id,CCC_External_Id__c,Overall_Case_Closure_SLA__c,Nature__c,Is_STP__c,(SELECT Id,Order__c,StageName__c FROM Case_Stage_Configs__r)
          FROM ASF_Case_Category_Config__c 
          WHERE CCC_External_Id__c IN :cccExternalIds]
     );
@@ -25,15 +25,19 @@ Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Ca
             Case newCase = newCases[i];
             Case oldCase = oldCases[i];
             
-            if (newCase.OwnerId != oldCase.OwnerId || newCase.No_Auto_Communication__c != oldCase.No_Auto_Communication__c || newCase.Is_Recategorise_Allowed__c!= oldCase.Is_Recategorise_Allowed__c || newCase.IsEscalated!= oldCase.IsEscalated || newCase.Recategorisation_Date__c != oldCase.Recategorisation_Date__c || newCase.Recategorisation_Reason__c != oldCase.Recategorisation_Reason__c || newCase.Escalation_Comment__c != oldCase.Escalation_Comment__c) {
-                return; // Skip processing if the field has changed
-                
+            if (STPcheck=true || newCase.OwnerId != oldCase.OwnerId || newCase.No_Auto_Communication__c != oldCase.No_Auto_Communication__c || newCase.Is_Recategorise_Allowed__c!= oldCase.Is_Recategorise_Allowed__c || newCase.IsEscalated!= oldCase.IsEscalated || newCase.Recategorisation_Date__c != oldCase.Recategorisation_Date__c || newCase.Recategorisation_Reason__c != oldCase.Recategorisation_Reason__c || newCase.Escalation_Comment__c != oldCase.Escalation_Comment__c) {
+                //continue; // Skip processing this case if above condtions met.
+                 return; // Skip processing if the field has changed
             }
-
             Integer orderValue = 0;
+            String StageName;
           if (newCase.CCC_External_Id__c != null) {
         if (configMapByExternalId.containsKey(newCase.CCC_External_Id__c)) {
-                    ASF_Case_Category_Config__c config = configMapByExternalId.get(newCase.CCC_External_Id__c);
+                ASF_Case_Category_Config__c config = configMapByExternalId.get(newCase.CCC_External_Id__c);
+                Decimal overallSLA = config.Overall_Case_Closure_SLA__c;
+                String Nature = config.Nature__c;
+                STPcheck = config.Is_STP__c;
+            System.debug('Overall SLA: ' + overallSLA);
             if (!config.Case_Stage_Configs__r.isEmpty()) {
                 orderValue = (Integer)config.Case_Stage_Configs__r[0].Order__c;
                 System.debug('Order value for case ' + newCase.Id + ': ' + orderValue);
@@ -52,6 +56,7 @@ Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Ca
                 System.debug('MoveToNext__c condition not met');
             }
         }
+          //update newCases;
     }
 
 }
