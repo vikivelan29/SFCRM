@@ -2498,6 +2498,18 @@
             <fullName>BFL</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>DRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome Call BOT</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Sub_Source__c</picklist>
