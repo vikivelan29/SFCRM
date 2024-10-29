@@ -221,9 +221,7 @@ export default class RNWL_Communication_Framework extends LightningElement {
             alternateMobile : this.inputNumber,
             toAddresses : this.inputEmail,
             ccAddresses : this.inputCCEmail,
-            opportunityId : this.recordId,
-            className: className,
-            methodName: methodName
+            opportunityId : this.recordId
         };
         let requestJSON = JSON.stringify(requestWrapper);
         notifyUsers({ requestJSON : requestJSON })
