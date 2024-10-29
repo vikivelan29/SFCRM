@@ -3,7 +3,7 @@
     <sharingCriteriaRules>
         <fullName>RNWL_ATS_Opportunity_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <description>RNWL ATS Opportunity Sharing Rule</description>
+        <description>RNWL ATS Opportunity Sharing</description>
         <label>RNWL ATS Opportunity Sharing</label>
         <sharedTo>
             <role>RNWL_Health_Expert_ATS</role>
