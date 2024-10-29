@@ -3,9 +3,9 @@
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <name>ABSLAMC MF Issue Management Unit</name>
     <queueMembers>
-        <users>
-            <user>nkumar6@salesforce.com</user>
-        </users>
+        <publicGroups>
+            <publicGroup>ABSLAMC_MF_Issue_Management_Unit_G</publicGroup>
+        </publicGroups>
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
