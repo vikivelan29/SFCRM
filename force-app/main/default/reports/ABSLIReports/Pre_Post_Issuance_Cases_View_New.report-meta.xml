@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Case$Status</field>
-    </columns>
-    <columns>
-        <field>Case$Subject</field>
-    </columns>
-    <columns>
         <field>Case$CreatedDate</field>
     </columns>
     <columns>
@@ -14,9 +8,6 @@
     </columns>
     <columns>
         <field>Case$Nature__c</field>
-    </columns>
-    <columns>
-        <field>Case$CCC_External_Id__c</field>
     </columns>
     <columns>
         <field>Case$Type_Text__c</field>
@@ -50,15 +41,15 @@
     </columns>
     <filter>
         <criteriaItems>
-            <column>Case$CCC_External_Id__c</column>
+            <column>Case$Case_Assigned_Team__c</column>
             <columnToColumn>false</columnToColumn>
-            <isUnlocked>false</isUnlocked>
-            <operator>contains</operator>
-            <value>DUP002,NBFL002,NBFT001,NBPC006,NBPC007,NBPC008,NBPC009,NBPC012,NBPD001,NBPP004,RPR001,NBRC004,NBPC010,NBPP006,PIMF003,NBPC001,NBPC002,NBPC003,NBPC004</value>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABSLI Pre Issuance Team,ABSLI Post Issuance Team</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>CRM Request Cases</name>
+    <name>Pre-Post Issuance Cases View New</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -69,7 +60,7 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Case$CreatedDate</dateColumn>
+        <dateColumn>Case$Created_Date_Value__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Case$Status</field>
-    </columns>
-    <columns>
         <field>Case$Subject</field>
     </columns>
     <columns>
@@ -13,52 +10,62 @@
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
-        <field>Case$Nature__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Resolution_Comments__c</field>
     </columns>
     <columns>
-        <field>Case$CCC_External_Id__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Resolution__c</field>
     </columns>
     <columns>
-        <field>Case$Type_Text__c</field>
-    </columns>
-    <columns>
-        <field>Case$Sub_Type_Text__c</field>
-    </columns>
-    <columns>
-        <field>Case$Owner</field>
-    </columns>
-    <columns>
-        <field>Case$Asset.Policy_No__c</field>
-    </columns>
-    <columns>
-        <field>Case$Description</field>
+        <field>Case$LastModifiedBy</field>
     </columns>
     <columns>
         <field>Case$LastModifiedDate</field>
     </columns>
     <columns>
-        <field>Case$Asset.Application_Number__c</field>
+        <field>Case$Owner</field>
     </columns>
     <columns>
-        <field>Case$Case_Assigned_Team__c</field>
+        <field>Case$Description</field>
     </columns>
     <columns>
-        <field>Case$CreatedBy</field>
+        <field>Case$Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Outcome__c</field>
+        <field>Case$Categorization_Date__c</field>
     </columns>
+    <columns>
+        <field>Case$Sub_Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case$Source__c</field>
+    </columns>
+    <columns>
+        <field>Case$Status</field>
+    </columns>
+    <columns>
+        <field>Case$Nature__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Policy_No__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Advisor__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Advisor__c.Advisor_Code__c</field>
+    </columns>
+    <description>Requested by Dhanesh</description>
     <filter>
         <criteriaItems>
-            <column>Case$CCC_External_Id__c</column>
+            <column>Case$Nature__c</column>
             <columnToColumn>false</columnToColumn>
-            <isUnlocked>false</isUnlocked>
-            <operator>contains</operator>
-            <value>DUP002,NBFL002,NBFT001,NBPC006,NBPC007,NBPC008,NBPC009,NBPC012,NBPD001,NBPP004,RPR001,NBRC004,NBPC010,NBPP006,PIMF003,NBPC001,NBPC002,NBPC003,NBPC004</value>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Complaint</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>CRM Request Cases</name>
+    <name>Productivity Queries</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -69,7 +76,7 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Case$CreatedDate</dateColumn>
-        <interval>INTERVAL_CUSTOM</interval>
+        <dateColumn>Case$Created_Date_Value__c</dateColumn>
+        <interval>INTERVAL_CURRENT</interval>
     </timeFrameFilter>
 </Report>

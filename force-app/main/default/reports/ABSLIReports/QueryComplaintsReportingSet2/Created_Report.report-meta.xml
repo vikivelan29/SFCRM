@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Case$Subject</field>
-    </columns>
-    <columns>
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
-        <field>Case$Created_Date_Value__c</field>
-    </columns>
-    <columns>
         <field>Case$CreatedDate</field>
-    </columns>
-    <columns>
-        <field>Case$ClosedDate</field>
     </columns>
     <columns>
         <field>Case$Asset.Policy_No__c</field>
@@ -28,10 +19,7 @@
         <field>Case$Asset.Advisor__c.Advisor_Status__c</field>
     </columns>
     <columns>
-        <field>CDF1</field>
-    </columns>
-    <columns>
-        <field>Case$Asset.Branch__c.Name</field>
+        <field>Case$Asset.Branch__c</field>
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Branch_Code__c</field>
@@ -64,13 +52,10 @@
         <field>Case$ABSLI_Case_Detail__c.Investigation_Comment__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Resolution_Comments__c</field>
-    </columns>
-    <columns>
         <field>Case$Entity_Reference_No__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.IRDAI_Token_Number__c</field>
+        <field>Case$IRDAI_Token_Number__c</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
@@ -95,13 +80,29 @@
         <field>Case$Asset.Type__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.Resolution_Comments__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Resolution__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Acknowledged_Date__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Ageing_Number_Of_Days__c</field>
+    </columns>
+    <columns>
         <field>Case$Channel__c</field>
     </columns>
     <columns>
         <field>Case$CreatedBy</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Retention_value__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Decision__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Decision_Description__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Type_of_Disposal__c</field>
@@ -119,7 +120,7 @@
         <field>Case$ABSLI_Case_Detail__c.From_Date__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Escalated_Date__c</field>
+        <field>Case$Escalated_Date_Time__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Customer_Contactibility_CIose_looping__c</field>
@@ -146,7 +147,10 @@
         <field>Case$Asset.Issue_Date__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Reopened_Date__c</field>
+        <field>Case$Reopened_DateTime__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Reason_for_noncontactability_Acknowledge__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Reason_For_non_Contactability_Close_Loop__c</field>
@@ -155,22 +159,22 @@
         <field>Case$ABSLI_Case_Detail__c.Reason_for_repeat__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.Resolved_Date__c</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.Resolved_settled_status__c</field>
     </columns>
     <columns>
         <field>Case$Account.Customer_Segment__c</field>
     </columns>
     <columns>
-        <field>Case$Account.Client_Code__c</field>
+        <field>Case$Asset.Client_Code__c</field>
     </columns>
     <columns>
-        <field>Case$Account.PersonContact.Birthdate</field>
+        <field>Case$Contact.Birthdate</field>
     </columns>
     <columns>
-        <field>Case$Account.PersonContact.Email</field>
-    </columns>
-    <columns>
-        <field>Case$Account.PersonContact.MobilePhone</field>
+        <field>Case$Contact.MobilePhone</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Acknowledgement_Call_Done_on_Number__c</field>
@@ -188,7 +192,7 @@
         <field>Case$ABSLI_Case_Detail__c.IGMS_Complaint_Registration_Date__c</field>
     </columns>
     <columns>
-        <field>Case$Reopened_DateTime__c</field>
+        <field>Case$ABSLI_Case_Detail__c.Reopened_Date__c</field>
     </columns>
     <columns>
         <field>Case$Source__c</field>
@@ -199,29 +203,36 @@
     <columns>
         <field>Case$LastModifiedDate</field>
     </columns>
-    <customDetailFormulas>
-        <calculatedFormula>IF(CONTAINS(Case.Type_Text__c, &quot;Sales&quot;), &quot;Sales&quot;, &quot;Non Sales&quot;)</calculatedFormula>
-        <dataType>Text</dataType>
-        <description>Type Text Fromula</description>
-        <developerName>CDF1</developerName>
-        <label>Sales \ Non sales</label>
-        <scale>2</scale>
-    </customDetailFormulas>
-    <description>ABSLI - Query &amp; Complaints Reporting Set - 1</description>
+    <columns>
+        <field>Case$Recategorisation_Reason__c</field>
+    </columns>
+    <columns>
+        <field>Case$Winning_Email__c</field>
+    </columns>
+    <columns>
+        <field>Case$Account.PersonContact.Email</field>
+    </columns>
     <filter>
         <criteriaItems>
-            <column>Case$Nature__c</column>
+            <column>Case$Assigned_Team__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>retention</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Complaint</value>
+            <value>10/1/2024 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Case$Case_Assigned_Team__c</column>
+            <column>Case$ABSLI_Case_Detail__c.Complaint_Category__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>notContain</operator>
-            <value>Retention</value>
+            <operator>equals</operator>
+            <value>Repeat,Escalation,Information,Complaint</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case$Account.Owner.Email</column>
@@ -232,7 +243,7 @@
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>Consolidated Data</name>
+    <name>Created Report</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -243,9 +254,7 @@
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
-        <dateColumn>Case$CreatedDate</dateColumn>
-        <endDate>2024-09-30</endDate>
+        <dateColumn>Case$Created_Date_Value__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
-        <startDate>2024-06-01</startDate>
     </timeFrameFilter>
 </Report>
