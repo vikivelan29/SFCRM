@@ -273,6 +273,9 @@
         <members>ABCL_AssetTriggerHandler</members>
         <members>ABSLI_RemoveAccountTeamBatch2</members>
         <members>ABFL_UserTeamDataUpdateBatchTest</members>
+        <members>ABCL_Logger</members>
+        <members>ABCL_Logger_Test</members>
+        <members>ASF_TriggerSkipperUtility</members>
 		<name>ApexClass</name>
 	</types>
     <types>
