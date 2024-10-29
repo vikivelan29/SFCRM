@@ -7,38 +7,23 @@
  ***************************************/
 @SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.NcssTypeCount')
 public with sharing class ABHI_CaseStageUpdateHelper {
-     /**********
-     Method Name - MoveToStageMethod
-     @description :  Method to update MoveToNext__c on required conditions.
-     ***********/
-    public static void moveToStageMethod(
-        List<Case> newCases,
-        List<Case> oldCases
-    ) {
-        Boolean stpCheck;
-        Set<String> cccExternalIds = new Set<String>();
-        for (Case newCase : newCases) {
-            if(newCase.CCC_External_Id__c != null && newCase.Rejection_Reason__c==null) {
-                cccExternalIds.add(newCase.CCC_External_Id__c);
-            }
+      public static void MoveToStageMethod(List<Case> newCases, List<Case> oldCases) {
+        //DateTime currentDateTime = System.now();
+        //DateTime twoHoursFromNow = currentDateTime.addHours(2);
+          Boolean STPcheck;
+          Set<String> cccExternalIds = new Set<String>();
+    for (Case newCase : newCases) {
+        if (newCase.CCC_External_Id__c != null) {
+            cccExternalIds.add(newCase.CCC_External_Id__c);
         }
 
-        Map<String, ASF_Case_Category_Config__c> caseConfigMap = new Map<String, ASF_Case_Category_Config__c>(
-            [
-                SELECT
-                    Id,
-                    CCC_External_Id__c,
-                    Overall_Case_Closure_SLA__c,
-                    Nature__c,
-                    Is_STP__c,
-                    (
-                        SELECT Id, Order__c, StageName__c
-                        FROM Case_Stage_Configs__r
-                    )
-                FROM ASF_Case_Category_Config__c
-                WHERE CCC_External_Id__c IN :cccExternalIds AND Is_STP__c = True AND Save_to_Next_Stage__c = True AND Nature__c = 'Request']);
-
-        Map<String, ASF_Case_Category_Config__c> configMapByExternalId = new Map<String, ASF_Case_Category_Config__c>();
+Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Case_Category_Config__c >(
+        [SELECT Id,CCC_External_Id__c,Overall_Case_Closure_SLA__c,Nature__c,Is_STP__c,(SELECT Id,Order__c,StageName__c FROM Case_Stage_Configs__r)
+         FROM ASF_Case_Category_Config__c 
+         WHERE CCC_External_Id__c IN :cccExternalIds]
+    );
+          
+          Map<String, ASF_Case_Category_Config__c> configMapByExternalId = new Map<String, ASF_Case_Category_Config__c>();
         for (ASF_Case_Category_Config__c config : caseConfigMap.values()) {
             configMapByExternalId.put(config.CCC_External_Id__c, config);
         }
@@ -46,30 +31,34 @@ public with sharing class ABHI_CaseStageUpdateHelper {
         for (Integer i = 0; i < newCases.size(); i++) {
             Case newCase = newCases[i];
             Case oldCase = oldCases[i];
-
-            if (newCase.CCC_External_Id__c !=oldCase.CCC_External_Id__c ||
-                newCase.OwnerId != oldCase.OwnerId ||
-                newCase.No_Auto_Communication__c !=
-                oldCase.No_Auto_Communication__c ||
-                newCase.Is_Recategorise_Allowed__c !=
-                oldCase.Is_Recategorise_Allowed__c ||
-                newCase.IsEscalated != oldCase.IsEscalated ||
-                newCase.Recategorisation_Date__c !=
-                oldCase.Recategorisation_Date__c ||
-                newCase.Recategorisation_Reason__c !=
-                oldCase.Recategorisation_Reason__c ||
-                newCase.Escalation_Comment__c != oldCase.Escalation_Comment__c
-            ) {
+            
+            if (STPcheck=true || newCase.OwnerId != oldCase.OwnerId || newCase.No_Auto_Communication__c != oldCase.No_Auto_Communication__c || newCase.Is_Recategorise_Allowed__c!= oldCase.Is_Recategorise_Allowed__c || newCase.IsEscalated!= oldCase.IsEscalated || newCase.Recategorisation_Date__c != oldCase.Recategorisation_Date__c || newCase.Recategorisation_Reason__c != oldCase.Recategorisation_Reason__c || newCase.Escalation_Comment__c != oldCase.Escalation_Comment__c) {
                 //continue; // Skip processing this case if above condtions met.
                 return; // Skip processing if the field has changed
             }
-            //Integer orderValue = 0;
-            //String stageName;
-            if (newCase.CCC_External_Id__c != null) {
+            Integer orderValue = 0;
+            String StageName;
+          if (newCase.CCC_External_Id__c != null) {
+        if (configMapByExternalId.containsKey(newCase.CCC_External_Id__c)) {
                 ASF_Case_Category_Config__c config = configMapByExternalId.get(newCase.CCC_External_Id__c);
-                if (config == null || config.Case_Stage_Configs__r.isEmpty()) {
-                    return; // Skip if no config found
-                }
+                Decimal overallSLA = config.Overall_Case_Closure_SLA__c;
+                String Nature = config.Nature__c;
+                STPcheck = config.Is_STP__c;
+            System.debug('Overall SLA: ' + overallSLA);
+            if (!config.Case_Stage_Configs__r.isEmpty()) {
+                orderValue = (Integer)config.Case_Stage_Configs__r[0].Order__c;
+                StageName = config.Case_Stage_Configs__r[0].StageName__c;
+              System.debug('Order Value: ' + orderValue);
+            }if (Nature=='Request' && orderValue == 1 && newCase.Stage__c == StageName){
+                newCase.MoveToNext__c = true;     
+                    } else {
+                        System.debug('MoveToNext__c condition not met for case ' + newCase.Id);
+                           }
+        } 
+    }   
+        }
+          //update newCases;
+    }
 
                 Integer orderValue = (Integer) config.Case_Stage_Configs__r[0].Order__c;
                 String stageName = config.Case_Stage_Configs__r[0].StageName__c;
