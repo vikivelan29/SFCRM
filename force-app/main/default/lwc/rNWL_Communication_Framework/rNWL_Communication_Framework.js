@@ -33,7 +33,17 @@ export default class RNWL_Communication_Framework extends LightningElement {
         { label: 'SMS', value: 'SMS' },
         { label: 'Whatsapp', value: 'Whatsapp' },
     ];
-  
+
+    @wire(getRecord, { recordId: '$recordId', fields }) 
+    record({ error, data }){
+        if (data) {
+            this.currentPhone = getFieldValue(data, ACCOUNT_Phone) ? getFieldValue(data, ACCOUNT_Phone) : 'NA'; 
+            this.currentEmail = getFieldValue(data, ACCOUNT_Email) ? getFieldValue(data, ACCOUNT_Email) : 'NA'; 
+        }else if(error){
+            console.log('error-', JSON.stringify(error));
+        }
+    }
+
     connectedCallback(){
         this.userList = [];
         this.showSpinner = true;
@@ -83,6 +93,7 @@ export default class RNWL_Communication_Framework extends LightningElement {
             if (!this.validPhoneStart.includes(parseInt(phoneNumber[0]))) {
                 phnCmp.setCustomValidity("Please enter valid phone number");
             } else {
+                this.inputNumber = phoneNumber;
                 phnCmp.setCustomValidity("");
             }
             phnCmp.reportValidity();
@@ -159,9 +170,9 @@ export default class RNWL_Communication_Framework extends LightningElement {
         let requestWrapper = { 
             selectedTemplate : this.selectedTemplate,
             notificationMode : this.selectedChannelSource,
-            alternateMobile : this.template.querySelector(".inputPhone"),
-            toAddresses : this.template.querySelector(".toAddressCmp"),
-            ccAddresses : this.template.querySelector(".ccAddressCmp"),
+            alternateMobile : this.inputNumber,
+            toAddresses : this.inputEmail,
+            ccAddresses : this.inputCCEmail,
             opportunityId : this.recordId
         };
         let requestJSON = JSON.stringify(requestWrapper);
