@@ -3230,6 +3230,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Branch_Master__c.Branch_State__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Branch_Master__c.Branch_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
