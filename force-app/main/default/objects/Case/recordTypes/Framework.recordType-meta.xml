@@ -2451,7 +2451,51 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Open</fullName>
+            <fullName>BRANCH EMAIL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Courier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claims</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR Voice BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Assurance team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PolicyBazar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BFL</fullName>
             <default>false</default>
         </values>
     </picklistValues>
