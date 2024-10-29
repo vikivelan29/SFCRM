@@ -33,11 +33,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-                //populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
+                populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
-                //populateFieldsOnCase(abhiNewCaseList, null);//RNWL
+                populateFieldsOnCase(abhiNewCaseList, null);//RNWL
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
@@ -207,11 +207,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -260,11 +256,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -461,15 +453,13 @@ public with sharing class ABHI_BusinessLogic_Helper {
     * @description - Source Based Case creation restriction
     */
     @AuraEnabled
-    public static String abhiCaseSourceValidation(Case caseRecord) {
+    public static String abhiCaseSourceValidation(String caseRecord) {
 
         Map<String,ABHI_Create_Case_Validations__mdt> issueCodeToErrorMsgMap = new Map<String,ABHI_Create_Case_Validations__mdt>();
-       // Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-        String caseBusinessUnit = caseRecord.Business_Unit__c ?? '';
-        String caseCCCExtId = caseRecord.CCC_External_Id__c ?? '';
-        String caseSource = caseRecord.Source__c ?? '';
-        String caseChannel = caseRecord.Channel__c ?? '';
-        String caseTechnicalSource = caseRecord.Technical_Source__c ?? '';
+        Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
+        String caseBusinessUnit = (String)jsonMap.get('Business_Unit__c') ?? '';
+        String caseCCCExtId = (String)jsonMap.get('CCC_External_Id__c') ?? '';
+        String caseSource = (String)jsonMap.get('Source__c') ?? '';
         String result = 'Success';
 
         try{
@@ -487,9 +477,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
 
             //validate the case record
             if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
-                ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
-
-                if(metaDataRec.Source__c != caseSource) {
+                ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);               
+                if(metaDataRec.Source__c != caseSource){
                     result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
@@ -508,7 +497,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
     public static void logtheException(Exception exceptn) {
         System.debug('@@@mess' + exceptn.getMessage() + ' ' + exceptn.getLineNumber());
         ABCL_Logger.enableExceptionLogging();
-        ABCL_Logger.push('Case creation validation');
+        ABCL_Logger.push('abhiCaseSourceValidation Case creation validation');
         ABCL_Logger.message(exceptn.getMessage());
         ABCL_Logger.emit();
     }
@@ -518,7 +507,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
     * @return : void 
     * @description : Prepopulates Fields on Case during before insert and update
     */
-    /*public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
+    public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
         
         Set<Id> assetIds = new Set<Id>();
         List<Case> casesToUpdate = new List<Case>();
@@ -529,7 +518,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(casRec.AssetId != null && 
                ((oldCaseMap == null) || 
                 (oldCase != null && oldCase.AssetId != casRec.AssetId))){
-                    assetIds.add(casRec.AssetId);
+                	assetIds.add(casRec.AssetId);
                     casesToUpdate.add(casRec);
             }
         }
@@ -543,14 +532,14 @@ public with sharing class ABHI_BusinessLogic_Helper {
 
         for(Case cas : casesToUpdate){
             cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId)?.Calling_Source__c ?? ''; 
-        }
+		}
         
         if(oldCaseMap != NULL){ return; }
         
         Id profileId = UserInfo.getProfileId();
         String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId].Name;
         
-        if(profileName != 'RNWL Base Profile' && profileName != 'RNWL Manager Profile'){ return; }
+        if(profileName != 'System Administrator' || profileName != 'RNWL Manager Profile'){ return; }
         
         for(Case rnwlCase : casesToUpdate){
             if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
@@ -558,5 +547,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
                rnwlCase.Renewal_Request__c = opp.Id;
             }
         }   
-    }*/
+    }
 }
