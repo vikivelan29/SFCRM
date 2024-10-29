@@ -27,12 +27,6 @@
         <field>Case.Nature__c</field>
     </columns>
     <columns>
-        <field>DESCRIPTION</field>
-    </columns>
-    <columns>
-        <field>Case.Winning_Email__c</field>
-    </columns>
-    <columns>
         <field>Case.Type_Text__c</field>
     </columns>
     <columns>
@@ -57,9 +51,6 @@
         <field>Asset.Issue_Date__c</field>
     </columns>
     <columns>
-        <field>Account.Customer_Segment__c</field>
-    </columns>
-    <columns>
         <field>ASSET.STATUS</field>
     </columns>
     <columns>
@@ -69,10 +60,19 @@
         <field>Asset.Type__c</field>
     </columns>
     <columns>
+        <field>Account.Customer_Segment__c</field>
+    </columns>
+    <columns>
         <field>Asset.Advisor__c</field>
     </columns>
     <columns>
-        <field>ASSET.CREATED</field>
+        <field>Case.Winning_Email__c</field>
+    </columns>
+    <columns>
+        <field>CREATED</field>
+    </columns>
+    <columns>
+        <field>DESCRIPTION</field>
     </columns>
     <columns>
         <field>Asset.Mode__c</field>

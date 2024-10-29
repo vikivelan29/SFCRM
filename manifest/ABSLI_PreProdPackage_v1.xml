@@ -272,6 +272,7 @@
         <members>ABCL_AssetTriggerHelper</members>
         <members>ABCL_AssetTriggerHandler</members>
         <members>ABSLI_RemoveAccountTeamBatch2</members>
+        <members>ABFL_UserTeamDataUpdateBatchTest</members>
 		<name>ApexClass</name>
 	</types>
     <types>
@@ -1604,7 +1605,6 @@
         <members>Case.ABSLI_CAMS_Customer_Payout_Team_Case</members>
         <members>Case.ABSLI_CAMS_Profile_Update_Case</members>
         <members>Case.ABSLI_CAMS_Reinstatement_Team_Case</members>
-        <members>Case.ABSLI_Claims_Payout_Case</members>
         <members>Case.ABSLI_Claims_Team_Case</members>
         <members>Case.ABSLI_Complaints_Team_Case</members>
         <members>Case.ABSLI_DOB_Change_EVA_Benefit_Team_Case</members>
@@ -1685,6 +1685,7 @@
         <members>asfCreateCaseWithType</members>
         <members>aBSLI_redirectToReadyReckenor</members>
         <members>absli_policyClientView</members>
+        <members>asf_DMSViewDatatable</members>
 		<name>LightningComponentBundle</name>
 	</types>
     <types>
@@ -1746,7 +1747,6 @@
         <members>ABSLI_CAMS_Customer_Payout_Team</members>
         <members>ABSLI_CAMS_Profile_Update</members>
         <members>ABSLI_CAMS_Reinstatement_Team</members>
-        <members>ABSLI_Claims_Payout</members>
         <members>ABSLI_Claims_Team</members>
         <members>ABSLI_Complaints_Team</members>
         <members>ABSLI_DOB_Change_EVA_Benefit_Team</members>
@@ -1819,6 +1819,18 @@
         <members>ABSLIReports/RequestsReports/Retention</members>
         <members>ABSLIReports/Top_10_misselling_products1</members>
         <members>ABSLIReports/Weekly_MD_review_v1</members>
+        <members>ABSLIReports/New_Cases_with_Case_SLA_Histories_Report_crQ</members>
+	    <members>ABSLIReports/Productivity_Queries_5x1</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/Created_Report</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/Resolved_data</members>
+		<members>ABSLIReports/QueryComplaintsReportingSet2/ERN_cases_all_complaints</members>
+		<members>ABSLIReports/CRM_Dump_Resolved_Data</members>
+		<members>ABSLIReports/UW_Query_Management</members>
+		<members>ABSLIReports/UW_Query_Management_resolved</members>
+		<members>ABSLIReports/Case_Advanced_Find_View</members>
+		<members>ABSLIReports/Pre_Post_Issuance_Cases_View_New</members>
+		<members>ABSLIReports/Claim_Report_Open_Cases</members>
+		<members>ABSLIReports/Lead_Report_ll5</members>        
 		<name>Report</name>
 	</types>
     <types>
@@ -1830,6 +1842,7 @@
     <types>
 		<members>Case_With_Policy_and_Branch_Masters</members>
         <members>ABSLI_Dynamic_Link_Report</members>
+        <members>ABSLI_Leads</members>
 		<name>ReportType</name>
 	</types>
     <types>
