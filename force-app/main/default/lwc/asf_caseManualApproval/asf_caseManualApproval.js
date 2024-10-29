@@ -1,7 +1,7 @@
 import { LightningElement, wire, api } from 'lwc';
 import { getRecord, getFieldValue, getRecordNotifyChange, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/ASF_Case_Approv__c.Approver_01__c';
-import { modalStates, errorCodes, getBUSpecificStaticFields } from "./caseManualApprovalUtility.js";
+import { modalStates, errorCodes, staticFields  } from "./caseManualApprovalUtility.js";
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 import currentUserId from '@salesforce/user/Id';
