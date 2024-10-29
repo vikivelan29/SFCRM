@@ -283,8 +283,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             }
             this.disbleNextBtn = false;
         }
-        // added by sunil 03/09/2024
-        this.checkTrackIdCondition();
     }
 
     // Method Description - Deselect all selection from lightning datatable
@@ -574,7 +572,10 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         //code added by sunil - 03/09/2024
         this.checkTrackIdCondition();
     }
+    //method code added by sunil- 03/09/2024
+    // this method checking whether trackId field should be visible or not
      checkTrackIdCondition(){
+
         
         if(this.boolAllSourceVisible){
             if(this.loggedInUserBusinessUnit === 'ABHFL'){
