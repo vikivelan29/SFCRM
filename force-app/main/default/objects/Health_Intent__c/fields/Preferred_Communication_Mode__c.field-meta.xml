@@ -42,9 +42,9 @@
                 <label>Twitter</label>
             </value>
             <value>
-                <fullName>Phone call</fullName>
+                <fullName>Phone</fullName>
                 <default>false</default>
-                <label>Phone call</label>
+                <label>Phone</label>
             </value>
         </valueSetDefinition>
     </valueSet>
