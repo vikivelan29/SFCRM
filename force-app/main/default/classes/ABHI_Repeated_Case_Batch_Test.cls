@@ -80,4 +80,4 @@ public with sharing class ABHI_Repeated_Case_Batch_Test {
         ABHI_Case_Detail__c abhiCaseDetObj = [SELECT id, Repeated__c FROM ABHI_Case_Detail__c Limit 1];
         Assert.areEqual('Yes', abhiCaseDetObj.Repeated__c);
     }
-}
+} 
