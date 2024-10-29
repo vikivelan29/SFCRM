@@ -21,6 +21,7 @@ public without sharing class RNWL_NonIndAccountRenewalController {
             String policyNumber = oppList[0].Policy_Number__c;
 			String responseBody = getResponseFromFiles(opportunityId , 'Renewal Group Check');
             Policy_Detail_Wrapper details = new Policy_Detail_Wrapper();
+            ResponseBodyWrapper respWrapper = new ResponseBodyWrapper ();
 
             if(String.isBlank(responseBody)){
                 String payload = '{"lead_Id":null,"master_policy_number":null,"certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
@@ -29,17 +30,26 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                 String fileName = 'Renewal Group Check-'+Date.today();
                 system.debug(responseWrapper);
                 responseBody = responseWrapper.responseBody;
-                if(String.isNotBlank(responseBody)){
+                respWrapper = (ResponseBodyWrapper)JSON.deserialize(responseBody, ResponseBodyWrapper.class);
+                
+                if(respWrapper.error != null && respWrapper.error[0].ErrorCode != '00' 
+                    && respWrapper.error[0].ErrorMessage != 'Success'){
+                        details.hasError = true;
+                        details.errorMessage = respWrapper.error[0].ErrorMessage; 
+                        return details;
+                }
+                else if(String.isNotBlank(responseBody)){
                     uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Group Check');
                 }else{
                     details.hasError = true;
                     details.errorMessage = 'API Call Failed Please Retry'; 
                     return details;
                 }
+            }else{
+                respWrapper = (ResponseBodyWrapper)JSON.deserialize(responseBody, ResponseBodyWrapper.class);
             }
             
-            ResponseBodyWrapper respWrapper = (ResponseBodyWrapper)JSON.deserialize(responseBody, ResponseBodyWrapper.class);
-            
+           
             if(respWrapper.error != null && respWrapper.error[0].ErrorCode != '00' 
                 && respWrapper.error[0].ErrorMessage != 'Success'){
                     details.hasError = true;
