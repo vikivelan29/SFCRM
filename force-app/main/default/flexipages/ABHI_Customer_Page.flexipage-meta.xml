@@ -238,8 +238,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Created_On__c</fieldItem>
-                <identifier>RecordCreated_On_cField</identifier>
+                <fieldItem>Record.Created_Date__c</fieldItem>
+                <identifier>RecordCreated_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b47d793a-8d63-4d5a-8ec0-c4c4558bff94</name>
