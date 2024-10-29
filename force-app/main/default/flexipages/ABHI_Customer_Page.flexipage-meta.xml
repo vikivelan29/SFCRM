@@ -1344,12 +1344,6 @@
                             <value>Which_phone_are_you_using__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Preferred_Communication_Mode__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Preferred_Language__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>CREATED_DATE</value>
                         </valueListItems>
                     </valueList>
