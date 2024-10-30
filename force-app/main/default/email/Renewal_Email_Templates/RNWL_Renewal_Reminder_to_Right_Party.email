@@ -1,9 +1,9 @@
-<messaging:emailTemplate subject="Opportunities to verify" recipientType="User" relatedToType="Opportunity">
+<messaging:emailTemplate subject="Reminder Renewal Premium Payment for Policy No. {!relatedTo.Policy_Number__c}" recipientType="User" relatedToType="Opportunity">
    <messaging:htmlEmailBody >
    <p>
-         Subject: Request for Payment Link for Policy No. {!relatedTo.Policy_Number__c} <br/><br/>
-         Policy No.: {!relatedTo.Policy_Number__c} <br/>
-         Plan Name:  {!relatedTo.Plan_Name__c}
+         <apex:image id="theImage" value="{!$Resource.Header}" width="200" height="100"/> <br/><br/><br/>
+         Policy No : {!relatedTo.Policy_Number__c} <br/>
+         Plan Name :  {!relatedTo.Plan_Name__c}
          <br/><br/>Dear {!relatedTo.Customer_Name__c},
          <br/><br/> We value your relationship with us and thank you for trusting us with your health insurance needs.
          We wish to inform you that your Health Insurance Policy is due for Renewal on {DD/MM/YYYY}.
@@ -29,6 +29,8 @@
          We wish you the best of health at all times! <br/><br/>
          Warm Regards, <br/>      
          Aditya Birla Health Insurance <br/><br/>
+         <apex:image id="theImage1" value="{!$Resource.Footer1}" width="800" height="120"/> <br/>
+         <apex:image id="theImage2" value="{!$Resource.Footer2}" width="800" height="120"/> <br/>
       </p>
    </messaging:htmlEmailBody>
 </messaging:emailTemplate>
