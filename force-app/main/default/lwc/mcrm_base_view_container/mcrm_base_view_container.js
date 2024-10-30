@@ -98,6 +98,11 @@ export default class Wellness_api_view extends LightningElement {
 			}
 			this.isLoading = false;
 			if (this.tableData && this.tableData.length > 0) {
+				if(this.dynTableAPI == 'MCRM_Devices'){
+					this.tableData.forEach(row => {
+						row.synced = row.synced == '1' ? 'true' : 'false';
+					});
+				}
 				this.showBaseView = true;
 				this.template.querySelector("c-abc_base_tableview").refreshTable(this.tableData); //mutate; refresh the table data 
 				if(this.passPayload){
