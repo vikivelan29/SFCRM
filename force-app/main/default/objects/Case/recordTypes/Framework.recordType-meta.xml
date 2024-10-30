@@ -1920,6 +1920,62 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Branch Courier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claims</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR Voice BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Assurance team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PolicyBazar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BFL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome Call BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Branch %28walk-in %2F phone%29</fullName>
             <default>false</default>
         </values>
@@ -2448,62 +2504,6 @@
         </values>
         <values>
             <fullName>In Progress with SA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Branch Courier</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Branch Letter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Claims</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Claim Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Follow-up</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>IVR Voice BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Phone Inbound</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service Assurance team</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PolicyBazar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>DRM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Welcome</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Welcome Call BOT</fullName>
             <default>false</default>
         </values>
     </picklistValues>
