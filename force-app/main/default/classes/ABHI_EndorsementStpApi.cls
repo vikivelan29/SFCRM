@@ -276,7 +276,9 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
              else if (caseInteg.Status__c == ABHI_Constants.FAILURE) {
                 Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);                
                 List<sObject> dmlRecords = new List<sObject>();
-                    caseRecord.Stage__c ='In Progress';
+		if(caseRecord.Technical_Source__c=='LWC'){
+        		caseRecord.MoveToNext__c  = true;
+                }
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, true);     
             }
