@@ -483,7 +483,7 @@ export const lanLabels = {
         },
         {
             label: 'Contract No',
-            fieldName: 'LAN__c',
+            fieldName: 'ContractId__c',
             type: 'text',
             initialWidth: 180
         },
