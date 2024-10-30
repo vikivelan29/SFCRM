@@ -7,7 +7,7 @@ public class RNWL_OpportunityTriggerHelper {
     } 
     
     /****************************************************************************************************************
-* @Function - setOpportunityFieldValues
+* @Function - setOpportunityFieldValues 
 * @param newOppsList -  list of Opportunities from trigger.new.
 * @return - void .
 * @Description - Invoked from BeforeInsert this method pre-populates fields on Opps from Asset record.
