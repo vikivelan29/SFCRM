@@ -6,10 +6,10 @@
 NOT(ISNEW()),
 NOT(ISBLANK(Primary_Contact_Number__c)),
 OR(
-LEN((Primary_Contact_Number__c)) &lt;&gt; 10,
-NOT(REGEX((Primary_Contact_Number__c), &quot;[0-9]+&quot;)),
-REGEX((Primary_Contact_Number__c), &quot;(.)\\1{9}&quot;),
-LEFT((Primary_Contact_Number__c), 5) = &quot;12345&quot;
+LEN(TEXT(Primary_Contact_Number__c)) &lt;&gt; 10,
+NOT(REGEX(TEXT(Primary_Contact_Number__c), &quot;[0-9]+&quot;)),
+REGEX(TEXT(Primary_Contact_Number__c), &quot;(.)\\1{9}&quot;),
+LEFT(TEXT(Primary_Contact_Number__c), 5) = &quot;12345&quot;
 )
 )</errorConditionFormula>
     <errorMessage>Incorrect Contact Number</errorMessage>
