@@ -5388,27 +5388,27 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Checklist_Master__c.Checklist_External_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Checklist_Master__c.Description__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Checklist_Master__c.Label__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Checklist_Master__c.Mandatory__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Checklist_Master__c.Type__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6216,9 +6216,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ASF_Checklist__c.Business_Unit__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -6261,7 +6261,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>ASF_Checklist__c.Stage_Matched__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8531,110 +8531,150 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Address__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Branch_Code__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Branch_Queue_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Branch_Queue_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Business_Unit__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.City__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Contact_Person__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Email__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.LOB__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Phone__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Pincode__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Queue_Id__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.ROM_AOM__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Region__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.SAP_Code__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Source_Modified_Date__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.State__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Status__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.System__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Type__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Branch_Master__c.Zone__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+	<editable>true</editable>
+	<field>Lead.Asset__c</field>
+	<readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+	<field>Lead.Employee_Name__c</field>
+	<readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+	<field>Lead.Policy_Number__c</field>
+	<readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+	<field>ASF_Checklist__c.Status_Picklist_Options__c</field>
+	<readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+	<field>ASF_Case_Checklist_Master__c.Picklist_Options__c</field>
+	<readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+	<field>Branch_Master__c.Branch_City__c</field>
+	<readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+	<field>Branch_Master__c.Branch_State__c</field>
+	<readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+	<editable>true</editable>
+	<field>Branch_Master__c.CRM_SPOC__c</field>
+	<readable>true</readable>
+</fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Filter_Date__c</field>
@@ -9626,11 +9666,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Marriage_Anniversary__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.MobilePhone</field>
         <readable>true</readable>
@@ -9641,7 +9676,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Contact.Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9681,18 +9716,13 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Contact.Permanent_Addr_Flag__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Phone</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Place_of_Birth__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9751,14 +9781,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>DMS_Files__c.Branch_Code__c</field>
-        <readable>false</readable>
+	<editable>true</editable>
+	<field>DMS_Files__c.Branch_Code__c</field>
+	<readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>DMS_Files__c.Branch_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -9836,9 +9866,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>DMS_Files__c.LOB__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -9846,9 +9876,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>DMS_Files__c.RM_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -10241,7 +10271,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Lead.External_Lead_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10376,7 +10406,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Lead.SPOC_Name_Formula__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10496,7 +10526,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Lead.Employee_ADID__c</field>
         <readable>true</readable>
     </fieldPermissions>
