@@ -38,7 +38,7 @@ public with sharing class ABCL_SendEmailValidation {
                 }
             }
              //[START]Zahed :  PR1030924-211:   
-            if(email.ParentId.getSObjectType() == Case.getSObjectType()){                           
+            if(!email.Incoming && email.ParentId != null && email.ParentId.getSObjectType() == Case.getSObjectType()){                           
                 caseIds.add(email.ParentId);
             }
             //[END]

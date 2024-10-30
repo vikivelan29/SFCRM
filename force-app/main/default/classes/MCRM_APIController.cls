@@ -50,9 +50,15 @@ public with sharing class MCRM_APIController {
         	startDate = (String)params.get('startDate');
     		endDate = (String)params.get('endDate');
     	}
+
+        // Create requestString for Post requests
+        String requestString;
+        if(intName=='MCRM_Lifestyle_Voucher' || intName=='MCRM_Wallet_Transaction'){
+            requestString = '{"customerId":"'+recId+'"}';
+        }
         
         Map <String,String> mapUrlParam = buildParametersMap(recId, param1, param2, startDate, endDate, intName);
-        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = ABCL_IntegrationCallout.executeCallout(intName, null, mapUrlParam);
+        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = ABCL_IntegrationCallout.executeCallout(intName, requestString, mapUrlParam);
         
         return new ResponseWrapper(intResponseWrapper.statusCode, intResponseWrapper.responseBody);
     }

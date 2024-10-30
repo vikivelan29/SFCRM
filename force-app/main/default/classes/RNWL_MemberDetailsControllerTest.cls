@@ -11,9 +11,7 @@ public class RNWL_MemberDetailsControllerTest {
                                 languagelocalekey = 'en_US', timezonesidkey = 'GMT',IsActive = true);
         insert objUser;
         Account acc = ASF_TestDataFactory.insertBusinessAccount('test', 'strCRN');
-        
-        //Asset asset = ASF_TestDataFactory.createAsset(acc.Id,''); 
-        
+          
         Asset asset = new Asset();
         asset.Name = 'Test Asset';
         asset.AccountId = acc.Id;
@@ -25,13 +23,29 @@ public class RNWL_MemberDetailsControllerTest {
         insert asset;
         
         Opportunity objOpportunity = RNWL_TestDataFactory.createOpportunityRecords(acc.Id, asset.Id);
-        
-        //ContentDocumentLink docLink = new ContentDocumentLink();
-        //doclink.LinkedEntityId = objOpportunity.Id;
-        //LinkedEntity.Type = 'Opportunity';
-        
-        //insert docLink;
+         
     }
+
+           @isTest
+    public static void test_RFApiResponseDetails(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
+        List<String> lstFileSrcAPI = new List<String>();
+        
+        lstFileSrcAPI.add('Renewal Check');
+        
+        String strBody = '{ "error": [ { "ErrorCode": "10", "ErrorMessage": "Success" },{ "ErrorCode": "10", "ErrorMessage": "Success" } ], "Renew_Info": [ { "Renewed_Policy_Expiry_Date": "", "Renewed_Policy_Number": "", "Renewed_Policy_Proposal_Number": "240000621404", "Renewed_Policy_Start_Date": "" } ], "response": { "policyData": [ {"Policy_number":"21-24-0000759-01", "Policy_renewal_date": "09/01/2025", "Upsell_Flag": "No", "Renewable_Flag": "Yes", "Renewed_Flag": "No", "Sum_insured_type": "Individual", "SumInsured": "2000000", "sumInsuredtype": "IND", "Members": [ { "CB": "3000000", "Chronic": "Yes", "DoB": "03/30/1974", "Email": "rahul.ghimire@qualitykiosk.com", "Gender": "M", "healthReturn": ".00", "Name": "Vishwas Varma", "Mobile_Number": "9012737473", "SumInsured": "2000000", "SumInsuredPerUnit": "2000000", "Upsell_SumInsured": "", "Relation": "Mother" } ], "Nominee_Details": { "Nominee_Address": "test", "Nominee_Contact_No": "8707868534", "nominee_dob": "", "nominee_first_name": "Mona", "nominee_last_name": "Mona", "Nominee_Name": "Mona", "nominee_relationship_code": "Mother", "Relationship": "Mother" }, "premium": { "Renewal_Gross_Premium": "55774.0", "Renewal_Net_Premium": "47266.49", "Upsell_Gross_Premium": "0", "Upsell_Net_Premium": "0" } } ] } }';
+            Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(200, strBody)); 
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+        
+        Test.startTest();
+        RNWL_MemberDetailsController.getAPIResponse(opp.Id,asset.Id,'21-24-0000759-01','12345',lstFileSrcAPI); 
+        Test.stopTest();
+    }
+
+    
     @isTest
     public static void test_ApiResponseDetails(){
         Account acc = [Select Id FROM Account LIMIT 1];
@@ -40,9 +54,93 @@ public class RNWL_MemberDetailsControllerTest {
         List<String> lstFileSrcAPI = new List<String>();
         
         lstFileSrcAPI.add('Renewal Check');
-        
+         
         String strBody = '{ "error": [ { "ErrorCode": "00", "ErrorMessage": "Success" } ], "Renew_Info": [ { "Renewed_Policy_Expiry_Date": "", "Renewed_Policy_Number": "", "Renewed_Policy_Proposal_Number": "240000621404", "Renewed_Policy_Start_Date": "" } ], "response": { "policyData": [ {"Policy_number":"21-24-0000759-01", "Policy_renewal_date": "09/01/2025", "Upsell_Flag": "No", "Renewable_Flag": "Yes", "Renewed_Flag": "No", "Sum_insured_type": "Individual", "SumInsured": "2000000", "sumInsuredtype": "IND", "Members": [ { "CB": "3000000", "Chronic": "Yes", "DoB": "03/30/1974", "Email": "rahul.ghimire@qualitykiosk.com", "Gender": "M", "healthReturn": ".00", "Name": "Vishwas Varma", "Mobile_Number": "9012737473", "SumInsured": "2000000", "SumInsuredPerUnit": "2000000", "Upsell_SumInsured": "", "Relation": "Mother" } ], "Nominee_Details": { "Nominee_Address": "test", "Nominee_Contact_No": "8707868534", "nominee_dob": "", "nominee_first_name": "Mona", "nominee_last_name": "Mona", "Nominee_Name": "Mona", "nominee_relationship_code": "Mother", "Relationship": "Mother" }, "premium": { "Renewal_Gross_Premium": "55774.0", "Renewal_Net_Premium": "47266.49", "Upsell_Gross_Premium": "0", "Upsell_Net_Premium": "0" } } ] } }';
+        
         Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(200, strBody)); 
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+        
+        Test.startTest();
+        RNWL_MemberDetailsController.getAPIResponse(opp.Id,asset.Id,'21-24-0000759-01','12345',lstFileSrcAPI); 
+        Test.stopTest();
+    }
+    
+        @isTest
+    public static void test_RF4ApiResponseDetails(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
+        List<String> lstFileSrcAPI = new List<String>();
+        
+        lstFileSrcAPI.add('Renewal Check');
+         
+        String strBody = '{ "error": [ { "ErrorCode": "00", "ErrorMessage": "Success" } ], "Renew_Info": [ { "Renewed_Policy_Expiry_Date": "", "Renewed_Policy_Number": "", "Renewed_Policy_Proposal_Number": "240000621404", "Renewed_Policy_Start_Date": "" } ], "response": { "policyData": [ {"Policy_number":"21-24-0000759-001", "Policy_renewal_date": "09/01/2025", "Upsell_Flag": "No", "Renewable_Flag": "Yes", "Renewed_Flag": "No", "Sum_insured_type": "Individual", "SumInsured": "2000000", "sumInsuredtype": "IND", "Members": [ { "CB": "3000000", "Chronic": "Yes", "DoB": "03/30/1974", "Email": "rahul.ghimire@qualitykiosk.com", "Gender": "M", "healthReturn": ".00", "Name": "Vishwas Varma", "Mobile_Number": "9012737473", "SumInsured": "2000000", "SumInsuredPerUnit": "2000000", "Upsell_SumInsured": "", "Relation": "Mother" } ], "Nominee_Details": { "Nominee_Address": "test", "Nominee_Contact_No": "8707868534", "nominee_dob": "", "nominee_first_name": "Mona", "nominee_last_name": "Mona", "Nominee_Name": "Mona", "nominee_relationship_code": "Mother", "Relationship": "Mother" }, "premium": { "Renewal_Gross_Premium": "55774.0", "Renewal_Net_Premium": "47266.49", "Upsell_Gross_Premium": "0", "Upsell_Net_Premium": "0" } } ] } }';
+        
+        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(200, strBody)); 
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+        
+        Test.startTest();
+        RNWL_MemberDetailsController.getAPIResponse(opp.Id,asset.Id,'21-24-0000759-01','12345',lstFileSrcAPI); 
+        Test.stopTest();
+    }
+    
+    
+        @isTest
+    public static void test_AppResponseDetails(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
+        List<String> lstFileSrcAPI = new List<String>();
+        
+        lstFileSrcAPI.add('AppRegDetails');
+        
+         
+        String strBody = '{}';
+            Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(400, strBody)); 
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+        
+        Test.startTest();
+        RNWL_MemberDetailsController.getAPIResponseDetails(opp.Id,asset.Id,'21-24-0000759-01','12345',lstFileSrcAPI, acc.Id);  
+        Test.stopTest();
+    }
+    
+            @isTest
+    public static void test_App2ResponseDetails(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
+        List<String> lstFileSrcAPI = new List<String>();
+        
+        lstFileSrcAPI.add('AppRegDetails');
+        
+         
+        String strBody = '{ "AppRegDetails": { "AddressLine1": "", "AddressLine2": "", "AddressLine3": "", "AlternateMobile": "", "CII_Number": "", "City": "", "CoreSystemId": "", "CreatedAt": "", "DateOfBirth": "", "Education": "", "Email": "", "FullName": "", "Gender": "", "Invalid_LoginAttempts": "", "IsRegistered": "No", "MemberId": "", "MobilePhone": "", "Occupation": "", "PanNo": "", "PartyId": "", "Pin": "", "Policy_Type": "Retail", "State": "", "vchRelation": "", "WellnessPartyId": "" }, "HealthReturns": { "Response": [ { "MemberCode": "PT87545156", "MemberName": "AKSHAY PRAKASHRAO BHULE" } ], "PolObj": [ { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE" } ], "HealthReturnObj": [ { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Amount_Earn_Burn": "0", "Source_Earn_Burn": "Activity", "Frequency_Earn_Burn": "Earn" }, { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Amount_Earn_Burn": "0", "Source_Earn_Burn": "Activity", "Frequency_Earn_Burn": "Earn" }, { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Amount_Earn_Burn": "0", "Source_Earn_Burn": "Activity", "Frequency_Earn_Burn": "Earn" }, { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Amount_Earn_Burn": "0", "Source_Earn_Burn": "Activity", "Frequency_Earn_Burn": "Earn" }, { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Amount_Earn_Burn": "0", "Source_Earn_Burn": "Activity", "Frequency_Earn_Burn": "Earn" } ], "TotalHealthReturnObj": [ { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Total_Earn": "0.0", "Total_Burn": "0.0", "Total_Balance": "100" }, { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Total_Earn": "0.0", "Total_Burn": "0.0", "Total_Balance": "100" }, { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Total_Earn": "0.0", "Total_Burn": "0.0", "Total_Balance": "100" }, { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Total_Earn": "0.0", "Total_Burn": "0.0", "Total_Balance": "100" }, { "PolicyNumber": "12-24-0000239-01", "PolicyType": "Individua", "ProposerName": "AKSHAY PRAKASHRAO BHULE", "Total_Earn": "0.0", "Total_Burn": "0.0", "Total_Balance": "100" } ] }, "StatusCode": 1000, "Message": "Success" }';
+            
+        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(200, strBody)); 
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+        
+        Test.startTest();
+        RNWL_MemberDetailsController.getAPIResponseDetails(opp.Id,asset.Id,'21-24-0000759-01','12345',lstFileSrcAPI, acc.Id);  
+        Test.stopTest();
+    }
+        
+     
+          @isTest
+    public static void test_RF1ApiResponseDetails(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
+        List<String> lstFileSrcAPI = new List<String>();
+        
+        lstFileSrcAPI.add('Renewal Check');
+        
+        String strBody = '{}';
+        
+        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(1000, strBody)); 
         
         Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
         
@@ -68,7 +166,7 @@ public class RNWL_MemberDetailsControllerTest {
         
         Test.startTest();
         RNWL_MemberDetailsController.getAPIResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456',lstFileSrcAPI); 
-         
+        
         Test.stopTest();
     } 
     
@@ -102,9 +200,32 @@ public class RNWL_MemberDetailsControllerTest {
         List<String> lstFileSrcAPI = new List<String>();
         
         lstFileSrcAPI.add('Health Return');
+        lstFileSrcAPI.add('Fitness Assessment');
         
-        String strBody = '{ "Response": [ { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "8", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "10", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "9", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "20", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "10", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "4", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552251", "Name": "PRADIP Second", "Year": "2024", "Month": "5", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "0", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552251", "Name": "PRADIP Second", "Year": "2024", "Month": "9", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "7", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" } ], "StatusCode": 1000, "message": "Success" }';
+        String strBody = '{ "Response": [ { "HR_Expiry_Date": "03/03/2025", "HHS_End_Date": "03/03/2025", "HHS_Start_Date": "03/03/2024" , "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "8", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "10", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "9", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "20", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, {"HR_Expiry_Date": "03/03/2025", "HHS_End_Date": "03/03/2025", "HHS_Start_Date": "03/03/2024", "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552250", "Name": "PRADIP BHUIN", "Year": "2024", "Month": "10", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "4", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552251", "Name": "PRADIP Second", "Year": "2024", "Month": "5", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "0", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" }, { "vchPolicyNumber": "31-24-0098014-00", "vchClientCode": "PT87552251", "Name": "PRADIP Second", "Year": "2024", "Month": "9", "HealthAssessment": "0", "HealthyHeartScore": "G", "FitnessAssessment": "0", "ActiveDays": "7", "HealthReturnsforrespectivemonth": "0.0", "ChronicMgmtProgramCompliance": "", "HealthReturnsTMthroughBenefitforHospitalRoomchoice": "0.0", "HealthReturnsTMthroughCarriedforwardOPDexpensesandBonus": "0.0", "TotalHealthReturnsTMEarned": "0.0", "TotalHealthReturnsTMBurnt": "0.0", "TotalHealthReturnsTM": "0.0", "HealthQuestionnaire": "", "HRPercentage": "0.0" } ], "StatusCode": 1000, "message": "Success" }';
         Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(200, strBody)); 
+        
+        Date issueDate = date.newinstance(2024, 8, 17);
+                
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+        
+        Test.startTest();
+        RNWL_MemberDetailsController.getHealthReturnResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456','GFB-HB-22-2024165-004', issueDate, lstFileSrcAPI); 
+        Test.stopTest();
+    }
+    
+   @isTest
+    public static void test5_ApiResponseDetails(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
+        List<String> lstFileSrcAPI = new List<String>();
+        
+        lstFileSrcAPI.add('Health Return');
+        
+        String strBody = '';
+        
+        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(1000, strBody)); 
         
         Date issueDate = date.newinstance(2024, 8, 17);
         
@@ -115,5 +236,47 @@ public class RNWL_MemberDetailsControllerTest {
         Test.stopTest();
     }
     
+      @isTest
+    public static void test6_ApiResponseDetails(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
+        List<String> lstFileSrcAPI = new List<String>();
+        
+        lstFileSrcAPI.add('Health Return');
+        
+        String strBody = '';
+        
+        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(400, strBody)); 
+        
+        Date issueDate = date.newinstance(2024, 8, 17);
+        
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+        
+        Test.startTest();
+        RNWL_MemberDetailsController.getHealthReturnResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456','GFB-HB-22-2024165-004', issueDate, lstFileSrcAPI); 
+        Test.stopTest();
+    }
     
+   @isTest
+    public static void test7_ApiResponseDetails(){
+        Account acc = [Select Id FROM Account LIMIT 1];
+        Asset asset = [Select Id FROM Asset LIMIT 1];
+        Opportunity opp = [Select Id, Name ,CloseDate, StageName, Policy__r.AccountId from Opportunity LIMIT 1];
+        List<String> lstFileSrcAPI = new List<String>();
+         
+        lstFileSrcAPI.add('Fitness Assessment');
+        
+        String strBody = '{}';
+        
+        Test.setMock(HttpCalloutMock.class, new RNWL_MockHttpResponseGenerator(400, strBody)); 
+        
+        Date issueDate = date.newinstance(2024, 8, 17);
+                
+        Opportunity objOpportunity = [Select Id From Opportunity LIMIT 1];
+        
+        Test.startTest();
+        RNWL_MemberDetailsController.getHealthReturnResponse(opp.Id,asset.Id,'GFB-HB-22-2024165-004','123456','GFB-HB-22-2024165-004', issueDate, lstFileSrcAPI); 
+        Test.stopTest();
+    }    
 }

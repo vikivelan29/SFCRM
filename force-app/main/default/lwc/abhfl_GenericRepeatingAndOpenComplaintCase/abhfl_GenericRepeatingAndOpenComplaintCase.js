@@ -46,7 +46,6 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
                 console.error('Error loading NPS record', error);
             });
     }
-
     claculateNPSRating() {
 
         this.showCustomerNPSbyNumber = undefined;
