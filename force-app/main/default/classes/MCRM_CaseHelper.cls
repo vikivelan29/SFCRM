@@ -8,8 +8,14 @@
  * Ver   Date         Author                       Modification
  * 1.0   10-29-2024   rkosandal@salesforce.com   Initial Version
 **/
-public with sharing class MCRM_CaseHelper {
-    //calculate Billable Time in days hrs mins secs format and store it in Wellness Case Details
+public without sharing class MCRM_CaseHelper {
+        /****************************************************************************************************************
+    * @Function - calculateBillableTimeOnCaseClose
+    * @param newMap - map of cases from trigger.newMap.
+    * @param oldMap -  map of cases from trigger.oldMap.
+    * @return - void .
+    * @Description - calculate Billable Time in days hrs mins secs format and store it in Wellness Case Details
+    */
     public static void calculateBillableTimeOnCaseClose(Map<Id, Case> newMap, Map<Id, Case> oldMap){
         List<WellnessCaseDetail__c> details = new List<WellnessCaseDetail__c>();
         Map<Id, Case> caseFinalDMLMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
