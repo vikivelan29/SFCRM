@@ -62,7 +62,6 @@ export default class Absli_quickkill extends LightningElement {
     };
 
     filter = {};
-    debugger;
  
     @wire(getCustomerPhoneNumber, { recordId: "$recordId"})
     async wiredRecord({ error, data }) {
