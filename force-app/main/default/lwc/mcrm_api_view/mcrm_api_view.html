@@ -39,7 +39,7 @@
                 </lightning-layout>
             </template>
             <div class={renderBaseView}>
-                <c-mcrm_base_view_screen api_id={intAPIName} payload-info={payloadInfo} onrefresh={handleRefresh}></c-mcrm_base_view_screen>
+                <c-mcrm_base_view_screen api_id={intAPIName} payload-info={payloadInfo} onrefresh={handleRefresh} show-preview={showPreview} show-refresh={showRefresh}></c-mcrm_base_view_screen>
             </div>
             <template lwc:if={isError}>
                 <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">

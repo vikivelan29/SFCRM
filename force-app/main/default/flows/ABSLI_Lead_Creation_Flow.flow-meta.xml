@@ -382,6 +382,21 @@
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>policyChoiceSet</name>
+        <dataType>String</dataType>
+        <displayField>Policy_No__c</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>Asset</object>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>ProductChoiceSet</name>
         <dataType>String</dataType>
         <displayField>Name</displayField>
@@ -570,6 +585,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Asset__c</field>
+            <value>
+                <elementReference>PolicyNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Business_Unit__c</field>
             <value>
                 <stringValue>ABSLI</stringValue>
@@ -651,12 +672,6 @@
             <field>PIN_Code__c</field>
             <value>
                 <elementReference>Pincode</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Policy_Number__c</field>
-            <value>
-                <elementReference>Policy_Number</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -862,16 +877,13 @@
                     </visibilityRule>
                 </fields>
                 <fields>
-                    <name>Policy_Number</name>
+                    <name>PolicyNumber</name>
+                    <choiceReferences>policyChoiceSet</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>Policy Number</fieldText>
-                    <fieldType>InputField</fieldType>
+                    <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <validationRule>
-                        <errorMessage>&lt;p&gt;Policy Number should be Number and cannot exceed 9 digits&lt;/p&gt;</errorMessage>
-                        <formulaExpression>REGEX({!Policy_Number}, &quot;^[0-9]{1,9}$&quot;)</formulaExpression>
-                    </validationRule>
+                    <isRequired>false</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
