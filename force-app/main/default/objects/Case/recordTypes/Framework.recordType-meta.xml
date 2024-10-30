@@ -1992,6 +1992,58 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Ubona_IVRVoiceBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona_RenewalBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona_WelcomeBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Abcd_app</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distributor_WA_Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_App</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_Portal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_WA_Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_SalesApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_SalesPortal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_WA_Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>PolicyBazar</fullName>
             <default>false</default>
         </values>
