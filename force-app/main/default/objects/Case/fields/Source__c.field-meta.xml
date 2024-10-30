@@ -97,6 +97,11 @@
                 <label>Insurance Repository</label>
             </value>
             <value>
+                <fullName>Insurance Repository website</fullName>
+                <default>false</default>
+                <label>Insurance Repository website</label>
+            </value>
+            <value>
                 <fullName>Letters and Faxes</fullName>
                 <default>false</default>
                 <label>Letters and Faxes</label>
@@ -250,6 +255,11 @@
                 <fullName>MOBILEAPP</fullName>
                 <default>false</default>
                 <label>MOBILEAPP</label>
+            </value>
+            <value>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+                <label>Mobile</label>
             </value>
             <value>
                 <fullName>IVR-No Email</fullName>
@@ -545,6 +555,11 @@
                 <fullName>CEO Escalation</fullName>
                 <default>false</default>
                 <label>CEO Escalation</label>
+            </value>
+            <value>
+                <fullName>Email - Call Centre</fullName>
+                <default>false</default>
+                <label>Email - Call Centre</label>
             </value>
             <value>
                 <fullName>Digital</fullName>
