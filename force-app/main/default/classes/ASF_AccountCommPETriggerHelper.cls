@@ -16,9 +16,35 @@ public without sharing class ASF_AccountCommPETriggerHelper {
     public static Set<Id> accountIds = new Set<Id>();
     public static Set<Id> accountContactIds = new Set<Id>();
     
+    // VIRENDRA - 12 APRIL 2024 - ADDED FOR INFOSEC AND PRODUCTION REQUIREMENT OF ABHFL.
+    public static Map<String,Set<String>> mBusUnitVsDefaultFromAddress = new Map<String,Set<String>>();
+    public static Map<String,Id> mBusinessUnitVsSpecificOWA = new Map<String,Id>();
+    public static Map<String,String> mBusUnitVsReplyToAddress = new Map<String,String>();
+    
     public static Map<Id,responseWrapper> executeContructor(List<PE_Logger__c> peLogs){
         /* Account Contact Related Operations */
         getAccountIdsFromPELogger(peLogs);
+        
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        for(BUSpecificAutoEmailMapping__mdt buSpecificAutoEmail : [SELECT ID, Business_Unit__c ,Default_Automated_Email_From_Address__c, Reply_To_Address__c  FROM BUSpecificAutoEmailMapping__mdt]){
+            if(!mBusUnitVsDefaultFromAddress.containsKey(buSpecificAutoEmail.Default_Automated_Email_From_Address__c)){
+                mBusUnitVsDefaultFromAddress.put(buSpecificAutoEmail.Default_Automated_Email_From_Address__c, new Set<String>());
+            }
+            mBusUnitVsDefaultFromAddress.get(buSpecificAutoEmail.Default_Automated_Email_From_Address__c).add(buSpecificAutoEmail.Business_Unit__c);
+
+            if(!mBusUnitVsReplyToAddress.containsKey(buSpecificAutoEmail.Business_Unit__c)){
+                mBusUnitVsReplyToAddress.put(buSpecificAutoEmail.Business_Unit__c,buSpecificAutoEmail.Reply_To_Address__c);
+            }
+        }
+        for(OrgWideEmailAddress OWA : [select Id,Address,Purpose from OrgWideEmailAddress WHERE Address=:mBusUnitVsDefaultFromAddress.keySet()]){
+            if(mBusUnitVsDefaultFromAddress.containsKey(OWA.Address)){
+                for(String strBusUnit : mBusUnitVsDefaultFromAddress.get(OWA.Address)){
+                    mBusinessUnitVsSpecificOWA.put(strBusUnit,OWA.Id);
+                }
+            }
+        }
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        
         List<contact> contactList = ASF_CommPETriggerQueryHandler.getCustomerContact(accountIds,accountContactIds);
         for(Contact c : contactList){
             //Build AccountId to Set of ContactId map.
@@ -80,7 +106,21 @@ public without sharing class ASF_AccountCommPETriggerHelper {
         msg.setSubject(msgSubject);
         msg.setWhatId(peLogRec.AccountId__c);
         msg.setSaveAsActivity(true);
-        msg.setOrgWideEmailAddressId(OWDId);  
+        
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        if(mBusinessUnitVsSpecificOWA.containsKey(peLogRec.LOB__c)){
+            owdID = mBusinessUnitVsSpecificOWA.get(peLogRec.LOB__c);
+            msg.setOrgWideEmailAddressId(OWDId);
+        }
+        if(mBusUnitVsReplyToAddress.containsKey(peLogRec.LOB__c)){
+            String replyAddr = mBusUnitVsReplyToAddress.get(peLogRec.LOB__c);
+            msg.setReplyTo(replyAddr);
+        }
+        /******* VIRENDRA - ENDS HERE on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        
+        if(msg.getOrgWideEmailAddressId() == null){
+          msg.setOrgWideEmailAddressId(owdID);          
+        }
         return msg;
     }
     
