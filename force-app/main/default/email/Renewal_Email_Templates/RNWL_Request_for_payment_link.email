@@ -1,7 +1,7 @@
-<messaging:emailTemplate subject="Opportunities to verify" recipientType="Contact" relatedToType="Opportunity">
+<messaging:emailTemplate subject="Request for Payment Link for Policy No. {!relatedTo.Policy_Number__c}" recipientType="Contact" relatedToType="Opportunity">
    <messaging:htmlEmailBody >
      
-         <p><strong>Subject:</strong> Request for Payment Link for Policy No. <strong>{!relatedTo.Policy_Number__c}</strong></p>
+         <apex:image id="theImage" value="{!$Resource.Header}" width="200" height="100"/> <br/><br/><br/>
          <p><strong>Policy No.:</strong> {!relatedTo.Policy_Number__c}</p>  
          <p><strong>Plan Name:</strong> {!relatedTo.Plan_Name__c} </p>
          <p>Dear <strong>{!relatedTo.Customer_Name__c}</strong>,</p>
@@ -17,6 +17,9 @@
          <p class="contact-info"> In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at  care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App – a one-stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 8828000035. </p>
          <p>We wish you the best of health at all times!</p>
          <p>Warm Regards,<br />Aditya Birla Health Insurance</p>
-          
+         <p>
+         <apex:image id="theImage1" value="{!$Resource.Footer1}" width="800" height="120"/> <br/>
+         <apex:image id="theImage2" value="{!$Resource.Footer2}" width="800" height="120"/> <br/>
+         </p>
    </messaging:htmlEmailBody>
 </messaging:emailTemplate>
