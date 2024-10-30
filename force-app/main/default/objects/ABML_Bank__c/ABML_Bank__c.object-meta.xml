@@ -153,7 +153,7 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>ABML Bank</label>
+    <label>Bank</label>
     <nameField>
         <label>Bank Name</label>
         <type>Text</type>
