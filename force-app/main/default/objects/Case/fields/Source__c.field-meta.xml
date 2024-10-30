@@ -562,79 +562,79 @@
                 <label>Email - Call Centre</label>
             </value>
             <value>
-                <fullName>Digital</fullName>
+                <fullName>Email - Branch</fullName>
                 <default>false</default>
-                <label>Digital</label>
+                <label>Email - Branch</label>
             </value>
             <value>
-                <fullName>Sprinkler</fullName>
+                <fullName>Branch Walk-In</fullName>
                 <default>false</default>
-                <label>Sprinkler</label>
+                <label>Branch Walk-In</label>
             </value>
             <value>
-                <fullName>Provider Network</fullName>
+                <fullName>Phone - Call Centre</fullName>
                 <default>false</default>
-                <label>Provider Network</label>
+                <label>Phone - Call Centre</label>
             </value>
             <value>
-                <fullName>OneABC_Phone</fullName>
+                <fullName>Phone - Branch</fullName>
                 <default>false</default>
-                <label>OneABC_Phone</label>
+                <label>Phone - Branch</label>
             </value>
             <value>
-                <fullName>DRM</fullName>
+                <fullName>SEBI</fullName>
                 <default>false</default>
-                <label>DRM</label>
+                <label>SEBI</label>
             </value>
             <value>
-                <fullName>Renewal - Persistency</fullName>
+                <fullName>AMFI</fullName>
                 <default>false</default>
-                <label>Renewal - Persistency</label>
+                <label>AMFI</label>
             </value>
             <value>
-                <fullName>Operation</fullName>
+                <fullName>Online Dispute Resolution (ODR)</fullName>
                 <default>false</default>
-                <label>Operation</label>
+                <label>Online Dispute Resolution (ODR)</label>
             </value>
             <value>
-                <fullName>Customer_Portal</fullName>
+                <fullName>Letter</fullName>
                 <default>false</default>
-                <label>Customer_Portal</label>
+                <label>Letter</label>
             </value>
             <value>
-                <fullName>Customer_App</fullName>
+                <fullName>Service2Sales</fullName>
                 <default>false</default>
-                <label>Customer_App</label>
+                 <label>Service2Sales</label>
             </value>
             <value>
-                <fullName>Customer_WA_Bot</fullName>
+                <fullName>Transaction Remediation</fullName>
                 <default>false</default>
-                <label>Customer_WA_Bot</label>
+                <label>Transaction Remediation</label>
             </value>
             <value>
-                <fullName>Customer_Chatbot</fullName>
+                <fullName>Internal Request</fullName>
                 <default>false</default>
-                <label>Customer_Chatbot</label>
+                <label>Internal Request</label>
             </value>
             <value>
-                <fullName>Unified_SalesPortal</fullName>
+                <fullName>ABCD App</fullName>
                 <default>false</default>
-                <label>Unified_SalesPortal</label>
+                <label>ABCD App</label>
             </value>
             <value>
-                <fullName>Unified_WA_Bot</fullName>
+                <fullName>IVR-Bot</fullName>
                 <default>false</default>
-                <label>Unified_WA_Bot</label>
+                <label>IVR-Bot</label>
             </value>
             <value>
-                <fullName>Unified_Chatbot</fullName>
+                <fullName>ABC_Servicing_App</fullName>
                 <default>false</default>
-                <label>Unified_Chatbot</label>
+                <label>ABC_Servicing_App</label>
             </value>
             <value>
-                <fullName>Unified_SalesApp</fullName>
+                <fullName>Web (Mobile App)</fullName>
                 <default>false</default>
-                <label>Unified_SalesApp</label>
+                <label>Web (Mobile App)</label>
             </value>
             <value>
                 <fullName>Ubona_WelcomeBOT</fullName>
