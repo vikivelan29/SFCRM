@@ -7086,7 +7086,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Account.Customer_Segment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7106,7 +7106,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Account.Date_of_Joining__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7164,7 +7164,7 @@
         <editable>true</editable>
         <field>Account.LOB_Client_Code__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Landline_No__c</field>
@@ -7589,7 +7589,7 @@
         <editable>true</editable>
         <field>Asset.Branch__c</field>
         <readable>true</readable>
-    </fieldPermissions>  
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.Business_Unit__c</field>
@@ -7739,7 +7739,7 @@
         <editable>true</editable>
         <field>Asset.Date_of_Conversion_to_IR__c</field>
         <readable>true</readable>
-    </fieldPermissions> 
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Asset.Description</field>
@@ -12626,7 +12626,7 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>EntitlementContact</object>
         <viewAllRecords>true</viewAllRecords>
-    </objectPermissions> 
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -13482,4 +13482,9 @@
         <enabled>true</enabled>
         <name>ContentWorkspaces</name>
     </userPermissions>
+    <fieldPermissions>
+		<editable>true</editable>
+		<field>Account.Advisor_Code__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
 </PermissionSet>
