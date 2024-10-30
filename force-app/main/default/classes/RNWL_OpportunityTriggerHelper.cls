@@ -101,6 +101,7 @@ public class RNWL_OpportunityTriggerHelper {
         //For Calling Source Update
         Set<Id> oppIdSet = new Set<Id>();
         List<sObject> recordsToUpdate = new List<sObject>();
+        Set<Id> polIdSet = new Set<Id>();
         
         // FOr PE
         List<ABCL_Integration_Event__e> lstIntegrationEvent = new List<ABCL_Integration_Event__e>();
@@ -125,7 +126,8 @@ public class RNWL_OpportunityTriggerHelper {
             //For Calling Source Update
             if(objOpportunity.Calling_Source__c != null &&
               objOpportunity.Calling_Source__c != objOldOpportunity.Calling_Source__c){
-              	 oppIdSet.add(objOpportunity.Id);   
+              	 oppIdSet.add(objOpportunity.Id);
+                 polIdSet.add(objOpportunity.Policy__c);
             }            
         } 
         //For PE
@@ -148,10 +150,26 @@ public class RNWL_OpportunityTriggerHelper {
         //For Calling Source Update
         if(oppIdSet.size() > 0){ 
             List<Opportunity> oppsChanged = getOpportunitiesById(oppIdSet);
+            Map<Id, List<Case>> assetIdtoCaseMap = New Map<Id, List<Case>>();
+            
+            for(Asset asst :  getPolicies(polIdSet)){
+                assetIdtoCaseMap.put(asst.Id, asst.Cases);
+            }
+            
             for(Opportunity opp : oppsChanged){
+                
                 if(opp.Calling_Source__c != opp.Policy__r.Calling_Source__c){
+                    //Asset update
                     recordsToUpdate.add(new Asset(Id = opp.Policy__c, Calling_Source__c = opp.Calling_Source__c));
+                    //Case Update
+                    List<Case> cases = assetIdtoCaseMap.get(opp.Policy__c);
+                    if(cases.size() == 0){ Continue; }
+                    for(Case cas : assetIdtoCaseMap.get(opp.Policy__c)){
+                        if(opp.Calling_Source__c == cas.Calling_Source__c){ Continue; }
+                        recordsToUpdate.add(new Case(Id = cas.Id, Calling_Source__c = opp.Calling_Source__c));
+                    }
                 }
+                //Account Update
                 if(opp.Calling_Source__c != opp.Account.Calling_Source__c){
                     recordsToUpdate.add(new Account(Id = opp.AccountId, Calling_Source__c = opp.Calling_Source__c));
                 }
@@ -211,7 +229,10 @@ public class RNWL_OpportunityTriggerHelper {
                     (SELECT Id, 
                         Category__c,
                         Renewal_Request__c
-                    FROM Dispositions__r)
+                    FROM Dispositions__r),
+                	(SELECT Id, 
+                     	Calling_Source__c 
+                     FROM Cases)
                 FROM Asset 
                 WHERE Id IN : policyIdSet];
         
