@@ -1402,6 +1402,6 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI Track Sources</shortDescription>
-        <value>Phone-Inbound,Phone-Outbound,Outbound Call,Outbound – NPS,Welcome,Service Assurance team</value>
+        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team</value>
     </labels>
 </CustomLabels>
