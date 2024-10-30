@@ -7,6 +7,9 @@
         <field>Case$Nature__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.Complaint_Category__c</field>
+    </columns>
+    <columns>
         <field>CDF1</field>
     </columns>
     <columns>
@@ -99,6 +102,9 @@
         <field>Case$Asset.Plan_Name__c</field>
     </columns>
     <columns>
+        <field>Case$Asset.Type__c</field>
+    </columns>
+    <columns>
         <aggregateTypes>Sum</aggregateTypes>
         <field>Case$Asset.Annual_Premium__c</field>
     </columns>
@@ -133,9 +139,6 @@
         <field>Case$ABSLI_Case_Detail__c.Mode_of_communication_sent__c</field>
     </columns>
     <columns>
-        <field>Case$Asset.Type__c</field>
-    </columns>
-    <columns>
         <field>Case$Account.Street_Address_1__c</field>
     </columns>
     <columns>
@@ -145,13 +148,13 @@
         <field>Case$Account.Street_Address_3__c</field>
     </columns>
     <columns>
+        <field>Case$Account.Area__c</field>
+    </columns>
+    <columns>
         <field>Case$Account.City__c</field>
     </columns>
     <columns>
         <field>Case$Account.State__c</field>
-    </columns>
-    <columns>
-        <field>Case$Account.Area__c</field>
     </columns>
     <columns>
         <field>Case$Account.ShippingPostalCode</field>

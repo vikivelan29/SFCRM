@@ -4,13 +4,13 @@
         <field>Case.Type_Text__c</field>
     </columns>
     <columns>
-        <field>CREATED_DATEONLY</field>
+        <field>CREATED_DATE</field>
     </columns>
     <columns>
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
-        <field>LAST_UPDATEONLY</field>
+        <field>LAST_UPDATE</field>
     </columns>
     <columns>
         <field>Asset.Policy_No__c</field>
