@@ -1944,10 +1944,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Phone Inbound</fullName>
             <default>false</default>
         </values>
