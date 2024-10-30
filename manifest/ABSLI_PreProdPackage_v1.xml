@@ -1533,6 +1533,7 @@
         <members>Communication_Log_Flow_Email</members>
         <members>Escalate_Case_Reopen_Case</members>
         <members>Pre_framework_Communication_flow</members>
+        <members>Case_File_Transfer_to_DMS</members>
 		<name>Flow</name>
 	</types>
     <types>
@@ -1898,6 +1899,7 @@
         <members>ABSLI_Case_Detail__c.Req_Loan_is_less_than_min_loan</members>
         <members>Lead.MobilePhone_Validation</members>
         <members>User.Restrict_User_Record_Updation</members>
+        <members>Lead.ABSLI_Application_Number_Validation</members>
 		<name>ValidationRule</name>
 	</types>
     <types>

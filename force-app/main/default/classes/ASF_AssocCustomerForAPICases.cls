@@ -57,7 +57,7 @@ public without sharing class ASF_AssocCustomerForAPICases {
                 } 
             }
             if(caseLANNo.size()>0){
-                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE (LAN__c =: caseLANNo OR Policy_No__c =:caseLANNo) AND Business_Unit__c =: LINE_OF_BUSINESS]){
+                for(Asset ast : [SELECT ID,LAN__c,AccountId,Business_Unit__c  FROM Asset WHERE LAN__c =: caseLANNo AND Business_Unit__c =: LINE_OF_BUSINESS]){
                     
                     String assetExternalId = ast.LAN__c;
 
