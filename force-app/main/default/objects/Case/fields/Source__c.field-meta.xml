@@ -604,7 +604,7 @@
             <value>
                 <fullName>Service2Sales</fullName>
                 <default>false</default>
-                 <label>Service2Sales</label>
+                <label>Service2Sales</label>
             </value>
             <value>
                 <fullName>Transaction Remediation</fullName>
@@ -637,9 +637,9 @@
                 <label>Web (Mobile App)</label>
             </value>
             <value>
-                <fullName>Ubona_WelcomeBOT</fullName>
+                <fullName>Call Centre</fullName>
                 <default>false</default>
-                <label>Ubona_WelcomeBOT</label>
+                <label>Call Centre</label>
             </value>
             <value>
                 <fullName>Ubona_RenewalBOT</fullName>
@@ -661,4 +661,6 @@
                 <default>false</default>
                 <label>Distributor_WA_Bot</label>
             </value>
+            </valueSetDefinition>
+    </valueSet>
 </CustomField>
