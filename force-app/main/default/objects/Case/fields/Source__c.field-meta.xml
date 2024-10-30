@@ -68,6 +68,11 @@
                 <label>Inbound ABC</label>
             </value>
             <value>
+                <fullName>Grievance Form</fullName>
+                <default>false</default>
+                <label>Grievance Form</label>
+            </value>
+            <value>
                 <fullName>Inbound call</fullName>
                 <default>false</default>
                 <label>Inbound call</label>
