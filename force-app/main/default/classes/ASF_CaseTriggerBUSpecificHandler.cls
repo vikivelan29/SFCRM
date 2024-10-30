@@ -227,7 +227,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 }
                 else if(businessUnit == 'Wellness'){
                     //PR1030924-219: calculate Billable Time on Case
-                    MCRM_Helper.calculateBillableTimeOnCaseClose((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
+                    MCRM_CaseHelper.calculateBillableTimeOnCaseClose((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
                 }
             }
             ABCL_InvokeOneABC.evaluateCasesForOneABC(new Map<Id, Case>(mRecordTypeVsCases.get(frameworkRTId)), (Map<Id, Case>) oldItems);
