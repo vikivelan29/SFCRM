@@ -125,6 +125,6 @@
       }
     ]
   },
-  "StatusCode": "1000",
+  "StatusCode": 1000,
   "Message": "Success"
 }

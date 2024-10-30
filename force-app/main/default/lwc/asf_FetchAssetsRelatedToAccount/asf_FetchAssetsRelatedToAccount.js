@@ -166,7 +166,7 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
             let currentSelectedRow = event.detail.config.value;
             //let getRowNo = Number(currentSelectedRow.split("-")[1]);
             //let selectedRowNo = this.pageNumber == 1 ? getRowNo : ((this.pageNumber - 1) * this.pageSize) + getRowNo;
-            //currentSelectedRec = this.assetRecords[selectedRowNo]; 
+            //currentSelectedRec = this.assetRecords[selectedRowNo];
             currentSelectedRec = this.recordsToDisplay.find(record => record.Id === currentSelectedRow);
             this.currentSelRecord = currentSelectedRec;
             
