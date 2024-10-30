@@ -1952,7 +1952,43 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>BRANCH EMAIL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OneABC_Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OneABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Provider Network</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal - Persistency</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Service Assurance team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sprinkler</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outbound – NPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Underwriting</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2072,11 +2108,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Digital</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Distributor_WA_Bot</fullName>
+            <fullName>DRM</fullName>
             <default>false</default>
         </values>
         <values>
