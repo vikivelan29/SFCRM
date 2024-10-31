@@ -1690,6 +1690,7 @@
         <members>aBSLI_redirectToReadyReckenor</members>
         <members>absli_policyClientView</members>
         <members>aSF_DMSViewDatatable</members>
+	    <members>abcl_base_view</members>
 		<name>LightningComponentBundle</name>
 	</types>
     <types>
