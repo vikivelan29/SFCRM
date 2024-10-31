@@ -56,5 +56,19 @@
 		<members>LOBMappingDetails.Payments_00</members>
 		<name>CustomMetadata</name>
 	</types>
-    	<version>60.0</version>
+	<types>
+		<members>ABSLI_Complaints</members>
+		<members>ABSLI_Customer_Service</members>
+		<members>ABSLI_Policy_Issuance</members>
+		<members>ABSLI_Policy_Servicing</members>
+		<members>ABSLI_Underwriting</members>
+		<name>OmniSupervisorConfig</name>
+	</types>
+	<types>
+		<members>ABCL_Capacity_10</members>
+		<members>ABCL_Capacity_20</members>
+		<members>ABCL_Capacity_40</members>
+		<name>PresenceUserConfig</name>
+	</types>
+	<version>60.0</version>
 </Package>
