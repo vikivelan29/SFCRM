@@ -3395,6 +3395,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Balance_Tenure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.Bank_Branch_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3567,6 +3572,11 @@
         <editable>false</editable>
         <field>Asset.ECS_Bounce_Reason__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.ECS_Mandate_Registration_Status__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4391,11 +4401,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Initial_First_Owner_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Issue_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
