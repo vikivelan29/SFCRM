@@ -1689,7 +1689,7 @@
         <members>asfCreateCaseWithType</members>
         <members>aBSLI_redirectToReadyReckenor</members>
         <members>absli_policyClientView</members>
-        <members>asf_DMSViewDatatable</members>
+        <members>aSF_DMSViewDatatable</members>
 		<name>LightningComponentBundle</name>
 	</types>
     <types>
@@ -1857,10 +1857,10 @@
 		<members>Account.ABSLI_Account_Sharing</members>
         <members>Account.ABSLI_Advisor_Account_Sharing</members>
         <members>ASF_Case_Category_Config__c.ABSLI_CCC_Sharing</members>
-        <members>Asset.ABFL_Asset_Sharing</members>
+        <!--<members>Asset.ABFL_Asset_Sharing</members>
         <members>Asset.ABHFL_Asset_Sharing</members>
         <members>Asset.ABSLI_Asset_Sharing_with_VRM</members>
-        <members>Branch_Master__c.Branch_Master_Share_with_ABSLI_Service_Manager_and_Subordinates</members>
+        <members>Branch_Master__c.Branch_Master_Share_with_ABSLI_Service_Manager_and_Subordinates</members>-->
         <members>Case.ABSLI_Case_Sharing</members>
         <members>ASF_Checklist__c.ABSLI_Checklist_sharing_Rule</members>
 		<name>SharingCriteriaRule</name>
@@ -1868,8 +1868,8 @@
     <types>
 		<members>Account</members>
         <members>ASF_Case_Category_Config__c</members>
-        <members>Asset</members>
-        <members>Branch_Master__c</members>
+        <!--<members>Asset</members>-->
+        <!--<members>Branch_Master__c</members>-->
         <members>Case</members>
         <members>Lead</members>
         <members>User</members>

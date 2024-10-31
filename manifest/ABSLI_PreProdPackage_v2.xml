@@ -8,5 +8,17 @@
 		<members>ABSLI_CasDeDupeCheck</members>
 		<name>ApexClass</name>
 	</types>
+	<types>
+        <members>Asset</members>
+        <members>Branch_Master__c</members>
+		<name>SharingRules</name>
+	</types>
+	<types>
+        <members>Asset.ABFL_Asset_Sharing</members>
+        <members>Asset.ABHFL_Asset_Sharing</members>
+        <members>Asset.ABSLI_Asset_Sharing_with_VRM</members>
+        <members>Branch_Master__c.Branch_Master_Share_with_ABSLI_Service_Manager_and_Subordinates</members>
+		<name>SharingCriteriaRule</name>
+	</types>
     	<version>60.0</version>
 </Package>
