@@ -6,6 +6,7 @@
 		<members>ABSLI_BeforeUpdateAfterASFTriggerLogic</members>
 		<members>ABSLI_CannedResponse_Controller</members>
 		<members>ABSLI_CasDeDupeCheck</members>
+		<members>ABCL_IntegrationCommonUtilityTest</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
