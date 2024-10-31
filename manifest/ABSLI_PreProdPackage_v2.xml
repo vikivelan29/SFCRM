@@ -20,5 +20,40 @@
         <members>Branch_Master__c.Branch_Master_Share_with_ABSLI_Service_Manager_and_Subordinates</members>
 		<name>SharingCriteriaRule</name>
 	</types>
+	<types>
+		<members>LOBMappingDetails.ABFL_00</members>
+		<members>LOBMappingDetails.ABFL_001</members>
+		<members>LOBMappingDetails.ABHFL</members>
+		<members>LOBMappingDetails.ABHFL_01</members>
+		<members>LOBMappingDetails.ABHFL_02</members>
+		<members>LOBMappingDetails.ABHFL_03</members>
+		<members>LOBMappingDetails.ABHFL_04</members>
+		<members>LOBMappingDetails.ABHFL_05</members>
+		<members>LOBMappingDetails.ABHFL_06</members>
+		<members>LOBMappingDetails.ABHFL_07</members>
+		<members>LOBMappingDetails.ABHFL_08</members>
+		<members>LOBMappingDetails.ABHFL_09</members>
+		<members>LOBMappingDetails.ABHFL_10</members>
+		<members>LOBMappingDetails.ABHFL_11</members>
+		<members>LOBMappingDetails.ABSLI_00</members>
+		<members>LOBMappingDetails.ABSLI_01</members>
+		<members>LOBMappingDetails.ABSLI_02</members>
+		<members>LOBMappingDetails.ABSLI_03</members>
+		<members>LOBMappingDetails.ABSLI_04</members>
+		<members>LOBMappingDetails.ABSLI_05</members>
+		<members>LOBMappingDetails.ABSLI_06</members>
+		<members>LOBMappingDetails.ABSLI_07</members>
+		<members>LOBMappingDetails.ABSLI_08</members>
+		<members>LOBMappingDetails.ABSLI_09</members>
+		<members>LOBMappingDetails.ABSLI_10</members>
+		<members>LOBMappingDetails.ABSLI_11</members>
+		<members>LOBMappingDetails.ABSLI_12</members>
+		<members>LOBMappingDetails.ABSLI_13</members>
+		<members>LOBMappingDetails.ABSLI_14</members>
+		<members>LOBMappingDetails.ABSLI_15</members>
+		<members>LOBMappingDetails.Payments</members>
+		<members>LOBMappingDetails.Payments_00</members>
+		<name>CustomMetadata</name>
+	</types>
     	<version>60.0</version>
 </Package>
