@@ -159,7 +159,8 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_BU_CTSTHelper.validateManualApproval(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
-                    ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue 
+                    ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue
+                    ABSLAMC_BU_CTSTHelper.checkAMCResolutionComments((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); 
                 }
                 else if(businessUnit == 'ABHI'){
                     ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
