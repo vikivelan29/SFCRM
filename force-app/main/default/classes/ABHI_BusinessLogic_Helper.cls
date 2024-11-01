@@ -33,9 +33,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
+				populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
+				populateFieldsOnCase(abhiNewCaseList, null);//RNWL
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
@@ -436,5 +438,52 @@ public with sharing class ABHI_BusinessLogic_Helper {
             ABCL_Logger.emit();
         }
     }  
+	
+	/**
+    * @param : newCases, oldCaseMap - 
+    * @return : void 
+    * @description : Prepopulates Fields on Case during before insert and update
+    */
+    public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
+        
+        Set<Id> assetIds = new Set<Id>();
+        List<Case> casesToUpdate = new List<Case>();
+        Map<Id, Asset> assetIdToOppMap = new  Map<Id, Asset>();
+        
+        for(Case casRec : newCases){
+            Case oldCase = oldCaseMap != null ? oldCaseMap.get(casRec.Id) : null;
+            if(casRec.AssetId != null && 
+               ((oldCaseMap == null) || 
+                (oldCase != null && oldCase.AssetId != casRec.AssetId))){
+                	assetIds.add(casRec.AssetId);
+                    casesToUpdate.add(casRec);
+            }
+        }
+
+        if(assetIds.size() == 0){ return; }
+        
+        for(Asset asst : [SELECT Id, Calling_Source__c, (SELECT Id FROM Opportunities__r)
+                               FROM Asset WHERE Id IN : assetIds]){
+            assetIdToOppMap.put(asst.Id, asst);
+        }
+
+        for(Case cas : casesToUpdate){
+            cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId).Calling_Source__c; 
+		}
+        
+        if(oldCaseMap != NULL){ return; }
+        
+        Id profileId = UserInfo.getProfileId();
+        String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId].Name;
+        
+        if(profileName != 'System Administrator' || profileName != 'RNWL Manager Profile'){ return; }
+        
+        for(Case rnwlCase : casesToUpdate){
+            if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
+               Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
+               rnwlCase.Renewal_Request__c = opp.Id;
+            }
+        }   
+    }
      
 }

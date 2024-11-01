@@ -21,7 +21,7 @@ public class RNWL_OpportunityTriggerHandlerTest {
         
     }
     
-    //To cover RNWL_RenewalCustomerPolicyInfo class
+    //To cover RNWL_RenewalCustomerPolicyInfo class 
     @isTest
     private static void rNWL_RenewalCustomerPolicyInfo_Test(){
         Account acc = [Select Id FROM Account LIMIT 1];
