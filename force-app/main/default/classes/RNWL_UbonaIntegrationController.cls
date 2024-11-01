@@ -1,5 +1,5 @@
 public class RNWL_UbonaIntegrationController {
-	
+    
     @TestVisible
     private static Database.SaveResult[] publishResults;
     
@@ -38,11 +38,11 @@ public class RNWL_UbonaIntegrationController {
         
         Map<Id, Account> accMap = 
             new Map<Id, Account>([SELECT Id, BillingState,
-                       					Name, Phone,
-                       					PersonMobilePhone,
-                                  		RecordType.Name
-                				  FROM Account 
-                				  WHERE Id IN :accIdsSet]);
+                                        Name, Phone,
+                                        PersonMobilePhone,
+                                        RecordType.Name
+                                  FROM Account 
+                                  WHERE Id IN :accIdsSet]);
         
         List<ABCL_Integration_Event__e> outboundIntPEList = new List<ABCL_Integration_Event__e>();
         for(Opportunity opp : oppsToOperate){
@@ -51,6 +51,7 @@ public class RNWL_UbonaIntegrationController {
             intPE.ObjectApiName__c = 'Opportunity';
             intPE.Record_Id__c = opp.Id;
             intPE.Request__c = formJSONBody(opp, policyIdToAssetMap.get(opp.Policy__c), accMap.get(opp.AccountId));
+            system.debug('*******' + intPE.Request__c);
             intPE.ServiceName__c = 'UbonaScheduleCallServiceRenewal';
             outboundIntPEList.add(intPE);
         }
@@ -74,35 +75,36 @@ public class RNWL_UbonaIntegrationController {
         payld.scheduledTime = String.valueOf(System.now().getTime());
         payld.agentId = '';
         payld.campaign = System.label.RNWL_UbonaCampaignId;//'85008514';
+
         if(acc != null){
             payld.msisdn = acc.Phone;
             payld.customerInfo = acc.Name;
             contxt.customerName = acc.Name;
             contxt.state = acc.BillingState; 
         }
+
         if(asset != null){
             contxt.intermediary = asset.IntermediaryName__c;
             contxt.newChannel = asset.Channel__c;
             contxt.nextPremiumDate = asset.Next_Premium_Date__c;
             contxt.policyDueDate = asset.Maturity_Date__c; 
             contxt.productName = asset.ProductName__c;
-        	contxt.renewalGrossPremiumFrom = asset.GrossPremium__c;
+            contxt.renewalGrossPremiumFrom = asset.GrossPremium__c;
             contxt.stp_NSTP = asset.Proposal_Type__c;
-        	contxt.sumInsured = asset.Sum_Assured__c != null ? String.valueOf(asset.Sum_Assured__c) : '';
+            contxt.sumInsured = asset.Sum_Assured__c != null ? String.valueOf(asset.Sum_Assured__c) : '';
         }
         
         contxt.CRMURL = URL.getOrgDomainURL().toExternalForm() + '/' + opp.Id;
         contxt.policyNumber = opp.Policy_Number__c;
         contxt.rnNumber = opp.Name;
 
-        payld.context = contxt;
-        ubonaWrap.payload = payld;
+        payld.context = JSON.serialize(contxt);
+        ubonaWrap.payload = JSON.serialize(payld);
         
         String reqBody = replaceWithActualTags(JSON.serialize(ubonaWrap));
         
         return reqBody;
     }
-    
     
     private static String replaceWithActualTags(String reqBody){
         reqBody = reqBody.replace('"customerName":', '"Customer Name":');
@@ -126,19 +128,16 @@ public class RNWL_UbonaIntegrationController {
     
     private static List<Asset> getPolicies(Set<Id> policyIdSet){
         return [SELECT 
-                    Id, 
-                	IntermediaryName__c,
-                	Channel__c,
-                	Next_Premium_Date__c,
-                	Maturity_Date__c,
-                	ProductName__c,
-                	GrossPremium__c,
-                	Proposal_Type__c,
-                	Sum_Assured__c
-                FROM Asset 
-                WHERE Id IN : policyIdSet];
-        
+            Id, 
+            IntermediaryName__c,
+            Channel__c,
+            Next_Premium_Date__c,
+            Maturity_Date__c,
+            ProductName__c,
+            GrossPremium__c,
+            Proposal_Type__c,
+            Sum_Assured__c
+        FROM Asset 
+        WHERE Id IN : policyIdSet];
     }
-    
-
 }

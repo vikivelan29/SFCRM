@@ -2,7 +2,8 @@ public class RNWL_UbonaCalloutWrapper {
     
     public String payloadId = '';
     public Boolean payloadEncrypted;
-    public Cls_payload payload;
+    public String payload;
+
     public class Cls_payload {
         public String requestId = '';
         public String msisdn = '';
@@ -10,8 +11,9 @@ public class RNWL_UbonaCalloutWrapper {
         public String agentId = '';
         public String campaign = '';
         public String customerInfo = '';
-        public Cls_context context;
+        public String context;
     }
+
     public class Cls_context {
         public String CRMURL = '';
         public String customerName = '';
