@@ -40,8 +40,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Member__c</fieldItem>
-                <identifier>RecordMember__cField</identifier>
+                <fieldItem>Record.Member_Id__c</fieldItem>
+                <identifier>RecordMember_Id_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

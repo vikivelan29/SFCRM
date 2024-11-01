@@ -62,16 +62,16 @@ global class ABHI_CreateClaimService {
                                     if (parts.size() > 1) {
                                         String relationshipField = parts[0];
                                         String relatedField = parts[1];
-                                    
-                                    if( relationshipField == 'Policy_Number__r') {      //apiFieldName.equals('Policy_Number__r.ABHI_Policy_Id__c')
-                                        claim.Policy_Number__r = new Asset(ABHI_Policy_Id__c = (String) fieldValue); 
+                                    String prefixedValue = 'ABHI_' + (String) fieldValue;
+                                    if( relationshipField == 'Policy_Number__r') {      //apiFieldName.equals('Policy_Number__r.LAN__c')
+                                        claim.Policy_Number__r = new Asset(LAN__c = (String) fieldValue); 
                                         system.debug('claim.Policy_Number__r' +claim.Policy_Number__r);
                                     }else if (relationshipField == 'Hospital_Code__r') {   //apiFieldName.equals('Hospital_Code__r.Provider_Code__c')
                                             claim.Hospital_Code__r = new Health_Provider__c(Provider_Code__c = (String) fieldValue);
                                           system.debug('claim.Hospital_Code__r' +claim.Hospital_Code__r);
                                         
                                         }else if (relationshipField == 'Customer_Member_Mapping__r') {
-                                            claim.Customer_Member_Mapping__r = new Account(LOB_Client_Code__c = (String) fieldValue);
+                                            claim.Customer_Member_Mapping__r = new Account(LOB_Client_Code__c = (String) prefixedValue);
                                         } else { 
                                         claim.put(apiFieldName, fieldValue);// Other relationship fields
                                     }
