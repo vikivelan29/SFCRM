@@ -1388,10 +1388,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>DRM</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>EMT CNX</fullName>
             <default>false</default>
         </values>
