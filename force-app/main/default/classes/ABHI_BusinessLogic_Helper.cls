@@ -468,7 +468,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         }
 
         for(Case cas : casesToUpdate){
-            cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId).Calling_Source__c; 
+            cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId)?.Calling_Source__c ?? ''; 
 		}
         
         if(oldCaseMap != NULL){ return; }
@@ -476,7 +476,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         Id profileId = UserInfo.getProfileId();
         String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId].Name;
         
-        if(profileName != 'System Administrator' || profileName != 'RNWL Manager Profile'){ return; }
+        if(profileName != 'RNWL Base Profile' && profileName != 'RNWL Manager Profile'){ return; }
         
         for(Case rnwlCase : casesToUpdate){
             if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
