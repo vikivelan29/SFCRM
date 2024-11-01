@@ -33,11 +33,12 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-                //populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
+                populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
-                //populateFieldsOnCase(abhiNewCaseList, null);//RNWL
+                abhiCaseSourceValidation(mapOfBUToNewCs?.get('ABHI'));
+                populateFieldsOnCase(abhiNewCaseList, null);//RNWL
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
@@ -207,11 +208,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -260,11 +257,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -461,15 +454,15 @@ public with sharing class ABHI_BusinessLogic_Helper {
     * @description - Source Based Case creation restriction
     */
     @AuraEnabled
-    public static String abhiCaseSourceValidation(Case caseRecord) {
+    public static String abhiCaseSourceValidation(List<Case> caseRecord) {
 
         Map<String,ABHI_Create_Case_Validations__mdt> issueCodeToErrorMsgMap = new Map<String,ABHI_Create_Case_Validations__mdt>();
        // Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-        String caseBusinessUnit = caseRecord.Business_Unit__c ?? '';
-        String caseCCCExtId = caseRecord.CCC_External_Id__c ?? '';
-        String caseSource = caseRecord.Source__c ?? '';
-        String caseChannel = caseRecord.Channel__c ?? '';
-        String caseTechnicalSource = caseRecord.Technical_Source__c ?? '';
+        String caseBusinessUnit = caseRecord[0].Business_Unit__c ?? '';
+        String caseCCCExtId = caseRecord[0].CCC_External_Id__c ?? '';
+        String caseSource = caseRecord[0].Source__c ?? '';
+        String caseChannel = caseRecord[0].Channel__c ?? '';
+        String caseTechnicalSource = caseRecord[0].Technical_Source__c ?? '';
         String result = 'Success';
 
         try{
@@ -489,7 +482,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
                 ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
 
-                if(metaDataRec.Source__c != caseSource) {
+                if( (metaDataRec.Source__c != caseSource) || 
+                    (caseTechnicalSource == 'API' && String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
                     result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
@@ -543,7 +537,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
 
         for(Case cas : casesToUpdate){
             cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId)?.Calling_Source__c ?? ''; 
-        }
+		}
         
         if(oldCaseMap != NULL){ return; }
         
@@ -558,5 +552,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
                rnwlCase.Renewal_Request__c = opp.Id;
             }
         }   
-    }*/
+    }
 }

@@ -83,4 +83,10 @@ public with sharing class RNWL_TestDataFactory {
         } 
         return caseRec;
     }
+
+    public static Account createAccount() {
+        Account accRec = new Account(Name = 'Test' + (Math.random() * 10000), Phone = '9052437031');
+        insert accRec;
+        return accRec;
+    }
 }
