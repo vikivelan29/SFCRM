@@ -2471,14 +2471,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>RNWL_HelpLinksController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>RNWL_HelpLinksControllerTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>RNWL_IndividualAccRenewalController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
