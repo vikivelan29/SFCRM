@@ -1960,10 +1960,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>OneABC</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Provider Network</fullName>
             <default>false</default>
         </values>
