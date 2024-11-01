@@ -94,7 +94,7 @@ public class RNWL_OpportunityTriggerHelper {
     * @param newItemsOpportunity ,oldItemsOpportunity -  map of Opportunities from trigger.newMap and trigger.oldMap.
     * @return - void .
     * @Description - Invoked from After Update this method publish event 
-    * 				 Updates the field Calling SOurce on Asset and Account when Opps Calling Source Changes
+    *                Updates the field Calling SOurce on Asset and Account when Opps Calling Source Changes
     *****************************************************************************************************************/
     public static void afterUpdateOpp(List<Opportunity> newItemsOpportunity, map<Id, Opportunity> oldItemsOpportunity){
         
@@ -117,7 +117,7 @@ public class RNWL_OpportunityTriggerHelper {
                     objIntegration_Event.Business_Unit__c = 'ABHI-RNWL';
                     objIntegration_Event.ObjectApiName__c = 'Opportunity'; 
                     objIntegration_Event.Record_Id__c = objOpportunity.Id;
-                    objIntegration_Event.Request__c = '"{ "requestId": " ' + objOpportunity.Name + ' "}"' ; 
+                    objIntegration_Event.Request__c = '{"requestId": "' + objOpportunity.Name + '"}';
                     objIntegration_Event.ServiceName__c = 'UbonaCancelCallService_Renewal';
                     lstIntegrationEvent.add(objIntegration_Event);
             }
@@ -125,7 +125,8 @@ public class RNWL_OpportunityTriggerHelper {
             //For Calling Source Update
             if(objOpportunity.Calling_Source__c != null &&
               objOpportunity.Calling_Source__c != objOldOpportunity.Calling_Source__c){
-              	 oppIdSet.add(objOpportunity.Id);   
+                 oppIdSet.add(objOpportunity.Id);
+                 polIdSet.add(objOpportunity.Policy__c);
             }            
         } 
         //For PE
@@ -211,7 +212,10 @@ public class RNWL_OpportunityTriggerHelper {
                     (SELECT Id, 
                         Category__c,
                         Renewal_Request__c
-                    FROM Dispositions__r)
+                    FROM Dispositions__r),
+                    (SELECT Id, 
+                        Calling_Source__c 
+                     FROM Cases)
                 FROM Asset 
                 WHERE Id IN : policyIdSet];
         
@@ -222,7 +226,7 @@ public class RNWL_OpportunityTriggerHelper {
             SELECT Id, AccountId,
                 Policy__c, 
                 Calling_Source__c,
-            	Policy__r.Calling_Source__c,
+                Policy__r.Calling_Source__c,
                 Account.Calling_Source__c
             FROM Opportunity
             WHERE Id IN :oppIds
