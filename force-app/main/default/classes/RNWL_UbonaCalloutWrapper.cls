@@ -13,20 +13,4 @@ public class RNWL_UbonaCalloutWrapper {
         public String customerInfo = '';
         public String context;
     }
-
-    public class Cls_context {
-        public String CRMURL = '';
-        public String customerName = '';
-        public String intermediary = ''; 
-        public String newChannel = '';
-        public Date nextPremiumDate; 
-        public Date policyDueDate;
-        public String policyNumber = '';
-        public String productName = ''; 
-        public String renewalGrossPremiumFrom = '';
-        public String rnNumber = '';
-        public String state = '';
-        public String stp_NSTP = '';
-        public String sumInsured = ''; 
-    }
 }
