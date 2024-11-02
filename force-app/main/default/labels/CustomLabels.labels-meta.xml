@@ -203,7 +203,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHFL Base URL For Bitly</shortDescription>
-        <value>https://hfcsecuat.abfsg.com/Pages/Secured/CRMCaseTracking.aspx?id=</value>
+        <value>https://hflogin.adityabirlacapital.com/pages/secured/CRMCaseTracking.aspx?Id=</value>
     </labels>
     <labels>
         <fullName>ABFL_Retail_Int_Failed</fullName>
@@ -231,7 +231,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ASF_BulkProcessorBatchSize</shortDescription>
-        <value>200</value>
+        <value>2099-01-01</value>
     </labels>
     <labels>
         <fullName>ASF_BulkDownloadLimit_Msg</fullName>
@@ -947,7 +947,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLIG E2C</shortDescription>
-        <value>absli.uatsfbsliggrouphelpline@adityabirlacapital.com:ABSLIG_Group_Helpline_Acknowledgement_Email_1721731333006,absli.uatsfbsliggroupuw@adityabirlacapital.com:ABSLIG_Group_UW_Acknowledgement_Email_1721731484873</value>
+        <value>absli.grouphelpline@adityabirlacapital.com:ABSLIG_Group_Helpline_Acknowledgement_Email_1721731333006,absli.groupuw@adityabirlacapital.com:ABSLIG_Group_UW_Acknowledgement_Email_1721731484873</value>
     </labels>
     <labels>
         <fullName>Business_Unit_Check_For_SLA_Override</fullName>
