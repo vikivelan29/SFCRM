@@ -141,9 +141,6 @@ export const lanLabels = {
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
     },
-    ABSLAMC: {
-
-    },
     ABSLI: {
         ASSET_COLUMNS:[{
             label: 'Id',
@@ -450,6 +447,10 @@ export const lanLabels = {
         }
         ],
         CTST_COLS: [
+            { label: '', type : 'button-icon', initialWidth: 50,
+               typeAttributes: { iconName: 'utility:info',  iconPosition : 'Right',                           
+                                title : {fieldName : 'Tool_Tip__c'}, variant :'bare' }
+            }, // added by Santosh - show tooltip for the CTSTs - US PR1030924-533 for ABSLAMC BU
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
