@@ -755,6 +755,27 @@
                         <valueListItems>
                             <value>OWNER_NAME</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>LOB__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ASSET.NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Customer_name_formula__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type_Text__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Sub_Type_Text__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Source__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.STATUS</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
