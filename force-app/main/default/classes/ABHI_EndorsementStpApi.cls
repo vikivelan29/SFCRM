@@ -251,7 +251,9 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
              else if (caseInteg.Status__c == ABHI_Constants.FAILURE) {
              	Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);                
                 List<sObject> dmlRecords = new List<sObject>();
-					caseRecord.MoveToNext__c  = true;
+                	if(caseRecord.Technical_Source__c=='LWC'){
+                    	caseRecord.MoveToNext__c  = true;
+                    }
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, true);     
             }
@@ -312,7 +314,9 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
         } else {
               system.debug('else--> '+fieldParts[0]);
             if (currentValue instanceof SObject) {
-                currentValue = ((SObject) currentValue).get(fieldParts[0]);
+                //currentValue = ((SObject) currentValue).get(fieldParts[0]);
+                currentValue = ((SObject) currentValue).getSObject(fieldParts[0])?.get(fieldParts[1]);
+
             }
         }
     } else {
