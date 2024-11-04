@@ -1661,6 +1661,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Branch_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Bulk_Action__c</field>
         <readable>true</readable>
@@ -2043,6 +2048,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.OwnerUser__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Owner_Zone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2996,6 +3006,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.Branch__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Business_Unit__c</field>
         <readable>true</readable>
@@ -3178,6 +3193,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.Overall_Conversion_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.Owner_Zone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
