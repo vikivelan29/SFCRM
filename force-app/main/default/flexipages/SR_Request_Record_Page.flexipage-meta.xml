@@ -395,7 +395,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>showComments</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentName>asf_approvalHistory</componentName>
                 <identifier>c_asf_approvalHistory</identifier>
