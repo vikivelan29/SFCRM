@@ -75,14 +75,17 @@ global class ABSLI_AssignAccountTeamBatch implements Database.Batchable<sObject>
         ABCL_AssetTriggerHandler.TriggerDisabled = True;
          try {
             List<Asset> assetsToUpdate = new List<Asset>();
-            for (Asset asset : scope) {
-                asset.Processing_State__c = 'Completed'; 
-                assetsToUpdate.add(asset);
-            }
-    
-            if (!assetsToUpdate.isEmpty()) {
-                update assetsToUpdate;
-            }
+             if(roleUserIds.size()>0){
+               for (Asset asset : scope) {
+                    asset.Processing_State__c = 'Completed'; 
+                    assetsToUpdate.add(asset);
+                }
+        
+                if (!assetsToUpdate.isEmpty()) {
+                    update assetsToUpdate;
+                }  
+             }
+            
         } finally {
             ABCL_AssetTriggerHandler.TriggerDisabled = false;
         }

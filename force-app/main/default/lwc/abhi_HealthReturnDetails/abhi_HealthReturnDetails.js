@@ -125,5 +125,5 @@ export default class Abhi_HealthReturnDetails extends LightningElement {
     handleRefresh() {
         this.isLoading = true;
         this.fetchHealthReturn_Data();
-    }
+    } 
 }

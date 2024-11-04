@@ -93,8 +93,11 @@ const getAssessmentsActiveAge = (payload) => {
 }
 const getImproveMyStatus = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
-	// Iterate over flattening each object
-	return payload;
+	return (
+		payload?.responseMap?.resultsList != null  ? 
+		payload.responseMap.resultsList : 
+		[] 
+	);
 }
 const getLifestyleVoucher = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
@@ -117,11 +120,18 @@ const getWalletTransaction = (payload) => {
 
 const getDevices = (payload) => {
 	// Return the apps if valid, or an empty array if checks fail
-    return (
-        payload?.responseMap?.resultsList?.apps?.length ? 
-        payload.responseMap.resultsList.apps : 
-        []
-    );
+	let responseArray = [];
+	if(payload?.data?.devices?.Recommended?.length > 0){
+		payload.data.devices.Recommended.forEach((item) => {
+			responseArray.push(item);
+		});
+	}
+	if(payload?.data?.devices?.Others?.length > 0){
+		payload.data.devices.Others.forEach((item) => {
+			responseArray.push(item);
+		});
+	}
+    return responseArray;
 }
 const getBenefits = (payload) => {
 	// Columns should be mapped as per dynamic table configuration

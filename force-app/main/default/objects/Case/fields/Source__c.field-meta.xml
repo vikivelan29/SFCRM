@@ -258,6 +258,11 @@
                 <label>MOBILEAPP</label>
             </value>
             <value>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+                <label>Mobile</label>
+            </value>
+            <value>
                 <fullName>IVR-No Email</fullName>
                 <default>false</default>
                 <label>IVR-No Email</label>
