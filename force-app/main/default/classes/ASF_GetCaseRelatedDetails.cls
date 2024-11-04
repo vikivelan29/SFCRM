@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 10-09-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 @SuppressWarnings('PMD.PropertyNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_GetCaseRelatedDetails {
     
@@ -68,7 +75,13 @@ public without sharing class ASF_GetCaseRelatedDetails {
         List<CaseFieldConfigWrapper> fieldsConfiglst = new List<CaseFieldConfigWrapper>(); 
         Map<Id, CaseFieldConfigWrapper> fieldConfigMap = new Map<Id, CaseFieldConfigWrapper>();
         
-        List<ASF_Case_Field_Config__c > fieldConfigRecords = [SELECT id,Field_Type__c ,FieldAPIName__c , ObjectAPIName__c , ReadOnly__c,IsControllingField__c , Update__c, Mandatory__c, Controlling_field__c, Controlling_Experssion__c, Default_Value__c,Default_Type__c, Case_Category_Config__c,Display_Order__c, Sensitive_field__c,Use_Controlling_Formula__c ,Controlling_Formula__c,Searchable_Picklist__c  FROM ASF_Case_Field_Config__c  WHERE Case_Category_Config__c =:cccId ORDER BY Display_Order__c ASC];
+        List<ASF_Case_Field_Config__c > fieldConfigRecords = [SELECT id,Field_Type__c ,FieldAPIName__c , ObjectAPIName__c , 
+                                                              ReadOnly__c,IsControllingField__c , Update__c, Mandatory__c, 
+                                                              Controlling_field__c, Controlling_Experssion__c, Controlling_Picklist__c,
+                                                              Default_Value__c,Default_Type__c, Case_Category_Config__c,
+                                                              Display_Order__c, Sensitive_field__c,Use_Controlling_Formula__c ,Multi_Picklist_Max_Allowed_Values__c,
+                                                              Controlling_Formula__c,Searchable_Picklist__c,Confirmation_Required__c, Confirmation_LWC__c
+                                                              FROM ASF_Case_Field_Config__c  WHERE Case_Category_Config__c =:cccId ORDER BY Display_Order__c ASC];
         system.debug('orderfieldConfigRecords '+fieldConfigRecords);        
         for(ASF_Case_Field_Config__c config : fieldConfigRecords){
             
@@ -85,12 +98,36 @@ public without sharing class ASF_GetCaseRelatedDetails {
             item.useControllingFormula = config.Use_Controlling_Formula__c;
             item.bSearchablePicklist = false;
             item.bMultiSelectSearchablePicklist = false;
+            item.bConfirmationRequired = false;
+            item.bShowAsCustomLink = false;
+            item.confirmationLWCName = '';
+            item.dependentField = '';
+            
+            if(config.Controlling_Picklist__c != null && config.Controlling_Picklist__c != ''){
+                item.dependentField = config.Controlling_Picklist__c;
+            }
             
             if(config.Field_Type__c == 'LOV' && config.Searchable_Picklist__c == true){
                 item.bSearchablePicklist = true;
+                item.maxValuesAllowed = 1;
             }
             else if(config.Field_Type__c == 'Multi-Select LOV' && config.Searchable_Picklist__c == true){
                 item.bMultiSelectSearchablePicklist = true;
+                item.maxValuesAllowed = 5;
+                if(config.Multi_Picklist_Max_Allowed_Values__c != 0 && config.Multi_Picklist_Max_Allowed_Values__c != null){
+                 	item.maxValuesAllowed = config.Multi_Picklist_Max_Allowed_Values__c;   
+                }
+                
+            }
+            else if(config.Field_Type__c == 'Link'){
+                item.bShowAsCustomLink = true;
+            }
+            
+            if(config.Confirmation_Required__c == true){
+                item.bConfirmationRequired = true;
+            }
+            if(config.Confirmation_LWC__c != '' && config.Confirmation_LWC__c != null){
+                item.confirmationLWCName = 'c/'+config.Confirmation_LWC__c;
             }
 
             if (config.update__c != null)
@@ -143,7 +180,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
     //get Case Category Metadata
     @AuraEnabled(cacheable= true)
     public static List<ASF_Case_Category_Config__c > getCaseCategoryConfig(string cccExtId){
-        return [SELECT id,Type__c, Sub_Type__c, Nature__c, Business_Unit__c, Product__c,Allowed_Sources__c,First_Stage__c,UI_Cards__c, Type_Synonyms__c, Priority__c, Custom_Segment__c, CCC_External_Id__c, Reopen_Style__c  FROM ASF_Case_Category_Config__c  WHERE CCC_External_Id__c =: cccExtId];
+        return [SELECT id,Type__c, Sub_Type__c, Nature__c, Business_Unit__c, Product__c,Type_Synonyms__c,Allowed_Sources__c,First_Stage__c,UI_Cards__c, Priority__c, Custom_Segment__c, CCC_External_Id__c, Reopen_Style__c  FROM ASF_Case_Category_Config__c  WHERE CCC_External_Id__c =: cccExtId];
     }
     
     //get Case Stage Metadata
@@ -270,6 +307,16 @@ public without sharing class ASF_GetCaseRelatedDetails {
         public boolean bSearchablePicklist{get;set;}
         @AuraEnabled
         public boolean bMultiSelectSearchablePicklist{get;set;}
+        @AuraEnabled
+        public boolean bConfirmationRequired{get;set;}
+        @AuraEnabled
+        public boolean bShowAsCustomLink{get;set;}
+        @AuraEnabled
+        public String confirmationLWCName{get;set;}
+        @AuraEnabled
+        public string dependentField{get;set;}
+        @AuraEnabled
+        public Decimal maxValuesAllowed{get;set;}
     }
     
     @AuraEnabled(cacheable= true)
@@ -311,9 +358,16 @@ public without sharing class ASF_GetCaseRelatedDetails {
         }
     }
     
+    
     @AuraEnabled(cacheable= true)
     public static List<ASF_Checklist__c> getPendingChecklists(string caseId){
-        return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c from ASF_Checklist__c where Case__c  =: caseId AND Status__c != 'Rejected'];
+Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
+        if(ASF_Constants.BU_SHOWCHECKLISTS_ONREJECTION.contains(caseRec.Business_Unit__c)){
+           	return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c,Status_Picklist_Options__c from ASF_Checklist__c where Case__c  =: caseId]; 
+        }else{
+        return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c,Status_Picklist_Options__c from ASF_Checklist__c where Case__c  =: caseId AND Status__c != 'Rejected'];
+}
+        
     }
     @AuraEnabled(cacheable= true)
     public static List< ASF_Case_Approv__c > getCaseApprovalRecords(string caseId){
@@ -465,7 +519,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
                    FROM ASF_Case_Category_Config__c
                    WHERE CCC_External_Id__c = :cccExternalId LIMIT 1];
         }
-        if(ccc.Business_Unit__c != null && ccc.Business_Unit__c != '' && cccExternalId != ''){
+                if(ccc.Business_Unit__c != null && ccc.Business_Unit__c != '' && cccExternalId != ''){
             String bu = ccc.Business_Unit__c;
             if(bu.contains(',')){
                 for(String buVal : bu.split(',')){
@@ -479,15 +533,15 @@ public without sharing class ASF_GetCaseRelatedDetails {
                                                       WHERE LOB__c LIKE :buList ORDER BY Reason__c]){
                                                           reasonValues.add(buReason.Reason__c);
                                                       }
-        }
+                    }
         if(reasonValues.isEmpty()){
             for(LOB_Rejection_Reason__mdt buReason : [SELECT LOB__c, Reason__c 
                                                       FROM LOB_Rejection_Reason__mdt 
                                                       ORDER BY Reason__c]){
                                                           reasonValues.add(buReason.Reason__c);
                                                       }
-        }
-        return reasonValues;
+                    }
+                return reasonValues;
     }
     
     

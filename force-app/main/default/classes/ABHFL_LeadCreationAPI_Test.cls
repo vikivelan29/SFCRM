@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ABHFL Team
  * @group             : 
- * @last modified on  : 03-03-2024
- * @last modified by  : Vishal Gangwar
+ * @last modified on  : 10-16-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   03-03-2024   ABHFL Team   Initial Version
@@ -75,10 +75,10 @@ public class ABHFL_LeadCreationAPI_Test {
 
         // Create a user with the permission set
         Profile p = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
-        User u = new User(Alias = 'testuser', Email = 'testuser@example.com',
+        User u = new User(Alias = 'testuse1', Email = 'testuser1@example.com',
             EmailEncodingKey = 'UTF-8', LastName = 'User', LanguageLocaleKey = 'en_US',
             LocaleSidKey = 'en_US', ProfileId = p.Id, TimeZoneSidKey = 'America/Los_Angeles',
-            UserName = 'test_user123@example.com');
+            UserName = 'test_user123432323@example.com');
         insert u;
         
         // Assign the permission set to the user

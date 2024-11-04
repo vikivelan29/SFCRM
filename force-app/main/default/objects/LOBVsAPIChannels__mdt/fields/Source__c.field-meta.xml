@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>API</label>
             </value>
+            <value>
+                <fullName>LWC</fullName>
+                <default>false</default>
+                <label>LWC</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

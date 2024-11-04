@@ -20,4 +20,46 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABHFL_Checklist_sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABHFL Checklist sharing Rule</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHFL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLI_Checklist_sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABSLI_Checklist_sharing_Rule</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Payments_Checklist_sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Payments Checklist sharing Rule</label>
+        <sharedTo>
+            <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Payments</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>

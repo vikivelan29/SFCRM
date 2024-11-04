@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABSLIG_Case_Detail__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
     <label>ABSLIG Case Detail</label>
     <referenceTo>ABSLIG_Case_Detail__c</referenceTo>
     <relationshipLabel>Cases</relationshipLabel>

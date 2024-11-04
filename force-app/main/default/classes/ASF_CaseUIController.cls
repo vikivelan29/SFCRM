@@ -6,6 +6,8 @@
 @SuppressWarnings('PMD.ClassNamingConventions,PMD.MethodNamingConventions')
 public with sharing class  ASF_CaseUIController {
     
+    public static Case caseRecord; 
+
     @AuraEnabled
     public static Map<String,sObject> CreateProspectAndUpdateOnCase(Case caseToInsert,Lead prospectRecord){
         Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();
@@ -68,20 +70,20 @@ public with sharing class  ASF_CaseUIController {
                 userInp = '%'+userInp+'%';
                 
                 System.debug('userInp-'+userInp);
-              /*  List<List<SObject>> searchList = 
+              /*  List<List<SObject>> searchList =  
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
                     Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp),
                     Asset (Id, AccountId WHERE Name  LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp)
-                    ]; */
+                    ];  */
                 List<List<SObject>> searchList = 
                     [FIND :searchString IN ALL FIELDS 
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
-                    Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp),
-                    Asset (Id, AccountId WHERE Name  LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR Application_Number__c LIKE : userInp),
+                    Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp OR Advisor_Code__c LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR Application_Number__c LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE Name LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
@@ -104,7 +106,7 @@ public with sharing class  ASF_CaseUIController {
                 }
                 if(searchList[3].size()>0){
                     for(Lead prospect : (List<Lead>)searchList[3]){
-                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'');
+                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'','');
                         
                         lstResponse.add(resp);
                     }     
@@ -114,7 +116,7 @@ public with sharing class  ASF_CaseUIController {
                 accIdSet.add(accId);
             }
             
-            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount,RecordType.Name from account where ID IN:accIdSet];
+            List<account> accList = [select id,name,Client_Code__c,PersonEmail,PAN__c,PersonMobilePhone,Office_Email__c,IsPersonAccount,RecordType.Name,Advisor_Code__c,Business_Unit__c from account where ID IN:accIdSet];
             Map<Id,contact> accIdConMap = new Map<Id,contact>();
             Set<Id> businessAccIdSet = new Set<Id>();
             for(Account accRec : accList){
@@ -127,13 +129,14 @@ public with sharing class  ASF_CaseUIController {
             }
             for(Account customer : accList){
                 searchResponse custResp;
+                String customerType = customer.RecordType.Name == 'ABSLI Advisor' ? 'Advisor' : 'Customer';
                 if(customer.IsPersonAccount){
-                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name,customer.Advisor_Code__c);
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
 
-                    custResp = new searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name,customer.Advisor_Code__c);
                 }
                 
                 lstResponse.add(custResp);
@@ -259,8 +262,9 @@ public with sharing class  ASF_CaseUIController {
     public static Id createCaseExtension(SObject record, SObject cccRec, Id caseId, String extnFieldName){
         try{
             if(extnFieldName != null){
-                String query = String.escapeSingleQuotes('Select Id, '+extnFieldName+' from Case where Id = :caseId');
+                String query = String.escapeSingleQuotes('Select Id,Origin, '+extnFieldName+' from Case where Id = :caseId');
                 Case caseRec = (Case)Database.query(query);
+                caseRecord = caseRec;
                 record.put('Id', caseRec.get(extnFieldName));
             }
             Type customType = Type.forName('FrameworkFunctionalityExtender');
@@ -313,9 +317,11 @@ public with sharing class  ASF_CaseUIController {
         public String pan{get;set;}
         @AuraEnabled
         public string objectRecordType{get;set;}
+        @AuraEnabled
+        public string advisorCode{get;set;}
         
         public searchResponse(String recId, String objType,String name,String clientCode,
-                            String emailId,String mobile,String pan,String objRecordType){
+                            String emailId,String mobile,String pan,String objRecordType, String advisorCode){
             this.recordId = recId;
             this.objectType = objType;
             this.name = name;
@@ -324,6 +330,8 @@ public with sharing class  ASF_CaseUIController {
             this.mobile = mobile;
             this.pan = pan;
             this.objectRecordType = objRecordType;
+            this.advisorCode = advisorCode;
+                                
         }        
         
     }

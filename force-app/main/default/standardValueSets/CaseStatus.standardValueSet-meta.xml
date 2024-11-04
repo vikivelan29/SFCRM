@@ -73,4 +73,10 @@
         <label>Unresolved</label>
         <closed>true</closed>
     </standardValue>
+    <standardValue>
+        <fullName>Soft Resolve</fullName>
+        <default>false</default>
+        <label>Soft Resolve</label>
+        <closed>false</closed>
+    </standardValue>
 </StandardValueSet>

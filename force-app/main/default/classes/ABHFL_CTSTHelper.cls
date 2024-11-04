@@ -184,7 +184,7 @@ public without sharing class ABHFL_CTSTHelper {
 	Map<Id,Case> IdvsCase = new Map<Id,Case>();         // added by Vikas
         RecordType InteractionRecType = [select id,Name, SobjectType from RecordType where Name='Interaction' and SobjectType ='Case' LIMIT 1];
         for(Case c: caseList){
-		IdvsCase.put(c.Id,c);                      // added by vikas
+	    IdvsCase.put(c.Id,c);                      // added by vikas
             if(c.Business_Unit__c=='ABHFL' && 
                		(c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
                 	c.AccountId != oldCaseMap.get(c.Id).AccountId ||
@@ -240,7 +240,7 @@ public without sharing class ABHFL_CTSTHelper {
                             if(lanVsCases.containsKey(c.AssetId)){
 				if(c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ){
                                 ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase,oldCaseMap); 			// added by vikas, After recategorisation, ovarall SLA should changed before marked as closed duplicate.
-				}                                                                                
+                                }
                                 if(c.Skip_Dedupe__c && oldCaseMap.get(c.Id).RecordTypeId==InteractionRecType.Id){
                                     c.Stage__c = ASF_Constants.DUPLICATESTAGE;
                                     c.Status = ASF_Constants.DUPLICATESTATUS;
@@ -566,7 +566,7 @@ public without sharing class ABHFL_CTSTHelper {
 		  /*added condition For the source of funds if Auction/Settlement or Mature/Loan Cancellation - Realization status should not be mandatory in the Pending CPU FC stage.
                       Jira id-PR970457-2176
                       Added By Ey-Nikhil  */
-                 if((caseRec.CCC_External_Id__c == 'hfl060' && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
+                    if((caseRec.CCC_External_Id__c == 'hfl060' && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Mature' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Loan cancellation' 
                         && caseRec.ABHFL_Case_Detail__r.Source_of_Funds__c != 'Settlement/Auction' )
                        ||(caseRec.CCC_External_Id__c != 'hfl060')){
@@ -706,7 +706,7 @@ public without sharing class ABHFL_CTSTHelper {
             // List<String> asfIntegrationNames = new List<String>{'ABHFL_ASFIntg_REKYC', 'ABHFL_ASFIntg_BitlyUrl'};
             List<ASF_Integration__c> specificIntegrations = [SELECT ID, Auto_Run_on_Load__c ,C3ExternalId__c, Display_Name__c ,Display_Order__c ,STP_API_Identifier__c,
             External_Id__c,Mandatory_At_Stage_Movement__c ,Processing_Class__c ,STP_Processing_Class__c, Type__c,
-            UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c, Priority__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
+            UI_Component__c ,Visibility_Class__c ,When_to_Appear__c, Query_Fields__c, Priority__c,Run_Integration_From_LWC__c  FROM ASF_Integration__c WHERE C3ExternalId__c in : c3ExternalIds AND Type__c = 'UI Card'];
 
             for(ASF_Integration__c asfCaseInteg : specificIntegrations){
                 if(!uiCardIntegrationMap.containsKey(asfCaseInteg.C3ExternalId__c)){
@@ -721,6 +721,7 @@ public without sharing class ABHFL_CTSTHelper {
                 if(cs.Business_Unit__c == 'ABHFL' && cs.Technical_Source__c != 'API' && uiCardIntegrationMap.containsKey(cs.CCC_External_Id__c)){
                     applicableCases.add(cs);
                     integMap.put(cs.Id, uiCardIntegrationMap.get(cs.CCC_External_Id__c));
+                    ASF_CaseFrameworkHelper.runIntegrationFromLwc.put(cs.Id, true);
                 }
             }
             if(!applicableCases.isEmpty()){

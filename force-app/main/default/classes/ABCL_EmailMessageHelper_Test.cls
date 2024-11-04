@@ -44,7 +44,8 @@ public class ABCL_EmailMessageHelper_Test {
             ParentId = testCase.Id,
             Subject = 'Ineligible Subject',
             Headers = 'In-Reply-To: xyz',
-            Incoming = true
+            Incoming = true,
+            ReplyToEmailMessageId = '02sBi000001DjQ0AIK'
         );
 
         emails.add(eligibleEmail);

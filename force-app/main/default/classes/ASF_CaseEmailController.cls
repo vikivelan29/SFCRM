@@ -73,8 +73,10 @@ public without sharing class ASF_CaseEmailController {
         
         Pattern regex2 = Pattern.compile(regExpForSubQuery);
         Matcher matcher2 = regex2.matcher(inputText);
+        
+        String caseBusinessUnit = caseObject.Business_Unit__c;
 
-        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL')?true:false;
+        Boolean isABHFL = (caseObject.Business_Unit__c == 'ABHFL' || caseObject.Business_Unit__c == 'ABSLI')?true:false;
         
         List<String> dynamicFieldsToReplace = new List<String>();
         Map<String,String> resultMap = new Map<String, String>();
@@ -121,7 +123,7 @@ public without sharing class ASF_CaseEmailController {
             resultMap.put('Today',Date.today().format());
         }
 
-        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL);
+        inputText = ASF_CaseEmailControllerBUSpecificHandler.replaceDynamicFields(inputText, resultMap, isABHFL,caseBusinessUnit);
         if (resultMap != null){
             for (String resKey : resultMap.keySet()) {
                 String resVal = resultMap.get(resKey);
@@ -199,14 +201,15 @@ public without sharing class ASF_CaseEmailController {
         set<String> allfieldsToQueryUniqueset = new set<String>();
         allfieldsToQueryUniqueset.addAll(subFieldWithQuery.values());
         allfieldsToQueryUniqueset.addAll(fieldsToQuery);
-        List<String> allfieldsToQuerUiqueList = new List<String>();
-        allfieldsToQuerUiqueList.addAll(allfieldsToQueryUniqueset);
+        List<String> AllfieldsToQuerUiqueList = new List<String>();
+        AllfieldsToQuerUiqueList.addAll(allfieldsToQueryUniqueset);
+        System.debug('allfieldsToQueryUniqueset --> '+allfieldsToQueryUniqueset);
 
         String sobjectType = recordId1.getSObjectType().getDescribe().getName();
         String dynamicSOQL ;
         
-        dynamicSOQL = buildDynamicSOQL(sobjectType, allfieldsToQuerUiqueList, recordId1);
-
+        dynamicSOQL = buildDynamicSOQL(sobjectType, AllfieldsToQuerUiqueList, recordId1);
+		System.debug('dynamicSOQL --> '+dynamicSOQL);
         List<sObject> documentGenerationList = Database.query(dynamicSOQL);        
         sObject documentGenObject = documentGenerationList.get(0);
         map<string,Map<String,Schema.SObjectField>> objectSchemas = getObjectSchemas(objectNames);
@@ -216,6 +219,7 @@ public without sharing class ASF_CaseEmailController {
         }
 
         for(String s : fieldsToQuerUiqueList){
+            //documentGenObject.getSObject('Primary_Borrower__r').get('Full_Name__c')
             //relationship queries need second level. 
             if (s.contains('__r')){
                 processRelationshipField(resultMap, s, documentGenObject, objectSchemas, dateFormat);
@@ -251,10 +255,10 @@ public without sharing class ASF_CaseEmailController {
         String fieldValue = '';
         if(documentGenObject.getSObjects(objectName) != null){
             for(sObject sob : documentGenObject.getSObjects(objectName)){
-                fieldValue+=(sob.get(fieldName) != null)?sob.get(fieldName) + ',':' --- ,';
+                fieldValue+=(sob.get(fieldName) != null)?sob.get(fieldName) + '<next>':' --- <next>';
             }
         }
-        return fieldValue.removeEnd(',');
+        return fieldValue.removeEnd('<next>');
     }
 
     private static void processNestedField(Map<String, String> resultMap, String field, sObject documentGenObject,Map<String, Map<String, Schema.SObjectField>> objectSchemas, String dateFormat){
@@ -262,6 +266,9 @@ public without sharing class ASF_CaseEmailController {
         String objectName = field.substring(0,field.indexOf('.'));
         String fieldName = field.substring(field.indexOf('.') + 1);
         object fieldValue = ' --- ';
+        /*if(documentGenObject.getSObject(objectName) != null){
+            fieldValue = ((documentGenObject.getSObject(objectName).get(fieldName))!= null)?String.valueOf(documentGenObject.getSObject(objectName).get(fieldName)):fieldValue;
+        }*/
         if(documentGenObject.getSObject(objectName) != null){
             fieldValue = ((documentGenObject.getSObject(objectName).get(fieldName))!= null)?documentGenObject.getSObject(objectName).get(fieldName):fieldValue;
         }

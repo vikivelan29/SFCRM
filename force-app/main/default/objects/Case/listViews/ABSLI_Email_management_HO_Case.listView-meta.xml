@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLI_Email_management_HO_Case</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABSLI Email management HO</label>
+    <queue>ABSLI_Email_management_HO</queue>
+    <sharedTo>
+        <group>ABSLI_Email_management_HO_G</group>
+    </sharedTo>
+</ListView>

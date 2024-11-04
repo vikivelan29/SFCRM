@@ -37,7 +37,9 @@
                             <lightning-helptext content={accItem.Description__c} ></lightning-helptext> 
                           </td>
                           <td data-label="Label">
-                            <div class="slds-cell-wrap" style = "width:180px" title={accItem.Label__c}>{accItem.Label__c}</div>
+                            <div class="slds-cell-wrap" style = "width:180px" title={accItem.Label__c}><template if:true={accItem.Mandatory__c}>
+                                <abbr class="slds-required" title="required">* </abbr>
+                            </template>{accItem.Label__c}</div>
                             </td>
                            
                           <!---
@@ -47,12 +49,12 @@
                           <td data-label="Status">
                               <template if:true={accItem.Stage_Matched__c}>
                                 <template if:true={areDetailsVisible}>
-                                    <lightning-combobox value={accItem.Status__c} options={options} style="height:50px" data-id={accItem.Id}
+                                    <lightning-combobox value={accItem.Status__c} options={accItem.StatusOptions}  style="height:50px" data-id={accItem.Id}
                                         data-field="Status__c" onchange={handleChange}>
                                     </lightning-combobox>
                                 </template>
                                 <template if:false={areDetailsVisible}>
-                                    <lightning-combobox value={accItem.Status__c} options={options} style="height:50px" data-id={accItem.Id}
+                                    <lightning-combobox value={accItem.Status__c} options={accItem.StatusOptions}  data-id={accItem.Id}
                                         data-field="Status__c" onchange={handleChange} read-only="true">
                                     </lightning-combobox>
                                 </template>

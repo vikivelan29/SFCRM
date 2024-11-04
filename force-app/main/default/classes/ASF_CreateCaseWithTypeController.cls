@@ -17,6 +17,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     * @return  CaseDetailsWrapper
     *****************************************************************************************************************/
     
+    @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getUserDetails(){
 
         String source = '';
@@ -40,7 +41,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
 
         // Added userSourceCode filter in below query for dynamic rendering of source field value on UI. // Added by Anirudh Raturi
         lstLOBMapping  = [SELECT  Id, developerName, qualifiedApiName, MasterLabel,LOB__c,
-                          Type__c, Channel__c,Source__c, Sub_Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
+                          Type__c, Channel__c,Source__c,New_Source__c , Sub_Source__c, CCValue__c,Exclusion_Bu_s__c, Complaint_Type__c
                           FROM LOBMappingDetails__mdt WHERE 
                           LOB__c =:strLOB AND Source_Code__c =:userSourceCode AND
                           IsActive__c = true 
@@ -55,13 +56,19 @@ public with sharing class ASF_CreateCaseWithTypeController {
         
         // Populate relevant LOB Mapping Mtd details on objCaseDetailsWrapper
         if(choosenOneMTD != null){
-            source = choosenOneMTD.Source__c;
+            //source = choosenOneMTD.Source__c;
+            //AM-Updated the name of source__c to New_Source__c and 
+            //field type from text to long text to accommodate ABSLI sources
+            source = choosenOneMTD.New_Source__c;
             subSource = choosenOneMTD.Sub_Source__c;
             sourceToSubsource.put(source, subSource);
             objCaseDetailsWrapper.strSource = source;
             objCaseDetailsWrapper.complaintType = choosenOneMTD.Complaint_Type__c;
             objCaseDetailsWrapper.mapOfSourceToSubsource = sourceToSubsource;
-            List<String> lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
+            List<String> lstChannel = new List<String>();
+            if(choosenOneMTD.Channel__c != null){
+                lstChannel = choosenOneMTD.Channel__c.split(STRING_SEMI_COLON);
+            }
             objCaseDetailsWrapper.lstChannel = populateOptionWrapper(lstChannel);
         }
         
@@ -162,7 +169,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         map<id,ASF_Case_Category_Config__c> searchResults;
         set<ASF_Case_Category_Config__c> cccset= new set<ASF_Case_Category_Config__c>();
         
-        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
+        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c, Validation_method_during_creation__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
             'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND';
         
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){

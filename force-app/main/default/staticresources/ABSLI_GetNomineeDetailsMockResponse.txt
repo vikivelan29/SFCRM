@@ -1,0 +1,86 @@
+{
+    "ReturnMessage": "Record retrieved successfully.",
+    "ReturnCode": "0",
+    "lstDetails": [
+    	{
+        "POLICY_NO": "007729275",
+        "NOMINEE_NAME": "Anisha Jayaraman",
+        "APPOINTEE": "",
+        "ALLOCATION" : "10",
+        "DOB_OF_NOMINEE": "02-Jun-1977",
+        "RELATIONSHIP": "Daughter"
+    	},
+        {
+            "POLICY_NO": "007729275",
+            "NOMINEE_NAME": "Apurva Meda",
+            "APPOINTEE": "",
+            "ALLOCATION" : "10",
+            "DOB_OF_NOMINEE": "03-Jun-1987",
+            "RELATIONSHIP": "Daughter"
+        },
+        {
+        "POLICY_NO": "007729275",
+        "NOMINEE_NAME": "Mina Vaidya",
+        "APPOINTEE": "",
+        "ALLOCATION" : "10",
+        "DOB_OF_NOMINEE": "04-Jun-1990",
+        "RELATIONSHIP": "Daughter"
+    	},
+        {
+            "POLICY_NO": "007729275",
+            "NOMINEE_NAME": "Indrani Karan ",
+            "APPOINTEE": "",
+            "ALLOCATION" : "10",
+            "DOB_OF_NOMINEE": "05-Jun-1992",
+	        "RELATIONSHIP": "Daughter"
+        },
+        {
+        "POLICY_NO": "007729275",
+        "NOMINEE_NAME": "Chetan Hayre",
+        "APPOINTEE": "",
+        "ALLOCATION" : "10",
+        "DOB_OF_NOMINEE": "06-Jun-1968",
+        "RELATIONSHIP": "Son"
+    	},
+        {
+            "POLICY_NO": "007729275",
+            "NOMINEE_NAME": "Viti Shah",
+            "APPOINTEE": "",
+            "ALLOCATION" : "10",
+            "DOB_OF_NOMINEE": "07-Jun-1978",
+            "RELATIONSHIP": "Daughter"
+        },
+        {
+        "POLICY_NO": "007729275",
+        "NOMINEE_NAME": "Aparajita Choudhury",
+        "APPOINTEE": "",
+        "ALLOCATION" : "10",
+        "DOB_OF_NOMINEE": "08-Jun-1998",
+        "RELATIONSHIP": "Mother"
+    	},
+        {
+            "POLICY_NO": "007729275",
+            "NOMINEE_NAME": "Valini Sibal",
+            "APPOINTEE": "",
+            "ALLOCATION" : "10",
+            "DOB_OF_NOMINEE": "09-Jun-1974",
+            "RELATIONSHIP": "Daughter"
+        },
+        {
+        "POLICY_NO": "007729275",
+        "NOMINEE_NAME": "Manas Prakash",
+        "APPOINTEE": "",
+        "ALLOCATION" : "10",
+        "DOB_OF_NOMINEE": "10-Jun-1984",
+        "RELATIONSHIP": "Father"
+    	},
+        {
+            "POLICY_NO": "007729275",
+            "NOMINEE_NAME": "Mahendra Guha",
+            "APPOINTEE": "",
+            "ALLOCATION" : "10",
+            "DOB_OF_NOMINEE": "13-Jun-1994",
+            "RELATIONSHIP": "Son"
+        }
+    ]
+}

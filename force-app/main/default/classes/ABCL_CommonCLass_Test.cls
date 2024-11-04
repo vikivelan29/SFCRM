@@ -93,7 +93,7 @@ public with sharing class ABCL_CommonCLass_Test {
       Test.stopTest();
 
       // Validate bypass validation logic
-      System.assertEquals(true, result, 'true');
+      System.assertEquals(true, result, 'false');
     }
 
     @SuppressWarnings('PMD.UnusedLocalVariable')

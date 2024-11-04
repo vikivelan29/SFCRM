@@ -1,0 +1,10 @@
+<apex:page controller="ASF_redirectToCaseApprovalVFController" action="{!init}">
+ 
+    <script> 
+    window.onload = function() { 
+         
+        //alert('loading...'); 
+        window.location.replace('https://www.google.com');
+    } 
+    </script>
+</apex:page>

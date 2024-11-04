@@ -3,7 +3,7 @@
     <fullName>JSON_Data__c</fullName>
     <externalId>false</externalId>
     <label>JSON Data</label>
-    <length>32768</length>
+    <length>131000</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

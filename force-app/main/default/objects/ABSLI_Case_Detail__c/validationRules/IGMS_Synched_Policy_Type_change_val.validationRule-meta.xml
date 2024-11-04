@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IGMS_Synched_Policy_Type_change_val</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISCHANGED(IGMS_type_of_policy__c) &amp;&amp; !ISNEW() &amp;&amp;  IRDAI_Token_Number__c != null</errorConditionFormula>
+    <errorMessage>Policy Type cannot be changed for IGMS Synced Cases</errorMessage>
+</ValidationRule>

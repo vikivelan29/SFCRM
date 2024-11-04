@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Decision_Give_by__c</fullName>
+    <description>Complaints Resolution Field</description>
+    <externalId>false</externalId>
+    <label>Decision Give by</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SA Agent</fullName>
+                <default>false</default>
+                <label>SA Agent</label>
+            </value>
+            <value>
+                <fullName>SA Team Leader</fullName>
+                <default>false</default>
+                <label>SA Team Leader</label>
+            </value>
+            <value>
+                <fullName>SA Team Manager</fullName>
+                <default>false</default>
+                <label>SA Team Manager</label>
+            </value>
+            <value>
+                <fullName>SA Head</fullName>
+                <default>false</default>
+                <label>SA Head</label>
+            </value>
+            <value>
+                <fullName>CS Head</fullName>
+                <default>false</default>
+                <label>CS Head</label>
+            </value>
+            <value>
+                <fullName>Compliance Fraud</fullName>
+                <default>false</default>
+                <label>Compliance Fraud</label>
+            </value>
+            <value>
+                <fullName>Compliance Misselling</fullName>
+                <default>false</default>
+                <label>Compliance Misselling</label>
+            </value>
+            <value>
+                <fullName>Compliance Head</fullName>
+                <default>false</default>
+                <label>Compliance Head</label>
+            </value>
+            <value>
+                <fullName>Compliance legal</fullName>
+                <default>false</default>
+                <label>Compliance legal</label>
+            </value>
+            <value>
+                <fullName>GRC</fullName>
+                <default>false</default>
+                <label>GRC</label>
+            </value>
+            <value>
+                <fullName>Polad</fullName>
+                <default>false</default>
+                <label>Polad</label>
+            </value>
+            <value>
+                <fullName>New Business</fullName>
+                <default>false</default>
+                <label>New Business</label>
+            </value>
+            <value>
+                <fullName>Underwriting</fullName>
+                <default>false</default>
+                <label>Underwriting</label>
+            </value>
+            <value>
+                <fullName>Claims</fullName>
+                <default>false</default>
+                <label>Claims</label>
+            </value>
+            <value>
+                <fullName>Sales</fullName>
+                <default>false</default>
+                <label>Sales</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
