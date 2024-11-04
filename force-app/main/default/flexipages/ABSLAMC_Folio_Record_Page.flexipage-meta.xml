@@ -687,6 +687,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abamc_getHoldingByFolios</componentName>
+                <identifier>c_abamc_getHoldingByFolios</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1dbf33f6-9b6b-41f5-9bd8-b82be9ab9e7a</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
@@ -701,6 +711,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-1dbf33f6-9b6b-41f5-9bd8-b82be9ab9e7a</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Holdings by Folios</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-a5dca409-341a-4c89-acee-a0d712dd3848</name>
