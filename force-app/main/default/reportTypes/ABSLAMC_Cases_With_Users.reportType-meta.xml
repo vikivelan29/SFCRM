@@ -958,11 +958,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Requirement_Met_Date2__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Resolution_By_Date_Value__c</field>
             <table>Case</table>
         </columns>
