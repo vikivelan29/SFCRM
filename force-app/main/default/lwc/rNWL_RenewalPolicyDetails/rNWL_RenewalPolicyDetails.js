@@ -99,7 +99,6 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                 let healthArray = [];
                 let fitnessArray = [];
                 let apiErrMsg = '';
-
                 for (let key in data) {
 
                     //For individual Or RUGs
@@ -166,7 +165,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     }
                 }
                 if(apiErrMsg != ''){
-                    this.showNotification('error', 'Error!', this.label.toastErrorMsg + ' : ' + apiErrMsg);
+                    this.showNotification('error', 'Error!', this.label.toastErrorMsg + ' ' + apiErrMsg);
                 }
                 if(this.apiList && renCheckhArray){
                     if(this.apiList.includes('Renewal Check')){                
@@ -225,8 +224,8 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
     //////////////////////////////////Private methods//////////////////////////////////////////////////
 
     getISTDateFormat(theDate){
-        if(theDate){
-            return String(theDate.getDate()+'/'+(theDate.getMonth() + 1) +'/'+theDate.getFullYear())
+        if (theDate){
+            return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(theDate);
         }
         return '';
     }

@@ -120,7 +120,7 @@ public with sharing class ABSLI_AfterUpdateLogic {
         for(Case caseRec : newCases){
             if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && String.isBlank(caseRec.IRDAI_Token_Number__c) 
                && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c 
-               && caseRec.Stage__c == 'Resolved' && UserInfo.getName() == System.Label.ABCL_Integration_UserName){
+               && (caseRec.Stage__c == ABSLI_Constants.RESOLVED_TEAM_RES_STATUS || caseRec.Stage__c == ABSLI_Constants.UNRESOLVED_TEAM_RES_STATUS) && UserInfo.getName() == System.Label.ABCL_Integration_UserName){
                    eligibleCases.add(caseRec);
                }
         }

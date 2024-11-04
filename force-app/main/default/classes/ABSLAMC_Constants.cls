@@ -13,6 +13,7 @@ public with Sharing class ABSLAMC_Constants {
     public static final String REPLY_RECEIVED_FROM_APP_SUPPORT = 'Reply Received from App Support';
     public static final String ISSUE_MANAGEMENT_UNIT = 'ABSLAMC MF Issue Management Unit';   
     public static final String AWAITING_RESPONSE_FROM_APP_SUPPORT = 'Awaiting Response from App Support'; 
+    public static final Set<String> ABSLAMC_ALL_LOB_GRP_SET = new Set<String>{'ABSLAMC MF All Teams (G)', 'ABSLAMC AIF All Teams (G)', 'ABSLAMC RE All Teams (G)', 'ABSLAMC PMS All Teams (G)'};
     public static final String ABSLAMCBU = 'ABSLAMC'; 
     public static final String ABSLAMC_CASE_ORIGIN = 'ABSLAMC Email';
     public static final String ABSLAMC_MF_PHD_QUEUE= 'ABSLAMC_MF_PHD';
@@ -43,7 +44,11 @@ public with Sharing class ABSLAMC_Constants {
     public static final String SPRINKLRINT = 'Sprinklr-UpdateCase';
     public static final String SPRINKLR = 'SPRINKLR';
     public static final String RT_LEAD = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('ABSLAMC_Leads').getRecordTypeId();
-
+    public static final String SPRINKLRNOTIFTITLE = 'Updates from Sprinklr';
+    public static final String SPRINKLRFILENOTIF = 'An attachment has been added to the Case: ';
+    public static final String SPRINKLRNOTESNOTIF = 'Notes from Sprinklr has been updated on Case: ';
+    public static final String APIUSERPROILENAME = 'Salesforce API Only System Integrations';
+    public static final Set<String> LEADSTATUS = new Set<String>{'Open','Lost', 'Won'};
     public static final String SRC_CALLCENTRE = 'Call Centre';
     public static final String SRC_BRANCH = 'Branch';
     public static final String CHNL_EMAIL = 'Email';
@@ -54,4 +59,7 @@ public with Sharing class ABSLAMC_Constants {
         SRC_CALLCENTRE+CHNL_PHONE => '9nu0_touchpoint',
         SRC_BRANCH+CHNL_BR_WALKIN => '0xzr_touchpoint'
     };
+    public static final String ADMINUSERPROILENAME = 'System Administrator';
+    public static final String LEADOWNERCHANGEFORUSER = 'You are not authorized to change the lead owner';
+    public static final String LEADOWNERCHANGEFORQUEUE = 'You are not the member of the queue';
 }
