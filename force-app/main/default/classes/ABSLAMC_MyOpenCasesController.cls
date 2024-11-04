@@ -6,7 +6,8 @@ public with sharing class ABSLAMC_MyOpenCasesController {
         Map<String, List<Case>> casesByStage = new Map<String, List<Case>>();
         List<Case> caseList = [Select Id,CaseNumber,Account.Name,Stage__c 
                                FROM Case 
-                               WHERE OwnerId =:userId
+                               WHERE Business_Unit__c =: ABSLAMC_Constants.ABSLAMCBU
+                               AND OwnerId =:userId
                                AND Stage__c NOT IN ('Resolved','Unresolved')];
         
         for(Case caseRec:caseList){
