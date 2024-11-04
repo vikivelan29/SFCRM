@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Payment confirmation</label>
+    <label>DHA</label>
     <protected>false</protected>
     <values>
         <field>Class_Name__c</field>
@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Email__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Entity__c</field>
@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>Metadata_Name__c</field>
-        <value xsi:type="xsd:string">RNWL_Payment_confirmation</value>
+        <value xsi:type="xsd:string">RNWL_DHA</value>
     </values>
     <values>
         <field>Method_Name__c</field>
@@ -36,11 +36,11 @@
     </values>
     <values>
         <field>SMS__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>User_Friendly_Name__c</field>
-        <value xsi:type="xsd:string">Payment confirmation</value>
+        <value xsi:type="xsd:string">DHA</value>
     </values>
     <values>
         <field>WhatsApp__c</field>

@@ -1045,7 +1045,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_OmniDocURL</shortDescription>
-        <value>https://omnidocsuat.adityabirlahealth.com/omnidocs/WebApiRequestRedirection?Application=WebAPI_abhi_uat&cabinetName=abhi_uat</value>
+        <value>https://omnidocsuat.adityabirlahealth.com/omnidocs/WebApiRequestRedirection?Application=WebAPI_abhi_uat&amp;cabinetName=abhi_uat</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
@@ -1396,5 +1396,19 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC_LegacyPageSize</shortDescription>
         <value>10</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Callback_Number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Callback_Number</shortDescription>
+        <value>99999999</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_PageLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_PageLink</shortDescription>
+        <value>http://bit.ly/ABHRENEW</value>
     </labels>
 </CustomLabels>
