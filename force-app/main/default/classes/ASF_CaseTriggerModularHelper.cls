@@ -1,5 +1,5 @@
 /**
-* @description       : 
+* @description       :    
  * @author            : rsinghnagar@salesforce.com
 * @group             : 
  * @last modified on  : 06-30-2024
@@ -238,7 +238,7 @@ blankSourcePresent = true;
                             caseFinalDMLMap.put(caseObj.Id, caseObj);
                         }
                         Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
-					    caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);                        
+                        caseRecFromMap.OwnerId = resultWrap.defaultOwnerId != null ? resultWrap.defaultOwnerId : (resultWrap.defaultErrorOwnerId != null ? resultWrap.defaultErrorOwnerId : caseRec.OwnerId);                        
                         caseRecFromMap.SkipModifyingSLAHistory__c = System.now().getTime();
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
@@ -815,7 +815,7 @@ blankSourcePresent = true;
                        caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                    }
             else if(caseRec.Technical_Source__c != null && caseRec.CCC_External_Id__c != null && isUpdate
-       				&& (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==true)){
+                    && (caseRec.stage__c != oldMap.get(caseRec.Id).stage__c && caseRec.pending_clarification__c==true)){
                        caseListForSla.add(caseRec);
                        caseStageMap.put(caseRec.Id, caseRec.Stage__c);
                    }
