@@ -19855,6 +19855,10 @@
         <name>EmailSingle</name>
     </userPermissions>
     <userPermissions>
+        <enabled>true</enabled>
+        <name>EditTask</name>
+    </userPermissions>
+    <userPermissions>
         <enabled>false</enabled>
         <name>SendSitRequests</name>
     </userPermissions>
