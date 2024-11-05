@@ -33,8 +33,7 @@ export default class mcrm_base_view_screen extends LightningElement {
 
 	connectedCallback() {
 		this.callFunction();	
-		this.showRefresh=true;
-		this.showPreview=true;
+		
 	}
 
 	coreResult;

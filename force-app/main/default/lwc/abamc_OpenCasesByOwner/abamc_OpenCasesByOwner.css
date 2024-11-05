@@ -1,0 +1,31 @@
+.header-row {
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.header-cell {
+    flex: 1;
+    padding: 0.5rem;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.case-row {
+    display: flex;
+    padding: 0.5rem 0;
+}
+
+.case-cell {
+    flex: 1;
+    padding: 0.5rem;
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.case-cell a {
+    color: #0070d2;
+    text-decoration: none;
+}
+
+.case-cell a:hover {
+    text-decoration: underline;
+}
