@@ -1,51 +1,103 @@
 {
- "ResponseObj": [
-   {
-     "Code": "01",
-     "Message": "SUCCESS"
-   }
- ],
- "ReceiptObj": [
-   {
-     "ReceiptNumber": "CA-24-25-1484518",
-     "RefundDetails": [
-       {
-         "RefundNumber": "CA-24-25-1484518",
-         "RefundType": "",
-         "PaymentDate": "23-07-2024",
-         "PaymentRefNo": "",
-         "Status": "",
-         "RefundTo": "",
-         "PaymentMode": "",
-         "BeneficiaryName": "RANJIT",
-         "RefundAmount": "18526.27",
-         "ProposerMobile": "9474597666",
-         "ProposerEmail": "ranjitbiswas5@gmail.com",
-         "BankName": "",
-        "AccountNumber": "",
-         "IVRStatus": "",
-         "PaymentReason":"",
-         "PaymentSubReason":"",
-         "IFSCCode":""
-         
-                },
-                {
-                  "RefundNumber": "CA-24-25-1484518",
+  "ResponseObj": {
+      "Code": "01",
+      "Message": "SUCCESS"
+  },
+  "ReceiptObj": [
+      {
+          "ReceiptNumber": "SR-21-22-697832",
+          "RefundDetails": [
+              {
+                  "RefundNumber": "SR-21-22-697832",
                   "RefundType": "",
-                  "PaymentDate": "23-07-2024",
+                  "PaymentDate": "08-08-2023",
                   "PaymentRefNo": "",
                   "Status": "",
                   "RefundTo": "",
                   "PaymentMode": "",
-                  "BeneficiaryName": "RANJIT",
-                  "RefundAmount": "3334.72",
-                  "ProposerMobile": "9474597666",
-                  "ProposerEmail": "ranjitbiswas5@gmail.com",
+                  "BeneficiaryName": "TUSHAR",
+                  "RefundAmount": "0",
+                  "ProposerMobile": "6789805137",
+                  "ProposerEmail": "rrhcahdsh@gmail.com",
                   "BankName": "",
                   "AccountNumber": "",
-                  "IVRStatus": ""
-                }
-              ]
-            }
+                  "Collection_mode": "",
+                  "premium_for_optional_cover": "",
+                  "registration_status": "PEN",
+                  "auto_debit_flag": "N",
+                  "IVRStatus": "refund processed"
+              },
+              {
+                  "RefundNumber": "SR-21-22-697832",
+                  "RefundType": "",
+                  "PaymentDate": "08-08-2023",
+                  "PaymentRefNo": "",
+                  "Status": "",
+                  "RefundTo": "",
+                  "PaymentMode": "",
+                  "BeneficiaryName": "TUSHAR",
+                  "RefundAmount": "0",
+                  "ProposerMobile": "6789805137",
+                  "ProposerEmail": "rrhcahdsh@gmail.com",
+                  "BankName": "",
+                  "AccountNumber": "",
+                  "Collection_mode": "",
+                  "premium_for_optional_cover": "",
+                  "registration_status": "PEN",
+                  "auto_debit_flag": "N",
+                  "IVRStatus": "refund processed"
+              }
           ]
-        }        
+      },
+      {
+          "ReceiptNumber": "SR-21-22-697833",
+          "RefundDetails": [
+              {
+                  "RefundNumber": "SR-21-22-697833",
+                  "RefundType": "",
+                  "PaymentDate": "08-08-2023",
+                  "PaymentRefNo": "",
+                  "Status": "",
+                  "RefundTo": "",
+                  "PaymentMode": "",
+                  "BeneficiaryName": "TUSHAR",
+                  "RefundAmount": "0",
+                  "ProposerMobile": "6789805137",
+                  "ProposerEmail": "rrhcahdsh@gmail.com",
+                  "BankName": "",
+                  "AccountNumber": "",
+                  "Collection_mode": "",
+                  "premium_for_optional_cover": "",
+                  "registration_status": "PEN",
+                  "auto_debit_flag": "N",
+                  "IVRStatus": "refund processed"
+              }
+          ]
+      },
+      {
+          "ReceiptNumber": "CR-21-22-324080",
+          "RefundDetails": [
+              {
+                  "RefundNumber": "CR-21-22-324080",
+                  "RefundType": "",
+                  "PaymentDate": "08-08-2023",
+                  "PaymentRefNo": "",
+                  "Status": "",
+                  "RefundTo": "",
+                  "PaymentMode": "",
+                  "BeneficiaryName": "TUSHAR",
+                  "RefundAmount": "0",
+                  "ProposerMobile": "6789805137",
+                  "ProposerEmail": "rrhcahdsh@gmail.com",
+                  "BankName": "",
+                  "AccountNumber": "",
+                  "Collection_mode": "",
+                  "premium_for_optional_cover": "",
+                  "registration_status": "PEN",
+                  "auto_debit_flag": "N",
+                  "IVRStatus": "Under process"
+              }
+          ]
+      }
+  ]
+}

@@ -50,7 +50,9 @@ export default class Abhi_sendCommunication extends LightningElement {
     assetReferenceField='';
     @track validation={
         validationMessage: '',
-        showValidation:false
+        validationTemplateMessage:'',
+        showValidation:false,
+        showTemplateValidation:false
     }
 
     connectedCallback(){
@@ -94,6 +96,7 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     getFields(){
         if(this.currentSelRecord){
+            
             return [this.objectApiName + "." + this.cols.emailField, this.objectApiName + "." + this.cols.phoneField, this.objectApiName + '.Name'];
         }
         else if(this.objectApiName == 'Asset'){
@@ -146,8 +149,11 @@ export default class Abhi_sendCommunication extends LightningElement {
                         this.showToast('Error', error.body.message, 'error');
                     });
                 }
-                else{
-                    this.showToast('Error', 'Please ensure correct data is entered', 'error');
+                else if(this.formData.template == ''){
+                    this.validation.showTemplateValidation=true;
+                    this.validation.validationTemplateMessage='Please select a valid Template';
+                    if(this.template.querySelector('.com_box') && !this.template.querySelector('.com_box').classList.contains('slds-has-error'))
+                        this.template.querySelector('.com_box').classList.add('slds-has-error');
                 }
             }
         } catch (error) {
@@ -177,14 +183,10 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.validation.showValidation=true;
                 this.template.querySelector('.tel_inp').classList.add('slds-has-error');
             }
-            if(this.showContact.showEmail){
-                //add for email
-            }
             
             return false;
         }
-        else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){
-           
+        else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){   
             this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
             this.validation.showValidation=true;
             this.template.querySelector('.tel_inp').classList.add('slds-has-error');
@@ -226,6 +228,12 @@ export default class Abhi_sendCommunication extends LightningElement {
 
     handleChange(event){
         try {
+            this.validation.showValidation = false;
+            this.validation.showTemplateValidation=false;
+            if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
+                this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
+            if(this.template.querySelector('.com_box') && this.template.querySelector('.com_box').classList.contains('slds-has-error'))
+                this.template.querySelector('.com_box').classList.remove('slds-has-error');
             let selectedLabel = event.target.label;
             let selectedVal = event.detail.value;
             this.formData.template = '';
@@ -249,7 +257,6 @@ export default class Abhi_sendCommunication extends LightningElement {
                 
                 this.tempOptions = tempOptionArr;
                 this.showContact.showTemplate = true;
-                
             }
             if(selectedLabel == 'Template'){
                 this.formData.template = selectedVal;
@@ -264,6 +271,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.toggleDisabled = phoneField!=null?false:true;
                 this.checkedToggle = phoneField!=null?true:false;
                 this.recordDetails.Phone = phoneField!=null?phoneField:'';
+                
             }
             else if(selectedVal == 'Email'){
                 this.showContact.showEmail=true;
@@ -273,6 +281,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                 this.recordDetails.Email = emailField!=null?emailField:'';
                 
             }
+            
         } catch (error) {
             console.error('Error in handleChange>>>', JSON.stringify(error));
             
@@ -283,8 +292,11 @@ export default class Abhi_sendCommunication extends LightningElement {
     handleInputChange(event){
         let inputType = event.target.type;
         this.validation.showValidation=false;
+        this.validation.showTemplateValidation=false;
         if(this.template.querySelector('.tel_inp') && this.template.querySelector('.tel_inp').classList.contains('slds-has-error'))
         this.template.querySelector('.tel_inp').classList.remove('slds-has-error');
+        if(this.template.querySelector('.com_box') && this.template.querySelector('.com_box').classList.contains('slds-has-error'))
+        this.template.querySelector('.com_box').classList.remove('slds-has-error');
         if(inputType == 'toggle'){
             this.checkedToggle = !this.checkedToggle;
         }

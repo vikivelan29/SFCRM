@@ -72,6 +72,11 @@
                 <default>false</default>
                 <label>CAMS</label>
             </value>
+            <value>
+                <fullName>SPRINKLR</fullName>
+                <default>false</default>
+                <label>SPRINKLR</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -61,15 +61,7 @@
     <picklistValues>
         <picklist>GenderIdentity</picklist>
         <values>
-            <fullName>F</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Female</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>M</fullName>
             <default>false</default>
         </values>
         <values>
