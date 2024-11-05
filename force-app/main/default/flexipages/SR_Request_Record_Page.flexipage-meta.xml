@@ -68,8 +68,10 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
+<!-- <fieldItem>Record.Approval_Status__c</fieldItem>
+                <identifier>RecordApproval_Status_cField</identifier> -->
                 <fieldItem>Record.Requested_CCC_Details__c</fieldItem>
-                <identifier>RecordRequested_CCC_Details__cField</identifier>
+                <identifier>RecordRequested_CCC_Details_cField</identifier>
                 <visibilityRule>
                     <booleanFilter>(1 AND 2) OR 3</booleanFilter>
                     <criteria>
@@ -360,6 +362,23 @@
                 <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>showComments</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>asf_approvalHistory</componentName>
+                <identifier>c_asf_approvalHistory2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABSLAMC</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <mode>Replace</mode>
         <name>main</name>
         <type>Region</type>
@@ -367,8 +386,19 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>showComments</name>
+                    <value>false</value>
+                </componentInstanceProperties>
                 <componentName>asf_approvalHistory</componentName>
                 <identifier>c_asf_approvalHistory</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>ABSLAMC</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
