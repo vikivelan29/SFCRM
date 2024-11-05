@@ -19852,7 +19852,7 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>SendEmails</name>
+        <name>EmailSingle</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
