@@ -112,4 +112,15 @@
             <roleAndSubordinates>Payments_Service_Agent</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Wellness_User_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Wellness User Sharing</label>
+        <sharedTo>
+            <role>Wellness_Service_Agent</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Wellness_Service_Agent</role>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>

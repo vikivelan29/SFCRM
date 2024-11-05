@@ -34,6 +34,9 @@
         <field>ASF_Communication_Log__c$Case__c</field>
     </columns>
     <columns>
+        <field>ASF_Communication_Log__c$Case__c.Source__c</field>
+    </columns>
+    <columns>
         <field>ASF_Communication_Log__c$Case__c.Type_Text__c</field>
     </columns>
     <columns>
@@ -65,9 +68,6 @@
     </columns>
     <columns>
         <field>ASF_Communication_Log__c$Case__c.ABSLI_Case_Detail__c.Resolution_Comments__c</field>
-    </columns>
-    <columns>
-        <field>ASF_Communication_Log__c$Case__c.Source__c</field>
     </columns>
     <columns>
         <field>ASF_Communication_Log__c$Case__c.ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>

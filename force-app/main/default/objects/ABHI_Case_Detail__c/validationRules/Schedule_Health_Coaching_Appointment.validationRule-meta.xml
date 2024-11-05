@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Schedule_Health_Coaching_Appointment</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(Schedule_Health_Coaching_Appointment_1__c &gt; (Now()+7),Schedule_Health_Coaching_Appointment_2__c &gt; (Now()+7))</errorConditionFormula>
+    <errorMessage>Schedule Health Coaching Appointment should be within 7 days of case creation.</errorMessage>
+</ValidationRule>

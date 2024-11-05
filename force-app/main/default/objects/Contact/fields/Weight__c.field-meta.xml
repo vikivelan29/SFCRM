@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Weight__c</fullName>
     <externalId>false</externalId>
-    <label>Weight (KG)</label>
+    <label>Weight (kg)</label>
     <length>100</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

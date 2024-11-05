@@ -21,13 +21,11 @@ public class ASF_CaseCommentTriggerHandler_Test {
         insert testComment;
     }
     
-    static testmethod void updateCaseCommentTest() {
-        
+    static testmethod void updateCaseCommentTest() {        
         Id caseId = [select Id from case LIMIT 1].Id;
         Test.StartTest();
             CaseComment ccRec = [select id, CommentBody from CaseComment where ParentId=:caseId LIMIT 1];
-            ccRec.CommentBody = 'Test';
-            
+            ccRec.CommentBody = 'Test';            
             try{
                 update ccRec;
             }catch (DmlException e) {

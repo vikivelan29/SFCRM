@@ -1,0 +1,27 @@
+<template>
+    <template lwc:if={loading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <template if:true={noProfileData}>
+        <div class="slds-text-color_error slds-p-around_medium">
+            <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+            No Profile data found for the selected folio.
+        </div>
+    </template>
+
+    <template if:false={noProfileData}>
+   
+        <lightning-card>
+            <div style="height: auto; overflow-y: auto;">
+                <lightning-datatable
+                    key-field="id"
+                    data={profileData}
+                    columns={profileColumns}
+                    hide-checkbox-column="true">
+                </lightning-datatable>
+            </div>
+        </lightning-card>
+    
+</template>
+</template>

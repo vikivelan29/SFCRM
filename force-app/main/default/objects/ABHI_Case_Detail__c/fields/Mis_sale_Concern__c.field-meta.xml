@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mis_sale_Concern__c</fullName>
+    <externalId>false</externalId>
+    <label>Mis-sale Concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Policy issue without customer consent</fullName>
+                <default>false</default>
+                <label>Policy issue without customer consent</label>
+            </value>
+            <value>
+                <fullName>Agent/Sales person has asked for OTP, however, didn&apos;t inform policy will be issued</fullName>
+                <default>false</default>
+                <label>Agent/Sales person has asked for OTP, however, didn&apos;t inform policy will be issued</label>
+            </value>
+            <value>
+                <fullName>Policy benefits available in documents are not the one informed by the agent (Miss Communication)</fullName>
+                <default>false</default>
+                <label>Policy benefits available in documents are not the one informed by the agent (Miss Communication)</label>
+            </value>
+            <value>
+                <fullName>Gift, freebies, Voucher, and Money-back were promised</fullName>
+                <default>false</default>
+                <label>Gift, freebies, Voucher, and Money-back were promised</label>
+            </value>
+            <value>
+                <fullName>Incomplete information provided</fullName>
+                <default>false</default>
+                <label>Incomplete information provided</label>
+            </value>
+            <value>
+                <fullName>Ped disclosed but not added in policy</fullName>
+                <default>false</default>
+                <label>Ped disclosed but not added in policy</label>
+            </value>
+            <value>
+                <fullName>Waiting period not informed</fullName>
+                <default>false</default>
+                <label>Waiting period not informed</label>
+            </value>
+            <value>
+                <fullName>New business policy issued instead of Port</fullName>
+                <default>false</default>
+                <label>New business policy issued instead of Port</label>
+            </value>
+            <value>
+                <fullName>New business policy issued instead of renewal</fullName>
+                <default>false</default>
+                <label>New business policy issued instead of renewal</label>
+            </value>
+            <value>
+                <fullName>Forced to issue policy</fullName>
+                <default>false</default>
+                <label>Forced to issue policy</label>
+            </value>
+            <value>
+                <fullName>Free of cost</fullName>
+                <default>false</default>
+                <label>Free of cost</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

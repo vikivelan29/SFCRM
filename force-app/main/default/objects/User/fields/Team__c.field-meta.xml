@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Team__c</fullName>
+    <externalId>false</externalId>
     <label>Email Team</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -58,6 +59,11 @@
                 <fullName>ABSLIG_Group_Helpline</fullName>
                 <default>false</default>
                 <label>ABSLIG Group Helpline</label>
+            </value>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
             </value>
         </valueSetDefinition>
     </valueSet>
