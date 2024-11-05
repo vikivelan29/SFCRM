@@ -63,7 +63,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         for(Case caseRec : caseRecs){
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
-        List<Case> downloadStpCases = new List<Case>();
+        //List<Case> downloadStpCases = new List<Case>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             //Checking for mandatory API conditions
@@ -80,18 +80,21 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
                 result.response = Custom_Messages__mdt.getInstance('BCL_Evaluation_Faield_LAN_Email_Error').Message__c;
             }
             if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
-                caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
+                /*caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
                     downloadStpCases.add(caseRecord);
                     //update caseRecord;
                 }
-                result = new ASF_IntegrationsController.IntegrationWrapper();
+                result = new ASF_IntegrationsController.IntegrationWrapper();*/
+                Case updatedCase = new Case(Id=caseRecord.Id);
+                updatedCase.Stage__c = ABHFL_Constants.RESOLVED;    
+                result.updatedCase = updatedCase;
             }
             resultMap.put(caseRecord.Id, result);
         }
-        if(downloadStpCases.size()>0){
+        /*if(downloadStpCases.size()>0){
             update downloadStpCases;
-        }
+        }*/
         
         return resultMap;
     }
@@ -343,7 +346,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
     *****************************************************************************************************************/
     public class BCLRequestWrapper{
         public string caseId;
-        public string source;
+        public string souce;
         public string requestType;
         public string lan;
         public string reportName;
@@ -352,7 +355,7 @@ public with Sharing class ABHFL_BalanceConfLetterIntegration implements ASF_Inte
         
         BCLRequestWrapper(string caseNumber,string lanNo,date asOnDate){
             this.caseId = caseNumber;
-            this.source = ABHFL_Constants.CRM;
+            this.souce = ABHFL_Constants.CRM;
             this.requestType = ABHFL_Constants.EMAIL;
             this.lan = lanNo;
             this.reportName = ABHFL_Constants.BKL;
