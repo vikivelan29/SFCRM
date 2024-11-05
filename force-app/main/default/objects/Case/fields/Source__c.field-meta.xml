@@ -632,6 +632,16 @@
                 <default>false</default>
                 <label>Call Centre</label>
             </value>
+            <value>
+                <fullName>Inbound / Outbound</fullName>
+                <default>false</default>
+                <label>Inbound / Outbound</label>
+            </value>
+            <value>
+                <fullName>Inbound Altruist</fullName>
+                <default>false</default>
+                <label>Inbound Altruist</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
