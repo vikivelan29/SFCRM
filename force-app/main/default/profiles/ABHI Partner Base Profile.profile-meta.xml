@@ -1998,10 +1998,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>ASF_Case_Rule__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Customer_Member_Mapping__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
