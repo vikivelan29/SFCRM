@@ -162,7 +162,9 @@ public with sharing class  ASF_CaseUIController {
             List<Asset> asstList = new List<Asset>();
             for(LAN_Mapping__c mapping : [SELECT ID,Customer__c,LAN__c FROM LAN_Mapping__c WHERE Customer__c =: accountId]){
                 if(mapping.LAN__c != null){
-                    assetIds.add(mapping.LAN__c);
+                    if(String.isBlank(mapping.Relation__c) || mapping.Relation__c == 'SELF'){
+                        assetIds.add(mapping.LAN__c);
+                    }
                 }
             }
             if(assetIds.size()>0 || accountId != null){

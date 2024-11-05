@@ -382,6 +382,21 @@
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>policyChoiceSet</name>
+        <dataType>String</dataType>
+        <displayField>Policy_No__c</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>Asset</object>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>ProductChoiceSet</name>
         <dataType>String</dataType>
         <displayField>Name</displayField>
@@ -567,6 +582,12 @@
             <field>Application_Number__c</field>
             <value>
                 <elementReference>Application_No</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Asset__c</field>
+            <value>
+                <elementReference>PolicyNumber</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -843,6 +864,25 @@
                     <isReadOnly>
                         <elementReference>customerRequired</elementReference>
                     </isReadOnly>
+                    <isRequired>false</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>recordId</leftValueReference>
+                            <operator>IsNull</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>PolicyNumber</name>
+                    <choiceReferences>policyChoiceSet</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Policy Number</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
@@ -1178,6 +1218,10 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;Application Number should be alphanumeric and cannot exceed 10 characters&lt;/p&gt;</errorMessage>
+                        <formulaExpression>REGEX({!Application_No}, &quot;^[a-zA-Z0-9]{1,10}$&quot;)</formulaExpression>
+                    </validationRule>
                 </fields>
                 <fields>
                     <name>ANI_Number</name>

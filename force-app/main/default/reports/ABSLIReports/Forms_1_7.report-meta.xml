@@ -13,6 +13,12 @@
         <field>Case.Source__c</field>
     </columns>
     <columns>
+        <field>Case.Stage__c</field>
+    </columns>
+    <columns>
+        <field>CLOSED_DATEONLY</field>
+    </columns>
+    <columns>
         <field>FK_$ABSLI_Case_Detail__c.Type_of_Disposal__c</field>
     </columns>
     <columns>
@@ -36,13 +42,7 @@
         <field>Asset.Policy_No__c</field>
     </columns>
     <columns>
-        <field>Case.Stage__c</field>
-    </columns>
-    <columns>
         <field>SUBJECT</field>
-    </columns>
-    <columns>
-        <field>CLOSED_DATEONLY</field>
     </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(
