@@ -112,6 +112,7 @@
         <apexClass>ABHI_ResponseWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
         <apexClass>ABHI_UploadIGMSComplaintsIntegration</apexClass>
         <enabled>true</enabled>
     </classAccesses>
