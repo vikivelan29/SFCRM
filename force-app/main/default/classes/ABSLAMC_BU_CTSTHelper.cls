@@ -198,7 +198,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
         list<String> caseDetailIdList = new list<string>();
         map<Case, ABSLAMC_Case_Detail__c> mapCasesWithDetailExtension = new map<Case, ABSLAMC_Case_Detail__c>();
         for(Case obj: newCaseMap.values()){
-            if(obj.ABSLAMC_Case_Detail__c !=null && obj.ABSLAMC_Case_Detail__c!=''){
+            if(obj.ABSLAMC_Case_Detail__c !=null ){
                 if(obj.Stage__c == ABSLAMC_Constants.RESOLVED_STAGE)
                     caseDetailIdList.add(obj.ABSLAMC_Case_Detail__c);
             }
@@ -206,7 +206,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
         if(caseDetailIdList.size()>0){
             map<id, ABSLAMC_Case_Detail__c> idwithCaseDetails = new Map<id,ABSLAMC_Case_Detail__c>([Select id, Resolution_Comments__c from ABSLAMC_Case_Detail__c where id in : caseDetailIdList]);
             for(Case obj: newCaseMap.values()){
-                if(obj.ABSLAMC_Case_Detail__c !=null && obj.ABSLAMC_Case_Detail__c!=''){
+                if(obj.ABSLAMC_Case_Detail__c !=null ){
                     ABSLAMC_Case_Detail__c detailObj = idwithCaseDetails.get(obj.ABSLAMC_Case_Detail__c);
                     if(obj.Stage__c == ABSLAMC_Constants.RESOLVED_STAGE && String.isBlank(detailObj.Resolution_Comments__c)){
                         obj.addError('Resolution Comments is required.');
