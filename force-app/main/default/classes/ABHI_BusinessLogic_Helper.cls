@@ -33,18 +33,13 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-        populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
+                ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
-        populateFieldsOnCase(abhiNewCaseList, null);//RNWL
-            }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
-                ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
             else {
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
-                abhiCsDetHelperObj.captureReopenFieldsOnCaseReopen(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
-                ABHI_CaseCreationValidation.checkCreateCaseValidations(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }
         }
     }
@@ -69,7 +64,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         
         if(!lstSecondStageCommNew.isEmpty() && mapSecondStageCommOld != null && !mapSecondStageCommOld.Values()?.isEmpty()){
             for(Case objCase: lstSecondStageCommNew){
-                if((!objCase.moved_back__c || objCase.Reopened__c) && (strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c))){
+                if(!objCase.moved_back__c && !objCase.IsClosed && (strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c))){
                     setCCCExternalIds.add(objCase.CCC_External_Id__c);
                     lstCasesToWorkUpon.add(objCase);
                 }
@@ -120,7 +115,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             Map<Id, Set<String>> recIdToSkipperFlag = new Map<Id, Set<String>>();
             if(!lstSkipABHICases.isEmpty()){
                 for(Case objCase : lstSkipABHICases){
-                    recIdToSkipperFlag.put(objCase.Id, new Set<String>{ASF_Constants.SKIP_VALIDATE_CHECKLISTS, ASF_Constants.SKIP_STAGE_ENTRY_CHECKS, ASF_Constants.SKIP_STAGE_EXIT_CHECKS, ASF_Constants.SKIP_VALIDATION_CHECKS, ASF_Constants.SKIP_VALIDATE_TASKS});
+                    recIdToSkipperFlag.put(objCase.Id, new Set<String>{ASF_Constants.SKIP_VALIDATE_CHECKLISTS});
                 }
             }
             ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, null);
@@ -198,7 +193,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         }        
         return result;
     }
-    
+	
     /**
      * @description  Calling ABHI specific case validations before case creation
      * @param caseRecord - the case that is created from create case page
@@ -226,12 +221,12 @@ public with sharing class ABHI_BusinessLogic_Helper {
                   && jsonMap.get('AssetId') != null && jsonMap.get('AccountId') != null){
                       
                      Account accountRec = [select Id,Is_Chronic__c, CMP_OPD__c, Chronic_care__c from account where Id=: String.valueOf(jsonMap.get('AccountId'))];
-                     Asset assetRec = [select Id, ProductName__c, Plan_Name__c from asset where Id=: String.valueOf(jsonMap.get('AssetId'))];  
+				     Asset assetRec = [select Id, ProductName__c, Plan_Name__c from asset where Id=: String.valueOf(jsonMap.get('AssetId'))];  
                      
                       if(assetRec.ProductName__c != 'Active One' && accountRec.Is_Chronic__c == false){
                           result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));
                       }
-                      else if((assetRec.ProductName__c == 'Active One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true))
+                      else if(assetRec.ProductName__c == 'Active One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true)
                              && !(assetRec.Plan_Name__c == 'VYTL')){
                               result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));    
                       }
@@ -310,17 +305,17 @@ public with sharing class ABHI_BusinessLogic_Helper {
             mapOfNewUniqueCaseList.put(uniqueKeyForCase, cas);
         }
 
-        caseCategoryConfigs = [SELECT Id, CCC_External_Id__c, Exclude_Dedupe__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mapOfcccExtIdToCaseList.keySet()];
+        caseCategoryConfigs = [SELECT Id, CCC_External_Id__c, Dedupe_Check__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: mapOfcccExtIdToCaseList.keySet() WITH SECURITY_ENFORCED];
         
         for(ASF_Case_Category_Config__c cccRecord: caseCategoryConfigs){
             mapOfcccExtIdToCCCRec.put(cccRecord.CCC_External_Id__c, cccRecord);
         }
         List<Case> dupeCaseList = [SELECT Id, Sub_Type_Text__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
-                            FROM Case 
+                           	FROM Case 
                             WHERE (AccountId IN :accIdList)
-                            AND CCC_External_Id__c IN :mapOfcccExtIdToCaseList.keySet()
-                            AND (AssetId IN :policyIdList)
-                            AND isClosed!=true WITH SECURITY_ENFORCED];
+                           	AND CCC_External_Id__c IN :mapOfcccExtIdToCaseList.keySet()
+                           	AND (AssetId IN :policyIdList)
+                           	AND isClosed!=true WITH SECURITY_ENFORCED];
 
         for(Case dupeCase: dupeCaseList) {
             
@@ -334,21 +329,16 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 existingCaseUniqueKey = exstingCaseAccountId + '-' + exstingCaseAssetId + '-' + exstingCaseCCCExternalId;
                 Case newCase  = mapOfNewUniqueCaseList.get(existingCaseUniqueKey) != null ? mapOfNewUniqueCaseList.get(existingCaseUniqueKey) : new Case();
                 String sourceOfnewCase = newCase?.Source__c?.toLowerCase() ?? '';
-                Boolean excludeDedupeCTST = mapOfcccExtIdToCCCRec.get(newCase.CCC_External_Id__c)?.Exclude_Dedupe__c;
+                Boolean dedupeCheck = mapOfcccExtIdToCCCRec.get(newCase.CCC_External_Id__c)?.Dedupe_Check__c;
 
-                if(!excludeDedupeCTST && newCase != null && !sourceToExcludeList.contains(sourceOfnewCase)) {
+                if(newCase != null && !sourceToExcludeList.contains(sourceOfnewCase) && !sourceOfnewCase.containsIgnoreCase('BOT') && dedupeCheck) {
                     Case cs = mapOfNewUniqueCaseList.get(existingCaseUniqueKey);
                     cs.addError('Existing case available in CRM# '+dupeCase.CaseNumber+',CaseSubType# '+dupeCase.Sub_Type_Text__c);
                 }
             }
         }
     }
-    /* 
-    * @description - Update Claim and memeber id on Case Detail
-    * @param List<Case> newListCase
-    * @param oldMapOfCases
-    */
-    public void searchAndAssocFieldsForAPICases(List<Case> newListCase,  Map<Id, Case> oldMapOfCases) {
+    public void searchAndAssocFieldsForAPICases(List<Case> newListCase,  Map<Id, Case> oldMapOfCases, String triggerContext) {
         Set<Id> setCaseDetail = new Set<Id>();
         Map<Id, String> mapDetailIdClaim = new Map<Id, String>();
         Map<Id, String> mapDetailIdCustomer = new Map<Id, String>();
@@ -432,114 +422,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
         }
         catch(Exception e) {
-            logtheException(e);
-        }
-    }
-
-    /**
-    * Jira Story  - PR1030924-703
-    * @param caseRecord - the case that is created from create case page
-    * @return result - store the result of the case validations
-    * @description - Source Based Case creation restriction
-    */
-    @AuraEnabled
-    public static String abhiCaseSourceValidation(Case caseRecord) {
-
-        Map<String,ABHI_Create_Case_Validations__mdt> issueCodeToErrorMsgMap = new Map<String,ABHI_Create_Case_Validations__mdt>();
-       // Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
-        String caseBusinessUnit = caseRecord.Business_Unit__c ?? '';
-        String caseCCCExtId = caseRecord.CCC_External_Id__c ?? '';
-        String caseSource = caseRecord.Source__c ?? '';
-        String caseChannel = caseRecord.Channel__c ?? '';
-        String caseTechnicalSource = caseRecord.Technical_Source__c ?? '';
-        String result = 'Success';
-
-        try{
-            List<ABHI_Create_Case_Validations__mdt> createCaseValidationMetaRecords = [
-                SELECT Validation_Name__c, Source__c, Issue_Code__c, Error_Message__c 
-                FROM ABHI_Create_Case_Validations__mdt
-                WHERE Business_Unit__c =:caseBusinessUnit AND Validation_Name__c = 'Source_Based_Case_Creation_Restriction'
-                WITH USER_MODE
-            ];
             
-            //Fetch all metadata values and store it in map
-            for (ABHI_Create_Case_Validations__mdt cseValidationMetaRecord : createCaseValidationMetaRecords) {
-                issueCodeToErrorMsgMap.put(cseValidationMetaRecord.Issue_Code__c, cseValidationMetaRecord);
-            }
-
-            //validate the case record
-            if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
-                ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
-
-                if( (metaDataRec.Source__c != caseSource) || 
-                    (String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
-                    result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
-                }
-            }
         }
-        catch(Exception e){
-            logtheException(e);
-            throw new AuraHandledException(e.getMessage());
-        }        
-        return result;
-    }
-
-    /**
-    * @param exception - exception occured during the code execution
-    * @description - Log the exception
-    */
-    public static void logtheException(Exception exceptn) {
-        System.debug('@@@mess' + exceptn.getMessage() + ' ' + exceptn.getLineNumber());
-        ABCL_Logger.enableExceptionLogging();
-        ABCL_Logger.push('Case creation validation');
-        ABCL_Logger.message(exceptn.getMessage());
-        ABCL_Logger.emit();
-    }
-    
-    /**
-    * @param : newCases, oldCaseMap - 
-    * @return : void 
-    * @description : Prepopulates Fields on Case during before insert and update
-    */
-    public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
-        
-        Set<Id> assetIds = new Set<Id>();
-        List<Case> casesToUpdate = new List<Case>();
-        Map<Id, Asset> assetIdToOppMap = new  Map<Id, Asset>();
-        
-        for(Case casRec : newCases){
-            Case oldCase = oldCaseMap != null ? oldCaseMap.get(casRec.Id) : null;
-            if(casRec.AssetId != null && 
-               ((oldCaseMap == null) || 
-                (oldCase != null && oldCase.AssetId != casRec.AssetId))){
-                  assetIds.add(casRec.AssetId);
-                    casesToUpdate.add(casRec);
-            }
-        }
-
-        if(assetIds.size() == 0){ return; }
-        
-        for(Asset asst : [SELECT Id, Calling_Source__c, (SELECT Id FROM Opportunities__r)
-                               FROM Asset WHERE Id IN : assetIds]){
-            assetIdToOppMap.put(asst.Id, asst);
-        }
-
-        for(Case cas : casesToUpdate){
-            cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId)?.Calling_Source__c ?? ''; 
-    }
-        
-        if(oldCaseMap != NULL){ return; }
-        
-        Id profileId = UserInfo.getProfileId();
-        String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId].Name;
-        
-        if(profileName != 'RNWL Base Profile' && profileName != 'RNWL Manager Profile'){ return; }
-        
-        for(Case rnwlCase : casesToUpdate){
-            if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
-               Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
-               rnwlCase.Renewal_Request__c = opp.Id;
-            }
-        }   
-    }
+    }  
+     
 }
