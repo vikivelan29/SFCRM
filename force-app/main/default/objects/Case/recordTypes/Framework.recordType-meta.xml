@@ -1320,7 +1320,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Inbound %2F Outbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Inbound ABC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound Altruist</fullName>
             <default>false</default>
         </values>
         <values>
