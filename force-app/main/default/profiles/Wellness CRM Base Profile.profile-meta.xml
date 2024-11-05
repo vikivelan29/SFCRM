@@ -3397,12 +3397,7 @@
         <editable>false</editable>
         <field>Dynamic_Screen_Details__mdt.Attribute_Mapping__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Dynamic_Screen_Details__mdt.DynamicScreenHeader__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Dynamic_Screen_Details__mdt.Order__c</field>
