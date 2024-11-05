@@ -1,0 +1,33 @@
+.c-container {
+    border: 1px solid #d8dde6;
+    margin: 10px 0 20px;
+}
+
+ .large {
+    height: 200px;
+}
+
+ .x-large {
+    height: 300px;
+}
+
+ .custom-box {
+    text-align: center;
+    background-color: white;
+    padding: 1rem;
+    border: 1px solid #eff1f5;
+}
+
+.column {
+    float: left;
+    width: 50%;
+  }
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .main_layout{
+    max-width: 200%;
+  }

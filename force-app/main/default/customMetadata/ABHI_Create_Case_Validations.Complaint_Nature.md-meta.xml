@@ -3,11 +3,39 @@
     <label>Complaint Nature</label>
     <protected>false</protected>
     <values>
+        <field>Asset_Status__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Business_Unit__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Error_Message__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Issue_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Nature__c</field>
         <value xsi:type="xsd:string">Complaint</value>
     </values>
     <values>
+        <field>Operator__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Public_Groups__c</field>
         <value xsi:type="xsd:string">ABHI_Grievance_G;ABHI_Persistency</value>
+    </values>
+    <values>
+        <field>Source__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Validation_Name__c</field>
+        <value xsi:type="xsd:string">NatureValidation</value>
     </values>
 </CustomMetadata>

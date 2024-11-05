@@ -52,6 +52,11 @@
                 <default>false</default>
                 <label>D2C Winback</label>
             </value>
+            <value>
+                <fullName>Agency Winback</fullName>
+                <default>false</default>
+                <label>Agency Winback</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>ABSLI</controllingFieldValue>
@@ -84,6 +89,10 @@
         <valueSettings>
             <controllingFieldValue>ABSLI</controllingFieldValue>
             <valueName>D2C Winback</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Agency Winback</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

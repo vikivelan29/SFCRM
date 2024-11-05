@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resolution_Reason__c</fullName>
+    <label>Resolution Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Problem Solved</fullName>
+                <default>false</default>
+                <label>Problem Solved</label>
+            </value>
+            <value>
+                <fullName>Information Provided</fullName>
+                <default>false</default>
+                <label>Information Provided</label>
+            </value>
+            <value>
+                <fullName>Closed as Junk</fullName>
+                <default>false</default>
+                <label>Closed as Junk</label>
+            </value>
+            <value>
+                <fullName>Closed as Exception</fullName>
+                <default>false</default>
+                <label>Closed as Exception</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

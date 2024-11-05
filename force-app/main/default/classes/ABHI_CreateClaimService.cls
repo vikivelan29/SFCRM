@@ -204,6 +204,8 @@ private static Decimal parseCurrency(String currencyStr) {
         public String Provider_Status;
         public String Reverse_Amount;
         public String Health_Return_Amount;
+        public String claim_Intimation_received_date;
+        public String Settlement_Date;
         
     }
     

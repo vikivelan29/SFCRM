@@ -115,7 +115,7 @@
                         <valueListItems>
                             <value>Case.EscalateCase</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsEscalated}</leftValue>
                                     <operator>EQUAL</operator>
@@ -130,6 +130,11 @@
                                     <leftValue>{!Record.Nature__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Request</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Nature__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Query</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -154,36 +159,6 @@
                             <visibilityRule>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Escalate_Case_Reopen_Case</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND (4 AND 5)</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.IsClosed}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
-                                    <operator>NE</operator>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>4</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.ABSLI_Case_Detail__r.Escalated__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.IsEscalated}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
@@ -408,6 +383,16 @@
             <fieldInstance>
                 <fieldItem>Record.ABSLI_Case_Detail__r.IGMS_Branch__c</fieldItem>
                 <identifier>RecordABSLI_Case_Detail_rIGMS_Branch_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.all_Emails__c</fieldItem>
+                <identifier>RecordEmail_Test__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-43bc9a6c-f087-4e9c-b447-cd455236207c</name>

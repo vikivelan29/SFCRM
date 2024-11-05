@@ -39,11 +39,15 @@ public class Abhi_ViewClaimDetails_Controller_Test {
         responseWrp.ClaimType = 'Test Claim';
         responseWrp.DeductionAmount = '1000';
         responseWrp.ClaimNumber = 'ABC12345';
+        responseWrp.mnyHealthReturnAmnt = '10000';
+        responseWrp.Claim_Status = 'No';
+        responseWrp.MemberName = 'Ajay';
+        responseWrp.PolicyNumber = 'ABC12345';
 
         Abhi_ViewClaimDetails_Controller.ResponseWrapper responseWrapper = new Abhi_ViewClaimDetails_Controller.ResponseWrapper();
         responseWrapper.Message = 'Success';
         responseWrapper.StatusCode = 1000;
-        responseWrapper.ResponseObj = responseObj;
+        responseWrapper.ResponseObj = new List<Abhi_ViewClaimDetails_Controller.ResponseObj>{responseObj};
 
         responseWrapper.Response = new List<Abhi_ViewClaimDetails_Controller.Response>();
         responseWrapper.Response.add(responseWrp);

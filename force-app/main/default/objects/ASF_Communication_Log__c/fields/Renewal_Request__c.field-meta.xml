@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renewal_Request__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Reference to the renewal request for which this notification was sent out</description>
+    <externalId>false</externalId>
+    <label>Renewal Request</label>
+    <referenceTo>Opportunity</referenceTo>
+    <relationshipLabel>Communication Logs</relationshipLabel>
+    <relationshipName>Communication_Logs</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
