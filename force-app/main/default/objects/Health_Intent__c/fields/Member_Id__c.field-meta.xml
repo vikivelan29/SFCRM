@@ -3,7 +3,7 @@
     <fullName>Member_Id__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
     <externalId>false</externalId>
-    <label>Member Id</label>
+    <label>Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Health Intents</relationshipLabel>
     <relationshipName>Health_Intents</relationshipName>

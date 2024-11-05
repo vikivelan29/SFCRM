@@ -438,7 +438,73 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
-<flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Ticket_Reference_Number__c</fieldItem>
+                <identifier>RecordABSLAMC_Case_Detail_rCAMS_Ticket_Reference_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Ticket_Creation_Date_Time__c</fieldItem>
+                <identifier>RecordABSLAMC_Case_Detail_rCAMS_Ticket_Creation_Date_Time_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Ticket_Category__c</fieldItem>
+                <identifier>RecordABSLAMC_Case_Detail_rCAMS_Ticket_Category_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Ticket_Status__c</fieldItem>
+                <identifier>RecordABSLAMC_Case_Detail_rCAMS_Ticket_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Ticket_Closure_date__c</fieldItem>
+                <identifier>RecordABSLAMC_Case_Detail_rCAMS_Ticket_Closure_date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLAMC_Case_Detail__r.Date_of_CAMS_Response__c</fieldItem>
+                <identifier>RecordABSLAMC_Case_Detail_rDate_of_CAMS_Response_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Remarks__c</fieldItem>
+                <identifier>RecordABSLAMC_Case_Detail_rCAMS_Remarks_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Error_Message__c</fieldItem>
+                <identifier>RecordABSLAMC_Case_Detail_rCAMS_Error_Message_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-22295c2c-8bb6-4c05-8345-30923fe8e92c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-22295c2c-8bb6-4c05-8345-30923fe8e92c</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-53046870-e08c-4f64-845d-54edfd1c8ed8</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -646,6 +712,46 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-53046870-e08c-4f64-845d-54edfd1c8ed8</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>CAMS Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection4</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 OR 2 OR  (3 AND 4)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Pending with CAMS</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Reply Received from CAMS</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Stage__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Resolved</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.ABSLAMC_Case_Detail__r.CAMS_Ticket_Reference_Number__c}</leftValue>
+                        <operator>NE</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -678,6 +784,27 @@
                         </valueListItems>
                         <valueListItems>
                             <value>OWNER_NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>LOB__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ASSET.NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Customer_name_formula__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Type_Text__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Sub_Type_Text__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Source__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.STATUS</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
