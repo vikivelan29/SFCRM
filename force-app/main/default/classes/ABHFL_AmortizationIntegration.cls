@@ -77,7 +77,7 @@ public with sharing class ABHFL_AmortizationIntegration implements ASF_Integrati
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
         Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
         List<Case> casesForCreatePELogAndinvokeCommPEevent = new List<Case>();
-        List<Case> downloadStpCases = new List<Case>();
+        //List<Case> downloadStpCases = new List<Case>();
         for(Case caseRecord : caseRecords){
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHFL_Constants.ERROR;
