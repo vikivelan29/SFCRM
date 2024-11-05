@@ -4843,11 +4843,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Signature_Validation__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Case.SkipModifyingSLAHistory__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5158,6 +5153,14 @@
     </fieldPermissions>
     <pageAccesses>
         <apexPage>ASF_redirectToCaseApprovalVF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkDownloadCSV_Lead</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ASF_BulkUploadCSV_Lead_VF</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <layoutAssignments>

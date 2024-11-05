@@ -3,7 +3,33 @@
         <template if:true={showLoading}>
             <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
         </template>
-        <lightning-layout class="slds-p-left_medium">
+        <div class="slds-grid slds-gutters slds-p-left_medium">
+            <div class="slds-col slds-p-left_medium">
+                <lightning-icon icon-name="action:new_group" size="xx-small"></lightning-icon>
+                <span class="slds-p-left_x-small">
+                    <lightning-formatted-url style="font-size: medium;" value={label.RNWL_Seller_Portal_Link}
+                        label="Seller Portal link" target="_blank">
+                    </lightning-formatted-url>
+                </span>
+              </div>
+              <div class="slds-col">
+                <lightning-icon icon-name="action:new_notebook" size="xx-small"></lightning-icon>
+                <span class="slds-p-left_x-small">
+                    <lightning-formatted-url style="font-size: medium;" value={label.RNWL_Product_Features}
+                        label="Product Features" target="_blank">
+                    </lightning-formatted-url>
+                </span>
+              </div>
+              <div class="slds-col">
+                <lightning-icon icon-name="action:update" size="xx-small"></lightning-icon>
+                <span class="slds-p-left_x-small">
+                    <lightning-formatted-url style="font-size: medium;" value={autoCalculationLink}
+                        label="Auto Calculation like HB" target="_blank">
+                    </lightning-formatted-url>
+                </span>
+              </div>
+        </div>
+        <!--<lightning-layout class="slds-p-left_medium">
             <lightning-layout-item flexibility="auto" size="6" large-device-size="2" medium-device-size="2"
                 small-device-size="2">
                 <lightning-icon icon-name="action:new_group" size="xx-small"></lightning-icon>
@@ -31,6 +57,6 @@
                     </lightning-formatted-url>
                 </span>
             </lightning-layout-item>
-        </lightning-layout>
+        </lightning-layout>-->
     </lightning-card>
 </template>

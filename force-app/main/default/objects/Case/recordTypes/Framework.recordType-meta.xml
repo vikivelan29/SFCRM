@@ -70,6 +70,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
@@ -91,10 +95,6 @@
         </values>
         <values>
             <fullName>Wellness</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -994,6 +994,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI Email</fullName>
             <default>false</default>
         </values>
@@ -1388,6 +1392,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Mobile</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>OneABC</fullName>
             <default>false</default>
         </values>
@@ -1513,6 +1521,10 @@
         </values>
         <values>
             <fullName>WhatsApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Centre</fullName>
             <default>false</default>
         </values>
     </picklistValues>

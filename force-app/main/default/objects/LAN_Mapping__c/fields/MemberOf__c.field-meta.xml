@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Used in Wellness</description>
     <externalId>false</externalId>
-    <label>MemberOf</label>
+    <label>Member</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Customer Member Mapping</relationshipLabel>
     <relationshipName>CustomerMemberMapping</relationshipName>
