@@ -31,16 +31,19 @@
         <field>CDF1</field>
     </columns>
     <columns>
+        <field>Case$Asset.Branch__c.Name</field>
+    </columns>
+    <columns>
         <field>Case$Asset.Branch__c.Branch_Code__c</field>
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Zone__c</field>
     </columns>
     <columns>
-        <field>Case$Owner</field>
+        <field>Case$Case_Assigned_Team__c</field>
     </columns>
     <columns>
-        <field>Case$Case_Assigned_Team__c</field>
+        <field>Case$Owner</field>
     </columns>
     <columns>
         <field>Case$Nature__c</field>
@@ -56,9 +59,6 @@
     </columns>
     <columns>
         <field>Case$Description</field>
-    </columns>
-    <columns>
-        <field>Case$Overall_Case_Closure_SLA__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Investigation_Comment__c</field>
@@ -180,9 +180,6 @@
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Closed_Looping_Done_on_Number__c</field>
-    </columns>
-    <columns>
-        <field>Case$Asset.Branch__c.Name</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.ICF_Reason_if_no__c</field>

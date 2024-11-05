@@ -1,0 +1,58 @@
+{
+    "ReturnCode": "1",
+    "ReturnMessage": "Record Retrieved Successfully.",
+    "listObject": [
+        {
+            "LOB": "MF",
+            "FOLIO": "1043128322",
+            "SCHEME_CODE": "295G",
+            "SCHEME_NAME": "ABSL Small Cap Fund Growth",
+            "SIP_AMOUNT": "1000.00000000",
+            "SIP_START_DATE": "2022-08-01",
+            "SIP_END_DATE": "2052-08-01",
+            "SIP_FREQUENCY": "OM",
+            "SIP_TYPE": "NA",
+            "SIP_STATUS": "CANCELLED",
+            "CSIP_FOLIO": "No"
+        },
+        {
+            "LOB": "MF",
+            "FOLIO": "1043128323",
+            "SCHEME_CODE": "38B",
+            "SCHEME_NAME": "ABSL Balanced Advantage Fund",
+            "SIP_AMOUNT": "5000.00000000",
+            "SIP_START_DATE": "2020-06-15",
+            "SIP_END_DATE": "2040-06-15",
+            "SIP_FREQUENCY": "OM",
+            "SIP_TYPE": "Direct",
+            "SIP_STATUS": "ACTIVE",
+            "CSIP_FOLIO": "Yes"
+        },
+        {
+            "LOB": "MF",
+            "FOLIO": "1043128324",
+            "SCHEME_CODE": "42H",
+            "SCHEME_NAME": "ABSL Liquid Fund Growth",
+            "SIP_AMOUNT": "2000.00000000",
+            "SIP_START_DATE": "2019-12-01",
+            "SIP_END_DATE": "2039-12-01",
+            "SIP_FREQUENCY": "QT",
+            "SIP_TYPE": "NA",
+            "SIP_STATUS": "ACTIVE",
+            "CSIP_FOLIO": "No"
+        },
+        {
+            "LOB": "MF",
+            "FOLIO": "1043128325",
+            "SCHEME_CODE": "78P",
+            "SCHEME_NAME": "ABSL Dynamic Bond Fund",
+            "SIP_AMOUNT": "3000.00000000",
+            "SIP_START_DATE": "2021-01-10",
+            "SIP_END_DATE": "2031-01-10",
+            "SIP_FREQUENCY": "OM",
+            "SIP_TYPE": "Regular",
+            "SIP_STATUS": "CANCELLED",
+            "CSIP_FOLIO": "Yes"
+        }
+    ]
+}

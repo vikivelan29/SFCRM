@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsPED__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is used in Multiply (Wellness) CRM</description>
+    <externalId>false</externalId>
+    <label>Is PED</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

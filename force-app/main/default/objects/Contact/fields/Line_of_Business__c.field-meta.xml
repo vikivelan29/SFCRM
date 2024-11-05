@@ -64,6 +64,11 @@
                 <default>false</default>
                 <label>RE</label>
             </value>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

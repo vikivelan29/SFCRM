@@ -1,0 +1,37 @@
+[
+    {
+        "eventDefinitionCode": "CEE-HEALTHYHEARTLEVEL",
+        "categoryName": "Know your Health",
+        "subCategoryName": "Know your Healthy Heart Score",
+        "activityCd": "HealthyHeartLevel",
+        "activityName": "Healthy Heart Score",
+        "levelOfEffort": 3,
+        "maxScore": 120.0,
+        "status": "More medals available",
+        "currentScore": 0.0,
+        "categoryMaxScore": 250.0,
+        "subCategoryMaxScore": 120.0,
+        "totalCholestrol": "No medals earned",
+        "hdlCholestrol": "No medals earned",
+        "systolic": "No medals earned",
+        "diastolic": "No medals earned",
+        "smoker": "Maximum medals earned",
+        "diabetes": "No medals earned",
+        "hba1c": "No medals earned",
+        "diabetesRandom": "No medals earned"
+    },
+    {
+        "eventDefinitionCode": "CEE-DENTALCHECK-UP",
+        "categoryName": "Know your Health",
+        "subCategoryName": "Go for medical assessments and complete preventative treatment",
+        "activityCd": "DentalVisit",
+        "activityName": "Dental Check-up OR Oral hygienist",
+        "levelOfEffort": 4,
+        "maxScore": 10.0,
+        "maxScoreTimeFrame": "Years",
+        "status": "No medals earned",
+        "currentScore": 0.0,
+        "categoryMaxScore": 250.0,
+        "subCategoryMaxScore": 60.0
+    }
+]

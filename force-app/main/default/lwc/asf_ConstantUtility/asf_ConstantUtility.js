@@ -141,9 +141,6 @@ export const lanLabels = {
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
     },
-    ABSLAMC: {
-
-    },
     ABSLI: {
         ASSET_COLUMNS:[{
             label: 'Id',
@@ -450,6 +447,10 @@ export const lanLabels = {
         }
         ],
         CTST_COLS: [
+            { label: '', type : 'button-icon', initialWidth: 50,
+               typeAttributes: { iconName: 'utility:info',  iconPosition : 'Right',                           
+                                title : {fieldName : 'Tool_Tip__c'}, variant :'bare' }
+            }, // added by Santosh - show tooltip for the CTSTs - US PR1030924-533 for ABSLAMC BU
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
@@ -483,7 +484,7 @@ export const lanLabels = {
         },
         {
             label: 'Contract No',
-            fieldName: 'ContractNo__c',
+            fieldName: 'ContractId__c',
             type: 'text',
             initialWidth: 180
         },
@@ -496,13 +497,13 @@ export const lanLabels = {
         {
             label: 'Contract Start Date',
             fieldName: 'ContractStartDate__c',
-            type: 'text',
+            type: 'date',
             initialWidth: 180
         },
         {
             label: 'Contract End Date',
             fieldName: 'ContractEndDate__c',
-            type: 'text',
+            type: 'date',
             initialWidth: 180
         }
         ],
@@ -511,7 +512,6 @@ export const lanLabels = {
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
         ],
-        AUTO_COMM_BU_OPT: ['Email','SMS'],
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /Contract# /PAN#",
         CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and Contract combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
         CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and Contract combination. We recommend selecting the right Case Type Sub Type for the case ?',
@@ -523,3 +523,11 @@ export const lanLabels = {
         CREATE_CASE_WITH_FA: "Create Case with Contract"
     } 
   };
+
+  // Rajendra Singh Nagar: PR1030924-209 - Start
+  export const AUTO_COMM_BU_OPT = {
+      Wellness: {
+          OPTSLBLS: [{"label":"Email","value":"Email"},{"label":"SMS","value":"SMS"}]
+        } 
+    };
+    // Rajendra Singh Nagar: PR1030924-209 - End

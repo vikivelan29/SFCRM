@@ -12,6 +12,7 @@ public class RNWL_OpportunityTriggerHandler extends ASF_VTriggerHandler {
     public override void afterInsert(Map<Id, SObject> newOpps) {
         if(isTriggerDisabled()){return;}
         RNWL_UbonaIntegrationController.firePlatformEventForUbona(newOpps.values(), null);
+        RNWL_OpportunityTriggerHelper.tagOppOnDisposition(newOpps.values());
     }  
     
     public override void beforeUpdate(map<Id, Sobject> newOppMap, map<Id, Sobject> oldOppMap){

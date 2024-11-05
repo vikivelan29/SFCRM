@@ -1,0 +1,42 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVACAUSSERINF001",
+            "businessCode": "CAUSSERINF001",
+            "businessDesc": "Search operation successful.",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2024-09-20T11:56:37.171+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": [
+            {
+                "contractPlanTierId": 213612,
+                "contractNo": 10106372,
+                "planCode": "TTA-Flagpl",
+                "tierCode": "TAC-India_",
+                "contractPlanTierThresholds": [
+                    {
+                        "tierLevelCode": "HTL-Bronze",
+                        "tierLevelName": "Bronze",
+                        "scoreValueFrom": 0,
+                        "scoreValueTo": 199
+                    },
+                    {
+                        "tierLevelCode": "HTL-Silver",
+                        "tierLevelName": "Silver",
+                        "scoreValueFrom": 200,
+                        "scoreValueTo": 399
+                    },
+                    {
+                        "tierLevelCode": "HTL-Gold",
+                        "tierLevelName": "Gold",
+                        "scoreValueFrom": 400,
+                        "scoreValueTo": 9999
+                    }
+                ]
+            }
+        ]
+    }
+}

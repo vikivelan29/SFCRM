@@ -9,4 +9,7 @@
     <columns>Property_Detail__c</columns>
     <filterScope>Everything</filterScope>
     <label>ABHFL Assets</label>
+    <sharedTo>
+        <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+    </sharedTo>
 </ListView>
