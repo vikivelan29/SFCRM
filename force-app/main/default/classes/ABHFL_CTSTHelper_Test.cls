@@ -241,7 +241,7 @@ public class ABHFL_CTSTHelper_Test {
         Test.stopTest();
 
         // Verify the results
-        //System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
+        // System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
     @isTest
@@ -453,5 +453,6 @@ public class ABHFL_CTSTHelper_Test {
         
         ABHFL_CTSTHelper.createCases('0123', 'LAXXXXXXXX', 'CCC-CC-CCLTD-01', 'Email', 'LWC', caseRecordLst[0].id, recordTypeId);    
     }
-    
+
 }
+

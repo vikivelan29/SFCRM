@@ -574,7 +574,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
     //method code added by sunil- 03/09/2024
     // this method checking whether trackId field should be visible or not
-     checkTrackIdCondition(){
+    checkTrackIdCondition(){
 
         
         if(this.boolAllSourceVisible){
@@ -596,7 +596,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             }
         }
     }
-    
     handleChangeChannel(event) {
         this.strChannelValue = event.target.value;
     }
@@ -612,5 +611,6 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     handleIssueTypeChange(event){
         this.issueTypeVal = event.detail.value;
     }
+    //END  method code added by sunil- 03/09/2024
       
 }

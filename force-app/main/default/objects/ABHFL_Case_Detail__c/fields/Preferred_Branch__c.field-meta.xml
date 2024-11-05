@@ -102,7 +102,7 @@
             <value>
                 <fullName>ABHFL_500003_SHYD002_HYD_Secunderabad</fullName>
                 <default>false</default>
-                <label>HYD_Secunderabad</label>
+                <label>HYD_ Secunderabad</label>
             </value>
             <value>
                 <fullName>ABHFL_444602_AMRMH45_IRWINSQUARE#AMRAVATI</fullName>
@@ -285,9 +285,10 @@
                 <label>HARIDWAR_ PARGANA</label>
             </value>
             <value>
-                <fullName>ABHFL_414003_AHMMH44_MAULISANKUL#AHMEDNAGAR</fullName>
+                <fullName>MAULISANKUL#AHMEDNAGAR</fullName>
                 <default>false</default>
-                <label>MAULISANKUL #AHMEDNAGAR</label>
+                <isActive>false</isActive>
+                <label>MAULISANKUL#AHMEDNAGAR</label>
             </value>
             <value>
                 <fullName>NA</fullName>

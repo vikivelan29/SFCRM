@@ -60,7 +60,7 @@
                 <behavior>Edit</behavior>
                 <field>Payment_Required__c</field>
             </layoutItems>
-              <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>GST__c</field>
             </layoutItems>
