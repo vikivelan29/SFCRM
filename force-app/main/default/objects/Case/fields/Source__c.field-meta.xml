@@ -633,7 +633,17 @@
                 <label>Call Centre</label>
             </value>
             <value>
-                <fullName>Ubona_RenewalBOT</fullName>
+                <fullName>Inbound / Outbound</fullName>
+                <default>false</default>
+                <label>Inbound / Outbound</label>
+            </value>
+            <value>
+                <fullName>Inbound Altruist</fullName>
+                <default>false</default>
+                <label>Inbound Altruist</label>
+            </value>
+            <value>
+                  <fullName>Ubona_RenewalBOT</fullName>
                 <default>false</default>
                 <label>Ubona_RenewalBOT</label>
             </value>
@@ -727,6 +737,11 @@
                 <default>false</default>
                 <label>Sprinkler</label>
             </value>
-            </valueSetDefinition>
+            <value>
+                <fullName>Digital</fullName>
+                <default>false</default>
+                <label>Digital</label>
+            </value>
+        </valueSetDefinition>
     </valueSet>
 </CustomField>

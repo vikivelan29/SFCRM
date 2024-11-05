@@ -5,7 +5,7 @@
     <deployed>true</deployed>
     <description>ABSLAMC Branch and CC Leads</description>
     <join>
-        <outerJoin>false</outerJoin>
+        <outerJoin>true</outerJoin>
         <relationship>Conversion_Details__r</relationship>
     </join>
     <label>ABSLAMC Branch and CC Leads</label>
@@ -694,6 +694,16 @@
             <checkedByDefault>false</checkedByDefault>
             <field>Owner_Zone__c</field>
             <table>Lead</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Asset_Class__c</field>
+            <table>Lead.Conversion_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Transaction_Source__c</field>
+            <table>Lead.Conversion_Details__r</table>
         </columns>
         <masterLabel>Leads</masterLabel>
     </sections>
