@@ -3,8 +3,11 @@
     <fullName>New_Nominee_Contact_Number__c</fullName>
     <externalId>false</externalId>
     <label>New Nominee Contact Number</label>
+    <precision>10</precision>
     <required>false</required>
+    <scale>0</scale>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Phone</type>
+    <type>Number</type>
+    <unique>false</unique>
 </CustomField>
