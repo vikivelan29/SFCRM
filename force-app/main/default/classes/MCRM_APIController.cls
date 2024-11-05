@@ -39,7 +39,7 @@ public with sharing class MCRM_APIController {
         if(objectName == 'Account'){
             recId = [SELECT Id, Client_Code__c FROM Account WHERE Id =: recId]?.Client_Code__c;
         }else if(objectName == 'Asset'){
-            recId = [SELECT Id, LAN__c FROM Asset WHERE Id =: recId]?.LAN__c;
+            recId = [SELECT Id, contractId__c FROM Asset WHERE Id =: recId]?.contractId__c;
         }
         // prepare payload to pass
         // String requestPayload = generateRequestPayload(apiName, assetId);
@@ -50,9 +50,15 @@ public with sharing class MCRM_APIController {
         	startDate = (String)params.get('startDate');
     		endDate = (String)params.get('endDate');
     	}
+
+        // Create requestString for Post requests
+        String requestString;
+        if(intName=='MCRM_Lifestyle_Voucher' || intName=='MCRM_Wallet_Transaction'){
+            requestString = '{"customerId":"'+recId+'"}';
+        }
         
         Map <String,String> mapUrlParam = buildParametersMap(recId, param1, param2, startDate, endDate, intName);
-        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = ABCL_IntegrationCallout.executeCallout(intName, null, mapUrlParam);
+        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = ABCL_IntegrationCallout.executeCallout(intName, requestString, mapUrlParam);
         
         return new ResponseWrapper(intResponseWrapper.statusCode, intResponseWrapper.responseBody);
     }

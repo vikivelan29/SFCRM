@@ -192,7 +192,13 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         userEml  = caseAccount.isPersonAccount ?  caseAccount.PersonEmail : (con.size()>0?con[0].Email:'');
 
         ABCL_LitmusSurveyWrapper litmusApiWrappObj = new ABCL_LitmusSurveyWrapper();
-        litmusApiWrappObj.app_id = cccRecord.Litmus_Project__c;
+        /**
+         * Branch - 0xzr_touchpoint
+            Email – Call Centre- 15kk_touchpoint
+            Phone - Call Centre - 9nu0_touchpoint
+         */
+        String appid = ABSLAMC_Constants.LITMUS_APPID_MAP.containsKey(caseRecord.Source__c+caseRecord.Channel__c)?ABSLAMC_Constants.LITMUS_APPID_MAP.get(caseRecord.Source__c+caseRecord.Channel__c):ABSLAMC_Constants.LITMUS_APPID_MAP.get(caseRecord.Source__c);
+        litmusApiWrappObj.app_id = appid;
         litmusApiWrappObj.user_phone = userPhne;
         litmusApiWrappObj.user_email = userEml;
         litmusApiWrappObj.tag_sub_type = caseRecord.Sub_Type_Text__c;
