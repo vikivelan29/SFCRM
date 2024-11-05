@@ -18341,7 +18341,7 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>SendEmail</name>
+        <name>SendEmails</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
