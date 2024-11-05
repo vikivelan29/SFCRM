@@ -39,16 +39,15 @@ public with sharing class ABSLAMC_LegacyView {
     * @description  This method will get legacy date and display in SF
     *****************************************************************************************************************/
     @AuraEnabled
-    public static ResponseWrapper getLegacyData(String customerId, String lanNumber, String startDate, String endDate, String lob){
+    public static ResponseWrapper getLegacyData(String customerId, String lanNumber, String arnNumber, String lob){
         try{
             ResponseWrapper response = null;
             LegacyCaseResponseBodyWrapper legacyCaseResponseWrapper;
             String integrationName = 'ABSLAMC_Legacy_Case';
-          	startDate = startDate != null?startDate:'';
-            endDate = endDate != null?endDate:'';
-            String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, lob));
+            String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, arnNumber, lob));
+            System.debug('Request:'+conPayload);
             ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
-
+            System.debug('Response:'+legacyCaseResponse);
             if(legacyCaseResponse.statusCode == 200 && String.isNotBlank(legacyCaseResponse.responseBody)) {
                 legacyCaseResponseWrapper = (LegacyCaseResponseBodyWrapper)JSON.deserialize(legacyCaseResponse.responseBody,LegacyCaseResponseBodyWrapper.class);
             	response = new ResponseWrapper(legacyCaseResponse.statusCode,legacyCaseResponseWrapper.lstDetails);     
@@ -73,16 +72,14 @@ public with sharing class ABSLAMC_LegacyView {
     }
     
     public class LegacyViewRequest{
-        String CustomerNumber;
-        String FolioNumber;
-        String FromDate;
-        String ToDate;
+        String PAN;
+        String ARN;
+        String Folio;
         String LOB;
-        LegacyViewRequest(String customerId, String FolioNumber, String fromDate, String toDate, String lob){
-            this.CustomerNumber = customerId;
-            this.FolioNumber = FolioNumber;
-            this.FromDate = fromDate;
-            this.ToDate = toDate;
+        LegacyViewRequest(String customerId, String FolioNumber, String arnNumber, String lob){
+            this.PAN = customerId;
+            this.ARN = arnNumber;
+            this.Folio = FolioNumber;
             this.LOB = lob;
         }
     }
@@ -105,37 +102,80 @@ public with sharing class ABSLAMC_LegacyView {
     }
     
     public class LegacyCaseResponseWrapper{
-        @AuraEnabled public String CaseID;
-        @AuraEnabled public String Category;
-        @AuraEnabled public String CaseType;
-        @AuraEnabled public String SubType;
-        @AuraEnabled public String Source;
-        @AuraEnabled public String LoanAccountNo;
-        @AuraEnabled public String CreatedOn;
-        @AuraEnabled public String CaseStatus;
-        @AuraEnabled public String LastUpdatedOn;
-        @AuraEnabled public String Owner;
-        @AuraEnabled public String ResolvedDate;
-        @AuraEnabled public String Case_TAT;
-        @AuraEnabled public String Ageing_by_working_days;
-        @AuraEnabled public String Assigned_to;
-        @AuraEnabled public String Case_Title;
-        @AuraEnabled public String Product_Name;
-        @AuraEnabled public String Assign_to_dept;
-        @AuraEnabled public String Priority;
-        @AuraEnabled public String Assigned_Date;
-        @AuraEnabled public String Case_Closed_By;
-        @AuraEnabled public String Summary;
-        @AuraEnabled public String LOB;	
-        @AuraEnabled public String Closure_Description;
-        @AuraEnabled public String Created_By;	
-        @AuraEnabled public String Case_Open_DateTime;
-        @AuraEnabled public String Resoltion_Remarks;
-        @AuraEnabled public String No_Of_Time_ReOpened;
-        @AuraEnabled public String Assigned_Team;
-        @AuraEnabled public String Vartical;
-        @AuraEnabled public String RM;
-        @AuraEnabled public String Holding_Response_SLA;
+        
+    @AuraEnabled public String CaseNumber;
+    @AuraEnabled public String CaseCreatedon;
+    @AuraEnabled public String CaseCategorizationDate;
+    @AuraEnabled public String CaseTitle;
+    @AuraEnabled public String CustomerName;
+    @AuraEnabled public String TAT1Date;
+    @AuraEnabled public String TAT2Date;
+    @AuraEnabled public String TAT3Date;
+    @AuraEnabled public String SLADeadline;
+    @AuraEnabled public String ResponseTAT;
+    @AuraEnabled public String Mobile;
+    @AuraEnabled public String IncomingeMailId;
+    @AuraEnabled public String ResolveRemark;
+    @AuraEnabled public String ccs_Brokerno;
+    @AuraEnabled public String ccs_schemecode;
+    @AuraEnabled public String ccs_Scheme;
+    @AuraEnabled public String ccs_SchemeName;
+    @AuraEnabled public String CancelReason;
+    @AuraEnabled public String CAMSMessageID;
+    @AuraEnabled public String CAMSMessageDESC;
+    @AuraEnabled public String LastReplyFromCAMS;
+    @AuraEnabled public String AssignedonToAppSuppTeam;
+    @AuraEnabled public String ClosureRemarks;
+    @AuraEnabled public String FirstResponse;
+    @AuraEnabled public String OverallSLAExceedDays;
+    @AuraEnabled public String TATBreachRemarks;
+    @AuraEnabled public String Remarks;
+    @AuraEnabled public String SubSource;
+    @AuraEnabled public String SubCategory;
+    @AuraEnabled public String ComplaintSource;
+    @AuraEnabled public String AdditionalComments;
+    @AuraEnabled public String ServiceType;
+    @AuraEnabled public String ReplyReceivedbyAppsupportTeam;
+    @AuraEnabled public String IntreamResponse;
+    @AuraEnabled public String Action;
+    @AuraEnabled public String ResolvedOn;
+    @AuraEnabled public String Ageing_NumberOfDays = 'Ageing(Number Of Days)'; //check this
+    @AuraEnabled public String AgeingByWorkingDays;
+    @AuraEnabled public String CAMSClosureDate;
+    @AuraEnabled public String TrackId;
+    @AuraEnabled public String CustomerType;
+    @AuraEnabled public String Description;
+    @AuraEnabled public String Interimresponse;
+    @AuraEnabled public String CaseStatus;
+    @AuraEnabled public String CaseStatusReason;
+    @AuraEnabled public String PendingWith;
+    @AuraEnabled public String ClosedInCams;
+    @AuraEnabled public String SLAStatus;
+    @AuraEnabled public String CaseQuickKill;
+    @AuraEnabled public String CaseFTR;
+    @AuraEnabled public String IssueStatus;
+    @AuraEnabled public String IssueCategory;
+    @AuraEnabled public String Lob;
+    @AuraEnabled public String Initiator;
+    @AuraEnabled public String RecaseStatus;
+    @AuraEnabled public String StatusinCAMS;
+    @AuraEnabled public String PendingAtLevel;
+    @AuraEnabled public String Source;
+    @AuraEnabled public String Category;
+    @AuraEnabled public String CaseType;
+    @AuraEnabled public String SubType;
+    @AuraEnabled public String Owner;
+    @AuraEnabled public String CreatedBy;
+    @AuraEnabled public String LastResolvedBy;
+    @AuraEnabled public String AssignedTeam;
+    @AuraEnabled public String AssignedUser;
+    @AuraEnabled public String FolioClientID;
+    @AuraEnabled public String PanNumbe;
+    @AuraEnabled public String AdditionalDetails1;
+    @AuraEnabled public String AdditionalDetails2;
+    @AuraEnabled public String EmailIncomingQueue;
+    @AuraEnabled public String CamsNotes;
+    @AuraEnabled public String CamsCretatedDate;
     }
     
     public class LegacyCaseResponseBodyWrapper{

@@ -23,7 +23,7 @@
         <field>Lead$Overall_Conversion_Amount__c</field>
     </columns>
     <columns>
-        <field>Lead$Lead_Number__c</field>
+        <field>Lead.Conversion_Details__r$Transaction_Source__c</field>
     </columns>
     <columns>
         <field>Lead$Lead_Type__c</field>
@@ -52,7 +52,15 @@
     <columns>
         <field>Lead$Winback_Scheme_Name__c</field>
     </columns>
-    <format>Tabular</format>
+    <columns>
+        <field>Lead.Conversion_Details__r$Asset_Class__c</field>
+    </columns>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Lead$Lead_Number__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>Branch and CC Leads</name>
     <params>
         <name>co</name>
