@@ -674,83 +674,45 @@ public with sharing class ABHI_BusinessLogic_Helper {
             logtheException(e);
         }
     }
-    /**
-    * @description - Get Current user details
-    * @return usr
-    */
-    public static User getCurrentUserInfo(){
-        
-        List<User> usr = [SELECT id, Source_Code__c, Business_Unit__c FROM User WHERE id = :UserInfo.getUserId() WITH SYSTEM_MODE];
-        return usr[0];
-    }
 
     /**
-    * Jira Story  - PR1030924-703 and PR1030924-669
+    * Jira Story  - PR1030924-703
     * @param caseRecord - the case that is created from create case page
     * @return result - store the result of the case validations
     * @description - Source Based Case creation restriction
     */
-    @SuppressWarnings('PMD.AvoidDeeplyNestedIfStmts,PMD.NcssMethodCount')
     @AuraEnabled
     public static String abhiCaseSourceValidation(Case caseRecord) {
 
-        Map<String, Map<String, ABHI_Create_Case_Validations__mdt>> issueSourceMap = new Map<String, Map<String, ABHI_Create_Case_Validations__mdt>>();
+        Map<String,ABHI_Create_Case_Validations__mdt> issueCodeToErrorMsgMap = new Map<String,ABHI_Create_Case_Validations__mdt>();
+       // Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
         String caseBusinessUnit = caseRecord.Business_Unit__c ?? '';
         String caseCCCExtId = caseRecord.CCC_External_Id__c ?? '';
-        String caseSource = caseRecord.Source__c!=null?caseRecord.Source__c.toLowerCase(): '';
-        List<String> caseCreationRestrictionLabelList = System.label.ABHI_Case_Restriction_Creation.split(',');
-        String userSourceCode = getCurrentUserInfo()?.Source_Code__c;
+        String caseSource = caseRecord.Source__c ?? '';
+        String caseChannel = caseRecord.Channel__c ?? '';
+        String caseTechnicalSource = caseRecord.Technical_Source__c ?? '';
         String result = 'Success';
 
         try{
             List<ABHI_Create_Case_Validations__mdt> createCaseValidationMetaRecords = [
-                SELECT Validation_Name__c, Source__c, User_Source_Code__c, Issue_Code__c, Error_Message__c 
+                SELECT Validation_Name__c, Source__c, Issue_Code__c, Error_Message__c 
                 FROM ABHI_Create_Case_Validations__mdt
-                WHERE Business_Unit__c =:caseBusinessUnit AND 
-                      Validation_Name__c in :caseCreationRestrictionLabelList
-                WITH SYSTEM_MODE
+                WHERE Business_Unit__c =:caseBusinessUnit AND Validation_Name__c = 'Source_Based_Case_Creation_Restriction'
+                WITH USER_MODE
             ];
             
             //Fetch all metadata values and store it in map
             for (ABHI_Create_Case_Validations__mdt cseValidationMetaRecord : createCaseValidationMetaRecords) {
-                String issueCodeMdt = cseValidationMetaRecord?.Issue_Code__c ?? '';
-                String userSourceCodeMdt = cseValidationMetaRecord?.User_Source_Code__c ?? '';
-
-                if (!issueSourceMap.containsKey(issueCodeMdt)) {
-                    issueSourceMap.put(issueCodeMdt, new Map<String, ABHI_Create_Case_Validations__mdt>());
-                }
-                issueSourceMap.get(issueCodeMdt).put(userSourceCodeMdt, cseValidationMetaRecord);
+                issueCodeToErrorMsgMap.put(cseValidationMetaRecord.Issue_Code__c, cseValidationMetaRecord);
             }
 
             //validate the case record
-            if(caseCCCExtId != null && issueSourceMap.containsKey(caseCCCExtId)) {    
-                Map<String, ABHI_Create_Case_Validations__mdt> userSourceCodeToMetaDataRecMap = issueSourceMap?.get(caseCCCExtId) ?? new Map<String, ABHI_Create_Case_Validations__mdt>();
-                ABHI_Create_Case_Validations__mdt metaRec = new ABHI_Create_Case_Validations__mdt();
-                String validationNameMdt = '';
-                List<String> srcMdt = new List<String>();
-                List<ABHI_Create_Case_Validations__mdt> userSourceCodeToMetaList = userSourceCodeToMetaDataRecMap.values();
+            if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
+                ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
 
-                if(userSourceCodeToMetaDataRecMap.containsKey(userSourceCode) && userSourceCodeToMetaDataRecMap.values().size() > 0) {
-                    metaRec = userSourceCodeToMetaDataRecMap?.get(userSourceCode);
-                    validationNameMdt = metaRec?.Validation_Name__c ?? '';
-                    srcMdt = metaRec?.Source__c?.toLowerCase().split(',');
-
-                    //PR1030924-703
-                    if(validationNameMdt == 'Source_Based_Case_Creation_Restriction') {
-                        if(!srcMdt.contains(caseSource)) {
-                            result = metaRec.Error_Message__c;
-                        }
-                    }
-                    // PR1030924-669
-                    else if(validationNameMdt == 'User_Source_Code_Based_Case_Creation_Restriction') {
-                        if(metaRec.User_Source_Code__c == userSourceCode && !srcMdt.contains(caseSource)) {
-                            result = metaRec.Error_Message__c; 
-                        }
-                    }
-                }
-                else {
-                    metaRec = userSourceCodeToMetaList[0];
-                    result = metaRec.Error_Message__c; 
+                if( (metaDataRec.Source__c != caseSource) || 
+                    (String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
+                    result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
         }
