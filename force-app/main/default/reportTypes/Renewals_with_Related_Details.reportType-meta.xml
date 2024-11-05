@@ -724,11 +724,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Table_for_Emails__c</field>
-            <table>Opportunity</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Policy_Expiry_Date__c</field>
             <table>Opportunity</table>
         </columns>
