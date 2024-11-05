@@ -2298,7 +2298,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Acccount_Number__c</field>
         <field>Lead.Prospect_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
