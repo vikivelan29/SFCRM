@@ -1445,14 +1445,6 @@
         <value>System Administrator,***System Admin</value>
     </labels>
     <labels>
-        <fullName>ABHI_PolicyRequired_ErrMsg</fullName>
-        <categories>ABHI</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI_PolicyRequired_ErrMsg</shortDescription>
-        <value>Please select a Policy Number</value>
-    </labels>
-    <labels>
         <fullName>RNWL_Auto_Calculation_Private_Key</fullName>
         <categories>Renewals</categories>
         <language>en_US</language>
@@ -1552,5 +1544,13 @@
         <protected>false</protected>
         <shortDescription>ABHI Case Dedupe Active</shortDescription>
         <value>Active</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_PolicyRequired_ErrMsg</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_PolicyRequired_ErrMsg</shortDescription>
+        <value>Please select a Policy Number</value>
     </labels>
 </CustomLabels>
