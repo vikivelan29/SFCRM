@@ -176,26 +176,27 @@ export default class Abhi_sendCommunication extends LightningElement {
     }
 
     validateData(){
-        
-        if(!this.checkedToggle && (this.showContact.showPhone && this.formData.phoneNumber == '') || (this.showContact.showEmail && this.formData.emailId == '')){
-            if(this.showContact.showPhone){
+            if(!this.checkedToggle && ((this.showContact.showPhone && this.formData.phoneNumber == '') || (this.showContact.showEmail && this.formData.emailId == ''))){
+                
+                if(this.showContact.showPhone){
+                    this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
+                    this.validation.showValidation=true;
+                    this.template.querySelector('.tel_inp').classList.add('slds-has-error');
+                }
+                else if(this.showContact.showEmail){
+                    this.validation.validationMessage = 'Please enter a valid email Id';
+                    this.validation.showValidation=true;
+                    this.template.querySelector('.email_inp').classList.add('slds-has-error');
+                }
+                return false;
+            }
+            else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){   
                 this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
                 this.validation.showValidation=true;
                 this.template.querySelector('.tel_inp').classList.add('slds-has-error');
             }
-            else if(this.showContact.showEmail){
-                this.validation.validationMessage = 'Please enter a valid email Id';
-                this.validation.showValidation=true;
-                this.template.querySelector('.email_inp').classList.add('slds-has-error');
-            }
-            return false;
-        }
-        else if(!this.checkedToggle && this.showContact.showPhone && this.formData.phoneNumber.length != 10){   
-            this.validation.validationMessage = 'Please enter a valid 10-digit Phone number';
-            this.validation.showValidation=true;
-            this.template.querySelector('.tel_inp').classList.add('slds-has-error');
-        }
-        else return true;
+            else return true;
+        
     }
 
     createFormData(data){

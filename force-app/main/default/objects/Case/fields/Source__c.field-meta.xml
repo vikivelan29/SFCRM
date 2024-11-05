@@ -728,9 +728,14 @@
                 <label>Sprinkler</label>
             </value>
             <value>
-                <fullName>Digital</fullName>
+                <fullName>Inbound / Outbound</fullName>
                 <default>false</default>
-                <label>Digital</label>
+                <label>Inbound / Outbound</label>
+            </value>
+            <value>
+                <fullName>Inbound Altruist</fullName>
+                <default>false</default>
+                <label>Inbound Altruist</label>
             </value>
             </valueSetDefinition>
     </valueSet>
