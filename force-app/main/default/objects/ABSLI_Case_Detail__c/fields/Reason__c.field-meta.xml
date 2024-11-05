@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ABSLI services issues</fullName>
+                <default>false</default>
+                <label>ABSLI services issues</label>
+            </value>
+            <value>
+                <fullName>Advised by my fund manager</fullName>
+                <default>false</default>
+                <label>Advised by my fund manager</label>
+            </value>
+            <value>
+                <fullName>Any other</fullName>
+                <default>false</default>
+                <label>Any other</label>
+            </value>
+            <value>
+                <fullName>Branch issue- no branch nearby/ very far</fullName>
+                <default>false</default>
+                <label>Branch issue- no branch nearby/ very far</label>
+            </value>
+            <value>
+                <fullName>Children&apos;s higher education</fullName>
+                <default>false</default>
+                <label>Children&apos;s higher education</label>
+            </value>
+            <value>
+                <fullName>Children&apos;s marriage</fullName>
+                <default>false</default>
+                <label>Children&apos;s marriage</label>
+            </value>
+            <value>
+                <fullName>Elderly person- no source of income</fullName>
+                <default>false</default>
+                <label>Elderly person- no source of income</label>
+            </value>
+            <value>
+                <fullName>Financial reason</fullName>
+                <default>false</default>
+                <label>Financial reason</label>
+            </value>
+            <value>
+                <fullName>High Charges</fullName>
+                <default>false</default>
+                <label>High Charges</label>
+            </value>
+            <value>
+                <fullName>Lack of understanding of the product feature</fullName>
+                <default>false</default>
+                <label>Lack of understanding of the product feature</label>
+            </value>
+            <value>
+                <fullName>Long time in policy- want to surrender</fullName>
+                <default>false</default>
+                <label>Long time in policy- want to surrender</label>
+            </value>
+            <value>
+                <fullName>Loss in business</fullName>
+                <default>false</default>
+                <label>Loss in business</label>
+            </value>
+            <value>
+                <fullName>Low returns</fullName>
+                <default>false</default>
+                <label>Low returns</label>
+            </value>
+            <value>
+                <fullName>Marriage</fullName>
+                <default>false</default>
+                <label>Marriage</label>
+            </value>
+            <value>
+                <fullName>Medical need</fullName>
+                <default>false</default>
+                <label>Medical need</label>
+            </value>
+            <value>
+                <fullName>Non fulfilment of purpose of insurance</fullName>
+                <default>false</default>
+                <label>Non fulfilment of purpose of insurance</label>
+            </value>
+            <value>
+                <fullName>Personal reason</fullName>
+                <default>false</default>
+                <label>Personal reason</label>
+            </value>
+            <value>
+                <fullName>Premium paying term over</fullName>
+                <default>false</default>
+                <label>Premium paying term over</label>
+            </value>
+            <value>
+                <fullName>Purchase of home</fullName>
+                <default>false</default>
+                <label>Purchase of home</label>
+            </value>
+            <value>
+                <fullName>Purchase of new plan from other insurer</fullName>
+                <default>false</default>
+                <label>Purchase of new plan from other insurer</label>
+            </value>
+            <value>
+                <fullName>Studies</fullName>
+                <default>false</default>
+                <label>Studies</label>
+            </value>
+            <value>
+                <fullName>Too many policies to manage</fullName>
+                <default>false</default>
+                <label>Too many policies to manage</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

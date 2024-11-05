@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Channel__c</field>
-        <value xsi:type="xsd:string">Phone</value>
+        <value xsi:type="xsd:string">Branch Walk-In</value>
     </values>
     <values>
         <field>Complaint_Type__c</field>
@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>New_Source__c</field>
-        <value xsi:type="xsd:string">Phone - Branch</value>
+        <value xsi:type="xsd:string">Branch</value>
     </values>
     <values>
         <field>Source_Code__c</field>
@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>Source__c</field>
-        <value xsi:type="xsd:string">Phone - Branch</value>
+        <value xsi:type="xsd:string">Branch</value>
     </values>
     <values>
         <field>Sub_Source__c</field>

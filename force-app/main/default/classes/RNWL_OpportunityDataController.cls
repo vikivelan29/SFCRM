@@ -36,7 +36,7 @@ public class RNWL_OpportunityDataController {
         String oppId = oppIdAndExternalId.get(String.valueOf(eachOppRecord.get('Policy Number')));
         oppListToUpdate.add(new Opportunity(
         Id = oppId,
-        Upsell_Eligibility_Flag__c = String.valueOf(eachOppRecord.get('Upsell Eligibility Flag')),
+        Upsell_Eligibility_Flag__c = String.valueOf(eachOppRecord.get('Final Eligibility')),
         Propensity_to_Pay__c = String.valueOf(eachOppRecord.get('Propensity to Pay')),
         Renewal_Calling_Flag__c = String.valueOf(eachOppRecord.get('Renewal Calling Flag')),
         Calling_Source__c = String.valueOf(eachOppRecord.get('Calling Source')),
