@@ -13,7 +13,7 @@
             <sorted>false</sorted>
             <value>
                 <fullName>Permanent Address</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>Permanent Address</label>
             </value>
             <value>

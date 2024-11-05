@@ -12,6 +12,11 @@
             <operation>equals</operation>
             <valueField>$Source.Policy__c</valueField>
         </filterItems>
+        <filterItems>
+            <field>Policy_Nominee__c.Policy_Number__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Policy_Nominee__c</referenceTo>
