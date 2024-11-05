@@ -380,11 +380,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Existing_Pan_Card_Number__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Feature_Skipper_Flag__c</field>
             <table>Case</table>
         </columns>
@@ -795,11 +790,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Signature_Validation__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Skip_Dedupe__c</field>
             <table>Case</table>
         </columns>
@@ -1027,11 +1017,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>CreatedBy.Manager.Manager</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Overdue_Case_Closure_SLA_In_Days__c</field>
             <table>Case</table>
         </columns>
         <masterLabel>Cases</masterLabel>
