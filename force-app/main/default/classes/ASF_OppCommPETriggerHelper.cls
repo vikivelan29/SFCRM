@@ -16,7 +16,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
     public static List<String> channelFieldNamesWA = new List<String>();
     public static Map<Id,responseWrapper> peLogIdVsSuccessResult = new Map<Id,responseWrapper>();
     public static List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
-    public static Map<String,Id> templateIDMap = new Map<String,Id>();
+    public static Map<String, EmailTemplate> templateIDMap = new Map<String, EmailTemplate>();
     public static set<String> setOpportunityFields = new Set<String>();
     public static Set<Id> caseIds = new Set<Id>();
     public static Set<Id> opportunityIds = new Set<Id>();
@@ -174,7 +174,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
             }
                 
             if(templateIDMap.containsKey(pLog.Email_Template_Name__c)){
-                Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c);
+                Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c).Id;
 
                 if(pLog.Send_To_Specific_Emails__c){
                     if(pLog.Specific_To_Address__c != null){
@@ -249,7 +249,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
                 continue;
             }
             if (!String.isEmpty(log.SMS_LT_Name__c) && log.Phone__c != null) {
-                String smsTemplateId = templateIDMap.get(log.SMS_LT_Name__c);
+                String smsTemplateId = templateIDMap.get(log.SMS_LT_Name__c).Id;
                 
                 if(smsTemplateId == null){
                     responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c ,'Error','SMS template not found for name ' + log.SMS_LT_Name__c);
@@ -315,7 +315,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
         WhatsAppAPIRequestWrapper requestWrap = new WhatsAppAPIRequestWrapper();
         requestWrap.AlertID = log.External_Template_ID__c;
         requestWrap.Mobileno = log.Phone__c;
-        requestWrap.AppNo = oppRec.Name;
+        requestWrap.AppNo = oppRec.Proposal_Number__c;
         requestWrap.ReqId = oppRec.Policy_Number__c;
         requestWrap.PolicyID = oppRec.Policy_Number__c;
         String serializedRequest = JSON.serialize(requestWrap);
@@ -358,7 +358,8 @@ public without sharing class ASF_OppCommPETriggerHelper {
         setOpportunityFields.add('AccountId');
         setOpportunityFields.add('Policy_Number__c');
         setOpportunityFields.add('Name');
-        String query = 'SELECT ID, AccountId, Policy_Number__c, Name';
+        setOpportunityFields.add('Proposal_Number__c');
+        String query = 'SELECT ID, AccountId, Policy_Number__c, Name, Proposal_Number__c';
         query += ' FROM OPPORTUNITY WHERE ID IN :opportunityIds';
         if (setOpportunityFields !=null && setOpportunityFields.size() > 0) {
             List<string> temp = new List<String>();
@@ -404,7 +405,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
 
             if(pLog.Send_To_Specific_Mobile__c){
                 if(pLog.Specific_To_MobilePhone__c != null){
-                    log = createCommunicationLogRecord(log, null, null, oppRec.Id, 'Customer', pLog.Specific_To_MobilePhone__c);
+                    log = createCommunicationLogRecord(log, null, null, oppRec.Id, 'Customer', pLog.Specific_To_MobilePhone__c, pLog);
                     log.put('PE_Logger_Id__c',pLog.Id);
                     log.LOB__c = pLog.LOB__c;
                     log.put('Status__c','In Progress');
@@ -416,7 +417,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
                 for (Contact con : mAccountIdContactId.get(oppRec.AccountId)){
                     if (mPeLogIdCommunicationLog.containsKey(pLog.Id) && con.Account.Phone != null) {
                         log = cLog.clone(false, true,false, false);
-                        log = createCommunicationLogRecord(log, oppRec.AccountId, con.Id, oppRec.Id, con.Name, con.Account.Phone);
+                        log = createCommunicationLogRecord(log, oppRec.AccountId, con.Id, oppRec.Id, con.Name, con.Account.Phone, pLog);
                         
                         if(con.Account.Phone != null &&  !String.isEmpty(log.SMS_LT_Name__c)){
                             log.put('Status__c','In Progress');
@@ -456,7 +457,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
      */
     private static void getEmailTempDevNameVsId(){
         for(EmailTemplate template : emailTemplates){
-            templateIDMap.put(template.DeveloperName,template.Id);
+            templateIDMap.put(template.DeveloperName,template);
         }
     }
     /**
@@ -566,12 +567,14 @@ public without sharing class ASF_OppCommPETriggerHelper {
      * @param leadId The ID of the lead.
      * @return The populated ASF_Communication_Log__c record.
      */
-    private static ASF_Communication_Log__c createCommunicationLogRecord(ASF_Communication_Log__c log, Id accountId, Id contactId, Id opportunityId, String contactName, String mobNo) {
+    private static ASF_Communication_Log__c createCommunicationLogRecord(ASF_Communication_Log__c log, Id accountId, Id contactId, Id opportunityId, String contactName, String mobNo, PE_Logger__c pLog) {
         log.put('Account__c',accountId);
         log.put('Renewal_Request__c', opportunityId);  
         log.put('Contact__c',contactId);
         log.put('Contact_Name__c',contactName);
         log.put('Phone__c', mobNo);
+        log.put('Created_On__c', pLog.CreatedDate);
+        log.put('Created_By__c', pLog.CreatedById);
         return log;
     }
 
@@ -630,9 +633,12 @@ public without sharing class ASF_OppCommPETriggerHelper {
         String tempFieldAPIName = channelFieldNames[2];
 
         masterlog.put(tempFieldAPIName, comm_config.get(channelFieldNames[3]).tostring()); //have same field name on both objects
-        masterlog.put('External_Template_ID__c',comm_config.external_templateID__c);
-        masterlog.put('SMS_Sender_Id__c',comm_config.SMS_Sender_Id__c );
-        masterlog.put('SMS_Entity_Id__c',comm_config.SMS_Entity_Id__c );
+        masterlog.put('External_Template_ID__c', comm_config.external_templateID__c);
+        masterlog.put('SMS_Sender_Id__c', comm_config.SMS_Sender_Id__c );
+        masterlog.put('SMS_Entity_Id__c', comm_config.SMS_Entity_Id__c );
+        if (comm_config.get(channelFieldNames[3]) != null && templateIDMap.containsKey(comm_config.get(channelFieldNames[3]).tostring())) {
+            masterlog.put('Template_Name__c', templateIDMap.get(comm_config.get(channelFieldNames[3]).tostring()).Name);
+        }
 
         mPeLogIdCommunicationLog.put(pLogId, masterlog);   
     }
