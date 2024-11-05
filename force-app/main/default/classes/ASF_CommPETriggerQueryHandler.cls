@@ -20,7 +20,7 @@ public without sharing class ASF_CommPETriggerQueryHandler {
         //Added Is_Attachment__c field
         // Joshna - added Opportunity_ID__c field for extending notification framework for Renewals
         return [SELECT ID,Status__c,RecordID__c,TakeBodyFromContentDoc__c,HTMLBody_Con_Doc_Id__c ,Is_Attachment__c,Unique_Id__c,Case__c,CustomMetadataName__c,Email_Template_Name__c,
-            AccountId__c,ContactId__c,LOB__c,No_Auto_Communication__c,Lead__c, Send_To_Specific_Emails__c, Specific_To_Address__c,Send_To_Specific_Mobile__c, Specific_To_MobilePhone__c,
+            AccountId__c,ContactId__c,LOB__c,No_Auto_Communication__c,Lead__c, Send_To_Specific_Emails__c, Specific_To_Address__c, Specific_Cc_Addresses__c, Send_To_Specific_Mobile__c, Specific_To_MobilePhone__c,
             Subject__c,Content_Version_Ids__c, Opportunity_ID__c, CC_Addresses__c, CreatedById, CreatedDate FROM PE_Logger__c WHERE Id =: peIds AND Status__c != :status];
     }
 
