@@ -2060,23 +2060,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Branch Servicing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Chat</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>GRO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Operations %26 Servicing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Social</fullName>
+            <fullName>Digital</fullName>
             <default>false</default>
         </values>
     </picklistValues>
