@@ -8,6 +8,7 @@
     <columns>Type_Text__c</columns>
     <columns>Sub_Type_Text__c</columns>
     <columns>Source__c</columns>
+    <columns>CASES.STATUS</columns>
     <columns>CASES.CREATED_DATE_DATE_ONLY</columns>
     <columns>Nature__c</columns>
     <columns>CORE.USERS.ALIAS</columns>
