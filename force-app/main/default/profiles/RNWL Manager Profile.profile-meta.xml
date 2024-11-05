@@ -18336,6 +18336,10 @@
         <name>SelectFilesFromSalesforce</name>
     </userPermissions>
     <userPermissions>
+        <enabled>true</enabled>
+        <name>SendEmail</name>
+    </userPermissions>
+    <userPermissions>
         <enabled>false</enabled>
         <name>SendSitRequests</name>
     </userPermissions>
