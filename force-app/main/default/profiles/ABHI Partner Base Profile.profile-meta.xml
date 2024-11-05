@@ -2553,11 +2553,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.CreatedTimeRange__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Case.Created_By_User_formula__c</field>
         <readable>false</readable>
     </fieldPermissions>
