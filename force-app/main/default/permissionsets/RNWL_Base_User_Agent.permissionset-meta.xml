@@ -12,6 +12,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ASF_Communication_Log__c.Created_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Communication_Log__c.Created_On__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_Communication_Log__c.Template_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Communication_Log__c.Case__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4247,6 +4262,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Dispositions__c.Dashboard_Category_with_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Dispositions__c.ABHI_Retry__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4433,6 +4453,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.AccountId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Policy_Expiry_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Renewed_Policy__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
