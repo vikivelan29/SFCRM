@@ -30,18 +30,8 @@
                                 options = {options} onchange = {handleChange} disabled={disabled}> 
                         </lightning-combobox>
                     </div> 
-                </lightning-layout-item>
-                <lightning-layout-item size="4" class="slds-m-right_x-small">
-                    <lightning-input type="date" name="Startdate" value={startDate} onchange={startDateChange}
-                        label="Start Date" class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled} >
-                    </lightning-input>
-                </lightning-layout-item>
-                <lightning-layout-item size="4" class="slds-m-right_x-small">
-                    <lightning-input type="date" name="Enddate" value={endDate} onchange={endDateChange} min={startDate}
-                        label="End Date" message-when-range-underflow="Please Choose a date more than start date"
-                        class="inpFieldCheckValidity" format = 'YYYY-MM-dd' disabled={disabled} >
-                    </lightning-input>
-                </lightning-layout-item>
+             </lightning-layout-item>
+              
             </lightning-layout>
 
             <lightning-button label = "Search" title = "Search" onclick = {fetchLegacyCases} variant = "brand" 
