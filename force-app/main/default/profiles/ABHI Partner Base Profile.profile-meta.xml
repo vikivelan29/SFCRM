@@ -16,11 +16,6 @@
         <visible>false</visible>
     </applicationVisibilities>
     <applicationVisibilities>
-        <application>standard__AppLauncher</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
         <application>standard__Optimizer</application>
         <default>false</default>
         <visible>false</visible>
@@ -677,10 +672,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>ASF_Case_Rule__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Customer_Member_Mapping__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
@@ -818,10 +809,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-SocialPersona</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>standard-NetworkReferencedObject</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -1002,10 +989,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-DiscoveryForAccounts</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>standard-SalesAIRelationshipGraph</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -1304,6 +1287,10 @@
     <userPermissions>
         <enabled>false</enabled>
         <name>RunReports</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>false</enabled>
+        <name>CreateCustomizeReports</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
