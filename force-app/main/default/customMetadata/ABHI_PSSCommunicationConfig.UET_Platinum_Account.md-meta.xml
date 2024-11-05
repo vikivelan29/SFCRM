@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Health Returns Earned(HA Count) Asset</label>
+    <label>UET - Platinum-Account</label>
     <protected>false</protected>
     <values>
         <field>ALERTV10__c</field>
@@ -44,7 +44,7 @@
     </values>
     <values>
         <field>ALERTV1__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Account.Name</value>
     </values>
     <values>
         <field>ALERTV20__c</field>
@@ -164,7 +164,7 @@
     </values>
     <values>
         <field>Alert_Code__c</field>
-        <value xsi:type="xsd:double">2.0</value>
+        <value xsi:type="xsd:double">1.0</value>
     </values>
     <values>
         <field>Allowed_PS_Public_Group__c</field>
@@ -172,15 +172,15 @@
     </values>
     <values>
         <field>CommunicationType__c</field>
-        <value xsi:type="xsd:string">SMS</value>
+        <value xsi:type="xsd:string">Email</value>
     </values>
     <values>
         <field>Email_Field__c</field>
-        <value xsi:type="xsd:string">Account.Office_Email__c</value>
+        <value xsi:type="xsd:string">Office_Email__c</value>
     </values>
     <values>
         <field>Entity__c</field>
-        <value xsi:type="xsd:string">Asset</value>
+        <value xsi:type="xsd:string">Account</value>
     </values>
     <values>
         <field>IsUserAllowed__c</field>
@@ -188,14 +188,14 @@
     </values>
     <values>
         <field>Phone_Field__c</field>
-        <value xsi:type="xsd:string">Account.Phone</value>
+        <value xsi:type="xsd:string">Phone</value>
     </values>
     <values>
         <field>TemplateId__c</field>
-        <value xsi:type="xsd:string">A1203</value>
+        <value xsi:type="xsd:string">A6179</value>
     </values>
     <values>
         <field>TemplateName__c</field>
-        <value xsi:type="xsd:string">Health Returns Earned(HA Count)</value>
+        <value xsi:type="xsd:string">Unavailable Email Template - Platinum</value>
     </values>
 </CustomMetadata>
