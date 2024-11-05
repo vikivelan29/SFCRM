@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>ASF_Case_Category_Config__c.CCC_External_Id__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Case_Category_Config__c.Nature__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Case_Category_Config__c.Type__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Case_Category_Config__c.Sub_Type__c</field>
+    </columns>
+    <columns>
+        <field>ASF_Case_Category_Config__c.Allowed_Issue_Types__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ASF_Case_Category_Config__c.Overall_Case_Closure_SLA__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>ASF_Case_Category_Config__c.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABSLI</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>ABSLI Case Type/Sub Type Data</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntityCustomEntity$ASF_Case_Category_Config__c$ASF_Case_Stage_Config__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,9 +1,10 @@
 /****************************************************************************************************************
   * Author           - Anirudh Raturi
   * Date             - 28-November-2023
-  *****************************************************************************************************************/
+*****************************************************************************************************************/
 
-  public with sharing class Asf_FetchAssetRelatedToAccountController {
+@SuppressWarnings('PMD')
+public with sharing class Asf_FetchAssetRelatedToAccountController {
     
     /****************************************************** 
     * Description      - Getting asset records on the basis of Account LOB and to the related account.
@@ -28,12 +29,23 @@
         String allFieldApiNameString = String.join(fieldApiNamList,',');
         String escapeSingleQuotes = String.escapeSingleQuotes(allFieldApiNameString);
 
-        String dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null';
-        System.debug('***dynamicQuery:'+dynamicQuery);
-        List<Sobject> assetRecLst = Database.query(dynamicQuery);
+        System.debug('***escapeSingleQuotes:'+escapeSingleQuotes);
+        String dynamicQuery = '';
+        List<Sobject> assetRecLst = new List<SObject>();
+        if(!ASF_Constants.BUSpecificLANKey.contains(accLOB)){
+            dynamicQuery     = 'SELECT ' + escapeSingleQuotes + ' FROM LAN_Mapping__c WHERE Customer__c =:accountRecordId AND Lan__c != null';
+            System.debug('***dynamicQuery:'+dynamicQuery);
+            assetRecLst = Database.query(dynamicQuery);
+        }
 
         findAssetObj.columnNameList = colmnNameList;
-        findAssetObj.assetRecords   = (List<LAN_Mapping__c>) assetRecLst;
+        if(!ASF_Constants.BUSpecificLANKey.contains(accLOB)){
+            findAssetObj.assetRecords   = (List<LAN_Mapping__c>) assetRecLst;
+        }
+        else{
+            findAssetObj.assetRecords   = new List<LAN_Mapping__c>();
+        }
+        
         findAssetObj.fieldMappingForCase = fieldMapping;
         findAssetObj.accBusinessUnit = accLOB;
         return findAssetObj;
@@ -86,6 +98,12 @@
                         colNameObj.fieldName = 'assetNameRecLink';
                     }
                     else if(fieldApiName == 'LAN__r.LAN__c') {
+                        colNameObj.fieldName = 'assetLanRecLink';
+                        toolTp.fieldName = fieldApiName;
+                        typeAttrbtObj.tooltip = toolTp;
+
+                    }
+                    else if(fieldApiName == 'LAN__r.Policy_No__c') {
                         colNameObj.fieldName = 'assetLanRecLink';
                         toolTp.fieldName = fieldApiName;
                         typeAttrbtObj.tooltip = toolTp;

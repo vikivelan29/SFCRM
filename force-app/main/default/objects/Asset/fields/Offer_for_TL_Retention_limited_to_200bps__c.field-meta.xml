@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Offer_for_TL_Retention_limited_to_200bps__c</fullName>
+    <externalId>false</externalId>
+    <label>Offer for TL Retention limited to 200bps</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>TextArea</type>
+</CustomField>

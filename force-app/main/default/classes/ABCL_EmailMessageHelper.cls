@@ -29,7 +29,7 @@ public with sharing class ABCL_EmailMessageHelper {
                  if (String.isNotBlank(email.ParentId) && email.ParentId.getSObjectType() == Case.getSObjectType() && 
                      email.Incoming == true && email.Send_To_Ebot__c == true && 
                     ((String.isBlank(email.Headers)|| !email.Headers.contains('In-Reply-To:') || bReplyOnClosedCase ) ||
-                 	(email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null ))){
+                    (email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null ))){
                         caseIds.add(email.ParentId);
                         caseEmailsMap.put(email.ParentId, email);
                 }

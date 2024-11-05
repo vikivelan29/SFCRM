@@ -1,0 +1,8 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body aria-readonly="false" style="height: auto; min-height: auto;">Dear Customer, this is to inform you that your {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} registered under reference number {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} has NOT been resolved. Request you to get in touch with the person who helped you raise the request to get assistance in resolution.&nbsp;Warm Regards, Team ABSLI.<br />
+<br />
+&nbsp;</body>
+</html>

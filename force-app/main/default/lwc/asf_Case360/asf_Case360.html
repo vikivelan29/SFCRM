@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-07-2023
+  @last modified on  : 10-09-2024
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 -->
 <template>
@@ -137,33 +137,42 @@
                                                 <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
                                                 <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
                                                 <lightning-input-field id={ccfield.FieldAPINAme}
-                                                    field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                    field-name={ccfield.FieldAPINAme} class="slds-hide custom-hidden"
                                                     onchange={handleHiddenFieldChange}> </lightning-input-field>
                                                 <c-asf_searchable-picklist multiselect=false objectname="Case"
                                                     fieldname={ccfield.FieldAPINAme} fieldlabel={ccfield.FieldLabelName}
                                                     object-record-id={recordId}
-                                                    onsetfieldvalueevt={handleSetFieldValue}>
+                                                    onsetfieldvalueevt={handleSetFieldValue}
+                                                    max-multi-select-allowed={ccfield.maxValuesAllowed}>
                                                 </c-asf_searchable-picklist>
                                             </template>
                                             <template if:true={ccfield.bMultiSelectSearchablePicklist}>
                                                 <!--bSearchablePicklist : true : show searchable picklist with multiselect value as true-->
                                                 <!--Important : for Multi-Select searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
                                                 <lightning-input-field id={ccfield.FieldAPINAme}
-                                                    field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                    field-name={ccfield.FieldAPINAme} class="slds-hide custom-hidden"
                                                     onchange={handleHiddenFieldChange}> </lightning-input-field>
                                                 <c-asf_searchable-picklist multiselect=true objectname="Case"
                                                     fieldname={ccfield.FieldAPINAme} fieldlabel={ccfield.FieldLabelName}
                                                     object-record-id={recordId}
-                                                    onsetfieldvalueevt={handleSetFieldValue}>
+                                                    onsetfieldvalueevt={handleSetFieldValue}
+                                                    max-multi-select-allowed={ccfield.maxValuesAllowed}>
                                                 </c-asf_searchable-picklist>
                                             </template>
                                             <template if:false={ccfield.bSearchablePicklist}>
                                                 <template if:false={ccfield.bMultiSelectSearchablePicklist}>
-                                                    <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                        value={ccfield.value} onchange={handleChange}
-                                                        class={ccfield.editClassString} disabled={ccfield.ReadOnly}
-                                                        required={ccfield.Required}>
-                                                    </lightning-input-field>
+                                                    <template if:false={ccfield.bShowAsCustomLink}>
+                                                        <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                            value={ccfield.value} onchange={handleChange}
+                                                            class={ccfield.editClassString} disabled={ccfield.ReadOnly}
+                                                            required={ccfield.Required}>
+                                                        </lightning-input-field>
+                                                    </template>
+                                                    <template if:true={ccfield.bShowAsCustomLink}>
+                                                        <lightning-output-field
+                                                            field-name={ccfield.FieldAPINAme}></lightning-output-field>
+                                                    </template>
+
                                                 </template>
                                             </template>
                                         </div>
@@ -202,35 +211,69 @@
                                                     <!--bSearchablePicklist : true : show searchable picklist with multiselect value as false-->
                                                     <!--Important : for searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
                                                     <lightning-input-field id={ccfield.FieldAPINAme}
-                                                        field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                        field-name={ccfield.FieldAPINAme} class="slds-hide custom-hidden"
                                                         onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
                                                     </lightning-input-field>
                                                     <c-asf_searchable-picklist multiselect=false
                                                         objectname={caseRelObjName} fieldname={ccfield.FieldAPINAme}
                                                         fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
-                                                        onsetfieldvalueevt={handleSetFieldValue}>
+                                                        onsetfieldvalueevt={handleSetFieldValue}
+                                                        max-multi-select-allowed={ccfield.maxValuesAllowed}>
                                                     </c-asf_searchable-picklist>
                                                 </template>
                                                 <template if:true={ccfield.bMultiSelectSearchablePicklist}>
                                                     <!--bSearchablePicklist : true : show searchable picklist with multiselect value as true-->
                                                     <!--Important : for Multi-Select searchable picklist framework, it is important to show lightning-input-field with slds-hide class. Do not ignore this.-->
                                                     <lightning-input-field id={ccfield.FieldAPINAme}
-                                                        field-name={ccfield.FieldAPINAme} class="slds-hide"
+                                                        field-name={ccfield.FieldAPINAme} class="slds-hide custom-hidden" 
                                                         onchange={handleHiddenFieldChange} data-hiddenpicklist="true">
                                                     </lightning-input-field>
                                                     <c-asf_searchable-picklist multiselect=true
                                                         objectname={caseRelObjName} fieldname={ccfield.FieldAPINAme}
                                                         fieldlabel={ccfield.FieldLabelName} object-record-id={recordId}
                                                         onsetfieldvalueevt={handleSetFieldValue}
-                                                        required="false"></c-asf_searchable-picklist>
+                                                        required="false"
+                                                        max-multi-select-allowed={ccfield.maxValuesAllowed}></c-asf_searchable-picklist>
                                                 </template>
                                                 <template if:false={ccfield.bSearchablePicklist}>
                                                     <template if:false={ccfield.bMultiSelectSearchablePicklist}>
-                                                        <lightning-input-field field-name={ccfield.FieldAPINAme}
-                                                            value={ccfield.value} class={ccfield.editClassString}
-                                                            onchange={handleChange} disabled={ccfield.ReadOnly}
-                                                            required={ccfield.Required}>
-                                                        </lightning-input-field>
+
+                                                        <template if:true={ccfield.bConfirmationRequired}>
+                                                            <div style="position:relative">
+                                                                <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                                    value={ccfield.value} onkeydown={handlePreventInput}
+                                                                    data-field-name={ccfield.FieldAPINAme}
+                                                                    data-field-lwc-name = {ccfield.confirmationLWCName}
+                                                                    required={ccfield.Required} autocomplete="off">
+                                                                </lightning-input-field><!--class={ccfield.editClassString}-->
+                                                                <lightning-button-icon icon-name="utility:success"
+                                                                    alternative-text="verify" title="verify"
+                                                                    data-field-name={ccfield.FieldAPINAme}
+                                                                    data-field-lwc-name = {ccfield.confirmationLWCName}
+                                                                    style="position: absolute; right: 0%; top: 1%; z-index: 10;"
+                                                                    onclick={handleVerifyField}></lightning-button-icon>
+
+                                                                <!-- CONFIRM FIELD POPUPs-->
+                                                                <template lwc:if={openConfirmFieldPopup}>
+                                                                    <!-- THE CODE FOR FIELD EXTENSION LWC GOES HERE. -->
+                                                                    <lwc:component lwc:is={componentConstructor} onclosepopup={cancelConfirmFieldPopup}
+                                                                                record-id={recordId} field-name-to-search = {fieldNameToSearch} oncase360fieldextn={handleCase360FieldExtn}></lwc:component>
+                                                                                <div class="slds-backdrop slds-backdrop_open"
+                                                                                role="presentation"></div>
+                                                                </template>
+
+                                                                <!-- CONFIRM FIELD POP UP CLOSES HERE-->
+
+                                                            </div>
+                                                        </template>
+                                                        <template if:false={ccfield.bConfirmationRequired}>
+                                                            <lightning-input-field field-name={ccfield.FieldAPINAme}
+                                                                value={ccfield.value} onchange={handleChange}
+                                                                disabled={ccfield.ReadOnly}
+                                                                class={ccfield.editClassString}
+                                                                required={ccfield.Required}>
+                                                            </lightning-input-field>
+                                                        </template>
                                                     </template>
                                                 </template>
                                             </div>
@@ -276,24 +319,28 @@
                                     <lightning-radio-group name="closureType" label="Closure Type"
                                         options={closureTypeOptions} value={closureTypeSelected} type="button"
                                         onchange={handleClosureTypeChange}></lightning-radio-group>
-                                    <template lwc:if={showRejectPanel}>
-                                        <lightning-textarea name="rejectedReason" class="ReasonInput validate" required
-                                            label="Close Unresolved Details" variant="label-stacked"
-                                            value={rejectedReason} onchange={setRejectedReason}
-                                            placeholder="type here..."></lightning-textarea>
-                                        <lightning-combobox
-                                            class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
-                                            value={selectedReason} label="Close Unresolved Reason" options={reasonLOV}
-                                            placeholder='Close Unresolved Reason' onchange={handleRejReasonChange}
-                                            required>
-                                        </lightning-combobox>
+                                    <!-- VIRENDRA - ADDED CHECK FOR BU SPECIFIC VISIBILITY OF FIELDS.-->
+                                    <template lwc:if={eligibleForBU}>
+                                        <template lwc:if={showRejectPanel}>
+                                            <lightning-textarea name="rejectedReason" class="ReasonInput validate" required
+                                                label="Close Unresolved Details" variant="label-stacked"
+                                                value={rejectedReason} onchange={setRejectedReason}
+                                                placeholder="type here..."></lightning-textarea>
+                                            <lightning-combobox
+                                                class="ReasonInput slds-m-left_xx-small slds-m-right_xx-small"
+                                                value={selectedReason} label="Close Unresolved Reason" options={reasonLOV}
+                                                placeholder='Close Unresolved Reason' onchange={handleRejReasonChange}
+                                                required>
+                                            </lightning-combobox>
+                                        </template>
+                                        <template lwc:else>
+                                            <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
+                                                label="Resolution Remarks" variant="label-stacked"
+                                                value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
+                                                placeholder="type here..."></lightning-textarea>
+                                        </template>
                                     </template>
-                                    <template lwc:else>
-                                        <lightning-textarea name="resolutionCommentPopupFld" class="ReasonInput validate" required
-                                            label="Resolution Remarks" variant="label-stacked"
-                                            value={resolutionReasonPopUpFld} onchange={handleResolnCommntChng}
-                                            placeholder="type here..."></lightning-textarea>
-                                    </template>
+                                    
                                 </div>
                                 <div class="slds-modal__footer">
                                     <lightning-button class="slds-m-around_small" label="Cancel"
@@ -413,7 +460,7 @@
                     <h2 class="slds-text-heading_small">New SR Rejection: {complainLevel} Complaint</h2>
                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
                         title="Close" onclick={hideRejModal}>
-                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
                             size="small"></lightning-icon>
                         <span class="slds-assistive-text">Close</span>
                     </button>

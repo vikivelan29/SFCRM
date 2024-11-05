@@ -1,0 +1,15 @@
+<template>
+        <!--<template lwc:if={displayIndicator}>-->
+        <lightning-card>
+            <lightning-button 
+            variant="base" 
+            label={ebotEmailIndicatorMessage} 
+            onclick={handleEmailComposer} 
+            class="slds-m-left_x-small">
+            </lightning-button>
+        </lightning-card>
+        <!--</template>-->
+    <template lwc:if={displayEmailComposer}>
+        <c-absli_emailcomposer record={record} recid={recordId} onclosemodal={closeModal}></c-absli_emailcomposer>
+    </template>
+</template>

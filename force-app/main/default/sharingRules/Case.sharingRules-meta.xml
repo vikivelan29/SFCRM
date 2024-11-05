@@ -35,6 +35,20 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ABSLI_Case_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLI Case Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Agent</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Share_ABHFL_Cases_to_ABHFL_Users</fullName>
         <accessLevel>Read</accessLevel>
         <label>Share ABHFL Cases to ABHFL Users</label>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABSLI_Policy_Nominee</label>
+    <protected>false</protected>
+    <values>
+        <field>Description__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>EnableMockResponse__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>EndPoint__c</field>
+        <value xsi:type="xsd:string">callout:AWS_API_Gateway/crm-absli/nomineeesbservice</value>
+    </values>
+    <values>
+        <field>Exception_Log__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Full_Log__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>HTTP_Headers__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Int_IV__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Int_Key__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Merchant_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Mock_Response_Resource__c</field>
+        <value xsi:type="xsd:string">ABSLI_GetNomineeDetailsMockResponse</value>
+    </values>
+    <values>
+        <field>Mock_Status_Code__c</field>
+        <value xsi:type="xsd:double">200.0</value>
+    </values>
+    <values>
+        <field>Protocol__c</field>
+        <value xsi:type="xsd:string">GET</value>
+    </values>
+    <values>
+        <field>StoreAsAttachment__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Timeout__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>URL_Parameters__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

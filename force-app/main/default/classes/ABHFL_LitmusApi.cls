@@ -188,7 +188,7 @@ public with sharing class ABHFL_LitmusApi implements ASF_IntegrationInvocable {
     public class LitmusApiWrapper{
 		public String tag_category;
 		public String tag_created_by;
-		public String tag_sla_deadline;
+		public Datetime tag_sla_deadline;
 		public String tag_created_on;
 		public String tag_case_type;
 		public String tag_source;

@@ -1,0 +1,21 @@
+<template>
+    <div class="slds-form">
+    <lightning-record-view-form record-id={recordId} object-api-name={objectApiName}>
+        <div class="slds-box slds-theme_default">
+            <div class="slds-grid slds-form__item slds-no-space" padding="around-small">
+                <div class="slds-col slds-size_1-of-2 slds-form-element_readonly slds-form-element_1-col">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" for="form-element-01">Client Code</label>
+                        <lightning-output-field variant="label-hidden" field-name="Client_Code_Text__c"></lightning-output-field>
+                     </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-form-element_readonly slds-form-element_1-col">
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" for="form-element-01">Policy #</label>
+                        <lightning-output-field variant="label-hidden" field-name="LAN__c"></lightning-output-field>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </lightning-record-view-form></div>
+</template>

@@ -35,7 +35,7 @@ public with sharing class ASF_CustomerAndProspectSearch {
                                           RETURNING 
                                           Account (Id, Name,Business_Unit__c,Client_Code__c), 
                                           Contact (Id,Name,Email,Mobile__c WHERE IsPersonAccount=false), 
-                                          Lead (Id,Name)
+                                          Lead (Id,Name,MobilePhone,Email)
                                           LIMIT 100];
         for(List<sObject> searchObject : searchList){
             if(searchObject.size()>0){
@@ -114,7 +114,7 @@ public with sharing class ASF_CustomerAndProspectSearch {
             }
             prospectRecord.RecordTypeId = serviceProspectRTId;
             if(prospectRecord.Sales_Prospect__c == true){
-                prospectRecord.RecordTypeId = salesProspectRTId;
+                    prospectRecord.RecordTypeId = salesProspectRTId;
             }
             
             insert prospectRecord;

@@ -4,11 +4,12 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Ability to create a lead for an existing account</description>
     <externalId>false</externalId>
-    <label>Account</label>
+    <label>Customer</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Leads</relationshipLabel>
     <relationshipName>Leads</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Lookup</type>
 </CustomField>

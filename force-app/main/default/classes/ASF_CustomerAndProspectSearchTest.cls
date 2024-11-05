@@ -82,6 +82,8 @@ public class ASF_CustomerAndProspectSearchTest {
         ASF_TestDataFactory.createCaseCategoryConfig();
         List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
         Lead ld = ASF_TestDataFactory.createServiceProspectRecord();
+        ld.PANNO__c = 'ABCDE1234E';
+        //update ld;
         ABHFL_Case_Detail__c abhflCaseDetail = new ABHFL_Case_Detail__c();
         
         casesList[0].Technical_Source__c = 'LWC';
@@ -101,6 +103,8 @@ public class ASF_CustomerAndProspectSearchTest {
         ASF_TestDataFactory.createCaseCategoryConfig();
         List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
         Lead ld = ASF_TestDataFactory.createSalesProspectRecord();
+        ld.PANNO__c = 'ABCDE1234E';
+        //update ld;
         ABHFL_Case_Detail__c abhflCaseDetail = new ABHFL_Case_Detail__c();
         
         casesList[0].Technical_Source__c = 'LWC';

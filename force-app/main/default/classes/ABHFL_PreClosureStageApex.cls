@@ -52,8 +52,8 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
                 retCls.isCaseUpdated = true;
             }
             returnWrapper.put(caseRec.Id, retCls);
-        }
-        
+        }   
+
         /* Start by Nikhil, JIRA ID- PR970457-2176 
            Add conditions For the case if the tagged abhfl case details have the source of funds as 
           'Settlement/Auction' OR 'Mature' OR 'Loan Cancellation' - checklist TAB should not be mandatory. */

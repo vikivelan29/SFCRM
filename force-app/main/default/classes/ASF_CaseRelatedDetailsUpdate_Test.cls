@@ -221,5 +221,45 @@ update c; */
              System.assertEquals('ABFL', newCase.Business_Unit__c,'value found');          
              Test.stopTest();            
          }
-    }   
+    } 
+    @isTest
+    static void findAndAssociateAssetToCaseTest(){
+        User usr = [SELECT Id FROM User WHERE Username = 'abcdefghijk5612@gmail.com' LIMIT 1];
+        system.runAs(usr)
+        { 
+            Test.startTest(); 
+            Id rtId = Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId();
+            Id caseRecId = Schema.Sobjecttype.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+            Account acc= new Account(
+            FirstName='Test FName',
+            RecordTypeId = rtId,
+            LastName='Test LName',
+            Business_Unit__c = 'ABSLI',
+            PersonMailingStreet='test@yahoo.com',
+            PersonMailingPostalCode='12345',
+            PersonMailingCity='SFO',
+            PersonEmail='test@yahoo.com',
+            PersonHomePhone='1234567',
+            PersonMobilePhone='12345678'
+        );
+        insert acc;
+            
+            Asset policy = new Asset();
+            policy.Name = 'TEST00001';
+            policy.Policy_No__c = 'TEST00001';
+            policy.LAN__c='ABSLI_TEST00001';
+            policy.AccountId = acc.Id;
+            policy.Business_Unit__c= 'ABSLI';
+            insert policy;
+            
+             Case newCase = new Case();
+                newCase.Subject = 'Test Case Creation';
+                newCase.Business_Unit__c  = 'ABSLI';
+                newCase.RecordTypeId = caseRecId;
+                newCase.AccountId = acc.Id;
+                insert newCase;
+             System.assertEquals('ABSLI', newCase.Business_Unit__c,'value found');          
+             Test.stopTest();            
+         }
+    } 
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Case$Sub_Type_Text__c</field>
+    </columns>
+    <description>ABSLI - Query &amp; Complaints Reporting Set - 2</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case$Nature__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Group By Category</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Case_With_Policy_and_Branch_Masters__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Case$CreatedDate</dateColumn>
+        <endDate>2024-07-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-06-01</startDate>
+    </timeFrameFilter>
+</Report>

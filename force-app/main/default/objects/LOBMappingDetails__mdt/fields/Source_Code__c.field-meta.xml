@@ -95,6 +95,11 @@
                 <default>false</default>
                 <label>15</label>
             </value>
+            <value>
+                <fullName>002</fullName>
+                <default>false</default>
+                <label>002</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
