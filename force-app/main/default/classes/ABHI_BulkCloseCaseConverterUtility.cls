@@ -2,7 +2,7 @@
 public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
-        //{'Case number':'00005150','Case Resolved Comments':'','Case Resolved Reason':'','Stage':'Unresolved', 'Close Unresolved Reason':'Others', 'Close Unresolved Details':'Sample text','Stop Communication':'TRUE'}
+        //{'Case number':'00005150','Case Resolved Comments':'','Stage':'Unresolved', 'Close Unresolved Reason':'Others', 'Close Unresolved Details':'Sample text','Stop Communication':'TRUE'}
 
         ASF_BulkCaseProcessorUtility.ConvertionResult resultWrapper = new ASF_BulkCaseProcessorUtility.ConvertionResult();
         resultWrapper.resultJSONMapRows = new Map<Id, Map<String, String>>();
@@ -32,7 +32,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
             
             String caseNumber = String.isNotBlank(keyValueMap.get('Case number'))?keyValueMap.get('Case number').trim():keyValueMap.get('Case number');
             String resolutionComments = String.isNotBlank(keyValueMap.get('Case Resolved Comments'))?keyValueMap.get('Case Resolved Comments').trim():keyValueMap.get('Case Resolved Comments');
-            String resolutionDetails = String.isNotBlank(keyValueMap.get('Case Resolved Reason'))?keyValueMap.get('Case Resolved Reason').trim():keyValueMap.get('Case Resolved Reason');
             String unresolvedDetails = String.isNotBlank(keyValueMap.get('Close Unresolved Details'))?keyValueMap.get('Close Unresolved Details').trim():keyValueMap.get('Close Unresolved Details');
             String unresolvedReason = String.isNotBlank(keyValueMap.get('Close Unresolved Reason'))?keyValueMap.get('Close Unresolved Reason').trim():keyValueMap.get('Close Unresolved Reason');
             String stage = String.isNotBlank(keyValueMap.get('Stage'))?keyValueMap.get('Stage').trim():keyValueMap.get('Stage');
@@ -54,13 +53,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
             if(stage.toLowerCase() == 'resolved' && (resolutionComments == null || resolutionComments.trim() == '')){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Case Resolved Comments is required');
-                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-                continue;
-            }
-            if(stage.toLowerCase() == 'resolved' && (resolutionDetails == null || resolutionDetails.trim() == '')){
-                keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'Case Resolved Reason is required');
                 resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
@@ -134,7 +126,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
                 caseRec.Is_Manual_Moved__c = true;
                 caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
                 caseRec.Resolution_Comments__c = resolutionComments;
-                caseRec.ResolutionReason__c = resolutionDetails;
             }else if(stage == 'Unresolved'){
                 caseRec.Stage__c = stage;
                 caseRec.Status = stage;
@@ -162,7 +153,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'CaseNumber'=>'Case number',
             'Resolution_Comments__c'=>'Case Resolved Comments',
-            'ResolutionReason__c'=>'Case Resolved Reason',
             'Stage__c'=>'Stage',
             'Rejection_Reason__c'=>'Close Unresolved Reason',
             'Rejected_Reason__c'=>'Close Unresolved Details',
@@ -171,7 +161,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'Case number'=>'CaseNumber',
             'Case Resolved Comments'=>'Resolution_Comments__c',
-            'Case Resolved Reason'=>'ResolutionReason__c',
             'Stage'=>'Stage__c',
             'Close Unresolved Reason'=>'Rejection_Reason__c',
             'Close Unresolved Details'=>'Rejected_Reason__c',
