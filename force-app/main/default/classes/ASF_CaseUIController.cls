@@ -10,7 +10,8 @@ public with sharing class  ASF_CaseUIController {
 
     @AuraEnabled
     public static Map<String,sObject> CreateProspectAndUpdateOnCase(Case caseToInsert,Lead prospectRecord){
-        Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();        
+        Map<String,sObject> mObjectVsRecId = new Map<String,sObject>();
+        
         Id salesProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Sales').getRecordTypeId();
         Id serviceProspectRTId = Schema.sObjectType.Lead.getRecordTypeInfosByDeveloperName().get('Service').getRecordTypeId();
         User loggedInUser = [SELECT ID FROM User WHERE Id =: UserInfo.getUserId()];
@@ -31,10 +32,12 @@ public with sharing class  ASF_CaseUIController {
             prospectRecord.RecordTypeId = serviceProspectRTId;
             if(prospectRecord.Sales_Prospect__c == true){
                 prospectRecord.RecordTypeId = salesProspectRTId;
-            }            
+            }
+            
             insert prospectRecord;
             mObjectVsRecId.put('Lead',prospectRecord);
-        }        
+        }
+        
         if(caseToInsert != null){
             String sObjectName = '';
             if(caseToInsert.Lead__c == null){
@@ -43,8 +46,10 @@ public with sharing class  ASF_CaseUIController {
                     caseToInsert.put('Lead__c',prospectRecord.Id);
                     caseToInsert.AccountId = null;
                     caseToInsert.ContactId = null;
-                }                
-            }            
+                }
+                
+            }
+            
             update caseToInsert;
             mObjectVsRecId.put('Case',caseToInsert);
         }
@@ -55,13 +60,15 @@ public with sharing class  ASF_CaseUIController {
     //get Asset Records for the time of selection while creating Case
     @AuraEnabled(Cacheable=true)
     public static List<searchResponse> getMatchingAccount(string userInp, boolean accPreSelected) {
-        List<searchResponse> lstResponse = new List<searchResponse>();        
+        List<searchResponse> lstResponse = new List<searchResponse>();
+        
         if(userInp!=null){
             Set<id> accIdSet = new Set<id>();
             if(!accPreSelected){
                 List<contact> conList = New List<contact>();//database.query(queryField);
                 String searchString = '*'+String.escapeSingleQuotes(userInp)+'*';
-                userInp = '%'+userInp+'%';                
+                userInp = '%'+userInp+'%';
+                
                 System.debug('userInp-'+userInp);
               /*  List<List<SObject>> searchList =  
                     [FIND :searchString IN ALL FIELDS 
@@ -155,7 +162,9 @@ public with sharing class  ASF_CaseUIController {
             List<Asset> asstList = new List<Asset>();
             for(LAN_Mapping__c mapping : [SELECT ID,Customer__c,LAN__c FROM LAN_Mapping__c WHERE Customer__c =: accountId]){
                 if(mapping.LAN__c != null){
-                    assetIds.add(mapping.LAN__c);
+                    if(String.isBlank(mapping.Relation__c) || mapping.Relation__c == 'SELF'){
+                        assetIds.add(mapping.LAN__c);
+                    }
                 }
             }
             if(assetIds.size()>0 || accountId != null){
