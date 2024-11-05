@@ -889,6 +889,20 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>accordianName</name>
+                    <value>Omnidocs search</value>
+                </componentInstanceProperties>
+                <componentName>aBHI_OmniDocViewAccordianForCase</componentName>
+                <identifier>c_aBHI_OmniDocViewAccordianForCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-93b2cf02-f9f6-4970-b622-99199cb9751f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -988,6 +1002,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-93b2cf02-f9f6-4970-b622-99199cb9751f</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Omnidocs</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-e7bcca42-aed9-4e90-9237-2ca2da3244a5</name>

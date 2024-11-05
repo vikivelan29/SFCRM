@@ -55,7 +55,7 @@ export default class ABHI_OmniDocView extends LightningElement {
     noRecordsAvailable;
     boolShowNoRec;
     objAssetRecord;
-   
+
     get fields() {
         console.log('getObjectInfo Object Name ', this.objectApiName);
         console.log('getObjectInfo Object Name ', this.recordId);
