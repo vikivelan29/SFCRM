@@ -1,3 +1,10 @@
+/***************************************
+*Class        :  ABHI_CaseStageUpdateHelper
+*Author       :  Kuldeep Mishra
+*Created Date :  15/10/2024
+*Last Modified:  15/10/2024
+*@description :  This class is used as trigger helper class.
+***************************************/
 public with sharing class ABHI_CaseStageUpdateHelper {
       public static void MoveToStageMethod(List<Case> newCases, List<Case> oldCases) {
         //DateTime currentDateTime = System.now();
@@ -40,21 +47,15 @@ Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Ca
             System.debug('Overall SLA: ' + overallSLA);
             if (!config.Case_Stage_Configs__r.isEmpty()) {
                 orderValue = (Integer)config.Case_Stage_Configs__r[0].Order__c;
-                System.debug('Order value for case ' + newCase.Id + ': ' + orderValue);
-            }
-        } else {
-            System.debug('CCC_External_Id not found in config map: ' + newCase.CCC_External_Id__c);
-        }
-    } else {
-        System.debug('CCC_External_Id is null for case: ' + newCase.Id);
-    }
-
-            // Check Overall_Case_Closure_SLA__c and required condtions
-            if (orderValue == 1 && newCase.Overall_Case_Closure_SLA__c != null && newCase.Overall_Case_Closure_SLA__c <= twoHoursFromNow && newCase.Overall_Case_Closure_SLA__c > currentDateTime) { 
-                newCase.MoveToNext__c  = true;    
-            }else{
-                System.debug('MoveToNext__c condition not met');
-            }
+                StageName = config.Case_Stage_Configs__r[0].StageName__c;
+              System.debug('Order Value: ' + orderValue);
+            }if (Nature=='Request' && orderValue == 1 && newCase.Stage__c == StageName){
+                newCase.MoveToNext__c = true;     
+                    } else {
+                        System.debug('MoveToNext__c condition not met for case ' + newCase.Id);
+                           }
+        } 
+    }   
         }
           //update newCases;
     }
