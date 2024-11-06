@@ -26,6 +26,11 @@
                 <label>Garmin</label>
             </value>
             <value>
+                <fullName>Noise</fullName>
+                <default>false</default>
+                <label>Noise</label>
+            </value>
+            <value>
                 <fullName>Jawbone</fullName>
                 <default>false</default>
                 <label>Jawbone</label>
@@ -43,12 +48,12 @@
             <value>
                 <fullName>Applehealth</fullName>
                 <default>false</default>
-                <label>Applehealth</label>
+                <label>Apple health</label>
             </value>
             <value>
                 <fullName>S health</fullName>
                 <default>false</default>
-                <label>S health</label>
+                <label>Samsung health</label>
             </value>
             <value>
                 <fullName>Honor</fullName>

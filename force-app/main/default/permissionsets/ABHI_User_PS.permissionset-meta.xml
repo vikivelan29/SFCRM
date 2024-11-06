@@ -176,6 +176,10 @@
         <apexClass>ASF_RecategoriseCaseController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>ABHI_Create_Case_Validations__mdt</name>
+    </customMetadataTypeAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>ShowSalesProspect</name>
@@ -2568,11 +2572,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Claim__c.Policy_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Claim__c.Policy_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3589,6 +3588,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Existing_Pan_Card_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Policy_Nominee__c.Nominee_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>

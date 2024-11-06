@@ -1668,7 +1668,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Case360Controller</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Case360Controller_Test</apexClass>
@@ -2513,6 +2513,10 @@
     <classAccesses>
         <apexClass>RNWL_CreateRenewalsTest</apexClass>
         <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RNWL_CommunicationFrameworkController</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RNWL_DispositionsTriggerHandler</apexClass>
@@ -19845,6 +19849,14 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>SelectFilesFromSalesforce</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EmailSingle</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EditTask</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
