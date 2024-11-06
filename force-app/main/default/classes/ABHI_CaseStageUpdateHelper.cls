@@ -46,6 +46,33 @@ public with sharing class ABHI_CaseStageUpdateHelper {
         for (Integer i = 0; i < newCases.size(); i++) {
             Case newCase = newCases[i];
             Case oldCase = oldCases[i];
+            
+            if (newCase.OwnerId != oldCase.OwnerId || newCase.No_Auto_Communication__c != oldCase.No_Auto_Communication__c || newCase.Is_Recategorise_Allowed__c!= oldCase.Is_Recategorise_Allowed__c || newCase.IsEscalated!= oldCase.IsEscalated || newCase.Recategorisation_Date__c != oldCase.Recategorisation_Date__c || newCase.Recategorisation_Reason__c != oldCase.Recategorisation_Reason__c || newCase.Escalation_Comment__c != oldCase.Escalation_Comment__c) {
+                //continue; // Skip processing this case if above condtions met.
+                 return; // Skip processing if the field has changed
+            }
+            Integer orderValue = 0;
+            String StageName;
+          if (newCase.CCC_External_Id__c != null) {
+        if (configMapByExternalId.containsKey(newCase.CCC_External_Id__c)) {
+                ASF_Case_Category_Config__c config = configMapByExternalId.get(newCase.CCC_External_Id__c);
+                Decimal overallSLA = config.Overall_Case_Closure_SLA__c;
+                String Nature = config.Nature__c;
+                STPcheck = config.Is_STP__c;
+            System.debug('Overall SLA: ' + overallSLA);
+            if (!config.Case_Stage_Configs__r.isEmpty()) {
+                orderValue = (Integer)config.Case_Stage_Configs__r[0].Order__c;
+                StageName = config.Case_Stage_Configs__r[0].StageName__c;
+            }if (Nature=='Request' && orderValue == 1 && newCase.Stage__c == StageName && newCase.moved_back__c==false){
+                newCase.MoveToNext__c = true;     
+                    } else {
+                        System.debug('MoveToNext__c condition not met for case ' + newCase.Id);
+                           }
+        } 
+    }   
+        }
+          //update newCases;
+    }
 
             if (newCase.CCC_External_Id__c !=oldCase.CCC_External_Id__c ||
                 newCase.OwnerId != oldCase.OwnerId ||
