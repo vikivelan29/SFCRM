@@ -1306,7 +1306,7 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Member__c</value>
+                            <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Category__c</value>
