@@ -1397,4 +1397,18 @@
         <shortDescription>ABSLAMC_LegacyPageSize</shortDescription>
         <value>10</value>
     </labels>
+    <labels>
+        <fullName>RNWL_Callback_Number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Callback_Number</shortDescription>
+        <value>8045860569</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_PageLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_PageLink</shortDescription>
+        <value>http://bit.ly/ABHRENEW</value>
+    </labels>
 </CustomLabels>
