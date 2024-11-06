@@ -531,7 +531,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Asset.Policy_No__c</field>
+            <field>Asset.Policy_No__c</field> 
             <table>Case</table>
         </columns>
         <columns>
