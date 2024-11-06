@@ -61,7 +61,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
         set<String> setCCCExternalIds = new set<String>();
         Map<String, Map<String, String>> mapStage2EmailTemplateMap = new Map<String, Map<String, String>>();
         Map<String, Map<String, String>> mapStage2SMSMetadataMap = new Map<String, Map<String, String>>();
-        Map<String, String> mapCCCExtId2SecondStageName = new Map<String, String>();
         
         List<Case> lstFinalCases = new List<Case>();
         Map<Id, String> mapFinalCaseId2Email = new Map<Id, String>();
@@ -78,8 +77,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         }
         
         lstCCCRecords = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c,
-                         Additional_Email_Templates__c,Additional_SMS_Metadata__c, CCC_External_Id__c,
-                         (SELECT Id, StageName__c, Order__c FROM Case_Stage_Configs__r WHERE Order__c = 2 LIMIT 1)
+                         Additional_Email_Templates__c,Additional_SMS_Metadata__c, CCC_External_Id__c
                          FROM ASF_Case_Category_Config__c 
                          WHERE CCC_External_Id__c IN: setCCCExternalIds];
         
@@ -89,7 +87,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapStage2EmailTemplateMap.put(objCCCRec.CCC_External_Id__c, ABCL_IntegrationCommonUtility.fetchStpTemplates(objCCCRec.Additional_Email_Templates__c));
                 if(!String.isBlank(objCCCRec.Additional_SMS_Metadata__c))
                     mapStage2SMSMetadataMap.put(objCCCRec.CCC_External_Id__c, ABCL_IntegrationCommonUtility.fetchStpTemplates(objCCCRec.Additional_SMS_Metadata__c));
-                mapCCCExtId2SecondStageName.put(objCCCRec.CCC_External_Id__c, objCCCRec.Case_Stage_Configs__r.iterator().next().StageName__c);
             }
         }
         
@@ -101,13 +98,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapFinalCaseId2isTransferred.put(objCase.Id, false);
                 }
                 if(mapStage2SMSMetadataMap != null && mapStage2SMSMetadataMap.containsKey(objCase.CCC_External_Id__c) && mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c) != null && mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).containsKey(objCase.Stage__c) && !String.isBlank(mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c))){
-                    if(mapCCCExtId2SecondStageName != null && mapCCCExtId2SecondStageName.containsKey(objCase.CCC_External_Id__c) && !String.isBlank(mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c))){
-                        if((mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c) != objCase.Stage__c) || (mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c) == objCase.Stage__c && String.isBlank(String.valueOf(objCase.Recategorisation_Date__c)))){
-                            mapFinalCaseId2SMS.put(objCase.Id,mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c));
-                    		setCasesToCommunicate.add(objCase);
-                    		mapFinalCaseId2isTransferred.put(objCase.Id, false);
-                        }
-                    }
+                    mapFinalCaseId2SMS.put(objCase.Id,mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c));
+                    setCasesToCommunicate.add(objCase);
+                    mapFinalCaseId2isTransferred.put(objCase.Id, false);
                 }
             }
             if(!setCasesToCommunicate.isEmpty())lstFinalCases.addAll(setCasesToCommunicate);
@@ -115,7 +108,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
         
         List<Database.SaveResult> lstPlatformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(lstFinalCases, mapFinalCaseId2Email, mapFinalCaseId2SMS, mapFinalCaseId2isTransferred);
     }
-                                                                                                                                                                                   
+                                                                                                                
+                                                                         
+    
     /**
     * Jira Story  - PR1030924-406
     * @description - ABHI Skip Checklists for bulk stage movement
@@ -194,7 +189,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            logtheException(e);
+            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('abhiCaseValidation Case creation validation');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -243,7 +242,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            logtheException(e);
+            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('abhiCaseValidation Case creation validation');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -538,5 +541,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
                rnwlCase.Renewal_Request__c = opp.Id;
             }
         }   
-    }
+    }*/
 }
