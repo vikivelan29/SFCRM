@@ -644,12 +644,7 @@
         <editable>false</editable>
         <field>Asset.ContractStartDate__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Contract_Id__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Credit_Authority__c</field>
