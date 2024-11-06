@@ -1284,16 +1284,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>ASF_Editable_Fields</value>
-                </componentInstanceProperties>
-                <componentName>asf_CaseEditPage</componentName>
-                <identifier>c_asf_CaseEditPage</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-e74d360c-d8e9-480e-b28c-4706cf4b0576</value>
                 </componentInstanceProperties>
