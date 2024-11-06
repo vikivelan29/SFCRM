@@ -19,11 +19,11 @@ public with sharing class ABSLAMC_LegacyView {
     public static List<OptionsName> getLANRelatedAccount(Id accRec){
         List<OptionsName> optionList = new List<OptionsName>();
         OptionsName option = null;
-        for(LAN_Mapping__c lan : [select id,Customer__r.Business_Unit__c, LAN__r.Name, LAN__r.LAN__c, Customer__r.Client_Code__c FROM
+        for(LAN_Mapping__c lan : [select id,Customer__r.Business_Unit__c, LAN__r.Name, LAN__r.Folio__c, Customer__r.Client_Code__c FROM
                                   LAN_Mapping__c WHERE Customer__c = :accRec]) {
             option = new OptionsName();
-            option.label = lan.LAN__r.LAN__c;
-            option.value = lan.LAN__r.LAN__c;
+            option.label = lan.LAN__r.Folio__c;
+            option.value = lan.LAN__r.Folio__c;
             optionList.add(option);
         }
         return optionList;
