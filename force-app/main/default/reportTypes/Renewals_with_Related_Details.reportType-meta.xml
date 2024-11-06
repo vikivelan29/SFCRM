@@ -722,6 +722,29 @@
             <field>Disposition_Count__c</field>
             <table>Opportunity</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Policy_Expiry_Date__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Renewed_Policy__c</field>
+            <table>Opportunity</table>
+        </columns>
         <masterLabel>Opportunities</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Dashboard_Category_with_Status__c</field>
+            <table>Opportunity.Dispositions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Agent_Name__c.Manager</field>
+            <table>Opportunity.Dispositions__r</table>
+        </columns>
+        <masterLabel>Dispositions</masterLabel>
     </sections>
 </ReportType>
