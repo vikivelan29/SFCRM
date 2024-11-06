@@ -9,7 +9,7 @@
     <columns>CASES.CREATED_DATE_DATE_ONLY</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <filterScope>Queue</filterScope>
-    <label>ABHI 	 BFL Renewal Printing &amp; dispatch</label>
+    <label>ABHI BFL Renewal Printing &amp; dispatch</label>
     <queue>ABHI_BFL_Renewal_Printing_dispatch</queue>
     <sharedTo>
         <group>ABHI_BFL_Endorsement_G</group>
