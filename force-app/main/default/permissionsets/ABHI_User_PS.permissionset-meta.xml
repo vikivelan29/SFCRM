@@ -4060,7 +4060,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Overdue_Case_Closure_SLA_In_Days__c</field>
+        <field>Case.Overdue_Case_Closure_SLA_In_Days__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
