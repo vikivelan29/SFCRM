@@ -490,6 +490,26 @@
             <field>SubType_Text_2__c</field>
             <table>Case</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Proposal_Number__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Calling_Source__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Renewal_Request__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Overdue_Case_Closure_SLA_In_Days__c</field>
+            <table>Case</table>
+        </columns>
         <masterLabel>Cases</masterLabel>
     </sections>
     <sections>
