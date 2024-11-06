@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>ProductName__c</field>
-        <value xsi:type="xsd:string">Activ One</value>
+        <value xsi:type="xsd:string">Active One</value>
     </values>
     <values>
         <field>Service_Id__c</field>
