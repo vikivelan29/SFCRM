@@ -536,6 +536,9 @@
             <field>Asset.Policy_No__c</field>
             <table>Case</table>
         </columns>
+        <masterLabel>Asset</masterLabel>
+    </sections>
+    <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABHI_Case_Detail__c.Concern__c</field>
