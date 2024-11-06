@@ -60,6 +60,11 @@
                 <default>false</default>
                 <label>ABSLIG Group Helpline</label>
             </value>
+            <value>
+                <fullName>ABSLI_Multiple_Email</fullName>
+                <default>false</default>
+                <label>ABSLI Multiple Email</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
