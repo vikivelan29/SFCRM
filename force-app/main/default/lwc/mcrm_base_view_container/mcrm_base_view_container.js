@@ -222,4 +222,8 @@ export default class Wellness_api_view extends LightningElement {
 	get renderBaseView(){
 		return this.showBaseView==true?'':'slds-hide';
 	}
+
+	handleRefresh(){
+		this.invokeAPI();
+	}
 }
