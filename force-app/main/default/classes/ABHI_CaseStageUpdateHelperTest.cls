@@ -16,6 +16,7 @@ private class ABHI_CaseStageUpdateHelperTest {
             Type_Text__c = 'Cashless',
             Subject = 'Old Case',
             Stage__c = 'Open',
+            moved_back__c = false,
             CCC_External_Id__c = 'TEST_ID',
             OwnerId = UserInfo.getUserId());
         insert oldCase;
@@ -24,6 +25,7 @@ private class ABHI_CaseStageUpdateHelperTest {
             Id = oldCase.Id,
             Subject = 'Updated Case',
             Stage__c = 'Open',
+            moved_back__c = false,
             CCC_External_Id__c = 'TEST_ID',
             OwnerId = UserInfo.getUserId()
         );
