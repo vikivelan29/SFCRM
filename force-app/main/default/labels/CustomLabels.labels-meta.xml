@@ -1035,7 +1035,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLI Complaint Closure Batch Days</shortDescription>
-        <value>60</value>
+        <value>56</value>
     </labels>
     <labels>
         <fullName>ABSLI_Complaint_Closure_CRON</fullName>
