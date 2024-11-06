@@ -4,6 +4,7 @@
     <label>ABSLAMC ABC Social Media Team Access</label>
     <mutingPermissionSets>ABSLAMC_ABC_Social_Media_Team_Access_Muted</mutingPermissionSets>
     <permissionSets>ABCL_Export_Reports</permissionSets>
+    <permissionSets>ABSLAMC_Omnichannel</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
