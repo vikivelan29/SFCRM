@@ -1,5 +1,8 @@
 @SuppressWarnings('PMD.ApexSOQLInjection')
 public with sharing class ABHI_BulkMoveNextConverterUtility implements ASF_BulkCSVToRecordConverter{
+    
+    public static boolean boolSkipChklstAbhiBulk = false;
+    
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
         //{'Case number':'00005150'}
@@ -84,7 +87,8 @@ public with sharing class ABHI_BulkMoveNextConverterUtility implements ASF_BulkC
             //Any other BU specific checks - add here
             Case caseRec = caseNumberToCaseMap.get(caseNumber);
             caseRec.MoveToNext__c = true;
-            ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, '');
+            boolSkipChklstAbhiBulk = true;
+            //ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, null);
             resultWrapper.resultRecords.put(lineItemId, caseRec);
             resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
         }

@@ -1,0 +1,41 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear </span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">,</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Greetings from Aditya Birla Health Insurance Company Limited!!</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Thank You for trusting Us with your Health Insurance needs and we assure you the best of our services.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We understand that you wish to add your new born child to your existing Aditya Birla Health Insurance Policy No. </span></span></span></span><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">{{{Case.LAN__c}}}</span></span></span><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">. Insurance cover helps safeguard them from the financial burden of medical expenses.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">However, the current policy held by you is an “Individual” policy and as per the terms and conditions of the policy, a child should have attained minimum 5 years of age at the time of inclusion in the policy.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">However, we are happy to inform you that at the time of renewal of your policy you have the option of converting the individual policy into a “Family Floater Plan”, wherein you get the flexibility of adding additional members as desired by you.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Regards,</span></span></span></span></span></span><br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Bilal Lone</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Authorised Signatory</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Aditya Birla Health Insurance Co. Ltd.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:center"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:italic"><span style="text-decoration:none">This is an auto-generated email.</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:center">&nbsp;</p>
+
+<p style="line-height:1.3800000000000001; text-align:center">&nbsp;</p>
+
+<p style="line-height:1.3800000000000001; text-align:center">&nbsp;</p>
+<br />
+&nbsp;</body>
+</html>
