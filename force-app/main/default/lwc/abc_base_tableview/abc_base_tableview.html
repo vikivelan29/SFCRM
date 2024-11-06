@@ -2,7 +2,7 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 10-16-2024
+  @last modified on  : 11-06-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
@@ -25,7 +25,19 @@
 
 				<!-- modal body start -->
 				<div class={bodyClass} id="modal-content-id-1">
+					<template if:true={isInLoading}>
+						<div style="height: 100%;width: 100%;position:relative">
+							<lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
+						</div>
+						<div class="slds-backdrop" role="presentation"></div>
+					</template>
+					
 					<lightning-card>
+						<template lwc:if={inShowRefresh}>
+							<lightning-button slot="actions" alternative-text="Refresh" icon-size="x-small"
+								onclick={handleMenuSelect} icon-name="utility:refresh" class={refreshClass}>
+							</lightning-button>
+						</template>
 						<div style={divBlock}>
 							<lightning-datatable class="slds-resizable" key-field="id" data={recordsToDisplay} columns={columns}
 								min-column-width="155" hide-checkbox-column

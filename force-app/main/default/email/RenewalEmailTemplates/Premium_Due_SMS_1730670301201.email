@@ -1,0 +1,11 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear Customer,<br />
+<br />
+Your Health Insurance is due for Renewal on {{{Opportunity.Policy_Expiry_Date__c}}}. Please renew it to stay protected from any unforeseen incident. Click&nbsp;{{{Opportunity.Payment_Link__c}}} to pay. T&amp;C apply.<br />
+<br />
+Regards,<br />
+Aditya Birla Health Insurance</body>
+</html>
