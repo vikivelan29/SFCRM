@@ -23,10 +23,7 @@ public with sharing class ABSLI_VirtualRelationManagerBatch implements Database.
 					new AccountTeamMember(
 						AccountId = accId,
 						UserId = us.Id,
-						TeamMemberRole = 'ABSLI Virtual Relationship Manager',
-                        AccountAccessLevel = 'Read',
-            			CaseAccessLevel = 'Edit',
-            			OpportunityAccessLevel = 'None'
+						TeamMemberRole = 'ABSLI Virtual Relationship Manager'
 					)
 				);
 			}
