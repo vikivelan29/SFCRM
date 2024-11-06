@@ -1294,8 +1294,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
-        <value
-    >For non-mandatory stages, the latest approval must be approved or recalled.</value>
+        <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
     </labels>
     <labels>
         <fullName>ABHI_BU</fullName>
