@@ -3,7 +3,7 @@
     <fullName>What_activities_are_you_currently_doing__c</fullName>
     <label>What activities are you currently doing</label>
     <required>false</required>
-    <trackHistory>true</trackHistory>
+    <trackHistory>true</trackHistory> 
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

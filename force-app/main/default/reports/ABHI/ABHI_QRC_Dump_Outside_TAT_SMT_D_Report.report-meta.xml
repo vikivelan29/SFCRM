@@ -66,7 +66,6 @@
         <field>Case$ABHI_Case_Detail__c.Intermediary_Name__c</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>Case$FTR__c</field>
     </columns>
     <columns>
@@ -106,7 +105,6 @@
         <field>CDF1</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>Case$Ageing_Business_Days__c</field>
     </columns>
     <columns>
@@ -116,7 +114,6 @@
         <field>Case$Stage_SLA_3__c</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>Case$Reopened__c</field>
     </columns>
     <columns>
@@ -126,7 +123,6 @@
         <field>Case$oldCCCIdFields__c</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>Case$Is_Duplicate__c</field>
     </columns>
     <columns>
@@ -189,8 +185,9 @@
         <label>F/NF</label>
         <scale>2</scale>
     </customDetailFormulas>
-    <description>ABHI MIS QRC Dump Report</description>
+    <description>ABHI MIS QRC Dump Outside TAT SMT Dhruv Shankar Report</description>
     <filter>
+        <booleanFilter>1 AND 2 AND ((3 AND 4) OR (5 AND 6)) AND 7 AND 8 AND 9</booleanFilter>
         <criteriaItems>
             <column>Case$Business_Unit__c</column>
             <columnToColumn>false</columnToColumn>
@@ -198,9 +195,65 @@
             <operator>equals</operator>
             <value>ABHI</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case$Overall_Case_Closure_SLA__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$SLA_Broken__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$SLA_Broken_DateTime__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Reopen_SLA_Broken__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Reopen_SLA_Broken_Date_Time__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Type_Text__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>Digital Issue,Health Returns,Wellness saver card,HLTH Meter</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Sub_Type_Text__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>DHA scan related,Gym check in issue,Incorrect calories showing,unable to Lync and Sync App &amp; Device,Active Dayz Dispute,VAS Services,App login Issue,Website login issue,Consultation,My dental plan,Smart Watch not delivered,Smart Watch related issues,Create/link ABHA ID</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Overdue_Case_Closure_SLA_In_Days__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>greaterOrEqual</operator>
+            <value>2</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>ABHI QRC Dump</name>
+    <name>ABHI QRC Dump Outside TAT SMT D Report</name>
     <params>
         <name>co</name>
         <value>1</value>
@@ -210,7 +263,7 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>Case$ABHI_Case_Detail__c.Concern__c</sortColumn>
+    <sortColumn>Case$CreatedDate</sortColumn>
     <sortOrder>Desc</sortOrder>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>

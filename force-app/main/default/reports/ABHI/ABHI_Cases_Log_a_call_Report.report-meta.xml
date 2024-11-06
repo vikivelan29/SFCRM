@@ -70,42 +70,7 @@
             <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>Open</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case$Status</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>,New,On Hold,Closed,Escalated,Critical,In Progress,Waiting for Customer,Merged,Response Received,Resolved,Closed Duplicate,Unresolved,Soft Resolve</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case$Type_Text__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value></value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case$Sub_Type_Text__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value></value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case$Nature__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>,Request,Query,Complaint</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case$Origin</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>,Email,Phone,Web,Facebook,Twitter,Payments Email,ABFL Email,ABHFL Email,ABFL WM CHAT,ABWM Email,ABSLI Email,ABSLIG Email,ABHI Email,ABSLAMC Email,Wellness Email</value>
-        </criteriaItems>
+        </criteriaItems> 
     </filter>
     <format>Summary</format>
     <groupingsDown>

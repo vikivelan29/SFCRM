@@ -8,6 +8,7 @@
             <publicGroup>ABHI_Service_Assurance_Desk_G</publicGroup>
         </publicGroups>
     </queueMembers>
+    <queueRoutingConfig>ABHI_Routing_Config</queueRoutingConfig> 
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

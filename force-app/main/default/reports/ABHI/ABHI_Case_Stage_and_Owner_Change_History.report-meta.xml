@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Case$CaseNumber</field>
-    </columns>
-    <columns>
         <field>Case$CreatedDate</field>
     </columns>
     <columns>
@@ -22,6 +19,12 @@
         <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
+        <field>Case$ABHI_Case_Detail__c.Concern__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Final_Resolution_Remark__c</field>
+    </columns>
+    <columns>
         <field>Case$ClosedDate</field>
     </columns>
     <columns>
@@ -37,19 +40,10 @@
         <field>Case.SR_SLA_Histories__r$Current_Owner__c</field>
     </columns>
     <columns>
-        <field>Case.SR_SLA_Histories__r$FromStage__c</field>
-    </columns>
-    <columns>
         <field>Case.SR_SLA_Histories__r$Stage__c</field>
     </columns>
     <columns>
         <field>Case.SR_SLA_Histories__r$Time_Taken__c</field>
-    </columns>
-    <columns>
-        <field>Case$Stage_SLA_Threshold_3__c</field>
-    </columns>
-    <columns>
-        <field>Case$Case_Assigned_Team__c</field>
     </columns>
     <description>ABHI Case Stage and Owner Change History</description>
     <filter>
@@ -61,7 +55,12 @@
             <value>ABHI</value>
         </criteriaItems>
     </filter>
-    <format>Tabular</format>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case$CaseNumber</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
     <name>ABHI Case Stage and Owner Change History</name>
     <params>
         <name>co</name>
@@ -71,7 +70,7 @@
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
-    <showSubTotals>false</showSubTotals>
+    <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

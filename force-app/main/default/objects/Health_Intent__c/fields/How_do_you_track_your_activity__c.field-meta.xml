@@ -3,7 +3,7 @@
     <fullName>How_do_you_track_your_activity__c</fullName>
     <label>How do you track your activity</label>
     <required>false</required>
-    <trackHistory>true</trackHistory>
+    <trackHistory>true</trackHistory> 
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
