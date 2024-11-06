@@ -4179,4 +4179,8 @@
         <enabled>true</enabled>
         <name>ShowCreateLead</name>
     </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Restrict_User_Updation</name>
+    </customPermissions>
 </PermissionSet>
