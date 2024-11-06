@@ -5,16 +5,4 @@
     <omniSupervisorConfigProfile>
         <profile>abhi base profile</profile>
     </omniSupervisorConfigProfile>
-    <omniSupervisorConfigQueue>
-        <queue>ABHI_Health_management_team</queue>
-    </omniSupervisorConfigQueue>
-    <omniSupervisorConfigQueue>
-        <queue>ABHI_Health_returns</queue>
-    </omniSupervisorConfigQueue>
-    <omniSupervisorConfigQueue>
-        <queue>ABHI_Medical_Check_Up</queue>
-    </omniSupervisorConfigQueue>
-    <omniSupervisorConfigQueue>
-        <queue>ABHI_Reports</queue>
-    </omniSupervisorConfigQueue>
 </OmniSupervisorConfig>
