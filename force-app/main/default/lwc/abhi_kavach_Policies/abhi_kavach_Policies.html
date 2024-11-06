@@ -8,7 +8,7 @@
     <lightning-card>
         <div slot="title">
             <lightning-button-icon slot="actions" icon-name="action:new_case" size="small" class="slds-m-right_x-small" variant="brand"></lightning-button-icon>
-            Search Kavach Policy
+            Policy Search
         </div>
       
         <div class = "slds-m-around_medium">
@@ -19,7 +19,7 @@
                     <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
                 </div>
             </template>
-            <lightning-layout     class = "slds-m-bottom_x-large">
+            <lightning-layout class = "slds-m-bottom_large">
                 <!--<lightning-layout-item size="3" class="slds-m-right_x-large">
                     <div class = "slds-m-bottom_small">
                         <lightning-combobox name = "Target System" label = "Target System" value = {selectedSystem} placeholder = "Target System"
@@ -27,26 +27,19 @@
                         </lightning-combobox>
                     </div> 
                 </lightning-layout-item>-->
-                <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_xx-small">
+                <lightning-layout-item size="4" class="slds-m-right_x-large">
                     <div class = "slds-m-bottom_small">
-                        <lightning-input type="text" label="Enter Policy No" data-name= "policy" 
-                        disabled={disabled}  placeholder="type here..." onchange = {handleChange}></lightning-input>
+                        <lightning-input type="text" label="Enter policy No" data-name= "policy" 
+                        disabled={disabled}  placeholder="type here..."></lightning-input>
                     </div> 
                 </lightning-layout-item>
-                <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_xx-small">
-                    <div class = "slds-m-bottom_small">
-                        <lightning-combobox name = "Target System" label = "Target System" value = {selectedSystem} placeholder = "Target System"
-                                options = {targetSysOptions} onchange = {handleChangeTargetSys} disabled={disabled}> 
-                        </lightning-combobox>
-                    </div> 
-                </lightning-layout-item>
-                <!--<lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_xx-small">
+                <lightning-layout-item size="4" class="slds-m-right_x-large">
                     <div class = "slds-m-bottom_small">
                         <lightning-input type="text" label="Enter Master policy No" data-name= "masterpolicy"
                         disabled={disabled}  placeholder="type here..."></lightning-input>
                     </div> 
-                </lightning-layout-item>-->
-                <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_large">
+                </lightning-layout-item>
+                <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_medium">
                     <div class = "slds-m-bottom_small">
                         <lightning-button label = "Search" title = "Search" onclick = {fetchExistingData} variant = "brand" 
                         disabled={disabled} >
@@ -55,8 +48,8 @@
                 </lightning-layout-item>
              
             </lightning-layout>
-            
-            <lightning-layout-item size="3" class="slds-m-right_x-large slds-p-top_x-large">
+
+            <lightning-layout-item size="3" class="slds-m-right_x-large slds-p-top_medium">
                 <div class = "slds-m-bottom_small">
                     <lightning-button label = "Retrieve Details" title = "Search" onclick = {getPolicyDetails} variant = "brand" 
                     disabled={disabledSearch} >
@@ -67,14 +60,17 @@
         
         
         <div lwc:if = {displayTable}>
-            <lightning-card>
-                <div slot="title">
-                    Search Kavach Policy
-                </div>
-            </lightning-card>
-            <c-abfl_-data-table-with-pagination columns={columns} table-data={data} page-size = {label.pageSize}>
-		    
-	    </c-abfl_-data-table-with-pagination>
+            <div class = "slds-p-vertical_medium slds-text-heading_medium">
+                Case List
+            </div>
+
+            <c-abfl_-data-table-with-pagination columns={columns}
+															table-data={data} page-size = {label.pageSize}
+                                                            ></c-abfl_-data-table-with-pagination>
+            
+                                                        <!--    <lightning-datatable class="slds-resizable" key-field="id" data={data} columns={columns}
+                                                            min-column-width="155" hide-checkbox-column>
+                                                        </lightning-datatable>-->
         </div>
         <div lwc:if = {displayError}>
             {errorMessage}
