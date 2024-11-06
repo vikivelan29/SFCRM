@@ -258,11 +258,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ClaimNo_Text__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ResolutionReason__c</field>
             <table>Case</table>
         </columns>
@@ -740,11 +735,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>ABHI_Case_Detail__c.Dependent_Department__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ABHI_Case_Detail__c.ClaimNo_Text__c</field>
             <table>Case</table>
         </columns>
         <columns>
