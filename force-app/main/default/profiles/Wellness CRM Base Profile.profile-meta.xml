@@ -644,12 +644,7 @@
         <editable>false</editable>
         <field>Asset.ContractStartDate__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.Contract_Id__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Credit_Authority__c</field>
@@ -2720,6 +2715,17 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>LOB_Rejection_Reason__mdt-LOB Rejection Reason Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-Lead Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-Lead Layout</layout>
+        <recordType>Lead.Sales</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-Lead Layout</layout>
+        <recordType>Lead.Service</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>PE_Logger__c-PE Logger Layout</layout>
