@@ -61,6 +61,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         set<String> setCCCExternalIds = new set<String>();
         Map<String, Map<String, String>> mapStage2EmailTemplateMap = new Map<String, Map<String, String>>();
         Map<String, Map<String, String>> mapStage2SMSMetadataMap = new Map<String, Map<String, String>>();
+        Map<String, String> mapCCCExtId2SecondStageName = new Map<String, String>();
         
         List<Case> lstFinalCases = new List<Case>();
         Map<Id, String> mapFinalCaseId2Email = new Map<Id, String>();
@@ -77,7 +78,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
         }
         
         lstCCCRecords = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c,
-                         Additional_Email_Templates__c,Additional_SMS_Metadata__c, CCC_External_Id__c
+                         Additional_Email_Templates__c,Additional_SMS_Metadata__c, CCC_External_Id__c,
+                         (SELECT Id, StageName__c, Order__c FROM Case_Stage_Configs__r WHERE Order__c = 2 LIMIT 1)
                          FROM ASF_Case_Category_Config__c 
                          WHERE CCC_External_Id__c IN: setCCCExternalIds];
         
@@ -87,6 +89,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapStage2EmailTemplateMap.put(objCCCRec.CCC_External_Id__c, ABCL_IntegrationCommonUtility.fetchStpTemplates(objCCCRec.Additional_Email_Templates__c));
                 if(!String.isBlank(objCCCRec.Additional_SMS_Metadata__c))
                     mapStage2SMSMetadataMap.put(objCCCRec.CCC_External_Id__c, ABCL_IntegrationCommonUtility.fetchStpTemplates(objCCCRec.Additional_SMS_Metadata__c));
+                mapCCCExtId2SecondStageName.put(objCCCRec.CCC_External_Id__c, objCCCRec.Case_Stage_Configs__r.iterator().next().StageName__c);
             }
         }
         
@@ -98,9 +101,13 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapFinalCaseId2isTransferred.put(objCase.Id, false);
                 }
                 if(mapStage2SMSMetadataMap != null && mapStage2SMSMetadataMap.containsKey(objCase.CCC_External_Id__c) && mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c) != null && mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).containsKey(objCase.Stage__c) && !String.isBlank(mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c))){
-                    mapFinalCaseId2SMS.put(objCase.Id,mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c));
-                    setCasesToCommunicate.add(objCase);
-                    mapFinalCaseId2isTransferred.put(objCase.Id, false);
+                    if(mapCCCExtId2SecondStageName != null && mapCCCExtId2SecondStageName.containsKey(objCase.CCC_External_Id__c) && !String.isBlank(mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c))){
+                        if((mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c) != objCase.Stage__c) || (mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c) == objCase.Stage__c && String.isBlank(String.valueOf(objCase.Recategorisation_Date__c)))){
+                            mapFinalCaseId2SMS.put(objCase.Id,mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c));
+                    		setCasesToCommunicate.add(objCase);
+                    		mapFinalCaseId2isTransferred.put(objCase.Id, false);
+                        }
+                    }
                 }
             }
             if(!setCasesToCommunicate.isEmpty())lstFinalCases.addAll(setCasesToCommunicate);
@@ -189,11 +196,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -242,11 +245,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -471,7 +470,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
                 ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
 
-                if(metaDataRec.Source__c != caseSource) {
+                if( (metaDataRec.Source__c != caseSource) || 
+                    (String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
                     result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
@@ -511,7 +511,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(casRec.AssetId != null && 
                ((oldCaseMap == null) || 
                 (oldCase != null && oldCase.AssetId != casRec.AssetId))){
-                    assetIds.add(casRec.AssetId);
+                	assetIds.add(casRec.AssetId);
                     casesToUpdate.add(casRec);
             }
         }
@@ -522,15 +522,18 @@ public with sharing class ABHI_BusinessLogic_Helper {
                                FROM Asset WHERE Id IN : assetIds]){
             assetIdToOppMap.put(asst.Id, asst);
         }
-
+        //Update Calling Source on Case
         for(Case cas : casesToUpdate){
             cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId)?.Calling_Source__c ?? ''; 
-        }
+		}
         
         if(oldCaseMap != NULL){ return; }
         
+        //Update Renewal Request on Case
         Id profileId = UserInfo.getProfileId();
-        String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId].Name;
+        if(profileId == null){ return; }
+        
+        String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId]?.Name;
         
         if(profileName != 'RNWL Base Profile' && profileName != 'RNWL Manager Profile'){ return; }
         
