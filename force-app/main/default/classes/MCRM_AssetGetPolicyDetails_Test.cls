@@ -19,7 +19,6 @@ public class MCRM_AssetGetPolicyDetails_Test {
         List<Asset> assetListToInsert = new List<Asset>();
         Asset assetObj = new Asset();
         assetObj.Name = '981726345';
-        assetObj.Customer__c = acc.Id;
         assetObj.AccountId = acc.Id;
         assetObj.RM_Assignment__c = 'Processed';
         assetObj.Business_Unit__c ='Wellness';
@@ -28,7 +27,7 @@ public class MCRM_AssetGetPolicyDetails_Test {
         
         Asset assetObj2 = new Asset();
         assetObj2.Name = '981726345';
-        assetObj2.Customer__c = acc.Id;
+        assetObj2.AccountId = acc.Id;
         assetObj2.RM_Assignment__c = 'Processed';
         assetObj2.Business_Unit__c ='Wellness';
         assetObj2.ABHI_Policy_Id__c = 'QU-24-5211-4061797-00';
