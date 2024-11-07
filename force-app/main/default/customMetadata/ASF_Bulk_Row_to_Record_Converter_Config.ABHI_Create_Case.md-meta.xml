@@ -58,4 +58,8 @@
         <field>Template_Name__c</field>
         <value xsi:type="xsd:string">ABHI_Bulk_Create_Case</value>
     </values>
+    <values>
+        <field>FieldApiName__c</field>
+        <value xsi:type="xsd:string">CaseNumber</value>
+    </values>
 </CustomMetadata>
