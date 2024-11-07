@@ -1306,11 +1306,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Claim__c.Policy_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1572,11 +1567,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Dispositions__c.Next_Call_Back_Date_Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Dispositions__c.Policy_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2116,11 +2106,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Claim__c.Policy_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Claim__c.Policy_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2611,7 +2596,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ASF_Case_Category_Config__c.Dedupe_Check__c</field>
+        <field>ASF_Case_Category_Config__c.Exclude_Dedupe__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
