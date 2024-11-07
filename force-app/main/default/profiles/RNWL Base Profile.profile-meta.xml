@@ -81,14 +81,6 @@
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>RNWL_Communications_Validations</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>RNWL_WhatsappCommunicationController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>RNWL_RelatedListHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
