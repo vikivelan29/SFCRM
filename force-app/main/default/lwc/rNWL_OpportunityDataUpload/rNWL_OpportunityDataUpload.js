@@ -27,9 +27,6 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
     recordStatus = false;
     fileReader;
     @track errorRecords = {}
-    data = [];
-    columns = columns;
-    
     columnHeader = ['Policy Number', 'Final Eligibility', 'Propensity to Pay', 'Renewal Calling Flag', 'Calling Source', 'Upsell SI 1', 'Upsell SI 2', 'Upsell SI 3', 'Upsell SI 4', 'Upsell SI 5', 'Max Upsell', 'Bucket', 'Error Message']
     MAX_FILE_SIZE = 1500000;
 
@@ -44,8 +41,7 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
 
     handleReset(){
         this.fileName = '';
-        this.parsedData = '';
-        this.recordStatus = false;
+        this.parsedData = ''
     }
 
     handleUploadFinished(event) {
@@ -115,22 +111,67 @@ export default class OpportunityDataUpload extends NavigationMixin(LightningElem
        // this.recordStatus = undefined;
         console.log('this.parsedData '+this.parsedData);
         updateOpportunityRecords({ oppData: this.parsedData?.replaceAll('\\', '') })
-        .then(result => {
-            this.filesUploaded = '';
-            this.fileName = '';
-            if (result) {
-                let hasAtleastOneError = false; 
-                // let recordStatus = JSON.stringify(result);
-                    //console.log('recordStatus '+recordStatus);
-                    this.errorRecords = result;
-                    this.data = result;
-                for (let i=0;i<result.length; i++) {
-                    console.log('result[i] '+JSON.stringify(result[i]));
-                    if (result[i].status != 'Success') {
+            .then(result => {
+                this.filesUploaded = '';
+                this.fileName = '';
+                if (result) {
+                    let hasAtleastOneError = false; 
+                   // let recordStatus = JSON.stringify(result);
+                     //console.log('recordStatus '+recordStatus);
+                     this.errorRecords = result;
+                    for (let i=0;i<result.length; i++) {
+                        console.log('result[i] '+JSON.stringify(result[i]));
+                        if (result[i].status != 'Success') {
+                            
+                            hasAtleastOneError = true;
+                            this.recordStatus = true;
+                            
+                        }
                         
-                        hasAtleastOneError = true;
-                        this.recordStatus = true;
-                        
+                    }
+                    if (hasAtleastOneError) {
+                        //this.recordStatus = recordStatus;
+                        console.log('errorRecords '+this.errorRecords);
+                        let doc = '<table>';
+                       
+                        // Add all the Table Headers
+                        doc += '<tr>';
+                        this.columnHeader.forEach(element => {            
+                        doc += '<th>'+ element +'</th>'           
+                        });
+                        doc += '</tr>';
+                        this.errorRecords.forEach(record => {
+                        if(record.status =='Error'){
+                            console.log('record '+record.status);
+                        doc += '<tr>';
+                        doc += '<th>'+record.policyNumber+'</th>'; 
+                        doc += '<th>'+record.finalEligibilityFlag+'</th>'; 
+                        doc += '<th>'+record.renewalCallingFlag+'</th>';
+                        doc += '<th>'+record.callingSource+'</th>';
+                        doc += '<th>'+record.upsellSI1+'</th>';
+                        doc += '<th>'+record.upsellSI2+'</th>';
+                        doc += '<th>'+record.upsellSI3+'</th>';
+                        doc += '<th>'+record.upsellSI4+'</th>';
+                        doc += '<th>'+record.upsellSI5+'</th>';
+                        doc += '<th>'+record.maxUpsell+'</th>';
+                        doc += '<th>'+record.bucket+'</th>';
+                        doc += '<th>'+record.response+'</th>'; 
+                        doc += '</tr>';
+                        }
+                    });
+                        doc += '</table>';
+                       var element = 'data:application/vnd.ms-excel,' + encodeURIComponent(doc);
+                        let downloadElement = document.createElement('a');
+                        downloadElement.href = element;
+                        downloadElement.target = '_self';
+                        downloadElement.download = 'OpportunityUploadErrorFile.xls'; 
+                        document.body.appendChild(downloadElement);
+                        downloadElement.click();
+
+                        this.showMessage('Opportunity rows were updated partially!', 'warning');
+                    } else {
+                       // this.recordStatus = recordStatus;
+                        this.showMessage('All Opportunity rows were updated successfully!!','success');
                     }
                     
                 }
