@@ -1,7 +1,6 @@
 public without sharing class RNWL_RelatedListHelper {
     public static final Map<Schema.DisplayType, String> DATA_TYPE_TO_COL_TYPE_MAP = new Map<Schema.DisplayType, String>{
-        Schema.DisplayType.Date => 'string',
-        Schema.DisplayType.DateTime => 'date',
+        Schema.DisplayType.Date => 'date',
         Schema.DisplayType.Currency => 'currency',
         Schema.DisplayType.Phone => 'phone',
         Schema.DisplayType.URL => 'url',
@@ -34,7 +33,7 @@ public without sharing class RNWL_RelatedListHelper {
     }
 
     @AuraEnabled
-    public static QueryResponseWrapper getRelatedRecords(String mode, String recordId, Boolean viewAll) {
+    public static QueryResponseWrapper getRelatedRecords(String mode, String recordId) {
         QueryResponseWrapper responseInst = new QueryResponseWrapper();
         try {
             if (mode == 'Email Message') {
@@ -44,15 +43,8 @@ public without sharing class RNWL_RelatedListHelper {
                     String keyVal = each.Email_Template_Name__c + String.valueOf(each.CreatedDate).left(10);
                     logsByName.put(keyVal, each);
                 }
-                List<EmailMessage> emailMessages = new List<EmailMessage>();
-                if (viewAll != null && viewAll) {
-                    emailMessages = [SELECT ID, EmailTemplate.Name, ToAddress, toLabel(Status), EmailTemplate.DeveloperName, CreatedBy.Name,
-                        Subject, CreatedDate FROM Emailmessage WHERE RelatedToId = :recordId];
-                } else {
-                    emailMessages = [SELECT ID, EmailTemplate.Name, ToAddress, toLabel(Status), EmailTemplate.DeveloperName, CreatedBy.Name,
-                        Subject, CreatedDate FROM Emailmessage WHERE RelatedToId = :recordId LIMIT 5];
-                }
-                for (EmailMessage each : emailMessages) {
+                for (EmailMessage each : [SELECT ID, EmailTemplate.Name, ToAddress, toLabel(Status), EmailTemplate.DeveloperName, CreatedBy.Name,
+                    Subject, CreatedDate FROM Emailmessage WHERE RelatedToId = :recordId]) {
                     String keyVal = each.EmailTemplate.DeveloperName + String.valueOf(each.CreatedDate).left(10);
                     responseInst.emailData.add(new DataWrapper(each, logsByName.get(keyVal)));
                 }
@@ -72,12 +64,13 @@ public without sharing class RNWL_RelatedListHelper {
                     query = 'SELECT Id, Name, Next_Call_Back_Date_Time__c, Disposition_L1__c, Disposition_L2__c, Disposition_L3__c, Call_Date_Time__c, '
                         + 'Agent_Name__r.Name, Remarks__c, Calling_Unit__c, Calling_Mode__c FROM Dispositions__c WHERE Renewal_Request__c = :recordId '
                         + 'ORDER BY Priority__c ASC NULLS LAST, Call_Date_Time__c DESC LIMIT 1';
+                    objectDescribe = Schema.getGlobalDescribe().get('Dispositions__c');
                 } else if (mode == 'Last Disposition') {
                     query = 'SELECT Id, Name, Next_Call_Back_Date_Time__c, Disposition_L1__c, Disposition_L2__c, Disposition_L3__c, Call_Date_Time__c, '
                         + 'Agent_Name__r.Name, Remarks__c, Calling_Unit__c, Calling_Mode__c FROM Dispositions__c WHERE Renewal_Request__c = :recordId '
                         + 'ORDER BY Call_Date_Time__c DESC LIMIT 1';
+                    objectDescribe = Schema.getGlobalDescribe().get('Dispositions__c');
                 }
-                objectDescribe = Schema.getGlobalDescribe().get('Dispositions__c');
                 responseInst.columns = new List<ColumnWrapper>();
                 responseInst.data = Database.query(query);
                 Map<String, Schema.SObjectField> fieldDetails = objectDescribe.getDescribe().fields.getMap();
@@ -125,42 +118,15 @@ public without sharing class RNWL_RelatedListHelper {
                 this.type = 'url';
                 this.fieldName = 'RecordLink';
             }
-            if (this.type == 'date') {
-                this.typeAttributes = new TypeAttributes(true);
-            }
         }
     }
 
     public class TypeAttributes {
         @AuraEnabled public LabelWrapper label;
         @AuraEnabled public String target = '_blank';
-        @AuraEnabled public String year;
-        @AuraEnabled public String month;
-        @AuraEnabled public String day;
-        @AuraEnabled public String hour;
-        @AuraEnabled public String minute;
-
-        public TypeAttributes() {}
-        public TypeAttributes(Boolean isDate) {
-            this.year = 'numeric';
-            this.month = '2-digit';
-            this.day = '2-digit';
-            this.hour = '2-digit';
-            this.minute = '2-digit';
-        }
     }
 
     public class LabelWrapper {
         @AuraEnabled public String fieldName;
-    }
-
-    @AuraEnabled
-    public static void updateOpportunityFields(String recordId, String linkVal, Decimal amountVal) {
-        try {
-            Opportunity oppRec = new Opportunity(Id = recordId, Razor_Pay_Link__c = linkVal, Razor_Pay_Amount__c = amountVal);
-            update oppRec;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
     }
 }

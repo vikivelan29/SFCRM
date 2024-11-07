@@ -175,11 +175,27 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>showLegacyActivityComposer</name>
-                    <value>false</value>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
                 </componentInstanceProperties>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
-                <identifier>runtime_sales_activities_activityPanel</identifier>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>ActivityHistories</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-35f04906-c981-45b3-aa90-5e567773ecf7</name>
@@ -675,6 +691,105 @@
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Opportunity.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Dispositions__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Next_Call_Back_Date_Time__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L1__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L2__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Disposition_L3__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Call_Date_Time__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Agent_Name__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Remarks__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Calling_Unit__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Calling_Mode__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Phone Call Audit</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>Call_Date_Time__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Descending</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>mode</name>
+                    <value>Best Disposition</value>
+                </componentInstanceProperties>
+                <componentName>rNWL_RelatedListHelper</componentName>
+                <identifier>c_rNWL_RelatedListHelper2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>mode</name>
+                    <value>Last Disposition</value>
+                </componentInstanceProperties>
+                <componentName>rNWL_RelatedListHelper</componentName>
+                <identifier>c_rNWL_RelatedListHelper3</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
