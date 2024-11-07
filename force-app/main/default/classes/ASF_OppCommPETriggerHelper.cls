@@ -18,11 +18,11 @@ public without sharing class ASF_OppCommPETriggerHelper {
     public static List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
     public static Map<String, EmailTemplate> templateIDMap = new Map<String, EmailTemplate>();
     public static set<String> setOpportunityFields = new Set<String>();
-    public static Set<Id> caseIds = new Set<Id>();
     public static Set<Id> opportunityIds = new Set<Id>();
     public static Map<String, Schema.SObjectField> oppFieldInfo;
     public static List<ASF_Communication_log__c> logs = new List<ASF_Communication_log__c>();
     public static Set<Id> caseAccountIds = new Set<Id>();
+    public static Map<Id, Account> accountMap = new Map<Id, Account>();
     public static Set<Id> caseConIds = new Set<Id>();
     public static Map<Id,Set<Contact>> mAccountIdContactId = new Map<Id,Set<Contact>>();
     public static Map<Id,Id> mLogIdVsCaseId = new Map<Id,Id>();
@@ -53,6 +53,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
             }
             mAccountIdContactId.get(c.AccountId).add(c);
         }
+        accountMap = new Map<Id, Account>([SELECT Id, Phone FROM Account WHERE Id IN :caseAccountIds]);
         defaultContactId = [select id, Account.Phone from contact limit 1].Id;
         oppFieldInfo = Schema.SObjectType.Opportunity.fields.getMap();
         /* Account Contact Related Operations */
@@ -429,9 +430,16 @@ public without sharing class ASF_OppCommPETriggerHelper {
                         logs.add(log);
                     }
                 }
-            }
-            else{
-                responseWrapper cls = new responseWrapper(pLog.Id,'Error', 'AccountId is missing on Opportunity');
+            } else if (accountMap.containsKey(oppRec.AccountId) && accountMap.get(oppRec.AccountId).Phone != null) {
+                log = createCommunicationLogRecord(log, null, null, oppRec.Id, 'Customer', accountMap.get(oppRec.AccountId).Phone, pLog);
+                log.put('PE_Logger_Id__c', pLog.Id);
+                log.LOB__c = pLog.LOB__c;
+                log.put('Status__c','In Progress');
+                log.put('Send_To_Specific_Mobile__c', true);
+                log.put('Phone__c', accountMap.get(oppRec.AccountId).Phone);
+                logs.add(log);
+            } else{
+                responseWrapper cls = new responseWrapper(pLog.Id,'Error', 'Phone number is missing on Account');
                 peLogIdVsSuccessResult.put(pLog.Id,cls);
             }
         }
