@@ -31,6 +31,13 @@
         <value>Communication History</value>
     </labels>
     <labels>
+        <fullName>ABHI_Kavach_Policy_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Kavach Policy Info</shortDescription>
+        <value>Data doesn&apos;t exist in salesforce. Please click on &apos;Retrieve Details button&apos; to create data in salesforce.</value>
+    </labels>
+    <labels>
         <fullName>ABHI_Retry</fullName>
         <language>en_US</language>
         <protected>false</protected>
