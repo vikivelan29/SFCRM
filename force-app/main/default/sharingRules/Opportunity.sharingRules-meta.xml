@@ -2,8 +2,8 @@
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
         <fullName>RNWL_ATS_Opportunity_Sharing</fullName>
-        <accessLevel>Read</accessLevel>
-        <description>RNWL ATS Opportunity Sharing Rule</description>
+        <accessLevel>Edit</accessLevel>
+        <description>RNWL ATS Opportunity Sharing</description>
         <label>RNWL ATS Opportunity Sharing</label>
         <sharedTo>
             <role>RNWL_Health_Expert_ATS</role>
