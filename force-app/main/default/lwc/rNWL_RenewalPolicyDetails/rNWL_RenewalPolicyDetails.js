@@ -152,7 +152,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                             }
                         }
                     }
-                    //for App registration details
+                    //For App registration details
                     if(key == 'AppRegDetails' && data[key]){
                         if(JSON.parse(data[key]).Message.includes('Fail')){
                             if(apiErrMsg != ''){
