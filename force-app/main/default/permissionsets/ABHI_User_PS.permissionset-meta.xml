@@ -1990,11 +1990,6 @@
         <field>Dispositions__c.Next_Call_Back_Date_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <!-- <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.Policy_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions> -->
     <fieldPermissions>
         <editable>true</editable>
         <field>Dispositions__c.Priority__c</field>
