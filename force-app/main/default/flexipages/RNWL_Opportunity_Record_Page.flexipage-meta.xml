@@ -162,12 +162,6 @@
                 <identifier>lst_dynamicRelatedList</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>rNWL_WhatsappCommunication</componentName>
-                <identifier>c_rNWL_WhatsappCommunication</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-6a507001-c902-49f4-98af-9f87d9899bee</name>
         <type>Facet</type>
     </flexiPageRegions>
