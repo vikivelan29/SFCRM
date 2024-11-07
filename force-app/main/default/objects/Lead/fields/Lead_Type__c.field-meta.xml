@@ -31,5 +31,25 @@
                 <label>MF Service To Sales</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>MF</controllingFieldValue>
+            <valueName>MF Transaction Related Outcall</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF</controllingFieldValue>
+            <valueName>MF Service To Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>MF</controllingFieldValue>
+            <valueName>MF Retention</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PMS</controllingFieldValue>
+            <valueName>PMS Distributor Leads</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PMS</controllingFieldValue>
+            <valueName>PMS Client Leads</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>
