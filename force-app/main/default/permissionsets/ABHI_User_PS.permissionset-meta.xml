@@ -1127,6 +1127,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.ABHI_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.CMP_OPD__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2040,11 +2045,6 @@
         <field>Dispositions__c.Next_Call_Back_Date_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <!-- <fieldPermissions>
-        <editable>false</editable>
-        <field>Dispositions__c.Policy_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions> -->
     <fieldPermissions>
         <editable>true</editable>
         <field>Dispositions__c.Priority__c</field>
@@ -2932,6 +2932,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Existing_Nominee_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Case_Reopened_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Case_Closed_Resolved_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Case_Closed_Resolution_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHI_Case_Detail__c.Existing_Primary_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2993,6 +3013,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Member_Inception_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABHI_Case_Detail__c.Member_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Disclosure_of_Illness__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3462,6 +3492,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHI_Case_Detail__c.New_Contact_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHI_Case_Detail__c.Current_status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3640,6 +3675,31 @@
         <field>ABHI_Case_Detail__c.Existing_Pan_Card_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Policy_Nominee__c.Nominee_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Overdue_Case_Closure_SLA_In_Days__c</field> 
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Reason_for_cancellation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Cancellation_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHI User PS</label>
     <objectPermissions>
@@ -3793,4 +3853,4 @@
         <enabled>true</enabled>
         <name>TransferAnyEntity</name>
     </userPermissions>
-</PermissionSet> 
+</PermissionSet>

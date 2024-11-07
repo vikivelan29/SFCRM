@@ -23,13 +23,13 @@ public with sharing  class MCRM_AssetGetPolicyDetails {
             Map<String,String> fieldAPIWithLabel = new Map<String,String>();
             
             // Query the Asset record with its associated Person Account
-            Asset assetRecord = [SELECT Id, Customer__r.HealthIDCardNumber__pc FROM Asset  WHERE Id = :recordId LIMIT 1];
-            system.debug('assetRecord.Customer__c-->'+assetRecord.Customer__c);
-            system.debug('assetRecord.Customer__r.HealthIDCardNumber__pc-->'+assetRecord.Customer__r.HealthIDCardNumber__pc);
+            Asset assetRecord = [SELECT Id, Account.HealthIDCardNumber__pc FROM Asset  WHERE Id = :recordId LIMIT 1];
+            system.debug('assetRecord.Account-->'+assetRecord.Account);
+            system.debug('assetRecord.Account.HealthIDCardNumber__pc-->'+assetRecord.Account.HealthIDCardNumber__pc);
             // Check if the HealthIDCardNumber__pc field is not null or empty
-            if (assetRecord.Customer__c != null && String.isNotEmpty(assetRecord.Customer__r.HealthIDCardNumber__pc)) {
+            if (assetRecord.Account != null && String.isNotEmpty(assetRecord.Account.HealthIDCardNumber__pc)) {
                 // Split the comma-separated values into a List of Strings
-                policyIds = assetRecord.Customer__r.HealthIDCardNumber__pc.split(',');
+                policyIds = assetRecord.Account.HealthIDCardNumber__pc.split(',');
             }
             
             Asf_Dynamic_Datatable_Parent__mdt parentConfigs = [SELECT Id, DeveloperName FROM Asf_Dynamic_Datatable_Parent__mdt 

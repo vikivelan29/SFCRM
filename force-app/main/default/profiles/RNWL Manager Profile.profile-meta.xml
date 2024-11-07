@@ -192,7 +192,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_EmailMessageTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_Encryption</apexClass>
@@ -1668,7 +1668,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Case360Controller</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Case360Controller_Test</apexClass>
@@ -2515,6 +2515,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RNWL_CommunicationFrameworkController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RNWL_DispositionsTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2525,6 +2529,10 @@
     <classAccesses>
         <apexClass>RNWL_DispositionsTriggerHelperTest</apexClass>
         <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RNWL_EmailMessageTriggerHandler</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RNWL_IndividualAccRenewalController</apexClass>
@@ -19845,6 +19853,14 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>SelectFilesFromSalesforce</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EmailSingle</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EditTask</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
