@@ -13,7 +13,7 @@
 
 public class RNWL_OpportunityDataController {
     @AuraEnabled
-    public static String updateOpportunityRecords(String oppData) {
+    public static List<OpportunityDataWrapper> updateOpportunityRecords(String oppData) {
     List<String> oppUpdateStatus = new List<String>();
     List<Object> listOfOppRecords = (List<Object>) JSON.deserializeUntyped(oppData.replace('\\', ''));
     Set<String> externalIdSet = new Set<String>();
@@ -36,6 +36,7 @@ public class RNWL_OpportunityDataController {
         String oppId = oppIdAndExternalId.get(String.valueOf(eachOppRecord.get('Policy Number')));
         oppListToUpdate.add(new Opportunity(
         Id = oppId,
+        Policy_Number__c = String.valueOf(eachOppRecord.get('Policy Number')),
         Upsell_Eligibility_Flag__c = String.valueOf(eachOppRecord.get('Final Eligibility')),
         Propensity_to_Pay__c = String.valueOf(eachOppRecord.get('Propensity to Pay')),
         Renewal_Calling_Flag__c = String.valueOf(eachOppRecord.get('Renewal Calling Flag')),
@@ -53,22 +54,77 @@ public class RNWL_OpportunityDataController {
         if(!oppListToUpdate.isEmpty()){
             saveResult = Database.update(oppListToUpdate, false);
         }
+        List<OpportunityDataWrapper> wrapperList = new List<OpportunityDataWrapper>();
         Integer i=0;
         for (Database.SaveResult each : saveResult) {
+            String status = '';
+            String responseMessage;
             if (each.isSuccess()) {
-                oppUpdateStatus.add('Success!: Renewal Request Id - ' + each.getId());
+                responseMessage='Success!: Renewal Request Id - ' + each.getId()+' Policy Number : '+oppListToUpdate.get(i).Policy_Number__c;
+                responseMessage.split('\n');
+                status = 'Success';
             } else {
+                status = 'Error';
                 List<String> errorMessageList = new List<String>();
                 for (Database.Error err : each.getErrors()) {
-                    errorMessageList.add('Renewal Request Id : '+oppListToUpdate.get(i).Id + ': ' + err.getMessage());
+                   errorMessageList.add('Renewal Request Id : '+oppListToUpdate.get(i).Id + ' Policy number : '+oppListToUpdate.get(i).Policy_Number__c+' :' +err.getMessage());
+                   responseMessage='Opportunity Update failed due to following reasons : ' + String.join(errorMessageList, ',');
                 }
-                oppUpdateStatus.add('Opportunity Update failed due to following reasons : ' + String.join(errorMessageList, ','));
             }
+                OpportunityDataWrapper oppWrap = new OpportunityDataWrapper(oppListToUpdate.get(i).Policy_Number__c,oppListToUpdate.get(i).Upsell_Eligibility_Flag__c,
+                oppListToUpdate.get(i).Propensity_to_Pay__c,oppListToUpdate.get(i).Renewal_Calling_Flag__c,oppListToUpdate.get(i).Calling_Source__c,
+                oppListToUpdate.get(i).Upsell_SI_1__c,oppListToUpdate.get(i).Upsell_SI_2__c,oppListToUpdate.get(i).Upsell_SI_3__c,oppListToUpdate.get(i).Upsell_SI_4__c,
+                oppListToUpdate.get(i).Upsell_SI_5__c,oppListToUpdate.get(i).Max_Upsell__c,oppListToUpdate.get(i).Bucket__c,status,responseMessage);
+                wrapperList.add(oppWrap);
             i++;
         }
 
-    return JSON.serialize(oppUpdateStatus);
+    //return JSON.serialize(oppUpdateStatus);
+    return wrapperList;
 
+    }
+
+    public class OpportunityDataWrapper{
+      // public class List<OppoUpdateResponse> errorRecords;
+      @AuraEnabled public String policyNumber;
+        @AuraEnabled public String finalEligibilityFlag;
+        @AuraEnabled public String propensityToPay;
+        @AuraEnabled public String renewalCallingFlag;
+        @AuraEnabled public String callingSource;
+        @AuraEnabled public Decimal upsellSI1;
+        @AuraEnabled public Decimal upsellSI2;
+        @AuraEnabled public Decimal upsellSI3;
+        @AuraEnabled public Decimal upsellSI4;
+        @AuraEnabled public Decimal upsellSI5;
+        @AuraEnabled public Decimal maxUpsell;
+        @AuraEnabled public String bucket;
+        @AuraEnabled public String status;
+        @AuraEnabled public String response;
+
+        public OpportunityDataWrapper(String policyNumber,String finalEligibilityFlag,String propensityToPay,String renewalCallingFlag,String callingSource,Decimal upsellSI1, Decimal upsellSI2,Decimal upsellSI3,
+        Decimal upsellSI4,Decimal upsellSI5,Decimal maxUpsell,String bucket,String status,String response){
+
+            this.policyNumber = policyNumber;
+            this.finalEligibilityFlag = finalEligibilityFlag;
+            this.propensityToPay = propensityToPay;
+            this.renewalCallingFlag = renewalCallingFlag;
+            this.callingSource = callingSource;
+            this.upsellSI1 = upsellSI1;
+            this.upsellSI2 = upsellSI2;
+            this.upsellSI3 = upsellSI3;
+            this.upsellSI4 = upsellSI4;
+            this.upsellSI5 = upsellSI5;
+            this.maxUpsell = maxUpsell;
+            this.bucket = bucket;
+            this.status = status;
+            this.response = response;
+        }
+
+    }
+    public class OppUpdateResponse{
+        
+
+        
 
     }
 }
