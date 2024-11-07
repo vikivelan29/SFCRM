@@ -80,7 +80,7 @@ public with sharing class ABSLAMC_LegacyView {
             this.PAN = customerId;
             this.ARN = arnNumber;
             this.Folio = FolioNumber;
-            this.LOB = lob;
+            this.LOB = ABSLAMC_Constants.AMCLOB;
         }
     }
     
