@@ -47,6 +47,10 @@
             <valueName>MF Service To Sales</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>MF</controllingFieldValue>
+            <valueName>MF Retention</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>PMS</controllingFieldValue>
             <valueName>PMS Distributor Leads</valueName>
         </valueSettings>
