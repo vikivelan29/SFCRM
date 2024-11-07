@@ -233,5 +233,9 @@ public with sharing class ABHI_CreatePolicyWrapper {
             this.StatusCode = StatusCode;
             this.StatusMessage = StatusMessage;
         }
+        public ResponseWrapper(String StatusCode, String StatusMessage) {
+            this.StatusCode = StatusCode;
+            this.StatusMessage = StatusMessage;
+        }
     }
 }
