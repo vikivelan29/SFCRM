@@ -6,7 +6,5 @@
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
-    <trackHistory>false</trackHistory>
-    <type>Number</type>
-    <unique>false</unique>
+    <type>Currency</type>
 </CustomField>
