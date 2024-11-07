@@ -24,20 +24,9 @@ public without sharing class ABHI_CreatePolicy {
     * @description - This constructor calls parseObjects for Kavach Policy creation
     */
     public static ABHI_CreatePolicyWrapper.ResponseWrapper createPolicy(String req) {
-        try {
-            createPolicyWrappers = (ABHI_CreatePolicyWrapper)JSON.deserialize(req, ABHI_CreatePolicyWrapper.class);
-            parseObjects(createPolicyWrappers);
-            return new ABHI_CreatePolicyWrapper.ResponseWrapper(createPolicyWrappers.StatusCode, createPolicyWrappers.Message);
-        }
-        catch(Exception e) {
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('KavachPolicy');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.message(e.getStackTraceString());
-            ABCL_Logger.emit();
-            throw new AuraHandledException(Label.ASF_ErrorMessage);
-        }
-        
+        createPolicyWrappers = (ABHI_CreatePolicyWrapper)JSON.deserialize(req, ABHI_CreatePolicyWrapper.class);
+        parseObjects(createPolicyWrappers);
+        return new ABHI_CreatePolicyWrapper.ResponseWrapper(createPolicyWrappers.StatusCode, createPolicyWrappers.Message);
     }
    /**
     * @param customerLAN - ABHI_CreatePolicyWrapper
