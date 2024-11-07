@@ -192,7 +192,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_EmailMessageTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_Encryption</apexClass>
@@ -2529,6 +2529,10 @@
     <classAccesses>
         <apexClass>RNWL_DispositionsTriggerHelperTest</apexClass>
         <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RNWL_EmailMessageTriggerHandler</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RNWL_IndividualAccRenewalController</apexClass>

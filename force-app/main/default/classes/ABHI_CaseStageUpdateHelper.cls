@@ -46,7 +46,7 @@ Map<String, ASF_Case_Category_Config__c > caseConfigMap = new Map<String, ASF_Ca
             if (!config.Case_Stage_Configs__r.isEmpty()) {
                 orderValue = (Integer)config.Case_Stage_Configs__r[0].Order__c;
                 StageName = config.Case_Stage_Configs__r[0].StageName__c;
-            }if (Nature=='Request' && orderValue == 1 && newCase.Stage__c == StageName){
+            }if (Nature=='Request' && orderValue == 1 && newCase.Stage__c == StageName && newCase.moved_back__c==false){
                 newCase.MoveToNext__c = true;     
                     } else {
                         System.debug('MoveToNext__c condition not met for case ' + newCase.Id);
