@@ -21,12 +21,9 @@ public class RNWL_EmailMessageTriggerHandler {
         Set<Id> allOppIds = new Set<Id>(); 
         
         for(EmailMessage msg : newList){
-            if(msg.RelatedToId != null && msg.RelatedToId.getSObjectType() == Opportunity.sObjectType){
+            if(msg.RelatedToId.getSObjectType() == Opportunity.sObjectType){
                 allOppIds.add(msg.RelatedToId);
-                if(mapOfTemplateIdToEM.containsKey(msg.EmailTemplateId + '' + msg.RelatedToId)){ 
-                    msg.addError('You have exceeded the daily limit for sending this notification');
-                }
-                mapOfTemplateIdToEM.put(msg.EmailTemplateId + '' + msg.RelatedToId, msg);
+                mapOfTemplateIdToEM.put(msg.EmailTemplateId, msg);
             }
         }
         
@@ -40,11 +37,11 @@ public class RNWL_EmailMessageTriggerHandler {
                 Integer count = (Integer) result.get('emailCount');
                 DateTime lastCreatedDate = (DateTime) result.get('lastCreatedDate'); 
                 
-                if(mapOfTemplateIdToEM.containsKey(strTemplateId + '' + relatedToId)){ 
+                if(mapOfTemplateIdToEM.containsKey(strTemplateId)){ 
                     if(Date.Today().isSameDay(lastCreatedDate.date())){
-                        mapOfTemplateIdToEM.get(strTemplateId + '' + relatedToId).addError('You have exceeded the daily limit for sending this notification');
+                        mapOfTemplateIdToEM.get(strTemplateId).addError('You have exceeded the daily limit for sending this notification');
                     }else if(count >= 5){
-                        mapOfTemplateIdToEM.get(strTemplateId + '' + relatedToId).addError('You have exceeded the overall limit for sending this notification');
+                        mapOfTemplateIdToEM.get(strTemplateId).addError('You have exceeded the overall limit for sending this notification');
                     }
                 }  
             }    
