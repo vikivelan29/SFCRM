@@ -547,8 +547,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
         
         if(oldCaseMap != NULL){ return; }
         
+        //Update Renewal Request on Case
         Id profileId = UserInfo.getProfileId();
-        String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId].Name;
+        if(profileId == null){ return; }
+        
+        String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId]?.Name;
         
         if(profileName != 'RNWL Base Profile' && profileName != 'RNWL Manager Profile'){ return; }
         
