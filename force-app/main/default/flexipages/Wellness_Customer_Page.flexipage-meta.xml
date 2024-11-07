@@ -861,8 +861,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>mcrm_legacyCasesView</componentName>
-                <identifier>c_mcrm_legacyCasesView</identifier>
+                <componentName>abfl_LegacyCases</componentName>
+                <identifier>c_abfl_LegacyCases</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-5f9286a2-d15f-4ccf-9841-7c2d0f64498d</name>
@@ -1339,7 +1339,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showRefresh</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentName>mcrm_api_view</componentName>
                 <identifier>c_mcrm_api_view</identifier>
