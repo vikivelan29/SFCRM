@@ -21,7 +21,7 @@ public class RNWL_EmailMessageTriggerHandler {
         Set<Id> allOppIds = new Set<Id>(); 
         
         for(EmailMessage msg : newList){
-            if(msg.RelatedToId.getSObjectType() == Opportunity.sObjectType){
+            if(msg.RelatedToId != null && msg.RelatedToId.getSObjectType() == Opportunity.sObjectType){
                 allOppIds.add(msg.RelatedToId);
                 mapOfTemplateIdToEM.put(msg.EmailTemplateId, msg);
             }
