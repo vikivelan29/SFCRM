@@ -25,15 +25,17 @@ public without sharing class RNWL_CollectionTriggerHelper {
                                              FROM Opportunity
                                              WHERE Id IN:oppIdSet AND StageName NOT IN: stageNames
                                              LIMIT 50000];
-            if(oppToUpdate != null && oppToUpdate.size() > 0){
-                for(Opportunity opp : oppToUpdate){
-                    opp.StageName = 'Paid';
-                    opp.Status__c = 'Paid';
-                }   
-                
-                update oppToUpdate;
-            } 
-            
+                if(oppToUpdate != null && oppToUpdate.size() > 0){
+                    for(Opportunity opp : oppToUpdate){
+                        opp.StageName = 'Paid';
+                        opp.Status__c = 'Paid';
+                    }   
+                    
+                    update oppToUpdate;
+                } 
+            }catch(Exception e){
+                system.debug(e.getMessage());
+            }
         }
     }
 }
