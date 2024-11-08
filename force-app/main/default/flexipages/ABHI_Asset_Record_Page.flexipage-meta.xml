@@ -853,13 +853,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case_Assigned_Team__c</value>
+                            <value>Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Rejection_Reason__c</value>
+                            <value>Closure_reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
