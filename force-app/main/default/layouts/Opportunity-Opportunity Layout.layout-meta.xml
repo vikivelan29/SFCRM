@@ -252,8 +252,8 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Opportunity.Add_Razor_Pay_Details</actionName>
-            <actionType>QuickAction</actionType>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
             <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
