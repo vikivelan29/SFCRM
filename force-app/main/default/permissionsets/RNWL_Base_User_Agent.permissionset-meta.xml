@@ -12,6 +12,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.Payment_Link__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Communication_Log__c.Created_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
