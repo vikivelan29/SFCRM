@@ -20,8 +20,8 @@ public without sharing class ABHI_OmniDocViewController{
     public static Case_Integration_Outbound__e objCIOEvent{get;set;}
     public static ASF_Case_Integration__c objASFCaseInt{get;set;}
     public static List<Asf_Dynamic_Datatable_Child__mdt> lstAllDatatableColumns{get;set;}
-    public static list<Object> lstColumnsReturned{get;set;} 
-     
+    public static list<Object> lstColumnsReturned{get;set;}
+
     static{
         objPayload = new OmniDocListRequest();
         objDocDownloadPayload = new OmniDocDownloadRequest();
@@ -29,7 +29,7 @@ public without sharing class ABHI_OmniDocViewController{
         objCIOEvent = new Case_Integration_Outbound__e();
         objASFCaseInt = new ASF_Case_Integration__c();
         lstAllDatatableColumns = new List<Asf_Dynamic_Datatable_Child__mdt>();
-        lstColumnsReturned = new list<Object>(); 
+        lstColumnsReturned = new list<Object>();
     }
 
     @AuraEnabled(cacheable=true)
@@ -181,19 +181,19 @@ public without sharing class ABHI_OmniDocViewController{
 
         List<ASF_Case_Integration__c> lstAsfCaseIntegration = new List<ASF_Case_Integration__c>();
         List<String> lstString = new List<String>();
-        EmailTemplate objEmailTemplate = new EmailTemplate();
-        OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
-        String strTemplateName; 
-        String strFromAddress; 
+        //EmailTemplate objEmailTemplate = new EmailTemplate();
+        //OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
+        //String strTemplateName; 
+        //String strFromAddress; 
 
         try{
             EmailTemplate objEmailTemplate = new EmailTemplate();
             String strTemplateName; 
             String strFromAddress; 
             String sObjName = Id.valueOf(strAssetId).getSObjectType().getDescribe().getName();
-            
+
             OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
-       		 
+
             if(sObjName == 'Opportunity'){
                 strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
                 strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
@@ -202,10 +202,9 @@ public without sharing class ABHI_OmniDocViewController{
                 strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
                 strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
             }
-            
+
             objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
             objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
-        
             if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && !String.isBlank(strAccountEmail) && mapRow != null ){
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
@@ -253,7 +252,7 @@ public without sharing class ABHI_OmniDocViewController{
                         Messaging.SendEmailResult[] sendResults = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {objEmail}, true);
                         return sendResults.iterator().next().isSuccess();
                     }else{
-						throw callException(null,false,ABHI_Constants.ERROR_OMNISUCCESSLONG);
+			            throw callException(null,false,ABHI_Constants.ERROR_OMNISUCCESSLONG);
                     }
                 }else if(lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_FAILURE){
                     throw callException(null,false,ABHI_Constants.ERROR_OMNIRESFAIL);
