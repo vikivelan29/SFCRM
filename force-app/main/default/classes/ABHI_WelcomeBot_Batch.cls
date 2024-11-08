@@ -1,15 +1,15 @@
 /**
  * @description       : Batch Class to make callout to call Welcome Bot
- * @author            : Achuriwala@salesforce.co,
+ * @author            : Achuriwala@salesforce.com,
  * @group             : 
  * @last modified on  : 01-10-2024
- * @last modified by  : Achuriwala@salesforce.co,
+ * @last modified by  : Achuriwala@salesforce.com,
  * Modifications Log
  * Ver   Date         Author                       Modification
- * 1.0   01-10-2024   Achuriwala@salesforce.co,   Initial Version
+ * 1.0   01-10-2024   Achuriwala@salesforce.com,   Initial Version
 **/
 
-global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Schedulable,  Database.AllowsCallouts {  
+global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Schedulable {  
     List<sObject> scope = new List<sObject>();
      /****************************************************************************************************************
      * @LOB - ABHI
@@ -28,13 +28,13 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       FROM Asset 
                       WHERE CreatedDate = N_DAYS_AGO:2 AND Business_Unit__c = :ABHI_Constants.ABHI
                       AND CreatedBy.name != 'Data Sync Automation User']);
-        scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username,
+        scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username, ABHI_Retry__c,
                       Policy_Number__r.Account.Name, Policy_Number__r.Account.IsPersonAccount,
                       Policy_Number__r.Account.Phone, Policy_Number__r.Account.PersonMobilePhone,
                       Policy_Number__r.Account.Client_Code__c,Policy_Number__r.Account.Is_Chronic__c,
                       Policy_Number__r.Account.CMP_OPD__c, Policy_Number__r.Account.Chronic_care__c,
                       Policy_Number__r.PolicyType__c, Policy_Number__r.Policy_No__c, Policy_Number__r.ProductName__c,
-                      Policy_Number__r.Plan_Name__c, Policy_Number__r.LAN__c, ABHI_Retry__c,
+                      Policy_Number__r.Plan_Name__c, Policy_Number__r.LAN__c, 
                       Policy_Number__r.Account.State__c, Policy_Number__r.Channel__c, Policy_Number__r.Source__c
                       from Dispositions__c  
                       WHERE Status__c = :ABHI_Constants.FAILURE AND ABHI_Retry__c <= :Integer.valueOf(Label.ABHI_Retry)]);
@@ -148,12 +148,11 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
 
          }
         System.debug('@@@listRequest'+mapDisposition);
-        String integrationName = 'ABHI_WelcomeBot';
-        ABCL_Integrations__mdt integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata(integrationName);
         try {
             if(Schema.sObjectType.Dispositions__c.isCreateable() && Schema.sObjectType.Dispositions__c.isUpdateable()) {
                 upsert(mapDisposition.values());
-            }    
+                
+            }
             for(String assetNo : mapWelcome.keyset()) {
                 if(mapDisposition.containsKey(assetNo)) {
                     mapWelcome.get(assetNo).DispositionId = mapDisposition.get(assetNo).Id;
@@ -163,21 +162,11 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
             
             System.debug('@@@listRequest'+JSON.serialize(listWelcome));
             
-            //Callout
-            
-            
-            integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,JSON.serialize(listWelcome),null);
-            if(integrationResponse.StatusCode == 200) {
-                //Success
-            }
-            else {
-                ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
-            }
+            //Creating a queuable to separate DML & callout
+            System.enqueueJob(new ABHI_WelcomeBot_Queuable(JSON.serialize(listWelcome)));
         }
         catch(Exception e) {
             System.debug('@@e'+e.getMessage());
-            integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, e.getMessage()), true);
-            ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
         }
     }
 
