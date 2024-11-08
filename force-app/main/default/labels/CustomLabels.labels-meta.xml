@@ -1774,182 +1774,18 @@
         <shortDescription>RNWL_PageLink</shortDescription>
         <value>http://bit.ly/ABHRENEW</value>
     </labels>
-   
     <labels>
-        <fullName>ABHI_Case_Restriction_Creation</fullName>
+        <fullName>ABCL_BU_for_E2C_Rules</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI Case Restriction Creation</shortDescription>
-        <value>Source_Based_Case_Creation_Restriction,User_Source_Code_Based_Case_Creation_Restriction</value>
-    </labels>
-    <labels>
-        <fullName>Wellness_Insufficient_Access</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Wellness std access error message</shortDescription>
-        <value>insufficient access rights on object id</value>
+        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
+        <value>ABFL,ABSLI,ABHI</value>
     </labels>
     <labels>
-        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
-        <categories>Wellness</categories>
+        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
-        <value>No records are available for display.</value>
+        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABHI Email</value>
     </labels>
-    <labels>
-        <fullName>ABML_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_BU</shortDescription>
-        <value>ABML</value>
-    </labels>
-    <labels>
-        <fullName>RNWL_UserId</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RNWL_UserId</shortDescription>
-        <value>SFDC_ABHI</value>
-    </labels>
-    <labels>
-        <fullName>ABFL_GenAIIntegration</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABFL_GenAIIntegration</shortDescription>
-        <value>UNFYD</value>
-    </labels>
-    <labels>
-        <fullName>RNWL_CommunicationDailyFreq</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RNWL_CommunicationDailyFreq</shortDescription>
-        <value>You have exceeded the daily limit for sending this notification.</value>
-    </labels>
-    <labels>
-        <fullName>RNWL_CommunicationOverallFreq</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RNWL_CommunicationOverallFreq</shortDescription>
-        <value>You have exceeded the overall limit for sending this notification.</value>
-    </labels>
-    <labels>
-        <fullName>ABCD_Complaint_Creation_Email_ID</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCD Complaint Creation Email ID</shortDescription>
-        <value>Vinay.Singh16@adityabirlacapital.com.invalid</value>
-    </labels>
-    <labels>
-        <fullName>ABCD_Complaint_Creation_Email_Template</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCD Complaint Creation Email Template</shortDescription>
-        <value>ABCD_Complaint_Creation_Internal</value>
-    </labels>
-    <labels>
-        <fullName>ABCD_Business_Unit</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCD_Business_Unit</shortDescription>
-        <value>ABCD</value>
-     </labels>
-     <labels>
-        <fullName>ABML_LegacyPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_LegacyPageSize</shortDescription>
-        <value>10</value>
-    </labels>
-    <labels>
-        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
-        <categories>Wellness</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
-        <value>No records are available for display.</value>
-    </labels>
-    <labels>
-        <fullName>ABML_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_BU</shortDescription>
-        <value>ABML</value>
-    </labels>
-    <labels>
-        <fullName>SuppressCreateCase_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
-        <value>Wellness</value>
-    </labels>
-    <labels>
-        <fullName>ABCD_ONEABC_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCD_ONEABC_BU</shortDescription>
-        <value>ONEABC</value>
-    </labels>
-    <labels>	
-        <fullName>Payments_Critical_Alerts_Group</fullName>	
-        <language>en_US</language>	
-        <protected>false</protected>	
-        <shortDescription>Payments Critical Alerts Group</shortDescription>	
-        <value>remya.nambiar-v@adityabirlacapital.com,priyanka.shinde1-v@adityabirlacapital.com,Bhageerathi.R@adityabirlacapital.com,Tanmay.Mahale@adityabirlacapital.com,amit.ranjan2-v@adityabirlacapital.com</value>	
-    </labels>
-    <labels>	
-        <fullName>ABSLAMC_DataSyncUser_FederationId</fullName>	
-        <language>en_US</language>	
-        <protected>false</protected>	
-        <shortDescription>ABSLAMC DataSyncUser FederationId</shortDescription>	
-        <value>DataSyncUatFedId</value>	
-    </labels>
-    <labels>
-        <fullName>Exclude_subtype</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Exclude subtype</shortDescription>
-        <value>Re Kyc</value>
-    </labels>
-     <labels>
-        <fullName>ABML_ReportMessage2</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_ReportMessage2</shortDescription>
-        <value>You have submitted the Request for the Report.</value>
-    </labels>
-    <labels>
-        <fullName>ABML_Report_Message1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_Report_Message1</shortDescription>
-        <value>You cannot enter year before the Present Activate date on Account</value>
-    </labels>
-    <labels>
-        <fullName>ABHFL_EmailId_RequestClosure_Template_Id</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHFL EmailId RequestClosure Template Id </shortDescription>
-        <value>00XBi000000bx17MAA</value>
-    </labels>
-    <labels>
-        <fullName>ABCD_LitmusAppId</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCD_LitmusAppId</shortDescription>
-        <value>ll4w_touchpoint</value>
-   </labels>
-    <labels>
-        <fullName>Payment_Report_Fraud</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Payment Report Fraud</shortDescription>
-        <value>payments_indi_21,payments_indi_213,payments_indi_193</value>
-    </labels>
-    <labels>
-        <fullName>ABSLI_PIVC_Integration_CTST</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLI_PIVC_Integration_CTST</shortDescription>
-        <value>NBPC009,NBPC007,NBPC006,NBPC008,NBPC010,RPR001,NBRC004,NBPC012</value>
-   </labels>
 </CustomLabels>

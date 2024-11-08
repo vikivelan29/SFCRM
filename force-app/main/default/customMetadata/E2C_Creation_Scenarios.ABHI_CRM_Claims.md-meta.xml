@@ -12,6 +12,6 @@
     </values>
     <values>
         <field>ToAddress__c</field>
-        <value xsi:type="xsd:string">abhicl.crmclaims@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">ABHICL.CrmClaims@adityabirlacapital.com</value>
     </values>
 </CustomMetadata>

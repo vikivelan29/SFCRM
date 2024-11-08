@@ -4,7 +4,7 @@
     <columns>MasterLabel</columns>
     <columns>DeveloperName</columns>
     <columns>NamespacePrefix</columns>
-    <columns>Error_Message__c</columns>
+    <columns>ToAddress__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Business_Unit__c</field>
@@ -12,4 +12,5 @@
         <value>ABHI</value>
     </filters>
     <label>ABHI View</label>
+    <language>en_US</language>
 </ListView>
