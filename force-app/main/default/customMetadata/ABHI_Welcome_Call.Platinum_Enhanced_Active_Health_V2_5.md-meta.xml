@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Active One SAVR1</label>
+    <label>Platinum - Enhanced Active Health V2_5</label>
     <protected>false</protected>
     <values>
         <field>CMP_OPD__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Chronic_care__c</field>
@@ -20,14 +20,14 @@
     </values>
     <values>
         <field>Plan_Name__c</field>
-        <value xsi:type="xsd:string">SAVR</value>
+        <value xsi:type="xsd:string">Platinum - Enhanced</value>
     </values>
     <values>
         <field>ProductName__c</field>
-        <value xsi:type="xsd:string">Activ One</value>
+        <value xsi:type="xsd:string">Activ Health V2</value>
     </values>
     <values>
         <field>Service_Id__c</field>
-        <value xsi:type="xsd:string">adityabirla_welcome_external_upload</value>
+        <value xsi:type="xsd:string">ABHI_DRM_DUMP</value>
     </values>
 </CustomMetadata>
