@@ -47,7 +47,7 @@ public class ABHI_ClickPSSCommController_Test {
 
     @isTest static void testDoCommunication(){
         Asset ass = [SELECT id from Asset];
-        String formData = '{"commType":"SMS","template":"A6017","alertCode":"2","phoneNumber":"54434343434","emailId":""}';
+        String formData = '{"commType":"SMS","template":"A1159","alertCode":"2","phoneNumber":"54434343434","emailId":""}';
         User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
         String requestString = '';
         Test.setMock(HttpCalloutMock.class, new ABHI_PSSCommunicationMockHttpResponse());
@@ -61,7 +61,8 @@ public class ABHI_ClickPSSCommController_Test {
 
     @isTest static void testDoCommunicationFailure(){
         Asset ass = [SELECT id from Asset];
-        String formData = '{"commType":"SMS","template":"A6017","alertCode":"2","phoneNumber":"54434343434","emailId":""}';
+
+        String formData = '{"commType":"SMS","template":"A1159","alertCode":"2","phoneNumber":"54434343434","emailId":""}';
         User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
         String requestString = '';
         Test.setMock(HttpCalloutMock.class, new ABHI_PSSCommunicationMockFailureHttpResponse());

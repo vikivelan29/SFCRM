@@ -17,7 +17,10 @@ public with sharing class ASF_ContentDocLinkTriggerHandler extends ASF_VTriggerH
     public override void BeforeInsert(List<SObject> newItems){
          ASF_CaseFileUploadTriggerHelper.validateCaseFile((List<ContentDocumentLink>)newItems);
     }
-    
+    //Added for firing system notif on file upload - AMC
+    public override void AfterInsert(Map<Id, SObject> newItems){
+        ASF_CaseFileUploadTriggerHelper.checkifCaseAttachmentAdded((Map<Id, ContentDocumentLink>)newItems);
+    }
     /*public override void AfterInsert(Map<Id, SObject> newMap){
         checkForClosedCase(newMap);
     }    

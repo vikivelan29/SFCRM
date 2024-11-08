@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Bifurcation__c</fullName>
+    <externalId>false</externalId>
+    <label>Request Bifurcation</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Policy issued without customer consent</fullName>
+                <default>false</default>
+                <label>Policy issued without customer consent</label>
+            </value>
+            <value>
+                <fullName>Agent/Sales person has asked for OTP, however, didn&apos;t inform about policy</fullName>
+                <default>false</default>
+                <label>Agent/Sales person has asked for OTP, however, didn&apos;t inform about policy</label>
+            </value>
+            <value>
+                <fullName>Policy benefits available in documents are not the one informed by the agent (Miss Communication)</fullName>
+                <default>false</default>
+                <label>Policy benefits available in documents are not the one informed by the agent (Miss Communication)</label>
+            </value>
+            <value>
+                <fullName>Gift, freebies, Voucher, and Money-back were promised</fullName>
+                <default>false</default>
+                <label>Gift, freebies, Voucher, and Money-back were promised</label>
+            </value>
+            <value>
+                <fullName>Forcefully policy issued</fullName>
+                <default>false</default>
+                <label>Forcefully policy issued</label>
+            </value>
+            <value>
+                <fullName>Ped disclosed but not added in the policy</fullName>
+                <default>false</default>
+                <label>Ped disclosed but not added in the policy</label>
+            </value>
+            <value>
+                <fullName>New Business policy issued instead of Port</fullName>
+                <default>false</default>
+                <label>New Business policy issued instead of Port</label>
+            </value>
+            <value>
+                <fullName>New business policy issued instead of a renewal</fullName>
+                <default>false</default>
+                <label>New business policy issued instead of a renewal</label>
+            </value>
+            <value>
+                <fullName>It was informed policy is free of cost</fullName>
+                <default>false</default>
+                <label>It was informed policy is free of cost</label>
+            </value>
+            <value>
+                <fullName>False Information</fullName>
+                <default>false</default>
+                <label>False Information</label>
+            </value>
+            <value>
+                <fullName>Maternity covered</fullName>
+                <default>false</default>
+                <label>Maternity covered</label>
+            </value>
+            <value>
+                <fullName>Opd will be covered</fullName>
+                <default>false</default>
+                <label>Opd will be covered</label>
+            </value>
+            <value>
+                <fullName>Incomplete information provided</fullName>
+                <default>false</default>
+                <label>Incomplete information provided</label>
+            </value>
+            <value>
+                <fullName>Incorrect policy issued</fullName>
+                <default>false</default>
+                <label>Incorrect policy issued</label>
+            </value>
+            <value>
+                <fullName>Agent related</fullName>
+                <default>false</default>
+                <label>Agent related</label>
+            </value>
+            <value>
+                <fullName>Less tenured given</fullName>
+                <default>false</default>
+                <label>Less tenured given</label>
+            </value>
+            <value>
+                <fullName>Ped disclosed but not added in policy</fullName>
+                <default>false</default>
+                <label>Ped disclosed but not added in policy</label>
+            </value>
+            <value>
+                <fullName>Waiting period not informed</fullName>
+                <default>false</default>
+                <label>Waiting period not informed</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

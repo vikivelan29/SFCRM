@@ -1,0 +1,5 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <div style="height: 400px; overflow-y: auto;">
+        <c:abamc_OpenCasesByOwner />
+    </div>
+</aura:component>

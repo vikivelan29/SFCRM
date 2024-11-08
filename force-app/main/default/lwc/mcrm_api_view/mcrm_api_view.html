@@ -2,7 +2,7 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 10-17-2024
+  @last modified on  : 11-06-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
@@ -14,7 +14,7 @@
             <template lwc:if={showSpinner}>
                 <!-- <div class="slds-backdrop" role="presentation"></div> -->
                 <!-- <div class="slds-fade-in-open slds-modal_large"> -->
-                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                <lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
                 <!-- </div> -->
             </template>
             <template lwc:if={isShowDate}>
@@ -38,9 +38,9 @@
                     </lightning-layout-item>
                 </lightning-layout>
             </template>
-            <div class={renderBaseView}>
-                <c-mcrm_base_view_screen api_id={intAPIName} payload-info={payloadInfo} onrefresh={handleRefresh}></c-mcrm_base_view_screen>
-            </div>
+            <template lwc:if={renderBaseView}>
+                <c-mcrm_base_view_screen api_id={intAPIName} payload-info={payloadInfo} onrefresh={handleRefresh} show-preview={showPreview} show-refresh={showRefresh} is-loading={showSpinner}></c-mcrm_base_view_screen>
+            </template>
             <template lwc:if={isError}>
                 <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
                     <span class="slds-assistive-text">error</span>

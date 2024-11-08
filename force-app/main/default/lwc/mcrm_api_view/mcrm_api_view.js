@@ -88,6 +88,8 @@ export default class Wellness_api_view extends LightningElement {
 				}
 				this.showBaseViewScreen = true;
 			} else {
+				this.payloadInfo=undefined;
+				this.showBaseViewScreen = false;
 				this.handleError(
 					result,
 					payLoad
@@ -99,6 +101,9 @@ export default class Wellness_api_view extends LightningElement {
 			}, 200);
 		})
 		.catch((error) => {
+			this.payloadInfo=undefined;
+			this.showBaseViewScreen = false;
+			this.errorMessage = error.message;
 			this.showSpinner = false;
 			this.showError(this.label.MCRM_InvokeApiError);
 		});
@@ -210,6 +215,7 @@ export default class Wellness_api_view extends LightningElement {
     }
 
 	get renderBaseView(){
-		return this.showBaseViewScreen==true?'':'slds-hide';
+		// return this.showBaseViewScreen==true?'':'slds-hide';
+		return this.showBaseViewScreen==true?true:false;
 	}
 }

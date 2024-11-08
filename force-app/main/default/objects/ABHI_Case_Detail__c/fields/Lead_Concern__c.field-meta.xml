@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Concern__c</fullName>
+    <externalId>false</externalId>
+    <label>Lead Concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Health Insurance</fullName>
+                <default>false</default>
+                <label>Health Insurance</label>
+            </value>
+            <value>
+                <fullName>Cancer Secure</fullName>
+                <default>false</default>
+                <label>Cancer Secure</label>
+            </value>
+            <value>
+                <fullName>Critical Illness</fullName>
+                <default>false</default>
+                <label>Critical Illness</label>
+            </value>
+            <value>
+                <fullName>Personal Accident</fullName>
+                <default>false</default>
+                <label>Personal Accident</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
