@@ -129,4 +129,14 @@ public without sharing class RNWL_RelatedListHelper {
     public class LabelWrapper {
         @AuraEnabled public String fieldName;
     }
+
+    @AuraEnabled
+    public static void updateOpportunityFields(String recordId, String linkVal, Decimal amountVal) {
+        try {
+            Opportunity oppRec = new Opportunity(Id = recordId, Razor_Pay_Link__c = linkVal, Razor_Pay_Amount__c = amountVal);
+            update oppRec;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 }
