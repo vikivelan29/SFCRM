@@ -9,15 +9,10 @@
                         <valueListItems>
                             <value>Case.Customer_Tagging</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Customer_name_formula__c}</leftValue>
-                                    <operator>EQUAL</operator>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -340,6 +335,26 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Merged_into_SR__c</fieldItem>
                 <identifier>RecordMerged_into_SR_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.all_Emails__c</fieldItem>
+                <identifier>RecordAcc_Con_Email__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Demo_Field__c</fieldItem>
+                <identifier>RecordDemo_Field__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-abdd777e-23ab-47e8-a920-60e300a97774</name>
