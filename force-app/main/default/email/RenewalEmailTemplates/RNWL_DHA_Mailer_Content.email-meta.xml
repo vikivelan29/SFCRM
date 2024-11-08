@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
+    <description>DHA</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>RNWL DHA-Mailer Content</name>
+    <name>DHA-Mailer Content</name>
     <style>none</style>
-    <subject>Begin your health journey and start earning your policy premium back</subject>
+    <subject>Take the first step towards earning your policy premium back. #ABHIkaro</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
