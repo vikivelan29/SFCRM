@@ -59,15 +59,17 @@ export default class Abhi_pssReportCmp extends LightningElement {
             let returnedData=result;
             
             if(result.StatusCode==200){
-                let sortArr = result.PolicyInfo.sort((a, b) => (a.RECORD_PROCESS_DATE < b.RECORD_PROCESS_DATE ? 1 : -1));
-                sortArr.forEach(element => {
-                    element.EmailStatus = element.EMAIL_STATUS;
-                    element.ReferenceNumber = element.SNO;
-                    element.EmailId = element.EMAIL_ID;
-                    element.TemplateHeader = element.DOCUMENT_DESCRIPTION;
-                    element.MobileNumber = element.MOBILE_NO;
-                    element.SmsStatus = element.SMS_STATUS;
+                result.PolicyInfo.forEach(element => {
+                    if(element.MODE_OF_COMMUNICATION == 'Email'){
+                        element.Status = element.EMAIL_STATUS;
+                        element.CommunicationSentOn = element.EMAIL_ID;
+                    }
+                    else{
+                        element.Status = element.SMS_STATUS;
+                        element.CommunicationSentOn = element.MOBILE_NO;
+                    }
                     this.data.push(element);
+                    
                 });
                 this.showRecords=true;
                 this.isLoading=false;
