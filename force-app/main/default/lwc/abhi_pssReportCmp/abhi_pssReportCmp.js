@@ -67,17 +67,7 @@ export default class Abhi_pssReportCmp extends LightningElement {
                     element.TemplateHeader = element.DOCUMENT_DESCRIPTION;
                     element.MobileNumber = element.MOBILE_NO;
                     element.SmsStatus = element.SMS_STATUS;
-                result.PolicyInfo.forEach(element => {
-                    if(element.MODE_OF_COMMUNICATION == 'Email'){
-                        element.Status = element.EMAIL_STATUS;
-                        element.CommunicationSentOn = element.EMAIL_ID;
-                    }
-                    else{
-                        element.Status = element.SMS_STATUS;
-                        element.CommunicationSentOn = element.MOBILE_NO;
-                    }
-                    this.data.push(element);
-                    
+                    this.data.push(element); 
                 });
                 this.showRecords=true;
                 this.isLoading=false;
