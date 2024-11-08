@@ -4,6 +4,6 @@
     <name>Wellness Templates</name>
     <publicFolderAccess>ReadOnly</publicFolderAccess>
     <sharedTo>
-        <roleAndSubordinatesInternal>Wellness_Service_Agent</roleAndSubordinatesInternal>
+        <roleAndSubordinates>Wellness_Service_Agent</roleAndSubordinates>
     </sharedTo>
 </EmailFolder>
