@@ -217,29 +217,27 @@ public without sharing class ABHI_OmniDocViewController{
 
         List<ASF_Case_Integration__c> lstAsfCaseIntegration = new List<ASF_Case_Integration__c>();
         List<String> lstString = new List<String>();
-        List<EmailTemplate> lstEmailTemplate = new List<EmailTemplate>();
-        List<OrgWideEmailAddress> lstOrgWideEmailAddress = new List<OrgWideEmailAddress>();
+        EmailTemplate objEmailTemplate = new EmailTemplate();
+        OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
+        String strTemplateName; 
+        String strFromAddress; 
 
         try{
-            
-            String strTemplateName; 
-            String strFromAddress;
-
-           if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && mapRow != null ){
+            if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && !String.isBlank(strAccountEmail) && mapRow != null ){
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
                     strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
-                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME; 
+                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
                 }else if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
                     strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME_CASE;
-                    strFromAddress = System.label.ABHI_OmniDocOrgWideAddressDisplayName;//ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                    strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
                 }else{
                     strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
-                    strFromAddress = System.label.ABHI_OmniDocOrgWideAddressDisplayName;//ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                    strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
                 }
                 
-                lstOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress WITH SYSTEM_MODE LIMIT 1];
-                lstEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName WITH SYSTEM_MODE LIMIT 1];
+                objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
+                objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
                 lstAsfCaseIntegration = [SELECT Id, Business_External_Id__c, Status__c, Request__c, createdDate,
                                             (SELECT Id, ContentDocument.CreatedDate, ContentDocument.LatestPublishedVersion.FileType, ContentDocument.LatestPublishedVersion.VersionData, ContentDocument.LatestPublishedVersion.PathOnClient, ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)
                                             FROM ASF_Case_Integration__c
