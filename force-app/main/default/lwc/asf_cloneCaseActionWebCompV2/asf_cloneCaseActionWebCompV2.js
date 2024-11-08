@@ -103,8 +103,8 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             } 
             else if (data) {
                 console.log('data', JSON.stringify(data));
-                this.accountId = data.fields.Account.value.id;
-                this.accountName = data.fields.Account.displayValue;
+                this.accountId = data.fields.Account?.value?.id;
+                this.accountName = data.fields.Account?.displayValue;
                 this.caseBusinessUnit = data.fields.Business_Unit__c.value;
                 this.filter = {
                     criteria: [
@@ -120,7 +120,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                       {
                         fieldPath: "Client_Id__r.Id",
                         operator: "eq",
-                        value: this.accountId,
+                        value: this.accountId ?? '',
                       },
                     ],
                 };

@@ -4,6 +4,7 @@
     <label>ABSLAMC HO Restricted Download Access</label>
     <mutingPermissionSets>ABSLAMC_HO_Restricted_Download_Access_Muted</mutingPermissionSets>
     <permissionSets>ABCL_Create_Reports</permissionSets>
+    <permissionSets>ABSLAMC_Omnichannel</permissionSets>
     <permissionSets>AMC_Base_User_PS</permissionSets>
     <permissionSets>AMC_Send_Broadcasting_Messages</permissionSets>
     <permissionSets>Create_Case</permissionSets>
