@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>ProductName__c</field>
-        <value xsi:type="xsd:string">Activ Fit</value>
+        <value xsi:type="xsd:string">Activ fit</value>
     </values>
     <values>
         <field>Service_Id__c</field>
