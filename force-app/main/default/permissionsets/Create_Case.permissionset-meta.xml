@@ -5230,6 +5230,11 @@
         <field>ABCD_Case_Detail__c.TRAI_Registered__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Track_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Create Case</label>
     <objectPermissions>
