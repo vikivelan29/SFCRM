@@ -337,26 +337,6 @@
                 <identifier>RecordMerged_into_SR_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.all_Emails__c</fieldItem>
-                <identifier>RecordAcc_Con_Email__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Demo_Field__c</fieldItem>
-                <identifier>RecordDemo_Field__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-abdd777e-23ab-47e8-a920-60e300a97774</name>
         <type>Facet</type>
     </flexiPageRegions>
