@@ -130,7 +130,7 @@ public class RNWL_OpportunityTriggerHandlerTest {
         
         objOpp6.Cancel_Call_Response__c = 'a'; 
         
-        Opportunity objOpp7 = RNWL_TestDataFactory.createOpportunityRecords('Dialer Cancel Status submit Opp', acc.Id);
+        Opportunity objOpp7 = RNWL_TestDataFactory.createOpportunityRecords('Dialer Paid', acc.Id);
         
         objOpp7.StageName = 'Paid';//'Closed Won';
         
@@ -172,8 +172,8 @@ public class RNWL_OpportunityTriggerHandlerTest {
             if(objOpportunity.Name == 'Dialer Cancel Status Failed Opp' )
                 System.assertEquals(objOpportunity.Dialer_Status__c , 'Cancel Call Request Failed'); 
             
-            if(objOpportunity.Name == 'Dialer Cancel Status submit Opp' )
-                System.assertEquals(objOpportunity.Dialer_Status__c , 'Schedule Call Request Submitted'); 
+            if(objOpportunity.Name == 'Dialer Paid' )
+                System.assertEquals(objOpportunity.Dialer_Status__c , 'Cancel Call Request Submitted'); 
             
         } 
     }
