@@ -149,18 +149,16 @@
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear {{{Case.Customer_name_formula__c}}},<br />
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Wellness Pvt Ltd.</span></strong><br />
-												&nbsp;<br />
-												This is to acknowledge that we have received your concern regarding {{{Case.Type_Text__c}}} - {{{Case.Sub_Type_Text__c}}}. We are committed to resolving it within 2 business days.
+												<br />
+												This message is to inform you that your Case with Case ID {{{Case.CaseNumber}}} has been closed with below resolution remarks.<br />
+												<br />
+												$$WellnessCaseDetail__r.Resolution_Comments__c$$
 												<p>Should you require immediate assistance, please feel free to reach out to us at 08045860207.<br />
 												<br />
-												Thank you for your patience and cooperation.<br />
-												<br />
-												Note: Please DO NOT reply to this email. This email was sent from an email address that cannot receive responses.<br />
-												<br />
-												Regards,<br />
-												Team Aditya Birla Wellness</p>
+												Thank you for your patience and cooperation.</p>
 
-												<p>&nbsp;</p>
+												<p>Regards,<br />
+												Team Aditya Birla Wellness</p>
 												</div>
 												</td>
 											</tr>
