@@ -27,7 +27,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Account.State__c, Channel__c, Source__c, LAN__c
                       FROM Asset 
                       WHERE CreatedDate = N_DAYS_AGO:2 AND Business_Unit__c = :ABHI_Constants.ABHI
-                      AND CreatedBy.Username != 'abcdatasyncautomationuser@abc.com.abcprod']);
+                      AND CreatedBy.name != 'Data Sync Automation User']);
         scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username, ABHI_Retry__c,
                       Policy_Number__r.Account.Name, Policy_Number__r.Account.IsPersonAccount,
                       Policy_Number__r.Account.Phone, Policy_Number__r.Account.PersonMobilePhone,

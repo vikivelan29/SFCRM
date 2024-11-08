@@ -45,7 +45,7 @@ public class ABHI_WelcomeBot_BatchTest {
         Test.startTest();
         String strBody = '{"error": "Error sending message to SQS"}';
             Test.setMock(HttpCalloutMock.class, new ABHI_MockHttpResponseGenerator(500, strBody)); 
-        	new ABHI_WelcomeBot_Queuable('\t ').execute(null);
+        	new ABHI_WelcomeBot_Queuable('\t').execute(null);
         Test.stopTest();
     }
     
