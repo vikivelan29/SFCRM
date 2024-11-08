@@ -52,7 +52,7 @@ public with sharing class ABHI_Constants {
     public static final Integer STATUS_OK = 200;
     public static final String FROM_ADDRESS_DISPLAY_NAME = 'abcl.co.in';
     public static final String DT_LABEL = 'label';
-    public static final String DT_FIELDNAME = 'fieldName';
+    public static final String DT_FIELDNAME = 'ifeldName';
     public static final String DT_TYPE = 'type';
     public static final String DT_TYPEATTRIBUTES = 'typeAttributes';
     public static final String ERROR_CIO_PUBLISH = 'Error in publishing CIO event ';
