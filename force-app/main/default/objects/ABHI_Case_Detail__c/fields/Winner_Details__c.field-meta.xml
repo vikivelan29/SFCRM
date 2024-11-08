@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Winner_Details__c</fullName>
+    <externalId>false</externalId>
+    <label>Winner Details</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pan card</fullName>
+                <default>false</default>
+                <label>Pan card</label>
+            </value>
+            <value>
+                <fullName>Aadhar card</fullName>
+                <default>false</default>
+                <label>Aadhar card</label>
+            </value>
+            <value>
+                <fullName>Email ID</fullName>
+                <default>false</default>
+                <label>Email ID</label>
+            </value>
+            <value>
+                <fullName>Phone Number</fullName>
+                <default>false</default>
+                <label>Phone Number</label>
+            </value>
+            <value>
+                <fullName>Address</fullName>
+                <default>false</default>
+                <label>Address</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

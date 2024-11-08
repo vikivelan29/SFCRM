@@ -46,14 +46,9 @@
                 <label>ABHI</label>
             </value>
             <value>
-                <fullName>ABSLAMC</fullName>
+                <fullName>ABHI Renewals</fullName>
                 <default>false</default>
-                <label>ABSLAMC</label>
-            </value>
-            <value>
-                <fullName>Wellness</fullName>
-                <default>false</default>
-                <label>Wellness</label>
+                <label>ABHI Renewals</label>
             </value>
             <value>
                 <fullName>Wellness</fullName>

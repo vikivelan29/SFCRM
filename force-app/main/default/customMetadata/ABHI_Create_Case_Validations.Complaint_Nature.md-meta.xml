@@ -11,6 +11,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Channel__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Error_Message__c</field>
         <value xsi:nil="true"/>
     </values>

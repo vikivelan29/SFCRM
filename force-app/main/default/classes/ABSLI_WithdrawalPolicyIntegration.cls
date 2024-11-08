@@ -94,7 +94,7 @@ public with sharing class ABSLI_WithdrawalPolicyIntegration implements ASF_Integ
             WithdrawalPolicyRequestBody requestJSON = new WithdrawalPolicyRequestBody();
             requestJSON.TransNo = caseRecord.caseNumber;
             requestJSON.PolicyID = caseRecord.Asset.Policy_No__c;
-            requestJSON.EffectiveDt = String.valueOf(SYSTEM.TODAY());
+            requestJSON.EffectiveDt = String.valueOf(ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY'));
             requestJSON.IFSC_Code = caseRecord.ABSLI_Case_Detail__r.IFSC_Code__c;
             requestJSON.MICR_Code = ABSLI_Constants.BANKACCOUNTUPDATE_MICR_CODE;
             requestJSON.BankAccountNo = caseRecord.ABSLI_Case_Detail__r.Account_Number__c;

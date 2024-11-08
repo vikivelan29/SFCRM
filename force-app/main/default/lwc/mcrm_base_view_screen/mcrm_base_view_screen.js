@@ -15,7 +15,7 @@ export default class mcrm_base_view_screen extends LightningElement {
 
 	title;
 	isShowModal = false;
-	isLoading = false;
+	@api isLoading = false;
 	screenjson;
 	show = false;
 	tblcolumns;
@@ -33,16 +33,17 @@ export default class mcrm_base_view_screen extends LightningElement {
 
 	connectedCallback() {
 		this.callFunction();	
-		this.showRefresh=true;
-		this.showPreview=true;
+		
 	}
 
 	coreResult;
 	@api
 	async callFunction() {
-		
 		this.coreResult = await invokeCore(this._api_id, this.payloadInfo);
 		await this.generateScreen();
+
+		// 
+		this.template.querySelector('c-mcrm_-data-table-with-pagination').callFunction();
 	}
 
 	@api
@@ -146,7 +147,7 @@ export default class mcrm_base_view_screen extends LightningElement {
 
 	handleMenuSelect(){
 		this.dispatchEvent(new CustomEvent("refresh"));
-
+		this.isLoading = true;
 	}
 
 	get divBlock(){
@@ -184,4 +185,26 @@ export default class mcrm_base_view_screen extends LightningElement {
 	get refreshClass(){
 		return (this.showPreview==true)?"slds-float_right mcrmButton mcrmRefresh":"slds-float_right mcrmButton";
 	}
+
+	get inShowRefresh(){
+        let sr=false;
+		if(this.isLoading==true){
+			sr=false;
+		}else{
+			sr=true;
+		}
+        return sr;
+    }
+
+	get isInLoading(){
+        let sr=false;
+        if(this.changeView==true){
+            if(this.isLoading==true){
+                sr=true;
+            }else{
+                sr=false;
+            }
+        }
+        return sr;
+    }
 }

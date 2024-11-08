@@ -2,7 +2,7 @@
 @description       : 
 @author            : rsinghnagar@salesforce.com
 @group             : 
-@last modified on  : 10-17-2024
+@last modified on  : 11-06-2024
 @last modified by  : rsinghnagar@salesforce.com
 Modifications Log
 * Ver      Date           Author                     		Modification
@@ -27,11 +27,10 @@ Modifications Log
 
 					<!-- modal body start -->
 					<div class={bodyClass} id="modal-content-id-1">
-						<template if:true={isLoading}>
-							<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
-								class="slds-modal slds-fade-in-open slds-modal_large bring-to-front">
+						<template if:true={isInLoading}>
+							<div style="height: 100%;width: 100%;position:relative">
 								<lightning-spinner variant="brand" alternative-text="Loading" size="large"></lightning-spinner>
-							</section>
+							</div>
 							<div class="slds-backdrop" role="presentation"></div>
 						</template>
 
@@ -41,17 +40,17 @@ Modifications Log
 									<div key={section.label} class="c-container">
 										<lightning-accordion-section name={section.label} label={section.label}>
 											<div>
-												<!-- <template lwc:if={showPreview}> -->
+												<template lwc:if={showPreview}>
 													<lightning-button slot="actions" alternative-text="preview" icon-size="x-small"
 														onclick={handleChangeView} icon-name="utility:preview" class="slds-float_right mcrmButton">
 													</lightning-button>
-												<!-- </template> -->
-												<!-- <template lwc:if={showRefresh}> -->
+												</template>
+												<template lwc:if={inShowRefresh}>
 													<lightning-button slot="actions" alternative-text="Refresh" icon-size="x-small"
 													onclick={handleMenuSelect} icon-name="utility:refresh" class={refreshClass}>
 													</lightning-button>
 													&nbsp;
-												<!-- </template> -->
+												</template>
 												<lightning-layout multiple-rows size="12">
 													<template for:each={section.fields} for:item="field">
 														<lightning-layout-item padding="around-small" size="2" key={field.label}>
