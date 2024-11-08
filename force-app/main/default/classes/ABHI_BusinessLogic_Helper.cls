@@ -33,11 +33,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-               // populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
+                //populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
-               // populateFieldsOnCase(abhiNewCaseList, null);//RNWL
+                //populateFieldsOnCase(abhiNewCaseList, null);//RNWL
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
@@ -56,30 +56,41 @@ public with sharing class ABHI_BusinessLogic_Helper {
     public void sendSecondStageCommunication(List<Case> lstSecondStageCommNew,Map<Id, Case> mapSecondStageCommOld, String strTriggerContext){
         
         List<ASF_Case_Category_Config__c> lstCCCRecords = new List<ASF_Case_Category_Config__c>();
+        set<Id> setCaseIdsToQuery = new set<Id>();
         List<Case> lstCasesToWorkUpon = new List<Case>();
         set<Case> setCasesToCommunicate = new set<Case>();
         set<String> setCCCExternalIds = new set<String>();
         Map<String, Map<String, String>> mapStage2EmailTemplateMap = new Map<String, Map<String, String>>();
         Map<String, Map<String, String>> mapStage2SMSMetadataMap = new Map<String, Map<String, String>>();
+        Map<String, String> mapCCCExtId2SecondStageName = new Map<String, String>();
         
         List<Case> lstFinalCases = new List<Case>();
         Map<Id, String> mapFinalCaseId2Email = new Map<Id, String>();
         Map<Id, String> mapFinalCaseId2SMS = new Map<Id, String>();
         Map<Id, Boolean> mapFinalCaseId2isTransferred = new Map<Id, Boolean>();
+        List<ABHI_Case_Detail__c> lstABHICaseDetails2Update = new List<ABHI_Case_Detail__c>();
         
         if(!lstSecondStageCommNew.isEmpty() && mapSecondStageCommOld != null && !mapSecondStageCommOld.Values()?.isEmpty()){
             for(Case objCase: lstSecondStageCommNew){
-                if((!objCase.moved_back__c || objCase.Reopened__c) && (strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c))){
+                if(strTriggerContext == 'AfterASFCodeInAfterInsert' || (strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.Stage__c != mapSecondStageCommOld?.get(objCase.Id)?.Stage__c)){
                     setCCCExternalIds.add(objCase.CCC_External_Id__c);
-                    lstCasesToWorkUpon.add(objCase);
+                    setCaseIdsToQuery.add(objCase.Id);
                 }
             }
         }
         
+        lstCasesToWorkUpon = [SELECT Id, ABHI_Case_Detail__c, ABHI_Case_Detail__r.ABHI_isSecondStageAcknowledgementSent__c, 
+                              CCC_External_Id__c, Stage__c
+                              FROM Case
+                              WHERE Id IN: setCaseIdsToQuery
+                              WITH SYSTEM_MODE];
+        
         lstCCCRecords = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c,
-                         Additional_Email_Templates__c,Additional_SMS_Metadata__c, CCC_External_Id__c
+                         Additional_Email_Templates__c,Additional_SMS_Metadata__c, CCC_External_Id__c,
+                         (SELECT Id, StageName__c, Order__c FROM Case_Stage_Configs__r WHERE Order__c = 2 LIMIT 1)
                          FROM ASF_Case_Category_Config__c 
-                         WHERE CCC_External_Id__c IN: setCCCExternalIds];
+                         WHERE CCC_External_Id__c IN: setCCCExternalIds
+                         WITH SYSTEM_MODE];
         
         if(!lstCCCRecords.isEmpty()){
             for(ASF_Case_Category_Config__c objCCCRec : lstCCCRecords){
@@ -87,6 +98,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapStage2EmailTemplateMap.put(objCCCRec.CCC_External_Id__c, ABCL_IntegrationCommonUtility.fetchStpTemplates(objCCCRec.Additional_Email_Templates__c));
                 if(!String.isBlank(objCCCRec.Additional_SMS_Metadata__c))
                     mapStage2SMSMetadataMap.put(objCCCRec.CCC_External_Id__c, ABCL_IntegrationCommonUtility.fetchStpTemplates(objCCCRec.Additional_SMS_Metadata__c));
+                mapCCCExtId2SecondStageName.put(objCCCRec.CCC_External_Id__c, objCCCRec.Case_Stage_Configs__r.iterator().next().StageName__c);
             }
         }
         
@@ -98,15 +110,21 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapFinalCaseId2isTransferred.put(objCase.Id, false);
                 }
                 if(mapStage2SMSMetadataMap != null && mapStage2SMSMetadataMap.containsKey(objCase.CCC_External_Id__c) && mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c) != null && mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).containsKey(objCase.Stage__c) && !String.isBlank(mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c))){
-                    mapFinalCaseId2SMS.put(objCase.Id,mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c));
-                    setCasesToCommunicate.add(objCase);
-                    mapFinalCaseId2isTransferred.put(objCase.Id, false);
+                    if(mapCCCExtId2SecondStageName != null && mapCCCExtId2SecondStageName.containsKey(objCase.CCC_External_Id__c) && !String.isBlank(mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c))){
+                        if((mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c) != objCase.Stage__c) || (mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c) == objCase.Stage__c && !objCase.ABHI_Case_Detail__r?.ABHI_isSecondStageAcknowledgementSent__c)){
+                            mapFinalCaseId2SMS.put(objCase.Id,mapStage2SMSMetadataMap.get(objCase.CCC_External_Id__c).get(objCase.Stage__c));
+                            setCasesToCommunicate.add(objCase);
+                            mapFinalCaseId2isTransferred.put(objCase.Id, false);
+                            if(mapCCCExtId2SecondStageName.get(objCase.CCC_External_Id__c) == objCase.Stage__c)lstABHICaseDetails2Update.add(new ABHI_Case_Detail__c(Id = objCase.ABHI_Case_Detail__c, ABHI_isSecondStageAcknowledgementSent__c = true));
+                        }
+                    }
                 }
             }
             if(!setCasesToCommunicate.isEmpty())lstFinalCases.addAll(setCasesToCommunicate);
         }
         
         List<Database.SaveResult> lstPlatformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(lstFinalCases, mapFinalCaseId2Email, mapFinalCaseId2SMS, mapFinalCaseId2isTransferred);
+        if(!lstABHICaseDetails2Update.isEmpty())UPDATE lstABHICaseDetails2Update;
     }
                                                                                                                 
                                                                          
@@ -228,10 +246,10 @@ public with sharing class ABHI_BusinessLogic_Helper {
                      Account accountRec = [select Id,Is_Chronic__c, CMP_OPD__c, Chronic_care__c from account where Id=: String.valueOf(jsonMap.get('AccountId'))];
                      Asset assetRec = [select Id, ProductName__c, Plan_Name__c from asset where Id=: String.valueOf(jsonMap.get('AssetId'))];  
                      
-                      if(assetRec.ProductName__c != 'Active One' && accountRec.Is_Chronic__c == false){
+                      if(assetRec.ProductName__c != 'Activ One' && accountRec.Is_Chronic__c == false){
                           result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));
                       }
-                      else if((assetRec.ProductName__c == 'Active One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true))
+                      else if((assetRec.ProductName__c == 'Activ One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true))
                              && !(assetRec.Plan_Name__c == 'VYTL')){
                               result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));    
                       }
@@ -471,8 +489,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
                 ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
 
-                if( (metaDataRec.Source__c != caseSource) || 
-                    (String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
+                if(metaDataRec.Source__c != caseSource) {
                     result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
