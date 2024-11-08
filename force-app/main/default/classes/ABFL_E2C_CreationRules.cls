@@ -158,7 +158,7 @@ public with sharing class ABFL_E2C_CreationRules {
         // Iterate through words in actualValue
        	for (String word : actualWords) {
           	// Check if the current word matches the next word in expectedValue
-            if (expectedIndex < expectedWords.size() && expectedWords.get(expectedIndex).equals(word)) {
+            if (expectedIndex < expectedWords.size() && word.contains(expectedWords.get(expectedIndex))) {
                	expectedIndex++;
             }else{
                 expectedIndex = 0;
