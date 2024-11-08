@@ -368,7 +368,7 @@ public static string todayString = date.today().format();
                 String policyNumberText = '';
               ABHI_EscalatedIGMSComplaintIntegration.objReq requestJSON = new ABHI_EscalatedIGMSComplaintIntegration.objReq();
                 
-                requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
+              	requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
                 requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
                 requestJSON.Escalated_Remark = caseRecord.Escalation_Comment__c;
 
@@ -405,7 +405,7 @@ public static string todayString = date.today().format();
             if(newCaseIntegrations.size()>0){
                 List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false, AccessLevel.SYSTEM_MODE);
                 Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>(
-                    ABHI_IntegrationQueryHelper.getCaseIntegrations(newCaseIntegrations)
+                	ABHI_IntegrationQueryHelper.getCaseIntegrations(newCaseIntegrations)
                 );
                 for (Database.SaveResult sr : results) {
                     if (sr.isSuccess()) {
@@ -440,7 +440,7 @@ public static string todayString = date.today().format();
                         resultMap.put(indexToCaseId.values()[index], wrap);
                     }
                     index++;
-                } 
+				} 
             }
     }
     public static void createReopenedComplaintRequest(List<Case> caseRecords,
@@ -457,7 +457,7 @@ public static string todayString = date.today().format();
                 String policyNumberText = '';
                 ABHI_ReopenedIGMSComplaintIntegration.objReq requestJSON = new ABHI_ReopenedIGMSComplaintIntegration.objReq();
                 
-                requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
+               	requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
                 requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
 
                 string requestBody = JSON.serialize(requestJSON);
@@ -526,7 +526,7 @@ public static string todayString = date.today().format();
                         wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.ABSLI_IGMSSYNC_FAILURE_MESSAGE)
                             .Message__c;
                         resultMap.put(indexToCaseId.values()[index], wrap);
-                    }   
+                    }
                     index++;
                 } 
             }
