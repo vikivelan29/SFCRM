@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
-    <description>Policy Wordings Brochure Network Hospital List</description>
+    <description>Active One Migration PF/Concent</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Policy wording-brochure - network hospital list</name>
+    <name>Active One Migration PF</name>
     <relatedEntityType>Opportunity</relatedEntityType>
     <style>none</style>
-    <subject>Request for {Policy Wordings / Brochure / Network Hospital List for Policy No. {{{Opportunity.Policy_Number__c}}}</subject>
+    <subject>Activ one migration consent</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>
