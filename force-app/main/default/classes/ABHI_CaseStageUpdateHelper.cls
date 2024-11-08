@@ -76,7 +76,7 @@ public with sharing class ABHI_CaseStageUpdateHelper {
                 String nature = config.Nature__c;
 
                     // Check for specific condition When stage move from  Previous Stage.
-                    if ((oldCase.Previous_Stage__c == 'Resolved' || oldCase.Previous_Stage__c == 'Reopened'|| oldCase.Previous_Stage__c == 'In Progress'||oldCase.Previous_Stage__c =='Endorsement (In-Progress)') && 
+                    if ((oldCase.Previous_Stage__c == 'In Progress'|| oldCase.Previous_Stage__c =='Underwriting (In-Progress)'||oldCase.Previous_Stage__c =='Endorsement (In-Progress)') && 
                         newCase.Stage__c == 'Open' && Nature == 'Request') {
                         newCase.MoveToNext__c = true;
                        }
