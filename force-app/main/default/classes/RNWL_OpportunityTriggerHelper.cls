@@ -144,6 +144,7 @@ public class RNWL_OpportunityTriggerHelper {
                     recordsToUpdate.add(new Account(Id = opp.AccountId, Calling_Source__c = opp.Calling_Source__c));
                 }
             }
+            ASF_TriggerSkipperUtility.markTriggerRun('Case'); 
             if(recordsToUpdate.size() > 0){
                 update recordsToUpdate;
             }

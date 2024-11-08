@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>RNWL GHD form</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>GHD form</name>
+    <relatedEntityType>Opportunity</relatedEntityType>
+    <style>none</style>
+    <subject>GHD form</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>
