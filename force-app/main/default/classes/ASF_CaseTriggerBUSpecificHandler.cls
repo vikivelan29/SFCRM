@@ -100,7 +100,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
                     abhilCaseDetailHelperObj.populateABHILCaseDetailFields(mapOfBUToCases.get(businessUnit));
                     abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInAfterInsert');
-                    abhiBusinessLogicHlprClass.searchAndAssocFieldsForAPICases((List<Case>)newItems.values(), null, 'AfterASFCodeInAfterInsert');
+                    //abhiBusinessLogicHlprClass.searchAndAssocFieldsForAPICases((List<Case>)newItems.values(), null, 'AfterASFCodeInAfterInsert');
                 }
                 else if(businessUnit == 'ABFL'){
                     ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
@@ -159,7 +159,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_BU_CTSTHelper.validateManualApproval(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
-                    ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue
+                    ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue 
                     ABSLAMC_BU_CTSTHelper.checkAMCResolutionComments((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); 
                 }
                 else if(businessUnit == 'ABHI'){
@@ -213,7 +213,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
                     abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)mapOfBUToCases.get(businessUnit));
                     abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'AfterASFCodeInAfterUpdate');
-                    abhiBusinessLogicHlprClass.searchAndAssocFieldsForAPICases((List<Case>)newItems.values(), (Map<Id, Case>)oldItems, 'AfterASFCodeInAfterUpdate');
+                    //abhiBusinessLogicHlprClass.searchAndAssocFieldsForAPICases((List<Case>)newItems.values(), (Map<Id, Case>)oldItems, 'AfterASFCodeInAfterUpdate');
                 }
                 else if(businessUnit == 'ABFL'){
                     ABFL_InvokeLitmusProcess invokeLitmusProcessObj = new ABFL_InvokeLitmusProcess();
@@ -225,6 +225,10 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 else if(businessUnit == 'ABSLAMC'){
                     ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFields(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>) oldItems);
                     ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFieldsForCams(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>) oldItems);
+                }
+                else if(businessUnit == 'Wellness'){
+                    //PR1030924-219: calculate Billable Time on Case
+                    MCRM_CaseHelper.calculateBillableTimeOnCaseClose((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
                 }
             }
             ABCL_InvokeOneABC.evaluateCasesForOneABC(new Map<Id, Case>(mRecordTypeVsCases.get(frameworkRTId)), (Map<Id, Case>) oldItems);
@@ -271,4 +275,5 @@ public class ASF_CaseTriggerBUSpecificHandler {
         }
         return mapOfBUToCases;
     }
+    
 }
