@@ -35,7 +35,7 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
             String errorMessage ='';
             List<ABHI_Endorsement_API__mdt> customMetaList = [SELECT ID, Mandatory_Fields__c FROM ABHI_Endorsement_API__mdt WHERE MasterLabel = :caseRecord.Sub_Type_Text__c LIMIT 1]; 
             system.debug('customMeta---->'+customMetaList); 
-            if(!customMetaList.isEmpty() && caseRecord.Technical_Source__c == 'LWC') {
+            if(!customMetaList.isEmpty() && caseRecord.Technical_Source__c == 'LWC' && caseRecord.AssetId != null ) {
                 String strMandatFields = customMetaList[0].Mandatory_Fields__c ;
                 if(strMandatFields.contains('ABHI_Case_Detail__r.Member__c')){
                 	 errorMessage = 'Please update the Member field and other required fields if any and save';   
