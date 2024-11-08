@@ -32,47 +32,27 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHI_Constants.ERROR;
             boolean bErrorOccured = false;
-            String errorMessage =''; 
-            system.debug('subtype---->'+caseRecord.Sub_Type_Text__c); 
-            if ((caseRecord.Technical_Source__c == 'Email' && !String.valueOf(caseRecord.OwnerId).startsWith('00G')) || caseRecord.Technical_Source__c != 'Email') {
-                if(!customMetaMap.isEmpty()){
-                    ABHI_Endorsement_API__mdt customMetaRecord = customMetaMap.get(caseRecord.Sub_Type_Text__c);
-                       system.debug('customMetaass---->'+ customMetaRecord.Mandatory_Fields__c ); 
-                        if(customMetaRecord !=null && (caseRecord.Technical_Source__c == 'LWC' ||caseRecord.Technical_Source__c == 'Email')&& caseRecord.AssetId != null ) {
-                            String strMandatFields = customMetaRecord.Mandatory_Fields__c ; 
-                            if(strMandatFields.contains('ABHI_Case_Detail__r.Member__c')){
-                                 errorMessage = 'Please update the Member field and other required fields if any and save';   
-                            }
-                            else{
-                                 errorMessage = 'Please update the Existing Nominee Name Selection field and other required fields if any and save';     
-                            }
-                            List<String> mandatoryFields = strMandatFields.split(',');
-                            for (String field : mandatoryFields) {
-                            field = field.trim(); 
-                            if (field.containsIgnoreCase('__r')) {
-                                    Integer index = field.lastIndexOf('__r');
-                                    String baseField = field.substring(index + 4).trim(); 
-                                    System.debug('baseField---->' + baseField); 
-                                    ABHI_Case_Detail__c caseDetail = caseRecord.ABHI_Case_Detail__r;
-                                    if (caseDetail == null || caseDetail.get(baseField) == null) {
-                                        bErrorOccured = true;
-                                    }
-                                } 
-                                else {
-                                    if (caseRecord.get(field) == null) {
-                                        bErrorOccured = true;
-                                    }
-                                }
-                            }
-                        }         
-                        if(bErrorOccured){
-                            errorMessage = errorMessage.removeEnd(', ');
-                            result.response = errorMessage;
-                            resultMap.put(caseRecord.Id, result);
-                        } 
-                        else{
-                            result.status = ABHI_Constants.SUCCESS;
-                            result.response = 'Evaluation Success';
+            String errorMessage ='';
+            List<ABHI_Endorsement_API__mdt> customMetaList = [SELECT ID, Mandatory_Fields__c FROM ABHI_Endorsement_API__mdt WHERE MasterLabel = :caseRecord.Sub_Type_Text__c LIMIT 1]; 
+            system.debug('customMeta---->'+customMetaList); 
+            if(!customMetaList.isEmpty() && caseRecord.Technical_Source__c == 'LWC') {
+                String strMandatFields = customMetaList[0].Mandatory_Fields__c ;
+                if(strMandatFields.contains('ABHI_Case_Detail__r.Member__c')){
+                	 errorMessage = 'Please update the Member field and other required fields if any and save';   
+                }
+                else{
+                	 errorMessage = 'Please update the Existing Nominee Name Selection field and other required fields if any and save';     
+                }
+                List<String> mandatoryFields = strMandatFields.split(',');
+                for (String field : mandatoryFields) {
+                field = field.trim(); 
+                if (field.containsIgnoreCase('__r')) {
+                        Integer index = field.lastIndexOf('__r');
+                        String baseField = field.substring(index + 4).trim(); 
+                        System.debug('baseField---->' + baseField); 
+                        ABHI_Case_Detail__c caseDetail = caseRecord.ABHI_Case_Detail__r;
+                        if (caseDetail == null || caseDetail.get(baseField) == null) {
+                            bErrorOccured = true;
                         }
                         resultMap.put(caseRecord.Id, result);
                 	}
