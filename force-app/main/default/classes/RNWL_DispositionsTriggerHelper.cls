@@ -122,18 +122,24 @@ public class RNWL_DispositionsTriggerHelper {
     
             if(oppIds.size() > 0){
                 List<Opportunity> relatedRenewalReq = [SELECT Id, OwnerId ,
-                                                            (SELECT ID,Priority__c ,Agent_Name__c
+                                                            (SELECT ID,Priority__c ,Agent_Name__c,Call_Date_Time__c
                                                             FROM Dispositions__r ORDER BY CreatedDate DESC)
                                                        FROM Opportunity WHERE ID IN:oppIds ];
                 
                 for(Opportunity opp : relatedRenewalReq){
                     opp.Latest_Disposition__c = opp.Dispositions__r[0].Id;
-    
                     Integer priority;
+                    DateTime callDateTime;
                     for(Dispositions__c disp : opp.Dispositions__r){
-                        if(disp.Priority__c != null && (priority == null || disp.Priority__c < priority)){
+                        if(disp.Priority__c != null 
+                        && (priority == null || 
+                            Integer.valueOf(disp.Priority__c) < priority || 
+                            (callDateTime != null && Integer.valueOf(disp.Priority__c) ==  priority && disp.Call_Date_Time__c >  callDateTime))){
+
+                            callDateTime = disp.Call_Date_Time__c;
+                            priority = Integer.valueOf(disp.Priority__c);
+
                             opp.Best_Disposition__c = disp.Id;
-                            
                             if(disp.Agent_Name__c != null && opp.OwnerId != disp.Agent_Name__c){
                                 opp.OwnerId = disp.Agent_Name__c;
                             }

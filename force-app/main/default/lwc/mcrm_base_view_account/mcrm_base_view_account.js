@@ -93,11 +93,16 @@ const getAssessmentsActiveAge = (payload) => {
 }
 const getImproveMyStatus = (payload) => {
 	// Columns should be mapped as per dynamic table configuration
-	return (
-		payload?.responseMap?.resultsList != null  ? 
-		payload.responseMap.resultsList : 
-		[] 
-	);
+	let responseArray = [];
+	for (const key in payload) {
+		if (Object.hasOwn(payload, key)) {
+			if(typeof payload[key] !== 'string'){
+				const element = payload[key];
+				responseArray.push(element);
+			}
+		}
+	}
+	return responseArray;
 }
 const getLifestyleVoucher = (payload) => {
 	// Columns should be mapped as per dynamic table configuration

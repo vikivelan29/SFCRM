@@ -19,7 +19,7 @@ import OPP_PLAN_NAME from '@salesforce/schema/Opportunity.Policy__r.Plan_Name__c
 // Case Fields
 import CASE_ACCOUNT_EMAIL from '@salesforce/schema/Case.Account.PersonEmail';
 import CASE_ACCOUNT_ID from '@salesforce/schema/Case.AccountId';
-import CASE_ASSET_PLAN_NAME from '@salesforce/schema/Case.Asset.Plan_Name__c';
+import CASE_ASSET_PLAN_NAME from '@salesforce/schema/Case.AssetId';
 import CASE_NUMBER from '@salesforce/schema/Case.CaseNumber';
 import CASE_ID from "@salesforce/schema/Case.Id";
 
@@ -128,7 +128,7 @@ export default class ABHI_OmniDocView extends LightningElement {
             await getDataForDatatable({strAssetId: this.recordId, strPolicyNo: this.policyNumber}).then((response)=>{
                 if(response && response.SearchResponse){
                     for (let i = 0; i < response.SearchResponse.length; i++) {
-                        response.SearchResponse[i].policyNumber = this.policyNumber;
+                        if(this.objectApiName != 'Case') response.SearchResponse[i].policyNumber = this.policyNumber;
                         response.SearchResponse[i].rowUniqueId = Math.random().toString(16).slice(2,13);
                         if(response.SearchResponse[i].Error){
                             if(Array.isArray(response.SearchResponse[i].Error)){
