@@ -1724,7 +1724,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseManualStageController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseManualStageController_Test</apexClass>
@@ -2072,7 +2072,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_GetCaseRelatedDetails</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_GetCaseRelatedDetails_Test</apexClass>
