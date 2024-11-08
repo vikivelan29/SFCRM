@@ -241,6 +241,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Preferred_Name__pc</fieldItem>
+                <identifier>RecordPreferred_Name_pcField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Street_Address_1__c</fieldItem>
                 <identifier>RecordStreet_Address_1_cField2</identifier>
             </fieldInstance>

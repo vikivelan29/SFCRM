@@ -5,6 +5,7 @@
     <mutingPermissionSets>ABSLAMC_Call_Centre_Supervisor_Access_Muted</mutingPermissionSets>
     <permissionSets>ABCL_Create_Reports</permissionSets>
     <permissionSets>ABCL_Export_Reports</permissionSets>
+    <permissionSets>ABSLAMC_Omnichannel</permissionSets>
     <permissionSets>AMC_Base_User_PS</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>List_View_Management_Access</permissionSets>

@@ -35,12 +35,6 @@
             <layoutItems>
                 <field>Process_Steps__c</field>
             </layoutItems>
-            <layoutItems>
-                <field>Question__c</field>
-            </layoutItems>
-            <layoutItems>
-                <field>Answer__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>

@@ -918,7 +918,7 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab2</identifier>
-<visibilityRule>
+                <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.IsPersonAccount}</leftValue>
                         <operator>EQUAL</operator>
@@ -967,7 +967,7 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
-                            </componentInstance>
+            </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
         <name>maintabs</name>
@@ -995,12 +995,6 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
-                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>abamc_accountIndicator</componentName>

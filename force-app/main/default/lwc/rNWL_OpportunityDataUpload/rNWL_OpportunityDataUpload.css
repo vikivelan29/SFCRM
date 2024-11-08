@@ -1,3 +1,16 @@
 article.slds-grid_horizontal-stretch{
     height: 100%;
 }
+.buttons{
+    margin-top: 20pt;
+    margin-left: 150pt;
+    margin-bottom: 5pt;
+}
+.box{
+margin-left: 10pt;
+}
+
+.upload{
+    margin-top: 20pt;
+    
+}

@@ -89,7 +89,9 @@ public with sharing class ABHI_CreatePolicyWrapper {
 	public List<NomineeDetails> NomineeDetails;
     public List<PreviousPolicyDetails> PreviousPolicyDetails;
 	public Policy Policy;
-
+    public String StatusCode;
+	public String Message	;
+    
 	public class CustomerMemberMapping {
 		public String ClientId;
 		public String MemberId;
@@ -225,6 +227,10 @@ public with sharing class ABHI_CreatePolicyWrapper {
             this.StatusCode = StatusCode;
             this.StatusMessage = StatusMessage;
             this.StatusRemarks = StatusRemarks;
+        }
+        public ResponseWrapper(String StatusCode, String StatusMessage) {
+            this.StatusCode = StatusCode;
+            this.StatusMessage = StatusMessage;
         }
     }
 }

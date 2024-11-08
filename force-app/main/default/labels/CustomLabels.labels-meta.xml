@@ -31,6 +31,13 @@
         <value>Communication History</value>
     </labels>
     <labels>
+        <fullName>ABHI_Kavach_Policy_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Kavach Policy Info</shortDescription>
+        <value>Data doesn&apos;t exist in salesforce. Please click on &apos;Retrieve Details button&apos; to create data in salesforce.</value>
+    </labels>
+    <labels>
         <fullName>ABHI_Retry</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1396,5 +1403,19 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC_LegacyPageSize</shortDescription>
         <value>10</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Callback_Number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Callback_Number</shortDescription>
+        <value>8045860569</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_PageLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_PageLink</shortDescription>
+        <value>http://bit.ly/ABHRENEW</value>
     </labels>
 </CustomLabels>

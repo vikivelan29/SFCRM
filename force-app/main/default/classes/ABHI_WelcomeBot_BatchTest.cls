@@ -1,13 +1,12 @@
 /*********************************************************
-*Class        :  ABHI_ViewPolicyInformation_Cntrl_Test
-*Author       :  Anirudh Raturi
-*Created Date :  02/00/2024
-*Last Modified:  02/00/2024
-*@description  :  Test Class for ABHI_ViewPolicyInformation_Controller
+*Class        :  ABHI_WelcomeBot_BatchTest
+*Author       :  Aditee Churiwala
+*Created Date :  04/11/2024
+*Last Modified:  04/11/2024
+*@description  :  Test Class for ABHI_WelcomeBot_Batch and ABHI_WelcomeBot_Queuable
 *********************************************************/
 @isTest
 public class ABHI_WelcomeBot_BatchTest {
-	 @testSetup
     static void setUpData(){
         
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
@@ -26,19 +25,27 @@ public class ABHI_WelcomeBot_BatchTest {
         astRec.ProductName__c = 'Active One';
         update astRec; 
         
-        
         Dispositions__c dis = new Dispositions__c(Disposition_L1__c = 'L1', Policy_Number__c = astRec.Id,
 							Status__c = 'Failure');
         insert dis;
     }   
-      @isTest
+    @isTest
     static void testBatchableMethods() {
-
+        setUpData();
         Test.startTest();
-        
+        String strBody = '{"message": "Message sent to SQS successfully","messageId": "cbba6bb5-04d5-40cd-9fc0-e939e408353f"}';
+		Test.setMock(HttpCalloutMock.class, new ABHI_MockHttpResponseGenerator(200, strBody)); 
         Database.executeBatch(new ABHI_WelcomeBot_Batch());
 		Integer count = [SELECT count() FROM Dispositions__c];
         System.assertEquals(1, count, 'disposition record created');
+        Test.stopTest();
+    }
+    @isTest
+    static void testBatchableMethodsException() {
+        Test.startTest();
+        String strBody = '{"error": "Error sending message to SQS"}';
+            Test.setMock(HttpCalloutMock.class, new ABHI_MockHttpResponseGenerator(500, strBody)); 
+        	new ABHI_WelcomeBot_Queuable('\t ').execute(null);
         Test.stopTest();
     }
     
