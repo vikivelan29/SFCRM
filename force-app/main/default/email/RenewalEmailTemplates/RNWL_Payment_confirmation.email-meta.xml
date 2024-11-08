@@ -3,10 +3,10 @@
     <available>true</available>
     <description>Payment Confirmation for Policy No.</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>RNWL Payment confirmation</name>
+    <name>Payment confirmation</name>
     <relatedEntityType>Opportunity</relatedEntityType>
     <style>none</style>
-    <subject>Subject: Payment Confirmation for Policy No. {{{Opportunity.Policy_Number__c}}}   </subject>
+    <subject>Payment Confirmation for Policy No. {{{Opportunity.Policy_Number__c}}}   </subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

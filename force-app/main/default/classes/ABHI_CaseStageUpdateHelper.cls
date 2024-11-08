@@ -46,7 +46,7 @@ public with sharing class ABHI_CaseStageUpdateHelper {
             Case newCase = newCases[i];
             Case oldCase = oldCases[i];
 
-            if (
+            if (newCase.CCC_External_Id__c !=oldCase.CCC_External_Id__c ||
                 newCase.OwnerId != oldCase.OwnerId ||
                 newCase.No_Auto_Communication__c !=
                 oldCase.No_Auto_Communication__c ||
@@ -84,7 +84,7 @@ public with sharing class ABHI_CaseStageUpdateHelper {
                             .StageName__c;
                     }
                     // Check for specific condition When stage move from  Previous Stage.
-                    if ((oldCase.Previous_Stage__c == 'Resolved' || oldCase.Previous_Stage__c == 'Reopened'|| oldCase.Previous_Stage__c == 'In Progress') && 
+                    if ((oldCase.Previous_Stage__c == 'In Progress'|| oldCase.Previous_Stage__c =='Underwriting (In-Progress)'||oldCase.Previous_Stage__c =='Endorsement (In-Progress)') && 
                         newCase.Stage__c == 'Open' && Nature == 'Request') {
                         newCase.MoveToNext__c = true;
                        }

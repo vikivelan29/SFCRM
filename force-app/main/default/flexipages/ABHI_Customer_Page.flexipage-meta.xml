@@ -1374,6 +1374,24 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>apiName</name>
+                    <value>ABHI_LegacyViewModal_LEGACY_CASE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>dtTableconfigName</name>
+                    <value>ABHI_LegacyCaseView</value>
+                </componentInstanceProperties>
+                <componentName>aBHI_LegacyCases</componentName>
+                <identifier>c_aBHI_LegacyCases</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-aedb996a-3de9-46db-b751-9149d2cc6cae</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1569,6 +1587,20 @@
                         <rightValue>ABHI Partner Base Profile</rightValue>
                     </criteria>
                 </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+         <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-aedb996a-3de9-46db-b751-9149d2cc6cae</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Legacy cases</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
