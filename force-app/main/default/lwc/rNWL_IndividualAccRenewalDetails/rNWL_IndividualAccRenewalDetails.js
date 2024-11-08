@@ -18,6 +18,35 @@ const columns = [
     { label: 'Disease Disclose', fieldName: 'PED', wrapText: true }
 ];  
 
+const columns_CombiPolicy = [
+    { label: 'Policy Number',       fieldName: 'combi_Policy_Number' , wrapText: true},
+    { label: 'Policy Owner',        fieldName: 'combi_Policy_Owner' , wrapText: true},
+    { label: 'Policy Start Date',   fieldName: 'combi_Policy_StartDate' , wrapText: true},
+    { label: 'Policy End Date',     fieldName: 'combi_Policy_EndDate' , wrapText: true},
+    { label: 'Policy Status',       fieldName: 'combi_Policy_Status' , wrapText: true},
+    { label: 'Policy Variant',      fieldName: 'combi_Policy_Variant' , wrapText: true},
+    { label: 'Product',             fieldName: 'combi_Policy_Product' , wrapText: true},
+    { label: 'Sub Plan',            fieldName: 'combi_Policy_SubPlan' , wrapText: true},
+    { label: 'Product Type',        fieldName: 'combi_Policy_ProductType' , wrapText: true},
+
+];
+
+const columns_CombiDispositions = [
+    { label: 'Disposition Name',  fieldName: 'Disposition_Url' , wrapText: true , type: 'url',
+        typeAttributes: {label: { fieldName: 'Disposition_Name' }, target: '_blank'}
+    },
+    { label: 'Combi Policy Number', fieldName: 'Combi_Policy_Number' , wrapText: true},
+    { label: 'Next Call Back Date Time', fieldName: 'Next_CallBack_Datetime' , wrapText: true},
+    { label: 'Disposition L1',      fieldName: 'Disostion_L1' , wrapText: true},
+    { label: 'Disposition L2',      fieldName: 'Disostion_L2' , wrapText: true},
+    { label: 'Disposition L3',      fieldName: 'Disostion_L3' , wrapText: true},
+    { label: 'Call Date/Time',      fieldName: 'Call_DateTime' , wrapText: true},
+    { label: 'Agent Name',          fieldName: 'Agent_Name' , wrapText: true},
+    { label: 'Remarks',             fieldName: 'Remark' , wrapText: true},
+    { label: 'Calling Unit',        fieldName: 'Calling_Unit' , wrapText: true},
+    { label: 'Calling Mode',        fieldName: 'Calling_Mode' , wrapText: true},
+];
+
 export default class RNWL_IndividualAccRenewalDetails extends LightningElement {  
     @api opportunityId;  // coming from parent component
     @track policylst;
@@ -25,7 +54,9 @@ export default class RNWL_IndividualAccRenewalDetails extends LightningElement {
     @track ErrorMessage;   
     @track showData; 
     @track showError;   
-    columns = columns;    
+    columns = columns;   
+    columns_CombiPolicy=columns_CombiPolicy; 
+    columns_CombiDispositions=columns_CombiDispositions;
      
     connectedCallback(){
         console.log('this.opportunityId',this.opportunityId);

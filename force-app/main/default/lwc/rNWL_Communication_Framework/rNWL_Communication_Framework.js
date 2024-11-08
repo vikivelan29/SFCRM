@@ -1,7 +1,12 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import notifyUsers from '@salesforce/apex/RNWL_CommunicationFrameworkController.notifyUsers';
 import getMetadata from '@salesforce/apex/RNWL_CommunicationFrameworkController.fetchCommunicationMDT';
+import ACCOUNT_Phone from '@salesforce/schema/Opportunity.Account.Phone'; 
+import ACCOUNT_Email from '@salesforce/schema/Opportunity.Account.PersonEmail'; 
+import { getRecord,getFieldValue } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+
+const fields = [ACCOUNT_Phone,ACCOUNT_Email];
 
 export default class RNWL_Communication_Framework extends LightningElement {
     @api recordId;
@@ -14,8 +19,8 @@ export default class RNWL_Communication_Framework extends LightningElement {
     notifyFlag = true;
     showSpinner = false;
     // property needs to be ind with data from controller:
-    currentEmail = 'test@test.com';
-    currentPhone = '9876543210';
+    currentEmail;
+    currentPhone;
     isEmailNeeded = false;
     isPhoneNeeded = false;
     inputEmail;
@@ -28,12 +33,24 @@ export default class RNWL_Communication_Framework extends LightningElement {
     selectedTemplate;
     templateOptions=[];
 
+    ccEmailHelpText='Please use ";" separated valid emails';
+
     communicationOptions = [
         { label: 'Email', value: 'Email' },
         { label: 'SMS', value: 'SMS' },
         { label: 'Whatsapp', value: 'Whatsapp' },
     ];
-  
+
+    @wire(getRecord, { recordId: '$recordId', fields }) 
+    record({ error, data }){
+        if (data) {
+            this.currentPhone = getFieldValue(data, ACCOUNT_Phone); 
+            this.currentEmail = getFieldValue(data, ACCOUNT_Email); 
+        }else if(error){
+            console.log('error-', JSON.stringify(error));
+        }
+    }
+
     connectedCallback(){
         this.userList = [];
         this.showSpinner = true;
@@ -132,8 +149,8 @@ export default class RNWL_Communication_Framework extends LightningElement {
         let email = this.template.querySelector(".ccAddressCmp");
         let isValidEmails = true;
         if(emailAddresses) {
-            if(emailAddresses.includes(",")) {
-                emailAddresses.split(",").forEach(element => {
+            if(emailAddresses.includes(";")) {
+                emailAddresses.split(";").forEach(element => {
                     if (!element.trim().match(this.emailRegex)) {
                         isValidEmails = false;
                     }

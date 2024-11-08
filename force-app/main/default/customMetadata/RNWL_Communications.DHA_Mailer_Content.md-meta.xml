@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Request for Payment Link (002)</label>
+    <label>DHA-Mailer Content</label>
     <protected>false</protected>
     <values>
         <field>Class_Name__c</field>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Metadata_Name__c</field>
-        <value xsi:type="xsd:string">RNWL_Request_for_payment_link</value>
+        <value xsi:type="xsd:string">RNWL_DHA_Mailer_Content</value>
     </values>
     <values>
         <field>Method_Name__c</field>
@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>User_Friendly_Name__c</field>
-        <value xsi:type="xsd:string">Request for Payment Link (002)</value>
+        <value xsi:type="xsd:string">DHA</value>
     </values>
     <values>
         <field>WhatsApp__c</field>
