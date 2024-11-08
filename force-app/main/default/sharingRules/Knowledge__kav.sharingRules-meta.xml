@@ -6,22 +6,33 @@
         <description>Rule to share all articles owned by ABFL role to other ABFL users</description>
         <label>ABFL Sharing Rule</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
         <fullName>ABHFL_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Rule to share all articles owned by ABFL role to other ABFL users</description>
-        <label>ABFL Sharing Rule</label>
+        <description>Rule to share all articles owned by ABHFL role to other ABHFL users</description>
+        <label>ABHFL Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_All_User</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC All User</label>
+        <sharedTo>
+            <group>ABSLAMC_ALL_Users</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABSLAMC_ALL_Users</group>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>

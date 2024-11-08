@@ -183,10 +183,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
             peLogger.LOB__c = caseRecord.Business_Unit__c;
             peLogger.Lead__c = caseRecord.Lead__c;
         } else {
-            if(!caseFieldValMap.containsKey('Business_Unit__c')){
+            if(caseFieldValMap.containsKey('Business_Unit__c')){
                 peLogger.LOB__c = caseRec.Business_Unit__c;
             }
-            if(!caseFieldValMap.containsKey('Lead__c')){
+            if(caseFieldValMap.containsKey('Lead__c')){
                 peLogger.Lead__c = caseRec.Lead__c;
             }
         }

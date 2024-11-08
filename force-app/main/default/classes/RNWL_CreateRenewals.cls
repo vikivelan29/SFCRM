@@ -50,7 +50,9 @@ global with sharing class RNWL_CreateRenewals {
                 StageName = 'Open',
                 Name = 'RN-' + each.policyNumber,
                 Mobile_Number__c = assetMap.get(each.policyNumber) == null ? null : assetMap.get(each.policyNumber).Account.Phone,
-                Payment_Link__c = finalLink
+                Payment_Link__c = finalLink,
+                Description = System.Label.RNWL_Callback_Number,
+                NextStep = System.Label.RNWL_PageLink
             ));
         }
 

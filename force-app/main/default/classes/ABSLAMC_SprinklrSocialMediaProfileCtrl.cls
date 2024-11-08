@@ -5,17 +5,24 @@ public with sharing class ABSLAMC_SprinklrSocialMediaProfileCtrl {
         
         responseWrapper resultWrap = new responseWrapper();
         String request = '';
-        Account acc = getAccount(accId);
-
-        if(!String.isEmpty(acc.PersonEmail) && !String.isEmpty(acc.PersonMobilePhone)){
-            request = '{"customerEmail ":"'+acc.PersonEmail+'","customerMobile ":"'+acc.PersonMobilePhone+'"}'; 
-        } else if(!String.isEmpty(acc.PersonEmail)){
-            request = '{"customerEmail ":"'+acc.PersonEmail+'"}'; 
-        } else if(!String.isEmpty(acc.PersonMobilePhone)){
-            request = '{"customerMobile ":"'+acc.PersonMobilePhone+'"}'; 
+        
+        Map<String,String>  emailPhoneMap = getAccount(accId);
+        String email = emailPhoneMap.get('Email');
+        String phone = emailPhoneMap.get('Phone');
+        System.debug('Email:'+email+' Phone:'+phone);
+        
+        // Build the JSON request based on available data
+        if (!String.isEmpty(email) && !String.isEmpty(phone)) {
+            request = '{"customerEmail":"'+email+'","customerMobile":"'+phone+'"}';
+        } else if (!String.isEmpty(email)) {
+            request = '{"customerEmail":"'+email+'"}';
+        } else if (!String.isEmpty(phone)) {
+            request = '{"customerMobile":"'+phone+'"}';
         }
-        System.debug('Request:'+request);
-          ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('ABAMC_Get_Social_Media_Profile', request, null);
+        
+        System.debug('Request:' + request);
+        
+        ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('ABAMC_Get_Social_Media_Profile', request, null);
         if(responseWrapper != null && responseWrapper.statusCode == 200){
             resultWrap.responseBody = responseWrapper.responseBody;
             resultWrap.isSuccess = true;
@@ -28,11 +35,41 @@ public with sharing class ABSLAMC_SprinklrSocialMediaProfileCtrl {
         
     }
     
-    public static Account getAccount(string accId){
-        return [Select Id,PersonEmail,PersonMobilePhone from Account
-                Where id =: accId
-                AND Business_Unit__c =: ABSLAMC_Constants.ABSLAMCBU LIMIT 1];
+    public static Map<String, String> getAccount(String accId) {
+        Account account = [
+            SELECT Id,PersonEmail,PersonMobilePhone,Office_Email__c,Phone,RecordType.DeveloperName,
+            (SELECT Id,Phone,Email FROM Contacts LIMIT 1)
+            FROM Account
+            WHERE Id = :accId
+            AND Business_Unit__c = :ABSLAMC_Constants.ABSLAMCBU
+            LIMIT 1
+        ];
+        System.debug(account);
+        System.debug(account.Contacts);
+        
+        Map<String, String> result = new Map<String, String>();
+        if (account.RecordType.DeveloperName == 'ABSLAMC_Non_Individual_Distributor' || 
+            account.RecordType.DeveloperName == 'Non_Individual') {
+                
+                if (!account.Contacts.isEmpty()) {
+                    Contact primaryContact = account.Contacts[0];
+                    result.put('Email', primaryContact.Email);
+                    result.put('Phone', primaryContact.Phone);
+                } else {
+                    result.put('Email', '');
+                    result.put('Phone', ''); 
+                }
+                
+            } else if (account.RecordType.DeveloperName == 'ABSLAMC_Individual_Distributor' || 
+                       account.RecordType.DeveloperName == 'Individual') {
+                           
+                           result.put('Email', account.PersonEmail);
+                           result.put('Phone', account.PersonMobilePhone);
+                       }
+        
+        return result;
     }
+    
     
     public class responseWrapper {
         @AuraEnabled public Boolean isSuccess{get;set;}

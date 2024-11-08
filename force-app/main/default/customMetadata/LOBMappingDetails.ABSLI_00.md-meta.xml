@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>Source__c</field>
-        <value xsi:type="xsd:string">Branch (walk-in / phone),Chatbot,Customer Portal,E-mail</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Sub_Source__c</field>

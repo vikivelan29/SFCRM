@@ -4,7 +4,6 @@
     <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
@@ -19,6 +18,11 @@
                 <fullName>Renewed</fullName>
                 <default>false</default>
                 <label>Renewed</label>
+            </value>
+            <value>
+                <fullName>Paid</fullName>
+                <default>false</default>
+                <label>Paid</label>
             </value>
         </valueSetDefinition>
     </valueSet>

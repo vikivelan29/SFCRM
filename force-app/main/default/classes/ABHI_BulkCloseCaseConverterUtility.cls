@@ -125,7 +125,9 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
                 caseRec.moved_back__c = false;
                 caseRec.Is_Manual_Moved__c = true;
                 caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
-                caseRec.Resolution_Comments__c = resolutionComments;
+                ABHI_Case_Detail__c caseDetRec = new ABHI_Case_Detail__c();
+                caseDetRec.Resolution_Comments__c = resolutionComments;
+                caseRec.Bulk_CaseDetail_JSON__c = JSON.serialize(caseDetRec);
             }else if(stage == 'Unresolved'){
                 caseRec.Stage__c = stage;
                 caseRec.Status = stage;
