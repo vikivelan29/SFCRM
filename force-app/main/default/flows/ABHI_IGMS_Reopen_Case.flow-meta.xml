@@ -4,8 +4,8 @@
     <decisions>
         <name>CloseDateWithin56</name>
         <label>CloseDateWithin56</label>
-        <locationX>572</locationX>
-        <locationY>290</locationY>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Not_Eligible</targetReference>
         </defaultConnector>
@@ -43,7 +43,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -56,8 +56,8 @@
     <recordLookups>
         <name>Get_Case</name>
         <label>Get Case</label>
-        <locationX>572</locationX>
-        <locationY>182</locationY>
+        <locationX>314</locationX>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CloseDateWithin56</targetReference>
@@ -77,8 +77,8 @@
     <recordUpdates>
         <name>Update_Case</name>
         <label>Update Case</label>
-        <locationX>308</locationX>
-        <locationY>614</locationY>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
         <faultConnector>
             <targetReference>ErrorScreen</targetReference>
         </faultConnector>
@@ -137,8 +137,8 @@
     <recordUpdates>
         <name>Update_Case_Detail</name>
         <label>Update Case Detail</label>
-        <locationX>308</locationX>
-        <locationY>506</locationY>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
         <connector>
             <targetReference>Update_Case</targetReference>
         </connector>
@@ -168,8 +168,8 @@
     <screens>
         <name>ErrorScreen</name>
         <label>ErrorScreen</label>
-        <locationX>572</locationX>
-        <locationY>722</locationY>
+        <locationX>314</locationX>
+        <locationY>674</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -184,8 +184,8 @@
     <screens>
         <name>Escalate_Case</name>
         <label>Escalate Case</label>
-        <locationX>308</locationX>
-        <locationY>398</locationY>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -268,8 +268,8 @@
     <screens>
         <name>Not_Eligible</name>
         <label>Not Eligible</label>
-        <locationX>836</locationX>
-        <locationY>398</locationY>
+        <locationX>578</locationX>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -282,8 +282,8 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>446</locationX>
-        <locationY>48</locationY>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Get_Case</targetReference>
         </connector>

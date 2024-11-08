@@ -65,11 +65,6 @@
                 <label>Wellness</label>
             </value>
             <value>
-                <fullName>ABHI</fullName>
-                <default>false</default>
-                <label>ABHI</label>
-            </value>
-            <value>
                 <fullName>Grievance</fullName>
                 <default>false</default>
                 <label>Grievance</label>
@@ -83,36 +78,6 @@
                 <fullName>Care</fullName>
                 <default>false</default>
                 <label>Care</label>
-            </value>
-            <value>
-                <fullName>ABHI Team 1</fullName>
-                <default>false</default>
-                <label>ABHI Team 1</label>
-            </value>
-            <value>
-                <fullName>ABML</fullName>
-                <default>false</default>
-                <label>ABML</label>
-            </value>
-            <value>
-                <fullName>ABHI_GRT</fullName>
-                <default>false</default>
-                <label>ABHI_GRT</label>
-            </value>
-            <value>
-                <fullName>ABCD</fullName>
-                <default>false</default>
-                <label>ABCD</label>
-            </value>
-            <value>
-                <fullName>ONEABC</fullName>
-                <default>false</default>
-                <label>ONEABC</label>
-            </value>
-            <value>
-                <fullName>ABSLI_Multiple_Email</fullName>
-                <default>false</default>
-                <label>ABSLI_Multiple_Email</label>
             </value>
         </valueSetDefinition>
     </valueSet>
