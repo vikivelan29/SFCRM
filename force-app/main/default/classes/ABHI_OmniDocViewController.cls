@@ -193,8 +193,8 @@ public without sharing class ABHI_OmniDocViewController{
             if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && !String.isBlank(strAccountEmail) && mapRow != null ){
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
-                    strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
-                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                    //strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
+                    //strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
                 }else if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
                     strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME_CASE;
                     strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
