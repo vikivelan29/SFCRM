@@ -67,7 +67,7 @@ export default class Abhi_pssReportCmp extends LightningElement {
                     element.TemplateHeader = element.DOCUMENT_DESCRIPTION;
                     element.MobileNumber = element.MOBILE_NO;
                     element.SmsStatus = element.SMS_STATUS;
-                    this.data.push(element); 
+                    this.data.push(element);
                 });
                 this.showRecords=true;
                 this.isLoading=false;
