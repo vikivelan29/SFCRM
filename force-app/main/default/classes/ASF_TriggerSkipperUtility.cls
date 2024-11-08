@@ -7,7 +7,10 @@ public with sharing class ASF_TriggerSkipperUtility {
     private static Map<String, boolean> skipperMap = new Map<String, boolean>{
         'Case-Before'=>true,
         'Case-After'=>true,
-        'ASF_Case_Integration__c-After'=>true
+        'User-Before'=>true,
+        'User-After'=>true,
+        'ASF_Case_Integration__c-After'=>true,
+        'CaseComment-Before'=>true
     };
     
     

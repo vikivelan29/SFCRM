@@ -1,3 +1,9 @@
+/******************************************************************************************
+ * Class         :  RNWL_CreateRenewals
+ * Author        :  Joshna
+ * Created Date  :  06/10/2024
+ * Description   :  Inbound custom REST service used by JARVIS to create ABHI Renewal Quotes
+*******************************************************************************************/
 @RestResource(urlMapping='/CreateRenewals/*')
 global with sharing class RNWL_CreateRenewals {
     @HttpPost
@@ -11,7 +17,7 @@ global with sharing class RNWL_CreateRenewals {
             allPolicyIds.add(each.policyNumber);
         }
 
-        for (Asset each : [SELECT Id, LAN__c, AccountId FROM Asset WHERE LAN__c IN :allPolicyIds]) {
+        for (Asset each : [SELECT Id, LAN__c, AccountId, Account.Phone FROM Asset WHERE LAN__c IN :allPolicyIds]) {
             assetMap.put(each.LAN__c, each);
         }
 
@@ -24,7 +30,8 @@ global with sharing class RNWL_CreateRenewals {
                 CloseDate = Date.today() + 60,
                 AccountId = assetMap.get(each.policyNumber) == null ? null : assetMap.get(each.policyNumber).AccountId,
                 StageName = 'Open',
-                Name = 'RN-' + each.policyNumber
+                Name = 'RN-' + each.policyNumber,
+                Mobile_Number__c = assetMap.get(each.policyNumber) == null ? null : assetMap.get(each.policyNumber).Account.Phone
             ));
         }
 

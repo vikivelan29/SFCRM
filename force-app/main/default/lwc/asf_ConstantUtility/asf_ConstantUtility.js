@@ -141,9 +141,6 @@ export const lanLabels = {
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
     },
-    ABSLAMC: {
-
-    },
     ABSLI: {
         ASSET_COLUMNS:[{
             label: 'Id',
@@ -330,7 +327,51 @@ export const lanLabels = {
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
         ],
-        
+        ASSET_COLUMNS:[{
+            label: 'Id',
+            fieldName: 'Id',
+            type: 'text',
+            fixedWidth: 1,
+            hideLabel: true,
+            hideDefaultActions: true
+        },
+        {
+            label: 'Name',
+            fieldName: 'Name',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Policy Status',
+            fieldName: 'Status',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Plan Name',
+            fieldName: 'Plan_Name__c',
+            type: 'currency',
+            initialWidth: 180
+        },
+        {
+            label: 'Policy Number',
+            fieldName: 'LAN__c',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Policy Type',
+            fieldName: 'PolicyType__c',
+            type: 'date',
+            initialWidth: 180
+        },
+        {
+            label: 'Start Date',
+            fieldName: 'Issue_Date__c',
+            type: 'date',
+            initialWidth: 180
+        }
+        ],
         SELECT_PRODUCT: "Select Policy",
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /Policy# /PAN#",
         CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and Policy combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
@@ -450,6 +491,10 @@ export const lanLabels = {
         }
         ],
         CTST_COLS: [
+            { label: '', type : 'button-icon', initialWidth: 50,
+               typeAttributes: { iconName: 'utility:info',  iconPosition : 'Right',                           
+                                title : {fieldName : 'Tool_Tip__c'}, variant :'bare' }
+            }, // added by Santosh - show tooltip for the CTSTs - US PR1030924-533 for ABSLAMC BU
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
@@ -483,7 +528,7 @@ export const lanLabels = {
         },
         {
             label: 'Contract No',
-            fieldName: 'LAN__c',
+            fieldName: 'ContractId__c',
             type: 'text',
             initialWidth: 180
         },

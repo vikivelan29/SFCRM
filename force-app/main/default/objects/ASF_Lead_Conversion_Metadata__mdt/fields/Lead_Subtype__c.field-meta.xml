@@ -60,6 +60,41 @@
                 <default>false</default>
                 <label>Activity - SIP Cancellation Saved Winback</label>
             </value>
+            <value>
+                <fullName>Activity - Lead Prospect</fullName>
+                <default>false</default>
+                <label>Activity - Lead Prospect</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Existing</fullName>
+                <default>false</default>
+                <label>Activity - Lead Existing</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Referral</fullName>
+                <default>false</default>
+                <label>Activity - Lead Referral</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead NFO</fullName>
+                <default>false</default>
+                <label>Activity - Lead NFO</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Campaign</fullName>
+                <default>false</default>
+                <label>Activity - Lead Campaign</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Dormant</fullName>
+                <default>false</default>
+                <label>Activity - Lead Dormant</label>
+            </value>
+            <value>
+                <fullName>Activity - Lead Zero Balance</fullName>
+                <default>false</default>
+                <label>Activity - Lead Zero Balance</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

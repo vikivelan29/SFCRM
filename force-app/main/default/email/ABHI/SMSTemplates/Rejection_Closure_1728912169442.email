@@ -1,0 +1,9 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear Customer,<br />
+We regret to inform you that your Service Request No.&nbsp;{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been rejected due to {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}. In case of any further assistance, please submit a fresh request with valid document proofs.<br />
+Regards,<br />
+ABHI</body>
+</html>

@@ -54,6 +54,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
@@ -959,6 +963,10 @@
         </values>
         <values>
             <fullName>ABHFL Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLAMC Email</fullName>
             <default>false</default>
         </values>
         <values>

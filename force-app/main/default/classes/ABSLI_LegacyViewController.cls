@@ -57,7 +57,16 @@ public with sharing class ABSLI_LegacyViewController {
             String integrationName = 'ABSLI_Legacy_Case';
             startDate = startDate != null?startDate:'';
             endDate = endDate != null?endDate:'';
-            String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, lob,msdCaseNumber));
+            String advisorCd = '';
+            System.debug(customerId);
+            List<Account> acc = [SELECT Id,Client_Code__c, Advisor_Code__c, RecordTypeId FROM Account WHERE Id =:customerId LIMIT 1];
+            customerId = acc[0].Client_Code__c;
+            advisorCd = '';
+            if(acc.size()>0 && acc[0].RecordTypeId == Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('ABSLI_Advisor').getRecordTypeId()){
+                advisorCd = acc[0].Advisor_Code__c;
+                customerId = '';
+            }
+            String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, lob,msdCaseNumber,advisorCd));
             System.debug('conPayload --> '+conPayload);
             ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
             
@@ -96,13 +105,15 @@ public with sharing class ABSLI_LegacyViewController {
         String FromDate;
         String ToDate;
         String LOB;
-        LegacyViewRequest(String customerId, String holdingNumber, String fromDate, String toDate, String lob,String caseNumber){
+        String AdvisorCode;
+        LegacyViewRequest(String customerId, String holdingNumber, String fromDate, String toDate, String lob,String caseNumber,String advisorCd){
             this.CustomerNumber = customerId;
             this.PolicyNumber  = holdingNumber;
             this.FromDate = fromDate;
             this.ToDate = toDate;
             this.LOB = lob;
             this.CaseNumber =caseNumber;
+            this.AdvisorCode = advisorCd;
         }
     }
     /*********************************************************

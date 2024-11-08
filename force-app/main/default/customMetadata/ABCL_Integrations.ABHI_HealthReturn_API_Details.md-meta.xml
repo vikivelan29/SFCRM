@@ -56,7 +56,7 @@
     </values>
     <values>
         <field>Timeout__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">120000.0</value>
     </values>
     <values>
         <field>URL_Parameters__c</field>

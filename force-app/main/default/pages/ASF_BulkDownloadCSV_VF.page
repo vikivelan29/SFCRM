@@ -5,10 +5,9 @@
 
    
   <script>
-    //console.log('ControllerExtension.caseIds',"{!selectedCasesList}");
      $Lightning.use("c:ASF_BulkUploadDownloadApp", function() {
          $Lightning.createComponent("c:aSF_BulkCsvUploadDownload",
-             {strURL:"{!$CurrentPage.URL}",strButtonName:"DownloadCSVButton",selectedCases:"{!selectedCasesList}"},
+             {strURL:"{!$CurrentPage.URL}",strButtonName:"DownloadCSVButton",selectedRecords:"{!selectedRecordsList}",objectApiName:"Case"},
              "compContainer",
              function(cmp) {
              }
