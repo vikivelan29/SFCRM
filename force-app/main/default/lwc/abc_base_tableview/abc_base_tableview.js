@@ -6,6 +6,8 @@ export default class Abfl_DataTableWithPagination extends LightningElement {
     @api tableData;
     @api key;
     @api pageSize; //No.of records to be displayed per page
+    @api inShowRefresh=false;
+    @api isLoading = false;
 
     isRenderDatatable = true;
 
@@ -128,5 +130,34 @@ export default class Abfl_DataTableWithPagination extends LightningElement {
 
     closeModal(){
     	this.changeViewFn();
+        this.inShowRefresh=false;
     }
+    get inShowRefresh(){
+        let sr=false;
+        if(this.changeView==true){
+            if(this.isLoading==true){
+                sr=false;
+            }else{
+                sr=true;
+            }
+        }
+        return sr;
+    }
+
+    get isInLoading(){
+        let sr=false;
+        if(this.changeView==true){
+            if(this.isLoading==true){
+                sr=true;
+            }else{
+                sr=false;
+            }
+        }
+        return sr;
+    }
+
+    handleMenuSelect(){
+		this.dispatchEvent(new CustomEvent("refresh"));
+		this.isLoading = true;
+	}
 }

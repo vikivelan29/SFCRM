@@ -16,6 +16,7 @@ export default class mcrm_DataTableWithPagination extends LightningElement {
     pageNumber = 1; //Page number
 
     connectedCallback() {
+        console.log('paginationEnabled-->',this.paginationEnabled);
         this.totalNoOfRecordsInDatatable = this.tableData?.length;
         if(this.totalNoOfRecordsInDatatable==0){
             this.emptyTable=true;
@@ -24,6 +25,18 @@ export default class mcrm_DataTableWithPagination extends LightningElement {
             this.paginationHelper();
         }
     }
+
+    @api
+	callFunction() {
+        console.log('paginationEnabled explicit-->',this.paginationEnabled);
+        this.totalNoOfRecordsInDatatable = this.tableData?.length;
+        if(this.totalNoOfRecordsInDatatable==0){
+            this.emptyTable=true;
+        }
+        if (this.totalNoOfRecordsInDatatable) {
+            this.paginationHelper();
+        }
+	}
 
     get notEmptyTable(){
         return !this.emptyTable;
@@ -76,15 +89,18 @@ export default class mcrm_DataTableWithPagination extends LightningElement {
             if (i === this.totalNoOfRecordsInDatatable) {
                 break;
             }
-            this.recordsToDisplay.push(this.tableData[i]);
+            //add ids to data
+            let obj = Object.assign({id:'Id-'+i}, this.tableData[i]);
+            this.recordsToDisplay.push(obj);
         }
     }
 
     callRowAction(event){
+        console.log('Hi'+JSON.stringify(event.detail.row));
         const custEvent = new CustomEvent(
             'rowaction', {
                 detail: event.detail.row
         });
         this.dispatchEvent(custEvent);                    
-    }
 }
+    }
