@@ -285,6 +285,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Is_Closure_Accepted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.Reason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Touch_Point_Received_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3890,6 +3900,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Policy_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Preferred_Communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4168,5 +4183,9 @@
     <customPermissions>
         <enabled>true</enabled>
         <name>ShowCreateLead</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Restrict_User_Updation</name>
     </customPermissions>
 </PermissionSet>
