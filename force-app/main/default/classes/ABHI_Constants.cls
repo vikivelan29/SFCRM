@@ -37,17 +37,19 @@ public with sharing class ABHI_Constants {
 
     //omnidocs
     public static final String EMAIL_TEMPLATE_DEVELOPER_NAME = 'OMNI_DOC_SEND_EMAIL_1724913452870';
+    public static final String EMAIL_TEMPLATE_DEVELOPER_NAME_CASE = 'OMNI_DOC_SEND_EMAIL_CASE_1731056543731';
     public static final String OMNI_INT_TYPE = 'OmniDoc';
     public static final String TASK_ID = 'Attachments';
     public static final String LOGICAL_ID = 'SFCRM';
     public static final String SEARCH_OPERATOR = 'OR';
     public static final String PARAM_ID = '2';
+    public static final String CASE_PARAM_ID = '17';
     public static final String CATEGORY_ID = '1009';
     public static final String OMNIDOC_INTEGRATION_NAME = 'ABHI_OmniDocSearchRequest';
     public static final Integer STATUS_OK = 200;
     public static final String FROM_ADDRESS_DISPLAY_NAME = 'abcl.co.in';
     public static final String DT_LABEL = 'label';
-    public static final String DT_FIELDNAME = 'fieldName';
+    public static final String DT_FIELDNAME = 'ifeldName';
     public static final String DT_TYPE = 'type';
     public static final String DT_TYPEATTRIBUTES = 'typeAttributes';
     public static final String ERROR_CIO_PUBLISH = 'Error in publishing CIO event ';

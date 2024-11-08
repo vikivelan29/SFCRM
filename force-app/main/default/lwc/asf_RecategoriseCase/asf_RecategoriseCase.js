@@ -23,6 +23,7 @@ import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
@@ -1028,6 +1029,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 *  Author - VIRENDRA
                 */
                 this.isasset = 'Prospect';
+            }
+
+            if(caseparsedObject.Business_Unit__c === ABSLAMC_BU){
+                this.handleChangeCTST();
             }
             this.loaded = true;
         }
