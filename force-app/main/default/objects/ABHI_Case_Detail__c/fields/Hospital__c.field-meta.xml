@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Hospital__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <inlineHelpText>Please enter HO- to view list of available Patients</inlineHelpText>
+    <externalId>false</externalId>
     <label>Hospital</label>
     <referenceTo>Health_Provider__c</referenceTo>
     <relationshipLabel>ABHI Case Details</relationshipLabel>

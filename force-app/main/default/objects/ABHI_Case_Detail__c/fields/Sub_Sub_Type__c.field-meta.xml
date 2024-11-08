@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Sub_Sub_Type__c</fullName>
+    <externalId>false</externalId>
     <label>Sub Sub Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
@@ -10,6 +11,26 @@
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
+            <value>
+                <fullName>Receiving multiple calls</fullName>
+                <default>false</default>
+                <label>Receiving multiple calls</label>
+            </value>
+            <value>
+                <fullName>Not interested for renewal</fullName>
+                <default>false</default>
+                <label>Not interested for renewal</label>
+            </value>
+            <value>
+                <fullName>Policy is already renewed even though receiving call for renewal</fullName>
+                <default>false</default>
+                <label>Policy is already renewed even though receiving call for renewal</label>
+            </value>
+            <value>
+                <fullName>Other, please specify</fullName>
+                <default>false</default>
+                <label>Other, please specify</label>
+            </value>
             <value>
                 <fullName>Mismatch in DOB</fullName>
                 <default>false</default>
@@ -46,46 +67,19 @@
                 <label>Others</label>
             </value>
             <value>
-                <fullName>Hike in premium amount</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Hike in premium amount</label>
-            </value>
-            <value>
                 <fullName>Mismatch of premium in renewal notice and website</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>Mismatch of premium in renewal notice and website</label>
             </value>
             <value>
-                <fullName>Not interested for renewal</fullName>
+                <fullName>Hike in premium amount</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Not interested for renewal</label>
-            </value>
-            <value>
-                <fullName>Other, please specify</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Other, please specify</label>
-            </value>
-            <value>
-                <fullName>Policy is already renewed even though receiving call for renewal</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Policy is already renewed even though receiving call for renewal</label>
+                <label>Hike in premium amount</label>
             </value>
             <value>
                 <fullName>Premium breakup required</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>Premium breakup required</label>
-            </value>
-            <value>
-                <fullName>Receiving multiple calls</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Receiving multiple calls</label>
             </value>
         </valueSetDefinition>
     </valueSet>
