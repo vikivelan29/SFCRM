@@ -33,11 +33,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-                //populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
+                populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
-                //populateFieldsOnCase(abhiNewCaseList, null);//RNWL
+                populateFieldsOnCase(abhiNewCaseList, null);//RNWL
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
@@ -518,7 +518,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
     * @return : void 
     * @description : Prepopulates Fields on Case during before insert and update
     */
-    /*public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
+    public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
         
         Set<Id> assetIds = new Set<Id>();
         List<Case> casesToUpdate = new List<Case>();
@@ -558,5 +558,5 @@ public with sharing class ABHI_BusinessLogic_Helper {
                rnwlCase.Renewal_Request__c = opp.Id;
             }
         }   
-    }*/
+    }
 }

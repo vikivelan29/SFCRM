@@ -13,10 +13,11 @@ public class RNWL_OpportunityTriggerHandlerTest {
         
         insert objUser;
 
-        Account acc = ASF_TestDataFactory.insertBusinessAccount('test', 'strCRN');
+        Account acc = RNWL_TestDataFactory.insertBusinessAccount('test', 'strCRN');
         
-        Asset asset = ASF_TestDataFactory.createAsset(acc.Id,''); 
-        ASF_TestDataFactory.insertBusinessAccount('test before opp', 'strCRN');  
+        Asset asset = RNWL_TestDataFactory.createAsset(acc.Id,''); 
+        
+        RNWL_TestDataFactory.insertBusinessAccount('test before opp', 'strCRN');  
         
     }
     
@@ -84,6 +85,8 @@ public class RNWL_OpportunityTriggerHandlerTest {
     private static void test_UpdatePolicyAndAccount(){
         Asset asst = [SELECT Id, AccountId, Calling_Source__c FROM Asset LIMIT 1];
         Opportunity opp = RNWL_TestDataFactory.createOpportunityRecords(asst.AccountId, asst.Id);
+        RNWL_TestDataFactory.createCase(asst.AccountId, asst.Id);
+        
         System.assertEquals(asst.Calling_Source__c, null, 'On Asset field is not Null To begin With!!!');
         
         Test.startTest();
@@ -129,7 +132,7 @@ public class RNWL_OpportunityTriggerHandlerTest {
         
         Opportunity objOpp7 = RNWL_TestDataFactory.createOpportunityRecords('Dialer Cancel Status submit Opp', acc.Id);
         
-        objOpp7.StageName = 'Closed Won';
+        objOpp7.StageName = 'Paid';//'Closed Won';
         
         
         lstOpportunity.add(objOpp1);
@@ -170,7 +173,7 @@ public class RNWL_OpportunityTriggerHandlerTest {
                 System.assertEquals(objOpportunity.Dialer_Status__c , 'Cancel Call Request Failed'); 
             
             if(objOpportunity.Name == 'Dialer Cancel Status submit Opp' )
-                System.assertEquals(objOpportunity.Dialer_Status__c , 'Cancel Call Request Submitted'); 
+                System.assertEquals(objOpportunity.Dialer_Status__c , 'Schedule Call Request Submitted'); 
             
         } 
     }
