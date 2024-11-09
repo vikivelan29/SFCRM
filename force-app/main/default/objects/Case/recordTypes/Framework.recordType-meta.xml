@@ -70,7 +70,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLAMC</fullName>
+            <fullName>ABHI</fullName>
             <default>false</default>
         </values>
         <values>
@@ -86,38 +86,80 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABHI</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Calling_Source__c</picklist>
+        <values>
+            <fullName>ATS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRM %28In-House%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona BOT</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Feature_Skipper_Flag__c</picklist>
+        <values>
+            <fullName>SKIP_APPROVAL_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_ASSIGNMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_CLOSE_CASE_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_INTEGRATION_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_OWNER_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_PERI_GENERATE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_ENTRY_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_EXIT_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_CHECKLISTS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_RECAT_PARAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_TASKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATION_CHECKS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
         <values>
-            <fullName>AML queries</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>AWB number capture</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Accounted renewal premium reversal</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Accrued Bonus Additions Value Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Additional information provided after issuance</fullName>
             <default>false</default>
         </values>
         <values>
@@ -133,22 +175,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Alternate Test or Medical Waiver</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Annuity</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Annuity option not clearly explained</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Application not logged</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Assignment Related</fullName>
             <default>false</default>
         </values>
@@ -161,35 +187,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Bonus</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Bonus Statement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Capital %2F Gain statement</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ChQ Reissuance%2FStop Payment Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Change of Bank Details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Change of beneficiary</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cheque Cancellation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cheque dishonor</fullName>
             <default>false</default>
         </values>
         <values>
@@ -213,18 +211,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Commission pass backs</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Conversion to Physical</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer unable to deposit maturity benefit cheque</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>D2C Lead</fullName>
             <default>false</default>
         </values>
@@ -237,23 +223,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Declined%2FPostponed</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Discontinued Payout Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Discrepancy in claim value</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Dishonor charges deducted by bank %2F dishonor communication recd</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Dispatch requests from customer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -273,10 +243,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Early Claim</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Email Id %2F mobile no</fullName>
             <default>false</default>
         </values>
@@ -285,19 +251,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Excess renewal payment refund related</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Explained On Call</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Extension of discontinue period - New ULIP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>FV</fullName>
             <default>false</default>
         </values>
         <values>
@@ -309,23 +263,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>GST invoice</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>HOLD Refund- Maturity%2F Termination</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Hold refund</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incomplete charges explained</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Initial</fullName>
             <default>false</default>
         </values>
         <values>
@@ -345,39 +283,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Life assured%27s signature forged on proposal form</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Loan</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Loan Account Statement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Loan Fund Transfer</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Loan Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Loan Renewal Fund Transfer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Loan not processed %2Fdelayed</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Loan repayment</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Maturity</fullName>
             <default>false</default>
         </values>
         <values>
@@ -393,23 +299,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Medical Test Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Miscellaneous</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Misselling</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Misselling payout</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mode altered without consent</fullName>
             <default>false</default>
         </values>
         <values>
@@ -418,10 +308,6 @@
         </values>
         <values>
             <fullName>NACH Auto Payment Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>NEFT Rejections%2FCheque Payout</fullName>
             <default>false</default>
         </values>
         <values>
@@ -437,14 +323,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>NRI- Residency opinion</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>NRI-Overseas Medicals Approval</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Name Change Related</fullName>
             <default>false</default>
         </values>
@@ -457,39 +335,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Nominee%2F Appointee Related Rectification</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Non Contractual Payout</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Non Disclosure payout</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Non Early Claim</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Null %26 Void Letter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OR Cancellation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ORD from HO</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Online Payment Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ops Certification Approval</fullName>
             <default>false</default>
         </values>
         <values>
@@ -509,26 +355,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>PPC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Partial withdrawal refund credited to wrong account number%2F wrong policy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Partial withdrawal request delayed%2F not received by customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Payout Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pilot-Financial or Medical Opinion</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Policy Benefit %26 Features</fullName>
             <default>false</default>
         </values>
@@ -538,26 +364,6 @@
         </values>
         <values>
             <fullName>Policy Dispatch %2F Delivery Details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Policy Reversal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Policy account statement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pre existing illness not covered</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Premium Receipt</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Premium due statement</fullName>
             <default>false</default>
         </values>
         <values>
@@ -573,47 +379,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Proposer%27s signature forged on proposal form</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Query from Chatbot</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Rate Up</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Receipt cancellation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reconciliation Refunds</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rectification in Client Profile Detail</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rectification in Investment profile %2F Fund Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rectification in policy level detail</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reduced paid - New ULIP</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Refund Cheque RTGS Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Refund Intimation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -665,27 +435,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Reject</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rejection not communicated</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Releasing hold refund</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Renewal Due Date%2FAmount</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal GST</fullName>
             <default>false</default>
         </values>
         <values>
@@ -717,55 +467,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Renewal Refund</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal premium used incorrectly</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reporting Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Requirements not informed</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Restricted SA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rider added%2Fdeleted without consent</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Riders Related%2FFace Amount Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Shortage requirement completed%2FRevival with Loan excluded</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Show Cause Letter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Spurious calls -Caller posed as IRDA person - policy has been purchased</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Stale cheque</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Stop Payment- cheque not received</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Stop payment</fullName>
             <default>false</default>
         </values>
         <values>
@@ -774,14 +476,6 @@
         </values>
         <values>
             <fullName>Surrender Procedure Value Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Surrender Retention by SM%2FZM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Surrender Retention by branch</fullName>
             <default>false</default>
         </values>
         <values>
@@ -797,31 +491,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Surrender certificate</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Surrender lock-in period not explained%5CIncorrectly Projected</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Surrender not processed or delayed</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Surrender query post lock-in</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Surrender query within lock-in</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Survival Benefit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Survival benefit not processed or delayed</fullName>
             <default>false</default>
         </values>
         <values>
@@ -833,35 +507,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>TDS Certificate</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>TDS Related</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>TPIN Not Recd Through SMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tagging of Non-medical requirement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tagging of Underwriter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tampered%2FForged%2FFake Documents</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tax Invoice</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tax certificate</fullName>
             <default>false</default>
         </values>
         <values>
@@ -881,14 +531,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Termination</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Third Party Premium Refund</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Top Up Related</fullName>
             <default>false</default>
         </values>
@@ -897,19 +539,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Transfer from old policy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>UW decision follow-up</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>User ID Creation Process%2FForgot password</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Video FMR Eligibility</fullName>
             <default>false</default>
         </values>
         <values>
@@ -917,23 +547,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Whatsapp Opt In</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Whatsapp Opt Out</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Withdrawal</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Withdrawal%2FSurvival Benefit Related</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>eIA opening</fullName>
             <default>false</default>
         </values>
         <values>
@@ -966,10 +580,6 @@
             <fullName>SMS</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>WhatsApp</fullName> 
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>
@@ -982,7 +592,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLAMC Email</fullName>
+            <fullName>ABHI Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1019,14 +629,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABHI Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Wellness Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1086,6 +688,10 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
+            <fullName>Additional information required</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Cancelled</fullName>
             <default>false</default>
         </values>
@@ -1130,10 +736,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Additional information required</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Rejected</fullName>
             <default>false</default>
         </values>
@@ -1154,25 +756,44 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>ResolutionReason__c</picklist>
+        <values>
+            <fullName>Closed as Exception</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed as Junk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Information Provided</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Problem Solved</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Source__c</picklist>
         <values>
-            <fullName>Phone</fullName>
+            <fullName>AHandroid</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Web (Mobile App)</fullName>
+            <fullName>AHios</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABCD App</fullName>
+            <fullName>AHweb</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABC_Servicing_App</fullName>
+            <fullName>ATS</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>AMFI</fullName>
+            <fullName>Abcd_app</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1180,11 +801,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Affinity Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Anywhere Service</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>App</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BFL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BRANCH EMAIL</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch %28walk-in %2F phone%29</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1196,139 +837,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Claims</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Claim Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Follow-up</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>IVR Voice BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Phone Inbound</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BRANCH EMAIL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Operation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OneABC_Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Provider Network</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal - Persistency</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service Assurance team</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sprinkler</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound – NPS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Underwriting</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ubona_IVRVoiceBOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ubona_RenewalBOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ubona_WelcomeBOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Abcd_app</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Distributor_WA_Bot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer_App</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer_Chatbot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer_Portal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer_WA_Bot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unified_Chatbot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unified_SalesApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unified_SalesPortal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unified_WA_Bot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PolicyBazar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>DRM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Welcome</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Welcome Call BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Branch %28walk-in %2F phone%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Branch Walk-In</fullName>
+            <fullName>Branch walk in</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1364,7 +873,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CashLessAnywhere</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claims</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Courier</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1372,7 +897,39 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Customer_App</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_Portal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_WA_Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DRM team</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Deadline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distributor_WA_Bot</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1388,14 +945,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Email - Branch</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Email - Call Centre</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Email- CEO Escalation</fullName>
             <default>false</default>
         </values>
@@ -1405,6 +954,10 @@
         </values>
         <values>
             <fullName>Fax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-up</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1440,7 +993,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>IVR-Bot</fullName>
+            <fullName>IVR Voice BOT</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1448,15 +1001,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Inbound %2F Outbound</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Inbound ABC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inbound Altruist</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1476,19 +1021,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Insurance Repositary website</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Insurance Repository</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Insurance Repository website</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Internal RM - Collection</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Internal Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1500,23 +1041,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Letter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Letter %2F Snail Mail</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Letters and Faxes</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Litigation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>NCH</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1528,7 +1057,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Mobile</fullName>
+            <fullName>NCH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NSTP</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1536,7 +1069,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Online Dispute Resolution %28ODR%29</fullName>
+            <fullName>OneABC_Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outbound %E2%80%93 NPS</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1560,11 +1101,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Phone - Branch</fullName>
+            <fullName>Phone</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Phone - Call Centre</fullName>
+            <fullName>Phone Inbound</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1573,6 +1114,14 @@
         </values>
         <values>
             <fullName>Phone-Outbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PolicyBazar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Provider Network</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1592,7 +1141,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>SEBI</fullName>
+            <fullName>Renewal - Persistency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal Team</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1608,11 +1161,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Service2Sales</fullName>
+            <fullName>Service Assurance team</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Social Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sprinkler</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1624,11 +1181,55 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Transaction Remediation</fullName>
+            <fullName>Ubona</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona_IVRVoiceBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona_RenewalBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona_WelcomeBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Underwriting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_SalesApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_SalesPortal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_WA_Bot</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Voice Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in to Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in- Branch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk-In</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1648,19 +1249,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Welcome</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Welcome BOT</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Welcome Call BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Call Centre</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Digital</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1672,10 +1277,6 @@
         </values>
         <values>
             <fullName>Open</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>In Progress with SA</fullName>
             <default>false</default>
         </values>
     </picklistValues>
