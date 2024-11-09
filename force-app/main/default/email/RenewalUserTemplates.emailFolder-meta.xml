@@ -2,7 +2,7 @@
 <EmailTemplateFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
         <accessLevel>Manage</accessLevel>
-        <sharedTo>joshna.reddy@salesforce.com</sharedTo>
+        <sharedTo>jpalla@salesforce.com.abcl.abcluat</sharedTo>
         <sharedToType>User</sharedToType>
     </folderShares>
     <folderShares>
