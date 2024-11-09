@@ -237,7 +237,7 @@
         <accessLevel>Read</accessLevel>
         <label>Share CCC to RNWL RM</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>RNWL_Reporting_Manager</roleAndSubordinatesInternal>
+            <roleAndSubordinates>RNWL_Reporting_Manager</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
