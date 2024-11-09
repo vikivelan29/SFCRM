@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Opportunities to verify" recipientType="Contact" relatedToType="Opportunity">
+<messaging:emailTemplate subject="Request for Payment Link for Policy No. {!relatedTo.Policy_Number__c}" recipientType="Contact" relatedToType="Opportunity">
    <messaging:htmlEmailBody >
         
          <img id="theImage" src="https://adityabirlafinancialsharedservices--sit.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Bl000000TjGH&oid=00DBl000000V6nV" width="200" height="100"/> <br/><br/><br/>

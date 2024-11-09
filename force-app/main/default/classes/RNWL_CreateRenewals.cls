@@ -21,7 +21,25 @@ global with sharing class RNWL_CreateRenewals {
             assetMap.put(each.LAN__c, each);
         }
 
+        String link = System.Label.RNWL_Auto_Calculation ;
+        String algorithmName = 'AES128';
+        Blob key = Blob.valueOf(System.Label.RNWL_Auto_Calculation_Private_Key);
+        Blob ivParam = key;
+        Blob sourceValue = Blob.valueOf('Salesforce');
+
         for (RenewalRequestWrapper each : renewalRequests) {
+            Blob policyValue = Blob.valueOf(each.policyNumber);
+            Blob policyEncrypted = Crypto.encrypt(algorithmName, key, ivParam, policyValue);
+            String policyEncryptedString = EncodingUtil.base64Encode(policyEncrypted);
+            String mobileEncryptedString = '';
+            if(assetMap.get(each.policyNumber)?.AccountId != null && assetMap.get(each.policyNumber).Account.Phone != null) {
+                Blob mobileValue = Blob.valueOf(assetMap.get(each.policyNumber).Account.Phone);
+                Blob mobileEncrypted = Crypto.encrypt(algorithmName, key, ivParam, mobileValue);
+                mobileEncryptedString = EncodingUtil.base64Encode(mobileEncrypted);
+            }
+            Blob sourceEncrypted = Crypto.encrypt(algorithmName, key, ivParam, sourceValue);
+            String sourceEncryptedString = EncodingUtil.base64Encode(sourceEncrypted);
+            String finalLink = link + 'p=' + policyEncryptedString + '&m=' + mobileEncryptedString + '&d=&s=' + sourceEncryptedString;
             opportunityRecordsToInsert.add(new Opportunity(
                 Policy_Number__c = each.policyNumber,
                 Policy_Inception_Date__c = getDate(each.policyInceptionDate),

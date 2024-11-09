@@ -1,5 +1,8 @@
 public class RNWL_DispositionsTriggerHelper {
     
+ public static Map<String,Integer> dispositionPriorityMap = new Map<String,Integer>();
+ public static Map<String,String> dispositionDashboardMap = new Map<String,String>();
+    
 /****************************************************************************************************************
 * @Function - setBeforeInsertDispositionsPriorityFieldValue
 * @param newOppsList -  list of Dispositons from trigger.new.
@@ -9,29 +12,17 @@ public class RNWL_DispositionsTriggerHelper {
     public static void setBeforeInsertDispositionsPriorityFieldValue(List<Dispositions__c> newDispositionsitems){
         
         
-        Map<String, Disposition_Priority__mdt > dispositionsPriorityMap = Disposition_Priority__mdt.getAll();
+        Map<String, Disposition_Priority__mdt > dispositionsMetadata = Disposition_Priority__mdt.getAll();
+        
+        setDispositionMapValues(dispositionsMetadata);
+        
         for(Dispositions__c disp :newDispositionsitems){
-			for(String name: dispositionsPriorityMap.keySet()){
-                String L1= dispositionsPriorityMap.get(name).L1__c;
-                String L2= dispositionsPriorityMap.get(name).L2__c;
-                String L3= dispositionsPriorityMap.get(name).L3__c;
-                String L4= dispositionsPriorityMap.get(name).L4__c;
-				String L5= dispositionsPriorityMap.get(name).L5__c;
-				String L6= dispositionsPriorityMap.get(name).L6__c;
-				String L7= dispositionsPriorityMap.get(name).L7__c;                
-                String type = dispositionsPriorityMap.get(name).Type__c;
-                If(L1 == disp.Disposition_L1__c && L2 == disp.Disposition_L2__c && L3 == disp.Disposition_L3__c && type == 'Priority'){
-                    disp.Priority__c = dispositionsPriorityMap.get(name).Priority__c;
-                } 
-                If(L1 == disp.Disposition_L1__c && L2 == disp.Disposition_L2__c && L3 == disp.Disposition_L3__c && 
-                   L4 == disp.Disposition_L4__c  && L5 == disp.Disposition_L5__c && L6 == disp.Disposition_L6__c && 
-                   L7 == disp.Disposition_L7__c && type == 'Dashboard'){
-                    disp.Dashboard_Category__c = dispositionsPriorityMap.get(name).Dashboard_Category__c;
-                } 
-		    }
-        }
+                disp.Priority__c = dispositionPriorityMap.get(disp.Disposition_L1__c+'-'+disp.Disposition_L2__c+'-'+disp.Disposition_L3__c);
+                disp.Dashboard_Category__c = dispositionDashboardMap.get(disp.Disposition_L1__c+'-'+disp.Disposition_L2__c+'-'+disp.Disposition_L3__c);
+		    }  
         
     }
+    
   /****************************************************************************************************************
 * @Function - setAfterInsertDispositionsPriorityFieldValue
 * @param newOppsList -  list of Dispositons from trigger.newMap.
@@ -41,8 +32,10 @@ public class RNWL_DispositionsTriggerHelper {
         public static void setAfterInsertDispositionsPriorityFieldValue(List<Dispositions__c> newDispositionsitems){
          Set<Id> oppIdSet = new Set<Id>();
          List<Dispositions__c> dispositionsItemsToUpdate = new List<Dispositions__c>();
-         Map<String, Disposition_Priority__mdt > dispositionsPriorityMap = Disposition_Priority__mdt.getAll();
-
+         Map<String, Disposition_Priority__mdt > dispositionsMetadata = Disposition_Priority__mdt.getAll();
+            
+         setDispositionMapValues(dispositionsMetadata);
+            
          for(Dispositions__c disp: newDispositionsitems){
              if(!String.isBlank(disp.Renewal_Request__c)){
               oppIdSet.add(disp.Renewal_Request__c); 
@@ -50,23 +43,17 @@ public class RNWL_DispositionsTriggerHelper {
          }
          List<Dispositions__c> dispositionsListItems = [Select Id,Name,Priority__c ,Disposition_L1__c ,Disposition_L2__c ,Disposition_L3__c,Renewal_Request__c from Dispositions__c where Renewal_Request__c IN : oppIdSet];
 
-            for(Dispositions__c disItem : dispositionsListItems){
-			for(String name: dispositionsPriorityMap.keySet()){
-                String L1= dispositionsPriorityMap.get(name).L1__c;
-                String L2= dispositionsPriorityMap.get(name).L2__c;
-                String L3= dispositionsPriorityMap.get(name).L3__c;
-                String type = dispositionsPriorityMap.get(name).Type__c;
-                Integer priority = (Integer) dispositionsPriorityMap.get(name).Priority__c;
-                If(L1 == disItem.Disposition_L1__c && L2 == disItem.Disposition_L2__c && L3 == disItem.Disposition_L3__c && type == 'Priority'){
-                    if(disItem.Priority__c != priority){
+            for(Dispositions__c disp : dispositionsListItems){
+                    Integer priority = dispositionPriorityMap.get(disp.Disposition_L1__c+'-'+disp.Disposition_L2__c+'-'+disp.Disposition_L3__c);
+                    String dashboard = dispositionDashboardMap.get(disp.Disposition_L1__c+'-'+disp.Disposition_L2__c+'-'+disp.Disposition_L3__c);
+                    if(disp.Priority__c != priority){
                         Dispositions__c dispObj = new Dispositions__c();
-                        dispObj.Id = disItem.Id;
+                        dispObj.Id = disp.Id;
                         dispObj.Priority__c = priority;
+                        dispObj.Dashboard_Category__c = dashboard;
                         dispositionsItemsToUpdate.add(dispObj);
                         break;
-                    }
-                }
-		    }   
+                    }  
             }
             if(!dispositionsItemsToUpdate.isEmpty()){
                 Database.update(dispositionsItemsToUpdate);
@@ -101,6 +88,19 @@ public class RNWL_DispositionsTriggerHelper {
         }
     }
     
+    private static void setDispositionMapValues(Map<String, Disposition_Priority__mdt> dispositionsMetadata){
+        
+        for(String name: dispositionsMetadata.keySet()){
+            
+                if(dispositionsMetadata.get(name).Type__c == 'Priority'){
+                	dispositionPriorityMap.put(dispositionsMetadata.get(name).L1__c+'-'+dispositionsMetadata.get(name).L2__c+'-'+dispositionsMetadata.get(name).L3__c,(Integer)dispositionsMetadata.get(name).Priority__c);
+                }
+            	else{
+                	dispositionDashboardMap.put(dispositionsMetadata.get(name).L1__c+'-'+dispositionsMetadata.get(name).L2__c+'-'+dispositionsMetadata.get(name).L3__c,dispositionsMetadata.get(name).Dashboard_Category__c);
+            	}
+        	}
+    }
+    
     /****************************************************************************************************************
     * @Function - updateDispositionsOnOpportunity
     * @param newOppsList, oldItems -  list of Dispositons from trigger.newMap and oldmap.
@@ -108,11 +108,11 @@ public class RNWL_DispositionsTriggerHelper {
     * @Description - after insert and after update to update Best_Disposition__c, Latest_Disposition__c and Disposition_Count__c on opp
     *****************************************************************************************************************/
 
-    public static void updateDispositionsOnOpportunity(List<Dispositions__c> newItems, Map<Id, Dispositions__c> oldItems){
+    public static void updateDispositionsOnOpportunity(Map<Id, Dispositions__c> newItems, Map<Id, Dispositions__c> oldItems){
         Set<Id> oppIds = new Set<Id>();
 
         try{
-            for(Dispositions__c dis : newItems){
+            for(Dispositions__c dis : newItems.values()){
                 if(oldItems == null 
                 || oldItems.get(dis.Id).Renewal_Request__c != dis.Renewal_Request__c 
                 || oldItems.get(dis.Id).Priority__c != dis.Priority__c){
@@ -121,8 +121,8 @@ public class RNWL_DispositionsTriggerHelper {
             }
     
             if(oppIds.size() > 0){
-                List<Opportunity> relatedRenewalReq = [SELECT Id, 
-                                                            (SELECT ID,Priority__c 
+                List<Opportunity> relatedRenewalReq = [SELECT Id, OwnerId ,
+                                                            (SELECT ID,Priority__c ,Agent_Name__c
                                                             FROM Dispositions__r ORDER BY CreatedDate DESC)
                                                        FROM Opportunity WHERE ID IN:oppIds ];
                 
@@ -133,11 +133,14 @@ public class RNWL_DispositionsTriggerHelper {
                     for(Dispositions__c disp : opp.Dispositions__r){
                         if(disp.Priority__c != null && (priority == null || disp.Priority__c < priority)){
                             opp.Best_Disposition__c = disp.Id;
+                            
+                            if(disp.Agent_Name__c != null && opp.OwnerId != disp.Agent_Name__c){
+                                opp.OwnerId = disp.Agent_Name__c;
+                            }
                         }
                     }
-                    //Disposition Count Update on Opp
-                    opp.Disposition_Count__c = opp.Dispositions__r.size();
                 }       
+                
                 
                 update relatedRenewalReq;
             }
