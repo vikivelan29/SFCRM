@@ -45,6 +45,7 @@ public without sharing class RNWL_UbonaIntegrationController {
             intPE.ObjectApiName__c = 'Opportunity';
             intPE.Record_Id__c = opp.Id;
             intPE.Request__c = formJSONBody(opp, policyIdToAssetMap.get(opp.Policy__c), accMap.get(opp.AccountId));
+            system.debug('*******' + intPE.Request__c);
             intPE.ServiceName__c = 'UbonaScheduleCallServiceRenewal';
             outboundIntPEList.add(intPE);
         }
@@ -68,6 +69,7 @@ public without sharing class RNWL_UbonaIntegrationController {
         payld.scheduledTime = String.valueOf(System.now().getTime());
         payld.agentId = '';
         payld.campaign = System.label.RNWL_UbonaCampaignId;//'85008514';
+
         if(acc != null){
             payld.msisdn = acc.Phone;
             payld.customerInfo = acc.Name; 
@@ -108,19 +110,16 @@ public without sharing class RNWL_UbonaIntegrationController {
     
     private static List<Asset> getPolicies(Set<Id> policyIdSet){
         return [SELECT 
-                    Id, 
-                	IntermediaryName__c,
-                	Channel__c,
-                	Next_Premium_Date__c,
-                	Maturity_Date__c,
-                	ProductName__c,
-                	GrossPremium__c,
-                	Proposal_Type__c,
-                	Sum_Assured__c
-                FROM Asset 
-                WHERE Id IN : policyIdSet];
-        
+            Id, 
+            IntermediaryName__c,
+            Channel__c,
+            Next_Premium_Date__c,
+            Maturity_Date__c,
+            ProductName__c,
+            GrossPremium__c,
+            Proposal_Type__c,
+            Sum_Assured__c
+        FROM Asset 
+        WHERE Id IN : policyIdSet];
     }
-    
-
 }
