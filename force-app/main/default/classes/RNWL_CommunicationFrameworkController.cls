@@ -31,7 +31,7 @@ public with sharing class RNWL_CommunicationFrameworkController {
                 contactRecord = each;
             }
             Customer_Notification_Config__mdt notificationMD = Customer_Notification_Config__mdt.getInstance(requestInst.selectedTemplate);
-            PE_Logger__c peLoggerRecord = new PE_Logger__c(AccountId__c = oppRecord.AccountId, ContactId__c = contactRecord.Id, Opportunity_ID__c = oppRecord.Id,
+            PE_Logger__c peLoggerRecord = new PE_Logger__c(AccountId__c = oppRecord.AccountId, ContactId__c = contactRecord?.Id, Opportunity_ID__c = oppRecord.Id,
                 RecordID__c = oppRecord.Id, PE_Name__c = 'Communication Log', Status__c = 'Pending', LOB__c = 'ABHI', CustomMetadataName__c = requestInst.selectedTemplate,
                 Send_To_Specific_Mobile__c = String.isNotBlank(requestInst.alternateMobile), Specific_To_MobilePhone__c = requestInst.alternateMobile,
                 Send_To_Specific_Emails__c = String.isNotBlank(requestInst.toAddresses), Specific_To_Address__c = requestInst.toAddresses,
