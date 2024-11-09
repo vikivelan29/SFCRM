@@ -172,7 +172,7 @@
         <accessLevel>Edit</accessLevel>
         <label>RNWL_TeamLeader_ATS</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>RNWL_Team_Leader_ATS</roleAndSubordinatesInternal>
+            <roleAndSubordinates>RNWL_Team_Leader_ATS</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Calling_Source__c</field>
