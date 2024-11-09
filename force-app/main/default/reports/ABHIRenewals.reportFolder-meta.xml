@@ -10,5 +10,5 @@
         <sharedTo>RNWL_Reporting_Manager</sharedTo>
         <sharedToType>RoleAndSubordinatesInternal</sharedToType>
     </folderShares>
-    <name>ABHI - Renewals</name>
+    <name>ABHI - Renewals Project</name>
 </ReportFolder>
