@@ -1,3 +1,4 @@
+
 import { LightningElement, api } from 'lwc';
 import notifyUsers from '@salesforce/apex/RNWL_CommunicationFrameworkController.notifyUsers';
 import getMetadata from '@salesforce/apex/RNWL_CommunicationFrameworkController.fetchCommunicationMDT';

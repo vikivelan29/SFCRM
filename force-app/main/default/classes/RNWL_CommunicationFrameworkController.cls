@@ -11,7 +11,8 @@ public with sharing class RNWL_CommunicationFrameworkController {
     public static List<RNWL_Communications__mdt> fetchCommunicationMDT() {
         List<RNWL_Communications__mdt> mdt = [SELECT Id, Email__c, Entity__c, SMS__c, Metadata_Name__c, User_Friendly_Name__c, WhatsApp__c
             FROM RNWL_Communications__mdt
-            WHERE Entity__c = 'Opportunity'
+            WHERE Entity__c = 'Opportunity' AND
+            Is_Active__c = TRUE
             LIMIT 50000];
         return mdt;
     }
