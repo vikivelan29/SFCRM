@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Framework</fullName>
+    <fullName>Interaction</fullName>
     <active>true</active>
     <businessProcess>EmailProcess</businessProcess>
     <compactLayoutAssignment>ASF_Case_Compact_Layout</compactLayoutAssignment>
-    <label>Framework</label>
+    <label>Interaction</label>
     <picklistValues>
         <picklist>Attachment_Status__c</picklist>
         <values>
@@ -23,10 +23,6 @@
     <picklistValues>
         <picklist>Bot_Feedback__c</picklist>
         <values>
-            <fullName>Change as per Customer Issue Type</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Change as per Customer Need</fullName>
             <default>false</default>
         </values>
@@ -39,19 +35,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Multiple Cases%2FDuplicate</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Multiple Intent</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>System %2FE%2E Bot Error</fullName>
             <default>false</default>
         </values>
         <values>
@@ -82,11 +66,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABWM</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABWM</fullName>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1578,82 +1562,6 @@
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Additional information required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rejected</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A Auto Debit is Inactive</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A DND is already activated</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A it doesn%27t meet the policy T%26C%27s</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A the shared document is unclear</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A we cannot trace the policy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A we need the transaction details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A we require additional documents</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal%3A we were unable to contact you</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reports%3A we cannot trace the reports</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reports%3A we need your appointment details</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Resolution Provided</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Reversal Processed</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAT%3A the call was declined</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAT%3A the call went unanswered</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAT%3A we were unable to reach you</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SAT%3A your phone was switched off</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Settled %26 Recovery not initiated</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>
@@ -1673,14 +1581,6 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
-            <fullName>Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Web (Mobile App)</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABCD App</fullName>
             <default>false</default>
         </values>
@@ -1693,159 +1593,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ATS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Abcd_app</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Advisor Portal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Anywhere Service</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Branch</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Branch Courier</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Branch Letter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Claims</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Claim Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Follow-up</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>IVR Voice BOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Phone Inbound</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BRANCH EMAIL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Operation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>OneABC_Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Provider Network</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renewal - Persistency</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Service Assurance team</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sprinkler</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound – NPS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Underwriting</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ubona_IVRVoiceBOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ubona_RenewalBOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ubona_WelcomeBOT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Abcd_app</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Distributor_WA_Bot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer_App</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer_Chatbot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer_Portal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer_WA_Bot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unified_Chatbot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unified_SalesApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unified_SalesPortal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unified_WA_Bot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PolicyBazar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>BFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>DRM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Welcome</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Welcome Call BOT</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1857,27 +1605,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Branch walk in</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Bulk Upload from HO</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Bureau</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CAMS FO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CEO Escalation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CPGRAMS</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1893,27 +1621,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Carehead email ID</fullName>
-            <default>false</default>
-        </values> 
-        <values>
             <fullName>Chatbot</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Customer Portal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Deadline</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>EMT CNX</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>EMT HO</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1926,46 +1638,6 @@
         </values>
         <values>
             <fullName>Email - Call Centre</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Email- CEO Escalation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Email- IRDAI Escalation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Escalations</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fax</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>GRO email ID</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Grievance</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Grievance Repeat</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>HO Back office</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>IGMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>IRDAI%2FOmbudsman</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1985,39 +1657,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Inbound %2F Outbound</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inbound ABC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inbound Altruist</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inbound CNX</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inbound ConnectQ</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Inbound Nodal Desk</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inbound call</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insurance Repository</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insurance Repository website</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2033,10 +1673,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Legal</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Letter</fullName>
             <default>false</default>
         </values>
@@ -2045,31 +1681,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Letters and Faxes</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Litigation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>NCH</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MH</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>MOBILEAPP</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mobile</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>NCH</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2078,34 +1690,6 @@
         </values>
         <values>
             <fullName>Online Dispute Resolution %28ODR%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Operation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Others</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound %E2%80%93 NPS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound Altruist</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound CNX</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound ConnectQ</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Outbound call</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2153,18 +1737,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>SMS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Senior Management Escalation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Senior citizen email id</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Service2Sales</fullName>
             <default>false</default>
         </values>
@@ -2174,10 +1746,6 @@
         </values>
         <values>
             <fullName>SystemIntegration</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Telephone</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2225,19 +1793,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Web %28Mobile App%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Webform</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Website Redressal</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2246,10 +1802,6 @@
         </values>
         <values>
             <fullName>WhatsApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Call Centre</fullName>
             <default>false</default>
         </values>
         <values>
