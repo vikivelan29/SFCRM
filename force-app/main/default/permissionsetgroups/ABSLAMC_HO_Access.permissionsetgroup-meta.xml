@@ -5,11 +5,13 @@
     <mutingPermissionSets>ABSLAMC_HO_Access_Muted</mutingPermissionSets>
     <permissionSets>ABCL_Create_Reports</permissionSets>
     <permissionSets>ABCL_Export_Reports</permissionSets>
+    <permissionSets>ABSLAMC_Omnichannel</permissionSets>
     <permissionSets>AMC_Base_User_PS</permissionSets>
     <permissionSets>AMC_Send_Broadcasting_Messages</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>List_View_Management_Access</permissionSets>
     <permissionSets>Manage_Bulk_Assignment</permissionSets>
+    <permissionSets>Manage_Bulk_CAMS_Update</permissionSets>
     <permissionSets>Manage_Bulk_Close</permissionSets>
     <permissionSets>Manage_Bulk_Create</permissionSets>
     <permissionSets>Manage_Bulk_Lead_Assignment</permissionSets>

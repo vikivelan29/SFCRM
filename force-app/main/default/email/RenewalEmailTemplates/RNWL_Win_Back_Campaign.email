@@ -1,0 +1,43 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto; font-family: Times New Roman;font-size: 10pt;">
+<div><span>Dear {{{Opportunity.Customer_Name__c}}},</span>
+<p>Greetings from Aditya Birla Health Insurance!</p>
+
+<p>In line with our recent conversation, we are happy to offer you the opportunity to renew your policy even though it's past the grace period.&nbsp;</p>
+
+<p>On renewing you will receive the following benefits:</p>
+
+<p><b>Continuity Benefits:</b> Your current policy benefits remain intact, as per the terms and conditions outlined in your policy document. For more details, visit our website: {{{Opportunity.Payment_Link__c}}}.</p>
+
+<p><b>Uninterrupted Coverage</b>: Upon renewing, your coverage will resume seamlessly without any interruptions.</p>
+
+<p>However, it's important to note:</p>
+
+<ul>
+	<li>The period between your policy lapse date and renewal date is not covered. Any medical conditions arising during this time will need to be declared in the Good Health Declaration (GHD) form.</li>
+	<li>Based on your GHD information, the underwriter may accept or reject your renewal request.</li>
+</ul>
+
+<p>To renew your policy:</p>
+
+<ul>
+	<li>Please confirm your acceptance of these terms by replying to this email.</li>
+	<li>Attach the completed Good Health Declaration (GHD) form to this email.</li>
+</ul>
+
+<p>Once we receive your confirmation and the completed GHD, we'll process your renewal request promptly.</p>
+
+<p>In case of any further queries or assistance, feel free to reach out to us.</p>
+
+<p>Wishing you good health and prosperity.</p>
+
+<p>Stay Active, Stay Healthy</p>
+
+<p>Regards,<br />
+Aditya Birla Health Insurance Co. Ltd.</p>
+</div>
+</body>
+</html>

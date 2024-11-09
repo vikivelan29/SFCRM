@@ -1,0 +1,9 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear Customer,<br />
+We are taking longer than usual to service your Request No.{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}}. We regret the inconvenience caused. We target to close your request by {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}.<br />
+Regards,<br />
+ABHI</body>
+</html>

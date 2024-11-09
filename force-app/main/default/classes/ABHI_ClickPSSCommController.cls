@@ -108,15 +108,15 @@ public with sharing class ABHI_ClickPSSCommController {
             reqWrap.PolicyID = String.valueOf(sobj.get('Policy_No__c'));
             ABCL_IntegrationCallout.accountId = String.valueOf(sobj.get('AccountId'));
             reqWrap.AppNo = String.valueOf(sobj.get('SerialNumber'));
-            reqWrap.mobileno = formDataWrap.phoneNumber != ''? formDataWrap.phoneNumber : String.valueOf(sobj.getSobject('Account').get('Phone'));
-            reqWrap.emailId = formDataWrap.emailId != ''? formDataWrap.emailId : String.valueOf(sobj.getSobject('Account').get('Office_Email__c'));
-            reqWrap.channel_ID = 'SFCRM';
-            reqWrap.Req_Id = '5696';
-            reqWrap.Alert_Mode = formDataWrap.alertCode;
-            reqWrap.alertID = formDataWrap.template;
-            reqWrap.field1 = 'NA';
-            reqWrap.field2 = 'NA';
-            reqWrap.field3 = 'NA';
+            reqWrap.Mobileno = formDataWrap.phoneNumber != ''? formDataWrap.phoneNumber : String.valueOf(sobj.getSobject('Account').get('Phone'));
+            reqWrap.EmailId = formDataWrap.emailId != ''? formDataWrap.emailId : String.valueOf(sobj.getSobject('Account').get('Office_Email__c'));
+            reqWrap.ChannelID = 'SFCRM';
+            reqWrap.ReqId = String.valueOf(sobj.get('Policy_No__c'));
+            reqWrap.AlertMode = formDataWrap.alertCode;
+            reqWrap.AlertID = formDataWrap.template;
+            reqWrap.Field1 = 'NA';
+            reqWrap.Field2 = 'NA';
+            reqWrap.Field3 = 'NA';
             String reqWrapString = JSON.serialize(reqWrap);
             Map<String,Object> obj =  (Map<String,Object>) JSON.deserializeUntyped(reqWrapString);
             
@@ -181,15 +181,15 @@ public with sharing class ABHI_ClickPSSCommController {
     public class PSSRequestWrapper{
         public String PolicyID;
         public String AppNo;
-        public String alertID;
-        public String channel_ID;
-        public String Req_Id;
-        public String Alert_Mode;
-        public String mobileno;
+        public String AlertID;
+        public String ChannelID;
+        public String ReqId;
+        public String AlertMode;
+        public String Mobileno;
         public String EmailId;
-        public String field1;
-        public String field2;
-        public String field3;
+        public String Field1;
+        public String Field2;
+        public String Field3;
     }
 
     /*********************************************************

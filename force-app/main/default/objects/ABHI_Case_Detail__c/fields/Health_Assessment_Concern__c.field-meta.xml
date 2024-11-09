@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Health_Assessment_Concern__c</fullName>
+    <externalId>false</externalId>
+    <label>Health Assessment Concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Schedule HA</fullName>
+                <default>false</default>
+                <label>Schedule HA</label>
+            </value>
+            <value>
+                <fullName>Reschedule HA</fullName>
+                <default>false</default>
+                <label>Reschedule HA</label>
+            </value>
+            <value>
+                <fullName>Cancel HA</fullName>
+                <default>false</default>
+                <label>Cancel HA</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
