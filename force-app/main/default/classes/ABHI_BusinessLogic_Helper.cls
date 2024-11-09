@@ -33,11 +33,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-				populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
+                populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation();
-				populateFieldsOnCase(abhiNewCaseList, null);//RNWL
+                populateFieldsOnCase(abhiNewCaseList, null);//RNWL
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
@@ -450,19 +450,75 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
         }
         catch(Exception e) {
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('searchAndAssocFieldsForAPICases');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
         }
-    }  
-	
-	/**
+    }
+
+    /**
+    * Jira Story  - PR1030924-703
+    * @param caseRecord - the case that is created from create case page
+    * @return result - store the result of the case validations
+    * @description - Source Based Case creation restriction
+    */
+    @AuraEnabled
+    public static String abhiCaseSourceValidation(Case caseRecord) {
+
+        Map<String,ABHI_Create_Case_Validations__mdt> issueCodeToErrorMsgMap = new Map<String,ABHI_Create_Case_Validations__mdt>();
+       // Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
+        String caseBusinessUnit = caseRecord.Business_Unit__c ?? '';
+        String caseCCCExtId = caseRecord.CCC_External_Id__c ?? '';
+        String caseSource = caseRecord.Source__c ?? '';
+        String caseChannel = caseRecord.Channel__c ?? '';
+        String caseTechnicalSource = caseRecord.Technical_Source__c ?? '';
+        String result = 'Success';
+
+        try{
+            List<ABHI_Create_Case_Validations__mdt> createCaseValidationMetaRecords = [
+                SELECT Validation_Name__c, Source__c, Issue_Code__c, Error_Message__c 
+                FROM ABHI_Create_Case_Validations__mdt
+                WHERE Business_Unit__c =:caseBusinessUnit AND Validation_Name__c = 'Source_Based_Case_Creation_Restriction'
+                WITH USER_MODE
+            ];
+            
+            //Fetch all metadata values and store it in map
+            for (ABHI_Create_Case_Validations__mdt cseValidationMetaRecord : createCaseValidationMetaRecords) {
+                issueCodeToErrorMsgMap.put(cseValidationMetaRecord.Issue_Code__c, cseValidationMetaRecord);
+            }
+
+            //validate the case record
+            if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
+                ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
+
+                if(metaDataRec.Source__c != caseSource) {
+                    result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
+                }
+            }
+        }
+        catch(Exception e){
+            logtheException(e);
+            throw new AuraHandledException(e.getMessage());
+        }        
+        return result;
+    }
+
+    /**
+    * @param exception - exception occured during the code execution
+    * @description - Log the exception
+    */
+    public static void logtheException(Exception exceptn) {
+        System.debug('@@@mess' + exceptn.getMessage() + ' ' + exceptn.getLineNumber());
+        ABCL_Logger.enableExceptionLogging();
+        ABCL_Logger.push('Case creation validation');
+        ABCL_Logger.message(exceptn.getMessage());
+        ABCL_Logger.emit();
+    }
+    
+    /**
     * @param : newCases, oldCaseMap - 
     * @return : void 
-    * @description : Prepopulates Fields on Case during before insert and update
+    * @description : Prepopulates Fields on Case during before insert and update.
     */
-    /*public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
+    public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
         
         Set<Id> assetIds = new Set<Id>();
         List<Case> casesToUpdate = new List<Case>();
@@ -487,7 +543,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
 
         for(Case cas : casesToUpdate){
             cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId)?.Calling_Source__c ?? ''; 
-		}
+        }
         
         if(oldCaseMap != NULL){ return; }
         
@@ -503,5 +559,4 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
         }   
     }
-     
 }
