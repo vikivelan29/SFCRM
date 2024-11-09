@@ -29,6 +29,7 @@ public without sharing class RNWL_CollectionTriggerHelper {
                 if(oppToUpdate != null && oppToUpdate.size() > 0){
                     for(Opportunity opp : oppToUpdate){
                         opp.StageName = 'Paid';
+                        opp.Status__c = 'Paid';
                     }   
                     
                     update oppToUpdate;
