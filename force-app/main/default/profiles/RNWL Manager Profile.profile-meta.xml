@@ -91,6 +91,10 @@
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>RNWL_RelatedListHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_AssetTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -192,7 +196,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_EmailMessageTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABCL_Encryption</apexClass>
@@ -1616,7 +1620,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Case360Controller</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Case360Controller_Test</apexClass>
@@ -2459,6 +2463,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RNWL_CommunicationFrameworkController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RNWL_DispositionsTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2471,12 +2479,8 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>RNWL_HelpLinksController</apexClass>
+        <apexClass>RNWL_EmailMessageTriggerHandler</apexClass>
         <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>RNWL_HelpLinksControllerTest</apexClass>
-        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RNWL_IndividualAccRenewalController</apexClass>
@@ -9833,11 +9837,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Contract_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.Converted_to_IR__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -12629,11 +12628,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Claim__c.Policy_No_Formula__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Claim__c.Policy_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -18334,6 +18328,14 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>SelectFilesFromSalesforce</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EmailSingle</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>EditTask</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
