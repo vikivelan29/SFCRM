@@ -150,8 +150,12 @@ public class ASF_CaseTriggerBUSpecificHandler {
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             ABCL_CommonCLass.populateResolutionCommentOnCaseDetail((List<Case>)mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
+            for(String businessUnit : mapOfBUToCases.keySet()){
+                if(businessUnit == 'ABFL'){
+                    ABFL_OwnerChangeWithLocation.updateSpocWrtLocation(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
+                }
         }
-        ABFL_OwnerChangeWithLocation.updateSpocWrtLocation(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
+    }
         
     }
     
