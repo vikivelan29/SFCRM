@@ -9,6 +9,8 @@ import changeInInvestorProfileValidation from '@salesforce/apex/ABSLI_CreateCase
 import interestWaiverForHOValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.interestWaiverForHOValidation';
 import reinstatementValidation from '@salesforce/apex/ABSLI_CreateCaseValidationsController.reinstatementValidation';
 import abhiCaseValidation from '@salesforce/apex/ABHI_BusinessLogic_Helper.abhiCaseValidation';
+import abhiActiveOneValidation from '@salesforce/apex/ABHI_BusinessLogic_Helper.abhiActiveOneValidation';
+import abhiCaseSourceValidation from '@salesforce/apex/ABHI_BusinessLogic_Helper.abhiCaseSourceValidation';
 /**
  * Gen Fund validation method with Apex invocation
  * @param {*} input 
@@ -193,10 +195,48 @@ const abhiNatureCaseVal = async (input,reqFrom) => {
     }
 }
 
+const abhiActiveOneVal = async (input,reqFrom) => {
+    try{
+        console.log('req from--'+reqFrom+JSON.stringify(input));
+        let result = await abhiActiveOneValidation({caseRecord:JSON.stringify(input.fields)});
+        if(result){
+            //if result is as expected, then
+            if(result=='Success'){
+                return new ValidationWrapper(true, result);
+            }else{
+                return new ValidationWrapper(false, result);
+            }
+           //success response
+        }
+    } catch(error){
+        console.log('abhiNatureCaseVal'+JSON.stringify(error));
+        return new ValidationWrapper(false, error.message.body);//error response
+    }
+}
+
+// Story - PR1030924-703 (Source Based Case creation restriction)
+const abhiCaseSourceRestrictionValidation = async (input,reqFrom) => {
+    try{
+        let result = await abhiCaseSourceValidation({caseRecord:JSON.stringify(input.fields)});
+        if(result){
+            //if result is as expected, then
+            if(result=='Success'){
+                return new ValidationWrapper(true, result);
+            }else{
+                return new ValidationWrapper(false, result);
+            }
+           //success response
+        }
+    } catch(error){
+        console.log('abhiSourceRestrictionValidation  '+JSON.stringify(error));
+        return new ValidationWrapper(false, error.message.body);//error response
+    }
+}
+
 //include new validation methods inside method export block
 export {
     genFundApiValidation,nomineeChangeValidation,duplicatePolicyPrinting,performUINapiCallout,penalInterestPayoutSaralHealth,
-    assignmentIssueType,changeInInvestorProfile,interestWaiverForHO,reinstatementVal,abhiNatureCaseVal
+    assignmentIssueType,changeInInvestorProfile,interestWaiverForHO,reinstatementVal,abhiNatureCaseVal,abhiActiveOneVal,abhiCaseSourceRestrictionValidation
 }
 
 //---------------FRAMEWORK CODE - DO NOT TOUCH--------------//
