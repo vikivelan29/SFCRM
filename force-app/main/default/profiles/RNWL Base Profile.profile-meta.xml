@@ -86,6 +86,10 @@
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>RNWL_RelatedListHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_AssetTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
