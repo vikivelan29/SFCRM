@@ -373,8 +373,8 @@ public without sharing class ASF_OppCommPETriggerHelper {
         Map<String,Object> untypedObj =  (Map<String,Object>) JSON.deserializeUntyped(serializedRequest);
 
         // currently only 5 merge fields exist at most, increase this as per need
-        for (Integer i = 1; i < 6; i++) {
-            Object mergeValue = log.get(channelFieldNamesWA[1] + i + '__c');
+        for (Integer i = 0; i < 5; i++) {
+            Object mergeValue = log.get(channelFieldNamesWA[1] + (i + 1) + '__c');
             untypedObj.put('AlertV' + i, mergeValue);
         }
         event.Request__c = JSON.serialize(untypedObj);

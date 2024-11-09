@@ -36,9 +36,15 @@
                 <label>ABSLI</label>
             </value>
             <value>
-                <fullName>Wellness</fullName>
+                <fullName>ABHI-RNWL</fullName>
                 <default>false</default>
-                <label>Wellness</label>
+                <label>ABHI-RNWL</label>
+            </value>
+            <value>
+                <fullName>ABWM</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ABWM</label>
             </value>
             <value>
                 <fullName>ABHI-RNWL</fullName>
