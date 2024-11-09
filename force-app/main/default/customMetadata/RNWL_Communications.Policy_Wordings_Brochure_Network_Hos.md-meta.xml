@@ -15,6 +15,18 @@
         <value xsi:type="xsd:string">Opportunity</value>
     </values>
     <values>
+        <field>Frequency_per_Day__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>Frequency_per_Renewal_Request__c</field>
+        <value xsi:type="xsd:double">5.0</value>
+    </values>
+    <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Metadata_Name__c</field>
         <value xsi:type="xsd:string">RNWL_Policy_wording_brochure_network_h</value>
     </values>
