@@ -3316,6 +3316,11 @@
             <field>Customer_Member_Mapping__c.Member_Status__c</field>
             <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Claim__c.Policy_Number__c </field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHI User PS</label>
     <objectPermissions>
