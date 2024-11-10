@@ -1432,4 +1432,11 @@
         <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
         <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABHI Email</value>
     </labels>
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI</value>
+    </labels>
 </CustomLabels>
