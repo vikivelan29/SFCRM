@@ -8,7 +8,5 @@
     <permissionSets>AMC_Base_User_PS</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>List_View_Management_Access</permissionSets>
-    <permissionSets>Manage_Case_Ownership</permissionSets>
-    <permissionSets>Manage_Lead_Ownership</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
