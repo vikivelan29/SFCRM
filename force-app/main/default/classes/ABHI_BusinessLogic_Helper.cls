@@ -207,11 +207,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -260,11 +256,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
