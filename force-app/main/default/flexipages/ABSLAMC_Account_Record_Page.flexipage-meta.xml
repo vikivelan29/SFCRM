@@ -793,6 +793,16 @@
                 <identifier>RecordRelationship_Manager_Email_Text_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Relationship_Manager_Email_Text__c</fieldItem>
+                <identifier>RecordRelationship_Manager_Email_Text_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-0810ec32-22a8-4a07-a1ec-9357a161c6e2</name>
         <type>Facet</type>
     </flexiPageRegions>

@@ -13,14 +13,15 @@ public class RNWL_OpportunityTriggerHandlerTest {
         
         insert objUser;
 
-        Account acc = ASF_TestDataFactory.insertBusinessAccount('test', 'strCRN');
+        Account acc = RNWL_TestDataFactory.insertBusinessAccount('test', 'strCRN');
         
-        Asset asset = ASF_TestDataFactory.createAsset(acc.Id,''); 
-        ASF_TestDataFactory.insertBusinessAccount('test before opp', 'strCRN');  
+        Asset asset = RNWL_TestDataFactory.createAsset(acc.Id,''); 
+        
+        RNWL_TestDataFactory.insertBusinessAccount('test before opp', 'strCRN');  
         
     }
     
-    //To cover RNWL_RenewalCustomerPolicyInfo class
+    //To cover RNWL_RenewalCustomerPolicyInfo class 
     @isTest
     private static void rNWL_RenewalCustomerPolicyInfo_Test(){
         Account acc = [Select Id FROM Account LIMIT 1];
@@ -84,6 +85,8 @@ public class RNWL_OpportunityTriggerHandlerTest {
     private static void test_UpdatePolicyAndAccount(){
         Asset asst = [SELECT Id, AccountId, Calling_Source__c FROM Asset LIMIT 1];
         Opportunity opp = RNWL_TestDataFactory.createOpportunityRecords(asst.AccountId, asst.Id);
+        RNWL_TestDataFactory.createCase(asst.AccountId, asst.Id);
+        
         System.assertEquals(asst.Calling_Source__c, null, 'On Asset field is not Null To begin With!!!');
         
         Test.startTest();
@@ -127,9 +130,9 @@ public class RNWL_OpportunityTriggerHandlerTest {
         
         objOpp6.Cancel_Call_Response__c = 'a'; 
         
-        Opportunity objOpp7 = RNWL_TestDataFactory.createOpportunityRecords('Dialer Cancel Status submit Opp', acc.Id);
+        Opportunity objOpp7 = RNWL_TestDataFactory.createOpportunityRecords('Dialer Paid', acc.Id);
         
-        objOpp7.StageName = 'Closed Won';
+        objOpp7.StageName = 'Paid';//'Closed Won';
         
         
         lstOpportunity.add(objOpp1);
@@ -169,7 +172,7 @@ public class RNWL_OpportunityTriggerHandlerTest {
             if(objOpportunity.Name == 'Dialer Cancel Status Failed Opp' )
                 System.assertEquals(objOpportunity.Dialer_Status__c , 'Cancel Call Request Failed'); 
             
-            if(objOpportunity.Name == 'Dialer Cancel Status submit Opp' )
+            if(objOpportunity.Name == 'Dialer Paid' )
                 System.assertEquals(objOpportunity.Dialer_Status__c , 'Cancel Call Request Submitted'); 
             
         } 

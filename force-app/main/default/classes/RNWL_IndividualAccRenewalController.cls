@@ -60,9 +60,14 @@ public without sharing class RNWL_IndividualAccRenewalController {
             
             List<Object> rawPolicyData = (List<Object>)((Map<String, Object>)rawResponseMap.get('response')).get('policyData');
             
+            Set<String> combiPolicyNumbers = new Set<String>();
+
             for(object objPolicy : rawPolicyData){
                 
                 Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy;
+                
+                system.debug('policyNumber'+policyNumber);
+                system.debug('policyNumbertwo'+String.valueOf(policyData_Map.get('Policy_number')));
                 if(policyNumber == String.valueOf(policyData_Map.get('Policy_number'))){
                     
                     system.debug('policyData_Map'+ policyData_Map);
@@ -131,6 +136,19 @@ public without sharing class RNWL_IndividualAccRenewalController {
                         lstRenewalMembers.add(objMember);
                     } 
                     objRenewalWrapper.Members = lstRenewalMembers;
+
+                    // Combi Policy :
+
+                    if(policyData_Map.get('Combi_Flag') == null || String.valueOf(policyData_Map.get('Combi_Flag')) == 'No'){
+                        objRenewalWrapper.combi_Policy_Flag = false;
+                        objRenewalWrapper.combi_Policy_Disposition_Flag = false;
+                    }else{
+                        objRenewalWrapper.combi_Policy_Flag = true;
+                        objRenewalWrapper.combi_Policy_Disposition_Flag = true;
+                        objRenewalWrapper.Combi_Policy_Number = String.valueOf(policyData_Map.get('Combi_Policy_Number'));
+                        combiPolicyNumbers.add(objRenewalWrapper.Combi_Policy_Number);
+                    }
+
                     lstRenewalWrapper.add(objRenewalWrapper);
                 } 
             }
@@ -162,11 +180,76 @@ public without sharing class RNWL_IndividualAccRenewalController {
                 update oppList[0];
             }
             
-            
-            
-            
+            if(combiPolicyNumbers.size() > 0){
+                List<Asset> assets = [SELECT id,Account.Name , Name,
+                                                Issue_Date__c, 
+                                                Maturity_Date__c, 
+                                                Status, 
+                                                Cover_Type__c, 
+                                                ProductName__c, 
+                                                Plan_Name__c,
+                                                MasterPolicyNumber__c, 
+                                                MasterPolicyNumber__r.name
+                                        FROM Asset 
+                                        WHERE Name IN:combiPolicyNumbers];
+                                          
+                Map<String,Asset> combiPolicies = new Map<String,Asset>();
+                for(Asset ast : assets){
+                    combiPolicies.put(ast.Name,Ast);
+                }
+                List<Dispositions__c> relatedDispositions = [SELECT Id,Name,Call_Date_Time__c,Renewal_Request__r.Policy_Number__c,
+                                                                    Disposition_L1__c,Disposition_L2__c,Disposition_L3__c,
+                                                                    Next_Call_Back_Date_Time__c,Remarks__c,Calling_Unit__c,
+                                                                    Calling_Mode__c , Agent_Name__r.Name
+                                                             FROM Dispositions__c 
+                                                             WHERE Renewal_Request__r.Policy_Number__c IN :combiPolicyNumbers];
+
+                Map<String, List<RNWL_RenewalWrapper.cls_RelatedDispositions>> relatedDispostionsMap = new Map<String, List<RNWL_RenewalWrapper.cls_RelatedDispositions>>();
+
+                for(Dispositions__c disp : relatedDispositions){
+                    RNWL_RenewalWrapper.cls_RelatedDispositions combiDisp = new RNWL_RenewalWrapper.cls_RelatedDispositions();
+                    combiDisp.Disposition_Name = disp.Name; 
+                    combiDisp.Disposition_Url = '/'+disp.Id; 
+                    combiDisp.Combi_Policy_Number = disp.Renewal_Request__r.Policy_Number__c;
+                    combiDisp.Next_CallBack_Datetime =  String.valueOf(disp.Next_Call_Back_Date_Time__c);
+                    combiDisp.Disostion_L1 = disp.Disposition_L1__c;
+                    combiDisp.Disostion_L2 = disp.Disposition_L2__c;
+                    combiDisp.Disostion_L3 = disp.Disposition_L3__c;
+                    combiDisp.Call_DateTime = String.valueOf(disp.Call_Date_Time__c);
+                    combiDisp.Agent_Name = disp.Agent_Name__r?.Name;
+                    combiDisp.Remark = disp.Remarks__c;
+                    combiDisp.Calling_Unit = disp.Calling_Unit__c;
+                    combiDisp.Calling_Mode = disp.Calling_Mode__c;
+                    if(relatedDispostionsMap.containsKey(disp.Renewal_Request__r.Policy_Number__c)){
+                        relatedDispostionsMap.get(disp.Renewal_Request__r.Policy_Number__c).add(combiDisp);
+                    }else{
+                        relatedDispostionsMap.put(disp.Renewal_Request__r.Policy_Number__c, new List<RNWL_RenewalWrapper.cls_RelatedDispositions> {combiDisp});
+                    }
+                }
+
+                for(RNWL_RenewalWrapper objRenewalWrapper : lstRenewalWrapper){
+                    if(objRenewalWrapper.combi_Policy_Flag && combiPolicies.containsKey(objRenewalWrapper.Combi_Policy_Number)){
+                        RNWL_RenewalWrapper.cls_CombiPolicy combi = new RNWL_RenewalWrapper.cls_CombiPolicy();
+                        combi.Combi_Policy_Number      = objRenewalWrapper.Combi_Policy_Number;
+                        combi.combi_Policy_Owner       = combiPolicies.get(objRenewalWrapper.Combi_Policy_Number).Account?.name;
+                        combi.combi_Policy_StartDate   = combiPolicies.get(objRenewalWrapper.Combi_Policy_Number).Issue_Date__c?.format();
+                        combi.combi_Policy_EndDate     = combiPolicies.get(objRenewalWrapper.Combi_Policy_Number).Maturity_Date__c?.format();
+                        combi.combi_Policy_Status      = combiPolicies.get(objRenewalWrapper.Combi_Policy_Number).Status;
+                        combi.combi_Policy_Variant     = combiPolicies.get(objRenewalWrapper.Combi_Policy_Number).Cover_Type__c;
+                        combi.combi_Policy_Product     = combiPolicies.get(objRenewalWrapper.Combi_Policy_Number).ProductName__c;
+                        combi.combi_Policy_SubPlan     = combiPolicies.get(objRenewalWrapper.Combi_Policy_Number).Plan_Name__c;
+                        combi.combi_Policy_ProductType = combiPolicies.get(objRenewalWrapper.Combi_Policy_Number).ProductName__c;
+
+                        objRenewalWrapper.CombiPolicies = new List<RNWL_RenewalWrapper.cls_CombiPolicy>{combi};
+                    }else{
+                        objRenewalWrapper.combi_Policy_Flag = false;
+                    }
+                    if(objRenewalWrapper.combi_Policy_Disposition_Flag && relatedDispostionsMap.containsKey(objRenewalWrapper.Combi_Policy_Number)){
+                        objRenewalWrapper.CombiDispostions = relatedDispostionsMap.get(objRenewalWrapper.Combi_Policy_Number);
+                    }
+                }
+            }
             return lstRenewalWrapper;      
-            
         }catch(exception e){
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
         }
