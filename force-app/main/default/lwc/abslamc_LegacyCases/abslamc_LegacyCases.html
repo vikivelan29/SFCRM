@@ -31,7 +31,7 @@
                         </lightning-combobox>
                     </div> 
              </lightning-layout-item>
-              
+                
             </lightning-layout>
 
             <lightning-button label = "Search" title = "Search" onclick = {fetchLegacyCases} variant = "brand" 
@@ -57,6 +57,8 @@
         <template lwc:if = {showChildTable}>
             <c-abfl_base_view_screen api_id = {apiName} payload-info = {payloadInfo}></c-abfl_base_view_screen>
         </template>
-
+        <lightning-button label="Clear" title="Clear" onclick={clearSelection} variant = "neutral"
+        class="slds-m-top_x-small button-container">
+    </lightning-button>
     </lightning-card>
 </template>
