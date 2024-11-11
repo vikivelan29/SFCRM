@@ -5366,10 +5366,10 @@
         <tab>standard-Product2</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
-    <tabSettings>
+    <tabVisibilities>
         <tab>standard-OmniSupervisorLightning</tab>
         <visibility>Hidden</visibility>
-    </tabSettings>
+    </tabVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
