@@ -24,7 +24,9 @@ public without sharing class ASF_CaseSLAHistoryTriggerHelper {
 
         List<User> userList = [SELECT Id,Business_Unit__c, CC__c, LOB__c, LOC__c From User WHERE id =: currentUserIdSet];
         userDetails.putall(userList);
-
+        //ONEABC CHANGE
+        Map<Id, Case> caseMap = New Map<Id, Case>([SELECT Id,Business_Unit__c from Case where Id =: caseIds]);
+        
         Map<String, list<String>> existingDeptNamesByCase = new Map<String, list<String>>();
         Map<String, list<String>> existingCCNamesByCase = new Map<String, list<String>>();
 
@@ -46,13 +48,17 @@ public without sharing class ASF_CaseSLAHistoryTriggerHelper {
 
                 csla.Agent__c = csla.Current_Owner_Id__c;
                 //csla.SLA_LOB__c  = newAgent.LOB__c;
-                csla.SLA_LOB__c  = newAgent.Business_Unit__c;
+                //ONEABC CHANGE
+                //csla.SLA_LOB__c  = newAgent.Business_Unit__c;
+                csla.SLA_LOB__c  = caseMap.get(csla.Case__c)?.Business_Unit__c;
                 csla.SLA_LOC__c  = newAgent.LOC__c;
                 csla.SLA_CC__c   = newAgent.CC__c;            
                 
                 if(!existingDeptNamesByCase.containsKey(csla.Case__c) || !existingDeptNamesByCase.get(csla.Case__c)?.contains(newAgent.Business_Unit__c + newAgent.LOC__c)){
                     //csla.Agent_LOB__c  = newAgent.LOB__c;
-                    csla.Agent_LOB__c  = newAgent.Business_Unit__c;
+                    //ONEABC CHANGE
+                    //csla.Agent_LOB__c  = newAgent.Business_Unit__c; 
+                    csla.Agent_LOB__c  = caseMap.get(csla.Case__c)?.Business_Unit__c;
                     csla.Agent_LOC__c  = newAgent.LOC__c;
                 }
                 

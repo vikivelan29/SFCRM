@@ -10,7 +10,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     public static final String STRING_CC ='CC';
     public static final String STRING_SEMI_COLON =';';
     public static final String STRING_COMMA =',';
-    public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage; 
+    public static final String STRING_NORECORDERROR = System.Label.ASF_Case_NoRecordMessage;
     
     /****************************************************************************************************************
     * @description  Gets the Source tagged to User and its Relavant Channel list.     
@@ -101,7 +101,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getAccountData(String keyword ,string asssetProductType,string isasset) {
-        return getAccountDataByCustomerType(keyword ,asssetProductType,isasset,'',''); 
+        return getAccountDataByCustomerType(keyword ,asssetProductType,isasset,'','',''); 
     }
     /****************************************************************************************************************
     * @description - get Type SubType By Customer Details
@@ -116,7 +116,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
     @AuraEnabled(Cacheable = true)
     public static CaseDetailsWrapper getTypeSubTypeByCustomerDetails(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob,String inpArg) {
         CaseDetailsWrapper returnVal = new CaseDetailsWrapper();
-        returnVal = getAccountDataByCustomerType(keyword ,asssetProductType,isasset,accRecordType,assetLob); 
+        returnVal = getAccountDataByCustomerType(keyword ,asssetProductType,isasset,accRecordType,assetLob,inpArg); 
         //List<ASF_Case_Category_Config__c> finalValues = new List<ASF_Case_Category_Config__c>();
         String loggedInUsersBU = returnVal.userBu;
         if(loggedInUsersBU == 'ABFL'){
@@ -145,9 +145,18 @@ public with sharing class ASF_CreateCaseWithTypeController {
     * @return  CaseDetailsWrapper
     *****************************************************************************************************************/
     @AuraEnabled(Cacheable = true)
-    public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob) {
+    public static CaseDetailsWrapper getAccountDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType,string assetLob,String inpArg) {
         objCaseDetailsWrapper = getUserDetails();
         String userBu=objCaseDetailsWrapper.userBu;
+        //ONEABC CHANGE - FETCH BU FROM OBJECT - START
+        if(String.isNotBlank(inpArg)){
+            Map<String,String> mInpArg = (Map<String,String>) JSON.deserialize(inpArg, Map<String,String>.Class);
+            if(mInpArg.containsKey('businessUnit')){
+                userBu = mInpArg.get('businessUnit');
+            }
+        }
+        system.debug('user bu--'+userBu);
+        //ONEABC CHANGE - FETCH BU FROM OBJECT - END
         string searchKeyword = '%' + keyword + '%';
         if(asssetProductType == '' || asssetProductType ==null ) {
             asssetProductType ='';
@@ -220,10 +229,14 @@ public with sharing class ASF_CreateCaseWithTypeController {
             
             for(id cccId: searchResults.keySet()){
                 ASF_Case_Category_Config__c ccc=  searchResults.get(cccId);
-                if( String.isNotBlank(userBu) && String.isNotBlank(ccc.Business_Unit__c) 
+                //ONEABC CHANGE - START
+                if(String.isNotBlank(userBu) && String.isNotBlank(ccc.Business_Unit__c) 
                    && ccc.Business_Unit__c.equalsIgnoreCase(userBu)){
                        cccset.add(searchResults.get(cccId));  
+                   } else if(String.isNotBlank(userBu) && userBu == ASF_Constants.ALL_BU){
+                       cccset.add(searchResults.get(cccId));
                    } 
+                //ONEABC CHANGE - END
                 
             }
             objCaseDetailsWrapper.lstCCCrecords = new list<ASF_Case_Category_Config__c> (cccset);

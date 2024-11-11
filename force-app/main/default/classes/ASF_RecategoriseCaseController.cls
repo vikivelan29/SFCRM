@@ -19,7 +19,7 @@ public with sharing class ASF_RecategoriseCaseController {
     */
     @AuraEnabled(Cacheable = true)
     public static ASF_CreateCaseWithTypeController.CaseDetailsWrapper getTypeSubTypeDataByCustomerType(String keyword ,string asssetProductType,string isasset,String accRecordType, String currentCCCId, String assetLOB) {
-        ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,assetLOB);
+        ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,assetLOB,'');
         List<ASF_Case_Category_Config__c> filteredCCCList = new List<ASF_Case_Category_Config__c>();
         for(ASF_Case_Category_Config__c ccc : originalList.lstCCCrecords){
             if(ccc.Business_Unit__c == ASF_Constants.ABSLI_BU){
@@ -149,7 +149,7 @@ public with sharing class ASF_RecategoriseCaseController {
     @AuraEnabled
     public static void updateCaseWithNewCCCId( String recId, String oldCCCId, String newCaseJson, String typeSubTypeText){
         /*
-        newCaseJson looks like below 
+        newCaseJson looks like below
         '{"apiName":"Case","fields":{"CCC_External_Id__c":"payments_indi_206","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}'
         */
         List<ASF_Checklist__c> openCheckLists = [SELECT ID 

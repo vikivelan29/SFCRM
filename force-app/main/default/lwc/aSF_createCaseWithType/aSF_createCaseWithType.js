@@ -35,6 +35,7 @@ import CASE_ASSET from '@salesforce/schema/Case.AssetId';
 import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Business__c';
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
 import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
+import CASE_BU from '@salesforce/schema/Case.Business_Unit__c';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 
@@ -276,7 +277,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         ACOUNNTRECORDTYPE, 
         CASE_ASSET_LOB,
         CASE_PROSPECT_ID,
-        NOAUTOCOMM_FIELD] })
+        NOAUTOCOMM_FIELD,
+        CASE_BU] })
     wiredRecord({ error, data }) {
         if (error) {
             let message = 'Unknown error';
@@ -299,6 +301,15 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.showOnProspectTagging = false;
             this.isNotSelectedReject = true;
 
+            //MOVED LOGIC FROM USER TO CASE FOR ONEABC - START
+            this.businessUnit = this.caseRec.fields.Business_Unit__c.value;
+            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+            this.faValidMsg = lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE != null? lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE : lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
+            this.withFALabel = lanLabels[this.businessUnit].CREATE_CASE_WITH_FA != null? lanLabels[this.businessUnit].CREATE_CASE_WITH_FA : lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
+
+            // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
+            this.adjustAutoCommunications(undefined);
+            //MOVED LOGIC FROM USER TO CASE FOR ONEABC - END
             this.flag = this.contactSelected = this.caseRec.fields.ContactId;
             
             if (this.caseRec.fields.AssetId.value) {
@@ -345,6 +356,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.noAutoCommValue = event.detail.value;
     }
 
+   /* MOVED LOGIC FROM USER TO CASE FOR ONEABC - START
     @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
     user({ error, data}) {
         if (data){
@@ -358,7 +370,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
-    }
+    } */
 
     // Rajendra Singh Nagar: PR1030924-209 - Added function
     adjustAutoCommunications(data){
@@ -423,6 +435,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     const inpArg = new Map();
     inpArg['accountLOB'] = this.accountLOB;
     inpArg['closeCaseWithoutCusButton'] = this.closeCaseWithoutCusButton;
+    inpArg['businessUnit'] = this.businessUnit;
     let strInpArg = JSON.stringify(inpArg);
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)

@@ -38,10 +38,23 @@ public without sharing class ASF_FieldSetController {
     * @return FieldSetForm 
     **/
     @AuraEnabled
-    public static FieldSetForm getLOBSpecificForm(Id recordId,String objectName,String fieldSetName,Boolean salesProspect){
-        Id loggedInUserId = UserInfo.getUserId();
-        User loggedInUser = [SELECT ID,Business_Unit__c FROM User WHERE Id =: loggedInUserId];
-        getFieldSetName(objectName,loggedInUser.Business_Unit__c,salesProspect);
+    public static FieldSetForm getLOBSpecificForm(Id recordId,String objectName,String fieldSetName,Boolean salesProspect,String inpArg){
+        //ONEABC CHANGE - START
+        String businessUnit = '';
+        system.debug('inpArg--'+inpArg);
+        if(String.isNotBlank(inpArg)){
+            Map<String,String> mInpArg = (Map<String,String>) JSON.deserialize(inpArg, Map<String,String>.Class);
+            if(mInpArg.containsKey('businessUnit')){
+                businessUnit = mInpArg.get('businessUnit');
+            }
+        }
+        if(String.isBlank(businessUnit)){
+            Id loggedInUserId = UserInfo.getUserId();
+            User loggedInUser = [SELECT ID,Business_Unit__c FROM User WHERE Id =: loggedInUserId];
+            businessUnit = loggedInUser.Business_Unit__c;
+        }
+        getFieldSetName(objectName,businessUnit,salesProspect);
+        //ONEABC CHANGE -END
         FieldSetForm form = new FieldSetForm();        
         form.Fields = getFields(recordId, objectName, fieldSetName);
         return form;

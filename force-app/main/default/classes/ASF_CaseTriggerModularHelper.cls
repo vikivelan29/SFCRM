@@ -201,32 +201,32 @@ blankSourcePresent = true;
                 }
                 if(!isUpdate || (isUpdate && caseRec.CCC_External_Id__c != oldMap.get(caseRec.Id).CCC_External_Id__c)){
             
-                    //Fill all common fields irrespective of source
-                    caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
-                    
-                    // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
-                    if(frameworkRecordTypeId == caseRec.RecordTypeId){
-                        caseRec.Stage__c = appliedCCC.First_Stage__c;
-                    }
-                    caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
-                    // VIRENDRA - 24 JUN 2024 - ADDED IGMS_Complaint_Type_Code__c  to CaseRecord.
-                    caseRec.IGMS_Complaint_Type_Code__c = appliedCCC.IGMS_Code__c;
-                    caseRec.Type_Text__c = appliedCCC.Type__c;
-                    caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
-                    caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
-                    caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
-                    caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
+                //Fill all common fields irrespective of source
+                caseRec.Nature__c = String.isBlank(caseRec.Nature__c)?appliedCCC.Nature__c:caseRec.Nature__c;
+                
+                // EXECUTE ONLY WHEN RECORD TYPE IS CHANGED TO FRAMEWORK.
+                if(frameworkRecordTypeId == caseRec.RecordTypeId){
+                    caseRec.Stage__c = appliedCCC.First_Stage__c;
+                }
+                caseRec.CCC_External_Id__c = appliedCCC.CCC_External_Id__c;
+                // VIRENDRA - 24 JUN 2024 - ADDED IGMS_Complaint_Type_Code__c  to CaseRecord.
+                caseRec.IGMS_Complaint_Type_Code__c = appliedCCC.IGMS_Code__c;
+                caseRec.Type_Text__c = appliedCCC.Type__c;
+                caseRec.Sub_Type_Text__c = appliedCCC.Sub_Type__c;
+                caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
+                caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
+                caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
                     caseRec.Activity__c = appliedCCC.Activity__c;
                     //mapping Line_of_Business__c on caseRec
                     caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
-                    // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
+                // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
                     if((!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU)||(caseRec.Business_Unit__c == 'ABHI' && appliedCCC.Is_STP__c == true)){
-                        caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
-                    }
-                    caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
-                    caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
-                    caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
-                    caseRec.Run_Assignment_Rule_on_Bulk_Create__c = appliedCCC.Run_Assignment_Rule_on_Bulk_Create__c;
+                    caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
+                }
+                caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
+                caseRec.Is_Recategorise_Allowed__c = appliedCCC.Is_Recategorise_Allowed__c;
+                caseRec.Allow_file_upload__c = appliedCCC.Allow_file_upload__c;
+                caseRec.Run_Assignment_Rule_on_Bulk_Create__c = appliedCCC.Run_Assignment_Rule_on_Bulk_Create__c;
                 }
                 if((!isUpdate) || (isUpdate && oldMap.get(caseRec.Id).Categorization_Date__c == null)){
                     caseRec.Categorization_Date__c = system.now();     
@@ -393,7 +393,7 @@ blankSourcePresent = true;
     }
     //Creates extension record for Case, if case is created from Bulk page
     public static void createCaseExtnRecordForBulk(List<Case> newList) {
-                
+        
         Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
         Integer index = 0;
         for(Case caseRec : newList){
@@ -423,7 +423,7 @@ blankSourcePresent = true;
                     }
                     extnRecords.put(index, newInstance);
                 }
-              }
+            }
             }
             index++;
         }
@@ -1594,10 +1594,13 @@ blankSourcePresent = true;
                 else if(!Test.isRunningTest() && newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c == null){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                 }
-                else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
+                //ONEABC - BYPASS CROSS BU VALIDATION
+                else if(!Test.isRunningTest() && newOwnerId.startsWith('00G') && !newOwnerQueueIdNameMap.get(newOwnerId).startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)
+                       && !((newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c) == ASF_Constants.ALL_BU)){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                 }
-                else if(!Test.isRunningTest() && oldOwnerId.startsWith('00G') && !queueIdNameMap.get(oldOwnerId).DeveloperName.startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)){
+                else if(!Test.isRunningTest() && oldOwnerId.startsWith('00G') && !queueIdNameMap.get(oldOwnerId).DeveloperName.startsWith(newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c)
+                       && !((newCaseOwnerMap.get(userInfo.getUserId()).Business_Unit__c) == ASF_Constants.ALL_BU)){
                     c.addError(System.Label.ASF_Case_Owner_Queue_Val_Msg);
                 }
             }

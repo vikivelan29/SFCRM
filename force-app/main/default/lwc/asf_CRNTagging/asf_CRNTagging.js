@@ -23,6 +23,7 @@ import loggedInUserId from '@salesforce/user/Id';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
+import CASE_BUSINESS_UNIT from '@salesforce/schema/Case.Business_Unit__c';
 import createProspectAndUpdCase from '@salesforce/apex/ASF_CaseUIController.CreateProspectAndUpdateOnCase';
 // VIRENDRA - PROSPECT TAGGING IMPORTS ENDS HERE.
 
@@ -68,6 +69,7 @@ export default class Asf_CRNTagging extends LightningElement {
     accData;
 
 
+    /* ONEABC - Moved logic to Case BU
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
         if (data) {
@@ -80,11 +82,11 @@ export default class Asf_CRNTagging extends LightningElement {
         } else if (error) {
             //this.error = error; 
         }
-    }
+    } */
 
     @wire(getRecord, {
         recordId: "$recordId",
-        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL]
+        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL, CASE_BUSINESS_UNIT]
     })
     CaseData({error, data}){
         if(data){
@@ -92,6 +94,14 @@ export default class Asf_CRNTagging extends LightningElement {
             this.FAId = getFieldValue(data, ASSET_FIELD);
             this.caseSuppliedEmail = getFieldValue(data, Case_SUPPLIEDEMAIL);
             console.log('acc id--'+this.accountCrn);
+            // ONEABC Change -- Start
+            this.loggedInUserBusinessUnit = getFieldValue(data, CASE_BUSINESS_UNIT);
+            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE != null? lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE : lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
+            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.selectLan = lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT != null? lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
+            this.accCols = lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS : lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
+            // ONEABC Change -- End
         } else if(error){
             console.log(error);
         }
@@ -320,8 +330,12 @@ export default class Asf_CRNTagging extends LightningElement {
     async handleProspectCreation(event){
         // THIS METHOD IS USED TO SHOW PROSPECT SCREEN.
         this.showProspectCreation = true;
+        const inpArg = new Map();
 
-        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false })
+        inpArg['businessUnit'] = this.loggedInUserBusinessUnit;
+        let strInpArg = JSON.stringify(inpArg);
+        
+        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false, inpArg:strInpArg })
             .then(result => {
                 console.log('Data:' + JSON.stringify(result));
                 if (result) {

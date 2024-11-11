@@ -179,6 +179,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         });
         this.dispatchEvent(event);
     }
+   /* MOVED LOGIC FROM USER TO ACCOUNT FOR ONEABC
     @wire(getRecord, { recordId: USER_ID, fields: [BUSINESS_UNIT] })
     user({ error, data}) {
         if (data){
@@ -190,7 +191,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         } else if (error){
             console.log('error in get record--'+JSON.stringify(error));
         }
-    }
+    } */
 
     // Rajendra Singh Nagar: PR1030924-209 - Added function
     adjustAutoCommunications(data){
@@ -328,7 +329,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         const inpArg = new Map();
 
         inpArg['accountLOB'] = this.accountLOB;
-
+        inpArg['businessUnit'] = this.businessUnit;
         let strInpArg = JSON.stringify(inpArg);
 
         getAccountData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: this.isasset, accRecordType : this.accountRecordType, assetLob :this.lobAsset,inpArg : strInpArg })
@@ -988,6 +989,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.accountRecordType = result.RecordType.Name;
                 this.accountLOB = result.Line_of_Business__c; // THIS IS USED IN CASE OF ABFL TO CHECK IF THE LOB IS WEALTH.
                 console.log('result' + result);
+                //MOVED LOGIC FROM USER TO ACCOUNT FOR ONEABC - START
+                this.businessUnit = result.Business_Unit__c;
+                this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+
+                // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
+                this.adjustAutoCommunications(undefined);
+                //END
             })
             .catch(error => {
                 console.log(error);

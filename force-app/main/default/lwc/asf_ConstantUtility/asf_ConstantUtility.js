@@ -565,7 +565,16 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Contract Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag Contract to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with Contract"
-    } 
+    },
+    All: {
+        CTST_COLS: [
+            { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+            { label: 'Business Unit', fieldName: 'Business_Unit__c', type: 'text' },
+            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+            { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+        ],
+    }
   };
 
   // Rajendra Singh Nagar: PR1030924-209 - Start

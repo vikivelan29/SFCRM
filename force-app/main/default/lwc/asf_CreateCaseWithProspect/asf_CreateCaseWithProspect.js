@@ -100,6 +100,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     currentObj = CASE_OBJECT.objectApiName;
     //ABHI
     abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
+    //One ABC
+    prospectBusinessUnit;
     natureVal = '';
     cols;
     dupeLeadCols = [
@@ -153,15 +155,29 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
 
 
-    @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
+   @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
         if (data) {
-            this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+            this.loggedInUserBusinessUnit = this.prospectBusinessUnit ? this.prospectBusinessUnit : data.fields.Business_Unit__c.value;
             this.cols = lanLabels[this.loggedInUserBusinessUnit].CTST_COLS != null? lanLabels[this.loggedInUserBusinessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
         } else if (error) {
             //this.error = error ;
         }
     }
+
+    //MOVED LOGIC FROM USER TO LEAD FOR ONEABC - START
+    @wire(getRecord, { recordId: '$recordId', fields: [PROSPECT_BUSINESS_UNIT]}) 
+    leadInfo({error, data}) {
+        if (data) {
+            this.prospectBusinessUnit = data.fields.Business_Unit__c.value;
+            this.loggedInUserBusinessUnit = this.prospectBusinessUnit;
+            this.cols = lanLabels[this.loggedInUserBusinessUnit].CTST_COLS != null? lanLabels[this.loggedInUserBusinessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+            console.log('prospectBusinessUnit bu--'+this.prospectBusinessUnit);
+        } else if (error) {
+            //this.error = error ;
+        }
+    }
+    //MOVED LOGIC FROM USER TO LEAD FOR ONEABC - END    
 
 
     handelSearchKey(event) {
@@ -183,8 +199,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.showFtr = false;
         this.showIssueType = false;
         this.ftrValue = false;
+
+        const inpArg = new Map();
+        inpArg['businessUnit'] = this.loggedInUserBusinessUnit;
+        let strInpArg = JSON.stringify(inpArg);
         
-        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null })
+        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null, inpArg: strInpArg })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -236,6 +256,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         if (selected) {
             this.natureVal = selected.Nature__c;
+            this.loggedInUserBusinessUnit = selected.Business_Unit__c;
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
             this.selectedCTSTFromProspect = selected;
@@ -390,6 +411,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         
         
         this.selectedCTSTRecord = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
+        this.loggedInUserBusinessUnit = this.selectedCTSTRecord.Business_Unit__c;
         if (!this.isInputValid()) {
             // Stay on same page if lightning-text field is required and is not populated with any value.
             return;
@@ -409,7 +431,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.dupeLead = [];
         this.disableCreateBtn = false;
 
-        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false })
+        const inpArg = new Map();
+
+        inpArg['businessUnit'] = this.loggedInUserBusinessUnit;
+        let strInpArg = JSON.stringify(inpArg);
+
+        await getForm({ recordId: null, objectName: "Lead", fieldSetName: null,salesProspect:false, inpArg:strInpArg })
             .then(result => {
                 console.log('Data:' + JSON.stringify(result));
                 if (result) {
