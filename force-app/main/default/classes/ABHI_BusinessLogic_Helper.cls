@@ -548,6 +548,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         
         if(oldCaseMap != NULL){ return; }
         
+        //Update Renewal Request on Case for below profiles users
         Id profileId = UserInfo.getProfileId();
         if(profileId == null){ return; }
         
