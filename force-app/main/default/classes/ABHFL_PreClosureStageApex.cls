@@ -100,7 +100,7 @@ public with sharing class ABHFL_PreClosureStageApex implements ASF_CaseStageClas
             retCls.status = ABHFL_Constants.SUCCESS;
             retCls.isCaseUpdated = false;
             returnWrapper.put(caseRec.Id, retCls);
-            if(caseRec.Stage__c == 'Retrieval'){
+            if(caseRec.Stage__c == 'Retrieval' || caseRec.Stage__c == 'Branch'){
                 eligibleCases.add(caseRec);
             }
         }
