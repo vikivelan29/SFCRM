@@ -1,4 +1,9 @@
 <template>
+   
+    <div class="slds-p-vertical_small slds-p-left_small">
+        <lightning-button label="Refresh" onclick={handleRefresh} class="refresh-button"></lightning-button>
+        <lightning-spinner alternative-text="Loading" size="small" if:true={isLoading}></lightning-spinner>
+    </div>
     <lightning-card title="Cases by Stage" icon-name="standard:case">
         <lightning-accordion allow-multiple-sections-open="false" 
                              active-section-name={activeSectionName}

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <classAccesses>
+        <apexClass>ABCL_BaseViewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_LegacyView</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABCL_CommonCLass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -897,6 +905,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.ABHI_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.CMP_OPD__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Chronic_care__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Account.Alternatemobile__c</field>
         <readable>true</readable>
@@ -1717,6 +1740,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Claim__c.claim_Intimation_received_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Claim__c.Settlement_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Dispositions__c.ABHI_Retry__c</field>
         <readable>true</readable>
@@ -2014,11 +2047,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Claim__c.Patient_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Claim__c.Policy_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3264,22 +3292,49 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Overdue_Case_Closure_SLA_In_Days__c</field> 
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Existing_Nominee_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Case_Reopened_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Case_Closed_Resolved_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Reason_for_cancellation__c</field>
+        <field>ABHI_Case_Detail__c.Case_Closed_Resolution_Comments__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABHI_Case_Detail__c.Member_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field>
+        <field>ABHI_Case_Detail__c.Disclosure_of_Illness__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Cancellation_Date__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+        <field>ABHI_Case_Detail__c.New_Contact_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>false</editable>
+            <field>Customer_Member_Mapping__c.Member_Status__c</field>
+            <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHI User PS</label>
@@ -3329,9 +3384,9 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>false</allowCreate>
+        <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
+        <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Health_Intent__c</object>
@@ -3434,4 +3489,4 @@
         <enabled>true</enabled>
         <name>TransferAnyEntity</name>
     </userPermissions>
-</PermissionSet> 
+</PermissionSet>

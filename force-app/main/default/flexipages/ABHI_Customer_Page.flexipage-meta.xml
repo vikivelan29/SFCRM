@@ -259,8 +259,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PAN_Number__c</fieldItem>
-                <identifier>RecordPAN_Number_cField</identifier>
+                <fieldItem>Record.PAN__c</fieldItem>
+                <identifier>RecordPAN_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -471,7 +471,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Country__c</fieldItem>
+                <fieldItem>Record.ABHI_Country__c</fieldItem>
                 <identifier>RecordCountry_cField2</identifier>
             </fieldInstance>
         </itemInstances>
@@ -1628,5 +1628,6 @@
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
+    
     <type>RecordPage</type>
 </FlexiPage>

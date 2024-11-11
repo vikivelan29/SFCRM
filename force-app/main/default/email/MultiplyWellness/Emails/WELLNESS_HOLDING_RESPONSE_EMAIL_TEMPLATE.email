@@ -8,7 +8,7 @@
 				}
 
 				.ReadMsgBody,
-				.ExternalClass {
+				.ExternalClass{
 					width: 100%;
 				}
 
@@ -149,10 +149,6 @@
 												<div style="margin-right: 4px;  margin-left: 4px; text-align:justify">Dear {{{Case.Customer_name_formula__c}}},<br />
 												<br />
 												<strong><span style="color:#ca1f34;">Greetings from Aditya Birla Wellness Pvt Ltd.</span></strong><br />
-												&nbsp;<br />
-												This is an automated acknowledgement.<br />
-												<br />
-												The reference number for this request is {{{Case.CaseNumber}}}.<br />
 												<br />
 												This is to acknowledge that we have received your concern regarding {{{Case.Type_Text__c}}} - {{{Case.Sub_Type_Text__c}}}. The reference number for this request is&nbsp;{{{Case.CaseNumber}}}. We are committed to resolving it within 2 business days.
 												<p>Should you require immediate assistance, please feel free to reach out to us at 08045860207.<br />

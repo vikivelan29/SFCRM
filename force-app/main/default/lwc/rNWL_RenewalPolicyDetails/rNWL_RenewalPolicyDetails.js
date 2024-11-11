@@ -125,7 +125,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                                     if(this.account.MMI_Customer_ID__c == item.vchClientCode){
                                         this.heathRetrn = item;
                                         this.healthFlag = true;
-                                        this.balanceHR = this.heathRetrn.TotalHealthReturnsTM - this.heathRetrn.TotalHealthReturnsTMBurnt;
+                                        this.balanceHR = (this.heathRetrn.TotalHealthReturnsTM - this.heathRetrn.TotalHealthReturnsTMBurnt).toFixed(1);
                                     }
                                 })
                             }
@@ -151,7 +151,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                             }
                         }
                     }
-                    //for App registration details
+                    //For App registration details
                     if(key == 'AppRegDetails' && data[key]){
                         if(JSON.parse(data[key]).Message.includes('Fail')){
                             if(apiErrMsg != ''){
