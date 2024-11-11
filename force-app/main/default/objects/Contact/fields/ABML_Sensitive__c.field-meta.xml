@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Line_of_Business__c</fullName>
-    <label>Line of Business</label>
+    <fullName>ABML_Sensitive__c</fullName>
+    <externalId>false</externalId>
+    <label>ABML Sensitive</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>ABHFL</fullName>
+                <fullName>Yes</fullName>
                 <default>false</default>
-                <label>ABHFL</label>
+                <label>Yes</label>
             </value>
             <value>
-                <fullName>ABFL</fullName>
+                <fullName>No</fullName>
                 <default>false</default>
-                <label>ABFL</label>
+                <label>No</label>
             </value>
             <value>
-                <fullName>Payments</fullName>
+                <fullName>Not Sensitive</fullName>
                 <default>false</default>
-                <label>Payments</label>
+                <isActive>false</isActive>
+                <label>Not Sensitive</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
+                <fullName>Sensitive</fullName>
                 <default>false</default>
-                <label>ABWM</label>
-            </value>
-            <value>
-                <fullName>ABML</fullName>
-                <default>false</default>
-                <label>ABML</label>
+                <isActive>false</isActive>
+                <label>Sensitive</label>
             </value>
         </valueSetDefinition>
     </valueSet>
