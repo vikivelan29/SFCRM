@@ -8,6 +8,10 @@
         <apexClass>ABFL_LegacyView</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>ABHI_KavachPolicies</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>ABHI_LOBSpecificLegacyViewMethods</apexClass>
         <enabled>true</enabled>
@@ -3886,6 +3890,10 @@
     </recordTypeVisibilities>
     <tabSettings>
         <tab>Customer_Prospect_Search</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+     <tabSettings>
+        <tab>Search_Kavach_Customer_Policy_details</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <userPermissions>
