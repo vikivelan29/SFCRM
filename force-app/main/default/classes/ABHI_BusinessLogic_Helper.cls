@@ -842,7 +842,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(casRec.AssetId != null && 
                ((oldCaseMap == null) || 
                 (oldCase != null && oldCase.AssetId != casRec.AssetId))){
-                	assetIds.add(casRec.AssetId);
+                    assetIds.add(casRec.AssetId);
                     casesToUpdate.add(casRec);
             }
         }
