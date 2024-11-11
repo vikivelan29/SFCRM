@@ -2652,6 +2652,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Claim__c.claim_Intimation_received_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Claim__c.Total_amount_approved__c</field>
         <readable>true</readable>
     </fieldPermissions>
