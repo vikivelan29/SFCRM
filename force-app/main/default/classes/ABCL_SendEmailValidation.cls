@@ -102,7 +102,8 @@ public with sharing class ABCL_SendEmailValidation {
         * @param newEmails - the case that is created from create case page
         * @description - Restrict User to send email based on user's Team
         */
-        public static void restrictUserToSendEmail(List<EmailMessage> newEmails){
+        // Joshna - commenting this method out as this fix was only for SIT. In UAT, this method is not deployed. It will be uncommented when ABHI team deploys this
+        /*public static void restrictUserToSendEmail(List<EmailMessage> newEmails){
             
             List<String> selectedTeamList = new List<String>();
             List<EmailMessage> outgoingCaseEmails = new List<EmailMessage>();
@@ -124,5 +125,5 @@ public with sharing class ABCL_SendEmailValidation {
                     }
                 }
             }
-        }
+        }*/
     }
