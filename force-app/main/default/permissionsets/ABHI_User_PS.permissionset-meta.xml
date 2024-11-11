@@ -4,6 +4,10 @@
         <apexClass>ABCL_BaseViewController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>ABHI_KavachPolicies</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>ABCL_CaseIntegrationHelper</apexClass>
         <enabled>true</enabled>
@@ -4234,7 +4238,7 @@
         <tab>Customer_Prospect_Search</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+     <tabSettings>
         <tab>Search_Kavach_Customer_Policy_details</tab>
         <visibility>Visible</visibility>
     </tabSettings>
