@@ -659,16 +659,6 @@
                 <identifier>RecordARN_Number_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Relationship_Manager_Name_Text__c</fieldItem>
-                <identifier>RecordRelationship_Manager_Name_Text_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-246b168b-11bd-4881-9a10-fb0a6ee7b93f</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -781,16 +771,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Self_Declaration_status__c</fieldItem>
                 <identifier>RecordSelf_Declaration_status_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Relationship_Manager_Email_Text__c</fieldItem>
-                <identifier>RecordRelationship_Manager_Email_Text_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
