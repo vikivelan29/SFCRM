@@ -110,12 +110,14 @@ public without sharing class RNWL_NonIndAccountRenewalController {
             Set<String> renewdMasterPolicyNumbers = new Set<String>();
 
             for(cls_Renew_Info data: respWrapper.Renew_Info){
-                if(data.Renewed_MaterPolicy_Number != null && data.Renewed_MaterPolicy_Number == masterPolicyNumber){
-                    Renewal_Info renewalDetail = (Renewal_Info)JSON.deserialize((JSON.serialize(data)) , Renewal_Info.class);
-                    renewalInfos.add(renewalDetail);
-					renewedProposalNumber = data?.Renewed_Policy_Proposal_Number;
-                }else if(combiFlag && data.Renewed_MaterPolicy_Number != masterPolicyNumber){
-                    renewdMasterPolicyNumbers.add(data.Renewed_MaterPolicy_Number);
+                if(String.isNotBlank(data.Renewed_MaterPolicy_Number) && String.isNotBlank(masterPolicyNumber)){
+                    if(data.Renewed_MaterPolicy_Number != null && data.Renewed_MaterPolicy_Number == masterPolicyNumber){
+                        Renewal_Info renewalDetail = (Renewal_Info)JSON.deserialize((JSON.serialize(data)) , Renewal_Info.class);
+                        renewalInfos.add(renewalDetail);
+                        renewedProposalNumber = data?.Renewed_Policy_Proposal_Number;
+                    }else if(combiFlag && data.Renewed_MaterPolicy_Number != masterPolicyNumber){
+                        renewdMasterPolicyNumbers.add(data.Renewed_MaterPolicy_Number);
+                    }
                 }
             }
 
