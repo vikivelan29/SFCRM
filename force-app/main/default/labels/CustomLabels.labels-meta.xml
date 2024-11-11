@@ -1157,7 +1157,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_OmniDocURL</shortDescription>
-        <value>https://omnidocsuat.adityabirlahealth.com/omnidocs/WebApiRequestRedirection?Application=WebAPI_abhi_uat&cabinetName=abhi_uat</value>
+        <value>https://omnidocsuat.adityabirlahealth.com/omnidocs/WebApiRequestRedirection?Application=WebAPI_abhi_uat&amp;cabinetName=abhi_uat</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
@@ -1601,5 +1601,19 @@
         <protected>false</protected>
         <shortDescription>RNWL_PageLink</shortDescription>
         <value>http://bit.ly/ABHRENEW</value>
+    </labels>
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_Insufficient_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness std access error message</shortDescription>
+        <value>insufficient access rights on object id</value>
     </labels>
 </CustomLabels>
