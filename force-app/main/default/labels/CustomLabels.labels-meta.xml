@@ -1425,4 +1425,11 @@
         <shortDescription>BU Restrict email</shortDescription>
         <value>ABHI</value>
     </labels>
+    <labels>
+        <fullName>Wellness_Insufficient_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness std access error message</shortDescription>
+        <value>insufficient access rights on object id</value>
+    </labels>
 </CustomLabels>
