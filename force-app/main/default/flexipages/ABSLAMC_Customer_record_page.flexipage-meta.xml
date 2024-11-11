@@ -596,8 +596,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PreferredLanguage__pc</fieldItem>
-                <identifier>RecordPreferredLanguage_pcField</identifier>
+                <fieldItem>Record.Language_Preference__c</fieldItem>
+                <identifier>RecordLanguage_Preference_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
