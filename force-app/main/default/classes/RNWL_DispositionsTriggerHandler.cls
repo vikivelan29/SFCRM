@@ -1,4 +1,5 @@
 public class RNWL_DispositionsTriggerHandler extends ASF_VTriggerHandler{
+    
     private Boolean isTriggerDisabled(){
         return isDisabled('Dispositions');
     }
