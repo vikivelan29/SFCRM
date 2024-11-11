@@ -37,7 +37,7 @@ public with sharing class RNWL_CommunicationFrameworkController {
             }
             
             Customer_Notification_Config__mdt notificationMD = Customer_Notification_Config__mdt.getInstance(requestInst.selectedTemplate);
-            PE_Logger__c peLoggerRecord = new PE_Logger__c(AccountId__c = oppRecord.AccountId, ContactId__c = contactRecord.Id, Opportunity_ID__c = oppRecord.Id,
+            PE_Logger__c peLoggerRecord = new PE_Logger__c(AccountId__c = oppRecord.AccountId, ContactId__c = contactRecord?.Id, Opportunity_ID__c = oppRecord.Id,
                 RecordID__c = oppRecord.Id, PE_Name__c = 'Communication Log', Status__c = 'Pending', LOB__c = 'ABHI', CustomMetadataName__c = requestInst.selectedTemplate,
                 Send_To_Specific_Mobile__c = String.isNotBlank(requestInst.alternateMobile), Specific_To_MobilePhone__c = requestInst.alternateMobile,
                 Send_To_Specific_Emails__c = String.isNotBlank(requestInst.toAddresses), Specific_To_Address__c = requestInst.toAddresses,
@@ -53,7 +53,7 @@ public with sharing class RNWL_CommunicationFrameworkController {
         }
         return 'Initiated communication successfully';
     }
-	
+    
     private static String validateNotificationLimit(Id oppId, String metadataName){
         
         String errorMessage = '';
@@ -64,7 +64,7 @@ public with sharing class RNWL_CommunicationFrameworkController {
         
         if(peLoggers != null && peLoggers.size() > 0){
             Integer currentPECount=0;
-            Integer totalPECount = peLoggers.size();		        
+            Integer totalPECount = peLoggers.size();                
             
             for(PE_Logger__c logger : peLoggers){
                 if(date.today().isSameDay(logger.CreatedDate.Date())){
@@ -72,8 +72,8 @@ public with sharing class RNWL_CommunicationFrameworkController {
                 }
             }
             
-           	List<RNWL_Communications__mdt> mdt = [SELECT id,DeveloperName, Metadata_Name__c,
-                                                  		 Frequency_per_Day__c, Frequency_per_Renewal_Request__c 
+            List<RNWL_Communications__mdt> mdt = [SELECT id,DeveloperName, Metadata_Name__c,
+                                                         Frequency_per_Day__c, Frequency_per_Renewal_Request__c 
                                                   FROM RNWL_Communications__mdt
                                                   WHERE Metadata_Name__c=:metadataName LIMIT 1];
             
