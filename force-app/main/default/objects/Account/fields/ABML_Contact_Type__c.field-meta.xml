@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Business_Unit__c</fullName>
+    <fullName>ABML_Contact_Type__c</fullName>
     <externalId>false</externalId>
-    <label>Business Unit</label>
+    <label>Contact Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
@@ -12,39 +12,39 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Payments</fullName>
+                <fullName>Franchisee</fullName>
                 <default>false</default>
-                <label>Payments</label>
+                <label>Franchisee</label>
             </value>
             <value>
-                <fullName>ABHFL</fullName>
+                <fullName>Branch</fullName>
                 <default>false</default>
-                <label>ABHFL</label>
+                <label>Branch</label>
             </value>
             <value>
-                <fullName>ABFL</fullName>
+                <fullName>Customer</fullName>
                 <default>false</default>
-                <label>ABFL</label>
+                <label>Customer</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
+                <fullName>DSA</fullName>
                 <default>false</default>
-                <label>ABWM</label>
+                <label>DSA</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
+                <fullName>Branch Employee</fullName>
                 <default>false</default>
-                <label>ABSLIG</label>
+                <label>Branch Employee</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
+                <fullName>BSB</fullName>
                 <default>false</default>
-                <label>ABSLI</label>
+                <label>BSB</label>
             </value>
             <value>
-                <fullName>ABML</fullName>
-                <default>true</default>
-                <label>ABML</label>
+                <fullName>DP</fullName>
+                <default>false</default>
+                <label>DP</label>
             </value>
         </valueSetDefinition>
     </valueSet>
