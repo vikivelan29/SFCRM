@@ -489,7 +489,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
                 ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
 
-                if(metaDataRec.Source__c != caseSource) {
+                if( (metaDataRec.Source__c != caseSource) || 
+                    (String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
                     result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
@@ -529,7 +530,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(casRec.AssetId != null && 
                ((oldCaseMap == null) || 
                 (oldCase != null && oldCase.AssetId != casRec.AssetId))){
-                    assetIds.add(casRec.AssetId);
+                	assetIds.add(casRec.AssetId);
                     casesToUpdate.add(casRec);
             }
         }
@@ -540,25 +541,28 @@ public with sharing class ABHI_BusinessLogic_Helper {
                                FROM Asset WHERE Id IN : assetIds]){
             assetIdToOppMap.put(asst.Id, asst);
         }
-
+        //Update Calling Source on Case
         for(Case cas : casesToUpdate){
             cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId)?.Calling_Source__c ?? ''; 
-        }
+		}
         
         if(oldCaseMap != NULL){ return; }
         
         Id profileId = UserInfo.getProfileId();
         if(profileId == null){ return; }
-
-        String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId].Name;
         
-        if(profileName != 'RNWL Base Profile' && profileName != 'RNWL Manager Profile'){ return; }
+        List<Profile> profileList = [Select Id, Name FROM Profile WHERE Id = :profileId];
         
-        for(Case rnwlCase : casesToUpdate){
-            if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
-               Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
-               rnwlCase.Renewal_Request__c = opp.Id;
-            }
-        }   
+        if(profileList.size() > 0){
+        
+            if(profileList[0]?.Name != 'RNWL Base Profile' && profileList[0]?.Name != 'RNWL Manager Profile'){ return; }
+            
+            for(Case rnwlCase : casesToUpdate){
+                if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
+                   Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
+                   rnwlCase.Renewal_Request__c = opp.Id;
+                }
+            }  
+        }
     }
 }

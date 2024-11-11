@@ -1,5 +1,5 @@
 public class RNWL_DispositionsTriggerHelper {
-    
+      
  public static Map<String,Integer> dispositionPriorityMap = new Map<String,Integer>();
  public static Map<String,String> dispositionDashboardMap = new Map<String,String>();
     
