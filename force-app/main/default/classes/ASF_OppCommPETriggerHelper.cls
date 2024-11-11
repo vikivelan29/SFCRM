@@ -16,13 +16,13 @@ public without sharing class ASF_OppCommPETriggerHelper {
     public static List<String> channelFieldNamesWA = new List<String>();
     public static Map<Id,responseWrapper> peLogIdVsSuccessResult = new Map<Id,responseWrapper>();
     public static List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
-    public static Map<String,Id> templateIDMap = new Map<String,Id>();
+    public static Map<String, EmailTemplate> templateIDMap = new Map<String, EmailTemplate>();
     public static set<String> setOpportunityFields = new Set<String>();
-    public static Set<Id> caseIds = new Set<Id>();
     public static Set<Id> opportunityIds = new Set<Id>();
     public static Map<String, Schema.SObjectField> oppFieldInfo;
     public static List<ASF_Communication_log__c> logs = new List<ASF_Communication_log__c>();
     public static Set<Id> caseAccountIds = new Set<Id>();
+    public static Map<Id, Account> accountMap = new Map<Id, Account>();
     public static Set<Id> caseConIds = new Set<Id>();
     public static Map<Id,Set<Contact>> mAccountIdContactId = new Map<Id,Set<Contact>>();
     public static Map<Id,Id> mLogIdVsCaseId = new Map<Id,Id>();
@@ -32,6 +32,13 @@ public without sharing class ASF_OppCommPETriggerHelper {
     public static Map<Id,Opportunity> mOpps = new Map<Id,Opportunity>();
     public static Map<integer,Id> mIdxVsPELoggerId = new Map<integer,Id>();
     public static integer iCounter = 0;
+     // this is currently set to ABHI-RNWL. When RNWL is extended in future, replace this with a field on opp that will identify the BU
+    public static String subLob = 'ABHI-RNWL';
+
+    // VIRENDRA - 12 APRIL 2024 - ADDED FOR INFOSEC AND PRODUCTION REQUIREMENT OF ABHFL.
+    public static Map<String,Set<String>> mBusUnitVsDefaultFromAddress = new Map<String,Set<String>>();
+    public static Map<String,Id> mBusinessUnitVsSpecificOWA = new Map<String,Id>();
+    public static Map<String,String> mBusUnitVsReplyToAddress = new Map<String,String>();
 
     /**
      * @description Executes the constructor to handle communication log creation based on PE logger records.
@@ -43,6 +50,26 @@ public without sharing class ASF_OppCommPETriggerHelper {
         channelFieldNamesEmail = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.Email);
         channelFieldNamesWA = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.WhatsApp);
 
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        for(BUSpecificAutoEmailMapping__mdt buSpecificAutoEmail : [SELECT ID, Business_Unit__c ,Default_Automated_Email_From_Address__c, Reply_To_Address__c  FROM BUSpecificAutoEmailMapping__mdt]){
+            if(!mBusUnitVsDefaultFromAddress.containsKey(buSpecificAutoEmail.Default_Automated_Email_From_Address__c)){
+                mBusUnitVsDefaultFromAddress.put(buSpecificAutoEmail.Default_Automated_Email_From_Address__c, new Set<String>());
+            }
+            mBusUnitVsDefaultFromAddress.get(buSpecificAutoEmail.Default_Automated_Email_From_Address__c).add(buSpecificAutoEmail.Business_Unit__c);
+
+            if(!mBusUnitVsReplyToAddress.containsKey(buSpecificAutoEmail.Business_Unit__c)){
+                mBusUnitVsReplyToAddress.put(buSpecificAutoEmail.Business_Unit__c,buSpecificAutoEmail.Reply_To_Address__c);
+            }
+        }
+        for(OrgWideEmailAddress OWA : [select Id,Address,Purpose from OrgWideEmailAddress WHERE Address=:mBusUnitVsDefaultFromAddress.keySet()]){
+            if(mBusUnitVsDefaultFromAddress.containsKey(OWA.Address)){
+                for(String strBusUnit : mBusUnitVsDefaultFromAddress.get(OWA.Address)){
+                    mBusinessUnitVsSpecificOWA.put(strBusUnit,OWA.Id);
+                }
+            }
+        }
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+
         /* Account Contact Related Operations */
         getAccountAndContactIdsAndLeadIds(peLogs);
         List<Contact> contactList = ASF_CommPETriggerQueryHandler.getCustomerContact(caseAccountIds, caseConIds);
@@ -53,7 +80,8 @@ public without sharing class ASF_OppCommPETriggerHelper {
             }
             mAccountIdContactId.get(c.AccountId).add(c);
         }
-        defaultContactId = [select id from contact limit 1].Id;
+        accountMap = new Map<Id, Account>([SELECT Id, Phone FROM Account WHERE Id IN :caseAccountIds]);
+        defaultContactId = [select id, Account.Phone from contact limit 1].Id;
         oppFieldInfo = Schema.SObjectType.Opportunity.fields.getMap();
         /* Account Contact Related Operations */
 
@@ -115,6 +143,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
     
     private static Messaging.SingleEmailMessage getMessageCommonVariables(Contact con, Opportunity opp, Id owdID){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+        msg.setOrgWideEmailAddressId(owdID);
         if(con != null){
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);  
@@ -125,6 +154,18 @@ public without sharing class ASF_OppCommPETriggerHelper {
             msg.setTreatTargetObjectAsRecipient(false);
             //msg.setToAddresses(new String[]{con.SuppliedEmail});
         }
+
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        if(mBusinessUnitVsSpecificOWA.containsKey(subLob)){
+            OWDId = mBusinessUnitVsSpecificOWA.get(subLob);
+            msg.setOrgWideEmailAddressId(OWDId);
+        }
+        if(mBusUnitVsReplyToAddress.containsKey(subLob)){
+            String replyAddr = mBusUnitVsReplyToAddress.get(subLob);
+            msg.setReplyTo(replyAddr);
+        }
+        /******* VIRENDRA - ENDS HERE on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+
         return msg;
     }
 
@@ -145,7 +186,9 @@ public without sharing class ASF_OppCommPETriggerHelper {
         msg.setTemplateId(eTempId);
         msg.setWhatId(opp.Id);
         msg.setSaveAsActivity(true);
-        msg.setOrgWideEmailAddressId(owdID);
+        if (msg.getOrgWideEmailAddressId() == null){
+            msg.setOrgWideEmailAddressId(owdID);
+        }
 
         if (ccAddresses != null) {
             List<String> ccAddressList = ccAddresses.deleteWhitespace().split(';');
@@ -160,7 +203,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
      */
     private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
-        OrgWideEmailAddress owAddress = [select Id, Purpose from OrgWideEmailAddress WHERE DisplayName = 'ABHI Renewals' LIMIT 1];
+        OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE DisplayName = :System.Label.ASF_default_no_reply_email_address limit 1];
         
         for(PE_Logger__c pLog : peLogs){
             if(!mOpps.containsKey(pLog.Opportunity_ID__c)){
@@ -174,7 +217,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
             }
                 
             if(templateIDMap.containsKey(pLog.Email_Template_Name__c)){
-                Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c);
+                Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c).Id;
 
                 if(pLog.Send_To_Specific_Emails__c){
                     if(pLog.Specific_To_Address__c != null){
@@ -239,59 +282,46 @@ public without sharing class ASF_OppCommPETriggerHelper {
      * @param skipPE A boolean flag to skip publishing Platform Events.
      * @param peLogs A list of PE Logger records.
      */
-    public static void sendCommunications(Boolean skipPE,List<PE_Logger__c> peLogs){
-        List<Outbound_Communication__e> eventList = new List<Outbound_Communication__e>();
-        
+    public static void sendCommunications(Boolean skipPE, List<PE_Logger__c> peLogs){
+        List<Outbound_Communication__e> smsEventList = new List<Outbound_Communication__e>();
+        List<ABCL_Integration_Event__e> whatsAppEventList = new List<ABCL_Integration_Event__e>();
+
         // For SMS and WhatsApp
         for(ASF_Communication_Log__c log : logs){
             if(log.Id == null){
                 continue;
             }
-            if(!String.isEmpty(log.SMS_LT_Name__c) && log.Phone__c != null){
-                String smsTemplateId = templateIDMap.get(log.SMS_LT_Name__c);
+            if (!String.isEmpty(log.SMS_LT_Name__c) && log.Phone__c != null) {
+                String smsTemplateId = templateIDMap.get(log.SMS_LT_Name__c).Id;
                 
                 if(smsTemplateId == null){
                     responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c ,'Error','SMS template not found for name ' + log.SMS_LT_Name__c);
                     peLogIdVsSuccessResult.put(log.PE_Logger_Id__c ,cls);
-                    //throw new commException('SMS template not found for name ' + log.SMS_LT_Name__c);
-                }
-                else{
-                    if(log.Contact__c != null){ 
-                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Contact__c,log.id, true); 
-                    }
-                    else if(log.Lead__c != null){
-                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Lead__c,log.id, true); 
-                    }
-                    else if(log.Send_To_Specific_Mobile__c){
-                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,defaultContactId,log.id, true); 
+                } else{
+                    if (log.Contact__c != null) {
+                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId, log.Contact__c, log.Renewal_Request__c, true); 
+                    } else if(log.Send_To_Specific_Mobile__c){
+                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId, defaultContactId, log.Renewal_Request__c, true); 
                     }
 
                     responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Success','',log.id,log.SMS_Msg_Body__c);
                     peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
-                    eventList.add(createOutboundCommunication(log,'SMS'));
+                    smsEventList.add(createOutboundCommunication(log, 'SMS'));
                 }
             }
             
-            if(!String.isEmpty(log.WhatsApp_LT_Name__c)){
-                
-                String waTemplateId = templateIDMap.get(log.WhatsApp_LT_Name__c);
-                
-                if(waTemplateId == null){
-                    responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Error','WhatsApp template not found for name ' + log.WhatsApp_LT_Name__c);
-                    peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
-                }
-                else{
-                    log.Whatsappp_Msg_Body__c = generateMessageBody(waTemplateId,log.Contact__c, log.id, true);
-                    responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Success','',log.id,log.Whatsappp_Msg_Body__c);
-                    peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
-                    Outbound_Communication__e comm = createOutboundCommunication(log,'WhatsApp');
-                    eventList.add(comm);
-                }
+            if (!String.isEmpty(log.WhatsApp_LT_Name__c)) {
+                responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c, 'Success','', log.id, '');
+                peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
+                ABCL_Integration_Event__e comm = createWhatsAppCommunicationEvent(log);
+                whatsAppEventList.add(comm);
             }
         }
         
         if(!skipPE){
-            List<Database.SaveResult> results = EventBus.publish(eventList);
+            system.debug('*******smsEventList: ' + smsEventList + '*****whatsAppEventList: ' + whatsAppEventList);
+            List<Database.SaveResult> resultsSMS = EventBus.publish(smsEventList);
+            List<Database.SaveResult> resultsWhatsApp = EventBus.publish(whatsAppEventList);
         }
     }
     
@@ -322,6 +352,28 @@ public without sharing class ASF_OppCommPETriggerHelper {
         return event;
     }
 
+    private static ABCL_Integration_Event__e createWhatsAppCommunicationEvent(ASF_Communication_Log__c log) {
+        Opportunity oppRec = mOpps.get(log.Renewal_Request__c);
+        ABCL_Integration_Event__e event = new ABCL_Integration_Event__e(Business_Unit__c = 'ABHI-RNWL', ObjectApiName__c = 'ASF_Communication_Log__c',
+            Record_Id__c = log.Id, ServiceName__c = 'ClickPSSCommunication');
+        WhatsAppAPIRequestWrapper requestWrap = new WhatsAppAPIRequestWrapper();
+        requestWrap.AlertID = log.External_Template_ID__c;
+        requestWrap.Mobileno = log.Phone__c;
+        requestWrap.AppNo = oppRec.Proposal_Number__c;
+        requestWrap.ReqId = oppRec.Policy_Number__c;
+        requestWrap.PolicyID = oppRec.Policy_Number__c;
+        String serializedRequest = JSON.serialize(requestWrap);
+        Map<String,Object> untypedObj =  (Map<String,Object>) JSON.deserializeUntyped(serializedRequest);
+
+        // currently only 5 merge fields exist at most, increase this as per need
+        for (Integer i = 0; i < 5; i++) {
+            Object mergeValue = log.get(channelFieldNamesWA[1] + (i + 1) + '__c');
+            untypedObj.put('AlertV' + i, mergeValue);
+        }
+        event.Request__c = JSON.serialize(untypedObj);
+        return event;
+    }
+
     /**
      * @description Creates ASF_Communication_Log__c records based on the provided PE_Logger__c records and selected contact.
      * @param peLogs The list of PE_Logger__c records.
@@ -347,12 +399,16 @@ public without sharing class ASF_OppCommPETriggerHelper {
                 }
             }
         }
-        String query = 'SELECT ID, AccountId';
+        setOpportunityFields.add('AccountId');
+        setOpportunityFields.add('Policy_Number__c');
+        setOpportunityFields.add('Name');
+        setOpportunityFields.add('Proposal_Number__c');
+        String query = 'SELECT ID, AccountId, Policy_Number__c, Name, Proposal_Number__c';
         query += ' FROM OPPORTUNITY WHERE ID IN :opportunityIds';
-        if(setOpportunityFields !=null && setOpportunityFields.size()>0){
+        if (setOpportunityFields !=null && setOpportunityFields.size() > 0) {
             List<string> temp = new List<String>();
             temp.addAll(setOpportunityFields);
-            query = 'SELECT ID, AccountId' + String.escapeSingleQuotes(String.join(temp, ','));
+            query = 'SELECT ID, ' + String.escapeSingleQuotes(String.join(temp, ','));
             query = query.removeEnd(',');
             query += ' FROM OPPORTUNITY WHERE ID IN :opportunityIds';
         }
@@ -376,7 +432,6 @@ public without sharing class ASF_OppCommPETriggerHelper {
                         populateMergeFields(channelFieldNamesSMS, commConfig, opp, masterlog, mPeLogIdCommunicationLog, oppFieldInfo, pLog.Id);
                     }
                 } 
-                /* Populate Merge field for WhatsApp Template */
                 if (commConfig.Whatsapp_Template_Name__c != null) {
                     if (commConfig.get(channelFieldNamesWA[3]) != null) {
                         populateMergeFields(channelFieldNamesWA, commConfig, opp, masterlog, mPeLogIdCommunicationLog, oppFieldInfo, pLog.Id);
@@ -394,7 +449,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
 
             if(pLog.Send_To_Specific_Mobile__c){
                 if(pLog.Specific_To_MobilePhone__c != null){
-                    log = createCommunicationLogRecord(log, null, null, oppRec.Id, 'Customer', pLog.Specific_To_MobilePhone__c);
+                    log = createCommunicationLogRecord(log, null, null, oppRec.Id, 'Customer', pLog.Specific_To_MobilePhone__c, pLog);
                     log.put('PE_Logger_Id__c',pLog.Id);
                     log.LOB__c = pLog.LOB__c;
                     log.put('Status__c','In Progress');
@@ -404,11 +459,11 @@ public without sharing class ASF_OppCommPETriggerHelper {
             // send it to the person account/contact. Though there is a loop, this only runs once as ABHI Accounts have only one contact
             } else if(mAccountIdContactId.containsKey(oppRec.AccountId)) {
                 for (Contact con : mAccountIdContactId.get(oppRec.AccountId)){
-                    if(mPeLogIdCommunicationLog.containsKey(pLog.Id) && con.MobilePhone != null){
+                    if (mPeLogIdCommunicationLog.containsKey(pLog.Id) && con.Account.Phone != null) {
                         log = cLog.clone(false, true,false, false);
-                        log = createCommunicationLogRecord(log, oppRec.AccountId, con.Id, oppRec.Id, con.Name, con.MobilePhone);
+                        log = createCommunicationLogRecord(log, oppRec.AccountId, con.Id, oppRec.Id, con.Name, con.Account.Phone, pLog);
                         
-                        if(con.MobilePhone != null &&  !String.isEmpty(log.SMS_LT_Name__c)){
+                        if(con.Account.Phone != null &&  !String.isEmpty(log.SMS_LT_Name__c)){
                             log.put('Status__c','In Progress');
                         }
 
@@ -418,9 +473,16 @@ public without sharing class ASF_OppCommPETriggerHelper {
                         logs.add(log);
                     }
                 }
-            }
-            else{
-                responseWrapper cls = new responseWrapper(pLog.Id,'Error', 'AccountId is missing on Opportunity');
+            } else if (accountMap.containsKey(oppRec.AccountId) && accountMap.get(oppRec.AccountId).Phone != null) {
+                log = createCommunicationLogRecord(log, null, null, oppRec.Id, 'Customer', accountMap.get(oppRec.AccountId).Phone, pLog);
+                log.put('PE_Logger_Id__c', pLog.Id);
+                log.LOB__c = pLog.LOB__c;
+                log.put('Status__c','In Progress');
+                log.put('Send_To_Specific_Mobile__c', true);
+                log.put('Phone__c', accountMap.get(oppRec.AccountId).Phone);
+                logs.add(log);
+            } else{
+                responseWrapper cls = new responseWrapper(pLog.Id,'Error', 'Phone number is missing on Account');
                 peLogIdVsSuccessResult.put(pLog.Id,cls);
             }
         }
@@ -446,7 +508,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
      */
     private static void getEmailTempDevNameVsId(){
         for(EmailTemplate template : emailTemplates){
-            templateIDMap.put(template.DeveloperName,template.Id);
+            templateIDMap.put(template.DeveloperName,template);
         }
     }
     /**
@@ -556,12 +618,14 @@ public without sharing class ASF_OppCommPETriggerHelper {
      * @param leadId The ID of the lead.
      * @return The populated ASF_Communication_Log__c record.
      */
-    private static ASF_Communication_Log__c createCommunicationLogRecord(ASF_Communication_Log__c log, Id accountId, Id contactId, Id opportunityId, String contactName, String mobNo) {
+    private static ASF_Communication_Log__c createCommunicationLogRecord(ASF_Communication_Log__c log, Id accountId, Id contactId, Id opportunityId, String contactName, String mobNo, PE_Logger__c pLog) {
         log.put('Account__c',accountId);
         log.put('Renewal_Request__c', opportunityId);  
         log.put('Contact__c',contactId);
         log.put('Contact_Name__c',contactName);
         log.put('Phone__c', mobNo);
+        log.put('Created_On__c', pLog.CreatedDate);
+        log.put('Created_By__c', pLog.CreatedById);
         return log;
     }
 
@@ -569,62 +633,63 @@ public without sharing class ASF_OppCommPETriggerHelper {
         Map<Id,ASF_Communication_Log__c> mPeLogIdCommunicationLog, Map<String, Schema.SObjectField> oppFieldInfo, Id pLogId) {
         Object mergeCSVField = comm_config.get(channelFieldNames[0]);
 
-        if (mergeCSVField == null) {
-            return;
-        }
-
-        List<string> mergeFields = mergeCSVField.tostring().split(',');
-        String mergeField, fieldName, fieldValue;
-        
-        for(Integer counter = 1; counter <= mergeFields.size(); counter++) {
-            mergeField = mergeFields[counter-1].trim();
+        if (mergeCSVField != null) {
+            List<String> mergeFields = mergeCSVField.tostring().split(',');
+            String mergeField, fieldName, fieldValue;
             
-            if(mergeField.contains('.')){
-                String[] arr = mergeField.split('\\.');
-                integer iRelLevel = 0;
-                for(integer i=0;i<arr.size();i++){
-                    if(arr[i].endsWith('__r')){
-                        iRelLevel++;
-                        if(iRelLevel >=3){
-                            break;
+            for (Integer counter = 1; counter <= mergeFields.size(); counter++) {
+                mergeField = mergeFields[counter-1].trim();
+                
+                if(mergeField.contains('.')){
+                    String[] arr = mergeField.split('\\.');
+                    integer iRelLevel = 0;
+                    for(integer i=0;i<arr.size();i++){
+                        if(arr[i].endsWith('__r')){
+                            iRelLevel++;
+                            if(iRelLevel >=3){
+                                break;
+                            }
                         }
                     }
+                    if (iRelLevel == 1) {
+                        fieldValue = String.valueOf(oppRecord.getSobject(arr[0])?.get(arr[1]));
+                    } else if(iRelLevel ==2){
+                        fieldValue = String.valueOf(oppRecord.getSobject(arr[0]).getSobject(arr[1])?.get(arr[2]));
+                    } else if(iRelLevel ==3){
+                        fieldValue = String.valueOf(oppRecord.getSobject(arr[0]).getSobject(arr[1]).getSobject(arr[2])?.get(arr[3]));
+                    } else{
+                        fieldValue = String.valueOf(oppRecord.getSobject(arr[0])?.get(arr[1]));
+                    }
+                    fieldValue = formatedValue(oppRecord,arr[0],fieldValue,arr[1]);  
+                } else {                
+                    Schema.DisplayType FldType = oppFieldInfo.get(mergeField).getDescribe().getType();
+                    if(FldType == Schema.DisplayType.DateTime){
+                        Datetime dt = (Datetime) oppRecord.get(mergeField);
+                        if (dt!=null) {
+                            fieldValue = dt.format();
+                        }  
+                    } else if(FldType == Schema.DisplayType.Date){
+                        Date dt = (Date) oppRecord.get(mergeField);
+                        if(dt!=null)
+                            fieldValue = dt.format();
+                    } else{
+                        fieldValue = String.valueOf(oppRecord.get(mergeField));
+                    }
                 }
-                if (iRelLevel == 1) {
-                    fieldValue = String.valueOf(oppRecord.getSobject(arr[0])?.get(arr[1]));
-                } else if(iRelLevel ==2){
-                    fieldValue = String.valueOf(oppRecord.getSobject(arr[0]).getSobject(arr[1])?.get(arr[2]));
-                } else if(iRelLevel ==3){
-                    fieldValue = String.valueOf(oppRecord.getSobject(arr[0]).getSobject(arr[1]).getSobject(arr[2])?.get(arr[3]));
-                } else{
-                    fieldValue = String.valueOf(oppRecord.getSobject(arr[0])?.get(arr[1]));
-                }
-                fieldValue = formatedValue(oppRecord,arr[0],fieldValue,arr[1]);  
-            } else {                
-                Schema.DisplayType FldType = oppFieldInfo.get(mergeField).getDescribe().getType();
-                if(FldType == Schema.DisplayType.DateTime){
-                    Datetime dt = (Datetime) oppRecord.get(mergeField);
-                    if (dt!=null) {
-                        fieldValue = dt.format();
-                    }  
-                } else if(FldType == Schema.DisplayType.Date){
-                    Date dt = (Date) oppRecord.get(mergeField);
-                    if(dt!=null)
-                        fieldValue = dt.format();
-                } else{
-                    fieldValue = String.valueOf(oppRecord.get(mergeField));
-                }
+                fieldName = channelFieldNames[1] + counter + '__c';
+                masterlog.put(fieldName, fieldValue);
             }
-            fieldName = channelFieldNames[1] + counter + '__c';
-            masterlog.put(fieldName, fieldValue);
         }
         
         String tempFieldAPIName = channelFieldNames[2];
 
         masterlog.put(tempFieldAPIName, comm_config.get(channelFieldNames[3]).tostring()); //have same field name on both objects
-        masterlog.put('External_Template_ID__c',comm_config.external_templateID__c);
-        masterlog.put('SMS_Sender_Id__c',comm_config.SMS_Sender_Id__c );
-        masterlog.put('SMS_Entity_Id__c',comm_config.SMS_Entity_Id__c );
+        masterlog.put('External_Template_ID__c', comm_config.external_templateID__c);
+        masterlog.put('SMS_Sender_Id__c', comm_config.SMS_Sender_Id__c );
+        masterlog.put('SMS_Entity_Id__c', comm_config.SMS_Entity_Id__c );
+        if (comm_config.get(channelFieldNames[3]) != null && templateIDMap.containsKey(comm_config.get(channelFieldNames[3]).tostring())) {
+            masterlog.put('Template_Name__c', templateIDMap.get(comm_config.get(channelFieldNames[3]).tostring()).Name);
+        }
 
         mPeLogIdCommunicationLog.put(pLogId, masterlog);   
     }
@@ -649,5 +714,18 @@ public without sharing class ASF_OppCommPETriggerHelper {
             }
         }
         return fieldValue;
+    }
+
+    public class WhatsAppAPIRequestWrapper {
+        public String AlertMode = '4'; // set to 4 as this is only used for WhatsApp now
+        public String AlertID;
+        public String ChannelID = 'SFCRM';
+        public String AppNo;
+        public String Field1 = 'NA'; // hardcoded - unused tags
+        public String Field2 = 'NA'; // hardcoded - unused tags
+        public String Field3 = 'NA'; // hardcoded - unused tags
+        public String ReqId;
+        public String PolicyID;
+        public String Mobileno;
     }
 }

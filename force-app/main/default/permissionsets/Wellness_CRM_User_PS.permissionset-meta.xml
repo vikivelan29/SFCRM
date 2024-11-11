@@ -84,6 +84,10 @@
         <apexClass>MCRM_APIController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>MCRM_LegacyViewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ABCL_Integrations__mdt</name>
@@ -1342,6 +1346,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Bulk_Action__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Bulk_CaseDetail_JSON__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

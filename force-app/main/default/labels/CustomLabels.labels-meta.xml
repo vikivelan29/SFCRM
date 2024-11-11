@@ -31,6 +31,13 @@
         <value>Communication History</value>
     </labels>
     <labels>
+        <fullName>ABHI_Kavach_Policy_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Kavach Policy Info</shortDescription>
+        <value>Data doesn&apos;t exist in salesforce. Please click on &apos;Retrieve Details button&apos; to create data in salesforce.</value>
+    </labels>
+    <labels>
         <fullName>ABHI_Retry</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1398,10 +1405,38 @@
         <value>10</value>
     </labels>
     <labels>
-        <fullName>ABHI_Track_Sources</fullName>
+        <fullName>RNWL_Callback_Number</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI Track Sources</shortDescription>
-        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team</value>
+        <shortDescription>RNWL_Callback_Number</shortDescription>
+        <value>8045860569</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_PageLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_PageLink</shortDescription>
+        <value>http://bit.ly/ABHRENEW</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_BU_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
+        <value>ABFL,ABSLI,ABHI</value>
+    </labels>
+    <labels>
+        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABHI Email</value>
+    </labels>
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI</value>
     </labels>
 </CustomLabels>

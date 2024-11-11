@@ -62,4 +62,5 @@ public with Sharing class ABSLAMC_Constants {
     public static final String ADMINUSERPROILENAME = 'System Administrator';
     public static final String LEADOWNERCHANGEFORUSER = 'You are not authorized to change the lead owner';
     public static final String LEADOWNERCHANGEFORQUEUE = 'You are not the member of the queue';
+    public static final String AMCLOB = 'AMC';
 }

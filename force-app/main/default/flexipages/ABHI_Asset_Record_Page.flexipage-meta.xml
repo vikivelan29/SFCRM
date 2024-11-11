@@ -202,6 +202,16 @@
                 <identifier>RecordLAN_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.GoGreen__c</fieldItem>
+                <identifier>RecordGoGreen_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -274,16 +284,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ZoneOfCover__c</fieldItem>
                 <identifier>RecordZoneOfCover_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.GoGreen__c</fieldItem>
-                <identifier>RecordGoGreen_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -740,12 +740,6 @@
                             <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Stage__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CASES.CREATED_DATE</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
@@ -753,6 +747,24 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Source__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Created_By_User_formula__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.CREATED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Assigned_Team__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CASES.STATUS</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Closure_reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -766,11 +778,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
-                    <value>__DEFAULT__</value>
+                    <value>CASES.CREATED_DATE</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldOrder</name>
-                    <value>Default</value>
+                    <value>Descending</value>
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList</identifier>

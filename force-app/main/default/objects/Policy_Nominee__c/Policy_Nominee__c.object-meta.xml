@@ -160,7 +160,9 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Policy Nominees</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Nominee_Id__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

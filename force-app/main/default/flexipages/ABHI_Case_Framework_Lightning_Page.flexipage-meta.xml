@@ -30,7 +30,7 @@
                         <valueListItems>
                             <value>Case.ASF_Clone_SR</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.ASF_Is_Cloneable__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -40,6 +40,10 @@
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>ABHI Partner Base Profile</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Account.Name}</leftValue>
+                                    <operator>NE</operator>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -1284,16 +1288,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>ASF_Editable_Fields</value>
-                </componentInstanceProperties>
-                <componentName>asf_CaseEditPage</componentName>
-                <identifier>c_asf_CaseEditPage</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-e74d360c-d8e9-480e-b28c-4706cf4b0576</value>
                 </componentInstanceProperties>
@@ -1345,6 +1339,20 @@
             <componentInstance>
                 <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
                 <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>maxEARContainerHeight</name>
+                    <value>500</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>shouldDisplayFiltersOnRight</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>forceKnowledge:articleSearchDesktop</componentName>
+                <identifier>forceKnowledge_articleSearchDesktop</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>
