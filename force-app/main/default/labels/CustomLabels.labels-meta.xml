@@ -1439,4 +1439,11 @@
         <shortDescription>BU Restrict email</shortDescription>
         <value>ABHI</value>
     </labels>
+    <labels>
+        <fullName>ONEABC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC BU</shortDescription>
+        <value>All</value>
+    </labels>
 </CustomLabels>

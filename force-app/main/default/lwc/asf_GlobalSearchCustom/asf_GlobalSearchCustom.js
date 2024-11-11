@@ -15,8 +15,7 @@ import hideCaseWithProspect from "@salesforce/customPermission/HideCaseWithProsp
 import hasShowCreateLeadPermission from "@salesforce/customPermission/ShowCreateLead";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { lanLabels } from 'c/asf_ConstantUtility';
-
-
+import ONEABC_BU from '@salesforce/label/c.ONEABC_BU';
 
 export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -179,7 +178,9 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
         let leadRecord = Object.fromEntries([...fieldsVar, ['sobjectType', 'Lead']]);
         leadRecord["Sales_Prospect__c"] = true;
         leadRecord["Prospect_Type__c"] = 'Sales';
-        leadRecord["Business_Unit__c"] = this.loggedInUserBusinessUnit;
+        if(this.loggedInUserBusinessUnit != ONEABC_BU){
+            leadRecord["Business_Unit__c"] = this.loggedInUserBusinessUnit;
+        }
         this.dupeLead = [];
 
         createProspectCase({ caseToInsert: null, caseExtnRecord: null, prospectRecord: leadRecord })
