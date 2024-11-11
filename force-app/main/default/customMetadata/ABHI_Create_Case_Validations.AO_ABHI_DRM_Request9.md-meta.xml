@@ -39,10 +39,6 @@
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>User_Source_Code__c</field>
-        <value xsi:nil="true"/>
-    </values>
-    <values>
         <field>Validation_Name__c</field>
         <value xsi:type="xsd:string">ActiveOne</value>
     </values>
