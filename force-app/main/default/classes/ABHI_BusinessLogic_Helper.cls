@@ -802,8 +802,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 List<String> srcMdt = new List<String>();
                 List<ABHI_Create_Case_Validations__mdt> userSourceCodeToMetaList = userSourceCodeToMetaDataRecMap.values();
 
-                if( (metaDataRec.Source__c != caseSource) || 
-                    (String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
+                if(metaDataRec.Source__c != caseSource) {
                     result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
