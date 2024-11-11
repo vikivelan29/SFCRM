@@ -521,7 +521,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(casRec.AssetId != null && 
                ((oldCaseMap == null) || 
                 (oldCase != null && oldCase.AssetId != casRec.AssetId))){
-                    assetIds.add(casRec.AssetId);
+                	assetIds.add(casRec.AssetId);
                     casesToUpdate.add(casRec);
             }
         }
@@ -532,26 +532,29 @@ public with sharing class ABHI_BusinessLogic_Helper {
                                FROM Asset WHERE Id IN : assetIds]){
             assetIdToOppMap.put(asst.Id, asst);
         }
-
+        //Update Calling Source on Case
         for(Case cas : casesToUpdate){
             cas.Calling_Source__c = assetIdToOppMap.get(cas.AssetId)?.Calling_Source__c ?? ''; 
-        }
+		}
         
         if(oldCaseMap != NULL){ return; }
         
-        //Update Renewal Request on Case
+        //Update Renewal Request on Case for below profiles users
         Id profileId = UserInfo.getProfileId();
         if(profileId == null){ return; }
         
-        String profileName = [Select Id, Name FROM Profile WHERE Id = :profileId]?.Name;
+        List<Profile> profileList = [Select Id, Name FROM Profile WHERE Id = :profileId];
         
-        if(profileName != 'RNWL Base Profile' && profileName != 'RNWL Manager Profile'){ return; }
+        if(profileList.size() > 0){
         
-        for(Case rnwlCase : casesToUpdate){
-            if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
-               Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
-               rnwlCase.Renewal_Request__c = opp.Id;
-            }
-        }   
+            if(profileList[0]?.Name != 'RNWL Base Profile' && profileList[0]?.Name != 'RNWL Manager Profile'){ return; }
+            
+            for(Case rnwlCase : casesToUpdate){
+                if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
+                   Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
+                   rnwlCase.Renewal_Request__c = opp.Id;
+                }
+            }  
+        }
     }
 }
