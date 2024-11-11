@@ -16,6 +16,8 @@ public class ABHFL_CaseIntegrationHelper_Test {
         caseRecords[0].CCC_External_Id__c = null;
         caseRecords[0].Business_Unit__c = 'ABHFL';
         caseRecords[0].AssetId = astRec1.Id;
+        caseRecords[0].CCC_External_Id__c='';
+        caseRecords[0].Origin='ABHFL Email';
         update caseRecords;
         
         if(caseRecords.size() > 0){
@@ -37,6 +39,16 @@ public class ABHFL_CaseIntegrationHelper_Test {
             docLink.ShareType = 'V';
             insert docLink;
         }
+        EmailMessage msg = new EmailMessage();
+        msg.ToAddress = 'care.housingfinance@adityabirlacapital.com';
+        msg.FromAddress = 'Mail@test.com';
+        msg.ParentId = caseRecords[0].Id;
+        insert msg;
+        
+        ASF_Checklist__c chklst = new ASF_Checklist__c();
+        chklst.Status__c = 'Pending';
+        chklst.Case__c = caseRecords[0].Id;
+        insert chklst;
     }   
     @IsTest
     static void eBotHandler_Test(){
@@ -44,10 +56,12 @@ public class ABHFL_CaseIntegrationHelper_Test {
         if(caseIntegrations.size() > 0){
             caseIntegrations[0].Status__c = 'Success';
             
-           caseIntegrations[0].Response__c = '{\"ASONDATE\":\"2023-10-14\",\"CASEID\":\"CAS-53056-C0S0W7\",\"CASESUBTYPE\":\"QLOANDUSNDC\",\"COMMENT\":\"testcase\",\"CONFIDENCESCORE\":0.9,\"DISBURSTMENTTYPE\":\"FullyDisbursed\",\"FROMDATE\":\"2023-01-25\",\"FROMYEAR\":2022,\"ISCORRUPTED\":\"No\",\"ISMULTILAN\":\"Yes\",\"ISMULTIPLEDATEFORMATE\":\"Yes\",\"ISREGISTRED\":\"Yes\",\"ISREGULATOR\":\"Yes\",\"ISREPEAT\":\"No\",\"ISSMT\":\"Yes\",\"ISTRAIL\":\"Yes\",\"LANCOMMENT\":\"TestLANComment\",\"LOB\":\"HFC\",\"OWNERFULLNAME\":\"TauseefKaldane\",\"TODATE\":\"2023-01-27\",\"TOYEAR\":2023,\"Template1\":\"\",\"Template2\":\"\",\"Template3\":\"\",\"UNREGISTEREDCATEGORY\":\"\",\"EBOTLAN\":[\"657644354\",\"032332232332\",\"35677822\"]}';
+           caseIntegrations[0].Response__c = '{\"ASONDATE\":\"2023-10-14\",\"CASEID\":\"CAS-53056-C0S0W7\",\"CASESUBTYPE\":\"QLOANDUSNDC\",\"COMMENT\":\"testcase\",\"CONFIDENCESCORE\":0.9,\"DISBURSTMENTTYPE\":\"FullyDisbursed\",\"FROMDATE\":\"2023-01-25\",\"FROMYEAR\":2022,\"ISCORRUPTED\":\"No\",\"ISMULTILAN\":\"Yes\",\"ISMULTIPLEDATEFORMATE\":\"Yes\",\"ISREGISTRED\":\"Yes\",\"ISREGULATOR\":\"No\",\"ISREPEAT\":\"No\",\"ISSMT\":\"No\",\"ISTRAIL\":\"Yes\",\"LANCOMMENT\":\"TestLANComment\",\"LOB\":\"HFC\",\"OWNERFULLNAME\":\"TauseefKaldane\",\"TODATE\":\"2023-01-27\",\"TOYEAR\":2023,\"Template1\":\"\",\"Template2\":\"\",\"Template3\":\"\",\"UNREGISTEREDCATEGORY\":\"\",\"EBOTLAN\":[\"657644354\",\"032332232332\",\"35677822\"]}';
             
            // caseIntegrations[0].Response__c = '{\"CASEID\":\"Success\",\"CASESUBTYPE\":\"AC123457\",\"COMMENT\":\"Problem\",\"OWNERFULLNAME\":\"Major\",\"CONFIDENCESCORE\":\"Major\"}';
-            update caseIntegrations[0];    
+            Test.startTest();
+            update caseIntegrations[0];   
+            Test.stopTest();
         }
     }
 }
