@@ -730,27 +730,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 List<String> srcMdt = new List<String>();
                 List<ABHI_Create_Case_Validations__mdt> userSourceCodeToMetaList = userSourceCodeToMetaDataRecMap.values();
 
-                if(userSourceCodeToMetaDataRecMap.containsKey(userSourceCode) && userSourceCodeToMetaDataRecMap.values().size() > 0) {
-                    metaRec = userSourceCodeToMetaDataRecMap?.get(userSourceCode);
-                    validationNameMdt = metaRec?.Validation_Name__c ?? '';
-                    srcMdt = metaRec?.Source__c?.toLowerCase().split(',');
-
-                    //PR1030924-703
-                    if(validationNameMdt == 'Source_Based_Case_Creation_Restriction') {
-                        if(!srcMdt.contains(caseSource)) {
-                            result = metaRec.Error_Message__c;
-                        }
-                    }
-                    // PR1030924-669
-                    else if(validationNameMdt == 'User_Source_Code_Based_Case_Creation_Restriction') {
-                        if(metaRec.User_Source_Code__c == userSourceCode && !srcMdt.contains(caseSource)) {
-                            result = metaRec.Error_Message__c; 
-                        }
-                    }
-                }
-                else {
-                    metaRec = userSourceCodeToMetaList[0];
-                    result = metaRec.Error_Message__c; 
+                if( (metaDataRec.Source__c != caseSource) || 
+                    (String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
+                    result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
         }
@@ -819,7 +801,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             for(Case rnwlCase : casesToUpdate){
                 if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
-                   rnwlCase.Renewal_Request__c = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]?.Id; 
+                   Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
+                   rnwlCase.Renewal_Request__c = opp.Id;
                 }
             }  
         }
