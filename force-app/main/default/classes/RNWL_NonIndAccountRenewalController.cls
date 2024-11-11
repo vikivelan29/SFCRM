@@ -245,7 +245,8 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                                            FROM ContentVersion 
                                            WHERE CreatedDate = TODAY
                                            AND ContentDocumentId IN: documentIds
-                                           AND Content_Source_API__c =:fileSourceAPI ];
+                                           AND Content_Source_API__c =:fileSourceAPI
+                                           ORDER BY CreatedDate DESC ];
             if(cvList != null && cvList.size() > 0){
                 return cvList[0]?.VersionData?.toString();
             }
