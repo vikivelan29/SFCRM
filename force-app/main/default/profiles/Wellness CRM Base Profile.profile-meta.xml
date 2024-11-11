@@ -2773,6 +2773,15 @@
         <object>Contact</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>false</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>ServiceResource</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Account.Non_Individual</recordType>
@@ -2837,6 +2846,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-OmniSupervisor</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+     <tabVisibilities>
+        <tab>standard-ServiceResource</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <userLicense>Salesforce</userLicense>
