@@ -819,7 +819,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             for(Case rnwlCase : casesToUpdate){
                 if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
-                   rnwlCase.Renewal_Request__c = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]?.Id; 
+                   Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
+                   rnwlCase.Renewal_Request__c = opp.Id;
                 }
             }  
         }
