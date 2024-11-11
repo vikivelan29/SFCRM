@@ -229,7 +229,7 @@ public without sharing class ABHI_OmniDocViewController{
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
                     strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
-                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME; 
+                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
                 }else if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
                     strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME_CASE;
                     strFromAddress = System.label.ABHI_OmniDocOrgWideAddressDisplayName;//ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
