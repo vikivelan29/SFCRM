@@ -21,16 +21,6 @@
                 <default>false</default>
                 <label>Inactive</label>
             </value>
-            <value>
-                <fullName>Dropped</fullName>
-                <default>false</default>
-                <label>Dropped</label>
-            </value>
-            <value>
-                <fullName>Closed</fullName>
-                <default>false</default>
-                <label>Closed</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

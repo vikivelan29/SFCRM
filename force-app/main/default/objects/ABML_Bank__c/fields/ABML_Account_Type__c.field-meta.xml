@@ -11,9 +11,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Savings</fullName>
+                <fullName>Saving</fullName>
                 <default>false</default>
-                <label>Savings</label>
+                <label>Saving</label>
             </value>
             <value>
                 <fullName>Current</fullName>

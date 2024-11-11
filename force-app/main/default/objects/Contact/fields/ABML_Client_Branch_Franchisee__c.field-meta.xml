@@ -6,17 +6,12 @@
     <label>Client Branch/Franchisee</label>
     <lookupFilter>
         <active>true</active>
-        <booleanFilter>1 OR 2</booleanFilter>
+        <booleanFilter>1</booleanFilter>
         <errorMessage>Please select business type of account</errorMessage>
         <filterItems>
             <field>Account.RecordType.Name</field>
             <operation>equals</operation>
-            <value>ABML Franchisee</value>
-        </filterItems>
-        <filterItems>
-            <field>Account.RecordType.Name</field>
-            <operation>equals</operation>
-            <value>ABML Branch</value>
+            <value>Business Account</value>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
