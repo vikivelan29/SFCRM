@@ -239,8 +239,7 @@ export default class RNWL_Communication_Framework extends LightningElement {
             }
         })
         .catch(error => {
-            //this.hasError = true;
-            console.log(JSON.stringify(error), '****');
+            this.hasError = true;
             const evt = new ShowToastEvent({
                 title: 'Error',
                 message: error.body.message,
