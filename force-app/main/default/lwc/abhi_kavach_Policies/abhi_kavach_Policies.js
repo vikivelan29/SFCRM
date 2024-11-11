@@ -86,12 +86,12 @@ export default class Abhi_kavach_Policies extends LightningElement {
         this.data=[];
         this.displayTable = false;
         this.searchPolicy = this.template.querySelector('lightning-input[data-name="policy"]').value;
-       /* this.searchMasterPolicy = this.template.querySelector('lightning-input[data-name="masterpolicy"]').value;
-        console.log('Result1 ==> ', this.searchMasterPolicy);*/
-        if(this.searchPolicy /*|| this.searchMasterPolicy*/) {
+        this.searchMasterPolicy = this.template.querySelector('lightning-input[data-name="masterpolicy"]').value;
+        console.log('Result1 ==> ', this.searchMasterPolicy);
+        if(this.searchPolicy || this.searchMasterPolicy) {
             //this.disabled = true;
             this.isLoading = true;
-            getPolicyData({policyNo: this.searchPolicy}).then(result=>{
+            getPolicyData({policyNo: this.searchPolicy, masterPolicyNo : this.searchMasterPolicy}).then(result=>{
                 this.data = result;
                 if(this.data.length > 0) {
                     this.displayTable = true;
