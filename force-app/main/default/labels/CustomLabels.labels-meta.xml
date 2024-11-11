@@ -8,47 +8,12 @@
         <value>TRUE</value>
     </labels>
     <labels>
-        <fullName>ABCD_TrackId_Source</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABCD_TrackId_Source</shortDescription>
-        <value>Call Center</value>
-    </labels>
-    <labels>
         <fullName>ABHI_PolicyRequired_ErrMsg1</fullName>
         <categories>ABHI</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_PolicyRequired_ErrMsg1</shortDescription>
         <value>Please enter Policy Number or Master Policy Number</value>
-    </labels>
-        <labels>
-        <fullName>ASF_SprinklrUpdateBUs</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
-        <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
-    </labels>
-    <labels>
-        <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ONEABC_Acc_Error_ABCD_Customer</shortDescription>
-        <value>Please select an ABCD Customer</value>
-    </labels>
-    <labels>
-        <fullName>ONEABC_Acc_Error_LOB_Customer</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ONEABC_Acc_Error_LOB_Customer</shortDescription>
-        <value>You are not allowed to reparent this case</value>
-    </labels>
-    <labels>
-        <fullName>ONEABC_Acc_Error_Non_ABCD_Customer</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ONEABC_Acc_Error_Non_ABCD_Customer</shortDescription>
-        <value>You cannot select an ABCD customer for this case</value>
     </labels>
     <labels>
         <fullName>ABSLI_BITLY_LOB_VAL</fullName>
