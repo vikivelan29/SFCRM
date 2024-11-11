@@ -10,12 +10,10 @@
     <columns>Sub_Type_Text__c</columns>
     <columns>Ageing_Business_Days__c</columns>
     <columns>ASSET.NAME</columns>
+    <columns>CASES.CREATED_DATE</columns>
     <columns>Overall_Case_Closure_SLA__c</columns>
     <columns>SLA_Broken__c</columns>
     <columns>CORE.USERS.ALIAS</columns>
-    <columns>Stage_SLA_1__c</columns>
-    <columns>Stage_SLA_2__c</columns>
-    <columns>Stage_SLA_3__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Business_Unit__c</field>
