@@ -2398,10 +2398,10 @@
         <layout>ABML_Case_Detail__c-ABML Case Detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>ABML_DP__c-DP Layout</layout>
+        <layout>ABML_DP__c-ABML DP Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>ABML_LOA__c-LOA Layout</layout>
+        <layout>ABML_LOA__c-ABML LOA Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ASF_Case_Stage_Config__c-Case Stage Config Layout</layout>
