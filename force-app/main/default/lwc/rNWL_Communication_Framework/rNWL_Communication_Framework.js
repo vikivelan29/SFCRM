@@ -206,13 +206,24 @@ export default class RNWL_Communication_Framework extends LightningElement {
     }
 
     notifyHandler() {
-        let requestWrapper = { 
+        let className;
+        let methodName;
+        for (let each in this.communicationMetadata) {
+            if (this.communicationMetadata[each].Metadata_Name__c === this.selectedTemplate) {
+                className = this.communicationMetadata[each].Class_Name__c;
+                methodName = this.communicationMetadata[each].Method_Name__c;
+            }
+        }
+        this.userList = this.communicationMetadata.filter((record) => record.SMS__c);
+        let requestWrapper = {
             selectedTemplate : this.selectedTemplate,
             notificationMode : this.selectedChannelSource,
             alternateMobile : this.inputNumber,
             toAddresses : this.inputEmail,
             ccAddresses : this.inputCCEmail,
-            opportunityId : this.recordId
+            opportunityId : this.recordId,
+            className: className,
+            methodName: methodName
         };
         let requestJSON = JSON.stringify(requestWrapper);
         notifyUsers({ requestJSON : requestJSON })
@@ -228,10 +239,11 @@ export default class RNWL_Communication_Framework extends LightningElement {
             }
         })
         .catch(error => {
-            this.hasError = true;
+            //this.hasError = true;
+            console.log(JSON.stringify(error), '****');
             const evt = new ShowToastEvent({
                 title: 'Error',
-                message: error.message,
+                message: error.body.message,
                 variant: 'error',
             });
             this.dispatchEvent(evt);
