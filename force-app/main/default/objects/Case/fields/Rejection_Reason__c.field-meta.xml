@@ -62,11 +62,6 @@
                 <label>Complaint Rejected</label>
             </value>
             <value>
-                <fullName>Cancelled</fullName>
-                <default>false</default>
-                <label>Cancelled</label>
-            </value>
-            <value>
                 <fullName>Duplicate</fullName>
                 <default>false</default>
                 <label>Duplicate</label>
@@ -80,7 +75,195 @@
                 <fullName>Rejected</fullName>
                 <default>false</default>
                 <label>Rejected</label>
-            </value> 
+            </value>
+            <value>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+                <label>Cancelled</label>
+            </value>
+            <value>
+                <fullName>Claim: we require additional documents</fullName>
+                <default>false</default>
+                <label>Claim: we require additional documents</label>
+            </value>
+            <value>
+                <fullName>Claim: we received incomplete documents</fullName>
+                <default>false</default>
+                <label>Claim: we received incomplete documents</label>
+            </value>
+            <value>
+                <fullName>Claim: the concern is raised for review</fullName>
+                <default>false</default>
+                <label>Claim: the concern is raised for review</label>
+            </value>
+            <value>
+                <fullName>Claim: a withdrawal letter is required</fullName>
+                <default>false</default>
+                <label>Claim: a withdrawal letter is required</label>
+            </value>
+            <value>
+                <fullName>Claim: an acknowledgment receipt is needed</fullName>
+                <default>false</default>
+                <label>Claim: an acknowledgment receipt is needed</label>
+            </value>
+            <value>
+                <fullName>Claim: mandatory claim documents are pending</fullName>
+                <default>false</default>
+                <label>Claim: mandatory claim documents are pending</label>
+            </value>
+            <value>
+                <fullName>Claim: email from the hospital cannot be traced</fullName>
+                <default>false</default>
+                <label>Claim: email from the hospital cannot be traced</label>
+            </value>
+            <value>
+                <fullName>Digital: insufficient steps were recorded</fullName>
+                <default>false</default>
+                <label>Digital: insufficient steps were recorded</label>
+            </value>
+            <value>
+                <fullName>Digital: Group Policies can&apos;t access the app</fullName>
+                <default>false</default>
+                <label>Digital: Group Policies can&apos;t access the app</label>
+            </value>
+            <value>
+                <fullName>Endorsement: we received incomplete documents</fullName>
+                <default>false</default>
+                <label>Endorsement: we received incomplete documents</label>
+            </value>
+            <value>
+                <fullName>Endorsement: the minimum age for adding a member is 5 yrs</fullName>
+                <default>false</default>
+                <label>Endorsement: the minimum age for adding a member is 5 yrs</label>
+            </value>
+            <value>
+                <fullName>Endorsement: it doesn&apos;t meet the policy T&amp;C&apos;s</fullName>
+                <default>false</default>
+                <label>Endorsement: it doesn&apos;t meet the policy T&amp;C&apos;s</label>
+            </value>
+            <value>
+                <fullName>Endorsement: we need a Proposal Form as per the plan</fullName>
+                <default>false</default>
+                <label>Endorsement: we need a Proposal Form as per the plan</label>
+            </value>
+            <value>
+                <fullName>Endorsement: your members consent is missing</fullName>
+                <default>false</default>
+                <label>Endorsement: your members consent is missing</label>
+            </value>
+            <value>
+                <fullName>Endorsement: your members consent is unclear</fullName>
+                <default>false</default>
+                <label>Endorsement: your members consent is unclear</label>
+            </value>
+            <value>
+                <fullName>Medical check-up: a Diagnostic Center is unavailable in your location</fullName>
+                <default>false</default>
+                <label>Medical check-up: a Diagnostic Center is unavailable in your location</label>
+            </value>
+            <value>
+                <fullName>Medical check-up: your preferred Diagnostic Center is unavailable</fullName>
+                <default>false</default>
+                <label>Medical check-up: your preferred Diagnostic Center is unavailable</label>
+            </value>
+            <value>
+                <fullName>Reports: we need your appointment details</fullName>
+                <default>false</default>
+                <label>Reports: we need your appointment details</label>
+            </value>
+            <value>
+                <fullName>Health return: insufficient steps are recorded</fullName>
+                <default>false</default>
+                <label>Health return: insufficient steps are recorded</label>
+            </value>
+            <value>
+                <fullName>Health return: Group Policies can&apos;t access the app</fullName>
+                <default>false</default>
+                <label>Health return: Group Policies can&apos;t access the app</label>
+            </value>
+            <value>
+                <fullName>Health return: your medical check-up is pending</fullName>
+                <default>false</default>
+                <label>Health return: your medical check-up is pending</label>
+            </value>
+            <value>
+                <fullName>Health return: the Healthy Heart Score criteria is not met</fullName>
+                <default>false</default>
+                <label>Health return: the Healthy Heart Score criteria is not met</label>
+            </value>
+            <value>
+                <fullName>Health return: the Bonus Activ Dayz criteria is not met</fullName>
+                <default>false</default>
+                <label>Health return: the Bonus Activ Dayz criteria is not met</label>
+            </value>
+            <value>
+                <fullName>Health return: the Activ Dayz criteria is not met</fullName>
+                <default>false</default>
+                <label>Health return: the Activ Dayz criteria is not met</label>
+            </value>
+            <value>
+                <fullName>Cancellation and refund: we need the transaction details</fullName>
+                <default>false</default>
+                <label>Cancellation and refund: we need the transaction details</label>
+            </value>
+            <value>
+                <fullName>Policy Document: we need the transaction details</fullName>
+                <default>false</default>
+                <label>Policy Document: we need the transaction details</label>
+            </value>
+            <value>
+                <fullName>Counter offer: we received incomplete documents</fullName>
+                <default>false</default>
+                <label>Counter offer: we received incomplete documents</label>
+            </value>
+            <value>
+                <fullName>Renewal: we require additional documents</fullName>
+                <default>false</default>
+                <label>Renewal: we require additional documents</label>
+            </value>
+            <value>
+                <fullName>Renewal: we need the transaction details</fullName>
+                <default>false</default>
+                <label>Renewal: we need the transaction details</label>
+            </value>
+            <value>
+                <fullName>Renewal: it doesn&apos;t meet the policy T&amp;C&apos;s</fullName>
+                <default>false</default>
+                <label>Renewal: it doesn&apos;t meet the policy T&amp;C&apos;s</label>
+            </value>
+            <value>
+                <fullName>Medical decision: we received incomplete documents</fullName>
+                <default>false</default>
+                <label>Medical decision: we received incomplete documents</label>
+            </value>
+            <value>
+                <fullName>Policy issuance: we require additional documents</fullName>
+                <default>false</default>
+                <label>Policy issuance: we require additional documents</label>
+            </value>
+            <value>
+                <fullName>Policy issuance: we need the transaction details</fullName>
+                <default>false</default>
+                <label>Policy issuance: we need the transaction details</label>
+            </value>
+            <value>
+                <fullName>Cancelled - Not needed anymore</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancelled - Not needed anymore</label>
+            </value>
+            <value>
+                <fullName>Unresolved – Reject</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Unresolved – Reject</label>
+            </value>
+            <value>
+                <fullName>Unresolved- Additional information required</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Unresolved- Additional information required</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

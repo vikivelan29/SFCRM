@@ -32,6 +32,13 @@ public without sharing class ASF_OppCommPETriggerHelper {
     public static Map<Id,Opportunity> mOpps = new Map<Id,Opportunity>();
     public static Map<integer,Id> mIdxVsPELoggerId = new Map<integer,Id>();
     public static integer iCounter = 0;
+     // this is currently set to ABHI-RNWL. When RNWL is extended in future, replace this with a field on opp that will identify the BU
+    public static String subLob = 'ABHI-RNWL';
+
+    // VIRENDRA - 12 APRIL 2024 - ADDED FOR INFOSEC AND PRODUCTION REQUIREMENT OF ABHFL.
+    public static Map<String,Set<String>> mBusUnitVsDefaultFromAddress = new Map<String,Set<String>>();
+    public static Map<String,Id> mBusinessUnitVsSpecificOWA = new Map<String,Id>();
+    public static Map<String,String> mBusUnitVsReplyToAddress = new Map<String,String>();
 
     /**
      * @description Executes the constructor to handle communication log creation based on PE logger records.
@@ -42,6 +49,26 @@ public without sharing class ASF_OppCommPETriggerHelper {
         channelFieldNamesSMS = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.SMS);
         channelFieldNamesEmail = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.Email);
         channelFieldNamesWA = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.WhatsApp);
+
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        for(BUSpecificAutoEmailMapping__mdt buSpecificAutoEmail : [SELECT ID, Business_Unit__c ,Default_Automated_Email_From_Address__c, Reply_To_Address__c  FROM BUSpecificAutoEmailMapping__mdt]){
+            if(!mBusUnitVsDefaultFromAddress.containsKey(buSpecificAutoEmail.Default_Automated_Email_From_Address__c)){
+                mBusUnitVsDefaultFromAddress.put(buSpecificAutoEmail.Default_Automated_Email_From_Address__c, new Set<String>());
+            }
+            mBusUnitVsDefaultFromAddress.get(buSpecificAutoEmail.Default_Automated_Email_From_Address__c).add(buSpecificAutoEmail.Business_Unit__c);
+
+            if(!mBusUnitVsReplyToAddress.containsKey(buSpecificAutoEmail.Business_Unit__c)){
+                mBusUnitVsReplyToAddress.put(buSpecificAutoEmail.Business_Unit__c,buSpecificAutoEmail.Reply_To_Address__c);
+            }
+        }
+        for(OrgWideEmailAddress OWA : [select Id,Address,Purpose from OrgWideEmailAddress WHERE Address=:mBusUnitVsDefaultFromAddress.keySet()]){
+            if(mBusUnitVsDefaultFromAddress.containsKey(OWA.Address)){
+                for(String strBusUnit : mBusUnitVsDefaultFromAddress.get(OWA.Address)){
+                    mBusinessUnitVsSpecificOWA.put(strBusUnit,OWA.Id);
+                }
+            }
+        }
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
 
         /* Account Contact Related Operations */
         getAccountAndContactIdsAndLeadIds(peLogs);
@@ -116,6 +143,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
     
     private static Messaging.SingleEmailMessage getMessageCommonVariables(Contact con, Opportunity opp, Id owdID){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+        msg.setOrgWideEmailAddressId(owdID);
         if(con != null){
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);  
@@ -126,6 +154,18 @@ public without sharing class ASF_OppCommPETriggerHelper {
             msg.setTreatTargetObjectAsRecipient(false);
             //msg.setToAddresses(new String[]{con.SuppliedEmail});
         }
+
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        if(mBusinessUnitVsSpecificOWA.containsKey(subLob)){
+            OWDId = mBusinessUnitVsSpecificOWA.get(subLob);
+            msg.setOrgWideEmailAddressId(OWDId);
+        }
+        if(mBusUnitVsReplyToAddress.containsKey(subLob)){
+            String replyAddr = mBusUnitVsReplyToAddress.get(subLob);
+            msg.setReplyTo(replyAddr);
+        }
+        /******* VIRENDRA - ENDS HERE on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+
         return msg;
     }
 
@@ -146,7 +186,9 @@ public without sharing class ASF_OppCommPETriggerHelper {
         msg.setTemplateId(eTempId);
         msg.setWhatId(opp.Id);
         msg.setSaveAsActivity(true);
-        msg.setOrgWideEmailAddressId(owdID);
+        if (msg.getOrgWideEmailAddressId() == null){
+            msg.setOrgWideEmailAddressId(owdID);
+        }
 
         if (ccAddresses != null) {
             List<String> ccAddressList = ccAddresses.deleteWhitespace().split(';');
@@ -161,7 +203,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
      */
     private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
-        OrgWideEmailAddress owAddress = [select Id, Purpose from OrgWideEmailAddress WHERE DisplayName = 'ABHI Renewals' LIMIT 1];
+        OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE DisplayName = :System.Label.ASF_default_no_reply_email_address limit 1];
         
         for(PE_Logger__c pLog : peLogs){
             if(!mOpps.containsKey(pLog.Opportunity_ID__c)){
@@ -257,9 +299,9 @@ public without sharing class ASF_OppCommPETriggerHelper {
                     peLogIdVsSuccessResult.put(log.PE_Logger_Id__c ,cls);
                 } else{
                     if (log.Contact__c != null) {
-                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Contact__c,log.id, true); 
+                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId, log.Contact__c, log.Renewal_Request__c, true); 
                     } else if(log.Send_To_Specific_Mobile__c){
-                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,defaultContactId,log.id, true); 
+                        log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId, defaultContactId, log.Renewal_Request__c, true); 
                     }
 
                     responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Success','',log.id,log.SMS_Msg_Body__c);
@@ -277,6 +319,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
         }
         
         if(!skipPE){
+            system.debug('*******smsEventList: ' + smsEventList + '*****whatsAppEventList: ' + whatsAppEventList);
             List<Database.SaveResult> resultsSMS = EventBus.publish(smsEventList);
             List<Database.SaveResult> resultsWhatsApp = EventBus.publish(whatsAppEventList);
         }
@@ -324,7 +367,7 @@ public without sharing class ASF_OppCommPETriggerHelper {
 
         // currently only 5 merge fields exist at most, increase this as per need
         for (Integer i = 0; i < 5; i++) {
-            Object mergeValue = log.get(channelFieldNamesWA[1] + i + '__c');
+            Object mergeValue = log.get(channelFieldNamesWA[1] + (i + 1) + '__c');
             untypedObj.put('AlertV' + i, mergeValue);
         }
         event.Request__c = JSON.serialize(untypedObj);

@@ -5,37 +5,7 @@ public class RNWL_OpportunityTriggerHelper {
         public Integer responseCode;
         Public String responseDesc;
     } 
-    
-    /****************************************************************************************************************
-* @Function - setOpportunityFieldValues 
-* @param newOppsList -  list of Opportunities from trigger.new.
-* @return - void .
-* @Description - Invoked from BeforeInsert this method pre-populates fields on Opps from Asset record.
-*****************************************************************************************************************/
-    /*public static void setOpportunityFieldValues(List<Opportunity> newOppsList){
-        
-        Set<Id> policyIdSet = new Set<Id>();
-        Map<Id, Id> policyAccIdMap = new Map<Id, Id>();
-        
-        for(Opportunity opp : newOppsList){
-            if(!String.isBlank(opp.Policy__c)){
-                policyIdSet.add(opp.Policy__c);
-            }
-        }
-        
-        for(Asset asst : getPolicies(policyIdSet)){
-            policyAccIdMap.put(asst.Id, asst.AccountId);
-        }
-        
-        for(Opportunity opp : newOppsList){
-            opp.CloseDate = Date.today() + 60;
-            opp.AccountId = policyAccIdMap.get(opp.Policy__c);
-            opp.StageName = 'Open'; 
-            opp.Name = 'RN-' + opp.Policy_Number__c;            
-        }
-    }*/
-    
-    
+   
     /****************************************************************************************************************
 * @Function - setOpportunityFieldValues
 * @param newItemsOpportunity ,oldItemsOpportunity -  map of Opportunities from trigger.newMap and trigger.oldMap.
@@ -83,7 +53,7 @@ public class RNWL_OpportunityTriggerHelper {
             }
             
             if(objOpportunity.StageName != objOldOpportunity.StageName && 
-               (objOpportunity.StageName == 'Closed Won' || objOpportunity.StageName == 'Closed Lost')) {
+               (objOpportunity.StageName == 'Closed Won' || objOpportunity.StageName == 'Closed Lost' || objOpportunity.StageName == 'Paid')) {
                    objOpportunity.Dialer_Status__c = 'Cancel Call Request Submitted';
                }
         } 
@@ -174,6 +144,7 @@ public class RNWL_OpportunityTriggerHelper {
                     recordsToUpdate.add(new Account(Id = opp.AccountId, Calling_Source__c = opp.Calling_Source__c));
                 }
             }
+            ASF_TriggerSkipperUtility.markTriggerRun('Case'); 
             if(recordsToUpdate.size() > 0){
                 update recordsToUpdate;
             }

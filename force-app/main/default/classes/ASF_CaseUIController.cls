@@ -34,7 +34,7 @@ public with sharing class  ASF_CaseUIController {
                 prospectRecord.RecordTypeId = salesProspectRTId;
             }
             
-            insert prospectRecord;
+            insert prospectRecord; 
             mObjectVsRecId.put('Lead',prospectRecord);
         }
         

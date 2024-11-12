@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_of_EBot_Auto_Closure_Failure__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    TEXT(Is_Repeat__c)=&quot;Yes&quot;,
+    &quot;IsRepeat is Yes.&quot;,
+    IF(
+        Confidence_Score__c &lt; 0.60,
+        &quot;Confidence Score is less than 0.6&quot;,
+        IF(
+            TEXT( Is_Smt__c )=&quot;Yes&quot;,
+            &quot;Issmt is Yes.&quot;,
+            IF(
+                TEXT( Is_Regulator__c )=&quot;Yes&quot;,
+                &quot;IsRegulator is Yes.&quot;,
+                IF(
+                    TEXT(  Is_Registred__c )=&quot;Yes&quot;,
+                    &quot;ISREGISTRED is Yes.&quot;,
+                    &quot;&quot;
+                )
+            )
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Reason of E-Bot Auto Closure Failure</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -112,15 +112,16 @@ public with sharing class ABHFL_CaseIntegrationHelper {
                     caseRecord.MoveToNext__c = true;
                     update caseRecord;
                 }*/
-                if(ebotResponse.ISREGISTRED == 'No' && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
+               /* if(ebotResponse.ISREGISTRED == 'No' && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
                     caseRecord.Stage__c ='Resolved';
                     update caseRecord;
-                }
+                }*/
 
                 if(ebotResponse.EBOTLAN != null && ebotResponse.EBOTLAN.size() > 0){
                     createMultipleCaseWithLAN(caseRecord.Id,caseDetails.Id,lanWithAssetIdMap,ebotResponse);
                 }
             }
+            validateEbotResponseAndAutoclosed(caseRec, ebotResponse); //it will validate conditions to proceed for Auto resolved cases.
             }
         }
 
@@ -139,4 +140,67 @@ public with sharing class ABHFL_CaseIntegrationHelper {
         ABHFL_CloneCase.createCloneCase(parentCaseId, caseDetailsId, lanNoWithAssetIdMap, ebotResponseWrp);
         
     }
+ Private static void validateEbotResponseAndAutoclosed(Case caserec, ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse) {
+     Boolean errcond = false;
+     if (caserec != null) {
+         Group NonFinancialQueue = [SELECT Id, Name FROM Group WHERE Type = 'Queue'
+             AND DeveloperName = 'ABHFL_Email_Non_Financial_Team'
+             WITH SECURITY_ENFORCED LIMIT 1
+         ];
+         Group grievanceQueue = [SELECT Id, Name FROM Group WHERE Type = 'Queue'
+             AND DeveloperName = 'ABHFL_Grievance'
+             WITH SECURITY_ENFORCED LIMIT 1
+         ];
+
+         // ABHFL_Case_Detail__c casedetail = [Select Id, Reason_of_E_Bot_Auto_Closure_Failure__c from ABHFL_Case_Detail__c where Id =: caserec.ABHFL_Case_Detail__c].get(0);
+         String Toaddress = [Select Id, ToAddress from EmailMessage Where ParentId =: caserec.Id].get(0).ToAddress;
+         //  If(casedetail != null) {
+         if (Toaddress.trim() == 'care.housingfinance@adityabirlacapital.com' && ebotResponse.ISSMT == 'No' && ebotResponse.ISREPEAT == 'No' && ebotResponse.ISREGULATOR == 'No' && ebotResponse.ISREGISTRED == 'Yes' && Decimal.valueOf(ebotResponse.CONFIDENCESCORE) >= 0.60) {
+             SendEmailAndAutoClose(caserec);
+         } else if (ebotResponse.ISSMT == 'Yes' || ebotResponse.ISREGULATOR == 'Yes') {
+             errcond = true;
+             caserec.OwnerId = grievanceQueue.Id;
+         } else if (ebotResponse.ISREGISTRED == 'No' && ebotResponse.ISREPEAT == 'Yes') {
+             errcond = true;
+             caserec.OwnerId = NonFinancialQueue.Id;
+         } else if (Decimal.valueOf(ebotResponse.CONFIDENCESCORE) < 0.60) {
+             errcond = true;
+             caserec.OwnerId = NonFinancialQueue.Id;
+         }
+         if (errcond == true) {
+             update caserec;
+         }
+         /* else if (ebotResponse.ISREPEAT == 'Yes') {
+                 casedetail.Reason_of_E_Bot_Auto_Closure_Failure__c = 'ISREPEAT is ' + ebotResponse.ISREPEAT;
+             } else if (Decimal.valueOf(ebotResponse.CONFIDENCESCORE) < 0.60) {
+                 casedetail.Reason_of_E_Bot_Auto_Closure_Failure__c = 'CONFIDENCESCORE is ' + ebotResponse.CONFIDENCESCORE;
+             } else if (ebotResponse.ISSMT == 'Yes') {
+                 casedetail.Reason_of_E_Bot_Auto_Closure_Failure__c = 'SMT is ' + ebotResponse.ISSMT;
+             } else if (ebotResponse.ISREGULATOR == 'Yes') {
+              //   casedetail.Reason_of_E_Bot_Auto_Closure_Failure__c = 'ISREGULATOR is ' + ebotResponse.ISREGULATOR;
+             } else if (ebotResponse.ISREGISTRED == 'No') {
+             //    casedetail.Reason_of_E_Bot_Auto_Closure_Failure__c = 'ISREGISTRED is ' + ebotResponse.ISREGISTRED;
+             }
+             if (casedetail.Reason_of_E_Bot_Auto_Closure_Failure__c != null) {
+              //   update casedetail;
+             }*/
+         //  }
+     }
+ }
+ Private static void SendEmailAndAutoClose(Case cse) {
+     List < ASF_Checklist__c > Checklisttocomplete = new List < ASF_Checklist__c > ();
+     List < ASF_Checklist__c > paymentChecklists = [SELECT Id, Status__c FROM ASF_Checklist__c WHERE Case__c =: cse.Id];
+     if (!paymentChecklists.isEmpty()) {
+         // Checklist found, update checklist status to 'Completed'
+         for (ASF_Checklist__c chklst: paymentChecklists) {
+             chklst.Status__c = 'Completed';
+             Checklisttocomplete.add(chklst);
+         }
+         if (!Checklisttocomplete.isEmpty()) {
+             update Checklisttocomplete;
+         }
+     }
+     cse.Stage__c = ABHFL_Constants.RESOLVED;
+     update cse;
+ }
 }

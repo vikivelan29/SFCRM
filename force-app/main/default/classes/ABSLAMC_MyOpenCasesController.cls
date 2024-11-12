@@ -7,7 +7,7 @@ public with sharing class ABSLAMC_MyOpenCasesController {
         List<Case> caseList = [Select Id,CaseNumber,Account.Name,Stage__c 
                                FROM Case 
                                WHERE Business_Unit__c =: ABSLAMC_Constants.ABSLAMCBU
-                               AND OwnerId =:userId
+                               AND OwnerId =:userId AND AccountId != null
                                AND Stage__c NOT IN ('Resolved','Unresolved') order by createddate desc];
         
         for(Case caseRec:caseList){

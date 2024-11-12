@@ -208,6 +208,27 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Case.Reopen_Case</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Nature__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Complaint</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Stage__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Resolved</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Reopened__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1339,6 +1360,20 @@
             <componentInstance>
                 <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
                 <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>maxEARContainerHeight</name>
+                    <value>500</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>shouldDisplayFiltersOnRight</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>forceKnowledge:articleSearchDesktop</componentName>
+                <identifier>forceKnowledge_articleSearchDesktop</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

@@ -742,6 +742,11 @@
                 <default>false</default>
                 <label>Digital</label>
             </value>
+            <value>
+                <fullName>ATS</fullName>
+                <default>false</default>
+                <label>ATS</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

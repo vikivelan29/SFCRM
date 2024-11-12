@@ -9,6 +9,14 @@
         <value>TRUE</value>
     </labels>
     <labels>
+        <fullName>ABHI_PolicyRequired_ErrMsg1</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_PolicyRequired_ErrMsg1</shortDescription>
+        <value>Please enter Policy Number or Master Policy Number</value>
+    </labels>
+    <labels>
         <fullName>ABSLI_BITLY_LOB_VAL</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -891,14 +899,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
-        <value>ABFL,ABSLI</value>
+        <value>ABFL,ABSLI,ABHI</value>
     </labels>
     <labels>
         <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABSLAMC Email</value>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABHI Email</value>
     </labels>
     <labels>
         <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
@@ -1164,7 +1172,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI Track Sources</shortDescription>
-        <value>Phone-Inbound,Phone-Outbound</value>
+        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team,Phone-Inbound,Phone-Outbound</value>
     </labels>
     <labels>
         <fullName>ABHI_BU</fullName>
@@ -1417,5 +1425,19 @@
         <protected>false</protected>
         <shortDescription>RNWL_PageLink</shortDescription>
         <value>http://bit.ly/ABHRENEW</value>
+    </labels>
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_Insufficient_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness std access error message</shortDescription>
+        <value>insufficient access rights on object id</value>
     </labels>
 </CustomLabels>

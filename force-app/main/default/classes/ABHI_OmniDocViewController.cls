@@ -71,14 +71,14 @@ public without sharing class ABHI_OmniDocViewController{
     Public static Object callOmiDocSearchRequest(String strAssetId, String strPolicyNo){
 
         try{
-
             objPayload.LogicalID = ABHI_Constants.LOGICAL_ID;
             objPayload.TaskID = ABHI_Constants.TASK_ID;
             objPayload.ReferenceID = strAssetId;
             objPayload.CreationDateTime = System.now().format();
             objPayload.TODID = strAssetId;
             objPayload.CategoryID = ABHI_Constants.CATEGORY_ID;
-            objPayload.DocSearchParamId = ABHI_Constants.PARAM_ID;
+            if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case') objPayload.DocSearchParamId = ABHI_Constants.CASE_PARAM_ID;
+            else objPayload.DocSearchParamId = ABHI_Constants.PARAM_ID;
             objPayload.SourceSystemName = ABHI_Constants.LOGICAL_ID;
             objPayload.SearchOperator = ABHI_Constants.SEARCH_OPERATOR;
             objPayload.Value = strPolicyNo;
@@ -181,29 +181,27 @@ public without sharing class ABHI_OmniDocViewController{
 
         List<ASF_Case_Integration__c> lstAsfCaseIntegration = new List<ASF_Case_Integration__c>();
         List<String> lstString = new List<String>();
+        EmailTemplate objEmailTemplate = new EmailTemplate();
+        OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
+        String strTemplateName; 
+        String strFromAddress; 
 
         try{
-            EmailTemplate objEmailTemplate = new EmailTemplate();
-            String strTemplateName; 
-            String strFromAddress; 
-            String sObjName = Id.valueOf(strAssetId).getSObjectType().getDescribe().getName();
-            
-            OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
-       		 
-            if(sObjName == 'Opportunity'){
-                strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
-                strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
-            } 
-            else{
-                strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
-                strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
-            }
-            
-            objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
-            objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
-        
             if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && !String.isBlank(strAccountEmail) && mapRow != null ){
-
+				
+                if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
+                    strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
+                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                }else if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
+                    strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME_CASE;
+                    strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                }else{
+                    strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
+                    strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                }
+                
+                objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
+                objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
                 lstAsfCaseIntegration = [SELECT Id, Business_External_Id__c, Status__c, Request__c, createdDate,
                                             (SELECT Id, ContentDocument.CreatedDate, ContentDocument.LatestPublishedVersion.FileType, ContentDocument.LatestPublishedVersion.VersionData, ContentDocument.LatestPublishedVersion.PathOnClient, ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)
                                             FROM ASF_Case_Integration__c
