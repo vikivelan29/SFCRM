@@ -7,8 +7,8 @@
 <template>
     <lightning-card>
         <div slot="title">
-            <lightning-button-icon slot="actions" icon-name="action:new_case" size="small" class="slds-m-right_x-small" variant="brand"></lightning-button-icon>
-            Search Kavach Policy
+            <lightning-button-icon slot="actions" icon-name="action:new_case" size="small" class="slds-m-right_x-small slds-scrollable_none" variant="brand"></lightning-button-icon>
+            Policy Search
         </div>
       
         <div class = "slds-m-around_medium">
@@ -19,7 +19,7 @@
                     <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
                 </div>
             </template>
-            <lightning-layout     class = "slds-m-bottom_x-large">
+            <lightning-layout class = "slds-m-bottom_x-large">
                 <!--<lightning-layout-item size="3" class="slds-m-right_x-large">
                     <div class = "slds-m-bottom_small">
                         <lightning-combobox name = "Target System" label = "Target System" value = {selectedSystem} placeholder = "Target System"
@@ -67,14 +67,11 @@
         
         
         <div lwc:if = {displayTable}>
-            <lightning-card>
-                <div slot="title">
-                    Search Kavach Policy
-                </div>
-            </lightning-card>
-            <c-abfl_-data-table-with-pagination columns={columns} table-data={data} page-size = {label.pageSize}>
-		    
-	    </c-abfl_-data-table-with-pagination>
+            <lightning-card title = "Search Kavach Policy">
+            <c-abfl_-data-table-with-pagination columns={columns}
+															table-data={data} page-size = {label.pageSize}
+                                                            ></c-abfl_-data-table-with-pagination>
+                                                        </lightning-card>
         </div>
         <div lwc:if = {displayError}>
             {errorMessage}
