@@ -1916,7 +1916,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Sum_Insured__c</field>
+        <field>Customer_Member_Mapping__c.SumInsured__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3397,6 +3397,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Request_Bifurcation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Claim_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

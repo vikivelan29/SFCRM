@@ -38,10 +38,16 @@ public with sharing class ABHI_FAHistoryDetailsController {
                 return deserializedIntResponse;
             }
             else {
-                return new IntegrationResponseWrapper(
+                try {
+                    IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResponse.responseBody, IntegrationResponseWrapper.class);
+                    return deserializedIntResponse;
+                } catch (Exception e) {
+                    return new IntegrationResponseWrapper(
                     integrationResponse.StatusCode,
                     Custom_Messages__mdt.getInstance('ABHI_FAHistoryNotFound').Message__c
                 );
+                }
+                
             }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
