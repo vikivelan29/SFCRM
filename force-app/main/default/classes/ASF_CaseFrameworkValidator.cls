@@ -118,6 +118,9 @@ public with sharing class ASF_CaseFrameworkValidator {
                 //Applied for currency,percentage, number, integer
                 when 'decimal' {
                     //< > <= >= = !=
+                    if(caseRecordValue == null || caseRecordValue == ''){
+                        caseRecordValue = '0';
+                    }
                     switch on cre.Operator__c {
                         when '<' {
                             comparisonResult =
