@@ -398,7 +398,7 @@ AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LO
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>existingPELoggerForMetadata</name>
         <dataType>Number</dataType>
