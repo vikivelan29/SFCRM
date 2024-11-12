@@ -1668,11 +1668,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Segment__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Case.Sent_to_EBOT__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1844,11 +1839,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.moved_back__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Case.oldCCCIdFields__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2369,11 +2359,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Spouse_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.TestField__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
