@@ -20,6 +20,6 @@
     <label>ABSLAMC MF HO Team</label>
     <queue>ABSLAMC_MF_HO_Team</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_HO_Team_G</group>
     </sharedTo>
 </ListView>
