@@ -487,16 +487,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_PriorityEmailAddressesByBU__mdt.Case_Origin__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ASF_PriorityEmailAddressesByBU__mdt.longEmailRoute__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Account.ABML_Activation_Date__c</field>
         <readable>true</readable>
@@ -1020,11 +1010,6 @@
         <editable>true</editable>
         <field>Account.Website</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>BUSpecificAutoEmailMapping__mdt.Business_Unit__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2428,21 +2413,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customers_Discount__mdt.Customer_Id__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Customers_Discount__mdt.Discount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Customers_Discount__mdt.Total_Purchase__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>PE_Logger__c.LOB__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2465,9 +2435,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>ASF_Case_Stage_Config__c-Case Stage Config Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ASF_PriorityEmailAddressesByBU__mdt-ASF PriorityEmailAddressesByBU Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
@@ -2499,9 +2466,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-Contact Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Customers_Discount__mdt-Customers Discount Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>PersonAccount-Person Account Layout</layout>
