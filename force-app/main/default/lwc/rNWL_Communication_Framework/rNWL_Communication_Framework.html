@@ -62,16 +62,20 @@
                         <template if:true={isPhoneNeeded}> 
                             <p class="slds-m-top_x-small inputBox">
                                 <lightning-input 
-                                    type="number" 
+                                    type="tel" 
                                     class="inputPhone"
-                                    max-length="10"
-                                    min-length="10"
                                     onkeyup={validatePhoneNumber}
                                     value={inputNumber} 
+                                    message-when-pattern-mismatch="Please enter valid phone number"
+                                    pattern="[6-9]{1}[0-9]{9}"
                                     label="Enter the number"
                                     message-when-range-overflow="Please enter valid phone number">
                                 </lightning-input>
                             </p>
+                            
+                            <div class="slds-box slds-m-top_x-small">
+                                <lightning-formatted-text value={phoneNumInfo}></lightning-formatted-text>
+                            </div>
                         </template>
                     </template>
 
@@ -113,6 +117,10 @@
                                 >
                                 </lightning-input>
                             </p>
+
+                            <div class="slds-box slds-m-top_x-small">
+                                <lightning-formatted-text value={emailInfo}></lightning-formatted-text>
+                            </div>
                         </template>
                     </template>
                 </lightning-layout-item>

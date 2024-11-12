@@ -20,6 +20,6 @@
     <label>ABSLAMC Call Centre Email Escalations</label>
     <queue>ABSLAMC_Call_Centre_Email_Escalations</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_Call_Centre_Email_Escalations_G</group>
     </sharedTo>
 </ListView>

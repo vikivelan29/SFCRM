@@ -1,5 +1,5 @@
 @isTest
-public class ABSLAMC_MyOpenCasesControllerTest {
+public class ASF_MyOpenCasesControllerUtilityTest {
     @testSetup
     static void setupTestData() {
         // Create a test user to assign as the case owner
@@ -13,7 +13,8 @@ public class ABSLAMC_MyOpenCasesControllerTest {
             TimeZoneSidKey = 'America/Los_Angeles',
             LocaleSidKey = 'en_US',
             EmailEncodingKey = 'UTF-8',
-            LanguageLocaleKey = 'en_US'
+            LanguageLocaleKey = 'en_US',
+            Business_Unit__c = 'ABSLAMC'
         );
         insert testUser;
 
@@ -23,11 +24,11 @@ public class ABSLAMC_MyOpenCasesControllerTest {
 
         // Create Case records with different stages
         List<Case> cases = new List<Case>{
-            new Case(AccountId = testAccount.Id, Stage__c = 'Open', OwnerId = testUser.Id),
-            new Case(AccountId = testAccount.Id, Stage__c = 'Approval', OwnerId = testUser.Id),
-            new Case(AccountId = testAccount.Id, Stage__c = 'Reply Received from App Support', OwnerId = testUser.Id),
-            new Case(AccountId = testAccount.Id, Stage__c = 'Pending with CAMS', OwnerId = testUser.Id),
-            new Case(AccountId = testAccount.Id, Stage__c = 'Reply Received from CAMS', OwnerId = testUser.Id)
+            new Case(AccountId = testAccount.Id, Stage__c = 'Open', OwnerId = testUser.Id, Business_Unit__c = 'ABSLAMC'),
+            new Case(AccountId = testAccount.Id, Stage__c = 'Approval', OwnerId = testUser.Id, Business_Unit__c = 'ABSLAMC'),
+            new Case(AccountId = testAccount.Id, Stage__c = 'Reply Received from App Support', OwnerId = testUser.Id, Business_Unit__c = 'ABSLAMC'),
+            new Case(AccountId = testAccount.Id, Stage__c = 'Pending with CAMS', OwnerId = testUser.Id, Business_Unit__c = 'ABSLAMC'),
+            new Case(AccountId = testAccount.Id, Stage__c = 'Reply Received from CAMS', OwnerId = testUser.Id, Business_Unit__c = 'ABSLAMC')
         };
         insert cases;
     }
@@ -38,11 +39,11 @@ public class ABSLAMC_MyOpenCasesControllerTest {
         User testUser = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
 
         // Call the method
-        Map<String, List<Case>> result = ABSLAMC_MyOpenCasesController.getOpenCasesByOwner(testUser.Id);
+        Map<String, List<Case>> result = ASF_MyOpenCasesControllerUtility.getOpenCasesByOwner(testUser.Id);
 
         // Verify the results
         System.assertNotEquals(null, result, 'Expected non-null map of cases grouped by stage');
-
+System.debug('result::'+result);
         // Verify that each stage has the expected number of cases
         System.assertEquals(1, result.get('Open').size(), 'Expected 2 cases in "Open" stage');
         System.assertEquals(1, result.get('Approval').size(), 'Expected 2 cases in "Approval" stage');

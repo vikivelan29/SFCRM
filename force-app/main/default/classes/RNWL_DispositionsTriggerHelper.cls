@@ -1,5 +1,5 @@
 public class RNWL_DispositionsTriggerHelper {
-    
+      
  public static Map<String,Integer> dispositionPriorityMap = new Map<String,Integer>();
  public static Map<String,String> dispositionDashboardMap = new Map<String,String>();
     
@@ -107,8 +107,9 @@ public class RNWL_DispositionsTriggerHelper {
     * @return - void .
     * @Description - after insert and after update to update Best_Disposition__c, Latest_Disposition__c and Disposition_Count__c on opp
     *****************************************************************************************************************/
-
+    // this method signature should be redeployed so commenting around the signature
     public static void updateDispositionsOnOpportunity(List<Dispositions__c> newItems, Map<Id, Dispositions__c> oldItems){
+    // this method signature should be redeployed so commenting around the signature
         Set<Id> oppIds = new Set<Id>();
 
         try{
@@ -145,8 +146,10 @@ public class RNWL_DispositionsTriggerHelper {
                             }
                         }
                     }
+                    // this line should be redeployed so commenting around the signature
                     //Disposition Count Update on Opp
                     opp.Disposition_Count__c = opp.Dispositions__r.size();
+                    // this line should be redeployed so commenting around the signature
                 }       
                 
                 
