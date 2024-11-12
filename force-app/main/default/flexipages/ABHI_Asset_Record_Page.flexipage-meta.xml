@@ -362,18 +362,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.OwnerId</fieldItem>
-                <identifier>RecordOwnerIdField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Policy_Start_Date__c</fieldItem>
-                <identifier>RecordPolicy_Start_Date_cField</identifier>
+                <fieldItem>Record.Issue_Date__c</fieldItem>
+                <identifier>RecordIssue_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
