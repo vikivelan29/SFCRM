@@ -3489,7 +3489,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Claim_Service_Concern</field>
+        <field>ABHI_Case_Detail__c.Claim_Service_Concern__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
