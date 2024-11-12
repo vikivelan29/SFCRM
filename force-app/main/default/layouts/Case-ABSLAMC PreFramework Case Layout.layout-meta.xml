@@ -312,10 +312,6 @@
                 <behavior>Edit</behavior>
                 <field>Activity__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Relationship_Manager_Name_Text__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
