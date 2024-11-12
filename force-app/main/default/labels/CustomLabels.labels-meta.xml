@@ -262,6 +262,13 @@
         <value>200</value>
     </labels>
     <labels>
+        <fullName>ASF_BUs_Eligible_For_IDAM_Processing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF BUs Eligible For IDAM Processing</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
         <fullName>ASF_BulkDownloadLimit_Msg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1150,8 +1157,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_OmniDocURL</shortDescription>
-        <value
-    >https://omnidocsprod.adityabirlahealth.com/omnidocs/integration/foldView/viewFoldList.jsp?Application=WebAPI_docID2&amp;cabinetName=abhiprod</value>
+        <value>https://omnidocsuat.adityabirlahealth.com/omnidocs/WebApiRequestRedirection?Application=WebAPI_abhi_uat&cabinetName=abhi_uat</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
@@ -1288,8 +1294,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
-        <value
-    >For non-mandatory stages, the latest approval must be approved or recalled.</value>
+        <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
     </labels>
     <labels>
         <fullName>ABHI_Track_Sources</fullName>
@@ -1582,5 +1587,33 @@
         <protected>false</protected>
         <shortDescription>ABSLAMC_LegacyPageSize</shortDescription>
         <value>10</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Callback_Number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Callback_Number</shortDescription>
+        <value>8045860569</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_PageLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_PageLink</shortDescription>
+        <value>http://bit.ly/ABHRENEW</value>
+    </labels>
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_Insufficient_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness std access error message</shortDescription>
+        <value>insufficient access rights on object id</value>
     </labels>
 </CustomLabels>

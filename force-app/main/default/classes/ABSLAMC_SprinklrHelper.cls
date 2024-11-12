@@ -38,7 +38,9 @@ public class ABSLAMC_SprinklrHelper {
                }
         }
         if (!caseCommentsToInsert.isEmpty()) {
+            ASF_TriggerSkipperUtility.markTriggerRun('CaseComment'); //Disable the casecomment trigger
             insert caseCommentsToInsert;
+            ASF_TriggerSkipperUtility.resetTriggerRun('CaseComment');
         }
         
         if(!callSprinklrUpdateAPICases.isEmpty()){

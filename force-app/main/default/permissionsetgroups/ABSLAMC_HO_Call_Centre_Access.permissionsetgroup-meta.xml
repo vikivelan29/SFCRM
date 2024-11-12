@@ -5,6 +5,7 @@
     <mutingPermissionSets>ABSLAMC_HO_Call_Centre_Access_Muted</mutingPermissionSets>
     <permissionSets>ABCL_Create_Reports</permissionSets>
     <permissionSets>ABCL_Export_Reports</permissionSets>
+    <permissionSets>ABSLAMC_Omnichannel</permissionSets>
     <permissionSets>AMC_Base_User_PS</permissionSets>
     <permissionSets>AMC_Send_Broadcasting_Messages</permissionSets>
     <permissionSets>Create_Case</permissionSets>
@@ -15,8 +16,6 @@
     <permissionSets>Manage_Bulk_Lead_Assignment</permissionSets>
     <permissionSets>Manage_Bulk_Lead_Close</permissionSets>
     <permissionSets>Manage_Bulk_Lead_Create</permissionSets>
-    <permissionSets>Manage_Case_Ownership</permissionSets>
-    <permissionSets>Manage_Lead_Ownership</permissionSets>
     <permissionSets>OmniSupervisor</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

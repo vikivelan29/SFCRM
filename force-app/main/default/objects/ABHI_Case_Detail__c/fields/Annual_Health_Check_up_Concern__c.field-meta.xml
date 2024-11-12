@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Annual_Health_Check_up_Concern__c</fullName>
+    <externalId>false</externalId>
+    <label>Annual Health Check-up Concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Schedule AHC</fullName>
+                <default>false</default>
+                <label>Schedule AHC</label>
+            </value>
+            <value>
+                <fullName>Cancel AHC</fullName>
+                <default>false</default>
+                <label>Cancel AHC</label>
+            </value>
+            <value>
+                <fullName>Reschedule AHC</fullName>
+                <default>false</default>
+                <label>Reschedule AHC</label>
+            </value>
+            <value>
+                <fullName>Dental Plan Appointment</fullName>
+                <default>false</default>
+                <label>Dental Plan Appointment</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

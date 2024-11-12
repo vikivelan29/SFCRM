@@ -140,12 +140,36 @@ export default class RNWL_NonIndividualAccRenewalDetails extends LightningElemen
             message :  jsonData.combiDetails && jsonData.combiDetails.length == 0 ? 'No combi-policies to display' : ''
         };
 
+        let combiDispositionsSection = {
+            sectionLabel : 'Related Dispositions' , 
+            headres : [
+                { label: 'Disposition Name',  fieldName: 'Disposition_Url' , wrapText: true , type: 'url',
+                    typeAttributes: {label: { fieldName: 'Disposition_Name' }, target: '_blank'}
+                },
+                { label: 'Combi Policy Number',         fieldName: 'Combi_Policy_Number' , wrapText: true},
+                { label: 'Next Call Back Date Time',    fieldName: 'Next_CallBack_Datetime' , wrapText: true},
+                { label: 'Disposition L1',              fieldName: 'Disostion_L1' , wrapText: true},
+                { label: 'Disposition L2',              fieldName: 'Disostion_L2' , wrapText: true},
+                { label: 'Disposition L3',              fieldName: 'Disostion_L3' , wrapText: true},
+                { label: 'Call Date/Time',              fieldName: 'Call_DateTime' , wrapText: true},
+                { label: 'Agent Name',                  fieldName: 'Agent_Name' , wrapText: true},
+                { label: 'Remarks',                     fieldName: 'Remark' , wrapText: true},
+                { label: 'Calling Unit',                fieldName: 'Calling_Unit' , wrapText: true},
+                { label: 'Calling Mode',                fieldName: 'Calling_Mode' , wrapText: true},
+
+            ],
+            records : jsonData.combiDispositionDetails,
+            sectionAvailable : true,
+            message :  jsonData.combiDetails && jsonData.combiDetails.length == 0 ? 'No dispositions to show' : ''
+        };
+
         this.data.push (policyDetailSections, 
                         premiumDetailSections,
                         memberDetailSections, 
                         nomineeDetailSections, 
                         renewalInfoSections,
-                        combiPolicySection ); 
+                        combiPolicySection,
+                        combiDispositionsSection ); 
         console.log('========>>>',JSON.stringify(this.data));
 
         this.hasError = false;

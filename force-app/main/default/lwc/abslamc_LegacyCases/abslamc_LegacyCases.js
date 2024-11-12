@@ -7,13 +7,16 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 
-import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
+import CLIENT_CODE_FIELD from "@salesforce/schema/Account.PAN__c";
 import LOB_FIELD from "@salesforce/schema/Account.Business_Unit__c";
-const fields = [CLIENT_CODE_FIELD, LOB_FIELD];   
+import ARN_FIELD from "@salesforce/schema/Account.ARN_Number__c";
+const fields = [CLIENT_CODE_FIELD, LOB_FIELD, ARN_FIELD];   
 
 export default class ABSLAMC_LegacyCases extends LightningElement {
     @api recordId;
+   // @api apiName = 'AMC_DMS_File_Datatable';
     @api apiName = 'ABSLAMC_Legacy_Case';
+
     @api payloadInfo;
     displayTable = false;
     displayError = false;
@@ -31,6 +34,7 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
     errorMessage;
     lob;
     customerId;
+    arnNumber;
 
     label = {
         errorMessage,
@@ -44,7 +48,7 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
     connectedCallback() {
         console.log('***rec'+this.recordId);
         // get columns
-        getColumns({configName:'LegacyCaseView'})
+        getColumns({configName:'AMC_DMS_File_Datatable'})
         .then(result => {
                 console.log('**rec2>'+JSON.stringify(result));
                 this.columns = [
@@ -94,21 +98,24 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
         this.data = null;
         this.customerId = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
         this.lob = getFieldValue(this.account.data, LOB_FIELD);
+        this.arnNumber = getFieldValue(this.account.data, ARN_FIELD);
         console.log('Acc'+this.lob);
         if(this.checkFieldValidity()) {
             this.disabled = true;
              this.isLoading = true;
-            getLegacyData({customerId: this.customerId, lanNumber: this.selectedAsset, startDate: this.startDate,
-                endDate: this.endDate, lob: this.lob}).then(result=>{
+             console.log('inputs->>',this.customerId,this.selectedAsset,this.arnNumber,this.lob);
+            getLegacyData({customerId: this.customerId, lanNumber: this.selectedAsset, arnNumber: this.arnNumber, lob: this.lob}).then(result=>{
                 this.leagcyCaseData = result;
                 console.log('Result1 ==> ', result);
                 this.isLoading = false;
+                console.log('data-->',this.leagcyCaseData.legacyCaseResponse);
                 if (this.leagcyCaseData && this.leagcyCaseData.returnCode == '1' && this.leagcyCaseData.statusCode == 200) {
                     this.statusCode = this.leagcyCaseData.statusCode;
                     this.loaded = true;
                     this.displayTable = true;
                     this.data = this.leagcyCaseData.legacyCaseResponse;
                     this.disabled = false;
+                    //console.log('data-->',JSON.stringify(data));
                 }
                 else if(this.leagcyCaseData && this.leagcyCaseData.statusCode != 0 && (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
                     console.log('@@@Erro');
@@ -166,8 +173,9 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
         result.statusCode= this.statusCode;
         result.payload = this.selectedRow;
         this.payloadInfo = result;
-
-        setTimeout(() => {             
+        console.log('details-->',this.statusCode,'Result-->',JSON.stringify(result));
+        setTimeout(() => {     
+            console.log('inside timeout');        
             this.template.querySelector('c-abfl_base_view_screen').callFunction();
         }, 200);
     }
@@ -202,5 +210,13 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
         variant: variant,
     });
     this.dispatchEvent(evt);
+    }
+
+    clearSelection(event){
+        this.customerId = '';
+        this.selectedAsset = '';
+        this.arnNumber = '';
+        this.lob = '';
+        this.displayTable = false;
     }
 }

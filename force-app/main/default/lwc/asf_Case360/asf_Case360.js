@@ -2657,6 +2657,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             });
             this.isLoading=false;
         }else{
+            this.reasonLOV = [];
             records.forEach(item => {
                 if(item.Type__c != 'Resolve'){
                     const optionVal = {
