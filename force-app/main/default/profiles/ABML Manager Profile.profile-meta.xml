@@ -1108,11 +1108,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.Auto_Assignment__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Case.BRE_Source__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1180,11 +1175,6 @@
         <editable>false</editable>
         <field>Case.Channel__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Case.Client_Code_Text__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
