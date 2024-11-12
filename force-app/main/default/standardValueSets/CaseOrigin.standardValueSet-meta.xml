@@ -62,13 +62,8 @@
         <label>ABSLIG Email</label>
     </standardValue>
     <standardValue>
-        <fullName>ABSLAMC Email</fullName>
+        <fullName>ABML Email</fullName>
         <default>false</default>
-        <label>ABSLAMC Email</label>
-    </standardValue>
-    <standardValue>
-        <fullName>Wellness Email</fullName>
-        <default>false</default>
-        <label>Wellness Email</label>
+        <label>ABML Email</label>
     </standardValue>
 </StandardValueSet>
