@@ -41,7 +41,6 @@ public with sharing class ABHI_FAHistoryDetailsController {
             else {
                 try {
                     IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResponse.responseBody, IntegrationResponseWrapper.class);
-                    deserializedIntResponse.StatusCode = integrationResponse.StatusCode;
                     return deserializedIntResponse;
                 } catch (Exception e) {
                     return new IntegrationResponseWrapper(
