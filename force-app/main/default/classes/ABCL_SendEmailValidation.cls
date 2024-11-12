@@ -109,8 +109,8 @@ public with sharing class ABCL_SendEmailValidation {
 
             Custom_Messages__mdt mdtRestrictedErrorMessage = Custom_Messages__mdt.getInstance('Restrict_to_send_email_error_message'); 
             List<User> userTeamRecord = [SELECT ID, Business_Unit__c, Team__c FROM USER WHERE ID = :UserInfo.getUserID() WITH SYSTEM_MODE];
-            String userTeam = userTeamRecord[0]?.Team__c.toLowerCase() ?? '';
-            String userBusinessUnit = userTeamRecord[0]?.Business_Unit__c.toLowerCase() ?? '';
+            String userTeam = userTeamRecord[0]?.Team__c?.toLowerCase() ?? '';
+            String userBusinessUnit = userTeamRecord[0]?.Business_Unit__c?.toLowerCase() ?? '';
             List<String> buRestrictionList = LABEL.BU_Restrict_email.toLowerCase().split(',');
 
             if(buRestrictionList.contains(userBusinessUnit)) {
