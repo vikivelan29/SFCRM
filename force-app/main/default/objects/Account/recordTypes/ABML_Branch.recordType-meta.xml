@@ -2,24 +2,12 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABML_Branch</fullName>
     <active>true</active>
-    <compactLayoutAssignment>ABML_Branch_Compact_Layout</compactLayoutAssignment>
     <label>ABML Branch</label>
     <picklistValues>
         <picklist>ABML_Contact_Type__c</picklist>
         <values>
             <fullName>Branch</fullName>
             <default>true</default>
-        </values>
-    </picklistValues>
-	<picklistValues>
-        <picklist>ABML_Partner_Segmentation__c</picklist>
-        <values>
-            <fullName>Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Premium</fullName>
-            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -30,14 +18,6 @@
         </values>
         <values>
             <fullName>Inactive</fullName>
-            <default>false</default>
-        </values>
-		 <values>
-            <fullName>Closed</fullName>
-            <default>false</default>
-        </values>
-		 <values>
-            <fullName>Dropped</fullName>
             <default>false</default>
         </values>
     </picklistValues>

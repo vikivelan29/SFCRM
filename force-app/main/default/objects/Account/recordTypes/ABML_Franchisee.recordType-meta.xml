@@ -1,26 +1,13 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABML_Franchisee</fullName>
     <active>true</active>
-    <compactLayoutAssignment>ABML_Franchisee_Compact_Layout</compactLayoutAssignment>
     <label>ABML Franchisee</label>
     <picklistValues>
         <picklist>ABML_Contact_Type__c</picklist>
         <values>
             <fullName>Franchisee</fullName>
             <default>true</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>ABML_Partner_Segmentation__c</picklist>
-        <values>
-            <fullName>Business</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Premium</fullName>
-            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -31,14 +18,6 @@
         </values>
         <values>
             <fullName>Inactive</fullName>
-            <default>false</default>
-        </values>
-		 <values>
-            <fullName>Closed</fullName>
-            <default>false</default>
-        </values>
-		 <values>
-            <fullName>Dropped</fullName>
             <default>false</default>
         </values>
     </picklistValues>

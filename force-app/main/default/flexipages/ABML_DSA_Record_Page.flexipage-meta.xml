@@ -4,19 +4,16 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsConfiguration</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsInNative</name>
-                    <value>true</value>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
@@ -37,18 +34,24 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>isCurrent</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentName>asf_CurrentHoldings</componentName>
-                <identifier>c_asf_CurrentHoldings</identifier>
+                <componentName>asf_FetchAssetsRelatedToAccount</componentName>
+                <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Contact_Type__c</fieldItem>
+                <identifier>RecordABML_Contact_Type_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -65,8 +68,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PersonMobilePhone</fieldItem>
-                <identifier>RecordPersonMobilePhoneField</identifier>
+                <fieldItem>Record.ABML_Agent_Code__pc</fieldItem>
+                <identifier>RecordABML_Agent_Code_pcField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -75,14 +78,24 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PersonEmail</fieldItem>
-                <identifier>RecordPersonEmailField</identifier>
+                <fieldItem>Record.ABML_Contact_Category__c</fieldItem>
+                <identifier>RecordABML_Contact_Category_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-522a94dc-400b-4894-8b61-92fac1a2e0b6</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Business_Unit__c</fieldItem>
+                <identifier>RecordBusiness_Unit_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -97,7 +110,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.ABML_Status__pc</fieldItem>
                 <identifier>RecordABML_Status_pcField</identifier>
@@ -109,8 +122,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Alternate_Mobile_No__pc</fieldItem>
-                <identifier>RecordABML_Alternate_Mobile_No_pcField</identifier>
+                <fieldItem>Record.ABML_Contact_Subcategory__c</fieldItem>
+                <identifier>RecordABML_Contact_Subcategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b1cff763-3731-41be-8485-0fa24c3aa9c9</name>
@@ -142,6 +155,160 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PersonMobilePhone</fieldItem>
+                <identifier>RecordPersonMobilePhoneField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PersonOtherPhone</fieldItem>
+                <identifier>RecordPersonOtherPhoneField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-becb3160-d095-4123-b0b8-95cde9af4b17</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PersonEmail</fieldItem>
+                <identifier>RecordPersonEmailField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-d3668da9-1357-4104-8c99-0836c89ad592</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-becb3160-d095-4123-b0b8-95cde9af4b17</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-d3668da9-1357-4104-8c99-0836c89ad592</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-c6031af8-201c-418c-b0cc-76d5eca8d105</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Bank_Name__pc</fieldItem>
+                <identifier>RecordABML_Bank_Name_pcField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Bank_Account_Number__pc</fieldItem>
+                <identifier>RecordABML_Bank_Account_Number_pcField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_IFSC_code__pc</fieldItem>
+                <identifier>RecordABML_IFSC_code_pcField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-443f3566-8303-4710-94c2-0a70aef01d8b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Bank_Account_Type__pc</fieldItem>
+                <identifier>RecordABML_Bank_Account_Type_pcField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Cheque_Name__pc</fieldItem>
+                <identifier>RecordABML_Cheque_Name_pcField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_MICR__pc</fieldItem>
+                <identifier>RecordABML_MICR_pcField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-6a94eafc-7f31-44cd-af16-a77d221ba5ff</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-443f3566-8303-4710-94c2-0a70aef01d8b</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-6a94eafc-7f31-44cd-af16-a77d221ba5ff</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-10a3c8c5-191f-4fc5-9110-1c9eeda04fb0</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
@@ -153,10 +320,46 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>DSA Details</value>
+                    <value>Fields</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-c6031af8-201c-418c-b0cc-76d5eca8d105</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Contact Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-10a3c8c5-191f-4fc5-9110-1c9eeda04fb0</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Bank Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -260,11 +463,35 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abml_LegacyCases</componentName>
-                <identifier>c_abml_LegacyCases</identifier>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Account.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Contacts</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-4a60aa3a-f23d-4e0a-99dd-cd06b1f89891</name>
+        <name>Facet-ec51f0d8-6fdf-43a1-a465-1c55665553ee</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <name>Facet-3a0f75f7-994a-4dce-b06a-33a1fd66a3cc</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -286,7 +513,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Banks__r</value>
+                    <value>Contacts__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListDisplayType</name>
@@ -296,13 +523,19 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>NAME</value>
+                            <value>FULL_NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ACCOUNT.NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CONTACT.PHONE1</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Banks</value>
+                    <value>Person Accounts</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
@@ -320,7 +553,7 @@
                 <identifier>lst_dynamicRelatedList3</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-ca34f39e-6e92-4e63-9869-6e8417e621cd</name>
+        <name>Facet-2ef9f0ce-1f9c-4fed-be5a-7ea8f1aa2293</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -370,28 +603,42 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-4a60aa3a-f23d-4e0a-99dd-cd06b1f89891</value>
+                    <value>Facet-ec51f0d8-6fdf-43a1-a465-1c55665553ee</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Legacy View</value>
+                    <value>Contact</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
+                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-ca34f39e-6e92-4e63-9869-6e8417e621cd</value>
+                    <value>Facet-3a0f75f7-994a-4dce-b06a-33a1fd66a3cc</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Legacy View</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-2ef9f0ce-1f9c-4fed-be5a-7ea8f1aa2293</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab5</identifier>
+                <identifier>flexipage_tab8</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
