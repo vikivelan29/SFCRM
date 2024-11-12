@@ -1799,6 +1799,10 @@
             <fullName>ATS</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Branch walk in</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
