@@ -1434,6 +1434,13 @@
         <value>ABHI</value>
     </labels>
     <labels>
+        <fullName>ABHI_Case_Restriction_Creation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Case Restriction Creation</shortDescription>
+        <value>Source_Based_Case_Creation_Restriction,User_Source_Code_Based_Case_Creation_Restriction</value>
+    </labels>
+</CustomLabels>
         <fullName>Wellness_Insufficient_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
