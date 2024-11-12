@@ -20,6 +20,6 @@
     <label>ABSLAMC MF PHD</label>
     <queue>ABSLAMC_MF_PHD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_PHD_G</group>
     </sharedTo>
 </ListView>
