@@ -280,7 +280,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            logtheException(e);
+            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('abhiCaseValidation Case creation validation');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -329,7 +333,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            logtheException(e);
+            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
+            ABCL_Logger.enableExceptionLogging();
+            ABCL_Logger.push('abhiCaseValidation Case creation validation');
+            ABCL_Logger.message(e.getMessage());
+            ABCL_Logger.emit();
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -554,8 +562,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
                 ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
 
-                if( (metaDataRec.Source__c != caseSource) || 
-                    (String.isNotBlank(metaDataRec.Channel__c) && metaDataRec.Channel__c != caseChannel) ) {
+                if(metaDataRec.Source__c != caseSource) {
                     result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
                 }
             }
@@ -582,7 +589,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
     /**
     * @param : newCases, oldCaseMap - 
     * @return : void 
-    * @description : Prepopulates Fields on Case during before insert and update
+    * @description : Prepopulates Fields on Case during before insert and update.
     */
     public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
         
@@ -595,7 +602,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(casRec.AssetId != null && 
                ((oldCaseMap == null) || 
                 (oldCase != null && oldCase.AssetId != casRec.AssetId))){
-                	assetIds.add(casRec.AssetId);
+                    assetIds.add(casRec.AssetId);
                     casesToUpdate.add(casRec);
             }
         }
