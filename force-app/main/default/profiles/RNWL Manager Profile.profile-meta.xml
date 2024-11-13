@@ -19798,19 +19798,11 @@
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
-        <name>EditTask</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>false</enabled>
         <name>EditTopics</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
         <name>EmailMass</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>false</enabled>
-        <name>EmailSingle</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
