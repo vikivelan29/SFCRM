@@ -1755,6 +1755,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.ClaimNo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
         <field>Case.oldCCCIdFields__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2766,11 +2771,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.LAN__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Cover__c.Cover_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
