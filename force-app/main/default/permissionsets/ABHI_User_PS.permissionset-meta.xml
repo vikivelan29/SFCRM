@@ -3346,6 +3346,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Diagnostic_Concern__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHI_Case_Detail__c.Inward_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
