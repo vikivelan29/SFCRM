@@ -1172,7 +1172,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI Track Sources</shortDescription>
-        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team,Phone-Inbound,Phone-Outbound</value>
+        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team,Inbound call,Phone</value>
     </labels>
     <labels>
         <fullName>ABHI_BU</fullName>
