@@ -1506,6 +1506,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.ClaimNo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
         <field>Case.oldCCCIdFields__c</field>
         <readable>true</readable>
     </fieldPermissions>
