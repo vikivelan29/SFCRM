@@ -986,10 +986,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABHI_CreateHealthIntentRequestWrapper</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABHI_CreateHealthIntent_Inbound</apexClass>
         <enabled>false</enabled>
     </classAccesses>
