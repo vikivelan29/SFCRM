@@ -23,9 +23,9 @@
                 <label>OPD Claim Intimation</label>
             </value>
             <value>
-                <fullName>Cashless anywhere Claim Initimation</fullName>
+                <fullName>Cashless anywhere Claim Intimation</fullName>
                 <default>false</default>
-                <label>Cashless anywhere Claim Initimation</label>
+                <label>Cashless anywhere Claim Intimation</label>
             </value>
             <value>
                 <fullName>Claim intimation cancellation</fullName>
@@ -267,6 +267,11 @@
                 <default>false</default>
                 <label>Status inquiry</label>
             </value>
+            <value>
+                <fullName>Cashless process</fullName>
+                <default>false</default>
+                <label>Cashless process</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Reimbursement:OPD claim</controllingFieldValue>
@@ -306,7 +311,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Cashless:Claim process enquiry</controllingFieldValue>
-            <valueName>Cashless anywhere Claim Initimation</valueName>
+            <valueName>Cashless anywhere Claim Intimation</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Cashless:Claim process enquiry</controllingFieldValue>

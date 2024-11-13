@@ -24,6 +24,8 @@ import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm'
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import createProspectAndUpdCase from '@salesforce/apex/ASF_CaseUIController.CreateProspectAndUpdateOnCase';
+import INSUFFICIENT_ACCESS_MSG from '@salesforce/label/c.Wellness_Insufficient_Access';//PR1030924-905
+import CASE_ACCESS_ERROR from '@salesforce/label/c.Wellness_CaseComment_add_Err_Msg';//PR1030924-905
 // VIRENDRA - PROSPECT TAGGING IMPORTS ENDS HERE.
 
 export default class Asf_CRNTagging extends LightningElement {
@@ -66,7 +68,10 @@ export default class Asf_CRNTagging extends LightningElement {
     ]
     asstData;
     accData;
-
+    label = {
+        CASE_ACCESS_ERROR, //PR1030924-905
+        INSUFFICIENT_ACCESS_MSG //PR1030924-905
+    };
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
@@ -257,10 +262,12 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
                 })
                 .catch(error => {
-                    let getErrMsg = reduceErrors(error)[0]
-
-                    if(getErrMsg) {
-                        this.showError("error", "Error ", getErrMsg);
+                    let errorMessage = reduceErrors(error)[0];
+                    if(errorMessage) {
+                        if(errorMessage.indexOf(this.label.INSUFFICIENT_ACCESS_MSG) != -1){
+                            errorMessage = this.label.CASE_ACCESS_ERROR; //PR1030924-905
+                        }
+                        this.showError("error", "Error ", errorMessage);
                     } else {
                         const event = new ShowToastEvent({
                             title: 'Error',

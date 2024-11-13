@@ -1,7 +1,8 @@
 import { LightningElement, api, wire } from 'lwc';
 import RNWL_Seller_Portal_Link from '@salesforce/label/c.RNWL_Seller_Portal_Link';
 import RNWL_Product_Features from '@salesforce/label/c.RNWL_Product_Features';
-import getAutoCalculationLink from '@salesforce/apex/RNWL_HelpLinksController.getAutoCalculationLink';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import PAYMENT_LINK from "@salesforce/schema/Opportunity.Payment_Link__c";
 
 export default class RNWL_HelpLinks extends LightningElement {
     @api recordId;
@@ -11,15 +12,10 @@ export default class RNWL_HelpLinks extends LightningElement {
         RNWL_Product_Features
     };
 
-    @wire(getAutoCalculationLink,{recordId: '$recordId'})
-    getCustomLink({error,data}){
-        console.log('@@data'+data)
-        if(data){
-            this.autoCalculationLink = data;
-        }
-        else if(error){
-            console.log(error);
-        }
-    }
+    @wire(getRecord, {recordId: "$recordId", fields: [PAYMENT_LINK]})
+    oppRecord;
 
+    get paymentLink() {
+        return getFieldValue(this.oppRecord.data, PAYMENT_LINK);
+    }
 }

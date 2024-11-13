@@ -211,4 +211,12 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
     });
     this.dispatchEvent(evt);
     }
+
+    clearSelection(event){
+        this.customerId = '';
+        this.selectedAsset = '';
+        this.arnNumber = '';
+        this.lob = '';
+        this.displayTable = false;
+    }
 }
