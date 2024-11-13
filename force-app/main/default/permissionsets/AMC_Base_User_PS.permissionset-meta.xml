@@ -6203,6 +6203,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>PRODUCT_MASTER__c.Last_Update_Date_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Survey_Response__c.Business_Unit__c</field>
         <readable>true</readable>
     </fieldPermissions>
