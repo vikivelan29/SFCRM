@@ -24,6 +24,6 @@
     </filters>
     <label>All Open ABSLIG</label>
     <sharedTo>
-        <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+        <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>
