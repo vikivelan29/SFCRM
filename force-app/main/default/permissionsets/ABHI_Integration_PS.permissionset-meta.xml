@@ -3318,11 +3318,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Cover__c.Cover_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Cover__c.Cover_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
