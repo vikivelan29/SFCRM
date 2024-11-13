@@ -24,6 +24,6 @@
     </filters>
     <label>ABSLIG Funds Team Open Cases</label>
     <sharedTo>
-        <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+        <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>
