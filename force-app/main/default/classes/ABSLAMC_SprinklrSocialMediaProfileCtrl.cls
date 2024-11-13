@@ -41,6 +41,7 @@ public with sharing class ABSLAMC_SprinklrSocialMediaProfileCtrl {
             (SELECT Id,Phone,Email FROM Contacts LIMIT 1)
             FROM Account
             WHERE Id = :accId
+            AND (Business_Unit__c = :ABSLAMC_Constants.ABSLAMCBU OR Business_Unit__c = :ABHI_Constants.ABHI)
             LIMIT 1
         ];
         System.debug(account);
