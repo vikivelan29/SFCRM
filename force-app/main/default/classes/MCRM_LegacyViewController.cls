@@ -2,7 +2,7 @@
 * @description       Wellness Legacy View 
 * @author            : aditya.mehrotra@salesforce.com
 * @group             : 
-* @last modified on  : 11-04-2024
+* @last modified on  : 11-12-2024
 * @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
@@ -57,7 +57,7 @@ public with sharing class MCRM_LegacyViewController {
             String integrationName = 'MCRM_Legacy_Case';
             startDate = startDate != null?startDate:'';
             endDate = endDate != null?endDate:'';
-            String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, lob,msdCaseNumber));
+            String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, 'ABHMW',msdCaseNumber));
             System.debug('conPayload --> '+conPayload);
             ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
             
@@ -91,14 +91,14 @@ public with sharing class MCRM_LegacyViewController {
 * @description     LegacyViewRequest */
     public class LegacyViewRequest{
         String CustomerNumber;
-        String PolicyNumber ;
+        String ContractNumber ;
         String CaseNumber;
         String FromDate;
         String ToDate;
         String LOB;
         LegacyViewRequest(String customerId, String holdingNumber, String fromDate, String toDate, String lob,String caseNumber){
             this.CustomerNumber = customerId;
-            this.PolicyNumber  = holdingNumber;
+            this.ContractNumber  = holdingNumber;
             this.FromDate = fromDate;
             this.ToDate = toDate;
             this.LOB = lob;
@@ -135,33 +135,34 @@ public with sharing class MCRM_LegacyViewController {
 * @description     LegacyCaseResponseWrapper */
     public class LegacyCaseResponseWrapper{
         @AuraEnabled public String CaseNumber;
-        @AuraEnabled public String ContractNumber;
+        @AuraEnabled public String CustomerType;
+        @AuraEnabled public String CustomerID;
+        @AuraEnabled public String CustomerName;
+        @AuraEnabled public String ContractStatus;
+        @AuraEnabled public String Origin;
+        @AuraEnabled public String Partner;
+        @AuraEnabled public String CaseStatus;
+        @AuraEnabled public String BranchName;
+        @AuraEnabled public String Product;
+        @AuraEnabled public String CreatedBy;
+        @AuraEnabled public String ApplicationNo;
+        @AuraEnabled public String CaseResolvedOn;
+        @AuraEnabled public String CaseCreatedOn;
+        @AuraEnabled public String Category;
         @AuraEnabled public String CaseType;
         @AuraEnabled public String CaseSubType;
         @AuraEnabled public String CaseSubSubType;
-        @AuraEnabled public String CaseCreatedOn;
-        @AuraEnabled public String OwnerNameAssignedUser;
+        @AuraEnabled public String ContractNumber;
         @AuraEnabled public String AssignedTeam;
-        @AuraEnabled public String Category;
-        @AuraEnabled public String Product;
-        @AuraEnabled public String Comments;
-        @AuraEnabled public String CustomerID;
-        @AuraEnabled public String CustomerName;
-        @AuraEnabled public String CaseResolvedOn;
-        @AuraEnabled public String ResolutionComments;
-        @AuraEnabled public String Origin;
-        @AuraEnabled public String CaseStatus;
-        @AuraEnabled public String FTR;
-        @AuraEnabled public String CustomerType;
-        @AuraEnabled public String ContactNumber;
-        @AuraEnabled public String ContractStatus;
-        @AuraEnabled public String BranchName;
-        @AuraEnabled public String Priority;
-        @AuraEnabled public String CreatedBy;
-        @AuraEnabled public String ApplicationNo;
-        @AuraEnabled public String Partner;
+        @AuraEnabled public String AssignedUser;
+        @AuraEnabled public String OwnerName;
         @AuraEnabled public String PlanName;
         @AuraEnabled public String AssignedBy;
+        @AuraEnabled public String ContactNumber;
+        @AuraEnabled public String Comments;
+        @AuraEnabled public String ResolutionComments;
+        @AuraEnabled public String FTR;
+        @AuraEnabled public String Priority;
     }
     /*********************************************************
 * @Class           LegacyCaseResponseBodyWrapper
