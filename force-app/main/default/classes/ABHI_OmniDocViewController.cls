@@ -2,8 +2,8 @@
 * @File Name : ABHI_OmniDocViewController.cls
 * @Description :
 * @Author : Salesforce
-* @Last Modified By : Raj Raghuwanshi
-* @Last Modified On : September 2, 2024
+* @Last Modified By : ChangeMeIn@UserSettingsUnder.SFDoc
+* @Last Modified On : 11-12-2024
 * @Modification Log : updated templateDetails method to handle opp email
 *==============================================================================
 * Ver | Date | Author | Modification
@@ -209,7 +209,7 @@ public without sharing class ABHI_OmniDocViewController{
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
                     strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
-                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME; 
                 }else if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
                     strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME_CASE;
                     strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
@@ -243,8 +243,13 @@ public without sharing class ABHI_OmniDocViewController{
                         Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(objEmailTemplate.Id, objCon.Id, strAssetId);
                         objEmail.setTemplateId(objEmailTemplate.Id);
                         objEmail.setOrgWideEmailAddressId(objOrgWideEmailAddress.Id);
-                        objEmail.setSubject(objEmail.getSubject().replace(strPlanName, strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
-                        objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strPlanName, strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                        if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
+                            objEmail.setSubject(objEmail.getSubject().replace(strAssetId, strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                            objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strAssetId, strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                        }else{
+                            objEmail.setSubject(objEmail.getSubject().replace(strPlanName, strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                            objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strPlanName, strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                        }
                         objEmail.setEntityAttachments(lstString);
                         objEmail.setWhatId(strAssetId);
                         objEmail.setTargetObjectId(objCon.Id);
