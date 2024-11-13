@@ -130,10 +130,10 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
+                //this.noAutoCommOptions = data.values.map(item => ({
+                    //label: item.label,
+                    //value: item.value
+                //}));
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;
