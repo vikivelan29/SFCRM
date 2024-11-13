@@ -25,7 +25,7 @@ export default class mcrm_legacyCasesView extends LightningElement {
     loaded = false;
     disabled = false;
     @track displayResult = [];
-    options = '';
+    @track options = [];
     statusCode;
     columns;
     errorMessage;
@@ -80,10 +80,13 @@ export default class mcrm_legacyCasesView extends LightningElement {
     fetchContracts() {
         fetchAssets({ accountId: this.recordId })
             .then(result => {
-                this.options = result;
+                let inarray=[];
+                inarray.push({ label: 'Please Select', value: '' }); // Empty option
+                inarray.push(...result);
+                this.options = inarray;
             })
             .catch(error => {
-                console.error('Error in fetching Contracts:' + error.body.message);
+                console.error('Error in fetching Contracts:' + error?.body?.message);
             })
     }
 
@@ -101,7 +104,7 @@ export default class mcrm_legacyCasesView extends LightningElement {
                 this.isLoading = true;
                 debugger;
                 getLegacyData({
-                    customerId: this.recordId, lanNumber: this.selectedAsset, startDate: this.startDate,
+                    customerId: this.customerId, lanNumber: this.selectedAsset, startDate: this.startDate,
                     endDate: this.endDate, lob: this.lob, msdCaseNumber : this.msdCaseNumber
                 }).then(result => {
                     console.log('Result=>:'+JSON.stringify(result));
