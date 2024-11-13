@@ -26,6 +26,6 @@
     </filters>
     <label>ABSLI Mode Change - Soft Resolved Cases</label>
     <sharedTo>
-        <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+        <roleAndSubordinatesInternal>ABSLI_Service_Manager</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>
