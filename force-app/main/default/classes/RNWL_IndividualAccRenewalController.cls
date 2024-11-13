@@ -29,8 +29,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
             String responseBody = mapAPIResponse.containsKey('Renewal Check') ? mapAPIResponse.get('Renewal Check') : ''  ;
             set<String> setMemberId = new set<String>(); 
             
-            if(String.isBlank(responseBody)){ 
-                
+            if(String.isBlank(responseBody)){  
                 responseBody = RNWL_StoredResponseUtility.getRenewalDetails(policyNumber, 'Renewal Check', 'RNWL_RenewalDetail');
                 
                 if(String.isBlank(responseBody)) {  
@@ -53,8 +52,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
 
                 RNWL_StoredResponseUtility.uploadFileToOpportunity(opportunityId);
             }
-            else{
-                system.debug('responseBody From File-'+responseBody);
+            else{ 
                 rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
             }
             
@@ -65,13 +63,9 @@ public without sharing class RNWL_IndividualAccRenewalController {
             for(object objPolicy : rawPolicyData){
                 
                 Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy;
-                
-                system.debug('policyNumber'+policyNumber);
-                system.debug('policyNumbertwo'+String.valueOf(policyData_Map.get('Policy_number')));
+                 
                 if(policyNumber == String.valueOf(policyData_Map.get('Policy_number'))){
-                    
-                    system.debug('policyData_Map'+ policyData_Map);
-                    
+                      
                     RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
                     
                     objRenewalWrapper.Id = Crypto.getRandomInteger();
@@ -129,9 +123,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
                         objMember.CB = String.valueOf(member_Map.get('CB'));
                         objMember.MemberId = String.valueOf(member_Map.get('MemberId'));
                         
-                        setMemberId.add(String.valueOf(member_Map.get('MemberId')));  
-                        
-                        system.debug('MemberId'+objMember.MemberId);
+                        setMemberId.add(String.valueOf(member_Map.get('MemberId')));   
                         
                         lstRenewalMembers.add(objMember);
                     } 
@@ -151,9 +143,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
 
                     lstRenewalWrapper.add(objRenewalWrapper);
                 } 
-            }
-            
-            system.debug('lstRenewalWrapper '+lstRenewalWrapper);  
+            } 
             
             if(!lstRenewalWrapper.isEmpty()){  
                 updateValueForAccount(setMemberId, lstRenewalWrapper); 
@@ -251,6 +241,8 @@ public without sharing class RNWL_IndividualAccRenewalController {
             }
             return lstRenewalWrapper;      
         }catch(exception e){
+            system.debug(e.getLineNumber());
+            system.debug(e.getMessage());
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
         }
     } 
@@ -271,23 +263,19 @@ public without sharing class RNWL_IndividualAccRenewalController {
             mapOfMemberIdToAccount.put(objAccount.Client_Code__c, objAccount);
         }
         
-        if(!mapOfMemberIdToAccount.isEmpty()){
-            
+        if(!mapOfMemberIdToAccount.isEmpty()){ 
             List<RNWL_RenewalWrapper.cls_Members> lstCls_Members = new List<RNWL_RenewalWrapper.cls_Members>();
             
-            for(RNWL_RenewalWrapper.cls_Members objCls_Members : lstRenewalWrapper[0].Members ){
-                
+            for(RNWL_RenewalWrapper.cls_Members objCls_Members : lstRenewalWrapper[0].Members ){ 
                 if(mapOfMemberIdToAccount.containsKey(objCls_Members.MemberId)){
                     Account objAccount = mapOfMemberIdToAccount.get(objCls_Members.MemberId);
                     objCls_Members.Chronic_Disease = objAccount.Chronic_Disease__c;
                     objCls_Members.PED = objAccount.PED__c;   
                 }
                 lstCls_Members.add(objCls_Members);
-            }
-            
+            } 
             lstRenewalWrapper[0].Members = lstCls_Members;
-        }
-        
+        } 
         return;
     }
 }
