@@ -216,7 +216,7 @@ public with sharing class ABHI_EscalatedIGMSComplaintIntegration implements ASF_
         public string Ack_Officer_Name{get;set;}                 
         public string BOC_Or_Collection_Number{get;set;}                 
         public string Branch_Code{get;set;}                 
-        public string Cheque_Number{get;set;}                 
+        public string Cheque_Number{get;set;}                    
         public string Claim_Clsr_Additional_Info{get;set;}    
         public string Claim_Received_Amount{get;set;}                 
         public string Claim_Requested_Amount{get;set;}                 
