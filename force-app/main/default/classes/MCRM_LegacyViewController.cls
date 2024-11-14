@@ -11,17 +11,22 @@
 public with sharing class MCRM_LegacyViewController {
     @AuraEnabled(cacheable = true)
     public static List<ContractName> getRelatedContracts(Id accountId){
-        List<ContractName> contractList = new List<ContractName>();
-        for(Asset ast : [select id,Business_Unit__c, ContractId__c, Account.Client_Code__c FROM
-                         Asset WHERE AccountId = :accountId AND Business_Unit__c= :System.Label.Wellness_BU
-                         WITH SECURITY_ENFORCED])
-        {
-            ContractName contractRec = new ContractName();
-            contractRec.label = ast.ContractId__c;
-            contractRec.value = ast.ContractId__c;
-            contractList.add(contractRec);
+        try {
+            List<ContractName> contractList = new List<ContractName>();
+            for(Asset ast : [select id,Business_Unit__c, ContractId__c, Account.Client_Code__c FROM
+                            Asset WHERE AccountId = :accountId AND Business_Unit__c= :System.Label.Wellness_BU
+                            WITH SECURITY_ENFORCED])
+            {
+                ContractName contractRec = new ContractName();
+                contractRec.label = ast.ContractId__c;
+                contractRec.value = ast.ContractId__c;
+                contractList.add(contractRec);
+            }
+            return contractList;
+        } catch (Exception ex) {
+            ABCL_Logger.logException('MCRM_LegacyViewController.getRelatedContracts',ex.getMessage());
+            throw new AuraHandledException('Error : '+ex.getMessage()+' '+ex.getLineNumber());
         }
-        return contractList;
     }
     
     /*********************************************************
@@ -79,8 +84,9 @@ public with sharing class MCRM_LegacyViewController {
                 response.returnMessage = Label.ASF_Error_Case_Merge ;
             }
             return response;
-        }catch(exception e){
-            throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
+        }catch(exception ex){
+            ABCL_Logger.logException('MCRM_LegacyViewController.getLegacyData',ex.getMessage());
+            throw new AuraHandledException('Error : '+ex.getMessage()+' '+ex.getLineNumber());
         }
     }
     /*********************************************************

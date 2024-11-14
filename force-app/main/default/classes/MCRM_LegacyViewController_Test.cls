@@ -82,11 +82,13 @@ public class MCRM_LegacyViewController_Test {
         	Assert.areEqual(2, listPolicy.size(), 'BSLI');
         Test.stopTest();
     } 
+
     
 	@isTest static void testgetLegacyData() {
         // Set mock callout class 
-        Test.setMock(HttpCalloutMock.class, new ABSLI_LegacyMockResponseGenerator());
         Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.ABSLI_LegacyMockResponseGenerator());
+
         MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('277956','','','','ABFL','');
         Test.stopTest();
         System.assertEquals(200,res.statusCode, 'code');
@@ -95,12 +97,13 @@ public class MCRM_LegacyViewController_Test {
     
     @isTest static void testgetLegacyFailureData() {
         // Set mock callout class 
-        Test.setMock(HttpCalloutMock.class, new ABSLI_LegacyMockFailureResponseGenerator());
         Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.ABSLI_LegacyMockFailureResponseGenerator());
         MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('27795','','','','ABFL','');
         Test.stopTest();
         System.assertEquals(404,res.statusCode, 'statusCode');
     }
+
     /**
     * @description  Mocking success response
     */ 

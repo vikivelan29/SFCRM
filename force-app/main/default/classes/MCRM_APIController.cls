@@ -32,35 +32,57 @@ public with sharing class MCRM_APIController {
 
     @AuraEnabled(Cacheable = false)
     public static ResponseWrapper invokeAPIwithParams(String recId ,String intName,Map<String, Object> params){
-        // recId = '1187714';
-        //recId = '2907103';// for gym voucher
+        try{
+            String objectName = Id.valueOf(recId).getSObjectType().getDescribe().getName();
+            if(objectName == 'Account'){
+                recId = [SELECT Id, Client_Code__c FROM Account WHERE Id =: recId]?.Client_Code__c;
+            }else if(objectName == 'Asset'){
+                recId = [SELECT Id, contractId__c FROM Asset WHERE Id =: recId]?.contractId__c;
+            }
+            // prepare payload to pass
+            // String requestPayload = generateRequestPayload(apiName, assetId);
+            String contractId, param1, param2, startDate, endDate;
+            if(params.size()>0){
+                param1 = (String)params.get('param1');
+                param2 = (String)params.get('param2');
+                startDate = (String)params.get('startDate');
+                endDate = (String)params.get('endDate');
+            }
 
-        String objectName = Id.valueOf(recId).getSObjectType().getDescribe().getName();
-        if(objectName == 'Account'){
-            recId = [SELECT Id, Client_Code__c FROM Account WHERE Id =: recId]?.Client_Code__c;
-        }else if(objectName == 'Asset'){
-            recId = [SELECT Id, contractId__c FROM Asset WHERE Id =: recId]?.contractId__c;
+            // Create requestString for Post requests
+            String requestString;
+            if(intName=='MCRM_Lifestyle_Voucher' || intName=='MCRM_Wallet_Transaction'){
+                requestString = '{"customerId":"'+recId+'"}';
+            }else if(intName == 'MCRM_Devices'){
+                requestString = '{"MemberID":"'+recId+'","OS": "android","PolicyStartDate": ""}';
+            }
+            
+            Map <String,String> mapUrlParam = buildParametersMap(recId, param1, param2, startDate, endDate, intName);
+            ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = ABCL_IntegrationCallout.executeCallout(intName, requestString, mapUrlParam);
+            if(intName == 'MCRM_Devices'){
+                EncryptedResponseWrapper encryptedResponse = (EncryptedResponseWrapper) JSON.deserialize(intResponseWrapper.responseBody, EncryptedResponseWrapper.class);
+                if(encryptedResponse.Content == null || encryptedResponse.Content == ''){
+                    String returnMessage = encryptedResponse.Message != null ? intResponseWrapper.responseBody : '';
+                    return new ResponseWrapper(intResponseWrapper.statusCode, returnMessage);
+                }
+                String decryptedResponse = ABHI_Encryption.decrypt(encryptedResponse.Content, intName);
+                if(intResponseWrapper.StatusCode == 200 && encryptedResponse.StatusCode == '1000'){
+                    String responseDecryptedBody = (String) JSON.deserializeUntyped(decryptedResponse);
+                    // deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(responseDecryptedBody, deserilaizedResponse.class);
+                    ResponseWrapper returnResponse = new ResponseWrapper(intResponseWrapper.StatusCode, responseDecryptedBody);
+                    return returnResponse;
+                }
+                else{
+                    String returnMessage = decryptedResponse != '' ? '{"message":"'+(String)JSON.deserializeUntyped(decryptedResponse)+'"}' : '';
+                    ResponseWrapper returnResponse = new ResponseWrapper(intResponseWrapper.StatusCode, returnMessage);
+                    return returnResponse;
+                }
+            }
+            return new ResponseWrapper(intResponseWrapper.statusCode, intResponseWrapper.responseBody);
+        }catch(Exception ex){
+            ABCL_Logger.logException('MCRM_APIController.invokeAPIwithParams',ex.getMessage());
+            throw new AuraHandledException(ex.getMessage());
         }
-        // prepare payload to pass
-        // String requestPayload = generateRequestPayload(apiName, assetId);
-        String contractId, param1, param2, startDate, endDate;
-         if(params.size()>0){
-        	param1 = (String)params.get('param1');
-        	param2 = (String)params.get('param2');
-        	startDate = (String)params.get('startDate');
-    		endDate = (String)params.get('endDate');
-    	}
-
-        // Create requestString for Post requests
-        String requestString;
-        if(intName=='MCRM_Lifestyle_Voucher' || intName=='MCRM_Wallet_Transaction'){
-            requestString = '{"customerId":"'+recId+'"}';
-        }
-        
-        Map <String,String> mapUrlParam = buildParametersMap(recId, param1, param2, startDate, endDate, intName);
-        ABCL_IntegrationCallout.IntegrationResponseWrapper intResponseWrapper = ABCL_IntegrationCallout.executeCallout(intName, requestString, mapUrlParam);
-        
-        return new ResponseWrapper(intResponseWrapper.statusCode, intResponseWrapper.responseBody);
     }
 
     @AuraEnabled(cacheable=true)
@@ -104,4 +126,19 @@ public with sharing class MCRM_APIController {
         }
         return parametersMap;
     }
+
+    /*********************************************************
+    *Class        :  EncryptedResponseWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  23/08/2024
+    *Last Modified:  23/08/2024
+    *@description  :  EncryptedResponseWrapper is wrapper class to hold encrypted response
+    *********************************************************/
+    public class EncryptedResponseWrapper{
+        public String Content;
+        public String StatusCode;
+        public String Message;
+    }
+
+   
 }

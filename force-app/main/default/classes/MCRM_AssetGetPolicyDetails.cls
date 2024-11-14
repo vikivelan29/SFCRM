@@ -24,8 +24,6 @@ public with sharing  class MCRM_AssetGetPolicyDetails {
             
             // Query the Asset record with its associated Person Account
             Asset assetRecord = [SELECT Id, Account.HealthIDCardNumber__pc FROM Asset  WHERE Id = :recordId LIMIT 1];
-            system.debug('assetRecord.Account-->'+assetRecord.Account);
-            system.debug('assetRecord.Account.HealthIDCardNumber__pc-->'+assetRecord.Account.HealthIDCardNumber__pc);
             // Check if the HealthIDCardNumber__pc field is not null or empty
             if (assetRecord.Account != null && String.isNotEmpty(assetRecord.Account.HealthIDCardNumber__pc)) {
                 // Split the comma-separated values into a List of Strings
@@ -44,7 +42,6 @@ public with sharing  class MCRM_AssetGetPolicyDetails {
             
             String queryString = 'SELECT ' + String.join(fieldAPIWithLabel.keyset(), ', ') + ' FROM Asset WHERE ABHI_Policy_Id__c IN :policyIds';
             List<Asset> assetRecords = Database.query(queryString);
-            system.debug('assetRecords-->'+assetRecords.size());        
             for (Asset asset : assetRecords) {
                 Map<String, String> assetData = new Map<String, String>();
                 for (String fieldName : fieldAPIWithLabel.keyset()) {
@@ -54,9 +51,9 @@ public with sharing  class MCRM_AssetGetPolicyDetails {
                 
                 resultData.add(assetData);
             }
-            system.debug('resultData-->'+resultData);            
-        }catch(exception e){
-            system.debug('Error=='+e.getMessage());            
+        }catch(exception ex){
+            ABCL_Logger.logException('MCRM_AssetGetPolicyDetails.getAssetData',ex.getMessage());
+            throw new AuraHandledException('Error : '+ex.getMessage());
         }
         return resultData;
     }

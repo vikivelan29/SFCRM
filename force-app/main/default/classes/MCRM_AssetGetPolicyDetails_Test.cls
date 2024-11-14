@@ -44,4 +44,16 @@ public class MCRM_AssetGetPolicyDetails_Test {
        
         system.assertEquals(2,resultData.size());
     }
+
+    @isTest
+    static void getAssetDataTestException(){
+        Test.startTest();
+        try {
+            List<Map<String, String>> resultData = MCRM_AssetGetPolicyDetails.getAssetData(null);
+        } catch (Exception ex) {
+            system.assertEquals(true,ex != null);
+        }
+        Test.stopTest();
+       
+    }
 }
