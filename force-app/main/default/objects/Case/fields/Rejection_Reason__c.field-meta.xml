@@ -527,6 +527,11 @@
                 <label>Policy issuance: the shared document is unclear</label>
             </value>
             <value>
+                <fullName>Cancelled - Not needed anymore</fullName>
+                <default>false</default>
+                <label>Policy issuance: the shared document is unclear</label>
+            </value>
+            <value>
                 <fullName>Claim: a withdrawal letter is required</fullName>
                 <default>false</default>
                 <label>Claim: a withdrawal letter is required</label>
