@@ -5,10 +5,6 @@
         <visible>true</visible>
     </applicationVisibilities>
     <description>Base user permission for all external renewals users</description>
-    <tabVisibilities>
-        <tab>Related_Records_View_All</tab>
-        <visibility>DefaultOff</visibility>
-    </tabVisibilities>
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Communication_Log__c.Account__c</field>
