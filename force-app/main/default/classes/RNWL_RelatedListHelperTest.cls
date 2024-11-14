@@ -36,7 +36,16 @@ public class RNWL_RelatedListHelperTest {
         Opportunity oppRec = [Select Id FROM Opportunity LIMIT 1];
         
         Test.startTest();
-        	RNWL_RelatedListHelper.getRelatedRecords('Email Message', oppRec.Id);
+            RNWL_RelatedListHelper.getRelatedRecords('Email Message', oppRec.Id, false);
+        Test.stopTest();
+    }
+
+    @IsTest
+    private static void test_EmailMessageModeViewAll(){
+        Opportunity oppRec = [Select Id FROM Opportunity LIMIT 1];
+        
+        Test.startTest();
+            RNWL_RelatedListHelper.getRelatedRecords('Email Message', oppRec.Id, true);
         Test.stopTest();
     }
     
@@ -45,7 +54,7 @@ public class RNWL_RelatedListHelperTest {
         Opportunity oppRec = [Select Id FROM Opportunity LIMIT 1];
         
         Test.startTest();
-        	RNWL_RelatedListHelper.getRelatedRecords('Best Disposition', oppRec.Id);
+            RNWL_RelatedListHelper.getRelatedRecords('Best Disposition', oppRec.Id, false);
         Test.stopTest(); 
     }
     
@@ -54,9 +63,16 @@ public class RNWL_RelatedListHelperTest {
         Opportunity oppRec = [Select Id FROM Opportunity LIMIT 1];
         
         Test.startTest();
-        	RNWL_RelatedListHelper.getRelatedRecords('Last Disposition', oppRec.Id);
+            RNWL_RelatedListHelper.getRelatedRecords('Last Disposition', oppRec.Id, false);
         Test.stopTest(); 
     }
-    
 
+    @IsTest
+    private static void test_UpdateRazorPay(){
+        Opportunity oppRec = [Select Id FROM Opportunity LIMIT 1];
+        
+        Test.startTest();
+            RNWL_RelatedListHelper.updateOpportunityFields(oppRec.Id, 'https://www.google.co.in', 1000);
+        Test.stopTest(); 
+    }
 }
