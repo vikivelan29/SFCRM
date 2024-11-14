@@ -116,6 +116,7 @@ export default class Abhi_kavach_Policies extends LightningElement {
                this.showNotification("", 'Data doesn\'t exist', 'info');
            }
            this.isLoading = false;
+           this.disabledSearch = true;
            
        }).catch(error=>{
            console.log('error ==> ', error);
