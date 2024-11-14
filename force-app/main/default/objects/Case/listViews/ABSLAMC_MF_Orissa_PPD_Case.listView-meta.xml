@@ -20,6 +20,6 @@
     <label>ABSLAMC MF Orissa PPD</label>
     <queue>ABSLAMC_MF_Orissa_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_Orissa_PPD_G</group>
     </sharedTo>
 </ListView>

@@ -40,6 +40,11 @@
                 <default>false</default>
                 <label>Wellness</label>
             </value>
+            <value>
+                <fullName>ABHI-RNWL</fullName>
+                <default>false</default>
+                <label>ABHI-RNWL</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

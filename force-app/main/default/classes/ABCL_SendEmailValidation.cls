@@ -97,4 +97,33 @@ public with sharing class ABCL_SendEmailValidation {
                 }
             } 
         }
+
+        /**
+        * @param newEmails - the case that is created from create case page
+        * @description - Restrict User to send email based on user's Team
+        */
+        // Joshna - commenting this method out as this fix was only for SIT. In UAT, this method is not deployed. It will be uncommented when ABHI team deploys this
+        /*public static void restrictUserToSendEmail(List<EmailMessage> newEmails){
+            
+            List<String> selectedTeamList = new List<String>();
+            List<EmailMessage> outgoingCaseEmails = new List<EmailMessage>();
+
+            Custom_Messages__mdt mdtRestrictedErrorMessage = Custom_Messages__mdt.getInstance('Restrict_to_send_email_error_message'); 
+            List<User> userTeamRecord = [SELECT ID, Business_Unit__c, Team__c FROM USER WHERE ID = :UserInfo.getUserID() WITH SYSTEM_MODE];
+            String userTeam = userTeamRecord[0]?.Team__c?.toLowerCase() ?? '';
+            String userBusinessUnit = userTeamRecord[0]?.Business_Unit__c?.toLowerCase() ?? '';
+            List<String> buRestrictionList = LABEL.BU_Restrict_email.toLowerCase().split(',');
+
+            if(buRestrictionList.contains(userBusinessUnit)) {
+                for (EmailMessage email : newEmails) {
+                    if(!email.Incoming && email.ParentId != null){
+                        if(email.ParentId.getSObjectType() == Case.sObjectType){ 
+                            if(buRestrictionList.contains(userTeam)) {
+                                email.addError(mdtRestrictedErrorMessage.Message__c);
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
     }

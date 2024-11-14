@@ -11,8 +11,6 @@
     <permissionSets>Manage_Bulk_Assignment</permissionSets>
     <permissionSets>Manage_Bulk_Lead_Assignment</permissionSets>
     <permissionSets>Manage_Bulk_Lead_Close</permissionSets>
-    <permissionSets>Manage_Case_Ownership</permissionSets>
-    <permissionSets>Manage_Lead_Ownership</permissionSets>
     <permissionSets>OmniSupervisor</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

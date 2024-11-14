@@ -110,6 +110,7 @@ export default class Wellness_api_view extends LightningElement {
 					publish(this.messageContext, ViewEvent, {payLoad,'name':this.dynTableAPI});
 				}
 			} else {
+				this.clear();
 				this.handleError(
 					result,
 					payLoad
@@ -117,11 +118,19 @@ export default class Wellness_api_view extends LightningElement {
 			}
 		})
 		.catch((error) => {
-			// console.log('***error:'+JSON.stringify(error.body.message));
+			this.clear();
 			this.isLoading = false;
 			this.showError(this.label.MCRM_InvokeApiError);
 		});
     }
+
+	clear(){
+		let payLoad = {};
+		this.tableData=[];
+		this.template.querySelector("c-abc_base_tableview").refreshTable(this.tableData); //mutate; refresh the table data 
+		this.showBaseView=false;
+		publish(this.messageContext, ViewEvent, {payLoad,'name':this.dynTableAPI,'payLoadType':'clear'});
+	}
 
 	handleError(result, payLoad ){
 		let errorMessages = [];
@@ -221,5 +230,13 @@ export default class Wellness_api_view extends LightningElement {
 
 	get renderBaseView(){
 		return this.showBaseView==true?'':'slds-hide';
+	}
+
+	handleRefresh(){
+		this.invokeAPI();
+	}
+
+	get disablePreview(){
+		return this.tableData==undefined || this.tableData?.length == 0;
 	}
 }

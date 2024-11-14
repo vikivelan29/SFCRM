@@ -229,7 +229,15 @@ public without sharing class ASF_EmailMessageHelper {
             newCase.OwnerId = mQueueDevNameVsId.get(queueDevNameToEmail.get(caseIdToEmailMessageMap.get(closedCase.Id).Winning_Email__c));
         }
         newCase.Subject = caseIdToEmailMessageMap.get(closedCase.Id).Subject;
-        newCase.Description = caseIdToEmailMessageMap.get(closedCase.Id).TextBody;
+       //Added by EY - Start
+        string emailBody = caseIdToEmailMessageMap.get(closedCase.Id).TextBody;
+        if(emailBody.length() >= 32000){
+            newCase.Description = emailBody.substring(0,31999);
+        }
+        else{
+            newCase.Description = emailBody;
+        }
+        //Added by EY - End
         newCase.AccountId = closedCase.AccountId;
         newCase.ContactId = closedCase.ContactId;
         newCase.Origin = closedCase.Origin;
