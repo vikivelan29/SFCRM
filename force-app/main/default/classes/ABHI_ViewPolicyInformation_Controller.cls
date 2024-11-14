@@ -85,6 +85,10 @@ public with sharing class ABHI_ViewPolicyInformation_Controller {
 	public class AppRegDetails{
 		@AuraEnabled public String IsRegistered{get;set;}
         @AuraEnabled public String isAppDownloaded{get;set;}
+        @AuraEnabled public String appDownloadDate{get;set;}
+        @AuraEnabled public String isAppRegistered{get;set;}
+        @AuraEnabled public String appRegiterDate{get;set;}
+        @AuraEnabled public String lastAccessDate{get;set;}
 	}
 
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.PropertyNamingConventions,PMD.ApexDoc')

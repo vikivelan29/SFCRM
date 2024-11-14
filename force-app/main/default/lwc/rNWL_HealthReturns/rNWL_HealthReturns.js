@@ -13,9 +13,9 @@ import getHealthReturnResponse from '@salesforce/apex/RNWL_MemberDetailsControll
 const fields = [POLICY_RECORD_ID_FIELD, POLICY_ID_FIELD, PROPOSAL_No_FIELD, MASTER_POLICY_ID_FIELD, ISSUE_DATE_FIELD];
 
 const columns = [
-    { label: 'Full Name', fieldName: 'Name',wrapText: true}, // , initialWidth : 150},
-    { label: 'Policy No', fieldName: 'vchPolicyNumber', wrapText: true}, // ,initialWidth : 150 },
-    { label: 'Master Policy No', fieldName: 'MasterPolicyNumber', wrapText: true }, //,initialWidth : 150 },
+    { label: 'Full Name', fieldName: 'Name',wrapText: true},  
+    { label: 'Policy No', fieldName: 'vchPolicyNumber', wrapText: true},  
+    { label: 'Master Policy No', fieldName: 'MasterPolicyNumber', wrapText: true }, 
     { label: 'Year', fieldName: 'Year',wrapText: true  },
     { label: 'Month', fieldName: 'MonthName', wrapText: true   }, 
     { label: 'HR%', fieldName: 'HRPercentage', wrapText: true }, 
@@ -25,18 +25,18 @@ const columns = [
     { label: 'HR Earned', fieldName: 'TotalHealthReturnsTMEarned', wrapText: true }, 
     { label: 'HR Balance', fieldName: 'HRBalance', wrapText: true }, 
     { label: 'HR CF', fieldName: 'HRCFRenewal', wrapText: true  }, 
-    { label: 'HR Expiry Date', fieldName: 'HR_Expiry_Date', wrapText: true }, //,initialWidth : 90 }, 
-    { label: 'HHS Start Date', fieldName: 'HHS_Start_Date', wrapText: true}, // ,initialWidth : 90}, 
-    { label: 'HHS End Date', fieldName: 'HHS_End_Date', wrapText: true }, // ,initialWidth : 90}    
+    { label: 'HR Expiry Date', fieldName: 'HR_Expiry_Date', wrapText: true },  
+    { label: 'HHS Start Date', fieldName: 'HHS_Start_Date', wrapText: true}, 
+    { label: 'HHS End Date', fieldName: 'HHS_End_Date', wrapText: true }
 ];  
    
 export default class RNWL_HealthReturns extends LightningElement {
     @api recordId;
     @track data;
-    @track error; 
-    @track success; 
+    @track error;  
     @track noRecordFound; 
     @track message; 
+    isLoading = true;
     lstAPINames;
     masterPolicyNum;
     policyId;
@@ -48,25 +48,26 @@ export default class RNWL_HealthReturns extends LightningElement {
      
     @wire(getRecord, { recordId: '$recordId', fields }) 
     record({ error, data }){
-        if (data) { 
-
-                this.policyNumber = getFieldValue(data, POLICY_ID_FIELD);  
+        if (data) {  
+                this.policyNumber = getFieldValue(data, POLICY_ID_FIELD);   
                 this.policyId = getFieldValue(data, POLICY_RECORD_ID_FIELD);  
                 this.proposalNo = getFieldValue(data, PROPOSAL_No_FIELD); 
-                this.masterPolicyNum = getFieldValue(data, MASTER_POLICY_ID_FIELD ); 
+                this.masterPolicyNum = getFieldValue(data, MASTER_POLICY_ID_FIELD );   
                 this.issueDate = getFieldValue(data, ISSUE_DATE_FIELD ); 
-
-                console.log('policyNumber',this.policyNumber); 
-
                 this.lstAPINames = ['Health Return', 'Fitness Assessment']; 
                 this.getResponseData(); 
-            
-        }else{
+        }
+        if(error){
             this.showNotification();
             this.error = error;
-            console.error('Error in standard wire database', error);
+            this.message = 'Unexpected Error Occurred ';
+            this.noRecordFound = true;  
+            this.isLoading = false;
+            console.error('Error in standard wire database', error); 
         }
-    } 
+    }
+    
+    
 
     showNotification() {
       const evt = new ShowToastEvent({
@@ -78,34 +79,36 @@ export default class RNWL_HealthReturns extends LightningElement {
       this.dispatchEvent(evt);
     }
 
-    getResponseData(){  
-        console.error('getResponseData ');
-        
+    getResponseData(){    
         getHealthReturnResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policyNumber , proposalNo : this.proposalNo, masterPolicyNum : this.masterPolicyNum, issueDate : this.issueDate, lstFileSrcAPI : this.lstAPINames }).
         then(result => { 
-            if(result){  
- 
-                console.error('result ',result); 
-                if(result[0].Header == 'No Record Found'){
-                    console.log('inside. no record found condition');
+            if(result) {   
+                if(result[0].Header == 'No Record Found'){ 
                     this.noRecordFound = true;  
                     this.message = result[0].Header;
-                }else if(result[0].Header == 'API Failed') {      
-                    console.log('inside. API failed condition');
+                    this.isLoading = false;
+                }else if(result[0].Header == 'API Failed') {       
                     this.noRecordFound = true;  
                     this.message = result[0].Header;
+                    this.isLoading = false;
                     this.showNotification();
-                }
-                
-                if(result[0].Response.length > 0 ){
-                    console.log('inside. success condition');
-                    this.data = result; 
-                    this.success = true; 
-                }                 
+                } 
+                if(result[0].Response.length > 0 ){  
+                    this.data = result;  
+                    this.isLoading = false;
+                }    
+            }else{
+                this.message = 'Unexpected error while getting API data';
+                this.noRecordFound = true;  
+                this.isLoading = false;
+                this.showNotification(); 
             }
         }).catch(error => {
             console.error('Error while getting API data', error);
             this.error = error;
+            this.message = 'Unexpected error while getting API data';
+            this.noRecordFound = true;  
+            this.isLoading = false;
             this.showNotification(); 
         }); 
     }   
