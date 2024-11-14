@@ -11,7 +11,7 @@
             <sorted>false</sorted>
             <value>
                 <fullName>ABFL</fullName>
-                <default>true</default>
+                <default>false</default>
                 <label>ABFL</label>
             </value>
             <value>
@@ -25,19 +25,14 @@
                 <label>Payments</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
-                <default>false</default>
-                <label>ABSLI</label>
-            </value>
-            <value>
                 <fullName>ABSLIG</fullName>
                 <default>false</default>
                 <label>ABSLIG</label>
             </value>
             <value>
-                <fullName>ABSLAMC</fullName>
+                <fullName>ABML</fullName>
                 <default>false</default>
-                <label>ABSLAMC</label>
+                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>
