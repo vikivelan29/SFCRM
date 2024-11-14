@@ -1,6 +1,6 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { NavigationMixin } from "lightning/navigation";
+import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 import getRelatedRecords from '@salesforce/apex/RNWL_RelatedListHelper.getRelatedRecords';
 
 export default class RNWL_EmailMessageHistory extends NavigationMixin(LightningElement) {
@@ -12,16 +12,33 @@ export default class RNWL_EmailMessageHistory extends NavigationMixin(LightningE
     @api mode;
     @api recordId;
     hasRecords;
+    @api viewAll;
+    showViewAll;
+
+    @wire(CurrentPageReference)
+    setCurrentPageReference(currentPageReference) {
+        this.currentPageReference = currentPageReference;
+    }
 
     connectedCallback() {
+        if (this.viewAll) {
+            this.recordId = this.currentPageReference?.state?.c__recordId;
+            this.mode = this.currentPageReference?.state?.c__mode;
+        }
         if (this.mode === 'Best Disposition' || this.mode === 'Last Disposition') {
             this.iconName = 'standard:asset_object';
             this.sectionLabel = this.mode;
+            this.showViewAll = false;
         } else {
             this.iconName = 'standard:case_email'
             this.sectionLabel = 'Email Communication';
+            if (this.viewAll) {
+                this.showViewAll = false;
+            } else {
+                this.showViewAll = true;
+            }
         }
-        getRelatedRecords({ mode : this.mode, recordId : this.recordId })
+        getRelatedRecords({ mode : this.mode, recordId : this.recordId, viewAll : this.viewAll })
         .then(result => {
             if (this.mode === 'Email Message') {
                 result.emailData?.forEach(each => {
@@ -78,6 +95,20 @@ export default class RNWL_EmailMessageHistory extends NavigationMixin(LightningE
             "message": message,
             "variant": variant,
             "mode": mode
+        });
+    }
+
+    handleViewAll() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__navItemPage',
+            attributes: {
+                apiName: 'Related_Records_View_All',
+            },
+            state: {
+                c__recordId: this.recordId,
+                c__mode: this.mode,
+                c__viewAll: true
+            }
         });
     }
 }

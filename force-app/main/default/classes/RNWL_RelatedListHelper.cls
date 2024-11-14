@@ -34,7 +34,7 @@ public without sharing class RNWL_RelatedListHelper {
     }
 
     @AuraEnabled
-    public static QueryResponseWrapper getRelatedRecords(String mode, String recordId) {
+    public static QueryResponseWrapper getRelatedRecords(String mode, String recordId, Boolean viewAll) {
         QueryResponseWrapper responseInst = new QueryResponseWrapper();
         try {
             if (mode == 'Email Message') {
@@ -44,8 +44,15 @@ public without sharing class RNWL_RelatedListHelper {
                     String keyVal = each.Email_Template_Name__c + String.valueOf(each.CreatedDate).left(10);
                     logsByName.put(keyVal, each);
                 }
-                for (EmailMessage each : [SELECT ID, EmailTemplate.Name, ToAddress, toLabel(Status), EmailTemplate.DeveloperName, CreatedBy.Name,
-                    Subject, CreatedDate FROM Emailmessage WHERE RelatedToId = :recordId]) {
+                List<EmailMessage> emailMessages = new List<EmailMessage>();
+                if (viewAll != null && viewAll) {
+                    emailMessages = [SELECT ID, EmailTemplate.Name, ToAddress, toLabel(Status), EmailTemplate.DeveloperName, CreatedBy.Name,
+                        Subject, CreatedDate FROM Emailmessage WHERE RelatedToId = :recordId];
+                } else {
+                    emailMessages = [SELECT ID, EmailTemplate.Name, ToAddress, toLabel(Status), EmailTemplate.DeveloperName, CreatedBy.Name,
+                        Subject, CreatedDate FROM Emailmessage WHERE RelatedToId = :recordId LIMIT 5];
+                }
+                for (EmailMessage each : emailMessages) {
                     String keyVal = each.EmailTemplate.DeveloperName + String.valueOf(each.CreatedDate).left(10);
                     responseInst.emailData.add(new DataWrapper(each, logsByName.get(keyVal)));
                 }
