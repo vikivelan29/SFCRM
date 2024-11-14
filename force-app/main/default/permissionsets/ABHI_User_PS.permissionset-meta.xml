@@ -1678,11 +1678,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Sum_Insured__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Customer_Member_Mapping__c.Total_NCB__c</field>
         <readable>true</readable>
     </fieldPermissions>
