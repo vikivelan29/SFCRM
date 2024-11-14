@@ -326,12 +326,6 @@
                 <default>false</default>
                 <label>Reimbursement status</label>
             </value>
-            <value>
-                <fullName>Cashless anywhere Claim Initimation</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Cashless anywhere Claim Initimation</label>
-            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>General enquiry:Promo related</controllingFieldValue>
