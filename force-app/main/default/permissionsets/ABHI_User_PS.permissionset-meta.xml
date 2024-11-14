@@ -3292,6 +3292,9 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Overdue_Case_Closure_SLA_In_Days__c</field> 
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Existing_Nominee_Name__c</field>
         <readable>true</readable>
