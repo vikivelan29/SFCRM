@@ -125,10 +125,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <description>Used for integration use cases for renewals</description>
-    <tabVisibilities>
-        <tab>Related_Records_View_All</tab>
-        <visibility>DefaultOff</visibility>
-    </tabVisibilities>
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.ABWM_RM_Code__c</field>
@@ -2985,6 +2981,10 @@
         <object>Opportunity</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabSettings>
+        <tab>Related_Records_View_All</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <recordTypeVisibilities>
         <recordType>Opportunity.HI_Renewals</recordType>
         <visible>true</visible>
