@@ -103,7 +103,7 @@ public with sharing class ABSLAMC_CaseAssignmentHelper {
             }
         }
         
-    }
+    
     
     /****************************************************************************************************************
 * @param newMapCase
