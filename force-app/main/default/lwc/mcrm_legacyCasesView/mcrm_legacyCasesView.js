@@ -108,7 +108,7 @@ export default class mcrm_legacyCasesView extends LightningElement {
                     endDate: this.endDate, lob: this.lob, msdCaseNumber : this.msdCaseNumber
                 }).then(result => {
                     console.log('Result=>:'+JSON.stringify(result));
-                    debugger;
+                    // debugger;
                     this.leagcyCaseData = result;
                     console.log('Result1 ==> ', result);
                     this.isLoading = false;
@@ -130,6 +130,10 @@ export default class mcrm_legacyCasesView extends LightningElement {
                     else if (this.leagcyCaseData && this.leagcyCaseData.statusCode == 0) {
                         this.disabled = false;
                         this.showNotification("Error", this.leagcyCaseData.returnMessage, 'error');
+                    }
+                    else{
+                        this.disabled = false;
+                        this.showNotification("Error", this.label.errorMessage, 'error');
                     }
                 }).catch(error => {
                     debugger;
@@ -249,6 +253,10 @@ export default class mcrm_legacyCasesView extends LightningElement {
     handleCaseInput(event){
         this.msdCaseNumber = event.target.value;
         console.log('The msdCaseNumber selected is '+this.msdCaseNumber );
+    }
+
+    get isDisplayTable(){
+        return (this.displayTable && this.data.length>0);
     }
 
 }

@@ -1116,7 +1116,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
-        <value>Email - Call Centre,Phone - Call Centre</value>
+        <value>Call Centre</value>
     </labels>
     <labels>
         <fullName>ABHI_Create_Case_Validation</fullName>
