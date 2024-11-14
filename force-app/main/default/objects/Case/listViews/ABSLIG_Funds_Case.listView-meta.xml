@@ -13,6 +13,6 @@
     <queue>ABSLIG_Funds</queue>
     <sharedTo>
         <group>ABSLIG_Funds_G</group>
-        <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+        <roleAndSubordinatesInternal>ABSLIG_Leadership</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>

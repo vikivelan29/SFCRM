@@ -32,7 +32,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	pageSize;
 	isError = false;
 	errorMessage = "";
-	isShowExtension = true;
+	isShowExtension = false;
 
 	// Internals
 	showBaseView = false;
@@ -122,35 +122,51 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		);
 	}
 
+	clearExtenstion(){
+		this.tableData = [];
+		this.showBaseView = false;
+		this.showPreview=false;
+	}
+
 	handleMessage(message) {
+		console.log('***handleMessage:'+JSON.stringify(message));
 		this.isLoading = true;
 		if (this.dynTableExAPI == 'MCRM_ActiveDays' && message.name == 'MCRM_ActiveDayURL') {
 			if(message.payLoadType == 'showExtension'){
 				this.isShowExtension = message.payLoad.showExtension;
+			}else if(message.payLoadType == 'clear'){
+				this.clearExtenstion();
 			}else{
 				this.getActiveDays(message.payLoad);
+				this.showBaseView = true;
+				this.showPreview=true;
 			}
 		} else if (this.dynTableExAPI == 'MCRM_GymNameLocation' && message.name == 'MCRM_Gym_Voucher') {
 			if(message.payLoadType == 'showExtension'){
 				this.isShowExtension = message.payLoad.showExtension;
+			}else if(message.payLoadType == 'clear'){
+				this.clearExtenstion();
 			}else{
 				this.getGymNameLocation(message.payLoad);
+				this.showBaseView = true;
+				this.showPreview=true;
 			}
 		} else if (this.dynTableExAPI == 'MCRM_Rewards' && message.name == 'MCRM_Benefits'){
 			if(message.payLoadType == 'showExtension'){
 				this.isShowExtension = message.payLoad.showExtension;
+			}else if(message.payLoadType == 'clear'){
+				this.clearExtenstion();
 			}else{
 				this.getRewards(message.payLoad);
+				this.showBaseView = true;
+				this.showPreview=true;
 			}
 		}
 		this.isLoading = false;
-		if(message.payLoadType != 'showExtension'){
-			this.showBaseView = true;
-			this.showPreview=true;
-		}
 	}
-
+	
 	getActiveDays(message) {
+		console.log('***getActiveDays:'+JSON.stringify(message));
 		let responseArray = [];
 		this.isShowInitialMessage = false;
 		message.responseMap.resultsList.scores.forEach(score => {
@@ -309,7 +325,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
     }
 
 	get disablePreview(){
-		return this.tableData?.length == 0;
+		return this.tableData==undefined || this.tableData?.length == 0;
 	}
 
 	get alignDiv(){
