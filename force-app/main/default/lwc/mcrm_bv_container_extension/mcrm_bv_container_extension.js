@@ -184,7 +184,10 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 				)
 			});
 		});
-		this.tableData = responseArray;
+		this.tableData = responseArray; // required to enable preview button
+		setTimeout(() => {
+			this.template.querySelector("c-abc_base_tableview").refreshTable(responseArray);
+		}, 200);
 	}
 
 	getGymNameLocation(message) {
