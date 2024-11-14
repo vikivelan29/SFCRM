@@ -144,7 +144,7 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     async handleSave(event) {
         console.log('Refresh Apex called');
         await refreshApex(this.wiredCaseResult);
-        console.log('status--'+this.isClosed);
+
         if(this.isClosed){
             this.dispatchEvent(
                 new ShowToastEvent({
