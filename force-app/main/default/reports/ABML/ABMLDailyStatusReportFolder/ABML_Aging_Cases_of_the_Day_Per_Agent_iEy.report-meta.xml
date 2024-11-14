@@ -19,7 +19,20 @@
         <field>Account.ABML_Branch_Code__c</field>
     </columns>
     <columns>
-        <field>Case.Nature__c</field>
+        <field>EMAIL.MESSAGE_DATE</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>EMAIL.HAS_ATTACHMENT</field>
+    </columns>
+    <columns>
+        <field>LAST_UPDATEONLY</field>
+    </columns>
+    <columns>
+        <field>Case.Proposal_Number__c</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
     </columns>
     <columns>
         <field>Case.Type_Text__c</field>
@@ -47,21 +60,15 @@
         <field>Case.Stage_SLA_1__c</field>
     </columns>
     <columns>
-        <field>Case.Stage_SLA_2__c</field>
+        <field>Account.Customer_Type__c</field>
     </columns>
-    <columns>
-        <field>Case.Stage_SLA_3__c</field>
-    </columns>
-    <description>A bar chart that shows the number of aging cases on that day per Agent</description>
-    <filter>
-        <criteriaItems>
-            <column>Case.Business_Unit__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>ABML</value>
-        </criteriaItems>
-    </filter>
+    <customDetailFormulas>
+        <calculatedFormula>IF(ISBLANK(Case.Recategorisation_Date__c), &apos;No&apos;, &apos;Yes&apos;)</calculatedFormula>
+        <dataType>Text</dataType>
+        <developerName>CDF1</developerName>
+        <label>Is Recategorized</label>
+        <scale>2</scale>
+    </customDetailFormulas>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
