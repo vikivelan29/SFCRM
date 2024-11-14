@@ -3318,7 +3318,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field>
         <field>ABHI_Case_Detail__c.Disclosure_of_Illness__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3327,6 +3326,8 @@
         <field>ABHI_Case_Detail__c.Cancellation_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+          <editable>true</editable>
         <field>ABHI_Case_Detail__c.New_Contact_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3338,6 +3339,11 @@
      <fieldPermissions>
             <editable>true</editable>
             <field>ABHI_Case_Detail__c.Reason_for_cancellation__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field>
             <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
