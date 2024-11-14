@@ -3308,7 +3308,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Reason_for_cancellation__c</field>
         <field>ABHI_Case_Detail__c.Case_Closed_Resolution_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3334,6 +3333,11 @@
     <fieldPermissions>
             <editable>false</editable>
             <field>Customer_Member_Mapping__c.Member_Status__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+            <editable>true</editable>
+            <field>ABHI_Case_Detail__c.Reason_for_cancellation__c</field>
             <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
