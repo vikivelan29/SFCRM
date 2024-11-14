@@ -81,13 +81,22 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Master Policy no.</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {masterPolicyNumber}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Policy Variant</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
                                             {policy.Cover_Type__c}
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="slds-form__item" role="listitem">
                                 <div
@@ -178,7 +187,7 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Mobile</span>
+                                    <span class="slds-form-element__label">Mobile No.</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
                                             {account.Phone}
@@ -189,10 +198,10 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Policy Tenure</span>
+                                    <span class="slds-form-element__label">Policy Variant</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {policy.Policy_Term__c}
+                                            {policy.Cover_Type__c}
                                         </div>
                                     </div>
                                 </div>
@@ -225,10 +234,10 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Product</span>
+                                    <span class="slds-form-element__label">Policy Tenure</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {policy.ProductName__c}
+                                            {policy.Policy_Term__c}
                                         </div>
                                     </div>
                                 </div>
@@ -261,10 +270,10 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">No. of Members</span>
+                                    <span class="slds-form-element__label">Product</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {policy.CountOfLives__c}
+                                            {policy.ProductName__c}
                                         </div>
                                     </div>
                                 </div>
@@ -286,10 +295,10 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Email</span>
+                                    <span class="slds-form-element__label">Nominee name</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {account.Office_Email__c}
+                                            {nomineesNames}
                                         </div>
                                     </div>
                                 </div>
@@ -297,10 +306,10 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Scheme</span>
+                                    <span class="slds-form-element__label">No. of Members</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {policy.Plan_Name__c}
+                                            {policy.CountOfLives__c}
                                         </div>
                                     </div>
                                 </div>
@@ -318,6 +327,42 @@
                             </div>
                         </div>
                         <!--Address, Policy Zone, RenewalDropOffResponse-->
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Email</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {account.Office_Email__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Scheme</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {policy.Plan_Name__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem" >
+                                <div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Renewal DropOff Response</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            {oppRec.Drop_off_Reason__c}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Business Type, Sum Insured, RenewalDropOffURL-->
                         <div class="slds-form__row">
                             <div class="slds-form__item" role="listitem">
                                 <div
@@ -347,16 +392,16 @@
                             <div class="slds-form__item" role="listitem" >
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Renewal DropOff Response</span>
+                                    <span class="slds-form-element__label">Renewal DropOff URL</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {oppRec.Drop_off_Reason__c}
+                                            {oppRec.Drop_off_URL__c}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--Business Type, Sum Insured, RenewalDropOffURL-->
+                        <!--Issuance Bucket, Policy Lapsed, Intermediary-classification-->
                         <div class="slds-form__row">
                             <div class="slds-form__item" role="listitem">
                                 <div
@@ -380,24 +425,24 @@
                                             </div>
                                         </template>
                                     </div>
-                                </div>
+                                </div>  
                             </div>
-                            <div class="slds-form__item" role="listitem" >
+                            <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Renewal DropOff URL</span>
+                                    <span class="slds-form-element__label">Intermediary-classification</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {oppRec.Drop_off_URL__c}
+                                            {policy.Channel__c}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--Issuance Bucket, Policy Lapsed, Intermediary-classification-->
+                        <!--Customer Segment , Policy Lapse Date, Intermediary Mobile Number-->
                         <div class="slds-form__row">
                             <div class="slds-form__item" role="listitem">
-                               <div
+                                <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Issuance Bucket - Discrepancy</span>
                                     <div class="slds-form-element__control">
@@ -418,42 +463,6 @@
                                     </div>
                                 </div> 
                             </div>
-                            <div class="slds-form__item" role="listitem">
-                                <div
-                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Intermediary-classification</span>
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            {policy.Channel__c}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Customer Segment , Policy Lapse Date, Intermediary Mobile Number-->
-                        <div class="slds-form__row">
-                            <div class="slds-form__item" role="listitem">
-                                <div
-                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Customer Segment </span>
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            {account.Customer_Segment__c}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slds-form__item" role="listitem" >
-                                <div
-                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Policy Lapse Date</span>
-                                    <div class="slds-form-element__control">
-                                        <div class="slds-form-element__static">
-                                            {policyLapseDate}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="slds-form__item" role="listitem" >
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
@@ -471,11 +480,10 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">GO GREEN</span>
+                                    <span class="slds-form-element__label">Customer Segment </span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            <lightning-input class="slds-p-left_xx-large" type="checkbox" checked={goGreenFlag} disabled="">
-                                            </lightning-input>
+                                            {account.Customer_Segment__c}
                                         </div>
                                     </div>
                                 </div>
@@ -483,10 +491,10 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Policy Renewal Notice Day</span>
+                                    <span class="slds-form-element__label">Policy Lapse Date</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {polRenewalNoticeDay}
+                                            {policyLapseDate}
                                         </div>
                                     </div>
                                 </div>
@@ -508,21 +516,31 @@
                             <div class="slds-form__item" role="listitem">
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">GO GREEN</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            <lightning-input class="slds-p-left_xx-large" type="checkbox" checked={goGreenFlag} disabled="">
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Nominee name</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
                                             {nomineesNames}
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="slds-form__item" role="listitem" >
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Grace Period Start</span>
+                                    <span class="slds-form-element__label">Policy Renewal Notice Day</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {graceStartDate}
+                                            {polRenewalNoticeDay}
                                         </div>
                                     </div>
                                 </div>
@@ -546,10 +564,10 @@
                             <div class="slds-form__item" role="listitem" >
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Grace Period End</span>
+                                    <span class="slds-form-element__label">Grace Period Start</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            {graceEndDate}
+                                            {graceStartDate}
                                         </div>
                                     </div>
                                 </div>
@@ -573,10 +591,10 @@
                             <div class="slds-form__item" role="listitem" >
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
-                                    <span class="slds-form-element__label">Chronic Type</span>
+                                    <span class="slds-form-element__label">Grace Period End</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
-                                            <lightning-input class="slds-p-left_xx-large" type="checkbox" checked={isChronic} disabled=""></lightning-input>
+                                            {graceEndDate}
                                         </div>
                                     </div>
                                 </div>
@@ -855,13 +873,22 @@
                             <div class="slds-form__item" role="listitem" >
                                 <div
                                     class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                    <span class="slds-form-element__label">Chronic Type</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            <lightning-input class="slds-p-left_xx-large" type="checkbox" checked={isChronic} disabled=""></lightning-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div
+                                    class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
                                     <span class="slds-form-element__label">Master Policy no.</span>
                                     <div class="slds-form-element__control">
                                         <div class="slds-form-element__static">
                                             {masterPolicyNumber}
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="slds-form__item" role="listitem" >
                                 <div

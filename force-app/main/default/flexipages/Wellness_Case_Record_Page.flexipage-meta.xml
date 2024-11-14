@@ -7,6 +7,16 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>Case.EscalateCase</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.IsEscalated}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Case.Customer_Tagging</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND (2 OR 3)</booleanFilter>
@@ -203,7 +213,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>parentFieldApiName</name>
-                    <value>Case.Id</value>
+                    <value>Case.WellnessCaseDetail__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
@@ -222,20 +232,10 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer6</identifier>
+                <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-1ad9be0c-f1fc-4176-883c-ebb9df86e695</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>aSF_pendingCaseChecklistEdit</componentName>
-                <identifier>c_aSF_pendingCaseChecklistEdit</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-362527bc-9986-4ceb-aa9d-df16d20b16cd</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -313,20 +313,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-362527bc-9986-4ceb-aa9d-df16d20b16cd</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Checklists</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

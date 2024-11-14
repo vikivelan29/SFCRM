@@ -11,8 +11,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment
-    >Action override created by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>SR_Request_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>

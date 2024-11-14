@@ -1304,6 +1304,13 @@
         <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
     </labels>
     <labels>
+        <fullName>ABHI_Track_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Track Sources</shortDescription>
+        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team,Inbound call,Phone</value>
+    </labels>
+    <labels>
         <fullName>ABHI_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1589,10 +1596,31 @@
         <value>10</value>
     </labels>
     <labels>
-        <fullName>ABHI_Track_Sources</fullName>
+        <fullName>RNWL_Callback_Number</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABHI Track Sources</shortDescription>
-        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team</value>
+        <shortDescription>RNWL_Callback_Number</shortDescription>
+        <value>8045860569</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_PageLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_PageLink</shortDescription>
+        <value>http://bit.ly/ABHRENEW</value>
+    </labels>
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_Insufficient_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness std access error message</shortDescription>
+        <value>insufficient access rights on object id</value>
     </labels>
 </CustomLabels>

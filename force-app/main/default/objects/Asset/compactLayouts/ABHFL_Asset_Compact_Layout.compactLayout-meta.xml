@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ABHFL_Asset_Compact_Layout</fullName>
+    <fullName>ABHFL_Asset_Compact_Layout</fullName>    
     <fields>AccountId</fields>
     <fields>Policy_No__c</fields>
     <fields>SerialNumber</fields>
@@ -10,6 +10,6 @@
     <fields>LAN__c</fields>
     <fields>Product2Id</fields>
     <fields>Segment__c</fields>
-    <fields>Sanction_Amount__c</fields>
+    <fields>Sanction_Amount__c</fields>    
     <label>ABHFL Asset Compact Layout</label>
 </CompactLayout>

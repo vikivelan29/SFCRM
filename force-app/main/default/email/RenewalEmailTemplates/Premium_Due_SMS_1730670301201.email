@@ -1,0 +1,6 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear Customer, your Aditya Birla Health Insurance premium is due on&nbsp;{{{Opportunity.Policy_Expiry_Date__c}}}.&nbsp; You can pay by visiting&nbsp;<a href="https://vil.ltd/ABCABH/c/abhi-renew" target="_blank" title="https://vil.ltd/abcabh/c/abhi-renew">https://vil.ltd/ABCABH/c/abhi-<wbr />renew</a>&nbsp; and continue your cover.</body>
+</html>

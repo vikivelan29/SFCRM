@@ -1,0 +1,156 @@
+<template>
+
+    <lightning-modal-header label="Communication"></lightning-modal-header>
+
+    <lightning-modal-body class="modalBody"> 
+        
+        <template if:true={showSpinner}>
+            <lightning-spinner variant="brand" size="medium"> </lightning-spinner>
+        </template>
+
+        <template if:true={hasError}>
+            <div class="slds-box">
+                <p>{errorMessage}</p>
+            </div>
+        </template>
+
+        <template if:false={hasError}>
+            <lightning-layout multiple-rows="true">
+
+                <lightning-layout-item class="alignItems" padding="around-small" size="12">
+                    <lightning-radio-group name="radioGroup"
+                            label=""
+                            label-hidden
+                            options={communicationOptions}
+                            onchange={selecteOption}
+                            type="button">
+                    </lightning-radio-group>
+                </lightning-layout-item>
+
+                <lightning-layout-item class="alignSubItems" padding="around-small" size="6">
+                    <!-- <lightning-radio-group name="radioGroup"
+                            label=""
+                            label-hidden
+                            options={communicationOptions}
+                            onchange={selecteOption}
+                            type="button">
+                    </lightning-radio-group> -->
+
+                    <!-- <lightning-button-group>
+                        <lightning-button onclick={selecteOption} label="SMS"></lightning-button>
+                        <lightning-button onclick={selecteOption} label="Whatsapp"></lightning-button>
+                        <lightning-button onclick={selecteOption} label="Email"></lightning-button>
+                    </lightning-button-group> -->
+                    
+                    <template lwc:if={isSMS_Whatapp}>
+                        <p class="slds-p-vertical_small slds-text-title_bold">
+                            User will be notified on - {currentPhone}
+                        </p>
+                        <p class="slds-m-top_x-small">
+                            <lightning-input 
+                                class="phoneCmp"
+                                type="toggle" 
+                                label="Notify a different Number?" 
+                                name="Notify a different Number?"
+                                message-toggle-active="Yes"
+                                message-toggle-inactive="no"
+                                onchange={phoneToggleChange}
+                                >
+                            </lightning-input>
+                        </p>    
+                        
+                        <template if:true={isPhoneNeeded}> 
+                            <p class="slds-m-top_x-small inputBox">
+                                <lightning-input 
+                                    type="tel" 
+                                    class="inputPhone"
+                                    onkeyup={validatePhoneNumber}
+                                    value={inputNumber} 
+                                    message-when-pattern-mismatch="Please enter valid phone number"
+                                    pattern="[6-9]{1}[0-9]{9}"
+                                    label="Enter the number"
+                                    message-when-range-overflow="Please enter valid phone number">
+                                </lightning-input>
+                            </p>
+                            
+                            <div class="slds-box slds-m-top_x-small">
+                                <lightning-formatted-text value={phoneNumInfo}></lightning-formatted-text>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template lwc:elseif={isEmail}>
+                        <p class="slds-p-vertical_small slds-text-title_bold">
+                            User will be notified on - {currentEmail}
+                        </p>
+                        <p class="slds-m-top_x-small">
+                            <lightning-input 
+                                type="toggle" 
+                                label="Notify a different Email?" 
+                                name="Notify a different Email?"
+                                message-toggle-active="Yes"
+                                message-toggle-inactive="no"
+                                onchange={emailToggleChange}
+                                >
+
+                            </lightning-input>
+
+                        </p>    
+                        
+                        <template if:true={isEmailNeeded}> 
+                            <p class="slds-m-top_x-small inputBox">
+                                <lightning-input 
+                                    class="toAddressCmp"
+                                    type="email" 
+                                    value={inputEmail} 
+                                    label="Send To email"
+                                    onchange={handleInputToChange}>
+                                </lightning-input>
+                            </p>
+                            <p class="slds-m-top_x-small inputBox">
+                                <lightning-input 
+                                    class="ccAddressCmp"
+                                    value={inputCCEmail} 
+                                    label="Send CC emails"
+                                    field-level-help={ccEmailHelpText}
+                                    onchange={handleInputccChange}>
+                                >
+                                </lightning-input>
+                            </p>
+
+                            <div class="slds-box slds-m-top_x-small">
+                                <lightning-formatted-text value={emailInfo}></lightning-formatted-text>
+                            </div>
+                        </template>
+                    </template>
+                </lightning-layout-item>
+        
+                <lightning-layout-item class="alignSubItems" padding="around-small" size="6">
+                    <template if:true={showUserDetails}>
+                        <div class="slds-m-top_medium">
+                            <lightning-radio-group name="Please Select Template"
+                                                label="Please Select Template"
+                                                options={templateOptions}
+                                                value={selectedTemplate}
+                                                onchange={handleChange}
+                                                type="radio">
+                            </lightning-radio-group>
+
+                        
+                        </div>    
+                        <div class="slds-m-top_medium">
+                            <lightning-button variant="brand" 
+                                            label="Notify" 
+                                            title="Notify" 
+                                            onclick={notifyHandler} 
+                                            disabled={notifyFlag}
+                                            >
+                            </lightning-button>
+                        </div>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout> 
+        </template>
+                   
+    </lightning-modal-body>
+</template>
