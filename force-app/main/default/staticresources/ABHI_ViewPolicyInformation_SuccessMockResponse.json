@@ -24,7 +24,12 @@
     "Policy_Type": "Retail",
     "State": "",
     "vchRelation": "",
-    "WellnessPartyId": ""
+    "WellnessPartyId": "",
+    "appDownloadDate": "NA",
+    "appRegiterDate": "NA",
+    "isAppDownloaded": "No",
+    "isAppRegistered": "No",
+    "lastAccessDate": "NA"
   },
   "HealthReturns": {
     "Response": [

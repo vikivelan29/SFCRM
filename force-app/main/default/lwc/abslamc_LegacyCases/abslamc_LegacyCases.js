@@ -7,7 +7,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 
-import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
+import CLIENT_CODE_FIELD from "@salesforce/schema/Account.PAN__c";
 import LOB_FIELD from "@salesforce/schema/Account.Business_Unit__c";
 import ARN_FIELD from "@salesforce/schema/Account.ARN_Number__c";
 const fields = [CLIENT_CODE_FIELD, LOB_FIELD, ARN_FIELD];   
@@ -210,5 +210,13 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
         variant: variant,
     });
     this.dispatchEvent(evt);
+    }
+
+    clearSelection(event){
+        this.customerId = '';
+        this.selectedAsset = '';
+        this.arnNumber = '';
+        this.lob = '';
+        this.displayTable = false;
     }
 }
