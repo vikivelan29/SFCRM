@@ -49,13 +49,12 @@ public class ABHI_ClickPSSCommController_Test {
         Asset ass = [SELECT id from Asset];
         String formData = '{"commType":"SMS","template":"A1159","alertCode":"2","phoneNumber":"54434343434","emailId":""}';
         User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
-        String requestString = '';
         Test.setMock(HttpCalloutMock.class, new ABHI_PSSCommunicationMockHttpResponse());
         System.runAs(testUser){
             Test.startTest();
             ABHI_ClickPSSCommController.ClientResponseWrapper res= ABHI_ClickPSSCommController.doCommunication('Asset', ass.id, formData);
             Test.stopTest();
-            System.assertEquals(1000, res.statusCode);
+            System.assertEquals(1000, res.statusCode,'Invalid Status Code');
         }
     }
 
@@ -64,13 +63,12 @@ public class ABHI_ClickPSSCommController_Test {
 
         String formData = '{"commType":"SMS","template":"A1159","alertCode":"2","phoneNumber":"54434343434","emailId":""}';
         User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
-        String requestString = '';
         Test.setMock(HttpCalloutMock.class, new ABHI_PSSCommunicationMockFailureHttpResponse());
         System.runAs(testUser){
             Test.startTest();
             ABHI_ClickPSSCommController.ClientResponseWrapper res= ABHI_ClickPSSCommController.doCommunication('Asset', ass.id, formData);
             Test.stopTest();
-            System.assertEquals(400, res.statusCode);
+            System.assertEquals(400, res.statusCode, 'Invalid Status Code');
         }
     }
 
@@ -83,7 +81,7 @@ public class ABHI_ClickPSSCommController_Test {
             Test.startTest();
             List<ABHI_PSSCommunicationConfig__mdt> res= ABHI_ClickPSSCommController.getMetadata('Account');
             Test.stopTest();
-            System.assertNotEquals(0, res.size());
+            System.assertNotEquals(0, res.size(),'Metadata Returned');
         }
     }
 
