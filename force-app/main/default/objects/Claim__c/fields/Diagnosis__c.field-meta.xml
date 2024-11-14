@@ -3,7 +3,7 @@
     <fullName>Diagnosis__c</fullName>
     <description>ABHI</description>
     <externalId>false</externalId>
-    <label>Diagnosis</label>
+    <label>Diagnosis Name</label>
     <length>500</length>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

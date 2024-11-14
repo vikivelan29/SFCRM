@@ -1083,7 +1083,43 @@
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
         <values>
+            <fullName>Additional information required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancellation and refund%3A we need the transaction details</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A a withdrawal letter is required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A an acknowledgment receipt is needed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A email from the hospital cannot be traced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A mandatory claim documents are pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A the concern is raised for review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A we received incomplete documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A we require additional documents</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1095,11 +1131,71 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Counter offer%3A we received incomplete documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Customer Non Contactable</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Digital%3A Group Policies can%27t access the app</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital%3A insufficient steps were recorded</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A it doesn%27t meet the policy T%26C%27s</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A the minimum age for adding a member is 5 yrs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A we need a Proposal Form as per the plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A we received incomplete documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A your members consent is missing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A your members consent is unclear</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A Group Policies can%27t access the app</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A insufficient steps are recorded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A the Activ Dayz criteria is not met</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A the Bonus Activ Dayz criteria is not met</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A the Healthy Heart Score criteria is not met</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A your medical check-up is pending</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1108,6 +1204,18 @@
         </values>
         <values>
             <fullName>Invalid information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical check-up%3A a Diagnostic Center is unavailable in your location</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical check-up%3A your preferred Diagnostic Center is unavailable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical decision%3A we received incomplete documents</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1127,11 +1235,35 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Additional information required</fullName>
+            <fullName>Policy Document%3A we need the transaction details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy issuance%3A we need the transaction details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy issuance%3A we require additional documents</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal%3A it doesn%27t meet the policy T%26C%27s</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal%3A we need the transaction details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal%3A we require additional documents</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reports%3A we need your appointment details</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1662,6 +1794,10 @@
         </values>
         <values>
             <fullName>ATS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch walk in</fullName>
             <default>false</default>
         </values>
     </picklistValues>

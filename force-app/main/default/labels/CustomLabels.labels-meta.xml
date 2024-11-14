@@ -31,6 +31,13 @@
         <value>Communication History</value>
     </labels>
     <labels>
+        <fullName>ABHI_Kavach_Policy_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Kavach Policy Info</shortDescription>
+        <value>Data doesn&apos;t exist in salesforce. Please click on &apos;Retrieve Details button&apos; to create data in salesforce.</value>
+    </labels>
+    <labels>
         <fullName>ABHI_Retry</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1240,7 +1247,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
-        <value>Email - Call Centre,Phone - Call Centre</value>
+        <value>Call Centre</value>
     </labels>
     <labels>
         <fullName>ABHI_Create_Case_Validation</fullName>
@@ -1301,7 +1308,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI Track Sources</shortDescription>
-        <value>Phone-Inbound,Phone-Outbound</value>
+        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team,Inbound call,Phone</value>
     </labels>
     <labels>
         <fullName>ABHI_BU</fullName>
@@ -1601,5 +1608,19 @@
         <protected>false</protected>
         <shortDescription>RNWL_PageLink</shortDescription>
         <value>http://bit.ly/ABHRENEW</value>
+    </labels>
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_Insufficient_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness std access error message</shortDescription>
+        <value>insufficient access rights on object id</value>
     </labels>
 </CustomLabels>
