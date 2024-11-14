@@ -4,6 +4,7 @@ import getPolicyData from "@salesforce/apex/ABHI_KavachPolicies.getPolicyData";
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 import buttonInfo from '@salesforce/label/c.ABHI_Kavach_Policy_Info';
+import policyValidation from '@salesforce/label/c.ABHI_PolicyRequired_ErrMsg1';
 
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
@@ -37,7 +38,8 @@ export default class Abhi_kavach_Policies extends LightningElement {
     label = {
         errorMessage,
         pageSize,
-        buttonInfo
+        buttonInfo,
+        policyValidation
     };
     
     connectedCallback() {
@@ -76,9 +78,10 @@ export default class Abhi_kavach_Policies extends LightningElement {
         this.searchPolicy = this.template.querySelector('lightning-input[data-name="policy"]').value;
         this.searchMasterPolicy = this.template.querySelector('lightning-input[data-name="masterpolicy"]').value;
         console.log('Result1 ==> ', this.searchMasterPolicy);
+        if(this.searchPolicy || this.searchMasterPolicy) {
             //this.disabled = true;
-             this.isLoading = true;
-             getPolicyData({policyNo: this.searchPolicy, masterPolicyNo : this.searchMasterPolicy}).then(result=>{
+            this.isLoading = true;
+            getPolicyData({policyNo: this.searchPolicy, masterPolicyNo : this.searchMasterPolicy}).then(result=>{
                 this.data = result;
                 if(this.data.length > 0) {
                     this.displayTable = true;
@@ -98,6 +101,11 @@ export default class Abhi_kavach_Policies extends LightningElement {
                 this.loaded = true;
                 this.disabled = false;
             })
+        }
+        else{
+            this.showNotification("", this.label.policyValidation, 'error');
+            this.isLoading = false;
+        }    
 
     }
     
