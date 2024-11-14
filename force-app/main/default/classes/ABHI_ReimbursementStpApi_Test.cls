@@ -116,16 +116,15 @@ class ABHI_ReimbursementStpApi_Test {
     @isTest 
     static void testRunMethod() {
         Case caseRec = [SELECT Id from Case LIMIT 1];
-        System.debug('caseRec>>'+caseRec);
         Id caseId = caseRec.Id;
         ASF_Integration__c afInt = [SELECT id, External_Id__c, Processing_Class__c, Query_Fields__c from ASF_Integration__c LIMIT 1];
-        Set<String> all_fields = new Set<String>{'id'};
+        Set<String> allFields = new Set<String>{'id'};
             if(afInt.Query_Fields__c != null){
-                all_fields.addAll(afInt.Query_Fields__c.toLowerCase().split(','));
+                allFields.addAll(afInt.Query_Fields__c.toLowerCase().split(','));
             }
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>((List<Case>)Database.query(
                 'SELECT ' +
-                String.join(all_fields, ',') +
+                String.join(allFields, ',') +
                 ' FROM Case WHERE Id = : caseId'
             ));
         ABHI_ReimbursementStpApi apInst = new ABHI_ReimbursementStpApi();
@@ -137,7 +136,6 @@ class ABHI_ReimbursementStpApi_Test {
     @isTest
     static void testProcessResponse() {
         Case caseRec = [SELECT Id, Stage__c, Description from Case LIMIT 1];
-        System.debug('caseRec>>'+caseRec);
         ASF_Case_Integration__c acInt = new ASF_Case_Integration__c(
             Case__c = caseRec.Id,
             Integration_Ext_Id__c = 'ASF_Int1-CSC1-10001',
@@ -151,12 +149,13 @@ class ABHI_ReimbursementStpApi_Test {
         Test.startTest();
         apInst.processResponse(acInt);
         Test.stopTest();
+        List<Case> caseList = [SELECT id from Case];
+        System.assertNotEquals(0, caseList.size(), 'Error in fetching Case');
     }
 
     @isTest
     static void testProcessFailureResponse() {
         Case caseRec = [SELECT Id, Stage__c, Description from Case LIMIT 1];
-        System.debug('caseRec>>'+caseRec);
         ASF_Case_Integration__c acInt = new ASF_Case_Integration__c(
             Case__c = caseRec.Id,
             Integration_Ext_Id__c = 'ASF_Int1-CSC1-10001',
@@ -170,6 +169,8 @@ class ABHI_ReimbursementStpApi_Test {
         Test.startTest();
         apInst.processResponse(acInt);
         Test.stopTest();
+        List<Case> caseList = [SELECT id from Case];
+        System.assertNotEquals(0, caseList.size(), 'Error in fetching Case');
     }
 
     @isTest
@@ -202,5 +203,7 @@ class ABHI_ReimbursementStpApi_Test {
         Test.startTest();
         apInst.cancelPendingCaseIntegrationRequests(intMap, rec);
         Test.stopTest();
+        List<Case> caseList = [SELECT id from Case];
+        System.assertNotEquals(0, caseList.size(), 'Error in fetching Case');
     }
 }

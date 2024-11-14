@@ -10,6 +10,9 @@
         <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
+        <field>Case$Nature__c</field>
+    </columns>
+    <columns>
         <field>Case$Customer_name_formula__c</field>
     </columns>
     <columns>
