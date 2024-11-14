@@ -10,11 +10,6 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Email</fullName>
-                <default>true</default>
-                <label>Email</label>
-            </value>
-            <value>
                 <fullName>Phone</fullName>
                 <default>false</default>
                 <label>Phone</label>
@@ -60,24 +55,19 @@
                 <label>ABWM Email</label>
             </value>
             <value>
-                <fullName>ABSLI Email</fullName>
-                <default>false</default>
-                <label>ABSLI Email</label>
-            </value>
-            <value>
                 <fullName>ABSLIG Email</fullName>
                 <default>false</default>
                 <label>ABSLIG Email</label>
             </value>
             <value>
-                <fullName>ABSLAMC Email</fullName>
+                <fullName>ABML Email</fullName>
                 <default>false</default>
-                <label>ABSLAMC Email</label>
+                <label>ABML Email</label>
             </value>
             <value>
-                <fullName>Wellness Email</fullName>
-                <default>false</default>
-                <label>Wellness Email</label>
+                <fullName>Email</fullName>
+                <default>true</default>
+                <label>Email</label>
             </value>
         </valueSetDefinition>
     </valueSet>
