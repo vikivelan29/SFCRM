@@ -218,7 +218,7 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>Case Resolution Trend (By Month)</header>
+                <header>ABML Case Resolution Trend (By Month)</header>
                 <legendPosition>Right</legendPosition>
                 <report>ABML/ABML_Case_Resolution_Trend_By_Month_9us</report>
                 <showPercentage>false</showPercentage>
@@ -234,8 +234,8 @@
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
     <isGridLayout>true</isGridLayout>
-    <owner>abhijeet.ambwade-v@adityabirlacapital.com.abclprod</owner>
-    <runningUser>abhijeet.ambwade-v@adityabirlacapital.com.abclprod</runningUser>
+    <owner>ekta.bist@in.ey.com</owner>
+    <runningUser>ekta.bist@in.ey.com</runningUser>
     <textColor>#000000</textColor>
     <title>Customer Service Manager Dashboard</title>
     <titleColor>#000000</titleColor>
