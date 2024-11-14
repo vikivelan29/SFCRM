@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>Account.Client_Code__c</field>
+        <field>OWNER</field>
     </columns>
     <columns>
-        <field>PC_$Contact.ABML_Broker_Code__c</field>
+        <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>Account.ABML_Branch_Code__c</field>
+        <field>SUBJECT</field>
     </columns>
     <columns>
-        <field>PC_$Contact.ABML_Agent_Code__c</field>
+        <field>CREATED_DATE</field>
     </columns>
     <columns>
-        <field>Account.ABML_Franchisee_Code__c</field>
-    </columns>
-    <columns>
-        <field>Case.Nature__c</field>
-    </columns>
-    <columns>
-        <field>Case.Type_Text__c</field>
-    </columns>
-    <columns>
-        <field>Case.Sub_Type_Text__c</field>
+        <field>FK_NAME</field>
     </columns>
     <columns>
         <field>CASE_NUMBER</field>
@@ -31,36 +22,23 @@
         <field>DESCRIPTION</field>
     </columns>
     <columns>
-        <field>Case.Created_Date__c</field>
+        <field>TYPE</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>Case.Ageing_Number_Of_Days__c</field>
+        <field>Case.Sub_Type_Text__c</field>
     </columns>
     <description>A bar chart that shows the number of cases that have their TAT Deadline on that day.</description>
     <filter>
         <criteriaItems>
-            <column>Case.Overall_Case_Closure_SLA__c</column>
+            <column>FK_$ABML_Case_Detail__c.TAT_Deadline__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>TODAY</value>
         </criteriaItems>
-        <criteriaItems>
-            <column>Case.Business_Unit__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>ABML</value>
-        </criteriaItems>
     </filter>
-    <format>Summary</format>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>OWNER</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <name>ABML Cases With Today&apos;s TAT Deadline</name>
+    <format>Tabular</format>
+    <name>ABML Total&apos;s TAT cases for User</name>
     <params>
         <name>units</name>
         <value>h</value>

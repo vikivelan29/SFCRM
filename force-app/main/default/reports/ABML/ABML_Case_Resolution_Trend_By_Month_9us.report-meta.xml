@@ -29,6 +29,18 @@
         <field>OWNER</field>
     </columns>
     <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>AGE</field>
+    </columns>
+    <columns>
+        <field>OPEN</field>
+    </columns>
+    <columns>
+        <field>CLOSED</field>
+    </columns>
+    <columns>
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
@@ -38,16 +50,13 @@
         <field>Case.Assigned_Team__c</field>
     </columns>
     <columns>
-        <field>Case.Type_Text__c</field>
+        <field>FK_$ABML_Case_Detail__c.Assigned_On__c</field>
+    </columns>
+    <columns>
+        <field>TYPE</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
-    </columns>
-    <columns>
-        <field>SUBJECT</field>
-    </columns>
-    <columns>
-        <field>ACCOUNT.NAME</field>
     </columns>
     <description>A bar chart that shows the number of cases resolved and the month they were resolved in</description>
     <filter>
@@ -57,13 +66,6 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>Resolved</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case.Business_Unit__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>ABML</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

@@ -29,25 +29,29 @@
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
-        <field>SUBJECT</field>
+        <field>Case.Nature__c</field>
     </columns>
     <columns>
-        <field>Case.Type_Text__c</field>
+        <field>TYPE</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case.Nature__c</field>
+        <field>DESCRIPTION</field>
     </columns>
     <columns>
-        <field>DESCRIPTION</field>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>AGE</field>
+    </columns>
+    <columns>
+        <field>Case.Assigned_Team__c</field>
     </columns>
     <columns>
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>Case.Assigned_Team__c</field>
+        <field>FK_$ABML_Case_Detail__c.Assigned_On__c</field>
     </columns>
     <description>A bar chart that shows number of active cases tagged against an agent</description>
     <filter>
@@ -56,14 +60,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Open</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case.Business_Unit__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>ABML</value>
+            <value>,Open</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

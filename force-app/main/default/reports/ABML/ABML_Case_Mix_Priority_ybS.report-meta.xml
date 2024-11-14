@@ -25,32 +25,7 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <aggregateTypes>Unique</aggregateTypes>
-        <field>CASE_NUMBER</field>
-    </columns>
-    <columns>
-        <field>Case.Type_Text__c</field>
-    </columns>
-    <columns>
-        <field>Case.Sub_Type_Text__c</field>
-    </columns>
-    <columns>
-        <field>Case.Nature__c</field>
-    </columns>
-    <columns>
-        <field>DESCRIPTION</field>
-    </columns>
-    <columns>
-        <field>ACCOUNT.NAME</field>
-    </columns>
-    <columns>
-        <field>OWNER</field>
-    </columns>
-    <columns>
-        <field>Case.Assigned_Team__c</field>
-    </columns>
-    <columns>
-        <field>SUBJECT</field>
+        <field>CASE_ID</field>
     </columns>
     <description>A bar chart that shows the number of active cases by their priority (Normal), number of active cases Priority status wise</description>
     <filter>
@@ -60,13 +35,6 @@
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value>Closed,Resolved,Closed Duplicate,Unresolved</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case.Business_Unit__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>ABML</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
@@ -86,11 +54,9 @@
     </params>
     <reportType>CaseList@Case.ABML_Case_Detail__c</reportType>
     <scope>organization</scope>
-    <showDetails>true</showDetails>
+    <showDetails>false</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>CASE_NUMBER</sortColumn>
-    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
