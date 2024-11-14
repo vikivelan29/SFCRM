@@ -20,6 +20,6 @@
     <label>ABSLAMC RE All Teams</label>
     <queue>ABSLAMC_RE_All_Teams</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_RE_All_Teams_G</group>
     </sharedTo>
 </ListView>
