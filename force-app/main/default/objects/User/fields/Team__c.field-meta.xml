@@ -45,11 +45,6 @@
                 <label>ABHFL Grievance Team</label>
             </value>
             <value>
-                <fullName>ABSLI_CS_Team</fullName>
-                <default>false</default>
-                <label>ABSLI CS Team</label>
-            </value>
-            <value>
                 <fullName>ABSLIG_Group_UW</fullName>
                 <default>false</default>
                 <label>ABSLIG Group UW</label>
@@ -58,6 +53,11 @@
                 <fullName>ABSLIG_Group_Helpline</fullName>
                 <default>false</default>
                 <label>ABSLIG Group Helpline</label>
+            </value>
+            <value>
+                <fullName>ABML</fullName>
+                <default>false</default>
+                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>
