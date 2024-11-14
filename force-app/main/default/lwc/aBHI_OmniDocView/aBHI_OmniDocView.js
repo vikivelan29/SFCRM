@@ -128,7 +128,7 @@ export default class ABHI_OmniDocView extends LightningElement {
             await getDataForDatatable({strAssetId: this.recordId, strPolicyNo: this.policyNumber}).then((response)=>{
                 if(response && response.SearchResponse){
                     for (let i = 0; i < response.SearchResponse.length; i++) {
-                        response.SearchResponse[i].policyNumber = this.policyNumber;
+                        if(this.objectApiName != 'Case') response.SearchResponse[i].policyNumber = this.policyNumber;
                         response.SearchResponse[i].rowUniqueId = Math.random().toString(16).slice(2,13);
                         if(response.SearchResponse[i].Error){
                             if(Array.isArray(response.SearchResponse[i].Error)){

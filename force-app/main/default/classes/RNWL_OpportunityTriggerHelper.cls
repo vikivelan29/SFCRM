@@ -5,37 +5,7 @@ public class RNWL_OpportunityTriggerHelper {
         public Integer responseCode;
         Public String responseDesc;
     } 
-    
-    /****************************************************************************************************************
-* @Function - setOpportunityFieldValues
-* @param newOppsList -  list of Opportunities from trigger.new.
-* @return - void .
-* @Description - Invoked from BeforeInsert this method pre-populates fields on Opps from Asset record.
-*****************************************************************************************************************/
-    /*public static void setOpportunityFieldValues(List<Opportunity> newOppsList){
-        
-        Set<Id> policyIdSet = new Set<Id>();
-        Map<Id, Id> policyAccIdMap = new Map<Id, Id>();
-        
-        for(Opportunity opp : newOppsList){
-            if(!String.isBlank(opp.Policy__c)){
-                policyIdSet.add(opp.Policy__c);
-            }
-        }
-        
-        for(Asset asst : getPolicies(policyIdSet)){
-            policyAccIdMap.put(asst.Id, asst.AccountId);
-        }
-        
-        for(Opportunity opp : newOppsList){
-            opp.CloseDate = Date.today() + 60;
-            opp.AccountId = policyAccIdMap.get(opp.Policy__c);
-            opp.StageName = 'Open'; 
-            opp.Name = 'RN-' + opp.Policy_Number__c;            
-        }
-    }*/
-    
-    
+   
     /****************************************************************************************************************
 * @Function - setOpportunityFieldValues
 * @param newItemsOpportunity ,oldItemsOpportunity -  map of Opportunities from trigger.newMap and trigger.oldMap.
@@ -83,7 +53,7 @@ public class RNWL_OpportunityTriggerHelper {
             }
             
             if(objOpportunity.StageName != objOldOpportunity.StageName && 
-               (objOpportunity.StageName == 'Closed Won' || objOpportunity.StageName == 'Closed Lost')) {
+               (objOpportunity.StageName == 'Closed Won' || objOpportunity.StageName == 'Closed Lost' || objOpportunity.StageName == 'Paid')) {
                    objOpportunity.Dialer_Status__c = 'Cancel Call Request Submitted';
                }
         } 
@@ -94,13 +64,14 @@ public class RNWL_OpportunityTriggerHelper {
     * @param newItemsOpportunity ,oldItemsOpportunity -  map of Opportunities from trigger.newMap and trigger.oldMap.
     * @return - void .
     * @Description - Invoked from After Update this method publish event 
-    * 				 Updates the field Calling SOurce on Asset and Account when Opps Calling Source Changes
+    *                Updates the field Calling SOurce on Asset and Account when Opps Calling Source Changes
     *****************************************************************************************************************/
     public static void afterUpdateOpp(List<Opportunity> newItemsOpportunity, map<Id, Opportunity> oldItemsOpportunity){
         
         //For Calling Source Update
         Set<Id> oppIdSet = new Set<Id>();
         List<sObject> recordsToUpdate = new List<sObject>();
+        Set<Id> polIdSet = new Set<Id>();
         
         // FOr PE
         List<ABCL_Integration_Event__e> lstIntegrationEvent = new List<ABCL_Integration_Event__e>();
@@ -117,7 +88,7 @@ public class RNWL_OpportunityTriggerHelper {
                     objIntegration_Event.Business_Unit__c = 'ABHI-RNWL';
                     objIntegration_Event.ObjectApiName__c = 'Opportunity'; 
                     objIntegration_Event.Record_Id__c = objOpportunity.Id;
-                    objIntegration_Event.Request__c = '"{ "requestId": " ' + objOpportunity.Name + ' "}"' ; 
+                    objIntegration_Event.Request__c = '{"requestId": "' + objOpportunity.Name + '"}';
                     objIntegration_Event.ServiceName__c = 'UbonaCancelCallService_Renewal';
                     lstIntegrationEvent.add(objIntegration_Event);
             }
@@ -125,7 +96,8 @@ public class RNWL_OpportunityTriggerHelper {
             //For Calling Source Update
             if(objOpportunity.Calling_Source__c != null &&
               objOpportunity.Calling_Source__c != objOldOpportunity.Calling_Source__c){
-              	 oppIdSet.add(objOpportunity.Id);   
+                 oppIdSet.add(objOpportunity.Id);
+                 polIdSet.add(objOpportunity.Policy__c);
             }            
         } 
         //For PE
@@ -148,26 +120,43 @@ public class RNWL_OpportunityTriggerHelper {
         //For Calling Source Update
         if(oppIdSet.size() > 0){ 
             List<Opportunity> oppsChanged = getOpportunitiesById(oppIdSet);
+            Map<Id, List<Case>> assetIdtoCaseMap = New Map<Id, List<Case>>();
+            
+            for(Asset asst :  getPolicies(polIdSet)){
+                assetIdtoCaseMap.put(asst.Id, asst.Cases);
+            }
+            
             for(Opportunity opp : oppsChanged){
+                
                 if(opp.Calling_Source__c != opp.Policy__r.Calling_Source__c){
+                    //Asset update
                     recordsToUpdate.add(new Asset(Id = opp.Policy__c, Calling_Source__c = opp.Calling_Source__c));
+                    //Case Update
+                    List<Case> cases = assetIdtoCaseMap.get(opp.Policy__c);
+                    if(cases.size() == 0){ Continue; }
+                    for(Case cas : assetIdtoCaseMap.get(opp.Policy__c)){
+                        if(opp.Calling_Source__c == cas.Calling_Source__c){ Continue; }
+                        recordsToUpdate.add(new Case(Id = cas.Id, Calling_Source__c = opp.Calling_Source__c));
+                    }
                 }
+                //Account Update
                 if(opp.Calling_Source__c != opp.Account.Calling_Source__c){
                     recordsToUpdate.add(new Account(Id = opp.AccountId, Calling_Source__c = opp.Calling_Source__c));
                 }
             }
+            ASF_TriggerSkipperUtility.markTriggerRun('Case'); 
             if(recordsToUpdate.size() > 0){
                 update recordsToUpdate;
             }
         }
         
     } 
-/****************************************************************************************************************
-* @Function - tagOppOnDisposition
-* @param newOpps -  list of Opportunities from trigger.new
-* @return - void .
-* @Description - Invoked from After Update, this method updates Renewal_Request field on Disposition for Renewal Category
-*****************************************************************************************************************/
+    /****************************************************************************************************************
+    * @Function - tagOppOnDisposition
+    * @param newOpps -  list of Opportunities from trigger.new
+    * @return - void .
+    * @Description - Invoked from After Update, this method updates Renewal_Request field on Disposition for Renewal Category
+    *****************************************************************************************************************/
     public static void tagOppOnDisposition(List<Opportunity> newOpps){
 
         Map<Id, Id> oppToPolicyIdMap = new Map<Id, Id>();
@@ -211,7 +200,10 @@ public class RNWL_OpportunityTriggerHelper {
                     (SELECT Id, 
                         Category__c,
                         Renewal_Request__c
-                    FROM Dispositions__r)
+                    FROM Dispositions__r),
+                    (SELECT Id, 
+                        Calling_Source__c 
+                     FROM Cases)
                 FROM Asset 
                 WHERE Id IN : policyIdSet];
         
@@ -222,7 +214,7 @@ public class RNWL_OpportunityTriggerHelper {
             SELECT Id, AccountId,
                 Policy__c, 
                 Calling_Source__c,
-            	Policy__r.Calling_Source__c,
+                Policy__r.Calling_Source__c,
                 Account.Calling_Source__c
             FROM Opportunity
             WHERE Id IN :oppIds
