@@ -102,7 +102,7 @@ export default class Abfl_LegacyCases extends LightningElement {
         fetchMembers({strRecordId: this.recordId})
         .then(result => {
             this.memberOptions = result;
-            //this.selectedMember = result[0].value;
+            this.selectedMember = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
         })
         .catch(error => {
             console.error("Error", error);
@@ -117,6 +117,9 @@ export default class Abfl_LegacyCases extends LightningElement {
         this.customerId = this.selectedMember;
         this.lob = getFieldValue(this.account.data, LOB_FIELD);
         console.log('$.$.Acc'+this.lob);
+        if(!this.selectedFinalAsset && !this.selectedMember && !this.startDate && !this.endDate && !this.msdCaseNumber && !this.phoneNo && !this.emailId){
+            this.selectedMember = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
+        }
         this.mapRequest = {
             "CustomerNumber": this.selectedMember,
             "PolicyNumber": this.selectedAsset,
@@ -183,18 +186,22 @@ export default class Abfl_LegacyCases extends LightningElement {
     handleEmailChange(event) {
 
         this.emailId = event.detail.value;
+        this.selectedMember = '';
         console.log('this.em'+JSON.stringify(event.detail));
     }
 
     handlePhoneChange(event) {
 
         this.phoneNo = event.detail.value;
+        this.selectedMember = '';
         console.log('this.ph'+JSON.stringify(event.detail));
     }
 
     handleMemberChange(event) {
 
         this.selectedMember = event.detail.value;
+        this.emailId = '';
+        this.phoneNo = '';
         console.log('this.sm'+JSON.stringify(event.detail));
     }
 
