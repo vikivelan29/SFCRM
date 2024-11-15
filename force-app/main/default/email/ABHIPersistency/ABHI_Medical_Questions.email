@@ -1,0 +1,343 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="margin-right: 4px; margin-left: 4px; text-align:justify">
+<p style="line-height:1.295; margin-left:24px; text-align:center; margin-bottom:11px"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:underline"><span style="-webkit-text-decoration-skip:none"><span style="text-decoration-skip-ink:none">Medical questionnaire for member addition in Existing Policy</span></span></span></span></span></span></span></span></p>
+
+<div style="margin-left:-12px">
+<table style="border:none; border-collapse:collapse" width="652">
+	<colgroup>
+		<col width="408" />
+		<col width="244" />
+	</colgroup>
+	
+		<tr>
+			<td colspan="2" style="border-bottom:1px solid #000000; vertical-align:top; background-color:#9cc2e5; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">Insured Details*</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;Particulars</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">New Insured Member</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Policy Number</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Name*</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Relationship with Proposer*</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Gender*</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Date of Birth (DD/MM/YYYY) *DOB</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Nationality *</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">City of Residence *</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Occupation*(mandatory if Personal Accident Cover (AD,PTD) is opted)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Nature of Duty*(mandatory if Personal Accident Cover (AD,PTD) is opted)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Sum Insured*(Multi Individual policy)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Room Type*(to be filled separately in case of Multi Individual policy)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Email id *#</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:408px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Mobile Number*#</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:bottom; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:244px">&nbsp;</td>
+		</tr>
+	
+</table>
+</div>
+&nbsp;
+
+<div style="margin-left:-12px">
+<table style="border:none; border-collapse:collapse" width="652">
+	<colgroup>
+		<col width="437" />
+		<col width="215" />
+	</colgroup>
+	
+		<tr>
+			<td colspan="2" style="border-bottom:1px solid #000000; vertical-align:top; background-color:#9cc2e5; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">INFORMATION ON HEALTH AND LIFESTYLE (of Member being added in policy)</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Please answer the following questions in "Yes" OR "No" or specific details as asked, with respect to all persons proposed to be insured.&nbsp;</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Note: Please answer all below-mentioned questions for each insured member. Please attach the discharge card/summary, all consultation papers, investigation reports, histopathology reports, and disability certificate from the Civil Surgeon, if any.</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">&nbsp;</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:215px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">New Insured Member</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Height (cm)/ Weight (Kg)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:215px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">A. Have you ever been diagnosed with/advised/taken treatment or observation is suggested or undergone any investigation or consulted a doctor or undergone or advised surgery for any one or more from the following?&nbsp;&nbsp;</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">If YES, then please mention Details in the additional information section below.</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:215px">
+			<p style="line-height:1.295; margin-bottom:11px"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Wingdings 2'"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">⬜</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp; Yes &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Wingdings 2'"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">⬜</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> No</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Any form of Heart Disease, Peripheral Vascular Disease, procedures like Angioplasty/PTCA/Bypass Surgery, valve replacement etc</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">* Diabetes, Hypertension, Hyperlipidaemia, Asthma, Obesity</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Anaemia / Blood disorder (whether treated or not).</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">* Tuberculosis (TB), any other Respiratory/Lung disease, COVID</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">* Disease of the eye including but not limited to Cataract, Ear, Nose, Throat, Thyroid disorder</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Cancer, tumour, lump, cyst, ulcer, any history of sudden weight loss&nbsp;</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Disease of Kidney, Digestive tract, Liver/GallBladder, Pancreas, Breast, Reproductive /Urinary system.</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Any past complications of pregnancy/childbirth including high blood pressure or diabetes etc.</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">* Mental illness, Psychiatric/psychological disorder.</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Disease of the Brain/Spine/Nervous System, Epilepsy,&nbsp;&nbsp;</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Paralysis, Polio, Joints/Arthritis/prolonged back pain</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Congenital/Birth defect, Genetic Disease/Physical deformity/disability, Polio, Obstructive Sleep Apnea (OSA), Peripheral vascular disease i.e Blockage of Upper or lower limb artery/vein, Varicose Veins</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*HIV/AIDS, other Sexually Transmitted Disease&nbsp;</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Accidental injury&nbsp;</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.2; text-align:justify"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">*Any other medical (other than common cold &amp; viral fever) or surgical condition or Investigation parameter has been detected to be out of range/not normal?</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:215px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.295; margin-bottom:11px"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">B. Are you suffering from or had suffered in past, any of below conditions? If YES, then please mention Details in the additional information section below.</span></span></span></span></span></span></span></span></p>
+
+			<ul>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Nephropathy</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Retinopathy, Neuropathy,</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Diabetic Foot</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Stroke</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Malignant Hypertension</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">History of Renal Artery Stenosis</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">History of Pheochromocytoma</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">History of Aneurysm</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">History of Peripheral Vascular Disease</span></span></span></span></span></span></span></span></li>
+			</ul>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:215px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">C. Any of the insured persons is pregnant? If yes, please mention the expected date of delivery.</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:215px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.295"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">D.&nbsp; Has any of the persons proposed to be insured.</span></span></span></span></span></span></span></span></p>
+
+			<ol>
+				<li aria-level="1" style="list-style-type:lower-alpha"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Under any regular medication prescribed by the Doctor other than vitamin pills and tonics.</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:lower-alpha"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Blood tests, X-Ray/USG/Scan/MRI in the last 5 years other than routine or pre-employment health check?</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:lower-alpha"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Surgery done or advised and still pending for the surgery to be done?</span></span></span></span></span></span></span></span></li>
+			</ol>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:215px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:437px">
+			<p style="line-height:1.295"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">E. Do you consume any of the following substances?</span></span></span></span></span></span></span></span></p>
+
+			<p style="line-height:1.295"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">(if yes, please mention the quantity)</span></span></span></span></span></span></span></span></p>
+
+			<ul>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Alcohol [30ml (number of pegs) of hard liquor/ pints of beer/ glass of wines] per week.</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Smoking (Number of Cigarette/bidi sticks) per week</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Pan Masala/Gutkha (Number of small Pouches) per week</span></span></span></span></span></span></span></span></li>
+				<li aria-level="1" style="list-style-type:disc"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Any Other substance (Name &amp; Quantity) per week</span></span></span></span></span></span></span></span></li>
+			</ul>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:215px">&nbsp;</td>
+		</tr>
+	
+</table>
+</div>
+&nbsp;
+
+<div style="margin-left:-12px">
+<table style="border:none; border-collapse:collapse" width="654">
+	<colgroup>
+		<col width="257" />
+		<col width="397" />
+	</colgroup>
+	
+		<tr>
+			<td colspan="2" style="border-bottom:1px solid #000000; vertical-align:top; background-color:#9cc2e5; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Additional Information: Please attach extra sheets if required</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Details</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px">
+			<p style="line-height:1.2; text-align:center"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">For New Insured Member</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Disease name</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Date of Diagnosis</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#bfbfbf"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">dd/mm/yyyy</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Last Consultation Date</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#bfbfbf"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">dd/mm/yyyy</span></span></span></span></span></span></span></span></p>
+			</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Name of Surgery (if any)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Details of Treatment given (hospitalization/OPD, other)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px"><br />
+			<br />
+			<br />
+			&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Disability %</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Period of hospitalization (if any)</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px"><br />
+			&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="border-bottom:1px solid #000000; vertical-align:middle; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:257px">
+			<p style="line-height:1.2"><span style="overflow:hidden"><span style="overflow-wrap:break-word"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Any Other information</span></span></span></span></span></span></span></span></p>
+			</td>
+			<td style="border-bottom:1px solid #000000; vertical-align:top; padding:0px 8px 0px 8px; border-top:1px solid #000000; border-right:1px solid #000000; border-left:1px solid #000000; width:397px"><br />
+			<br />
+			<br />
+			&nbsp;</td>
+		</tr>
+	
+</table>
+</div>
+<br />
+<p style="line-height:1.3800000000000001; text-align:justify">&nbsp;</p>
+</div>
+</body>
+</html>

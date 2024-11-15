@@ -5,7 +5,7 @@
     <name>OMNI DOC SEND EMAIL CASE</name>
     <relatedEntityType>Case</relatedEntityType>
     <style>none</style>
-    <subject>Aditya Birla Health Insurance - {{{Case.AssetId}}}</subject>
+    <subject>Aditya Birla Health Insurance - {{{Case.Id}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

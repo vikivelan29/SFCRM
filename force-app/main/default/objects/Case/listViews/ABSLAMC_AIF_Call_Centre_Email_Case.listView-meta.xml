@@ -20,6 +20,6 @@
     <label>ABSLAMC AIF Call Centre_Email</label>
     <queue>ABSLAMC_AIF_Call_Centre_Email</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_AIF_Call_Centre_Email_G</group>
     </sharedTo>
 </ListView>
