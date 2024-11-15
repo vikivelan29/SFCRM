@@ -14,13 +14,13 @@ private class ABHI_CreateHealthProvider_Inbound_Test {
     @isTest 
     static void testCreateRecordsFailure(){
         Test.startTest();
-        String JSONMsg = '"{\"HealthProvider\":[{\"abc\":\"CustomerPortal\"}]}"';
-        createRequest(JSONMsg);
+        String jsonMsg = '"{\"HealthProvider\":[{\"abc\":\"CustomerPortal\"}]}"';
+        createRequest(jsonMsg);
         String response = ABHI_CreateHealthProvider_Inbound.createRecords();
         Test.stopTest();
         ABHI_ResponseWrapper responseBody = (ABHI_ResponseWrapper) JSON.deserialize(response.toString(), ABHI_ResponseWrapper.class);
-        System.assertEquals('100', responseBody.StatusCode);
-        System.assertEquals('Failure', responseBody.StatusMessage);
+        System.assertEquals('100', responseBody.StatusCode, 'Incorrect Code');
+        System.assertEquals('Failure', responseBody.StatusMessage, 'incorrect Msg');
     }
 
     @isTest 
@@ -39,8 +39,8 @@ private class ABHI_CreateHealthProvider_Inbound_Test {
         String response = ABHI_CreateHealthProvider_Inbound.createRecords();
         Test.stopTest();
         ABHI_ResponseWrapper responseBody = (ABHI_ResponseWrapper) JSON.deserialize(response.toString(), ABHI_ResponseWrapper.class);
-        System.assertEquals('200', responseBody.StatusCode);
-        System.assertEquals('Success', responseBody.StatusMessage);
+        System.assertEquals('200', responseBody.StatusCode, 'Incorrect Code');
+        System.assertEquals('Success', responseBody.StatusMessage, 'incorrect Msg');
     }
 
     @isTest 
@@ -55,8 +55,8 @@ private class ABHI_CreateHealthProvider_Inbound_Test {
         String response = ABHI_CreateHealthProvider_Inbound.createRecords();
         Test.stopTest();
         ABHI_ResponseWrapper responseBody = (ABHI_ResponseWrapper) JSON.deserialize(response.toString(), ABHI_ResponseWrapper.class);
-        System.assertEquals('100', responseBody.StatusCode);
-        System.assertEquals('Failure', responseBody.StatusMessage);
+        System.assertEquals('100', responseBody.StatusCode, 'Incorrect Code');
+        System.assertEquals('Failure', responseBody.StatusMessage, 'incorrect Msg');
     }
 
     /****************************************************************************************************

@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Claim: the concern is raised for review</value>
+        <value xsi:type="xsd:string">Claim: an acknowledgment receipt is needed</value>
     </values>
     <values>
         <field>Type__c</field>
