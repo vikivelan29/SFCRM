@@ -2,7 +2,7 @@
  * @description       : Test class for Wellness_BulkCreateCaseConverterUtility
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-01-2024
+ * @last modified on  : 11-15-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
 @IsTest
@@ -68,7 +68,7 @@ public class Wellness_BulkCreateCaseConverter_Test {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Contract Number":"LAN1234","Issue Type Code":"","Source":"Email", "Description":"DescriptionXYZ","Block Customer Communication":"Email;SMS"}');
+        jsonRows.put(lineitem.Id, '{"Contract Number":"LAN1234","Issue Type Code":"","Member Id/Customer Number":"","Source":"Email", "Description":"DescriptionXYZ","Block Customer Communication":"Email;SMS"}');
         Wellness_BulkCreateCaseConverterUtility utility = new Wellness_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
