@@ -1617,6 +1617,14 @@
         <shortDescription>RNWL_PageLink</shortDescription>
         <value>http://bit.ly/ABHRENEW</value>
     </labels>
+   
+    <labels>
+        <fullName>ABHI_Case_Restriction_Creation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Case Restriction Creation</shortDescription>
+        <value>Source_Based_Case_Creation_Restriction,User_Source_Code_Based_Case_Creation_Restriction</value>
+    </labels>
     <labels>
         <fullName>Wellness_Insufficient_Access</fullName>
         <language>en_US</language>

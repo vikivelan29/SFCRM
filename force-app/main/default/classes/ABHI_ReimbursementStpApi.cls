@@ -1,3 +1,10 @@
+/*********************************************************
+*Class        :  ABHI_ReimbursementStpApi
+*Author       :  Amrit Preet Singh
+*Created Date :  06/11/2024
+*Last Modified:  06/11/2024
+*@description  :  This class is used as the STP controller for Reimbursement Claim Intimation & Cashless Claim Intimation CTST
+*********************************************************/
 public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInvocable{
 
     /**
@@ -73,11 +80,6 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
         Map<Id, List<ASF_Integration__c>> integs,
         List<Case> caseRecs
     ) {
-        List<Case> caseList = [SELECT Asset.Policy_No__c, Account.Client_Code__c from Case where Id IN: caseRecs];
-        Map<Id,Case> caseMap = new Map<Id,Case>();
-        for(Case caseRec : caseList) {
-            caseMap.put(caseRec.Id, caseRec);
-        }
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         
         //Before Initiating new Integration callout, cancel existing running request
@@ -93,7 +95,7 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
         Integer index = 0;
         Map<Integer, Id> indexToCaseId = new Map<Integer, Id>();
         for (Case caseRecord : caseRecords) {
-           	String payload = buildPayload(caseRecord, caseMap);
+           	String payload = buildPayload(caseRecord);
             System.debug('requestBody--> '+payload);
             System.debug('requestBodyss--> '+integs);
             System.debug('caseRecord.Id--> '+caseRecord.Id);
@@ -250,7 +252,13 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
         }
     }
 
-	public static String buildPayload(Case caseRecord, Map<Id,Case> caseMap) {   
+    /****************************************************************************************************************
+    * @Function - buildPayload
+    * @return String
+    * @param caseRecord - caseRecord for which the payload needs to be built
+    * @description This method will return the pauyload request need sto be passed to the API
+    *****************************************************************************************************************/
+	public static String buildPayload(Case caseRecord) {   
         ReimbursementRequest requestWrapper = new ReimbursementRequest();
         PreAuthObjWrapper patInst = new PreAuthObjWrapper();
         patInst.Policy_Number = caseRecord.Asset.Policy_No__c;
@@ -299,6 +307,13 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
         return JSON.serialize(requestWrapper);
 	}
 
+    /*********************************************************
+    *Class        :  ReimbursementResponse
+    *Author       :  Amrit Preet Singh
+    *Created Date :  06/11/2024
+    *Last Modified:  06/11/2024
+    *@description  : This is the wrapper class to hold the response from API
+    *********************************************************/
     public class ReimbursementResponse {
         public String Code{ get; set; }	//101
         public String Message{ get; set; }	//Entered Policy Number : GHI-HB-22-2095784-V2 doesn't exists. Please check the Health Card and submit the Request again.
@@ -306,100 +321,144 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
         public String Pre_Auth_Id{ get; set; }
     }
 
+    /*********************************************************
+    *Class        :  ReimbursementResponse
+    *Author       :  Amrit Preet Singh
+    *Created Date :  06/11/2024
+    *Last Modified:  06/11/2024
+    *@description  : This is the wrapper class to hold the request for API
+    *********************************************************/
     public class ReimbursementRequest{
-        public List<PreAuthObjWrapper> PreAuthObj;
-        public List<PreexistingObjWrapper> PreexistingObj;
-        public List<PCSObjWrapper> PCSObj;
-        public List<ICDObjWrapper> ICDObj;
-        public List<DocObjWrapper> DocObj;
+        public List<PreAuthObjWrapper> PreAuthObj{ get; set; }
+        public List<PreexistingObjWrapper> PreexistingObj{ get; set; }
+        public List<PCSObjWrapper> PCSObj{ get; set; }
+        public List<ICDObjWrapper> ICDObj{ get; set; }
+        public List<DocObjWrapper> DocObj{ get; set; }
         
     }
 
-    class PreAuthObjWrapper {
-        public String Policy_Number;	//21-24-0000882-00
-        public String FamilyId;	//PT87553252
-        public String Claim_Intimation_Through;	//Online
-        public String Claim_Intimation_Source;	//CUSTOMERPORTAL
-        public String Intimation_Type;	//Reimbursement
-        public String Cover_code;	//42214101
-        public String Cover_Name;	//In-patientHospitalization
-        public String Hospital_Name;	//HS00009753
-        public String Hospital_Code;	//HS00009753
-        public String Diagnosis;	//ok
-        public String Date_of_Admission;	//8/1/2024
-        public String Time_of_Admission;	//17:20
-        public String Date_of_Discharge;	//8/3/2024
-        public String Time_of_Discharge;	//06:00
-        public String Claim_Amount;	//5000
-        public String Source_System_Code;	//CUSTOMERPORTAL
-        public String Document_Received_Date;	//08/19/2024
-        public String Document_Received_Time;	//05:28
-        public String Patient_Name;	//PrajaktaPatil
-        public String Co_morbidities;	//
-        public String Service_flag;	//
-        public String Name_Of_Treating_Doctor;	//
-        public String Doctor_Contact_No;	//
-        public String Duration_Of_Present_Ailment;	//
-        public String Proposed_line_of_treatment;	//
-        public String Investigation_MedicalManagementDetails;	//
-        public String Name_Of_Surgery;	//
-        public String IRDA_Code_Of_surgery;	//
-        public String How_did_injury_occur;	//
-        public String Case_Of_accident;	//
-        public String IsItRTA;	//
-        public String Date_Of_Inhury;	//
-        public String ReportedtoPolice;	//
-        public String FirNo;	//
-        public String Injury_Disease_Alcohalconsumption;	//
-        public String IsMaternity;	//
-        public String G;	//
-        public String P;	//
-        public String L;	//
-        public String A;	//
-        public String Date_Of_Delivery;	//
-        public String Emergency_Planned_Event;	//
-        public String Room_Type;	//
-        public String DeaseasWithPresentingComplaints;	//
-        public String ReleventClinicalFinding;	//
-        public String DateOfFirstConsultation;	//
-        public String ProvisionalDiagnosis;	//
-        public String Doctor_Registration_No;	//
-        public String IsPreexisting;	//
-        public String IsNaturalCalamityCase;	//
-        public String Test_ConductedToEstablishThis;	//
-        public String AlcohalordrugAbuse;	//
-        public String AnyHivorStdRelatedAilments;	//
-        public String AnyOtherAilments;	//
-        public String Other_Ind;	//
-        public String Hospital_Nm;	//
-        public String Hospital_Address;	//
-        public String Hospital_Country;	//
-        public String Hospital_State;	//
-        public String Hospital_District;	//
-        public String Hospital_City;	//
-        public String Hospital_PinCode;	//
-        public String Hospital_Mail;	//
-        public String Hospital_StdCode;	//
-        public String Hospital_PhoneNo;	//
-        public String Hospital_MobileNo;	//
-        public String Hospital_FaxNo;	//
-        public String Hospital_WebSite;	//
-        public String Hospital_LandMark;	//
+    /*********************************************************
+    *Class        :  PreAuthObjWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  06/11/2024
+    *Last Modified:  06/11/2024
+    *@description  : This is the wrapper class to hold inner request data for API
+    *********************************************************/
+    public class PreAuthObjWrapper {
+        public String Policy_Number{ get; set; }	//21-24-0000882-00
+        public String FamilyId{ get; set; }	//PT87553252
+        public String Claim_Intimation_Through{ get; set; }	//Online
+        public String Claim_Intimation_Source{ get; set; }	//CUSTOMERPORTAL
+        public String Intimation_Type{ get; set; }	//Reimbursement
+        public String Cover_code{ get; set; }	//42214101
+        public String Cover_Name{ get; set; }	//In-patientHospitalization
+        public String Hospital_Name{ get; set; }	//HS00009753
+        public String Hospital_Code{ get; set; }	//HS00009753
+        public String Diagnosis{ get; set; }	//ok
+        public String Date_of_Admission{ get; set; }	//8/1/2024
+        public String Time_of_Admission{ get; set; }	//17:20
+        public String Date_of_Discharge{ get; set; }	//8/3/2024
+        public String Time_of_Discharge{ get; set; }	//06:00
+        public String Claim_Amount{ get; set; }	//5000
+        public String Source_System_Code{ get; set; }	//CUSTOMERPORTAL
+        public String Document_Received_Date{ get; set; }	//08/19/2024
+        public String Document_Received_Time{ get; set; }	//05:28
+        public String Patient_Name{ get; set; }	//PrajaktaPatil
+        public String Co_morbidities{ get; set; }	//
+        public String Service_flag{ get; set; }	//
+        public String Name_Of_Treating_Doctor{ get; set; }	//
+        public String Doctor_Contact_No{ get; set; }	//
+        public String Duration_Of_Present_Ailment{ get; set; }	//
+        public String Proposed_line_of_treatment{ get; set; }	//
+        public String Investigation_MedicalManagementDetails{ get; set; }	//
+        public String Name_Of_Surgery{ get; set; }	//
+        public String IRDA_Code_Of_surgery{ get; set; }	//
+        public String How_did_injury_occur{ get; set; }	//
+        public String Case_Of_accident{ get; set; }	//
+        public String IsItRTA{ get; set; }	//
+        public String Date_Of_Inhury{ get; set; }	//
+        public String ReportedtoPolice{ get; set; }	//
+        public String FirNo{ get; set; }	//
+        public String Injury_Disease_Alcohalconsumption{ get; set; }	//
+        public String IsMaternity{ get; set; }	//
+        public String G{ get; set; }	//
+        public String P{ get; set; }	//
+        public String L{ get; set; }	//
+        public String A{ get; set; }	//
+        public String Date_Of_Delivery{ get; set; }	//
+        public String Emergency_Planned_Event{ get; set; }	//
+        public String Room_Type{ get; set; }	//
+        public String DeaseasWithPresentingComplaints{ get; set; }	//
+        public String ReleventClinicalFinding{ get; set; }	//
+        public String DateOfFirstConsultation{ get; set; }	//
+        public String ProvisionalDiagnosis{ get; set; }	//
+        public String Doctor_Registration_No{ get; set; }	//
+        public String IsPreexisting{ get; set; }	//
+        public String IsNaturalCalamityCase{ get; set; }	//
+        public String Test_ConductedToEstablishThis{ get; set; }	//
+        public String AlcohalordrugAbuse{ get; set; }	//
+        public String AnyHivorStdRelatedAilments{ get; set; }	//
+        public String AnyOtherAilments{ get; set; }	//
+        public String Other_Ind{ get; set; }	//
+        public String Hospital_Nm{ get; set; }	//
+        public String Hospital_Address{ get; set; }	//
+        public String Hospital_Country{ get; set; }	//
+        public String Hospital_State{ get; set; }	//
+        public String Hospital_District{ get; set; }	//
+        public String Hospital_City{ get; set; }	//
+        public String Hospital_PinCode{ get; set; }	//
+        public String Hospital_Mail{ get; set; }	//
+        public String Hospital_StdCode{ get; set; }	//
+        public String Hospital_PhoneNo{ get; set; }	//
+        public String Hospital_MobileNo{ get; set; }	//
+        public String Hospital_FaxNo{ get; set; }	//
+        public String Hospital_WebSite{ get; set; }	//
+        public String Hospital_LandMark{ get; set; }	//
     }
-    class PreexistingObjWrapper {
-        public String Preexisting_Deases;	//
-        public String Status;	//
-        public String Sincewhen;	//
-        public String Remarks;	//
+    /*********************************************************
+    *Class        :  ReimbursementResponse
+    *Author       :  Amrit Preet Singh
+    *Created Date :  06/11/2024
+    *Last Modified:  06/11/2024
+    *@description  : This is the wrapper class to hold the response from API
+    *********************************************************/
+    public class PreexistingObjWrapper {
+        public String Preexisting_Deases{ get; set; }	//
+        public String Status{ get; set; }	//
+        public String Sincewhen{ get; set; }	//
+        public String Remarks{ get; set; }	//
     }
-    class PCSObjWrapper {
-        public String PCS_Code;	//
+    /*********************************************************
+    *Class        :  PCSObjWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  06/11/2024
+    *Last Modified:  06/11/2024
+    *@description  : This is the wrapper class to hold inner request data for API
+    *********************************************************/
+    public class PCSObjWrapper {
+        public String PCS_Code{ get; set; }	//
     }
-    class ICDObjWrapper {
-        public String ICD_Code;	//
+
+    /*********************************************************
+    *Class        :  ICDObjWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  06/11/2024
+    *Last Modified:  06/11/2024
+    *@description  : This is the wrapper class to hold inner request data for API
+    *********************************************************/
+    public class ICDObjWrapper {
+        public String ICD_Code{ get; set; }	//
     }
-    class DocObjWrapper {
-        public String UploadStatus;	//No
-        public String Filename;	//
+
+    /*********************************************************
+    *Class        :  DocObjWrapper
+    *Author       :  Amrit Preet Singh
+    *Created Date :  06/11/2024
+    *Last Modified:  06/11/2024
+    *@description  : This is the wrapper class to hold inner request data for API
+    *********************************************************/
+    public class DocObjWrapper {
+        public String UploadStatus{ get; set; }	//No
+        public String Filename{ get; set; }	//
     }
 }
