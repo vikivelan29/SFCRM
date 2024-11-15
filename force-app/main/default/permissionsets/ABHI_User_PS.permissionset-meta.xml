@@ -233,6 +233,14 @@
         <apexClass>ASF_RecategoriseCaseController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_EscalatedIGMSComplaintIntegration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABFL_E2C_CreationRules</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ABHI_Create_Case_Validations__mdt</name>
