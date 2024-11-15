@@ -34,7 +34,7 @@ public with sharing class ABHI_ReopenedIGMSComplaintIntegration  implements ASF_
                 resultMap.put(caseRecord.Id, result);
             }
         }
-        return resultMap;
+        return resultMap;   
     }
 
     /**
