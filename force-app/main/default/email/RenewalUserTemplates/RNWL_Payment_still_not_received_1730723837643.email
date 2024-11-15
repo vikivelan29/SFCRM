@@ -56,7 +56,8 @@
 </div>
 
 <p style="line-height:1.3800000000000001; text-align:justify"><br />
-Payment Link:&nbsp;{{{Opportunity.Payment_Link__c}}}</p>
+Payment Link:&nbsp;<br />
+<a href="{{{Opportunity.Payment_Link__c}}}">{{{Opportunity.Payment_Link__c}}}</a></p>
 
 <p style="line-height:1.3800000000000001; text-align:justify"><span style="font-family:Baskerville,Times New Roman,Times,serif;"><span style="font-size:16px;"><span style="font-variant: normal; white-space: pre-wrap;"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at&nbsp;care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App – a one stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 882800035.</span></span></span></span></span></span></span></p>
 

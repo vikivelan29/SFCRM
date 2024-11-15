@@ -20,6 +20,6 @@
     <label>ABSLAMC MF Mumbai PPD</label>
     <queue>ABSLAMC_MF_Mumbai_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_Mumbai_PPD_G</group>
     </sharedTo>
 </ListView>
