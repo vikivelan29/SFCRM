@@ -9,7 +9,7 @@
 global with sharing class ABHI_CreateHealthIntent_Inbound {
     @HttpPost
     global static String processHealthData() {
-        ABHI_CreateHealthIntentRequestWrapper.RequestBody requestBody;
+        ABHI_CreateHealthIntent_Inbound.RequestBody requestBody;
         String accountId;
         Boolean hasError = false;
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
@@ -18,7 +18,7 @@ global with sharing class ABHI_CreateHealthIntent_Inbound {
 
         try {
             // Parsing the JSON request into the RequestBody class
-            requestBody = (ABHI_CreateHealthIntentRequestWrapper.RequestBody)JSON.deserialize(RestContext.request.requestBody.toString(), ABHI_CreateHealthIntentRequestWrapper.RequestBody.class);
+            requestBody = (ABHI_CreateHealthIntent_Inbound.RequestBody)JSON.deserialize(RestContext.request.requestBody.toString(), ABHI_CreateHealthIntent_Inbound.RequestBody.class);
             
             // Checking for member id 
             try {
@@ -32,8 +32,8 @@ global with sharing class ABHI_CreateHealthIntent_Inbound {
 
             // Preparing to collect Health intent records
             List<Health_Intent__c> lsthealthIntent = new List<Health_Intent__c>();
-            for (ABHI_CreateHealthIntentRequestWrapper.CategoryDetail category : requestBody.CategoryDetails) {
-                for (ABHI_CreateHealthIntentRequestWrapper.ActivityDetail detail : category.ActivityDetails) {
+            for (ABHI_CreateHealthIntent_Inbound.CategoryDetail category : requestBody.CategoryDetails) {
+                for (ABHI_CreateHealthIntent_Inbound.ActivityDetail detail : category.ActivityDetails) {
                     Health_Intent__c healthIntentRecord = new Health_Intent__c();
                     healthIntentRecord.Member_Id__c = accountId;
                     healthIntentRecord.Active_on_Social_Media__c = requestBody.ActiveOnSocialMedia;
