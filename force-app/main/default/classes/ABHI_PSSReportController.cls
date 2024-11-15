@@ -6,6 +6,7 @@
 *@description  :  This class is used as an apex controller for the abhi_pssReportCmp lightning component
 *@description  :  This class is used to create the API request and then get the details from PSS report API.
 *********************************************************/
+@SuppressWarnings('PMD.FieldNamingConventions,PMD.ExcessivePublicCount')
 public with sharing class ABHI_PSSReportController {
 
     public static String accId;
@@ -57,7 +58,7 @@ public with sharing class ABHI_PSSReportController {
         String objectName = String.valueOf(objectId.getsobjecttype());
         POLICY_INFO pi = new POLICY_INFO();
         if(objectName == 'Account'){
-            Account acc = [SELECT Phone, Office_Email__c from Account where id =: recordId];
+            Account acc = [SELECT Phone, Office_Email__c from Account where id =: recordId WITH SYSTEM_MODE];
             accId = acc.Id;
             pi.POLICY_NO = '';
             pi.CLAIM_NO = '';
@@ -67,7 +68,7 @@ public with sharing class ABHI_PSSReportController {
             pi.SEARCH_OPERATION = 'or';
         }
         if(objectName == 'Asset'){
-            Asset ass = [SELECT Policy_No__c, SerialNumber, AccountId from Asset where Id =: recordId];
+            Asset ass = [SELECT Policy_No__c, SerialNumber, AccountId from Asset where Id =: recordId WITH SYSTEM_MODE];
             accId = ass.AccountId;
             pi.POLICY_NO = ass.Policy_No__c;
             pi.CLAIM_NO = '';
@@ -129,6 +130,7 @@ public with sharing class ABHI_PSSReportController {
     *Last Modified:  03/09/2024
     *@description  : This is the wrapper class to hold the response from API
     *********************************************************/
+    @SuppressWarnings('PMD.TooManyFields')
         public class PolicyInfo {
             @AuraEnabled public String SNO;
             @AuraEnabled public String DOCUMENT_ID;
