@@ -1454,4 +1454,11 @@
         <shortDescription>MCRM_Legacy_Search</shortDescription>
         <value>Please select Filter, and click on Search to view results.</value>
     </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation_Error_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation Error 1</shortDescription>
+        <value>Current user is not allowed to create case.</value>
+    </labels>
 </CustomLabels>
