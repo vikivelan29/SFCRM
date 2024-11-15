@@ -1,20 +1,21 @@
-/*********************************************************
-*Class        :  Mcrm_AssetGetPolicyDetails 
-*Author       :  Zahed
-*Created Date :  18/10/2024
-*Last Modified:  
-*Description  :  This class will invoke from Mcrm_getPolicyDetails LWC. 
-*Test Class    : AssetGetPolicyDetails_Test
-*********************************************************/
-public with sharing  class MCRM_AssetGetPolicyDetails {
+/**
+ * @description       : This class will invoke from Mcrm_getPolicyDetails LWC. Used to query ABHI records (Hence without sharing)
+ * @author            : Zahed
+ * @group             : 
+ * @last modified on  : 18/10/2024
+ * @last modified by  : rsinghnagar@salesforce.com
+ * Modifications Log
+ * Ver   Date         Author  Modification
+ * 1.0   18/10/2024   Zahed   Initial Version
+**/
+public without sharing  class MCRM_AssetGetPolicyDetails {
     /****************************************************************************************************************
     * @LOB - Wellness
     * @Function - getAsset Policy Details
-    * @param - Asset Id.
-    * @return - List<Map<String, String>> Collection list of asset policy Label with Value.
-    * @description - Invoked from the Mcrm_getPolicyDetails Lwc components to send asset policy details.
-    *****************************************************************************************************************/
-    
+    * @param recordId
+    * @return - List<Map<String, String>>
+    * @description - Invoked from the Mcrm_getPolicyDetails Lwc components to send asset policy details. 
+    */
     @AuraEnabled(cacheable=true)
     public static List<Map<String, String>> getAssetData(Id recordId) {
         List<Map<String, String>> resultData = new List<Map<String, String>>();
@@ -40,7 +41,7 @@ public with sharing  class MCRM_AssetGetPolicyDetails {
                 fieldAPIWithLabel.put(fieldConfig.Api_Name__c,fieldConfig.MasterLabel);
             }
             
-            String queryString = 'SELECT ' + String.join(fieldAPIWithLabel.keyset(), ', ') + ' FROM Asset WHERE ABHI_Policy_Id__c IN :policyIds';
+            String queryString = 'SELECT ' + String.escapeSingleQuotes(String.join(fieldAPIWithLabel.keyset(), ', ')) + ' FROM Asset WHERE ABHI_Policy_Id__c IN :policyIds';
             List<Asset> assetRecords = Database.query(queryString);
             for (Asset asset : assetRecords) {
                 Map<String, String> assetData = new Map<String, String>();
