@@ -9,6 +9,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABHI_LOBSpecificLegacyViewMethods</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHI_AckIGMSComplaintIntegration</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2915,6 +2919,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Cover__c.Cover_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Cover__c.Cover_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3014,6 +3023,15 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>Health_Provider__c</object>
         <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Cover__c</object>
+        <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>

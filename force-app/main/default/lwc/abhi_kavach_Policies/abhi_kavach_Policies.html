@@ -8,7 +8,7 @@
     <lightning-card>
         <div slot="title">
             <lightning-button-icon slot="actions" icon-name="action:new_case" size="small" class="slds-m-right_x-small" variant="brand"></lightning-button-icon>
-            Policy Search
+            Search Kavach Policy
         </div>
       
         <div class = "slds-m-around_medium">
@@ -27,19 +27,19 @@
                         </lightning-combobox>
                     </div> 
                 </lightning-layout-item>-->
-                <lightning-layout-item size="4" class="slds-m-right_x-large">
+                <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_xx-small">
                     <div class = "slds-m-bottom_small">
                         <lightning-input type="text" label="Enter policy No" data-name= "policy" 
                         disabled={disabled}  placeholder="type here..."></lightning-input>
                     </div> 
                 </lightning-layout-item>
-                <lightning-layout-item size="4" class="slds-m-right_x-large">
+                <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_xx-small">
                     <div class = "slds-m-bottom_small">
                         <lightning-input type="text" label="Enter Master policy No" data-name= "masterpolicy"
                         disabled={disabled}  placeholder="type here..."></lightning-input>
                     </div> 
                 </lightning-layout-item>
-                <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_medium">
+                <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_large">
                     <div class = "slds-m-bottom_small">
                         <lightning-button label = "Search" title = "Search" onclick = {fetchExistingData} variant = "brand" 
                         disabled={disabled} >
@@ -48,8 +48,8 @@
                 </lightning-layout-item>
              
             </lightning-layout>
-
-            <lightning-layout-item size="3" class="slds-m-right_x-large slds-p-top_medium">
+            
+            <lightning-layout-item size="3" class="slds-m-right_x-large slds-p-top_x-large">
                 <div class = "slds-m-bottom_small">
                     <lightning-button label = "Retrieve Details" title = "Search" onclick = {getPolicyDetails} variant = "brand" 
                     disabled={disabledSearch} >

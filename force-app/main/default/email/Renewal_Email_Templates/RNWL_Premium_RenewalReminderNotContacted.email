@@ -7,9 +7,9 @@
          Plan Name :  {!relatedTo.Plan_Name__c} </strong>
          <br/><br/> Dear {!relatedTo.Customer_Name__c},
          <br/><br/> We value your relationship with us and thank you for trusting us with your health insurance needs
-          / { allowing us to be a part of your wellness journey }.
+          / allowing us to be a part of your wellness journey.
 
-        <br/><br/> We wish to inform you that your Health Insurance Policy is due for Renewal on {!DAY(relatedTo.SystemDate__c)}/{!CASE(MONTH(relatedTo.SystemDate__c),1,"01/",2,"02/",3,"03/",4,"04/",5,"05/",6,"06/",7,"07/",8,"08/",9,"09/",10,"10/",11,"11/",12,"12/","??/")}{!YEAR(relatedTo.SystemDate__c)}.
+        <br/><br/> We wish to inform you that your Health Insurance Policy is due for Renewal on {!DAY(relatedTo.Policy_Expiry_Date__c)}/{!CASE(MONTH(relatedTo.Policy_Expiry_Date__c),1,"01/",2,"02/",3,"03/",4,"04/",5,"05/",6,"06/",7,"07/",8,"08/",9,"09/",10,"10/",11,"11/",12,"12/","/")}{!YEAR(relatedTo.Policy_Expiry_Date__c)}.
          We tried reaching you on your registered mobile number, but we were unable to connect. We 
          advise you to renew your policy to stay protected from any medical emergencies at all times.<br/><br/>
         
