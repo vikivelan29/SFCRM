@@ -1060,7 +1060,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABHI_OmniDocURL</shortDescription>
-        <value>https://omnidocsuat.adityabirlahealth.com/omnidocs/WebApiRequestRedirection?Application=WebAPI_abhi_uat&cabinetName=abhi_uat</value>
+        <value>https://omnidocsuat.adityabirlahealth.com/omnidocs/WebApiRequestRedirection?Application=WebAPI_abhi_uat&amp;cabinetName=abhi_uat</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
@@ -1440,11 +1440,18 @@
         <shortDescription>ABHI Case Restriction Creation</shortDescription>
         <value>Source_Based_Case_Creation_Restriction,User_Source_Code_Based_Case_Creation_Restriction</value>
     </labels>
-</CustomLabels>
-        <fullName>Wellness_Insufficient_Access</fullName>
+    <labels>
+        <fullName>MCRM_Legacy_NoResults</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Wellness std access error message</shortDescription>
-        <value>insufficient access rights on object id</value>
+        <shortDescription>MCRM_Legacy_NoResults</shortDescription>
+        <value>There is no data present for given inputs.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_Legacy_Search</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_Legacy_Search</shortDescription>
+        <value>Please select Filter, and click on Search to view results.</value>
     </labels>
 </CustomLabels>
