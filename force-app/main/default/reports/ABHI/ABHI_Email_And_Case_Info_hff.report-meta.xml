@@ -29,6 +29,9 @@
         <field>Case.Proposal_Number__c</field>
     </columns>
     <columns>
+        <field>OWNER</field>
+    </columns>
+    <columns>
         <field>Account.Customer_Type__c</field>
     </columns>
     <columns>
