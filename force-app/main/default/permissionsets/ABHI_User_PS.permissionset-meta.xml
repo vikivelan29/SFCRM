@@ -4049,13 +4049,13 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Survey_Response__c.Primary_Question_NPS__c</field>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Concern_claims__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Survey_Response__c.Trigger_Name__c</field>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Cancellation_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
