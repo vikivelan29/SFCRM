@@ -23,6 +23,7 @@ export default class Abfl_LegacyCases extends LightningElement {
     displayError = false;
     showChildTable = false;
     selectedAsset;
+    selectedFinalAsset;
     leagcyCaseData;
     startDate;
     endDate;
@@ -122,7 +123,7 @@ export default class Abfl_LegacyCases extends LightningElement {
         }
         this.mapRequest = {
             "CustomerNumber": this.selectedMember,
-            "PolicyNumber": this.selectedAsset,
+            "PolicyNumber": this.selectedFinalAsset,
             "FromDate": this.startDate,
             "ToDate": this.endDate,
             "LOB": this.lob,
@@ -173,6 +174,7 @@ export default class Abfl_LegacyCases extends LightningElement {
 
         this.selectedAsset = event.detail.value;
         this.arcPolicyNo = '';
+        this.selectedFinalAsset = event.detail.value;
         console.log('this.sa'+JSON.stringify(event.detail));
     }
 
@@ -180,6 +182,7 @@ export default class Abfl_LegacyCases extends LightningElement {
 
         this.selectedAsset = '';
         this.arcPolicyNo = event.detail.value;
+        this.selectedFinalAsset = event.detail.value;
         console.log('this.ap'+JSON.stringify(event.detail));
     }
 
