@@ -14,8 +14,8 @@ public class ABHI_CreateHealthIntent_Inbound_Test {
         return acc;
     }
 
-    private static ABHI_CreateHealthIntentRequestWrapper.RequestBody createRequestBody(String memberId) {
-        ABHI_CreateHealthIntentRequestWrapper.RequestBody requestBody = new ABHI_CreateHealthIntentRequestWrapper.RequestBody();
+    private static ABHI_CreateHealthIntent_Inbound.RequestBody createRequestBody(String memberId) {
+        ABHI_CreateHealthIntent_Inbound.RequestBody requestBody = new ABHI_CreateHealthIntent_Inbound.RequestBody();
         requestBody.MemberId = memberId;
         requestBody.ActiveOnSocialMedia = 'true';
         requestBody.HealthReturn = 'Health Return';
@@ -26,18 +26,18 @@ public class ABHI_CreateHealthIntent_Inbound_Test {
         requestBody.WaitingPeriodAndExclusive = 'No Waiting Period';
         requestBody.WhichPhone = 'Android';
         
-        ABHI_CreateHealthIntentRequestWrapper.CategoryDetail categoryDetail = new ABHI_CreateHealthIntentRequestWrapper.CategoryDetail();
+        ABHI_CreateHealthIntent_Inbound.CategoryDetail categoryDetail = new ABHI_CreateHealthIntent_Inbound.CategoryDetail();
         categoryDetail.Category = 'Fitness';
         
-        ABHI_CreateHealthIntentRequestWrapper.ActivityDetail activityDetail = new ABHI_CreateHealthIntentRequestWrapper.ActivityDetail();
+        ABHI_CreateHealthIntent_Inbound.ActivityDetail activityDetail = new ABHI_CreateHealthIntent_Inbound.ActivityDetail();
         activityDetail.DoYouTrackThese = 'true';
         activityDetail.FrequencyInMonth = '4';
         activityDetail.HowDoYouTrackYourActivity = 'App';
         activityDetail.WhatActivitiesCurrentlyDoing = 'Running';
         
-        categoryDetail.ActivityDetails = new List<ABHI_CreateHealthIntentRequestWrapper.ActivityDetail>{activityDetail};
+        categoryDetail.ActivityDetails = new List<ABHI_CreateHealthIntent_Inbound.ActivityDetail>{activityDetail};
         
-        requestBody.CategoryDetails = new List<ABHI_CreateHealthIntentRequestWrapper.CategoryDetail>{categoryDetail};
+        requestBody.CategoryDetails = new List<ABHI_CreateHealthIntent_Inbound.CategoryDetail>{categoryDetail};
         
         return requestBody;
     }
@@ -46,7 +46,7 @@ public class ABHI_CreateHealthIntent_Inbound_Test {
     public static void testProcessHealthData_Success() {
         Account testAccount = createTestAccount('12345');
         
-        ABHI_CreateHealthIntentRequestWrapper.RequestBody requestBody = createRequestBody('12345');
+        ABHI_CreateHealthIntent_Inbound.RequestBody requestBody = createRequestBody('12345');
         String requestBodyJson = JSON.serialize(requestBody);
         
         Test.startTest();
@@ -64,7 +64,7 @@ public class ABHI_CreateHealthIntent_Inbound_Test {
     @isTest
     public static void testProcessHealthData_MemberNotFound() {
         // Create mock data for the request with non-existing MemberId
-        ABHI_CreateHealthIntentRequestWrapper.RequestBody requestBody = createRequestBody('99999');
+        ABHI_CreateHealthIntent_Inbound.RequestBody requestBody = createRequestBody('99999');
         String requestBodyJson = JSON.serialize(requestBody);
         
         // Mock the RestContext to simulate HTTP request
@@ -86,7 +86,7 @@ public class ABHI_CreateHealthIntent_Inbound_Test {
     public static void testProcessHealthData_DMLException() {
         Account testAccount = createTestAccount('12345');
         
-        ABHI_CreateHealthIntentRequestWrapper.RequestBody requestBody = createRequestBody('12345');
+        ABHI_CreateHealthIntent_Inbound.RequestBody requestBody = createRequestBody('12345');
         String requestBodyJson = JSON.serialize(requestBody);
         
         Test.startTest();

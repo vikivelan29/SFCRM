@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Policy_issuance_Concern__c</fullName>
+    <externalId>false</externalId>
+    <label>Policy issuance Concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Amount Debited but no payment confirmation received</fullName>
+                <default>false</default>
+                <label>Amount Debited but no payment confirmation received</label>
+            </value>
+            <value>
+                <fullName>Amount Debited but Policy not issued</fullName>
+                <default>false</default>
+                <label>Amount Debited but Policy not issued</label>
+            </value>
+            <value>
+                <fullName>Policy Status</fullName>
+                <default>false</default>
+                <label>Policy Status</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

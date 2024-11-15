@@ -8,10 +8,25 @@
 public with sharing class ABHI_CreatePolicy {
     private static Id memberRecordTypeId = Schema.SObjectType.Customer_Member_Mapping__c.getRecordTypeInfosByDeveloperName().get('Customer_Member').getRecordTypeId();
     public ABHI_CreatePolicyWrapper createPolicyWrapper {get; set;}
-	    
+    /*Used for Kavach policy*/
+    public static ABHI_CreatePolicyWrapper createPolicyWrappers {get; set;}
+	   
+    /**
+    * @param req - ABHI_CreatePolicyWrapper
+    * @description - This constructor calls parseObjects
+    */
     public ABHI_CreatePolicy(String req) {
         createPolicyWrapper = (ABHI_CreatePolicyWrapper)JSON.deserialize(req, ABHI_CreatePolicyWrapper.class);
         parseObjects(createPolicyWrapper);
+    }
+    /**
+    * @param req - ABHI_CreatePolicyWrapper
+    * @description - This constructor calls parseObjects for Kavach Policy creation
+    */
+    public static ABHI_CreatePolicyWrapper.ResponseWrapper createPolicy(String req) {
+        createPolicyWrappers = (ABHI_CreatePolicyWrapper)JSON.deserialize(req, ABHI_CreatePolicyWrapper.class);
+        parseObjects(createPolicyWrappers);
+        return new ABHI_CreatePolicyWrapper.ResponseWrapper(createPolicyWrappers.StatusCode, createPolicyWrappers.Message);
     }
    /**
     * @param customerLAN - ABHI_CreatePolicyWrapper
