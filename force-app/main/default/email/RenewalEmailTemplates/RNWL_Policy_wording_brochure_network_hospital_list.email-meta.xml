@@ -6,7 +6,7 @@
     <name>Policy wording-brochure - network hospital list</name>
     <relatedEntityType>Opportunity</relatedEntityType>
     <style>none</style>
-    <subject>Request for {Policy Wordings / Brochure / Network Hospital List for Policy No. {{{Opportunity.Policy_Number__c}}}</subject>
+    <subject>Request for Policy Wordings / Brochure / Network Hospital List for Policy No. {{{Opportunity.Policy_Number__c}}}</subject>
     <type>custom</type>
     <uiType>SFX</uiType>
 </EmailTemplate>

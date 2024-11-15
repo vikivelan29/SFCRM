@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>User_Friendly_Name__c</field>
-        <value xsi:type="xsd:string">NC (Non Contactable)</value>
+        <value xsi:type="xsd:string">Non-Contactable</value>
     </values>
     <values>
         <field>WhatsApp__c</field>

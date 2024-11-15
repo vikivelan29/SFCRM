@@ -23,9 +23,9 @@
                 <label>OPD Claim Intimation</label>
             </value>
             <value>
-                <fullName>Cashless anywhere Claim Initimation</fullName>
+                <fullName>Cashless anywhere Claim Intimation</fullName>
                 <default>false</default>
-                <label>Cashless anywhere Claim Initimation</label>
+                <label>Cashless anywhere Claim Intimation</label>
             </value>
             <value>
                 <fullName>Claim intimation cancellation</fullName>
@@ -267,6 +267,66 @@
                 <default>false</default>
                 <label>Status inquiry</label>
             </value>
+            <value>
+                <fullName>Cashless process</fullName>
+                <default>false</default>
+                <label>Cashless process</label>
+            </value>
+            <value>
+                <fullName>Additional Documents required</fullName>
+                <default>false</default>
+                <label>Additional Documents required</label>
+            </value>
+            <value>
+                <fullName>Approved / Paid deduction inquiry</fullName>
+                <default>false</default>
+                <label>Approved / Paid deduction inquiry</label>
+            </value>
+            <value>
+                <fullName>Claim document return</fullName>
+                <default>false</default>
+                <label>Claim document return</label>
+            </value>
+            <value>
+                <fullName>Fresh claim documents received</fullName>
+                <default>false</default>
+                <label>Fresh claim documents received</label>
+            </value>
+            <value>
+                <fullName>Irrelevant Query ( Manual Mapping)</fullName>
+                <default>false</default>
+                <label>Irrelevant Query ( Manual Mapping)</label>
+            </value>
+            <value>
+                <fullName>Query related inquiry</fullName>
+                <default>false</default>
+                <label>Query related inquiry</label>
+            </value>
+            <value>
+                <fullName>Reconsider /Reopen</fullName>
+                <default>false</default>
+                <label>Reconsider /Reopen</label>
+            </value>
+            <value>
+                <fullName>Reimbursement claim rejection</fullName>
+                <default>false</default>
+                <label>Reimbursement claim rejection</label>
+            </value>
+            <value>
+                <fullName>Reimbursement intimation</fullName>
+                <default>false</default>
+                <label>Reimbursement intimation</label>
+            </value>
+            <value>
+                <fullName>Reimbursement process inquiry</fullName>
+                <default>false</default>
+                <label>Reimbursement process inquiry</label>
+            </value>
+            <value>
+                <fullName>Reimbursement status</fullName>
+                <default>false</default>
+                <label>Reimbursement status</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Reimbursement:OPD claim</controllingFieldValue>
@@ -306,7 +366,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Cashless:Claim process enquiry</controllingFieldValue>
-            <valueName>Cashless anywhere Claim Initimation</valueName>
+            <valueName>Cashless anywhere Claim Intimation</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Cashless:Claim process enquiry</controllingFieldValue>

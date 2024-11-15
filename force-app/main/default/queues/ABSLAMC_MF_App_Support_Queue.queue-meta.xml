@@ -3,11 +3,11 @@
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <name>ABSLAMC MF App Support Queue</name>
     <queueMembers>
-        <users>
-            <user>santanu.halder@salesforce.abcluat</user>
-        </users>
+        <publicGroups>
+            <publicGroup>ABSLAMC_MF_App_Support_G</publicGroup>
+        </publicGroups>
     </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>
-</Queue>
+    </Queue>

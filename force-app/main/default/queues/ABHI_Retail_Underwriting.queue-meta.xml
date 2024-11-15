@@ -7,7 +7,7 @@
             <publicGroup>ABHI_Retail_Underwriting_G</publicGroup>
         </publicGroups>
     </queueMembers>
-    <queueRoutingConfig>ABHI_Routing_Config</queueRoutingConfig>
+    <queueRoutingConfig>ABHI_Routing_Config</queueRoutingConfig> 
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>
