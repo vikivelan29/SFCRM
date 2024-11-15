@@ -83,6 +83,7 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
     
      public void callSprinklerApi(ASF_Integration__c integrtn, String caseId) {
         Case caseRecord = getCaseRec(caseId);
+        String businessUnit = caseRecord.Business_Unit__c;
         String originalLatestNotes = String.isNotBlank(caseLatestNotesMap.get(caseId)) ? caseLatestNotesMap.get(caseId) : ''; 
         List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c 
                                                                 FROM ASF_Case_Integration__c
@@ -104,7 +105,7 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
         caseInt.Status__c = 'Pending';
         insert caseInt;
         if(String.isNotBlank(jsonBody)) {
-            firePlatformEvtForCallout(caseInt, jsonBody);
+            firePlatformEvtForCallout(caseInt, jsonBody,businessUnit);
         }
     }
 /****************************************************************************************************************
@@ -143,10 +144,10 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
     * @Description - This method fires Platform Event to make Callout for Sprinklr-UpdateCase Api.
 *****************************************************************************************************************/ 
     
-    public void firePlatformEvtForCallout(ASF_Case_Integration__c caseInteg, String jsonBody) {
+    public void firePlatformEvtForCallout(ASF_Case_Integration__c caseInteg, String jsonBody, String businessUnit) {
         ASF_Case_Integration__c caseInt = [SELECT Name FROM ASF_Case_Integration__c WHERE Id =:caseInteg.Id];
         Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-        caseIntOut.Business_Unit__c  = ABSLAMC_Constants.ABSLAMCBU;
+        caseIntOut.Business_Unit__c  = businessUnit;
         caseIntOut.ServiceName__c  = null;
         caseIntOut.Case_Integration_ID__c = caseInt.Name;
         caseIntOut.Integration_Name__c  = ABSLAMC_Constants.SPRINKLRINT;

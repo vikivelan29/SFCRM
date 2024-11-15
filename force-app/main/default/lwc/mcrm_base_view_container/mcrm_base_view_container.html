@@ -2,7 +2,7 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 11-06-2024
+  @last modified on  : 11-13-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
@@ -21,7 +21,7 @@
 					</template>
 					<template lwc:if={showPreview}>
 						<lightning-button slot="actions" alternative-text="preview" icon-size="x-small"
-							onclick={handleChangeView} icon-name="utility:preview" class="slds-float_right mcrmButton">
+							onclick={handleChangeView} icon-name="utility:preview" class="slds-float_right mcrmButton"  disabled={disablePreview}>
 						</lightning-button>
 					</template>
 					<template lwc:if={isLoading}>

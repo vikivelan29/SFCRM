@@ -6,6 +6,8 @@ import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
 import LOB_FIELD from "@salesforce/schema/Account.Business_Unit__c";
 import getLegacyData from "@salesforce/apex/MCRM_LegacyViewController.getLegacyData";
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
+import searchMsg from '@salesforce/label/c.MCRM_Legacy_Search';
+import noResults from '@salesforce/label/c.MCRM_Legacy_NoResults';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 const fields = [CLIENT_CODE_FIELD, LOB_FIELD];
@@ -36,10 +38,13 @@ export default class mcrm_legacyCasesView extends LightningElement {
     endDateRequired = false;
     @track requiredDateSelection = false;
     @track initialErrorMsg = 'Please select either Case Number or Policy.'
+    _isSearched=false;
 
     label={
         errorMessage,
-        pageSize
+        pageSize,
+        searchMsg,
+        noResults
     };
     @wire(getRecord, {
         recordId: "$recordId",
@@ -108,7 +113,7 @@ export default class mcrm_legacyCasesView extends LightningElement {
                     endDate: this.endDate, lob: this.lob, msdCaseNumber : this.msdCaseNumber
                 }).then(result => {
                     console.log('Result=>:'+JSON.stringify(result));
-                    debugger;
+                    // debugger;
                     this.leagcyCaseData = result;
                     console.log('Result1 ==> ', result);
                     this.isLoading = false;
@@ -131,6 +136,11 @@ export default class mcrm_legacyCasesView extends LightningElement {
                         this.disabled = false;
                         this.showNotification("Error", this.leagcyCaseData.returnMessage, 'error');
                     }
+                    else{
+                        this.disabled = false;
+                        this.showNotification("Error", this.label.errorMessage, 'error');
+                    }
+                    this._isSearched=true;
                 }).catch(error => {
                     debugger;
                     console.log('error ==> ', error);
@@ -189,6 +199,8 @@ export default class mcrm_legacyCasesView extends LightningElement {
         this.endDate='';
         this.startDateRequired = false;
         this.endDateRequired = false;
+        this._isSearched=false;
+        this.displayTable = false;
     }
 
     callRowAction(event) {
@@ -249,6 +261,14 @@ export default class mcrm_legacyCasesView extends LightningElement {
     handleCaseInput(event){
         this.msdCaseNumber = event.target.value;
         console.log('The msdCaseNumber selected is '+this.msdCaseNumber );
+    }
+
+    get isDisplayTable(){
+        return (this.displayTable && this.data.length>0);
+    }
+
+    get noDataMessage(){
+        return this._isSearched==true?this.label.noResults:this.label.searchMsg;
     }
 
 }

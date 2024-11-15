@@ -2,7 +2,7 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 11-04-2024
+  @last modified on  : 11-15-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
@@ -62,13 +62,16 @@
 				
 			</div>
 
-			<div lwc:if={displayTable}>
+			<div lwc:if={isDisplayTable}>
 				<div class="slds-p-vertical_medium slds-text-heading_medium">
 					Case List
 				</div>
 
 				<c-abfl_-data-table-with-pagination columns={columns} table-data={data} page-size={label.pageSize}
 					onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
+			</div>
+			<div class="slds-align_absolute-center slds-card slds-card_boundary slds-p-around_large" lwc:else>
+				{noDataMessage}
 			</div>
 			<div lwc:if={displayError}>
 				{errorMessage}

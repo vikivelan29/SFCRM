@@ -197,7 +197,16 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
             Email – Call Centre- 15kk_touchpoint
             Phone - Call Centre - 9nu0_touchpoint
          */
-        String appid = ABSLAMC_Constants.LITMUS_APPID_MAP.containsKey(caseRecord.Source__c+caseRecord.Channel__c)?ABSLAMC_Constants.LITMUS_APPID_MAP.get(caseRecord.Source__c+caseRecord.Channel__c):ABSLAMC_Constants.LITMUS_APPID_MAP.get(caseRecord.Source__c);
+
+        List<ABSLAMC_Litmus_AppId_Metadata__mdt> litmusAppIdMdtList = new List<ABSLAMC_Litmus_AppId_Metadata__mdt>();
+
+        litmusAppIdMdtList = [SELECT MasterLabel, Source__c, Channel__c, AppId__c
+                              FROM ABSLAMC_Litmus_AppId_Metadata__mdt
+                              WHERE Source__c =:caseRecord.Source__c
+                              AND Channel__c =:caseRecord.Channel__c];
+
+        String appid = litmusAppIdMdtList.size() > 0 ? litmusAppIdMdtList[0].AppId__c : '';
+        
         litmusApiWrappObj.app_id = appid;
         litmusApiWrappObj.user_phone = userPhne;
         litmusApiWrappObj.user_email = userEml;

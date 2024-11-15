@@ -2750,6 +2750,10 @@
         <object>Opportunity</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabSettings>
+        <tab>Related_Records_View_All</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <recordTypeVisibilities>
         <recordType>Opportunity.HI_Renewals</recordType>
         <visible>true</visible>
