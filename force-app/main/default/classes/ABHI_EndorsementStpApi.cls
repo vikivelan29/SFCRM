@@ -21,12 +21,18 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
         for (Case caseRecord : caseRecords) {
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHI_Constants.ERROR;
-            String errorMessage = 'Please update the mandatory fields first';
             boolean bErrorOccured = false;
+            String errorMessage ='';
             List<ABHI_Endorsement_API__mdt> customMetaList = [SELECT ID, Mandatory_Fields__c FROM ABHI_Endorsement_API__mdt WHERE MasterLabel = :caseRecord.Sub_Type_Text__c LIMIT 1]; 
             system.debug('customMeta---->'+customMetaList); 
-            if(!customMetaList.isEmpty() && caseRecord.Technical_Source__c == 'LWC') {
+            if(!customMetaList.isEmpty() && caseRecord.Technical_Source__c == 'LWC' && caseRecord.AssetId != null ) {
                 String strMandatFields = customMetaList[0].Mandatory_Fields__c ;
+                if(strMandatFields.contains('ABHI_Case_Detail__r.Member__c')){
+                	 errorMessage = 'Please update the Member field and other required fields if any and save';   
+                }
+                else{
+                	 errorMessage = 'Please update the Existing Nominee Name Selection field and other required fields if any and save';     
+                }
                 List<String> mandatoryFields = strMandatFields.split(',');
                 for (String field : mandatoryFields) {
                 field = field.trim(); 
@@ -237,6 +243,8 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
                 EndorsementResponse jsonMap = (EndorsementResponse) JSON.deserialize(caseInteg.Response__c,EndorsementResponse.class);
                 List<sObject> dmlRecords = new List<sObject>();
                 String inWardnumber = jsonMap.Response.InwardNumber;
+                            System.debug('@@@inWardnumber' +inWardnumber);
+
                 if(caseRecord.ABHI_Case_Detail__c != null){
                     ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
                     if(!string.isEmpty(inWardnumber)){

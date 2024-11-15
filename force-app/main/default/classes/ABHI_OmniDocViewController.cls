@@ -3,7 +3,7 @@
 * @Description :
 * @Author : Salesforce
 * @Last Modified By : ChangeMeIn@UserSettingsUnder.SFDoc
-* @Last Modified On : 11-12-2024
+* @Last Modified On : 11-13-2024
 * @Modification Log : updated templateDetails method to handle opp email
 *==============================================================================
 * Ver | Date | Author | Modification
@@ -244,8 +244,8 @@ public without sharing class ABHI_OmniDocViewController{
                         objEmail.setTemplateId(objEmailTemplate.Id);
                         objEmail.setOrgWideEmailAddressId(objOrgWideEmailAddress.Id);
                         if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
-                            objEmail.setSubject(objEmail.getSubject().replace(strAssetId, strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
-                            objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strAssetId, strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                            objEmail.setSubject(objEmail.getSubject().replace(strAssetId.substring(0,15), strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                            objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strAssetId.substring(0,15), strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
                         }else{
                             objEmail.setSubject(objEmail.getSubject().replace(strPlanName, strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
                             objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strPlanName, strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
