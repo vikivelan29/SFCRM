@@ -537,6 +537,16 @@
                 <label>Claim: the policy has been cancelled</label>
             </value>
             <value>
+                <fullName>Cancelled - Not needed anymore</fullName>
+                <default>false</default>
+                <label>Claim: a withdrawal letter is required</label>
+            </value>
+            <value>
+                <fullName>Claim: the policy has been cancelled</fullName>
+                <default>false</default>
+                <label>Claim: the policy has been cancelled</label>
+            </value>
+            <value>
                 <fullName>Incorrect Customer tagging</fullName>
                 <default>false</default>
                 <label>Incorrect Customer tagging</label>
