@@ -86,13 +86,6 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
             continue;
             }
-           if(issueTypeCode == null || issueTypeCode.trim() == ''){
-               keyValueMap.put('Result', 'FAILURE');
-               keyValueMap.put('Message', 'Issue Type Code is required');
-               resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-               resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-               continue;
-           }
            if(source == null || source.trim() == ''){
                keyValueMap.put('Result', 'FAILURE');
                keyValueMap.put('Message', 'Source is required');

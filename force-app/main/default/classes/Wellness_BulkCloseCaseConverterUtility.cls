@@ -149,7 +149,7 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
         if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
             String strWhereClause = ' WHERE ID IN:selectedRecordIds';
-            strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ' + String.escapeSingleQuotes(objectName) + String.escapeSingleQuotes(strWhereClause);
+            strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strWhereClause;
         }
         else if(listViewId != null){
             String strFields = String.join(fieldNames, ',');
@@ -163,7 +163,7 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
             if(listViewQuery.contains('USING SCOPE')){
                 strScope = ' USING SCOPE ' + listViewQuery.substringBetween('SCOPE ',' ') + ' ';
             }
-            strFinalQuery = 'Select '+ String.escapeSingleQuotes(strFields) + ' FROM ' + String.escapeSingleQuotes(objectName) + String.escapeSingleQuotes(strScope) + strWhere;     
+            strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strScope + strWhere ;     
         }
 
         if(String.isNotBlank(strFinalQuery)){
@@ -171,14 +171,12 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
-                String fieldValue = '';
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
-                    if(fieldName.contains('.') && obj.getSobject((fieldName.split('\\.'))[0]) != null){
-                        fieldValue = (String)obj.getSobject(fieldName.split('\\.')[0]).get(fieldName.split('\\.')[1]);
-                    }else if(!fieldName.contains('.')){
-                        fieldValue = (String)obj.get(fieldName);
-                    }
+                    String fieldValue = (String)obj.get(fieldName);
                     fieldValue = fieldValue==null?' ':fieldValue;
+                    if(fieldName == 'CaseNumber'){
+                        //fieldValue = ' '+fieldValue;
+                    }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);
