@@ -56,6 +56,14 @@ export default class Wellness_api_view extends LightningElement {
 		return (this.showPreview==true)?"slds-float_right mcrmButton mcrmRefresh":"slds-float_right mcrmButton";
 	}
 
+	/*
+	renderedCallback(){
+		if(this.isShowDate==false && this.fireApiOnLoad==true && !this.isCollapsed){
+			let payLoad = {'showExtension': this.activeSections.length > 0 };
+			publish(this.messageContext, ViewEvent, {payLoad,'name':this.dynTableAPI,'payLoadType':'showExtension'});
+        }
+	}
+	*/
 
 	@wire (getTableMeta, {configName:'$dynTableAPI'})
 	tableMeta({ error, data }) {

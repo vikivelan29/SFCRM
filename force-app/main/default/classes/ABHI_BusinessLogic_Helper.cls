@@ -29,7 +29,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             List<Case> oldCaseList = new List<Case>(oldMapOfCases.values());
             
             sendSecondStageCommunication(mapOfBUToNewCs.get('ABHI'), oldMapOfCases, triggerContext);
-	    sendRecatCommunicationOnlyWhenAckSent(mapOfBUToNewCs.get('ABHI'), oldMapOfCases, triggerContext);
+            sendRecatCommunicationOnlyWhenAckSent(mapOfBUToNewCs.get('ABHI'), oldMapOfCases, triggerContext);
             skipChecklistValidationForBulkMove(mapOfBUToNewCs.get('ABHI'), triggerContext);
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
@@ -49,13 +49,13 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
         }
     }
-
+    
     /**
     * Jira Story  - PR1030924-500
     * @description - ABHI send Recategorisation communication only when second stage acknowledgement sent
     */
     public void sendRecatCommunicationOnlyWhenAckSent(List<Case> lstSecondStageCommNew,Map<Id, Case> mapSecondStageCommOld, String strTriggerContext){
-        
+
         List<ASF_Case_Category_Config__c> lstCCCRecords = new List<ASF_Case_Category_Config__c>();
         set<Id> setCaseIdsToQuery = new set<Id>();
         List<Case> lstCasesToWorkUpon = new List<Case>();
@@ -63,12 +63,12 @@ public with sharing class ABHI_BusinessLogic_Helper {
         set<String> setCCCExternalIds = new set<String>();
         Map<String, String> mapRecat2EmailTemplateMap = new Map<String, String>();
         Map<String, String> mapRecat2SMSMetadataMap = new Map<String, String>();
-        
+
         List<Case> lstFinalCases = new List<Case>();
         Map<Id, String> mapFinalCaseId2Email = new Map<Id, String>();
         Map<Id, String> mapFinalCaseId2SMS = new Map<Id, String>();
         Map<Id, Boolean> mapFinalCaseId2isTransferred = new Map<Id, Boolean>();
-        
+
         if(!lstSecondStageCommNew.isEmpty() && mapSecondStageCommOld != null && !mapSecondStageCommOld.Values()?.isEmpty()){
             for(Case objCase: lstSecondStageCommNew){
                 if(strTriggerContext == 'AfterASFCodeInAfterUpdate' && objCase.CCC_External_Id__c != mapSecondStageCommOld?.get(objCase.Id)?.CCC_External_Id__c && objCase.Recategorisation_Date__c != mapSecondStageCommOld?.get(objCase.Id)?.Recategorisation_Date__c){
@@ -77,13 +77,13 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 }
             }
         }
-        
+
         lstCasesToWorkUpon = [SELECT Id, ABHI_Case_Detail__c, ABHI_Case_Detail__r.ABHI_isSecondStageAcknowledgementSent__c, 
                               CCC_External_Id__c, Stage__c, Recategorisation_Date__c
                               FROM Case
                               WHERE Id IN: setCaseIdsToQuery
                               WITH SYSTEM_MODE];
-        
+
         lstCCCRecords = [SELECT Id,Resolved_Case_Email_Template__c,Resolved_Case_SMS_Metadata__c,
                          Additional_Email_Templates__c,Additional_SMS_Metadata__c, CCC_External_Id__c,
                          Recategorisation_Email_Template__c, Recategorisation_SMS_Metadata__c,
@@ -91,7 +91,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                          FROM ASF_Case_Category_Config__c 
                          WHERE CCC_External_Id__c IN: setCCCExternalIds
                          WITH SYSTEM_MODE];
-        
+
         if(!lstCCCRecords.isEmpty()){
             for(ASF_Case_Category_Config__c objCCCRec : lstCCCRecords){
                 if(!String.isBlank(objCCCRec.Recategorisation_Email_Template__c))
@@ -100,7 +100,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapRecat2SMSMetadataMap.put(objCCCRec.CCC_External_Id__c, objCCCRec.Recategorisation_SMS_Metadata__c);
             }
         }
-        
+
         if(!lstCasesToWorkUpon.isEmpty()){
             for(Case objCase : lstCasesToWorkUpon){
                 if(objCase.ABHI_Case_Detail__r?.ABHI_isSecondStageAcknowledgementSent__c){
@@ -118,7 +118,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             if(!setCasesToCommunicate.isEmpty())lstFinalCases.addAll(setCasesToCommunicate);
         }
-        
+
         List<Database.SaveResult> lstPlatformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(lstFinalCases, mapFinalCaseId2Email, mapFinalCaseId2SMS, mapFinalCaseId2isTransferred);
     }
     
@@ -234,7 +234,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
         List<Database.SaveResult> lstPlatformEventResult = ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(lstFinalCases, mapFinalCaseId2Email, mapFinalCaseId2SMS, mapFinalCaseId2isTransferred);
         if(!lstABHICaseDetails2Update.isEmpty())UPDATE lstABHICaseDetails2Update;
     }
-
+                                                                                                                
+                                                                         
+    
     /**
     * Jira Story  - PR1030924-406
     * @description - ABHI Skip Checklists for bulk stage movement
@@ -313,11 +315,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -366,11 +364,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }
             
         }catch(Exception e){
-            System.debug('@@@mess' + e.getMessage() + ' ' + e.getLineNumber());
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('abhiCaseValidation Case creation validation');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.emit();
+            logtheException(e);
             throw new AuraHandledException(e.getMessage());
         }        
         return result;
@@ -489,7 +483,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
                         (oldMapOfCases.get(individualCase.Id).ClaimNo_Text__c != individualCase.ClaimNo_Text__c || oldMapOfCases.get(individualCase.Id).Customer_Member_Text__c != individualCase.Customer_Member_Text__c)) {
                     if(individualCase.ClaimNo_Text__c != null) {
                         mapDetailIdClaim.put(individualCase.ABHI_Case_Detail__c, individualCase.ClaimNo_Text__c);
-                        
                     }
                     else if(individualCase.ClaimNo_Text__c == null && oldMapOfCases.get(individualCase.Id).ClaimNo_Text__c != individualCase.ClaimNo_Text__c) {
                         if(!mapCaseDetUpdate.containsKey(caseDetail.Id)) {
@@ -576,15 +569,14 @@ public with sharing class ABHI_BusinessLogic_Helper {
     * @return result - store the result of the case validations
     * @description - Source Based Case creation restriction
     */
-    @SuppressWarnings('PMD.AvoidDeeplyNestedIfStmts')
+    @SuppressWarnings('PMD.AvoidDeeplyNestedIfStmts,PMD.NcssMethodCount')
     @AuraEnabled
     public static String abhiCaseSourceValidation(Case caseRecord) {
 
-        Map<String,ABHI_Create_Case_Validations__mdt> issueCodeToErrorMsgMap = new Map<String,ABHI_Create_Case_Validations__mdt>();
-       // Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
+        Map<String, Map<String, ABHI_Create_Case_Validations__mdt>> issueSourceMap = new Map<String, Map<String, ABHI_Create_Case_Validations__mdt>>();
         String caseBusinessUnit = caseRecord.Business_Unit__c ?? '';
         String caseCCCExtId = caseRecord.CCC_External_Id__c ?? '';
-        String caseSource = caseRecord.Source__c ?? '';
+        String caseSource = caseRecord.Source__c.toLowerCase() ?? '';
         List<String> caseCreationRestrictionLabelList = System.label.ABHI_Case_Restriction_Creation.split(',');
         String userSourceCode = getCurrentUserInfo()?.Source_Code__c;
         String result = 'Success';
@@ -600,23 +592,36 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             //Fetch all metadata values and store it in map
             for (ABHI_Create_Case_Validations__mdt cseValidationMetaRecord : createCaseValidationMetaRecords) {
-                issueCodeToErrorMsgMap.put(cseValidationMetaRecord.Issue_Code__c, cseValidationMetaRecord);
+                String issueCodeMdt = cseValidationMetaRecord?.Issue_Code__c ?? '';
+                String userSourceCodeMdt = cseValidationMetaRecord?.User_Source_Code__c ?? '';
+
+                if (!issueSourceMap.containsKey(issueCodeMdt)) {
+                    issueSourceMap.put(issueCodeMdt, new Map<String, ABHI_Create_Case_Validations__mdt>());
+                }
+                issueSourceMap.get(issueCodeMdt).put(userSourceCodeMdt, cseValidationMetaRecord);
             }
 
             //validate the case record
-            if(caseCCCExtId != null && issueCodeToErrorMsgMap.containsKey(caseCCCExtId)) {    
-                ABHI_Create_Case_Validations__mdt metaDataRec = issueCodeToErrorMsgMap.get(caseCCCExtId);   
+            if(caseCCCExtId != null && issueSourceMap.containsKey(caseCCCExtId)) {    
+                Map<String, ABHI_Create_Case_Validations__mdt> metaDataRecMap = issueSourceMap?.get(caseCCCExtId) ?? new Map<String, ABHI_Create_Case_Validations__mdt>();
+                ABHI_Create_Case_Validations__mdt metaRec = metaDataRecMap?.get(userSourceCode);
+                String validationNameMdt = metaRec?.Validation_Name__c ?? '';
+                List<String> srcMdt = metaRec?.Source__c?.toLowerCase().split(',') ?? new List<String>();
 
+                // PR1030924-669
+                if(metaRec == null) {
+                    result = Label.ABHI_Create_Case_Validation_Error_1;
+                }
                 //PR1030924-703
-                if(metaDataRec.Validation_Name__c == 'Source_Based_Case_Creation_Restriction') {
-                    if(metaDataRec.Source__c != caseSource) {
-                        result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c;
+                if(validationNameMdt == 'Source_Based_Case_Creation_Restriction') {
+                    if(!srcMdt.contains(caseSource)) {
+                        result = metaRec.Error_Message__c;
                     }
                 }
                 // PR1030924-669
-                else if(metaDataRec.Validation_Name__c == 'User_Source_Code_Based_Case_Creation_Restriction') {
-                    if(!metaDataRec.User_Source_Code__c.containsIgnoreCase(userSourceCode)) {
-                        result = issueCodeToErrorMsgMap.get(caseCCCExtId).Error_Message__c; 
+                else if(validationNameMdt == 'User_Source_Code_Based_Case_Creation_Restriction') {
+                    if(metaRec.User_Source_Code__c == userSourceCode && !srcMdt.contains(caseSource)) {
+                        result = metaRec.Error_Message__c; 
                     }
                 }
             }
