@@ -1597,20 +1597,6 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-         <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                <value>Facet-d2a7a993-17e1-4613-b9fc-204d3a10b74f</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>title</name>
-                <value>Social Profile</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:tab</componentName>
-            <identifier>flexipage_tab13</identifier>
-        </componentInstance>
-    </itemInstances>
     <itemInstances>
         <componentInstance>
             <componentInstanceProperties>
