@@ -4072,28 +4072,13 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Concern_claims__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHI_Case_Detail__c.Cancellation_Date__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-     <fieldPermissions>
-          <editable>true</editable>
-        <field>ABHI_Case_Detail__c.New_Contact_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-            <editable>false</editable>
-            <field>Customer_Member_Mapping__c.Member_Status__c</field>
-            <readable>true</readable>
-    </fieldPermissions>
-     <fieldPermissions>
-            <editable>true</editable>
-            <field>ABHI_Case_Detail__c.Reason_for_cancellation__c</field>
-            <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-            <editable>true</editable>
-            <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field>
-            <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHI User PS</label>
@@ -4134,9 +4119,9 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>true</allowCreate>
+        <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>true</allowEdit>
+        <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Cover__c</object>

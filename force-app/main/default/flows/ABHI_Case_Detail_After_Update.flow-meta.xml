@@ -2,6 +2,19 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
     <assignments>
+        <name>Update_Patient_fields</name>
+        <label>Update Patient fields</label>
+        <locationX>578</locationX>
+        <locationY>395</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Member_Id__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Patient_Name__r.MemberExternalId__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>UpdateMemberFields</name>
         <label>UpdateMemberFields</label>
         <locationX>50</locationX>
@@ -62,6 +75,13 @@
                 <elementReference>$Record.Member__r.MemberId__r.PersonEmail</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Member_Id__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberExternalId__c</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <name>UpdateNomineeFields</name>
@@ -93,7 +113,7 @@
     <decisions>
         <name>CheckIfPolicyOrNomineeUpdated</name>
         <label>CheckIfPolicyOrNomineeUpdated</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -139,6 +159,28 @@
                 <targetReference>UpdateNomineeFields</targetReference>
             </connector>
             <label>NomineeIsUpdated</label>
+        </rules>
+        <rules>
+            <name>PatientIsUpdated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Patient_Name__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Patient_Name__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Patient_Name__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Patient_fields</targetReference>
+            </connector>
+            <label>PatientIsUpdated</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -191,7 +233,7 @@
         </outputAssignments>
     </recordLookups>
     <start>
-        <locationX>188</locationX>
+        <locationX>320</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>CheckIfPolicyOrNomineeUpdated</targetReference>
