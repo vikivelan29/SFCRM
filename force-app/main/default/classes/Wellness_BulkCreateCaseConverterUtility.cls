@@ -5,11 +5,12 @@
  * @last modified on  : 11-15-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
+@SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessiveParameterList, PMD.NcssMethodCount')
 public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
     /**
     * @description This method is called from the ASF_BulkCaseProcessorUtility while performing bulk create via csv upload
     * @param jsonRows
-    * @param allOutputs - outputWrapper with updated values
+    * @return ASF_BulkCaseProcessorUtility.ConvertionResult
     */
    public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
        //Each row will be
@@ -85,13 +86,6 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
             continue;
             }
-           if(issueTypeCode == null || issueTypeCode.trim() == ''){
-               keyValueMap.put('Result', 'FAILURE');
-               keyValueMap.put('Message', 'Issue Type Code is required');
-               resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-               resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-               continue;
-           }
            if(source == null || source.trim() == ''){
                keyValueMap.put('Result', 'FAILURE');
                keyValueMap.put('Message', 'Source is required');
@@ -150,8 +144,11 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
    /**
     * @description This method is called from the ASF_BulkCsvController while performing bulk download of records
     * for create operation
-    * @param jsonRows
-    * @param allOutputs - outputMap with key as field and value as the record value
+    * @param columnNames
+    * @param objectName
+    * @param listViewId
+    * @param selectedRecordIds
+    * @return List<Map<String,String>>
     */
    public List<Map<String,String>> prepareDownloadTemplate(List<String> columnNames, String objectName, Id listViewId, List<String> selectedRecordIds){
        List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
@@ -187,7 +184,6 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
        else if(listViewId != null){
            String strFields = String.join(fieldNames, ',');
            String listViewQuery = ASF_BulkCsvDownloadHelper.getListViewSOQL(objectName, listViewId);
-           System.debug('listViewQuery'+listViewQuery);
            String strWhere = '';
            if(listViewQuery.contains('WHERE')){
                strWhere = ' WHERE '+listViewQuery.substringAfter('WHERE');
@@ -202,7 +198,6 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
 
        if(String.isNotBlank(strFinalQuery)){
            strFinalQuery = strFinalQuery + ' LIMIT 50000';
-           System.debug('strFinalQuery'+strFinalQuery);
            List<SObject> recordsList = Database.query(strFinalQuery);
            for(SObject obj : recordsList){
                Map<String,String> fieldMap = new Map<String,String>();
@@ -221,8 +216,9 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
    /**
     * @description This method is called from the ASF_BulkCsvController while performing bulk download of ctst data
     * for create operation
-    * @param jsonRows
-    * @param allOutputs - outputMap with key as field and value as the record value
+    * @param columnNames
+    * @param businessUnit
+    * @return List<Map<String,String>>
     */
    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
        List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();

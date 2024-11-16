@@ -2,15 +2,21 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 11-04-2024
+ * @last modified on  : 11-13-2024
  * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   10-25-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-@SuppressWarnings('PMD.ApexSOQLInjection')
-
+@SuppressWarnings('PMD.ApexSOQLInjection, PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessiveParameterList, PMD.NcssMethodCount')
 public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
+    /****************************************************************************************************************
+    * @LOB - Wellness
+    * @Function - convertJSONRows
+    * @param jsonRows
+    * @return - ASF_BulkCaseProcessorUtility.ConvertionResult
+    * @description - Invoked from the Mcrm_getPolicyDetails Lwc components to send asset policy details.
+    */
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
         //{'Case number':'00005150','Resolution Comment':'', 'Description':'Unresolved'}
@@ -33,7 +39,7 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers]){
+        for(Case caseRec : [SELECT Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId FROM Case WHERE CaseNumber IN :caseNumbers WITH SECURITY_ENFORCED]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
 
@@ -98,7 +104,6 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
             WellnessCaseDetail__c caseDetRec = new WellnessCaseDetail__c();
             caseDetRec.Resolution_Comments__c = resolutionComments;
             caseDetRec.Resolution_Reason__c = resolutionReason;
-            // ABSLI_BulkCloseCaseConverterUtility.requestFromBulkClose = true;
             caseRec.Bulk_CaseDetail_JSON__c = JSON.serialize(caseDetRec);
             
             //Any other BU specific checks - add here
@@ -109,18 +114,28 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
         return resultWrapper;
     }
 
+    /****************************************************************************************************************
+    * @LOB - Wellness
+    * @Function - prepareDownloadTemplate
+    * @param columnNames - List of Column Names
+    * @param objectName - Object Name
+    * @param listViewId - List View Id
+    * @param selectedRecordIds - List of Selected Record Ids
+    * @return - List<Map<String,String>>    
+    * @description - Method to prepare Download Template
+    */
     public List<Map<String,String>> prepareDownloadTemplate(List<String> columnNames, String objectName, Id listViewId, List<String> selectedRecordIds){
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'CaseNumber'=>'Case number',
             'Resolution_Comments__c'=>'Resolution Comments',
-            'Resolution_Reason__c'=>'Resolution Reason',
+            'WellnessCaseDetail__r.Resolution_Reason__c'=>'Resolution Reason',
             'Description'=>'Description'
         };
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'Case number'=>'CaseNumber',
             'Resolution Comments'=>'Resolution_Comments__c',
-            'Resolution Reason'=>'Resolution_Reason__c',
+            'Resolution Reason'=>'WellnessCaseDetail__r.Resolution_Reason__c',
             'Description'=>'Description'
         };
         List<String> fieldNames = new List<String>();
@@ -139,7 +154,6 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
         else if(listViewId != null){
             String strFields = String.join(fieldNames, ',');
             String listViewQuery = ASF_BulkCsvDownloadHelper.getListViewSOQL(objectName, listViewId);
-            System.debug('listViewQuery'+listViewQuery);
             String strWhere = '';
             if(listViewQuery.contains('WHERE')){
                 strWhere = ' WHERE '+listViewQuery.substringAfter('WHERE');
@@ -154,7 +168,6 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
 
         if(String.isNotBlank(strFinalQuery)){
             strFinalQuery = strFinalQuery + ' LIMIT 50000';
-            System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
@@ -168,10 +181,18 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
                 }
                 listOfRecordsAsMap.add(fieldMap);
             }
-        }
+        } 
 
         return listOfRecordsAsMap;
     }
+    /****************************************************************************************************************
+    * @LOB - Wellness
+    * @Function - prepareCtstData
+    * @param columnNames - List of Column Names
+    * @param businessUnit - BU Name
+    * @return - List<Map<String,String>>    
+    * @description - Method to prepare download template
+    */
     public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
         return new List<Map<String,String>>();
     }

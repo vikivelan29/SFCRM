@@ -8,20 +8,33 @@
 * Ver   Date         Author                       Modification
 * 1.0   08-07-2024   rsinghnagar@salesforce.com   Initial Version
 **/
+@SuppressWarnings('PMD.CyclomaticComplexity, PMD.CognitiveComplexity, PMD.StdCyclomaticComplexity, PMD.ExcessiveParameterList, PMD.NcssMethodCount, PMD.FieldNamingConventions')
 public with sharing class MCRM_LegacyViewController {
+    /****************************************************************************************************************
+    * @LOB - Wellness
+    * @Function - getRelatedContracts
+    * @param accountId
+    * @return - List<ContractName>
+    * @description - Invoked from the Mcrm_getPolicyDetails Lwc components to send asset policy details.
+    */
     @AuraEnabled(cacheable = true)
     public static List<ContractName> getRelatedContracts(Id accountId){
-        List<ContractName> contractList = new List<ContractName>();
-        for(Asset ast : [select id,Business_Unit__c, ContractId__c, Account.Client_Code__c FROM
-                         Asset WHERE AccountId = :accountId AND Business_Unit__c= :System.Label.Wellness_BU
-                         WITH SECURITY_ENFORCED])
-        {
-            ContractName contractRec = new ContractName();
-            contractRec.label = ast.ContractId__c;
-            contractRec.value = ast.ContractId__c;
-            contractList.add(contractRec);
+        try {
+            List<ContractName> contractList = new List<ContractName>();
+            for(Asset ast : [select id,Business_Unit__c, ContractId__c, Account.Client_Code__c FROM
+                            Asset WHERE AccountId = :accountId AND Business_Unit__c= :System.Label.Wellness_BU
+                            WITH SECURITY_ENFORCED])
+            {
+                ContractName contractRec = new ContractName();
+                contractRec.label = ast.ContractId__c;
+                contractRec.value = ast.ContractId__c;
+                contractList.add(contractRec);
+            }
+            return contractList;
+        } catch (Exception ex) {
+            ABCL_Logger.logException('MCRM_LegacyViewController.getRelatedContracts',ex.getMessage());
+            throw new AuraHandledException('Error : '+ex.getMessage()+' '+ex.getLineNumber());
         }
-        return contractList;
     }
     
     /*********************************************************
@@ -34,16 +47,19 @@ public with sharing class MCRM_LegacyViewController {
         @AuraEnabled public String label;
         @AuraEnabled public String value;
     }
-    /* @LOB - ABFL
-* @Function - getLegacyData
-* @param customerId
-* @param lanNumber
-* @param startDate
-* @param endDate
-* @param lob
-* @return  ResponseWrapper 
-* @description  This method will get legacy date and display in SF
-*****************************************************************************************************************/
+
+    /****************************************************************************************************************
+    * @LOB - Wellness
+    * @Function - getLegacyData
+    * @param customerId
+    * @param lanNumber
+    * @param startDate
+    * @param endDate
+    * @param lob
+    * @param msdCaseNumber
+    * @return - ResponseWrapper
+    * @description - This method will get legacy date and display in SF
+    */
     @AuraEnabled
     public static ResponseWrapper getLegacyData(String customerId, 
                                                 String lanNumber, 
@@ -58,7 +74,7 @@ public with sharing class MCRM_LegacyViewController {
             startDate = startDate != null?startDate:'';
             endDate = endDate != null?endDate:'';
             String conPayload =  JSON.serialize(new LegacyViewRequest(customerId, lanNumber, startDate, endDate, 'ABHMW',msdCaseNumber));
-            System.debug('conPayload --> '+conPayload);
+
             ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
             
             if(legacyCaseResponse.statusCode == 200 && String.isNotBlank(legacyCaseResponse.responseBody)) {
@@ -79,8 +95,9 @@ public with sharing class MCRM_LegacyViewController {
                 response.returnMessage = Label.ASF_Error_Case_Merge ;
             }
             return response;
-        }catch(exception e){
-            throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
+        }catch(exception ex){
+            ABCL_Logger.logException('MCRM_LegacyViewController.getLegacyData',ex.getMessage());
+            throw new AuraHandledException('Error : '+ex.getMessage()+' '+ex.getLineNumber());
         }
     }
     /*********************************************************
@@ -118,10 +135,20 @@ public with sharing class MCRM_LegacyViewController {
         //Will be used only in case of failure
         @AuraEnabled public String response;
         @AuraEnabled public List<LegacyCaseResponseWrapper> legacyCaseResponse;
+        /****************************************************************************************************************
+        * @description Custom constructor of ResponseWrapper class
+        * @param statusCode
+        * @param legacyCaseResponse
+        *****************************************************************************************************************/
         public ResponseWrapper(Integer statusCode, List<LegacyCaseResponseWrapper> legacyCaseResponse){
             this.statusCode = statusCode;
             this.legacyCaseResponse = legacyCaseResponse;
         }
+        /****************************************************************************************************************
+        * @description Custom constructor of ResponseWrapper class
+        * @param statusCode
+        * @param response
+        *****************************************************************************************************************/
         public ResponseWrapper(Integer statusCode, String response){
             this.statusCode = statusCode;
             this.response = response;
@@ -133,7 +160,7 @@ public with sharing class MCRM_LegacyViewController {
 * @Created Date    11/02/2024
 * @Last Modified   11/02/2024
 * @description     LegacyCaseResponseWrapper */
-    public class LegacyCaseResponseWrapper{
+    public class LegacyCaseResponseWrapper{ // NOPMD
         @AuraEnabled public String CaseNumber;
         @AuraEnabled public String CustomerType;
         @AuraEnabled public String CustomerID;
