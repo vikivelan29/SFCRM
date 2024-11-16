@@ -23,7 +23,7 @@ public with sharing class MCRM_SuppressEmailHelper {
             ASF_CustomerEmailInvocable.EmailOutputWrapper output = new ASF_CustomerEmailInvocable.EmailOutputWrapper();
             output.supressEmail = System.Label.MCRMSupressCTSTs.contains(String.valueOf(inp.cccRecord.get('CCC_External_Id__c')));
             output.templateName = inp.templateName;
-            //output.smsTemplateName = inp.smsTemplateName;
+            output.smsTemplateName = inp.smsTemplateName;
             allOutputs.put(inp.caseId,output);
         }
     }
