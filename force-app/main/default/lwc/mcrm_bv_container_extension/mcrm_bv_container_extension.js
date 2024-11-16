@@ -133,7 +133,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		if (this.dynTableExAPI == 'MCRM_ActiveDays' && message.name == 'MCRM_ActiveDayURL') {
 			this.isLoading = true;
 			if(message.payLoadType == 'showExtension'){
-				this.isShowExtension = message.payLoad.showExtension;
+				this.isShowExtension = (this.tableData && this.tableData.length > 0)?message.payLoad.showExtension:false;
 			}else if(message.payLoadType == 'clear'){
 				this.clearExtenstion();
 			}else{
@@ -146,7 +146,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		} else if (this.dynTableExAPI == 'MCRM_GymNameLocation' && message.name == 'MCRM_Gym_Voucher') {
 			this.isLoading = true;
 			if(message.payLoadType == 'showExtension'){
-				this.isShowExtension = message.payLoad.showExtension;
+				this.isShowExtension = (this.tableData && this.tableData.length > 0)?message.payLoad.showExtension:false;
 			}else if(message.payLoadType == 'clear'){
 				this.clearExtenstion();
 			}else{
@@ -159,7 +159,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		} else if (this.dynTableExAPI == 'MCRM_Rewards' && message.name == 'MCRM_Benefits'){
 			this.isLoading = true;
 			if(message.payLoadType == 'showExtension'){
-				this.isShowExtension = message.payLoad.showExtension;
+				this.isShowExtension = (this.tableData && this.tableData.length > 0)?message.payLoad.showExtension:false;
 			}else if(message.payLoadType == 'clear'){
 				this.clearExtenstion();
 			}else{

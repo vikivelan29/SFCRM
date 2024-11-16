@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 11-01-2024
+ * @last modified on  : 11-15-2024
  * @last modified by  : rsinghnagar@salesforce.com
 **/
 public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
@@ -21,6 +21,7 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
        resultWrapper.resultRecords = new Map<Id, SObject>();
 
        Set<String> lans = new Set<String>();
+       Set<String> clientIds = new Set<String>();
        Set<String> cccExtIds = new Set<String>();
        Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
        for(Id lineItemId : jsonRows.keySet()){
@@ -29,6 +30,9 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
            if(String.isNotBlank(keyValueMap.get('Contract Number'))){
                lans.add(keyValueMap.get('Contract Number').trim());
            }
+           if(String.isNotBlank(keyValueMap.get('Member Id/Customer Number'))){
+                clientIds.add(keyValueMap.get('Member Id/Customer Number').trim());
+            }
            if(String.isNotBlank(keyValueMap.get('Issue Type Code'))){
                cccExtIds.add(keyValueMap.get('Issue Type Code').trim());
            }
@@ -46,28 +50,44 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
        Set<String> extIdFoundSet = new Set<String>();
        for(ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c, Allowed_Issue_Types__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccExtIds WITH SYSTEM_MODE]){
            extIdFoundSet.add(config.CCC_External_Id__c);
-        //    if(String.isNotBlank(config.Allowed_Issue_Types__c)){
-        //        cccIdToIssueTypeMap.put(config.CCC_External_Id__c, config.Allowed_Issue_Types__c.split(';'));
-        //    }
+       }
+
+       Set<String> clientIdsFoundSet = new Set<String>();
+       for(Account acc : [SELECT Id, Client_Code__c  FROM Account WHERE Client_Code__c IN :clientIds WITH SYSTEM_MODE]){
+        clientIdsFoundSet.add(acc.Client_Code__c);
        }
 
        for(Id lineItemId : rows.keySet()){
            Map<String, String> keyValueMap = rows.get(lineItemId);
            String issueTypeCode = keyValueMap.get('Issue Type Code').trim();
            String lan = keyValueMap.get('Contract Number').trim();
+           String clientId = keyValueMap.get('Member Id/Customer Number').trim();
            String source = String.isNotBlank(keyValueMap.get('Source'))?keyValueMap.get('Source').trim():keyValueMap.get('Source');
-        //    String issueType = String.isNotBlank(keyValueMap.get('Issue Type Dropdown'))?keyValueMap.get('Issue Type Dropdown').trim():keyValueMap.get('Issue Type Dropdown');
            String description = String.isNotBlank(keyValueMap.get('Description'))?keyValueMap.get('Description').trim():keyValueMap.get('Description');
-           if(issueTypeCode == null || issueTypeCode.trim() == ''){
+           if(lan == null || lan.trim() == ''){
                keyValueMap.put('Result', 'FAILURE');
-               keyValueMap.put('Message', 'Issue Type Code is required');
+               keyValueMap.put('Message', 'Contract Number is required');
                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                continue;
            }
-           if(lan == null || lan.trim() == ''){
+           if(clientId == null || clientId.trim() == ''){
                keyValueMap.put('Result', 'FAILURE');
-               keyValueMap.put('Message', 'Contract Number is required');
+               keyValueMap.put('Message', 'Member Id/Customer Number is required');
+               resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+               resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+               continue;
+           }
+           if(issueTypeCode == null || issueTypeCode.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Issue Type Code is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+            continue;
+            }
+           if(issueTypeCode == null || issueTypeCode.trim() == ''){
+               keyValueMap.put('Result', 'FAILURE');
+               keyValueMap.put('Message', 'Issue Type Code is required');
                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                continue;
@@ -78,45 +98,31 @@ public with sharing class Wellness_BulkCreateCaseConverterUtility implements ASF
                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                continue;
-           }
-           if(description == null || description.trim() == ''){
-               keyValueMap.put('Result', 'FAILURE');
-               keyValueMap.put('Message', 'Description is required');
-               resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-               resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-               continue;
-           }
-           if(!extIdFoundSet.contains(issueTypeCode)){
-               keyValueMap.put('Result', 'FAILURE');
-               keyValueMap.put('Message', 'Issue Type Code is not valid');
-               resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-               resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-               continue;
-           }
-        //    if(cccIdToIssueTypeMap.containsKey(issueTypeCode)){
-        //        keyValueMap.put('Result', 'FAILURE');
-        //        keyValueMap.put('Message', 'Issue Type Dropdown is required for selected Issue Type Code');
-        //        resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-        //        resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-        //        continue;
-        //    }
-        //    if(cccIdToIssueTypeMap.containsKey(issueTypeCode)){
-        //        keyValueMap.put('Result', 'FAILURE');
-        //        keyValueMap.put('Message', 'Issue Type Dropdown is not valid for selected Issue Type Code');
-        //        resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-        //        resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-        //        continue;
-        //    }
-        //    if(!cccIdToIssueTypeMap.containsKey(issueTypeCode)){
-        //        keyValueMap.put('Result', 'FAILURE');
-        //        keyValueMap.put('Message', 'Selected Issue Type Code does not have an Issue Type');
-        //        resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-        //        resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-        //        continue;
-        //    }
+            }
+            if(description == null || description.trim() == ''){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Description is required');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(!extIdFoundSet.contains(issueTypeCode)){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Issue Type Code is not valid');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            if(!clientIdsFoundSet.contains(clientId)){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Member Id/Customer Number is not valid');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
            if(!lanToAccountIdMap.containsKey(lan)){
                keyValueMap.put('Result', 'FAILURE');
-               keyValueMap.put('Message', 'Contract Number is not found');
+               keyValueMap.put('Message', 'Contract Number is not valid');
                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                continue;
