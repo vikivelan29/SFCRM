@@ -5,7 +5,7 @@
     <displayType>massActionButton</displayType>
     <encodingKey>UTF-8</encodingKey>
     <linkType>url</linkType>
-    <masterLabel>List View Bulk Team Assignment</masterLabel>
+    <masterLabel>List View Assign Owner</masterLabel>
     <openType>replace</openType>
     <protected>false</protected>
     <requireRowSelection>true</requireRowSelection>
