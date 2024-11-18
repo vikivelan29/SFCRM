@@ -46,8 +46,13 @@ public without sharing class RNWL_UbonaIntegrationController {
             intPE.Business_Unit__c = 'ABHI-RNWL';
             intPE.ObjectApiName__c = 'Opportunity';
             intPE.Record_Id__c = opp.Id;
-            intPE.Request__c = formJSONBody(opp, policyIdToAssetMap.get(opp.Policy__c), accMap.get(opp.AccountId));
-            system.debug('*******' + intPE.Request__c);
+            
+            if(policyIdToAssetMap.size() > 0 && policyIdToAssetMap.containsKey(opp.Policy__c) && 
+               accMap.size() > 0 && accMap.containsKey(opp.AccountId)){
+               	   intPE.Request__c = formJSONBody(opp, policyIdToAssetMap.get(opp.Policy__c), accMap.get(opp.AccountId)); 
+                   system.debug('*******' + intPE.Request__c);
+            }
+            
             intPE.ServiceName__c = 'UbonaScheduleCallServiceRenewal';
             outboundIntPEList.add(intPE);
         }
