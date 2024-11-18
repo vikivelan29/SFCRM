@@ -712,6 +712,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Claim%3A a withdrawal letter is required</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Claim%3A an acknowledgment receipt is needed</fullName>
             <default>false</default>
         </values>
@@ -733,6 +737,10 @@
         </values>
         <values>
             <fullName>Claim%3A the documents cannot be traced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A the policy has been cancelled</fullName>
             <default>false</default>
         </values>
         <values>
