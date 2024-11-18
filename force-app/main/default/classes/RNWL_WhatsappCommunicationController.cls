@@ -19,7 +19,6 @@ public with sharing class RNWL_WhatsappCommunicationController {
             if(integrationResponse.StatusCode == 200){
                 ReportResponseWrapper resp = (ReportResponseWrapper) JSON.deserialize(integrationResponse.responseBody, ReportResponseWrapper.class);
                 resp.StatusCode = integrationResponse.StatusCode;
-                system.debug('Response--'+resp);
                 return resp;
             }
             else{
