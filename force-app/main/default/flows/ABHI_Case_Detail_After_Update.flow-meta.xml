@@ -15,6 +15,19 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <name>UpdateCaseDetailStatus</name>
+        <label>UpdateCaseDetailStatus</label>
+        <locationX>842</locationX>
+        <locationY>395</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Claim_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Claim__r.Claim_Status__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>UpdateMemberFields</name>
         <label>UpdateMemberFields</label>
         <locationX>50</locationX>
@@ -113,7 +126,7 @@
     <decisions>
         <name>CheckIfPolicyOrNomineeUpdated</name>
         <label>CheckIfPolicyOrNomineeUpdated</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -182,7 +195,30 @@
             </connector>
             <label>PatientIsUpdated</label>
         </rules>
+        <rules>
+            <name>Status_Updated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Claim__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Claim__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Claim__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateCaseDetailStatus</targetReference>
+            </connector>
+            <label>Status Updated</label>
+        </rules>
     </decisions>
+    <description>ABHI Case Detail Status update</description>
     <environments>Default</environments>
     <interviewLabel>ABHI Case Detail After Update {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABHI Case Detail After Update</label>
@@ -233,7 +269,7 @@
         </outputAssignments>
     </recordLookups>
     <start>
-        <locationX>320</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>CheckIfPolicyOrNomineeUpdated</targetReference>
