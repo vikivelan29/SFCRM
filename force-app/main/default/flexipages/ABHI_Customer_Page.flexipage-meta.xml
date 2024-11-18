@@ -99,7 +99,7 @@
                             <value>Member_Name__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Sum_Insured__c</value>
+                            <value>SumInsured__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Policy_number_Formula__c</value>
@@ -171,13 +171,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>ABHI Partner Base Profile</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-6e8fd545-64d0-4877-b28c-0983864f2491</name>
@@ -259,8 +252,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PAN__c</fieldItem>
-                <identifier>RecordPAN_cField</identifier>
+                <fieldItem>Record.PAN_Number__c</fieldItem>
+                <identifier>RecordPAN_Number_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -471,7 +464,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABHI_Country__c</fieldItem>
+                <fieldItem>Record.Country__c</fieldItem>
                 <identifier>RecordCountry_cField2</identifier>
             </fieldInstance>
         </itemInstances>
@@ -1306,7 +1299,7 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Member__c</value>
+                            <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Category__c</value>
@@ -1373,11 +1366,44 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>abamc_getSprinklrSocialMediaProfile</componentName>
+                <identifier>c_abamc_getSprinklrSocialMediaProfile</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d2a7a993-17e1-4613-b9fc-204d3a10b74f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>apiName</name>
+                    <value>ABHI_LegacyViewModal_LEGACY_CASE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>dtTableconfigName</name>
+                    <value>ABHI_LegacyCaseView</value>
+                </componentInstanceProperties>
+                <componentName>aBHI_LegacyCases</componentName>
+                <identifier>c_aBHI_LegacyCases</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-aedb996a-3de9-46db-b751-9149d2cc6cae</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Business_Unit__c|EQUALS|[&quot;ABHI&quot;]</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
@@ -1575,6 +1601,34 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-d2a7a993-17e1-4613-b9fc-204d3a10b74f</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Social Profile</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab13</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-aedb996a-3de9-46db-b751-9149d2cc6cae</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Legacy cases</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab12</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-68f568c5-e64a-420a-bada-3e18667f7cc4</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1628,6 +1682,5 @@
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
-    
     <type>RecordPage</type>
 </FlexiPage>

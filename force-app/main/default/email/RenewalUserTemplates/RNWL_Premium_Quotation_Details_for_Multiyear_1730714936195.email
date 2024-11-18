@@ -55,12 +55,10 @@ In reference to our last telephonic conversation, we are glad that you have take
 <ul>
 	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Many a times because of our busy schedules, we forget to renew our policy in time &amp; coverage stops.&nbsp; However, by purchasing a multi-year policy, your insurance coverage will continue non-stop for a period of 2/3 years.</span></span></span></span></span></span></li>
 	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">You will be eligible for tax benefit under section 80 D for each year on the applicable renewal premium for that year.</span></span></span></span></span></span></li>
-</ul>
-
-<ul>
 	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">If the government increases taxes in between, it shall not affect your premium for the next 2/3 years, since you have already paid for the next 2/3 years.</span></span></span></span></span></span></li>
 </ul>
-Payment Link:&nbsp;{{{Opportunity.Payment_Link__c}}}<br />
+Payment Link:<br />
+<a href="{{{Opportunity.Payment_Link__c}}}">{{{Opportunity.Payment_Link__c}}}</a><br />
 <br />
 In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at&nbsp;care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App – a one stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 882800035.<br />
 We wish you the best of health at all times!<br />

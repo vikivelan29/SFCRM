@@ -352,18 +352,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.OwnerId</fieldItem>
-                <identifier>RecordOwnerIdField</identifier>
+                <fieldItem>Record.Issue_Date__c</fieldItem>
+                <identifier>RecordIssue_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Issue_Date__c</fieldItem>
-                <identifier>RecordIssue_Date_cField</identifier>
+                <fieldItem>Record.CreatedById</fieldItem>
+                <identifier>RecordCreatedByIdField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-cb21f20b-fab4-4a85-a329-94a7d93edac2</name>
@@ -845,7 +845,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
@@ -933,7 +933,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
@@ -1016,7 +1016,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
