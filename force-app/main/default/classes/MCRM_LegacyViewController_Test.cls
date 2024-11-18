@@ -92,7 +92,7 @@ public class MCRM_LegacyViewController_Test {
 	@isTest static void testgetLegacyData() {
         // Set mock callout class 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.ABSLI_LegacyMockResponseGenerator());
+        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.MCRM_LegacyMockResponseGenerator());
 
         MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('277956','','','','ABFL','');
         Test.stopTest();
@@ -103,7 +103,7 @@ public class MCRM_LegacyViewController_Test {
     @isTest static void testgetLegacyFailureData() {
         // Set mock callout class 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.ABSLI_LegacyMockFailureResponseGenerator());
+        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.MCRM_LegacyMockFailureResponseGenerator());
         MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('27795','','','','ABFL','');
         Test.stopTest();
         System.assertEquals(404,res.statusCode, 'statusCode');
@@ -112,7 +112,7 @@ public class MCRM_LegacyViewController_Test {
     /**
     * @description  Mocking success response
     */ 
-    public class ABSLI_LegacyMockResponseGenerator implements HttpCalloutMock {
+    public class MCRM_LegacyMockResponseGenerator implements HttpCalloutMock {
         /**
             * @description  Mocking success response
             * @param req
@@ -130,7 +130,7 @@ public class MCRM_LegacyViewController_Test {
     /**
     * @description Mocking failure response
     */ 
-    public class ABSLI_LegacyMockFailureResponseGenerator implements HttpCalloutMock {
+    public class MCRM_LegacyMockFailureResponseGenerator implements HttpCalloutMock {
         /**
             * @description  Mocking failure response
             * @param req
