@@ -22,6 +22,12 @@
         <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
+        <field>Case$ABHI_Case_Detail__c.Concern__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Resolution_Comments__c</field>
+    </columns>
+    <columns>
         <field>Case$ClosedDate</field>
     </columns>
     <columns>
