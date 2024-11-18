@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABML_Details_Account</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ABML_Code__c</columns>
+    <columns>ACCOUNT.PHONE1</columns>
+    <columns>ABML_Email__c</columns>
+    <columns>ABML_SEBI_No__c</columns>
+    <columns>ABML_Cluster_Manager_Name__c</columns>
+    <columns>ABML_Regional_Head_Name__c</columns>
+    <columns>ACCOUNT.URL</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABML</value>
+    </filters>
+    <filters>
+        <field>ABML_Contact_Type__c</field>
+        <operation>equals</operation>
+        <value>Franchisee</value>
+    </filters>
+    <label>ABML Franchisee Account</label>
+</ListView>
