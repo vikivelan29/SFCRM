@@ -41,6 +41,19 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <name>UpdateCaseDetailStatus</name>
+        <label>UpdateCaseDetailStatus</label>
+        <locationX>842</locationX>
+        <locationY>395</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Claim_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Claim__r.Claim_Status__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>UpdateMemberFields</name>
         <label>UpdateMemberFields</label>
         <locationX>50</locationX>
@@ -188,7 +201,7 @@
     <decisions>
         <name>CheckIfPolicyOrNomineeUpdated</name>
         <label>CheckIfPolicyOrNomineeUpdated</label>
-        <locationX>710</locationX>
+        <locationX>578</locationX>
         <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -279,28 +292,6 @@
             </connector>
             <label>Status Updated</label>
         </rules>
-        <rules>
-            <name>MemberCodeUpdate</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Member__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Member__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>$Record__Prior.Member__c</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>UpdateMemberCode</targetReference>
-            </connector>
-            <label>MemberCodeUpdate</label>
-        </rules>
     </decisions>
     <description>ABHI Case Detail Status update</description>
     <environments>Default</environments>
@@ -353,7 +344,7 @@
         </outputAssignments>
     </recordLookups>
     <start>
-        <locationX>584</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>CheckIfPolicyOrNomineeUpdated</targetReference>
