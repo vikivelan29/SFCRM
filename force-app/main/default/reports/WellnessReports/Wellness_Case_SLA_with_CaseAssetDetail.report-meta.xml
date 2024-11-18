@@ -13,7 +13,7 @@
         <field>ASF_Case_SLA_History__c$Case__c.Asset.BranchText__c</field>
     </columns>
     <columns>
-        <field>ASF_Case_SLA_History__c$Case__c.Type</field>
+        <field>ASF_Case_SLA_History__c$Case__c.Type_Text__c</field>
     </columns>
     <columns>
         <field>ASF_Case_SLA_History__c$Case__c.Subject</field>
