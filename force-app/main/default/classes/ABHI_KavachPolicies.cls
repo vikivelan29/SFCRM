@@ -24,7 +24,7 @@ public without sharing class ABHI_KavachPolicies {
            System.debug('@@@kavach1'+policyNo);
            for(Asset policyData : [SELECT ID,LAN__c,Account.Name, Account.Client_Code__c, Account.Phone,Account.PersonMobilePhone,
                                   Account.PersonEmail, Account.Office_Email__c, Account.IsPersonAccount,MasterPolicyNumber__r.LAN__c 
-                                  FROM Asset WHERE LAN__c != null AND (LAN__c = :policyNo OR  LAN__c = :masterPolicyNo)])
+                                  FROM Asset WHERE LAN__c != null AND (LAN__c = :policyNo OR  LAN__c = :masterPolicyNo)]) {
                                       kavach = new KavachResponseWrapper(policyData);
                                               System.debug('@@@kavach'+kavach);
 
