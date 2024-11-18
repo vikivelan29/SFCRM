@@ -26,9 +26,6 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <field>DEPARTMENT</field>
-    </columns>
-    <columns>
         <field>Case.Type_Text__c</field>
     </columns>
     <columns>
@@ -36,6 +33,21 @@
     </columns>
     <columns>
         <field>Account.ABML_Contact_Type__c</field>
+    </columns>
+    <columns>
+        <field>DESCRIPTION</field>
+    </columns>
+    <columns>
+        <field>Case.Nature__c</field>
+    </columns>
+    <columns>
+        <field>CASE_NUMBER</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
     </columns>
     <description>A bar chart that shows the number of active cases by the teams (IT, Funds, DP Client Modification)</description>
     <format>Summary</format>
