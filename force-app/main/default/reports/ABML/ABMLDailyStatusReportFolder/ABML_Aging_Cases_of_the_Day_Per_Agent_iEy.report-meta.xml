@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>FK_NAME</field>
-    </columns>
-    <columns>
-        <field>FK_$ABML_Case_Detail__c.Assigned_User__c</field>
+        <field>CASE_NUMBER</field>
     </columns>
     <columns>
         <field>TYPE</field>
@@ -13,8 +10,17 @@
         <field>Case.Sub_Type_Text__c</field>
     </columns>
     <columns>
+        <field>DESCRIPTION</field>
+    </columns>
+    <columns>
         <aggregateTypes>Sum</aggregateTypes>
         <field>Case.Ageing_Business_Days__c</field>
+    </columns>
+    <columns>
+        <field>FK_$ABML_Case_Detail__c.Assigned_User__c</field>
+    </columns>
+    <columns>
+        <field>FK_NAME</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
