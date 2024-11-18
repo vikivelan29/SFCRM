@@ -1774,7 +1774,13 @@
         <shortDescription>RNWL_PageLink</shortDescription>
         <value>http://bit.ly/ABHRENEW</value>
     </labels>
-   
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI:005:100,ABFL:50:200</value>
+    </labels>
     <labels>
         <fullName>ABHI_Case_Restriction_Creation</fullName>
         <language>en_US</language>
