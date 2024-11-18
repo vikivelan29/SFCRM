@@ -1,0 +1,124 @@
+<template>
+    <template if:true={businessHours}>
+        <div class="main">
+   
+    <template if:true={hideCases}>
+    <div class="slds-m-around_medium">
+        <div class="myTable">
+        <lightning-datatable 
+            key-field="Id"
+            data={cases}
+            columns={caseColumns}
+            class="slds-table slds-table_col-bordered"
+            show-row-number-column
+            hide-checkbox-column>                    
+        </lightning-datatable></div>
+    </div></template>
+        
+             
+             <!-- <span>Select Team</span> class="teamInput"  -->
+             
+             <div class="textinput">
+                <lightning-input
+                    label="Select Team"
+                    variant="label-inline"
+                    placeholder="Enter Team name"
+                    onchange={search}
+                    onfocus={showPickListOptions}
+                    type="search"
+                    value={selectedValue}
+                >
+                </lightning-input>
+                
+                <div
+                    if:true={searchResults}
+                    class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                    role="listbox"
+                    style="width: 50%"
+                >
+                    <ul
+                        class="slds-listbox slds-listbox_vertical"
+                        role="presentation"
+                    >
+                        <template
+                            for:each={searchResults}
+                            for:item="searchResult"
+                        >
+                            <li
+                                key={searchResult.value}
+                                data-value={searchResult.value}
+                                role="presentation"
+                                onclick={selectSearchResult}
+                                class="slds-listbox__item"
+                            >
+                                <div
+                                    class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                    role="option"
+                                >
+                                    <span class="slds-media__body">
+                                        <span
+                                            class="slds-truncate"
+                                            title={searchResult.label}
+                                        >
+                                            {searchResult.label}
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
+                </div>
+            
+        
+<!--class="slds-m-top_medium" -->
+
+  <template if:true={isUserExist}>
+    <div class="textinput">
+        <lightning-input
+            label="Select Team Member"
+            variant="label-inline"
+            placeholder="Enter user name"
+            value={userName}
+            onchange={handleUserSearchChange}>
+        </lightning-input>
+    </div>
+
+        
+         
+            <div class="slds-m-around_medium">
+                <div class="myTable">
+                <lightning-datatable 
+                class="slds-table slds-table_col-bordered"
+                    key-field="Id"
+                    data={users}
+                    columns={columns}
+                    max-row-selection=1
+                    onrowselection={handleRowSelection}>                    
+                </lightning-datatable></div>
+                <div class="slds-grid slds-grid_align-end slds-p-around_medium">
+                    <lightning-button variant="brand" label="Assign" title="Assign" onclick={updateRecordStatus} ></lightning-button>
+                </div>
+            </div>
+        </template>
+
+
+   
+
+
+
+    
+
+
+
+
+
+    </div>
+    </template>
+
+
+
+
+
+</template>
