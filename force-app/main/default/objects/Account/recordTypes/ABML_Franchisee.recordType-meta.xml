@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABML_Franchisee</fullName>
     <active>true</active>
+    <compactLayoutAssignment>ABML_Franchisee_Compact_Layout</compactLayoutAssignment>
     <label>ABML Franchisee</label>
     <picklistValues>
         <picklist>ABML_Contact_Type__c</picklist>
