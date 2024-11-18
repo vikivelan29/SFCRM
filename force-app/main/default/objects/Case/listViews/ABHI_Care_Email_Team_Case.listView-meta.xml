@@ -13,6 +13,7 @@
     <label>ABHI Care Email Team</label>
     <queue>ABHI_Care_Email_Team</queue>
     <sharedTo>
+        <allInternalUsers></allInternalUsers>
         <group>ABHI_Care_Email_Team_G</group>
     </sharedTo>
 </ListView>
