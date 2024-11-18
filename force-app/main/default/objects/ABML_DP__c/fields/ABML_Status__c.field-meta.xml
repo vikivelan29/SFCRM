@@ -21,6 +21,21 @@
                 <default>false</default>
                 <label>Inactive</label>
             </value>
+            <value>
+                <fullName>Suspended for Debit &amp; Credit</fullName>
+                <default>false</default>
+                <label>Suspended for Debit &amp; Credit</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+            <value>
+                <fullName>Suspended for Debit</fullName>
+                <default>false</default>
+                <label>Suspended for Debit</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
