@@ -1342,4 +1342,11 @@
         <shortDescription>ABHI_Track_Sources</shortDescription>
         <value>Phone-Inbound,Phone-Outbound</value>
     </labels>
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
 </CustomLabels>
