@@ -153,8 +153,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
     // Rajendra Singh Nagar: PR1030924-209 - Added function
     adjustAutoCommunications(data){
-        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
-            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
+        if(AUTO_COMM_BU_OPT[this.loggedInUserBusinessUnit]?.OPTSLBLS){
+            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.loggedInUserBusinessUnit].OPTSLBLS.map(item => ({
                 label: item.label,
                 value: item.value
             }));
