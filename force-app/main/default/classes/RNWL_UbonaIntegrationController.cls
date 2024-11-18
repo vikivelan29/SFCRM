@@ -49,7 +49,7 @@ public without sharing class RNWL_UbonaIntegrationController {
             
             if(policyIdToAssetMap.size() > 0 && policyIdToAssetMap.containsKey(opp.Policy__c) && 
                accMap.size() > 0 && accMap.containsKey(opp.AccountId)){
-                   intPE.Request__c = formJSONBody(opp, policyIdToAssetMap.get(opp.Policy__c), accMap.get(opp.AccountId)); 
+               	   intPE.Request__c = formJSONBody(opp, policyIdToAssetMap.get(opp.Policy__c), accMap.get(opp.AccountId)); 
                    system.debug('*******' + intPE.Request__c);
             }
             
