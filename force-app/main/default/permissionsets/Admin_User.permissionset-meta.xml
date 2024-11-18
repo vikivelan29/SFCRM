@@ -6265,6 +6265,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>WellnessCaseDetail__c.BillableTimeActual__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>WellnessCaseDetail__c.BillableTimeText__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>WellnessCaseDetail__c.CaseEmail__c</field>
         <readable>true</readable>
     </fieldPermissions>
