@@ -20,7 +20,6 @@ public class MCRM_LegacyViewController_Test {
         
         User superManagerUser = new User(
             IsActive = true,
-            Business_Unit__c='ABFL',
             FirstName = 'Test',
             LastName='Super Manager User Test 12',
             Username='supermanageruserTest12@test.com',
@@ -30,7 +29,9 @@ public class MCRM_LegacyViewController_Test {
             LanguageLocaleKey='en_US',
             LocaleSidKey='en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
-            TimeZoneSidKey='America/Los_Angeles', managerGroupId__c=slaGroup.Id
+            TimeZoneSidKey='America/Los_Angeles', 
+            managerGroupId__c=slaGroup.Id,
+            Business_Unit__c = System.Label.Wellness_BU
         );
         insert superManagerUser;
         
@@ -38,7 +39,8 @@ public class MCRM_LegacyViewController_Test {
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
                                     TimeZoneSidKey='America/Los_Angeles', UserName='Testcdefghijk567@gmail.com',
-                                    managerGroupId__c=slaGroup.Id, managerID = superManagerUser.Id
+                                    managerGroupId__c=slaGroup.Id, managerID = superManagerUser.Id, 
+                                    Business_Unit__c = System.Label.Wellness_BU
                                     );
         insert userRecord1;        
         Test.startTest();
@@ -76,18 +78,21 @@ public class MCRM_LegacyViewController_Test {
     }
     @isTest
     static void testGetRelatedContracts(){
-        List<Account> acc = [SELECT ID FROM Account LIMIT 1];
-        Test.startTest();
-        	List<MCRM_LegacyViewController.ContractName> listPolicy = MCRM_LegacyViewController.getRelatedContracts(acc[0].Id);
-        	Assert.areEqual(2, listPolicy.size(), 'BSLI');
-        Test.stopTest();
+        User userRecord = [SELECT Id FROM User WHERE Alias = 'standt' LIMIT 1];
+        System.runAs(userRecord){
+            Test.startTest();
+            List<Account> acc = [SELECT Id FROM Account LIMIT 1];
+            List<MCRM_LegacyViewController.ContractName> listPolicy = MCRM_LegacyViewController.getRelatedContracts(acc[0].Id);
+            Assert.areEqual(2, listPolicy.size(), 'BSLI');
+            Test.stopTest();
+        }
     } 
 
     
 	@isTest static void testgetLegacyData() {
         // Set mock callout class 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.ABSLI_LegacyMockResponseGenerator());
+        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.MCRM_LegacyMockResponseGenerator());
 
         MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('277956','','','','ABFL','');
         Test.stopTest();
@@ -98,7 +103,7 @@ public class MCRM_LegacyViewController_Test {
     @isTest static void testgetLegacyFailureData() {
         // Set mock callout class 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.ABSLI_LegacyMockFailureResponseGenerator());
+        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.MCRM_LegacyMockFailureResponseGenerator());
         MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('27795','','','','ABFL','');
         Test.stopTest();
         System.assertEquals(404,res.statusCode, 'statusCode');
@@ -107,7 +112,7 @@ public class MCRM_LegacyViewController_Test {
     /**
     * @description  Mocking success response
     */ 
-    public class ABSLI_LegacyMockResponseGenerator implements HttpCalloutMock {
+    public class MCRM_LegacyMockResponseGenerator implements HttpCalloutMock {
         /**
             * @description  Mocking success response
             * @param req
@@ -125,7 +130,7 @@ public class MCRM_LegacyViewController_Test {
     /**
     * @description Mocking failure response
     */ 
-    public class ABSLI_LegacyMockFailureResponseGenerator implements HttpCalloutMock {
+    public class MCRM_LegacyMockFailureResponseGenerator implements HttpCalloutMock {
         /**
             * @description  Mocking failure response
             * @param req
