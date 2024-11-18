@@ -98,27 +98,37 @@ public with sharing class ABCL_SendEmailValidation {
         } 
     }
 
-    /**
-    * @param newEmails - the case that is created from create case page
-    * @description - Restrict User to send email based on user's Team
-    */
-    public static void restrictUserToSendEmail(List<EmailMessage> newEmails){
-        
-        List<String> selectedTeamList = new List<String>();
-        List<EmailMessage> outgoingCaseEmails = new List<EmailMessage>();
+        /**
+        * @param newEmails - the case that is created from create case page
+        * @description - Restrict User to send email based on user's Team
+        */
+        public static void restrictUserToSendEmail(List<EmailMessage> newEmails){
+            
+            Map<String, List<String>> mapOfBussUnitToSourceCodeList = new Map<String, List<String>>();
+            List<String> selectedTeamList = new List<String>();
+            List<EmailMessage> outgoingCaseEmails = new List<EmailMessage>();
 
-        Custom_Messages__mdt mdtRestrictedErrorMessage = Custom_Messages__mdt.getInstance('Restrict_to_send_email_error_message'); 
-        List<User> userTeamRecord = [SELECT ID, Business_Unit__c, Team__c FROM USER WHERE ID = :UserInfo.getUserID() WITH SYSTEM_MODE];
-        String userTeam = userTeamRecord[0]?.Team__c?.toLowerCase() ?? '';
-        String userBusinessUnit = userTeamRecord[0]?.Business_Unit__c?.toLowerCase() ?? '';
-        List<String> buRestrictionList = LABEL.BU_Restrict_email.toLowerCase().split(',');
+            Custom_Messages__mdt mdtRestrictedErrorMessage = Custom_Messages__mdt.getInstance('Restrict_to_send_email_error_message'); 
+            List<User> userRecord = [SELECT ID, Business_Unit__c, Source_Code__c FROM USER WHERE ID = :UserInfo.getUserID() WITH SYSTEM_MODE];
+            String userSourceCode = userRecord[0]?.Source_Code__c?.toLowerCase() ?? '';
+            String userBusinessUnit = userRecord[0]?.Business_Unit__c?.toLowerCase() ?? '';
+            List<String> buRestrictionList = LABEL.BU_Restrict_email.toLowerCase().split(',');
+            
+            for (String buRestricton : buRestrictionList) {
+                List<String> usrSourceCode = buRestricton.split(':');
+                String businessUnitName = usrSourceCode[0];
+                usrSourceCode.remove(0);
+                mapOfBussUnitToSourceCodeList.put(businessUnitName, usrSourceCode);
+            }
 
-        if(buRestrictionList.contains(userBusinessUnit)) {
-            for (EmailMessage email : newEmails) {
-                if(!email.Incoming && email.ParentId != null){
-                    if(email.ParentId.getSObjectType() == Case.sObjectType){ 
-                        if(buRestrictionList.contains(userTeam)) {
-                            email.addError(mdtRestrictedErrorMessage.Message__c);
+            if(mapOfBussUnitToSourceCodeList.containsKey(userBusinessUnit)) {
+                List<String> sourceCodeList = mapOfBussUnitToSourceCodeList.get(userBusinessUnit);
+                for (EmailMessage email : newEmails) {
+                    if(!email.Incoming && email.ParentId != null){
+                        if(email.ParentId.getSObjectType() == Case.sObjectType){ 
+                            if(sourceCodeList.contains(userSourceCode)) {
+                                email.addError(mdtRestrictedErrorMessage.Message__c);
+                            }
                         }
                     }
                 }
