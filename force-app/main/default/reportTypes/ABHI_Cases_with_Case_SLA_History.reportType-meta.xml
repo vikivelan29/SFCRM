@@ -766,6 +766,16 @@
             <field>ABHI_Case_Detail__c.Final_Resolution_Remark__c</field>
             <table>Case</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABHI_Case_Detail__c.Resolution_Comments__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ABHI_Case_Detail__c.Resolution__c</field>
+            <table>Case</table>
+        </columns>
         <masterLabel>ABHI Case Detail</masterLabel>
     </sections>
     <sections>
