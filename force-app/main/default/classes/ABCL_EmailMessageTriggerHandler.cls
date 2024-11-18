@@ -74,6 +74,7 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     } 
     public override void beforeUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
         ABCL_SendEmailValidation.validateUsersTeam(newItemsCase.values());
+        ABCL_SendEmailValidation.restrictUserToSendEmail(newItemsCase.values());
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItemsCase.values());
     }
 }

@@ -1431,7 +1431,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BU Restrict email</shortDescription>
-        <value>ABHI</value>
+        <value>ABHI:005:100,ABFL:50:200</value>
     </labels>
     <labels>
         <fullName>ABHI_Case_Restriction_Creation</fullName>
