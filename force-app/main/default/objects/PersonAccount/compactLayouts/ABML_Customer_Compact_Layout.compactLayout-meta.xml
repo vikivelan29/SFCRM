@@ -3,9 +3,8 @@
     <fullName>ABML_Customer_Compact_Layout</fullName>
     <fields>Name</fields>
     <fields>ABML_Contact_Type__c</fields>
-    <fields>Client_Code__c</fields>
-    <fields>OwnerId</fields>
-    <fields>Line_of_Business__c</fields>
-    <fields>Business_Unit__c</fields>
+    <fields>ABML_Client_ID__pc</fields>
+    <fields>Line_of_Business__pc</fields>
+    <fields>Business_Unit__pc</fields>
     <label>ABML Customer Compact Layout</label>
 </CompactLayout>

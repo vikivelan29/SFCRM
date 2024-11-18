@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABML_BSB</fullName>
     <active>true</active>
+    <compactLayoutAssignment>ABML_BSB_Compact_Layout</compactLayoutAssignment>
     <label>ABML BSB</label>
     <picklistValues>
         <picklist>ABML_Bank_Account_Type__pc</picklist>

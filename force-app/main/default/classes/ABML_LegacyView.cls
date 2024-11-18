@@ -17,33 +17,26 @@ public with sharing class ABML_LegacyView {
     *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
     public static AbmlPersonAccountWrapper abmlGetPersonAccountData(Id recordId) {
-        Account personAccount = new Account();
-        if(recordId != null){
-        personAccount = [Select Id,RecordType.Name, Client_Code__c,Line_of_Business__c,ABML_Client_Branch_Franchisee__pr.ABML_Franchisee_Code__c,ABML_Client_Branch_Franchisee__pr.ABML_Branch_Code__c, PAN__c,ABML_Franchisee_Code__c,ABML_Branch_Code__c,ABML_Agent_Code__pc,ABML_Broker_Code__pc
-                             From Account
-                             Where Id =: recordId];
-        }					 
-		AbmlPersonAccountWrapper result = new AbmlPersonAccountWrapper();
-        result.lob= personAccount.Line_of_Business__c != null ? personAccount.Line_of_Business__c : '';
-        If(personAccount.RecordType.Name == 'ABML Franchisee' || personAccount.RecordType.Name == 'ABML Branch'){
-            result.branchCode = personAccount.ABML_Branch_Code__c  != null ? personAccount.ABML_Branch_Code__c : '';
-            result.franchiseeCode = personAccount.ABML_Franchisee_Code__c  != null ? personAccount.ABML_Franchisee_Code__c : '';
+        // Query the Account (Person Account) fields and related Contact fields
+        Account personAccount = [SELECT Id,ABML_Branch_Code__c,	ABML_Franchisee_Code__c,Line_of_Business__c,
+                                       (SELECT ABML_Client_ID__c, ABML_PAN__c FROM Contacts)
+                               FROM Account 
+                               WHERE Id = :recordId LIMIT 1];
+        
+        // Person Account is an Account with a Contact related to it
+        AbmlPersonAccountWrapper result = new AbmlPersonAccountWrapper();
+            result.branchCode = personAccount.ABML_Branch_Code__c;
+            result.franchiseeCode = personAccount.ABML_Franchisee_Code__c;
+            result.lob= personAccount.Line_of_Business__c;
+        // Since it's a Person Account, there's only one related Contact
+        if (!personAccount.Contacts.isEmpty()) {
+            result.clientId = personAccount.Contacts[0].ABML_Client_ID__c;
+            result.pan = personAccount.Contacts[0].ABML_PAN__c;
+            
         }
-        else if(personAccount.RecordType.Name == 'ABML Branch Employee'){
-            result.branchCode = personAccount.ABML_Client_Branch_Franchisee__pr.ABML_Branch_Code__c  != null ? personAccount.ABML_Client_Branch_Franchisee__pr.ABML_Branch_Code__c : '';
-            result.franchiseeCode = personAccount.ABML_Client_Branch_Franchisee__pr.ABML_Franchisee_Code__c  != null ? personAccount.ABML_Client_Branch_Franchisee__pr.ABML_Franchisee_Code__c : '';
-        }
-        else if(personAccount.RecordType.Name == 'ABML BSB' || personAccount.RecordType.Name == 'ABML DSA'){
-            result.agentCode = personAccount.ABML_Agent_Code__pc;
-            result.brokerCode = personAccount.ABML_Broker_Code__pc;
-        }
-        else{
-            result.clientCode = personAccount.Client_Code__c;
-            result.pan = personAccount.PAN__c;
-        }
-			return result;
+
+        return result;
     }
-    
     /*********************************************************
     * @Class           AbmlPersonAccountWrapper
     * @Author          Saravpreet Arora
@@ -51,14 +44,13 @@ public with sharing class ABML_LegacyView {
     * @Last Modified   06/11/2024 
     * @description     Wrapper class to hold the results (fields we want to send to LWC) */
     public class AbmlPersonAccountWrapper {
-        @AuraEnabled public String clientCode;
+        @AuraEnabled public String clientId;
         @AuraEnabled public String pan;
         @AuraEnabled public String branchCode;
         @AuraEnabled public String franchiseeCode;
         @AuraEnabled public String lob;
-        @AuraEnabled public String agentCode;
-        @AuraEnabled public String brokerCode;
     }
+
 
     /* @LOB - ABML
     * @Function - abmlGetLegacyData
@@ -71,22 +63,15 @@ public with sharing class ABML_LegacyView {
     * @description  This method will get legacy date and display in SF
     *****************************************************************************************************************/
     @AuraEnabled
-    public static AbmlResponseWrapper abmlGetLegacyData(String clientCode, String pan, String code, String agentCode, String brokerCode, String startDate, String endDate, String lob){
+    public static AbmlResponseWrapper abmlGetLegacyData(String clientId, String pan, String code, String startDate, String endDate, String lob){
         try{
             AbmlResponseWrapper response = null;
             AbmlLegacyCaseResponseBodyWrapper legacyCaseResponseWrapper;
             String integrationName = 'ABML_Legacy_Case';
-          	startDate = startDate != null ? startDate : '';
-            endDate = endDate != null ? endDate : '';
-            clientCode = clientCode != null ? clientCode : '';
-            pan = pan != null ? pan : '';
-            code = code != null ? code : '';
-            lob = lob != null ? lob : '';
-            agentCode = agentCode != null ? agentCode : '';
-            brokerCode = brokerCode != null ? brokerCode : '';
-            String conPayload =  JSON.serialize(new AbmlLegacyViewRequest(clientCode, pan, code, agentCode, brokerCode,  startDate, endDate, lob));
-            System.debug('Data Request-->'+conPayload);
-            ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
+          	startDate = startDate != null?startDate:'';
+            endDate = endDate != null?endDate:'';
+            String conPayload =  JSON.serialize(new AbmlLegacyViewRequest(clientId, pan, code, startDate, endDate, lob));
+           ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
 
             if(legacyCaseResponse.statusCode == 200 && String.isNotBlank(legacyCaseResponse.responseBody)) {
                 legacyCaseResponseWrapper = (AbmlLegacyCaseResponseBodyWrapper)JSON.deserialize(legacyCaseResponse.responseBody,AbmlLegacyCaseResponseBodyWrapper.class);
@@ -110,7 +95,6 @@ public with sharing class ABML_LegacyView {
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
         }
     }
-
     /*********************************************************
     * @Class           AbmlLegacyViewRequest
     * @Author          Saravpreet Arora
@@ -118,27 +102,22 @@ public with sharing class ABML_LegacyView {
     * @Last Modified   06/11/2024 
     * @description     AbmlLegacyViewRequest */
     public class AbmlLegacyViewRequest{
-        
-        String PAN;
-        String ClientId;
-        String Branch_franchisee_code;
-        String FromDate;
-        String ToDate;
-        String LOB;
-        String AgentCode;
-        String BrokerCode;
-        AbmlLegacyViewRequest(String clientId, String pan, String code,String agentCode, String brokerCode, String fromDate, String toDate, String lob){
-            this.ClientId = clientId;
-            this.PAN = pan;
-            this.Branch_franchisee_code = code;
-            this.FromDate = fromDate;
-            this.ToDate = toDate;
-            this.LOB= lob;
-            this.AgentCode = agentCode;
-            this.BrokerCode = brokerCode;
+        String clientID;
+        String panNumber;
+        String branchFranchiseeCode;
+        String fromDate;
+        String toDate;
+        String lob;
+        AbmlLegacyViewRequest(String clientId, String pan, String code, String fromDate, String toDate, String lob){
+            this.clientID = clientId;
+            this.panNumber = pan;
+            this.branchFranchiseeCode = code;
+            this.fromDate = fromDate;
+            this.toDate = toDate;
+            this.lob= lob;
+            
         }
     }
-
      /*********************************************************
     * @Class           AbmlResponseWrapper
     * @Author          Saravpreet Arora
@@ -168,22 +147,22 @@ public with sharing class ABML_LegacyView {
     * @Last Modified   06/11/2024 
     * @description     AbmlLegacyCaseResponseWrapper */
     public class AbmlLegacyCaseResponseWrapper{
-        @AuraEnabled public String Ticketnumber;
+        @AuraEnabled public String CaseID;
         @AuraEnabled public String Category;
         @AuraEnabled public String CaseType;
-        @AuraEnabled public String CaseSubType;
+        @AuraEnabled public String SubType;
         @AuraEnabled public String Source;
-        @AuraEnabled public String ClientId;
+        @AuraEnabled public String ClientID;
         @AuraEnabled public String CreatedOn;
-        @AuraEnabled public String Status;
-        @AuraEnabled public String ModifiedOn;
+        @AuraEnabled public String CaseStatus;
+        @AuraEnabled public String LastUpdatedOn;
         @AuraEnabled public String Owner;
-        @AuraEnabled public String ResolvedOn;
-        @AuraEnabled public String TATDeadline;
-        @AuraEnabled public String AgeingDays;
-        @AuraEnabled public String AssignedTeam;
-        @AuraEnabled public String ResolvedBy;
-	    @AuraEnabled public String CreatedBy;	
+        @AuraEnabled public String ResolvedDate;
+        @AuraEnabled public String Case_TAT;
+        @AuraEnabled public String Ageing_by_working_days;
+        @AuraEnabled public String Assign_to_dept;
+        @AuraEnabled public String Case_Closed_By;
+	    @AuraEnabled public String Created_By;	
 	
     }
      /*********************************************************

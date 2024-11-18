@@ -20,10 +20,8 @@ export default class Abml_LegacyCases extends LightningElement {
     pan;
     startDate;
     endDate;
-    code;
+    branchOrFranchiseeCode;
     lob;
-    agentCode;
-    brokerCode;
     loaded = false;
     disabled = false;
     @track displayResult = [];
@@ -40,7 +38,6 @@ export default class Abml_LegacyCases extends LightningElement {
     wiredPersonAccount({error,data}){
         if(data){
             this.personAccountData=data;
-            console.log('Wire Data==>',JSON.stringify(data));
         }
        else if(error){
            console.log('Wire Error==>',error);
@@ -84,32 +81,29 @@ export default class Abml_LegacyCases extends LightningElement {
         this.displayTable = false;
         this.displayError = false;
         this.data = null;
-        this.lob=this.personAccountData.lob;
+        this.clientId=null;
+        this.pan=null;
+        this.lob=this.personAccountData.lob?this.personAccountData.lob:null;
         if(this.personAccountData.branchCode){
-            this.code = this.personAccountData.branchCode;
+            this.branchOrFranchiseeCode = this.personAccountData.branchCode;
         }
         else if(this.personAccountData.franchiseeCode){
-            this.code = this.personAccountData.franchiseeCode;
-        }
-        else if(this.personAccountData.agentCode || this.personAccountData.brokerCode){
-            this.agentCode = this.personAccountData.agentCode;
-            this.brokerCode = this.personAccountData.brokerCode;
+            this.branchOrFranchiseeCode = this.personAccountData.franchiseeCode;
         }
         else{
-        this.clientId=this.personAccountData.clientCode;      
-        this.pan=this.personAccountData.pan;   
+            this.clientId=this.personAccountData.clientId?this.personAccountData.clientId:null;      
+            this.pan=this.personAccountData.pan?this.personAccountData.pan:null; 
+            this.branchOrFranchiseeCode = null;
         }
         console.log('Client ID '+this.clientId);
         console.log('PAN No '+this.pan);
-        console.log('Code '+this.code);
-        console.log('Agent Code '+this.agentCode);
-        console.log('Broker Code '+this.brokerCode);
+        console.log('Branch/Franchisee Code '+this.branchOrFranchiseeCode);
         console.log('LOB '+this.lob);
         if(this.checkFieldValidity()) {
             this.disabled = true;
              this.isLoading = true;
-            getLegacyData({clientCode: this.clientId, pan: this.pan, code: this.code, agentCode: this.agentCode, brokerCode: this.brokerCode, startDate: this.startDate,
-                endDate: this.endDate, lob : this.lob}).then(result=>{
+            getLegacyData({clientId: this.clientId, pan: this.pan, code: this.branchOrFranchiseeCode, startDate: this.startDate,
+                endDate: this.endDate}).then(result=>{
                 this.leagcyCaseData = result;
                 console.log('Result1 ==> ', result);
                 this.isLoading = false;
