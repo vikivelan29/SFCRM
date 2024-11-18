@@ -10,8 +10,13 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
         ASF_TestDataFactory.createCaseCategoryConfig();
         ASF_Case_Category_Config__c ccc = [Select id, Type__c, Sub_Type__c From ASF_Case_Category_Config__c Limit 1];
         
-       Group grp = [SELECT Id, Name FROM Group WHERE Type = 'Queue' AND NAME LIKE 'ABML%' Limit 1];
-
+        Group grp = [SELECT Id, Name FROM Group WHERE Type = 'Queue' AND NAME = 'ABML Franchisee Helpdesk' Limit 1];
+        
+       // Group testQueue = new Group(Name = 'ABML Franchisee Helpdesk', Type = 'Queue');       
+       // insert testQueue;
+        
+      //  User testUser1 = new User(Alias = 'tuser1',Email = 'testuser1@example.com',ProfileId = UserInfo.getProfileId(),UserName = 'testuser1@example.com',TimeZoneSidKey = 'America/Los_Angeles',LocaleSidKey = 'en_US', EmailEncodingKey = 'ISO-8859-1',LanguageLocaleKey = 'en_US');
+       // insert testUser1;
         
         Account acc = ASF_TestDataFactory.insertBusinessAccount('test', 'strCRN');
             
@@ -65,7 +70,11 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
     *****************************************************/
     @isTest 
     static void evaluateTestMethod() { 
-
+        
+        List<Case> lstCase = new List<Case>();
+        lstCase = [Select id, owner.id, owner.name, Status, Source__c, Business_Unit__c from Case];
+		System.debug('lstCase==='+lstCase[0].Owner.Name);
+        
         Test.startTest();
             ABML_RoundRobinCaseAssBatch roundRobinCase = new ABML_RoundRobinCaseAssBatch();
             Database.executeBatch(roundRobinCase);
