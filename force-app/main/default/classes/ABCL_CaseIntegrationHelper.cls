@@ -51,6 +51,10 @@ public with sharing class ABCL_CaseIntegrationHelper {
                         ABSLI_EBotWrapper.EbotResponseWrapper ebotResponse = (ABSLI_EBotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABSLI_EBotWrapper.EbotResponseWrapper.class);
                         ABSLI_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse,recordAfter);
                     }
+                    else if(integrationCase.Business_Unit__c == ABHI_Constants.ABHI){
+                        ABHI_EBOTCaseLogics.UpdateCaseWrapper ebotResponse = (ABHI_EBOTCaseLogics.UpdateCaseWrapper)JSON.deserialize(recordAfter.Response__c,ABHI_EBOTCaseLogics.UpdateCaseWrapper.class);
+                        ABHI_EBOTCaseLogics.updateCaseExtension(recordAfter.Case__c,ebotResponse); 
+                    }
                 }
             }     
         }
