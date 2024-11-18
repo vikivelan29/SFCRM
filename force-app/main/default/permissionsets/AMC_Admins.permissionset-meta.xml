@@ -667,11 +667,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Account.Name</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Asset.ARN_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2997,11 +2992,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.Name</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Conversion_Details__c.ARN_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3558,11 +3548,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>PRODUCT_MASTER__c.Last_Update_Date_Time__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>PRODUCT_MASTER__c.UniqueKey__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
