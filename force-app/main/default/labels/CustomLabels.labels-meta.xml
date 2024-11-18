@@ -1338,5 +1338,11 @@
         <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
         <value>ABSLAMC</value>
     </labels>
-
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
 </CustomLabels>
