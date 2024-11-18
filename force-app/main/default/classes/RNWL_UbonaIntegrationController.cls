@@ -39,7 +39,7 @@ public without sharing class RNWL_UbonaIntegrationController {
         Map<Id, Account> accMap = new Map<Id, Account>([SELECT Id, BillingState, Name, Phone, PersonMobilePhone, RecordType.Name
             FROM Account 
             WHERE Id IN :accIdsSet]);
-        
+		
         List<ABCL_Integration_Event__e> outboundIntPEList = new List<ABCL_Integration_Event__e>();
         for(Opportunity opp : oppsToOperate){
             ABCL_Integration_Event__e intPE = new ABCL_Integration_Event__e();
