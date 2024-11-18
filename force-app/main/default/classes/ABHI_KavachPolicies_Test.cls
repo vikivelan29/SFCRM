@@ -15,23 +15,8 @@ public class ABHI_KavachPolicies_Test {
    */
     @testSetup
     static void setupTestData() {
-         Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
-        accRec.Is_Chronic__c = true;
-        accRec.CMP_OPD__c = true;
-        accRec.Chronic_care__c = false;
-        update accRec;
-        
-        Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
-        Datetime testingday = Datetime.now().addDays(-2);
-		Test.setCreatedDate(astRec.Id, testingday);
-        
-        astRec.LAN__c = '31-24-0004016-22';
-        astRec.Business_Unit__c = ABHI_Constants.ABHI;
-        astRec.Plan_Name__c = 'Max+';
-        astRec.ProductName__c = 'Active One';
-        update astRec; 
     }    
-    @isTest static void testKavachPolicyCallout() {
+    @isTest static void testgetLegacyData() {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABHI_KavachPoliciesMockResponseGenerator());
         Test.startTest();
