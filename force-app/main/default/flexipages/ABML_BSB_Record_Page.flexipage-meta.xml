@@ -34,8 +34,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_FetchAssetsRelatedToAccount</componentName>
-                <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
+                <componentInstanceProperties>
+                    <name>isCurrent</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>asf_CurrentHoldings</componentName>
+                <identifier>c_asf_CurrentHoldings</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</name>
@@ -464,40 +468,7 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Account.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Contacts</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-ec51f0d8-6fdf-43a1-a465-1c55665553ee</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>adminFilters</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
@@ -509,7 +480,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Contacts__r</value>
+                    <value>Contacts</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListDisplayType</name>
@@ -522,7 +493,10 @@
                             <value>FULL_NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>ACCOUNT.NAME</value>
+                            <value>CONTACT.TITLE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CONTACT.EMAIL</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CONTACT.PHONE1</value>
@@ -531,7 +505,70 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Person Accounts</value>
+                    <value>Contacts</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-ec51f0d8-6fdf-43a1-a465-1c55665553ee</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abml_LegacyCases</componentName>
+                <identifier>c_abml_LegacyCases</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-39b4c4d0-5c1e-4cf1-9200-be8028ea7540</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Account.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Banks__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Banks</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
@@ -549,7 +586,7 @@
                 <identifier>lst_dynamicRelatedList3</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-2ef9f0ce-1f9c-4fed-be5a-7ea8f1aa2293</name>
+        <name>Facet-9280e17b-9aad-493d-8a85-906a00feb835</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -613,14 +650,28 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-2ef9f0ce-1f9c-4fed-be5a-7ea8f1aa2293</value>
+                    <value>Facet-39b4c4d0-5c1e-4cf1-9200-be8028ea7540</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Legacy View</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-9280e17b-9aad-493d-8a85-906a00feb835</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab8</identifier>
+                <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
