@@ -4,19 +4,37 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
     /****************************************************
      * @description - To setup test data for this test class
     *****************************************************/
+    private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id 
+                                                        FROM Profile 
+                                                        WHERE name='System Administrator' 
+                                                        LIMIT 1];
     @testSetup
     static void setupTestData() {
         
-        ASF_TestDataFactory.createCaseCategoryConfig();
-        ASF_Case_Category_Config__c ccc = [Select id, Type__c, Sub_Type__c From ASF_Case_Category_Config__c Limit 1];
         
         Group grp = [SELECT Id, Name FROM Group WHERE Type = 'Queue' AND NAME = 'ABML Franchisee Helpdesk' Limit 1];
         
+        User userRecord = new User(Alias = 'standt', Email='stantarduserEmails@testorg.com', 
+                                    EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='Testcdefghijk567@gmail.com'
+                                    );
+        insert userRecord; 
+        List<GroupMember> lstGroupMem = [SELECT GroupId, UserOrGroupId FROM GroupMember where GroupId =: grp.Id];
+
+        GroupMember groupMember1 = new GroupMember(
+            GroupId = lstGroupMem[0].UserOrGroupId,
+            UserOrGroupId = userRecord.Id
+        );
+        insert groupMember1;        
        // Group testQueue = new Group(Name = 'ABML Franchisee Helpdesk', Type = 'Queue');       
        // insert testQueue;
         
       //  User testUser1 = new User(Alias = 'tuser1',Email = 'testuser1@example.com',ProfileId = UserInfo.getProfileId(),UserName = 'testuser1@example.com',TimeZoneSidKey = 'America/Los_Angeles',LocaleSidKey = 'en_US', EmailEncodingKey = 'ISO-8859-1',LanguageLocaleKey = 'en_US');
        // insert testUser1;
+        System.runAs(userRecord) {
+            ASF_TestDataFactory.createCaseCategoryConfig();
+        ASF_Case_Category_Config__c ccc = [Select id, Type__c, Sub_Type__c From ASF_Case_Category_Config__c Limit 1];
         
         Account acc = ASF_TestDataFactory.insertBusinessAccount('test', 'strCRN');
             
@@ -63,6 +81,7 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
         caseList.add(caseRec2);
         
         insert caseList;
+        }
     }
 
     /****************************************************
@@ -70,11 +89,7 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
     *****************************************************/
     @isTest 
     static void evaluateTestMethod() { 
-        
-        List<Case> lstCase = new List<Case>();
-        lstCase = [Select id, owner.id, owner.name, Status, Source__c, Business_Unit__c from Case];
-		System.debug('lstCase==='+lstCase[0].Owner.Name);
-        
+                
         Test.startTest();
             ABML_RoundRobinCaseAssBatch roundRobinCase = new ABML_RoundRobinCaseAssBatch();
             Database.executeBatch(roundRobinCase);
