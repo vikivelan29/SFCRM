@@ -241,6 +241,18 @@
         <apexClass>ABFL_E2C_CreationRules</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_EmailMessageHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_CaseIntegrationHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_EBOTCaseLogics</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>  
     <customMetadataTypeAccesses>
         <enabled>true</enabled>
         <name>ABHI_Create_Case_Validations__mdt</name>
