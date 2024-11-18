@@ -25,6 +25,8 @@ public without sharing class RNWL_UbonaIntegrationController {
             oppsToOperate.addAll(newOppsList);
         }
         
+        if(oppsToOperate.size() == 0){ return; }
+        
         for(Opportunity opp : oppsToOperate){
             policyIdsSet.add(opp.Policy__c); 
             accIdsSet.add(opp.AccountId);
@@ -37,7 +39,7 @@ public without sharing class RNWL_UbonaIntegrationController {
         Map<Id, Account> accMap = new Map<Id, Account>([SELECT Id, BillingState, Name, Phone, PersonMobilePhone, RecordType.Name
             FROM Account 
             WHERE Id IN :accIdsSet]);
-
+		
         List<ABCL_Integration_Event__e> outboundIntPEList = new List<ABCL_Integration_Event__e>();
         for(Opportunity opp : oppsToOperate){
             ABCL_Integration_Event__e intPE = new ABCL_Integration_Event__e();
@@ -50,7 +52,10 @@ public without sharing class RNWL_UbonaIntegrationController {
             outboundIntPEList.add(intPE);
         }
         
-        publishResults = EventBus.publish(outboundIntPEList);
+        if(outboundIntPEList.size() > 0){
+            publishResults = EventBus.publish(outboundIntPEList);
+        }
+        
     }
     
     /*****************************************************************************************************************
