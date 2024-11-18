@@ -22,7 +22,7 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHI_Constants.ERROR;
             boolean bErrorOccured = false;
-            String errorMessage ='';
+            String errorMessage =''; 
             List<ABHI_Endorsement_API__mdt> customMetaList = [SELECT ID, Mandatory_Fields__c FROM ABHI_Endorsement_API__mdt WHERE MasterLabel = :caseRecord.Sub_Type_Text__c LIMIT 1]; 
             system.debug('customMeta---->'+customMetaList); 
             if(!customMetaList.isEmpty() && caseRecord.Technical_Source__c == 'LWC' && caseRecord.AssetId != null ) {
