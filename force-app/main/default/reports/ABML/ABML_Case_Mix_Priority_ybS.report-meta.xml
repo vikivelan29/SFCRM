@@ -25,7 +25,32 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <field>CASE_ID</field>
+        <aggregateTypes>Unique</aggregateTypes>
+        <field>CASE_NUMBER</field>
+    </columns>
+    <columns>
+        <field>TYPE</field>
+    </columns>
+    <columns>
+        <field>Case.Sub_Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case.Nature__c</field>
+    </columns>
+    <columns>
+        <field>DESCRIPTION</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
+    </columns>
+    <columns>
+        <field>FK_$ABML_Case_Detail__c.Assigned_On__c</field>
+    </columns>
+    <columns>
+        <field>Case.Assigned_Team__c</field>
     </columns>
     <description>A bar chart that shows the number of active cases by their priority (Normal), number of active cases Priority status wise</description>
     <filter>
@@ -54,9 +79,11 @@
     </params>
     <reportType>CaseList@Case.ABML_Case_Detail__c</reportType>
     <scope>organization</scope>
-    <showDetails>false</showDetails>
+    <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
+    <sortColumn>CASE_NUMBER</sortColumn>
+    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
