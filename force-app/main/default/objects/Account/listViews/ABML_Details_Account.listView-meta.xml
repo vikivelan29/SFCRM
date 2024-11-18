@@ -2,7 +2,7 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABML_Details_Account</fullName>
     <columns>ACCOUNT.NAME</columns>
-    <columns>ABML_Code__c</columns>
+    <columns>ABML_Client_ID__pc</columns>
     <columns>ACCOUNT.PHONE1</columns>
     <columns>ABML_Email__c</columns>
     <columns>ABML_SEBI_No__c</columns>
