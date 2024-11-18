@@ -26,9 +26,6 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <field>DEPARTMENT</field>
-    </columns>
-    <columns>
         <field>TYPE</field>
     </columns>
     <columns>
