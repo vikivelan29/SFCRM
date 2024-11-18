@@ -72,9 +72,9 @@
                     Search Kavach Policy
                 </div>
             </lightning-card>
-            <c-abfl_-data-table-with-pagination columns={columns}
-															table-data={data} page-size = {label.pageSize}
-                                                            ></c-abfl_-data-table-with-pagination>
+            <c-abfl_-data-table-with-pagination columns={columns} table-data={data} page-size = {label.pageSize}>
+		    
+	    </c-abfl_-data-table-with-pagination>
         </div>
         <div lwc:if = {displayError}>
             {errorMessage}
