@@ -38,7 +38,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Member_Id__c</fieldItem>
                 <identifier>RecordMember_Id_cField</identifier>
