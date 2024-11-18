@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABML_Active_Customer</fullName>
+    <columns>Full_Name__pc</columns>
+    <columns>ABML_Client_ID__pc</columns>
+    <columns>ABML_Primary_DP_ID__pc</columns>
+    <columns>PC_PHONE3</columns>
+    <columns>ABML_PAN__pc</columns>
+    <columns>ABML_Email__c</columns>
+    <columns>Company_Name__c</columns>
+    <columns>ABML_Dealer_Name__pc</columns>
+    <columns>ABML_Activation_Date__c</columns>
+    <columns>ABML_Status__c</columns>
+    <columns>ABML_Mobile_Trading__pc</columns>
+    <columns>ABML_WelcomeCallStatus__pc</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABML</value>
+    </filters>
+    <filters>
+        <field>ABML_Status__c</field>
+        <operation>equals</operation>
+        <value>Active</value>
+    </filters>
+    <label>ABML Active Customer</label>
+</ListView>
