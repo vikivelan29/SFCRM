@@ -15,14 +15,18 @@
                 <lightning-icon icon-name="utility:error" alternative-text="Error" size="xx-small"
                     title="Error" variant="inverse"></lightning-icon>
             </span>
-            <h2>
-                No records are avaialble to display.
-            </h2>
+            <template if:true={error}>
+                <p>{error}</p>
+            </template>
+            <template if:false={error}>
+                <h2>
+                    No records are avaialble to display.
+                </h2>
+            </template>
             <div class="slds-notify__close"></div>
+            
         </div>
     </template>
 
-    <template if:true={error}>
-        <p>Error: {error}</p>
-    </template>
+    
 </template>
