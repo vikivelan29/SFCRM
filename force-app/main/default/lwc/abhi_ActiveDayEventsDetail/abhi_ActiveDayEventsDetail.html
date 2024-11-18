@@ -6,7 +6,7 @@
   @last modified by  : Shubham Sinha
 -->
 <template>
-    <lightning-card title="Active Day Events">
+    <lightning-card title="Active Day Events (Current Month)">
         <div class="slds-m-around_medium">
             <template if:true={isLoading}>
                 <div class="slds-backdrop" role="presentation"></div>
@@ -34,7 +34,7 @@
             <lightning-icon icon-name="utility:error" alternative-text="Error" size="small" class="slds-m-right_small"></lightning-icon>
             <span style="font-size: 0.90rem;">{errorMessage}</span> 
         </div>
-    </template>       
+    </template>     
     </lightning-card>
     
 </template>

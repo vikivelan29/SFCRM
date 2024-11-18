@@ -118,6 +118,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Cross_Sale_Applicable__c</fieldItem>
+                <identifier>RecordCross_Sale_Applicable_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.CrossSellReferenceNumber__c</fieldItem>
                 <identifier>RecordCrossSellReferenceNumber_cField</identifier>
             </fieldInstance>
@@ -1037,7 +1047,7 @@
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

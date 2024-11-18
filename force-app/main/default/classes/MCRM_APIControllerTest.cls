@@ -44,7 +44,7 @@ private class MCRM_APIControllerTest {
         Test.startTest();
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Wallet_Transaction', new Map<String, Object>{'param1'=>'Test1','param1'=>'Test2'});
+        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Wallet_Transaction', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2'});
         Test.stopTest();
         Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
         Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
@@ -56,7 +56,7 @@ private class MCRM_APIControllerTest {
         Asset asst = [select id from Asset];
         Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
 
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(asst.Id,'MCRM_Wallet_Transaction', new Map<String, Object>{'param1'=>'Test1','param1'=>'Test2'});
+        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(asst.Id,'MCRM_Wallet_Transaction', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2'});
         Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
         Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');    
     }
@@ -67,7 +67,7 @@ private class MCRM_APIControllerTest {
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
 
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Lifestyle_Voucher', new Map<String, Object>{'param1'=>'Test1','param1'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
+        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Lifestyle_Voucher', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
         Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
         Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
     }
@@ -78,7 +78,7 @@ private class MCRM_APIControllerTest {
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
 
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_ActiveDayURL', new Map<String, Object>{'param1'=>'Test1','param1'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
+        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_ActiveDayURL', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
         Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
         Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
     }
@@ -100,7 +100,7 @@ private class MCRM_APIControllerTest {
         Account acc = [SELECT Id FROM Account LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.DevicesMockHttpResponseGenerator());
 
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Devices', new Map<String, Object>{'param1'=>'Test1','param1'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
+        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Devices', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
         Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
         Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
     }
