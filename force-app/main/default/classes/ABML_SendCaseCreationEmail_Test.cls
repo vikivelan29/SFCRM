@@ -8,13 +8,11 @@ public class ABML_SendCaseCreationEmail_Test {
             Status = 'New',
             Subject = 'Test Case',
             SuppliedEmail = 'test@example.com',
-            Business_unit__c = 'ABCL',
+            Business_unit__c = 'ABML',
             Overall_Case_Closure_SLA__c = Datetime.newInstance(2024, 11, 07)
         );
         insert testCase;
-        
-        testCase.Business_unit__c = 'ABML';
-        Update testCase;
+       
         
         
         
