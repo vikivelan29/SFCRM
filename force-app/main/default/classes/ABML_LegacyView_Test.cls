@@ -20,7 +20,7 @@ public class ABML_LegacyView_Test {
         
         slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', Type = 'Queue');
         insert slaGroup;
-        
+        Id accRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Franchisee').getRecordTypeId();
         User superManagerUser = new User(
             IsActive = true,
             Business_Unit__c='ABML',
@@ -60,7 +60,8 @@ public class ABML_LegacyView_Test {
                 Name = 'Test Account',
                 ABML_Branch_Code__c = 'Branch001',
                 ABML_Franchisee_Code__c = 'Franchisee001',
-                Line_of_Business__c = 'ABML'
+                Line_of_Business__c = 'ABML',
+		RecordTypeId = accRecordTypeId
             );
             insert testAccount;
     
