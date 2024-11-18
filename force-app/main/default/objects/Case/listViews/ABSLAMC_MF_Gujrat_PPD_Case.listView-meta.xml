@@ -20,6 +20,6 @@
     <label>ABSLAMC MF Gujrat PPD</label>
     <queue>ABSLAMC_MF_Gujrat_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_Gujrat_PPD_G</group>
     </sharedTo>
 </ListView>

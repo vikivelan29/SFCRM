@@ -99,7 +99,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
@@ -187,7 +187,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
@@ -275,7 +275,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
@@ -355,7 +355,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>

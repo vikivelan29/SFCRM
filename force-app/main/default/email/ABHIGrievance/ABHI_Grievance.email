@@ -1,0 +1,19 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="margin-right: 4px; margin-left: 4px; text-align:justify">Dear {{{Case.Customer_name_formula__c}}},<br />
+<br />
+Greetings from Aditya Birla Health Insurance!<br />
+<br />
+We are writing in reference to your recent complaint against the above mentioned policy number. The decision stands final and we regret to inform you that we cannot change it. If you wish to pursue this matter further, kindly reach out to us at gro.healthinsurance@adityabirlacapital.com within the next eight weeks.<br />
+<br />
+Alternatively, you may approach the Insurance Ombudsman within your jurisdiction. For your convenience, we have attached a list of Ombudsman offices.<br />
+<br />
+We trust that our response addresses your concerns. However, should you require any further assistance, please do not hesitate to contact us at 1800-270-7000 or email us at abhi.grievance@adityabirlacapital.com.<br />
+<br />
+Regards,<br />
+Aditya Birla Health Insurance Co. Limited</div>
+</body>
+</html>

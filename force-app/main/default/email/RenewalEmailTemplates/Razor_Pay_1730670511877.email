@@ -2,5 +2,5 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Aditya Birla Health Insurance has requested payment of INR {{{Opportunity.Razor_Pay_Amount__c}}}. You can pay through this link:&nbsp;{{{Opportunity.Razor_Pay_Link__c}}}</body>
+<body style="height: auto; min-height: auto;"><i>Aditya Birla Health Insurance has requested payment of INR&nbsp;</i>{{{Opportunity.Razor_Pay_Amount__c}}}.<i>&nbsp;You can pay through this link:&nbsp;</i>{{{Opportunity.Razor_Pay_Link__c}}}&nbsp;<i>- Razorpay</i></body>
 </html>

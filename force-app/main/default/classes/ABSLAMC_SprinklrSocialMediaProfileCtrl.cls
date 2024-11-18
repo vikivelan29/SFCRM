@@ -5,7 +5,7 @@ public with sharing class ABSLAMC_SprinklrSocialMediaProfileCtrl {
         
         responseWrapper resultWrap = new responseWrapper();
         String request = '';
-        
+        System.debug('@@@accID'+accId);
         Map<String,String>  emailPhoneMap = getAccount(accId);
         String email = emailPhoneMap.get('Email');
         String phone = emailPhoneMap.get('Phone');
@@ -41,7 +41,6 @@ public with sharing class ABSLAMC_SprinklrSocialMediaProfileCtrl {
             (SELECT Id,Phone,Email FROM Contacts LIMIT 1)
             FROM Account
             WHERE Id = :accId
-            AND Business_Unit__c = :ABSLAMC_Constants.ABSLAMCBU
             LIMIT 1
         ];
         System.debug(account);
