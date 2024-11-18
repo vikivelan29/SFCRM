@@ -1461,4 +1461,11 @@
         <shortDescription>ABHI Create Case Validation Error 1</shortDescription>
         <value>Current user is not allowed to create case.</value>
     </labels>
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
 </CustomLabels>
