@@ -26,13 +26,13 @@
         <field>EMAIL.HAS_ATTACHMENT</field>
     </columns>
     <columns>
+        <field>LAST_UPDATEONLY</field>
+    </columns>
+    <columns>
         <field>Case.Proposal_Number__c</field>
     </columns>
     <columns>
         <field>OWNER</field>
-    </columns>
-    <columns>
-        <field>Account.Customer_Type__c</field>
     </columns>
     <columns>
         <field>Case.Type_Text__c</field>
@@ -49,6 +49,9 @@
     </columns>
     <columns>
         <field>Case.LAN__c</field>
+    </columns>
+    <columns>
+        <field>Account.Customer_Type__c</field>
     </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(ISBLANK(Case.Recategorisation_Date__c), &apos;No&apos;, &apos;Yes&apos;)</calculatedFormula>

@@ -949,7 +949,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>secName</name>
-                    <value>Total Active Days</value>
+                    <value>Total Active Days (Monthly)</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showPreview</name>

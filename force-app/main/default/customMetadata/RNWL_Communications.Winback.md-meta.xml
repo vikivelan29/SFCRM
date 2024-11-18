@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>Method_Name__c</field>
-        <value xsi:type="xsd:string">winBackSMSValidation</value>
+        <value xsi:type="xsd:string">winBackWhatsAppValidation</value>
     </values>
     <values>
         <field>SMS__c</field>

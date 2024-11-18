@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Endorsement: we need a Proposal Form as per the plan</value>
+        <value xsi:type="xsd:string">Digital: the steps were added manually</value>
     </values>
     <values>
         <field>Type__c</field>
