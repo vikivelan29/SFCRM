@@ -34,8 +34,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>asf_FetchAssetsRelatedToAccount</componentName>
-                <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
+                <componentInstanceProperties>
+                    <name>isCurrent</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>asf_CurrentHoldings</componentName>
+                <identifier>c_asf_CurrentHoldings</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</name>
@@ -394,40 +398,7 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Account.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Contacts</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-ec51f0d8-6fdf-43a1-a465-1c55665553ee</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>adminFilters</name>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
@@ -439,7 +410,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Contacts__r</value>
+                    <value>Contacts</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListDisplayType</name>
@@ -452,16 +423,19 @@
                             <value>FULL_NAME</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>ACCOUNT.NAME</value>
+                            <value>CONTACT.PHONE1</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CONTACT.PHONE1</value>
+                            <value>CONTACT.EMAIL</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CONTACT.TITLE</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Person Accounts</value>
+                    <value>Contacts</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
@@ -479,7 +453,17 @@
                 <identifier>lst_dynamicRelatedList3</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-2ef9f0ce-1f9c-4fed-be5a-7ea8f1aa2293</name>
+        <name>Facet-ec51f0d8-6fdf-43a1-a465-1c55665553ee</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>abml_LegacyCases</componentName>
+                <identifier>c_abml_LegacyCases</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-a9beb9e8-dfa0-42bc-b302-6500b9c83f16</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -543,14 +527,14 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-2ef9f0ce-1f9c-4fed-be5a-7ea8f1aa2293</value>
+                    <value>Facet-a9beb9e8-dfa0-42bc-b302-6500b9c83f16</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
+                    <value>Legacy View</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab8</identifier>
+                <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

@@ -12,7 +12,7 @@ public with Sharing class ABSLAMC_Constants {
     public static final String UNRESOLVED_STAGE = 'Unresolved';
     public static final String REPLY_RECEIVED_FROM_APP_SUPPORT = 'Reply Received from App Support';
     public static final String ISSUE_MANAGEMENT_UNIT = 'ABSLAMC MF Issue Management Unit';   
-    public static final String AWAITING_RESPONSE_FROM_APP_SUPPORT = 'Awaiting Response from App Support'; 
+    public static final String AWAITING_RESPONSE_FROM_APP_SUPPORT = 'Awaiting Response from App Support';
     public static final Set<String> ABSLAMC_ALL_LOB_GRP_SET = new Set<String>{'ABSLAMC MF All Teams (G)', 'ABSLAMC AIF All Teams (G)', 'ABSLAMC RE All Teams (G)', 'ABSLAMC PMS All Teams (G)'};
     public static final String ABSLAMCBU = 'ABSLAMC'; 
     public static final String ABSLAMC_CASE_ORIGIN = 'ABSLAMC Email';
@@ -64,5 +64,5 @@ public static final String SRC_CALLCENTRE = 'Call Centre';
     public static final String LEADOWNERCHANGEFORQUEUE = 'You are not the member of the queue';
     public static final String AMCLOB = 'AMC';
     public static final String PHDQUEUENAME = 'ABSLAMC_PHD';
-    public static final String CLOSEDCASEERRORMSG = 'Case cannot be closed from Awaiting Response from App Support stage';
+    public static final String CLOSEDCASEERRORMSG = 'Case cannot be closed from Awaiting Response from App Support stage'; //added for UAT observations
 }
