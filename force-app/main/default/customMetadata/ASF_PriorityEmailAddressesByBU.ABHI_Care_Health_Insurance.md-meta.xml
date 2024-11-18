@@ -12,10 +12,6 @@
     </values>
     <values>
         <field>Case_Business_Unit__c</field>
-        <value xsi:type="xsd:string">ABHI</value>
-    </values>
-    <values>
-        <field>Case_LOB__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -28,18 +24,14 @@
     </values>
     <values>
         <field>Email2CaseAddress__c</field>
-        <value xsi:type="xsd:string">care.healthinsurance@adityabirlacapital.com</value>
+        <value xsi:type="xsd:string">abhicl.carehealthinsuranceuat@adityabirlacapital.com</value>
     </values>
     <values>
         <field>Priority_Index__c</field>
-        <value xsi:type="xsd:double">6.0</value>
+        <value xsi:type="xsd:double">9.0</value>
     </values>
     <values>
         <field>Send_to_EBOT__c</field>
-        <value xsi:type="xsd:boolean">true</value>
-    </values>
-    <values>
-        <field>Send_to_UNFYD__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
 </CustomMetadata>
