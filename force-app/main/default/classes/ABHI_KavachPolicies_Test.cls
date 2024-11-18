@@ -1,5 +1,5 @@
 /**
- * @description       : Test Class for 
+ * @description       : Test Class for ABHI_KavachPolicies
  * @author            : Aditee Churiwala
  * @group             : 
  * @last modified on  : 01/11/2024
@@ -10,7 +10,13 @@
 **/
 @isTest
 public class ABHI_KavachPolicies_Test {
-	@isTest static void testgetLegacyData() {
+    /**
+   * @description Test Data Setup for this Test Class
+   */
+    @testSetup
+    static void setupTestData() {
+    }    
+    @isTest static void testgetLegacyData() {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABHI_KavachPoliciesMockResponseGenerator());
         Test.startTest();
