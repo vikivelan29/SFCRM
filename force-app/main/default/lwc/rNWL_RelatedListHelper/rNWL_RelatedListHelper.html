@@ -1,0 +1,41 @@
+<template>
+    <article class="slds-card slds-card_boundary">
+        <div class="slds-page-header slds-page-header_joined slds-page-header_bleed slds-shrink-none test-headerRegion slds-is-relative"
+            style="border-bottom: solid #c9c9c9 1px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-opportunity">
+                                <lightning-icon icon-name={iconName} alternative-text={sectionLabel} title={sectionLabel} size="small">
+                                </lightning-icon>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h2>
+                                        <span class="slds-page-header__title slds-truncate" style="font-size: 14px">{sectionLabel} ({countOfRecords})</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <template if:true={hasRecords}>
+            <div class="slds-grid listDisplays">
+                <div class="slds-grid slds-border__left slds-border__right listViewContainer">
+                    <lightning-datatable class="slds-max-medium-table_stacked" show-row-number-column key-field="id" data={data} columns={columns} hide-checkbox-column="true">
+                    </lightning-datatable>
+                </div>
+            </div>
+            <template if:true={showViewAll}>
+                <div class="slds-align_absolute-center" style="padding:5px">
+                    <lightning-button variant="base" label="View All" title="View All" onclick={handleViewAll} class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </template>
+        </template>
+    </article>
+</template>

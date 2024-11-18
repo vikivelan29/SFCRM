@@ -17,9 +17,9 @@
     <columns>Overall_Case_Closure_SLA__c</columns>
     <columns>SR_TAT_elapsed__c</columns>
     <filterScope>Queue</filterScope>
-    <label>ABSLAMC MF PHD</label>
-    <queue>ABSLAMC_MF_PHD</queue>
+    <label>ABSLAMC PHD</label>
+    <queue>ABSLAMC_PHD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_PHD_G</group>
     </sharedTo>
 </ListView>

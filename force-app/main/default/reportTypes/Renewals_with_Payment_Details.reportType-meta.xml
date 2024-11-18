@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>Collections__c</baseObject>
+    <category>opportunities</category>
+    <deployed>true</deployed>
+    <description>Collections report with parent opportunity, asset fields etc.</description>
+    <label>Renewals with Payment Details</label>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Collection_Payment_Amount__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Payment Received Date</displayNameOverride>
+            <field>Collection_Date__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Payment_Reference_Number__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Policy_Renewed_Date__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Received_From__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Renewal_Payment_Mode__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Renewal_Payment_Status__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Renewal Request No</displayNameOverride>
+            <field>Renewal_Request__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Source_of_Collection__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Customer Name</displayNameOverride>
+            <field>Renewal_Request__c.Account</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Policy Number</displayNameOverride>
+            <field>Renewal_Request__c.Policy_Number__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>New Owner</displayNameOverride>
+            <field>Renewal_Request__c.Best_Disposition__c.Agent_Name__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Status Code</displayNameOverride>
+            <field>Renewal_Request__c.Status__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Issue Date</displayNameOverride>
+            <field>Renewal_Request__c.Policy__c.Issue_Date__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Policy Renewal Due Date</displayNameOverride>
+            <field>Renewal_Request__c.Policy__c.Maturity_Date__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Renewal_Request__c.Name</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Renewal_Request__c.Renewed_Policy__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Policy Issue Date</displayNameOverride>
+            <field>Renewal_Request__c.Renewed_Policy__c.Issue_Date__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <masterLabel>Collections</masterLabel>
+    </sections>
+</ReportType>
