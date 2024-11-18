@@ -156,6 +156,18 @@
         <apexClass>ABHI_EndorsementLwcController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_EmailMessageHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_CaseIntegrationHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_EBOTCaseLogics</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>  
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.DocumentIndex__c</field>
