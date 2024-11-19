@@ -5,8 +5,9 @@
 *Last Modified:  02/09/2024
 *@description :  This webservice is to create Claim records in SFDC.
 ***************************************/
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.NcssTypeCount')
 @RestResource (urlMapping='/CreateClaim')
-global class ABHI_CreateClaimService {
+global with sharing class ABHI_CreateClaimService {
     
     
     @HttpPost
@@ -70,8 +71,8 @@ global class ABHI_CreateClaimService {
                                             claim.Hospital_Code__r = new Health_Provider__c(Provider_Code__c = (String) fieldValue);
                                           system.debug('claim.Hospital_Code__r' +claim.Hospital_Code__r);
                                         
-                                        }else if (relationshipField == 'Customer_Member_Mapping__r') {
-                                            claim.Customer_Member_Mapping__r = new Account(LOB_Client_Code__c = (String) prefixedValue);
+                                        }else if (relationshipField == 'Customer__r') {
+                                            claim.Customer__r = new Account(LOB_Client_Code__c = (String) prefixedValue);
                                         } else { 
                                         claim.put(apiFieldName, fieldValue);// Other relationship fields
                                     }
