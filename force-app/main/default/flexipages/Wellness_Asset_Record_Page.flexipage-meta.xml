@@ -192,6 +192,26 @@
                 <identifier>RecordContractId_cField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Agentbranch__c</fieldItem>
+                <identifier>RecordAgentbranch_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AgentStatus__c</fieldItem>
+                <identifier>RecordAgentStatus_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-89d4dcc1-1284-405f-a746-18ddcf6c2597</name>
         <type>Facet</type>
     </flexiPageRegions>
