@@ -617,6 +617,16 @@
                 <default>false</default>
                 <label>ABC_Servicing_App</label>
             </value>
+            <value>
+                <fullName>Inbound / Outbound</fullName>
+                <default>false</default>
+                <label>Inbound / Outbound</label>
+            </value>
+            <value>
+                <fullName>Inbound Altruist</fullName>
+                <default>false</default>
+                <label>Inbound Altruist</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

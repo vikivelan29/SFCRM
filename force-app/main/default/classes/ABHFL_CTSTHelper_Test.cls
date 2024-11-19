@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ABHFL Team
  * @group             : 
- * @last modified on  : 10-16-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @last modified on  : 03-03-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   03-03-2024   ABHFL Team  Initial Version
@@ -290,6 +290,7 @@ public class ABHFL_CTSTHelper_Test {
         testcase.CCC_External_Id__c='hfl003';
         testcase.RecordTypeId=recordTypeId;
         testcase.Business_Unit__c='ABHFL';
+        testcase.Source__c = 'Email';
         insert testcase;
         
         ABHFL_case_Detail__c detailrecord1=new ABHFL_case_Detail__c();
@@ -302,6 +303,7 @@ public class ABHFL_CTSTHelper_Test {
         testcase1.CCC_External_Id__c='hfl045';
         testcase1.RecordTypeId=recordTypeId;
         testcase1.Business_Unit__c='ABHFL';
+        testcase1.Source__c = 'Email';
         insert testcase1;
         
         ABHFL_case_Detail__c detailrecord2=new ABHFL_case_Detail__c();
@@ -314,6 +316,7 @@ public class ABHFL_CTSTHelper_Test {
         testcase2.CCC_External_Id__c='hfl023';
         testcase2.RecordTypeId=recordTypeId;
         testcase2.Business_Unit__c='ABHFL';
+        testcase2.Source__c = 'Email';
         insert testcase2;
         Test.stopTest();
     }
@@ -450,4 +453,5 @@ public class ABHFL_CTSTHelper_Test {
         
         ABHFL_CTSTHelper.createCases('0123', 'LAXXXXXXXX', 'CCC-CC-CCLTD-01', 'Email', 'LWC', caseRecordLst[0].id, recordTypeId);    
     }
+    
 }

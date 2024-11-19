@@ -62,8 +62,8 @@ export default class Absli_quickkill extends LightningElement {
     };
 
     filter = {};
-
-
+    debugger;
+ 
     @wire(getCustomerPhoneNumber, { recordId: "$recordId"})
     async wiredRecord({ error, data }) {
         if (error) {
@@ -73,7 +73,7 @@ export default class Absli_quickkill extends LightningElement {
             //this.accountRecord = data;
 
             let mobVal = data;//this.accountRecord.fields.PersonMobilePhone.value;
-            if(mobVal != null && mobVal != ""){
+            if(mobVal != null && mobVal != "" && mobVal != "NOMOBILE"){
                 await this.loadColumns();
                 await this.loadRelatedAssets();
                 this.noMobileNum = false;
