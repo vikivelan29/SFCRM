@@ -170,8 +170,6 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
-                    system.debug('fieldName->'+fieldName);
-                    system.debug('obj==>'+obj);
                     if (obj.getSObjectType().getDescribe().fields.getMap().containsKey(fieldName)) {
                         String fieldValue = (String)obj.get(fieldName);
                         fieldValue = fieldValue==null?' ':fieldValue;
