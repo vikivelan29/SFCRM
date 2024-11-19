@@ -540,21 +540,25 @@
             <value>
                 <fullName>Incorrect Customer tagging</fullName>
                 <default>false</default>
+                <isActive>true</isActive>
                 <label>Incorrect Customer tagging</label>
             </value>
             <value>
                 <fullName>Incorrect SubType tagging</fullName>
                 <default>false</default>
+                <isActive>true</isActive>
                 <label>Incorrect SubType tagging</label>
             </value>
             <value>
                 <fullName>Out of Scope Request</fullName>
                 <default>false</default>
+                <isActive>true</isActive>
                 <label>Out of Scope Request</label>
             </value>
             <value>
                 <fullName>Customer Not Contactable</fullName>
                 <default>false</default>
+                <isActive>true</isActive>
                 <label>Customer Not Contactable</label>
             </value>
             <value>
@@ -564,4 +568,3 @@
             </value>
         </valueSetDefinition>
     </valueSet>
-</CustomField>
