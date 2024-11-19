@@ -155,23 +155,16 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Customer Member Mapping</label>
     <nameField>
+        <displayFormat>CM-{0000000}</displayFormat>
         <label>Mapping Id</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Customer Member Mappings</pluralLabel>
-    <profileSearchLayouts>
-        <fields>NAME</fields>
-        <fields>Member_Name__c</fields>
-        <fields>Search_Member__c</fields>
-        <profileName>ABHI Base Profile</profileName>
-    </profileSearchLayouts>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
-        <lookupDialogsAdditionalFields>Member_Name__c</lookupDialogsAdditionalFields>
-        <searchResultsAdditionalFields>Policy_Number_Text__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Name</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Member_Name__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Search_Member__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Read</sharingModel>
     <visibility>Public</visibility>
