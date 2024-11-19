@@ -2129,5 +2129,9 @@
             <fullName>Question</fullName>
             <default>false</default>
         </values>
+        <value>
+            <fullName>Escalations</fullName>
+            <default>false</default>
+        </value>
     </picklistValues>
 </RecordType>
