@@ -1660,4 +1660,26 @@
         <shortDescription>MCRM_Legacy_Search</shortDescription>
         <value>Please select Filter, and click on Search to view results.</value>
     </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation_Error_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation Error 1</shortDescription>
+        <value>Current user is not allowed to create case.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
+        <categories>Wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
+        <value>No records are available for display.</value>
+    </labels>
 </CustomLabels>
