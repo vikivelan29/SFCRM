@@ -165,6 +165,6 @@
         <searchResultsAdditionalFields>Cover_Code__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Product__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>Read</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

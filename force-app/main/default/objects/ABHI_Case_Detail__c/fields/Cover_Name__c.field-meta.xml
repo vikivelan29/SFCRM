@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Cover_Name__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
     <inlineHelpText>Please enter CO- to view list of available Patients</inlineHelpText>
     <label>Cover Name</label>
     <referenceTo>Cover__c</referenceTo>
