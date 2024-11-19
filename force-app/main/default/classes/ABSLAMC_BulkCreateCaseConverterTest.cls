@@ -21,7 +21,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -39,7 +39,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -57,7 +57,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -74,7 +74,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -92,7 +92,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -110,7 +110,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -128,7 +128,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -145,8 +145,12 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+        ASF_Case_Category_Config__c ccc = [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1]; 
+        ccc.CCC_External_Id__c = 'MF0121';
+        update ccc;
+        String ccccexternalId = ccc.CCC_External_Id__c;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"'+ccccexternalId+'", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -163,8 +167,12 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+        ASF_Case_Category_Config__c ccc = [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1]; 
+        ccc.CCC_External_Id__c = 'MF0121';
+        update ccc;
+        String ccccexternalId = ccc.CCC_External_Id__c;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Social", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"'+ccccexternalId+'", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Social", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -181,8 +189,12 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+        ASF_Case_Category_Config__c ccc = [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1]; 
+        ccc.CCC_External_Id__c = 'MF0121';
+        update ccc;
+        String ccccexternalId = ccc.CCC_External_Id__c;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Social", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"testDesc", "Send Auto Communication?": "Email"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"'+ccccexternalId+'", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Social", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"testDesc", "Send Auto Communication?": "Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -198,8 +210,12 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+        ASF_Case_Category_Config__c ccc = [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1]; 
+        ccc.CCC_External_Id__c = 'MF0121';
+        update ccc;
+        String ccccexternalId = ccc.CCC_External_Id__c;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"","Source":"Email","Channel":"Social", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"testDesc", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"'+ccccexternalId+'", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"","Source":"Email","Channel":"Social", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"testDesc", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -216,8 +232,12 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+        ASF_Case_Category_Config__c ccc = [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1]; 
+        ccc.CCC_External_Id__c = 'MF0121';
+        update ccc;
+        String ccccexternalId = ccc.CCC_External_Id__c;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Social", "Caller Type":"Investor", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"testDesc", "Send Auto Communication?":"ABCd"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"'+ccc.CCC_External_Id__c+'", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Social", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"testDesc", "Send Auto Communication?":"ABCd"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -234,8 +254,56 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+        ASF_Case_Category_Config__c ccc = [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1]; 
+        ccc.CCC_External_Id__c = 'MF0121';
+        update ccc;
+        String ccccexternalId = ccc.CCC_External_Id__c;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"MF0121", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"", "Critical Request flag (Y/N)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"'+ccccexternalId+'", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
+        ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
+        Test.startTest();
+        utility.convertJSONRows(jsonRows);
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testconvertJSONRows13(){
+        ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
+        headObj.Template_Name__c = 'test';
+        headObj.Total_Rows__c = 1;
+        headObj.Status__c = 'Pending';
+        insert headObj;
+        ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
+        lineitem.Bulk_Upload_Header__c = headObj.Id;
+        insert lineitem;
+        ASF_Case_Category_Config__c ccc = [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1]; 
+        ccc.CCC_External_Id__c = 'MF0121';
+        update ccc;
+        String ccccexternalId = ccc.CCC_External_Id__c;
+        Map<Id, String> jsonRows = new Map<Id, String>();
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"'+ccccexternalId+'", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "Yes" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":""}');
+        ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
+        Test.startTest();
+        utility.convertJSONRows(jsonRows);
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testconvertJSONRows14(){
+        ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
+        headObj.Template_Name__c = 'test';
+        headObj.Total_Rows__c = 1;
+        headObj.Status__c = 'Pending';
+        insert headObj;
+        ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
+        lineitem.Bulk_Upload_Header__c = headObj.Id;
+        insert lineitem;
+        ASF_Case_Category_Config__c ccc = [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1]; 
+        ccc.CCC_External_Id__c = 'MF0121';
+        update ccc;
+        String ccccexternalId = ccc.CCC_External_Id__c;
+        Map<Id, String> jsonRows = new Map<Id, String>();
+        jsonRows.put(lineitem.Id, '{"LOB":"MF","Issue Code":"'+ccccexternalId+'", "Category": "Request", "Type":"DC Reject", "Sub-Type"  : "DC rejection-Cheque Payment", "CLIENT CODE (LOB + PAN/PEKRN)" : "345678333423", "Folio":"XLAN1234","Owner Team" : "","Owner AD ID":"1234","Source":"Email","Channel":"Online", "Caller Type":"Investor", "Critical Request flag (Yes/No)" : "ABC" ,"PHD Compaint Source" : "","Description":"DescriptionXYZ", "Send Auto Communication?":"Yes"}');
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -244,7 +312,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
     
     @IsTest
     static void testprepareDownloadTemplate() {        
-        List<String> columnNames = new List<String>{'LOB', 'Issue Code', 'Category', 'Type', 'Sub-Type','CLIENT CODE (LOB + PAN/PEKRN)','Folio','Owner Team','Owner AD ID','Source','Channel','Caller Type','Critical Request flag (Y/N)','PHD Compaint Source','Description', 'Send Auto Communication?'};
+        List<String> columnNames = new List<String>{'LOB', 'Issue Code', 'Category', 'Type', 'Sub-Type','CLIENT CODE (LOB + PAN/PEKRN)','Folio','Owner Team','Owner AD ID','Source','Channel','Caller Type','Critical Request flag (Yes/No)','PHD Compaint Source','Description', 'Send Auto Communication?'};
         Case caserec = [Select Id from Case LIMIT 1];
         Test.startTest();
         ABSLAMC_BulkCreateCaseConverterUtility utility = new ABSLAMC_BulkCreateCaseConverterUtility();
@@ -254,7 +322,7 @@ public with sharing class ABSLAMC_BulkCreateCaseConverterTest {
     }
     @IsTest
     static void testprepareDownloadTemplate2() {        
-        List<String> columnNames = new List<String>{'LOB', 'Issue Code', 'Category', 'Type', 'Sub-Type','CLIENT CODE (LOB + PAN/PEKRN)','Folio','Owner Team','Owner AD ID','Source','Channel','Caller Type','Critical Request flag (Y/N)','PHD Compaint Source','Description', 'Send Auto Communication?'};
+        List<String> columnNames = new List<String>{'LOB', 'Issue Code', 'Category', 'Type', 'Sub-Type','CLIENT CODE (LOB + PAN/PEKRN)','Folio','Owner Team','Owner AD ID','Source','Channel','Caller Type','Critical Request flag (Yes/No)','PHD Compaint Source','Description', 'Send Auto Communication?'};
         ListView lv = [Select Id, SobjectType, DeveloperName from ListView where SobjectType = 'Case' and DeveloperName = 'RecentlyViewedCases' LIMIT 1];
         Test.setMock(HttpCalloutMock.class, new ASF_ListViewAPIMock());
         Test.startTest();
