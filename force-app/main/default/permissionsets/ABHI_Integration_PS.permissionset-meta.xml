@@ -1300,6 +1300,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Cover_Code_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Hospital_Code_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Entity_Reference_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1861,6 +1871,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Health_Provider__c.Provider_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Health_Provider__c.Search_Health__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
