@@ -144,7 +144,6 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
                 fieldNames.add(mapOfColumnNameToFieldApi.get(columnName));
             }
         }
-
         String strFinalQuery;
         if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
@@ -165,19 +164,22 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
             }
             strFinalQuery = 'Select '+ strFields + ' FROM ' + objectName + strScope + strWhere ;     
         }
-
         if(String.isNotBlank(strFinalQuery)){
             strFinalQuery = strFinalQuery + ' LIMIT 50000';
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
-                    String fieldValue = (String)obj.get(fieldName);
-                    fieldValue = fieldValue==null?' ':fieldValue;
-                    if(fieldName == 'CaseNumber'){
-                        //fieldValue = ' '+fieldValue;
+                    system.debug('fieldName->'+fieldName);
+                    system.debug('obj==>'+obj);
+                    if (obj.getSObjectType().getDescribe().fields.getMap().containsKey(fieldName)) {
+                        String fieldValue = (String)obj.get(fieldName);
+                        fieldValue = fieldValue==null?' ':fieldValue;
+                        if(fieldName == 'CaseNumber'){
+                            //fieldValue = ' '+fieldValue;
+                        }
+                        fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                     }
-                    fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);
             }
