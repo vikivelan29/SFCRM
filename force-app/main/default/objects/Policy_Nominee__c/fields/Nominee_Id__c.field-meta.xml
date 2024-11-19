@@ -3,7 +3,7 @@
     <fullName>Nominee_Id__c</fullName>
     <displayFormat>NM-{0000}</displayFormat>
     <externalId>false</externalId>
-    <label>Nominee Id</label>
+    <label>Search Nominee</label>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>AutoNumber</type>
