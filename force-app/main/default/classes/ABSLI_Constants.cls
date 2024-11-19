@@ -28,7 +28,7 @@ public class ABSLI_Constants {
 	public static final List<String> CHECKLIST_SIGNATURECROPSIGNATUREMISMATCHANDNO_STATUS = new List<String>{'Signature Mismatched', 'No','Signature Not Cropped'};
     public static final List<String> NOMINEE_UPDATE_POLICY_IDENTIFICATION_VALIDATION = new List<String>{'Married Women Property Act','Hindu Undivided Family Act','Key Man Act'};
     public static final String ASSIGNMENT_ISSUE_TYPE_VALIDATION = 'Married Women Property Act';
-    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health'; 
+    public static final String SARAL_HEALTH_PLAN_NAME = 'BSLI Saral Health';
     public static final Map<String,String> FIELD_AND_TYPE_FOR_CUSTOMER_PORTAL_REDIRECTION = new Map<String,String>
     {'Reinstatement_Amount__c'=>'Decimal',
      'COI_Covid_Quest__c' => 'String',
@@ -153,7 +153,7 @@ public class ABSLI_Constants {
 
     /* LOAN APPROVAL INTEGRATION **/
     public static final String LOANAPPROVAL_SERVICE_NAME = 'ApproveVoucherUpdate';
-    public static final String LOANAPPROVAL_USER_ID = 'MMSING1';
+    public static final String LOANAPPROVAL_USER_ID = 'CP_Batch';
     public static final String LOANAPPROVAL_ACTION = 'A';
     public static final String LOANAPPROVAL_EVALUATION_ERROR = 'ABSLI_LOANAPPROVAL_EVALUATION_ERROR';
     public static final String LOANAPPROVAL_SUCCESS_MESSAGE = 'ABSLI_LOANAPPROVAL_SUCCESS_MESSAGE';
@@ -260,7 +260,7 @@ public class ABSLI_Constants {
     public static final List<String> SURRENDER_WITHDRAWAL_CASE_TYPES = new List<String>{'PPAY001','PPAY008'};
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_NAME = 'User Branch';
     public static final String SURRENDER_WITHDRAWAL_USER_BRANCH_CODE = 'User123';
-  
+
     public static final String EMAIL_SOURCE_REQ_BY = 'Customer';
-  
+
 }
