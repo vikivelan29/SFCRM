@@ -36,11 +36,11 @@
     </values>
     <values>
         <field>Source__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Email</value>
     </values>
     <values>
         <field>User_Source_Code__c</field>
-        <value xsi:type="xsd:string">001,002</value>
+        <value xsi:type="xsd:string">001</value>
     </values>
     <values>
         <field>Validation_Name__c</field>
