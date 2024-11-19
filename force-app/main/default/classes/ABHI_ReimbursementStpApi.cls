@@ -287,7 +287,7 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
         patInst.Claim_Intimation_Source = 'CRM';
         patInst.Source_System_Code = 'CRM';
         patInst.Other_Ind = caseRecord.ABHI_Case_Detail__r.Hospital__r.Name == 'Others' ? 'Yes' : 'No';
-        patInst.Hospital_Nm = caseRecord.ABHI_Case_Detail__r.Hospital__r.Name;
+        patInst.Hospital_Nm = caseRecord.ABHI_Case_Detail__r.Hospital_Name__c;
         PreexistingObjWrapper peoInst = new PreexistingObjWrapper();
         peoInst.Preexisting_Deases = '';
         peoInst.Status = '';
