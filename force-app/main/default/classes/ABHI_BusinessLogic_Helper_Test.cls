@@ -1,6 +1,6 @@
 /*********************************************************
 *Class        :  ABHI_BusinessLogic_Helper_Test
-*Author       :  Anirudh Raturi
+*Author       :  ABHI and Renewal Team
 *Created Date :  03/09/2024
 *@description  :  Test Class for ABHI_BusinessLogic_Helper_Test 
 *********************************************************/
@@ -18,14 +18,146 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         objAccount.Line_of_Business__c = 'ABHI';
         objAccount.Business_Unit__c = 'ABHI';
         objAccount.RecordTypeId = recordTypeId;
-        insert objAccount;
+        INSERT objAccount;
 
         Asset asst1 = new Asset();
         asst1.Name = 'Test Asset';
         asst1.LAN__c = '23234432423';
         asst1.AccountId = objAccount.Id;
         asst1.Calling_Source__c = 'Ubona BOT';//RNWL
-        insert asst1;
+        INSERT asst1;
+        
+        List<ASF_Case_Category_Config__c> lstCCC = new List<ASF_Case_Category_Config__c>();
+        
+        ASF_Case_Category_Config__c caseCatConfig01 = new ASF_Case_Category_Config__c();
+        caseCatConfig01.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
+    	caseCatConfig01.Overall_Case_Closure_SLA__c = 10;
+        caseCatConfig01.Business_Unit__c = 'ABHI';
+    	caseCatConfig01.First_Stage__c = 'Open';
+    	caseCatConfig01.Type__c = 'Bureau Related';
+    	caseCatConfig01.Sub_Type__c = 'CIBIL Related Details - Ownership Related';
+    	caseCatConfig01.Overall_Case_Closure_SLA__c = 56;
+    	caseCatConfig01.Nature__c = 'Request';
+    	caseCatConfig01.Source__c = 'CEC';  // Branch
+    	caseCatConfig01.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
+    	caseCatConfig01.Resolved_Case_Email_Template__c = 'TEST_EMAIL_CLOSURE_01';
+    	caseCatConfig01.Resolved_Case_SMS_Metadata__c ='TEST_SMS_CLOSURE_01';
+        caseCatConfig01.Recategorisation_Email_Template__c ='TEST_EMAIL_RECAT_01';
+        caseCatConfig01.Recategorisation_SMS_Metadata__c ='TEST_SMS_RECAT_01';
+        caseCatConfig01.Rejected_Case_Email_Template__c ='TEST_EMAIL_REJEC_01';
+        caseCatConfig01.Rejected_Case_SMS_Metadata__c = 'TEST_SMS_REJEC_01';
+        caseCatConfig01.Additional_Email_Templates__c = 'In Progress:TEST_EMAIL_ACK_01,Reopened:TEST_EMAIL_REOPEN_01';
+        caseCatConfig01.Additional_SMS_Metadata__c = 'In Progress:TEST_SMS_ACK_01,Reopened:TEST_SMS_REOPEN_01';
+        lstCCC.add(caseCatConfig01);
+        
+        ASF_Case_Category_Config__c caseCatConfig02 = new ASF_Case_Category_Config__c();
+        caseCatConfig02.CCC_External_Id__c = 'CCC-CC-CCLTD-02';
+    	caseCatConfig02.Overall_Case_Closure_SLA__c = 10;
+        caseCatConfig02.Business_Unit__c = 'ABHI';
+    	caseCatConfig02.First_Stage__c = 'Open';
+    	caseCatConfig02.Type__c = 'Bureau Related';
+    	caseCatConfig02.Sub_Type__c = 'CIBIL Related Details - Ownership Related';
+    	caseCatConfig02.Overall_Case_Closure_SLA__c = 56;
+    	caseCatConfig02.Nature__c = 'Request';
+    	caseCatConfig02.Source__c = 'CEC';  // Branch
+    	caseCatConfig02.Product__c = 'TFE, CV, LCV, CE, SA, GLN, RBG-CV, RBG-CE, ABG, ARB, MFI, TDF';
+    	caseCatConfig02.Resolved_Case_Email_Template__c = 'TEST_EMAIL_CLOSURE_01';
+    	caseCatConfig02.Resolved_Case_SMS_Metadata__c ='TEST_SMS_CLOSURE_01';
+        caseCatConfig02.Recategorisation_Email_Template__c ='TEST_EMAIL_RECAT_01';
+        caseCatConfig02.Recategorisation_SMS_Metadata__c ='TEST_SMS_RECAT_01';
+        caseCatConfig02.Rejected_Case_Email_Template__c = 'TEST_EMAIL_REJEC_01';
+        caseCatConfig02.Rejected_Case_SMS_Metadata__c = 'TEST_SMS_REJEC_01';
+        caseCatConfig02.Additional_Email_Templates__c = 'In Progress:TEST_EMAIL_ACK_01,Reopened:TEST_EMAIL_REOPEN_01';
+        caseCatConfig02.Additional_SMS_Metadata__c = 'In Progress:TEST_SMS_ACK_01,Reopened:TEST_SMS_REOPEN_01';
+        lstCCC.add(caseCatConfig02);
+        
+        INSERT lstCCC;
+        
+        List<ASF_Case_Stage_Config__c> stageConfigList = new List<ASF_Case_Stage_Config__c>();
+        ASF_Case_Stage_Config__c stage1 = new ASF_Case_Stage_Config__c();
+    	stage1.Case_Category_Config__c = lstCCC[0].Id;
+    	stage1.Order__c = 1;
+    	stage1.StageName__c  = 'Open';
+    	stage1.Stage_SLA_1__c = 1;
+    	stage1.Status_Mapping__c = 'New';
+    	stage1.SLA_Target_1_Type__c = 'Manager';
+    	stage1.Query_Fields__c = 'Id,Stage__c';
+    	stage1.Manual_Stage__c = false;
+    	stageConfigList.add(stage1);
+        
+        ASF_Case_Stage_Config__c stage2 = new ASF_Case_Stage_Config__c();
+    	stage2.Case_Category_Config__c = lstCCC[0].Id;
+    	stage2.Order__c = 2;
+    	stage2.StageName__c  = 'In Progress';
+    	stage2.Stage_SLA_1__c = 53;
+    	stage2.Status_Mapping__c = 'In Progress';
+    	stage2.SLA_Target_1_Type__c = 'Manager';
+    	stage2.Query_Fields__c = 'Id,Stage__c';
+    	stage2.Manual_Stage__c = false;
+    	stageConfigList.add(stage2);
+        
+        ASF_Case_Stage_Config__c stage3 = new ASF_Case_Stage_Config__c();
+    	stage3.Case_Category_Config__c = lstCCC[0].Id;
+    	stage3.Order__c = 3;
+    	stage3.StageName__c  = 'Resolved';
+    	stage3.Status_Mapping__c = 'Resolved';
+    	stage3.Query_Fields__c = 'Id,Stage__c';
+    	stage3.Manual_Stage__c = false;
+    	stageConfigList.add(stage3);
+        
+        ASF_Case_Stage_Config__c stage4 = new ASF_Case_Stage_Config__c();
+    	stage4.Case_Category_Config__c = lstCCC[0].Id;
+    	stage4.Order__c = 4;
+    	stage4.StageName__c  = 'Reopened';
+    	stage4.Status_Mapping__c = 'New';
+    	stage4.Query_Fields__c = 'Id,Stage__c';
+    	stage4.Manual_Stage__c = false;
+    	stageConfigList.add(stage4);
+        
+        ASF_Case_Stage_Config__c stage01 = new ASF_Case_Stage_Config__c();
+    	stage01.Case_Category_Config__c = lstCCC[1].Id;
+    	stage01.Order__c = 1;
+    	stage01.StageName__c  = 'Open';
+    	stage01.Stage_SLA_1__c = 1;
+    	stage01.Status_Mapping__c = 'New';
+    	stage01.SLA_Target_1_Type__c = 'Manager';
+    	stage01.Query_Fields__c = 'Id,Stage__c';
+    	stage01.Manual_Stage__c = false;
+    	stageConfigList.add(stage01);
+        
+        ASF_Case_Stage_Config__c stage02 = new ASF_Case_Stage_Config__c();
+    	stage02.Case_Category_Config__c = lstCCC[1].Id;
+    	stage02.Order__c = 2;
+    	stage02.StageName__c  = 'In Progress';
+    	stage02.Stage_SLA_1__c = 53;
+    	stage02.Status_Mapping__c = 'In Progress';
+    	stage02.SLA_Target_1_Type__c = 'Manager';
+    	stage02.Query_Fields__c = 'Id,Stage__c';
+    	stage02.Manual_Stage__c = false;
+    	stageConfigList.add(stage02);
+        
+        ASF_Case_Stage_Config__c stage03 = new ASF_Case_Stage_Config__c();
+    	stage03.Case_Category_Config__c = lstCCC[1].Id;
+    	stage03.Order__c = 3;
+    	stage03.StageName__c  = 'Resolved';
+    	stage03.Status_Mapping__c = 'Resolved';
+    	stage03.Query_Fields__c = 'Id,Stage__c';
+    	stage03.Manual_Stage__c = false;
+    	stageConfigList.add(stage03);
+        
+        ASF_Case_Stage_Config__c stage04 = new ASF_Case_Stage_Config__c();
+    	stage04.Case_Category_Config__c = lstCCC[1].Id;
+    	stage04.Order__c = 4;
+    	stage04.StageName__c  = 'Reopened';
+    	stage04.Status_Mapping__c = 'New';
+    	stage04.Query_Fields__c = 'Id,Stage__c';
+    	stage04.Manual_Stage__c = false;
+    	stageConfigList.add(stage04);
+        
+        INSERT stageConfigList;
+        
+        ABHI_Case_Detail__c caseDetail = new ABHI_Case_Detail__c();
+        INSERT caseDetail;
 
         Case caseRec = new Case();
         caseRec.Business_Unit__c = 'ABHI';
@@ -37,7 +169,8 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         caseRec.Sub_Type_Text__c = 'Claims status';
         caseRec.Source__c = 'Branch';
         caseRec.AssetId = asst1.Id;
-        insert caseRec;
+        caseRec.ABHI_Case_Detail__c = caseDetail.Id;
+        INSERT caseRec;
         
        // Opportunity oppRec = RNWL_TestDataFactory.createOpportunityRecords(objAccount.Id, asst1.Id);//RNWL
     }
@@ -48,11 +181,86 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     @isTest 
     static void abhiHandlerMethodTestMethod() {
         
-        Case caseRec = [SELECT id, Notes__c FROM Case LIMIT 1];
+        Test.startTest();
+        Case caseRec = [SELECT id, Notes__c, PAY_Payment_Detail__c FROM Case LIMIT 1];
         caseRec.Notes__c = 'Test Case 1';
         update caseRec;
 
         System.assertEquals('Test Case 1', caseRec.Notes__c, 'Test Case 1');
+        Test.stopTest();
+    }
+    
+    /****************************************************
+    * @description - Test Method for send communication Method
+    *****************************************************/
+    @isTest 
+    static void sendCommTestMethod01() {
+        
+        Test.startTest();
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case LIMIT 1];
+        caseRec.Stage__c = 'In Progress';
+        UPDATE caseRec;
+        
+        System.assertEquals('In Progress', caseRec.Stage__c, 'Stage error: sendCommBHTest01');
+        
+        Test.stopTest();
+    }
+    
+    /****************************************************
+    * @description - Test Method for send communication Method
+    *****************************************************/
+    @isTest 
+    static void sendCommTestMethod02() {
+        
+        Test.startTest();
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case LIMIT 1];
+        caseRec.Stage__c = 'In Progress';
+        UPDATE caseRec;
+        
+        caseRec.CCC_External_Id__c = 'CCC-CC-CCLTD-02';
+        caseRec.Recategorisation_Date__c = System.now();
+        UPDATE caseRec;
+        
+        Test.stopTest();
+    }
+    
+    /****************************************************
+    * @description - Test Method for send communication Method
+    *****************************************************/
+    @isTest 
+    static void sendCommTestMethod03() {
+        
+        Test.startTest();
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case LIMIT 1];
+        caseRec.Stage__c = 'In Progress';
+        UPDATE caseRec;
+        
+        caseRec.Stage__c = 'Resolved';
+        UPDATE caseRec;
+        
+        System.assertEquals('Resolved', caseRec.Stage__c, 'Stage error: sendCommBHTest02');
+        
+        Test.stopTest();
+    }
+    
+     /****************************************************
+    * @description - Test Method for send communication Method
+    *****************************************************/
+    @isTest 
+    static void sendCommTestMethod04() {
+        
+        Test.startTest();
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c, Status FROM Case LIMIT 1];
+        caseRec.Stage__c = 'In Progress';
+        UPDATE caseRec;
+        
+        caseRec.Stage__c = 'Unresolved ';
+        caseRec.Status = 'Unresolved ';
+        UPDATE caseRec;
+        
+        System.assertEquals('Unresolved ', caseRec.Stage__c, 'Stage error: sendCommBHTest02');
+        
+        Test.stopTest();
     }
     
     @isTest
@@ -71,5 +279,11 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         
         caseRec = [SELECT Id, Calling_Source__c FROM Case WHERE Id = :caseRec.Id ];
         System.assertEquals(asst2.Calling_Source__c, caseRec.Calling_Source__c, 'Case is NOT UPDATED!!!!');
+    }
+
+    @isTest
+    static void test_dedupeLogicOnCaseCreation() { 
+        
+
     }
 }
