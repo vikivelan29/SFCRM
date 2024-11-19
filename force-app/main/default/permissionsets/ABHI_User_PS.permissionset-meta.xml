@@ -1989,6 +1989,16 @@
         <field>Case.Track_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Cover_Code_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Hospital_Code_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Overall_SLA_Date__c</field>
@@ -3267,6 +3277,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Existing_Primary_Number_Member__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Health_Provider__c.Search_Health__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
