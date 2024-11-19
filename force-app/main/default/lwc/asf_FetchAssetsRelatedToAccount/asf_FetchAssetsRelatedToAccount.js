@@ -109,6 +109,9 @@ export default class Asf_FetchAssetsRelatedToAccount extends LightningElement {
             } 
             if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].ContractId__c){
                 tempAssetRec.assetLanRecLink = assetRecordLink;
+            }
+            if(tempAssetRec.hasOwnProperty('LAN__r') && assetRec["LAN__r"].Folio__c){
+                tempAssetRec.assetLanRecLink = assetRecordLink;
             } 
 
             return tempAssetRec;

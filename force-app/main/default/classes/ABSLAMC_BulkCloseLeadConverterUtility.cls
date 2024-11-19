@@ -18,6 +18,7 @@ public with sharing class ABSLAMC_BulkCloseLeadConverterUtility implements ASF_B
         resultWrapper.resultJSONRows = new Map<Id, String>();
         resultWrapper.resultRecords = new Map<Id, SObject>();
         Set<String> leadIds = new Set<String>();
+        String ABSLAMCBU = ABSLAMC_Constants.ABSLAMCBU;
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
@@ -29,15 +30,15 @@ public with sharing class ABSLAMC_BulkCloseLeadConverterUtility implements ASF_B
             rows.put(lineItemId, keyValueMap);
         }
         Map<String, Lead> leadMap = new Map<String,Lead>();
-        for(Lead leadRec : [SELECT Id, Status, Lead_Number__c FROM Lead WHERE Lead_Number__c IN :leadIds AND Business_Unit__c = 'ABSLAMC' WITH SYSTEM_MODE]){
+        for(Lead leadRec : [SELECT Id, Status, LOB__c,Line_Of_Business__c,Lead_Number__c FROM Lead WHERE Lead_Number__c IN :leadIds AND Business_Unit__c =:ABSLAMCBU  WITH SYSTEM_MODE]){
             leadMap.put(leadRec.Lead_Number__c, leadRec);
         }
-
+        
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
-            String leadId = String.isNotBlank(keyValueMap.get('Lead ID (System Identifier)'))?keyValueMap.get('Lead ID (System Identifier)').trim():keyValueMap.get('Lead ID (System Identifier)');
-            String status = String.isNotBlank(keyValueMap.get('Lead Status (Won/Lost)'))?keyValueMap.get('Lead Status (Won/Lost)').trim():keyValueMap.get('Lead Status (Won/Lost)');
-            String comments = String.isNotBlank(keyValueMap.get('Comments/Remarks'))?keyValueMap.get('Comments/Remarks').trim():keyValueMap.get('Comments/Remarks');
+            String leadId = String.isNotBlank(keyValueMap.get('Lead ID (System Identifier)'))?keyValueMap.get('Lead ID (System Identifier)').trim():'';
+            String status = String.isNotBlank(keyValueMap.get('Lead Status (Won/Lost)'))?keyValueMap.get('Lead Status (Won/Lost)').trim():'';
+            String comments = String.isNotBlank(keyValueMap.get('Comments/Remarks'))?keyValueMap.get('Comments/Remarks').trim():'';
             if(leadId == null || leadId.trim() == ''){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Lead ID is required');
@@ -59,13 +60,6 @@ public with sharing class ABSLAMC_BulkCloseLeadConverterUtility implements ASF_B
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
-            if(status != 'Won' && status != 'Lost'){
-                keyValueMap.put('Result', 'FAILURE');
-                keyValueMap.put('Message', 'Lead Status should be Won or Lost');
-                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
-                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
-                continue;
-            }
             if(leadMap.get(leadId).Status == 'Won' || leadMap.get(leadId).Status == 'Lost'){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Lead is already '+leadMap.get(leadId).Status);
@@ -73,6 +67,14 @@ public with sharing class ABSLAMC_BulkCloseLeadConverterUtility implements ASF_B
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            if(status != 'Won' && status != 'Lost'){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Lead Status should be Won or Lost');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
+            
             Lead leadRec = leadMap.get(leadId);
             leadRec.Status = status;
             leadRec.Comments_Remarks__c = comments;
