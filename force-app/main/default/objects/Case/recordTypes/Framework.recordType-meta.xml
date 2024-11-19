@@ -1409,6 +1409,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Letters</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Letters and Faxes</fullName>
             <default>false</default>
         </values>
