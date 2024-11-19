@@ -2390,7 +2390,7 @@
         <editable>true</editable>
         <field>Case.Hospital_Code_Text__c</field>
         <readable>true</readable>
-    </fieldPermissions
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Entity_Reference_No__c</field>
