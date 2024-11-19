@@ -1238,6 +1238,16 @@
             <fullName>Reports%3A we need your appointment details</fullName>
             <default>false</default>
         </values>
+        <value>
+            <fullName>Out of Scope Request</fullName>
+            <default>false</default>
+            <label>Out of Scope Request</label>
+        </value>
+        <value>
+            <fullName>Customer Not Contactable</fullName>
+            <default>false</default>
+            <label>Customer Not Contactable</label>
+        </value>
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>
