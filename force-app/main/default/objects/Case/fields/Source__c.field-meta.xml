@@ -748,9 +748,9 @@
                 <label>ATS</label>
             </value>
             <value>
-                <fullName>Escalations</fullName>
+                <fullName>Letters</fullName>
                 <default>false</default>
-                <label>Escalations</label>
+                <label>Letters</label>
             </value>
         </valueSetDefinition>
     </valueSet>
