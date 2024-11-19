@@ -108,6 +108,9 @@
         <field>Case$Stage__c</field>
     </columns>
     <columns>
+        <field>Case$Stage__c</field>
+    </columns>
+    <columns>
         <field>Case$Stage_SLA_3__c</field>
     </columns>
     <columns>
