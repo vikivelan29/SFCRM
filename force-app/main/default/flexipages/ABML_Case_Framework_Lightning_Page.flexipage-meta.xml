@@ -7,6 +7,122 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>Case.Manual_Approval</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.is_Manual_Approval__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.ASF_Clone_SR</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.ASF_Is_Cloneable__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Send_SMS</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Reopen</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.EscalateCase</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.IsEscalated}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ChangeOwnerOne</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Relate_Duplicate</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Payments</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Is_Approval_Pending__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Case.ReCategorize</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2 AND 3</booleanFilter>
@@ -298,6 +414,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>aSF_pendingCaseChecklistEdit</componentName>
+                <identifier>c_aSF_pendingCaseChecklistEdit</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-5da13f5c-be3d-4cca-bff7-a65600190b93</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>aSF_pendingCaseTaskEdit</componentName>
                 <identifier>c_aSF_pendingCaseTaskEdit</identifier>
                 <visibilityRule>
@@ -310,6 +436,16 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-77d09b9e-d259-4579-b2c3-424663c7920c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>aSF_CaseApprovalRecords</componentName>
+                <identifier>c_aSF_CaseApprovalRecords</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-961a0634-2898-4b2d-ab5f-7f441bdb5af9</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -340,6 +476,20 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-4b68a4b6-7a51-497f-a47b-3482adf59c1d</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>showChecklistColumn</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentName>aSF_DMSViewDatatable</componentName>
+                <identifier>c_aSF_DMSViewDatatable</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-2ccd4b1c-2cc1-4ebb-a0fc-69910e1b23e0</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -407,6 +557,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-5da13f5c-be3d-4cca-bff7-a65600190b93</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Checklists</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-77d09b9e-d259-4579-b2c3-424663c7920c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -415,6 +579,20 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-961a0634-2898-4b2d-ab5f-7f441bdb5af9</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Approvals</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -435,6 +613,20 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-2ccd4b1c-2cc1-4ebb-a0fc-69910e1b23e0</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>DMS</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-05c493ca-82a8-40d2-ae6c-057c3f6e6f62</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -443,13 +635,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab9</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Account.RecordType.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>ABML_Customer</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-e7bcca42-aed9-4e90-9237-2ca2da3244a5</name>
@@ -510,27 +695,8 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>flowArguments</name>
-                    <value>[{&quot;label&quot;:&quot;CaseRecord&quot;,&quot;dataType&quot;:&quot;SObject&quot;,&quot;supportsRecordId&quot;:true,&quot;value&quot;:&quot;{!Record.Id}&quot;}]</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>flowLayout</name>
-                    <value>oneColumn</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>flowName</name>
-                    <value>ABML_Sensitive_Flag_Flow</value>
-                </componentInstanceProperties>
-                <componentName>flowruntime:interview</componentName>
-                <identifier>flowruntime_interview</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Account.ABML_Sensitive__pc}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Yes</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <componentName>abhfl_GenericRepeatingAndOpenComplaintCase</componentName>
+                <identifier>c_abhfl_GenericRepeatingAndOpenComplaintCase</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -541,6 +707,37 @@
                 </componentInstanceProperties>
                 <componentName>asf_CaseEditPage</componentName>
                 <identifier>c_asf_CaseEditPage</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>lookupFieldName</name>
+                    <value>Case.ABFL_Case_Detail__c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>titleFieldName</name>
+                    <value>Ebot Snapshot</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>updateQuickActionName</name>
+                    <value>ABFL_Case_Detail__c.ABFL_Ebot_Classification</value>
+                </componentInstanceProperties>
+                <componentName>console:relatedRecord</componentName>
+                <identifier>console_relatedRecord</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABFL</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Origin}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABFL Email</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -593,6 +790,39 @@
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
                 <identifier>force_relatedListSingleContainer2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Case.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>TeamMembers</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer6</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABHFL</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>
