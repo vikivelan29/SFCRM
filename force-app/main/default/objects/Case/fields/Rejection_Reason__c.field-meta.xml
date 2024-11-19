@@ -536,6 +536,35 @@
                 <default>false</default>
                 <label>Claim: the policy has been cancelled</label>
             </value>
+            <value>
+                <fullName>Incorrect Customer tagging</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Incorrect Customer tagging</label>
+            </value>
+            <value>
+                <fullName>Incorrect SubType tagging</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Incorrect SubType tagging</label>
+            </value>
+            <value>
+                <fullName>Insufficient/Incomplete details from Ops/Customer</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Insufficient/Incomplete details from Ops/Customer</label>
+            </value>
+            <value>
+                <fullName>Out of Scope Request</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Out of Scope Request</label>
+            </value>
+            <value>
+                <fullName>Customer Not Contactable</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Customer Not Contactable</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
-</CustomField>
