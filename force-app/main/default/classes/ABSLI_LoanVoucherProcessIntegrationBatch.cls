@@ -19,7 +19,7 @@ public with sharing class ABSLI_LoanVoucherProcessIntegrationBatch implements Da
 			'ABSLI_Case_Detail__r.Requested_Loan_Amount__c FROM Case ' +
 			'WHERE (ABSLI_Case_Detail__r.Voucher_Number__c = null OR ABSLI_Case_Detail__r.Voucher_Approval_Date__c = null) ' +
 			'AND CreatedDate = LAST_N_DAYS:10 AND ABSLI_Case_Detail__r.Status_Valid_For_STP__c = true ' +
-			'AND IsClosed = false AND Sub_Type_Text__c =: subType AND CreatedDate = Today';
+			'AND IsClosed = false AND Sub_Type_Text__c =: subType';
 	}
 
 	public Database.QueryLocator start(Database.BatchableContext bc) {
