@@ -1545,6 +1545,10 @@
     <picklistValues>
         <picklist>Source__c</picklist>
         <values>
+            <fullName>Escalations</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Phone</fullName>
             <default>false</default>
         </values>
@@ -2129,9 +2133,5 @@
             <fullName>Question</fullName>
             <default>false</default>
         </values>
-        <value>
-            <fullName>Escalations</fullName>
-            <default>false</default>
-        </value>
     </picklistValues>
 </RecordType>
