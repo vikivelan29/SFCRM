@@ -3,7 +3,7 @@
     <fullName>CrossSellReferenceNumber__c</fullName>
     <description>ABHI</description>
     <externalId>false</externalId>
-    <label>Cross Sell Reference Number</label>
+    <label>Combi reference No.</label>
     <length>100</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
