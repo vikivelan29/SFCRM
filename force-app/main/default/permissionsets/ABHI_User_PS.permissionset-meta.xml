@@ -386,6 +386,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Policy_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Policy_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.Cross_Sale_Applicable__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4247,6 +4257,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABHI_Case_Detail__c.Cancellation_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Customer_Member_Mapping__c.Rider_Opted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>

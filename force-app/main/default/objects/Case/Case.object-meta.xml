@@ -208,6 +208,7 @@
     <externalSharingModel>Private</externalSharingModel>
     <profileSearchLayouts>
         <fields>CASES.CASE_NUMBER</fields>
+        <fields>CASES.SUBJECT</fields>
         <fields>Nature__c</fields>
         <fields>Type_Text__c</fields>
         <fields>Sub_Type_Text__c</fields>

@@ -1199,7 +1199,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Customer Non Contactable</fullName>
+            <fullName>Customer Not Contactable</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1375,7 +1375,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Insufficient%2FIncomplete details from Ops%2FCustomer</fullName>
+            <fullName>Insufficient incomplete details from customer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1427,7 +1427,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Other</fullName>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out of Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1436,10 +1440,6 @@
         </values>
         <values>
             <fullName>Partially Resolved</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1524,6 +1524,10 @@
         </values>
         <values>
             <fullName>SAT%3A your phone was switched off</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1830,6 +1834,10 @@
         </values>
         <values>
             <fullName>IVR Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letters</fullName>
             <default>false</default>
         </values>
         <values>

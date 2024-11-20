@@ -3,7 +3,7 @@
     <fullName>Member_Name__c</fullName>
     <description>ABHI</description>
     <externalId>false</externalId>
-    <label>Member Name</label>
+    <label>Customer</label>
     <length>100</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
