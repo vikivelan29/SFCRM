@@ -1191,10 +1191,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Customer Non Contactable</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Customer Not Contactable</fullName>
             <default>false</default>
         </values>
