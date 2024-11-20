@@ -1519,7 +1519,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Pending customer confirmation/documentation</fullName>
+            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
     </picklistValues>
