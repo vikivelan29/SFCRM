@@ -18,4 +18,16 @@
         <value>ABML</value>
     </filters>
     <label>ABML My Cancelled Cases</label>
+    <sharedTo>
+        <group>ABML_Branch_Helpdesk_G</group>
+        <group>ABML_Central_Customer_Service_G</group>
+        <group>ABML_Corporate_G</group>
+        <group>ABML_Cyber_Security_G</group>
+        <group>ABML_DP_Care_Stock_and_Securities_G</group>
+        <group>ABML_Franchisee_Helpdesk_G</group>
+        <group>ABML_Franchisee_Onboarding_Team_G</group>
+        <group>ABML_Franchisee_Premium_desk_G</group>
+        <group>ABML_Stop_Trade_G</group>
+        <group>ABML_Trading_App_G</group>
+    </sharedTo>
 </ListView>
