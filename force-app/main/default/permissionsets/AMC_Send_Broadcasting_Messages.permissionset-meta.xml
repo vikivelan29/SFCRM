@@ -4,10 +4,18 @@
     <label>AMC Send Broadcasting Messages</label>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ChatterOwnGroups</name>
+        <name>CustomizeApplication</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageCustomPermissions</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewRoles</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewSetup</name>
     </userPermissions>
 </PermissionSet>
