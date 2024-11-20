@@ -219,7 +219,7 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Date_of_Admission__c</fieldItem>
-                <identifier>RecordDate_of_Admission__cField</identifier>
+                <identifier>RecordDate_of_Admission_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
