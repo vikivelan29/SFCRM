@@ -881,7 +881,7 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
@@ -969,7 +969,7 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
@@ -1057,7 +1057,7 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
@@ -1140,7 +1140,7 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
