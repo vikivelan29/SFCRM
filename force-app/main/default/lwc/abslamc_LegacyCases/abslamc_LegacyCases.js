@@ -10,21 +10,19 @@ import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import CLIENT_CODE_FIELD from "@salesforce/schema/Account.PAN__c";
 import LOB_FIELD from "@salesforce/schema/Account.Business_Unit__c";
 import ARN_FIELD from "@salesforce/schema/Account.ARN_Number__c";
-const fields = [CLIENT_CODE_FIELD, LOB_FIELD, ARN_FIELD];   
+import RECORD_TYPE_FIELD from "@salesforce/schema/Account.RecordType.Name";
+
+const fields = [CLIENT_CODE_FIELD, LOB_FIELD, ARN_FIELD, RECORD_TYPE_FIELD];   
 
 export default class ABSLAMC_LegacyCases extends LightningElement {
     @api recordId;
-   // @api apiName = 'AMC_DMS_File_Datatable';
     @api apiName = 'ABSLAMC_Legacy_Case';
-
     @api payloadInfo;
     displayTable = false;
     displayError = false;
     showChildTable = false;
     selectedAsset;
     leagcyCaseData;
-    startDate;
-    endDate;
     loaded = false;
     disabled = false;
     @track displayResult = [];
@@ -35,16 +33,38 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
     lob;
     customerId;
     arnNumber;
+    showDropdown = false;
 
     label = {
         errorMessage,
         pageSize
     };
-    @wire(getRecord, {
-        recordId: "$recordId",
-        fields
-      })
-    account;
+ 
+    @wire(getRecord, {recordId: "$recordId",fields})
+    wiredAccount({ error, data }) {
+        if (data) {
+            console.log('Account Data: ', data);
+            const recordType = getFieldValue(data, RECORD_TYPE_FIELD);
+            console.log('Record Type Developer Name: ', recordType);
+            this.customerId = getFieldValue(data, CLIENT_CODE_FIELD);
+            console.log('Client Code: ', this.customerId);
+            this.lob = getFieldValue(data, LOB_FIELD);
+            console.log('BU: ', this.lob);
+            this.arnNumber = getFieldValue(data, ARN_FIELD);
+            console.log('ARN: ', this.arnNumber);
+
+            if (recordType === 'ABSLAMC Individual Distributor' || recordType === 'ABSLAMC Non-Individual Distributor') {
+                this.showDropdown = false;
+                console.log('Record type is Distributor. Calling fetchLegacyCases...');
+                this.fetchLegacyCases();
+            } else {
+                this.showDropdown = true;
+            }
+        } else if (error) {
+            console.error('Error fetching account data: ', error);
+        }
+    }
+
     connectedCallback() {
         console.log('***rec'+this.recordId);
         // get columns
@@ -71,7 +91,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
                 ];
             })
             .catch(error => {
-                // todo: remove hardcoding
                 console.error(error);
                 this.showNotification('Error','Error fetching data.','Error');
             });
@@ -96,9 +115,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
        
 
         this.data = null;
-        this.customerId = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
-        this.lob = getFieldValue(this.account.data, LOB_FIELD);
-        this.arnNumber = getFieldValue(this.account.data, ARN_FIELD);
         console.log('Acc'+this.lob);
         if(this.checkFieldValidity()) {
             this.disabled = true;
@@ -115,7 +131,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
                     this.displayTable = true;
                     this.data = this.leagcyCaseData.legacyCaseResponse;
                     this.disabled = false;
-                    //console.log('data-->',JSON.stringify(data));
                 }
                 else if(this.leagcyCaseData && this.leagcyCaseData.statusCode != 0 && (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
                     console.log('@@@Erro');
@@ -123,7 +138,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
                     this.loaded = true;
                     this.errorMessage = this.leagcyCaseData.returnMessage;
                     this.disabled = false;
-                    //this.showNotification("Error", this.leagcyCaseData.returnMessage, 'error');
                 }
                 else if(this.leagcyCaseData && this.leagcyCaseData.statusCode == 0){
                     this.disabled = false;
@@ -139,19 +153,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
         }
 
     }
-   /* handleRowSelection(event)
-    {   
-        this.showChildTable = false;
-        let selectedRows = event.detail.selectedRows;
-        this.selectedRow = selectedRows[0];
-        console.log('the rows selected is '+this.detailJson);
-        this.payload['statusCode'] = this.statusCode;
-        this.payload['payload'] = JSON.stringify(this.selectedRow);
-        this.showChildTable = true;
-        setTimeout(() => {             
-             this.template.querySelector('c-ABSLAMC_base_view_screen').callFunction();
-        }, 200);
-    }*/
 
     handleChange(event) {
 
@@ -160,9 +161,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
      }
     
     callRowAction(event) {
-        //this.showChildTable = false;
-     //   console.log('Hi>1'+JSON.stringify(event.detail));
-        // reset var
         this.showChildTable = true;
         this.payloadInfo = null;
         let result = {};
@@ -179,17 +177,7 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
             this.template.querySelector('c-abfl_base_view_screen').callFunction();
         }, 200);
     }
-    startDateChange(event)
-    {
-        this.startDate = event.target.value;
-        console.log('The startDate selected is '+this.startDate );
-    }
-
-    endDateChange(event)
-    {
-        this.endDate = event.target.value;
-        console.log('The endDate selected is '+this.endDate );
-    }
+    
     checkFieldValidity(){
         this.isLoading = false;
         let checkAllFieldsValid = true;
