@@ -12,7 +12,7 @@ public class RNWL_Communications_Validations implements Callable {
 
         switch on action {
             when 'policyExpirySMSValidation', 'premiumDueSMSValidation' {
-                if (oppRecord.Policy_Expiry_Date__c != null && Date.today() >= oppRecord.Policy_Expiry_Date__c) {
+                if (oppRecord.Policy_Expiry_Date__c != null && Date.today() > oppRecord.Policy_Expiry_Date__c) {
                     return 'This policy has expired. You can no longer send this SMS';
                 }
             }

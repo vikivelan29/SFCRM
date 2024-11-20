@@ -2,8 +2,8 @@
  * @description       : PR1030924-219
  * @author            : rkosandal@salesforce.com
  * @group             : 
- * @last modified on  : 10-29-2024
- * @last modified by  : rkosandal@salesforce.com
+ * @last modified on  : 11-19-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   10-29-2024   rkosandal@salesforce.com   Initial Version
@@ -38,6 +38,6 @@ public without sharing class MCRM_CaseHelper {
                 details.add(detail);
             }
         }
-        update as user details;
+        update details;
     }
 }
