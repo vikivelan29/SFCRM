@@ -30,13 +30,54 @@ public class ABML_ScheduleReportsBatch_Test {
             insert acc;
             List<Case> caseList = new List<Case>();
         
-        ABML_Daily_Report_Sender__c objReportSender = new ABML_Daily_Report_Sender__c( Name = 'test1', Email__c = 'test@test.com');
-        ABML_Daily_Report_Sender__c objReportSenderTwo = new ABML_Daily_Report_Sender__c( Name = 'ordWideAddress', Email__c = 'abctsl.crmteam-noreply@adityabirlacapital.com');
-        listOfReportSender.add(objReportSender);
-        listOfReportSender.add(objReportSenderTwo);
-        insert listOfReportSender;
-        
-        //OrgWideEmailAddress[] addresses = [SELECT Id FROM OrgWideEmailAddress LIMIT 1];
+        // Create a Case record
+        Case testCase = new Case(
+            Business_Unit__c = 'ABML',
+            SuppliedEmail = 'testuser@example.com',
+            AccountId = acc.Id,
+            Source__c = 'Email',
+            Stage__c = 'Email',
+            Status = 'New',
+            Subject = 'Test Subject',
+            Type_Text__c = 'Type Test',
+            Sub_Type_Text__c = 'Sub Type Test',
+            CCC_External_Id__c ='',
+          	Origin = 'ABML Email'
+        );
+        caseList.add(testCase);
+            
+        Case testCase1 = new Case(
+            Business_Unit__c = 'ABML',
+            SuppliedEmail = 'testuser2@example.com',
+            AccountId = acc.Id,
+            Source__c = 'Email',
+            Stage__c = 'Resolved',
+            Status = 'New',
+            Subject = 'Test Subject2',
+            Type_Text__c = 'Type Testt',
+            Sub_Type_Text__c = 'Sub Type Testt',
+            CCC_External_Id__c ='',
+          	Origin = 'ABML Email'
+        );
+        caseList.add(testCase1);
+        insert caseList;
+            
+        Case cas = [Select Id from Case Where Business_Unit__c = 'ABML' and Type_Text__c = 'Type Testt' LIMIT 1];
+        Case cs = [Select Id from Case Where Business_Unit__c = 'ABML' and Type_Text__c = 'Type Testt' LIMIT 1];
+            
+        List<ABML_Case_Detail__c> caseDetails = new List<ABML_Case_Detail__c>();
+            
+        ABML_Case_Detail__c abmlCaseDetail = new ABML_Case_Detail__c();
+        abmlCaseDetail.Case__c = cas.Id;
+        abmlCaseDetail.Assigned_User__c = userRecord.Id;
+        caseDetails.add(abmlCaseDetail);
+            
+        ABML_Case_Detail__c abmlCaseDetail1 = new ABML_Case_Detail__c();
+        abmlCaseDetail1.Case__c = cs.Id;
+        abmlCaseDetail1.Assigned_User__c = userRecord.Id;
+        caseDetails.add(abmlCaseDetail1);
+        insert caseDetails;
+        }
         
     }
     
