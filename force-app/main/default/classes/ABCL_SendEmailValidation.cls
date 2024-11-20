@@ -31,7 +31,7 @@ public with sharing class ABCL_SendEmailValidation {
         } 
         for (EmailMessage email : newEmails) {                 
             if(!email.Incoming && email.ParentId != null){
-                if(email.ParentId.getSObjectType() == Case.sObjectType){
+                if(email.ParentId.getSObjectType() == Case.sObjectType && email.ValidatedFromAddress!=null){
                     outgoingCaseEmails.add(email);
                     selectedFromAddress.add(email.ValidatedFromAddress);
                    //  system.debug('mdtAllowedAddress '+selectedFromAddress);
