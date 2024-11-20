@@ -25,6 +25,9 @@
         <field>Case$ABHI_Case_Detail__c.Receipt_Number__c</field>
     </columns>
     <columns>
+        <field>Case$Asset.IntermediaryName__c</field>
+    </columns>
+    <columns>
         <field>Case$Account.Owner.Contact.Phone</field>
     </columns>
     <columns>
@@ -65,10 +68,16 @@
         <field>Case$Asset.Sales_Manager__c</field>
     </columns>
     <columns>
+        <field>Case$Asset.Branch__c</field>
+    </columns>
+    <columns>
         <field>Case$ABHI_Case_Detail__c.Cancellation_Reason__c</field>
     </columns>
     <columns>
         <field>Case$ABHI_Case_Detail__c.Cancellation_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.BusinessType__c</field>
     </columns>
     <columns>
         <field>Case$Asset.LAN__c</field>
@@ -83,10 +92,13 @@
         <field>Case$Case_Assigned_Team__c</field>
     </columns>
     <columns>
-        <field>Case$Parent.Type_Text__c</field>
+        <field>Case$Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$Parent.Sub_Type_Text__c</field>
+        <field>Case$Sub_Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Concern__c</field>
     </columns>
     <columns>
         <field>Case$ABHI_Case_Detail__c.Policy_Holder_Or_Claimant_Name__c</field>
@@ -99,13 +111,10 @@
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>Case$Ageing_Number_Of_Days__c</field>
+        <field>Case$Ageing_Business_Days__c</field>
     </columns>
     <columns>
-        <field>Case$Business_Unit__c</field>
-    </columns>
-    <columns>
-        <field>Case$Parent.Overall_Case_Closure_SLA__c</field>
+        <field>Case$Overall_Case_Closure_SLA__c</field>
     </columns>
     <format>Tabular</format>
     <name>ABHI Case and Policy Details Report</name>

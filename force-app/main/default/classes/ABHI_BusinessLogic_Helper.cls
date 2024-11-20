@@ -42,6 +42,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
+            else if(triggerContext == 'AfterASFCodeBeforeUpdate') {
+                dedupeLogicOnCaseCreation();
+            }
             else {
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
                 abhiCsDetHelperObj.captureReopenFieldsOnCaseReopen(abhiNewCaseList, mapOfIdToOldCase, triggerContext);

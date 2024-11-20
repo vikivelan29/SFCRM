@@ -28,9 +28,9 @@
                 <label>Insufficient/incomplete details from customer</label>
             </value>
             <value>
-                <fullName>Other</fullName>
+                <fullName>Others</fullName>
                 <default>false</default>
-                <label>Other</label>
+                <label>Others</label>
             </value>
             <value>
                 <fullName>Pending Customer Confirmation/documentation</fullName>
@@ -550,12 +550,6 @@
                 <label>Incorrect SubType tagging</label>
             </value>
             <value>
-                <fullName>Insufficient/Incomplete details from Ops/Customer</fullName>
-                <default>false</default>
-                <isActive>true</isActive>
-                <label>Insufficient/Incomplete details from Ops/Customer</label>
-            </value>
-            <value>
                 <fullName>Out of Scope Request</fullName>
                 <default>false</default>
                 <isActive>true</isActive>
@@ -566,6 +560,11 @@
                 <default>false</default>
                 <isActive>true</isActive>
                 <label>Customer Not Contactable</label>
+            </value>
+            <value>
+                <fullName>Insufficient incomplete details from customer</fullName>
+                <default>false</default>
+                <label>Insufficient incomplete details from customer</label>
             </value>
         </valueSetDefinition>
     </valueSet>
