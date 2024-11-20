@@ -40,5 +40,18 @@ public class ASF_CaseIntegrationTriggerHandler_Test {
         ];
 
         system.assertEquals('Canceled', caseIntRec.Status__c);
-    } 
+    }
+    
+    @isTest
+    static void testReportIntegration(){
+        ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+        caseInt.Status__c = 'Pending';
+        caseInt.Business_External_Id__c = 'ABML_Report_Integration';
+        insert caseInt;
+        
+        system.assertEquals('Pending', caseInt.Status__c);
+        caseInt.Status__c = 'Success';
+        update caseInt;
+        system.assertEquals('Success', caseInt.Status__c);   
+    }
 }
