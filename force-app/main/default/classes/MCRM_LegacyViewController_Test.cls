@@ -13,48 +13,10 @@ public class MCRM_LegacyViewController_Test {
 	private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
 	@TestSetup
     static void makeData(){
-        Group slaGroup = new Group();
-        
-        slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', Type = 'Queue');
-        insert slaGroup;
-        
-        User superManagerUser = new User(
-            IsActive = true,
-            FirstName = 'Test',
-            LastName='Super Manager User Test 12',
-            Username='supermanageruserTest12@test.com',
-            Email='supermanageruserTest12@test.com',
-            Alias = 'mgrt',
-            EmailEncodingKey='UTF-8',
-            LanguageLocaleKey='en_US',
-            LocaleSidKey='en_US', 
-            ProfileId = SYSTEMADMIN_PROFILE.Id, 
-            TimeZoneSidKey='America/Los_Angeles', 
-            managerGroupId__c=slaGroup.Id,
-            Business_Unit__c = System.Label.Wellness_BU
-        );
-        insert superManagerUser;
-        
-        User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
-                                    EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='Testcdefghijk567@gmail.com',
-                                    managerGroupId__c=slaGroup.Id, managerID = superManagerUser.Id, 
-                                    Business_Unit__c = System.Label.Wellness_BU
-                                    );
-        insert userRecord1;        
-        Test.startTest();
-        List<PermissionSetAssignment> psa = new List<PermissionSetAssignment>();
-        PermissionSet ps = [SELECT Id 
-                            FROM PermissionSet 
-                            WHERE Name = 'Admin_User' ];
-        psa.add(new PermissionSetAssignment(AssigneeId = userRecord1.Id, PermissionSetId = ps.Id));
-        psa.add(new PermissionSetAssignment(AssigneeId = superManagerUser.Id, PermissionSetId = ps.Id));
-        
-        
-        insert psa;
-        Test.stopTest();
-        System.runAs(userRecord1) {
+        //Create user record.
+        User userRecord = MCRM_TestDataFactory.createWellnessUser();
+
+        System.runAs(userRecord) {
             Account acc = ASF_TestDataFactory.insertPersonAccount('Test','Account','');
                        
             List<Asset> listAsset = new List<Asset>();
@@ -90,23 +52,29 @@ public class MCRM_LegacyViewController_Test {
 
     
 	@isTest static void testgetLegacyData() {
-        // Set mock callout class 
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.MCRM_LegacyMockResponseGenerator());
+        User userRecord = [SELECT Id FROM User WHERE Alias = 'standt' LIMIT 1];
+        System.runAs(userRecord){
+            // Set mock callout class 
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.MCRM_LegacyMockResponseGenerator());
 
-        MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('277956','','','','ABFL','');
-        Test.stopTest();
-        System.assertEquals(200,res.statusCode, 'code');
-        System.assertEquals('1', res.ReturnCode, 'return code');
+            MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('277956','','','','ABFL','');
+            Test.stopTest();
+            System.assertEquals(200,res.statusCode, 'code');
+            System.assertEquals('1', res.ReturnCode, 'return code');
+        }
     }
     
     @isTest static void testgetLegacyFailureData() {
-        // Set mock callout class 
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.MCRM_LegacyMockFailureResponseGenerator());
-        MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('27795','','','','ABFL','');
-        Test.stopTest();
-        System.assertEquals(404,res.statusCode, 'statusCode');
+        User userRecord = [SELECT Id FROM User WHERE Alias = 'standt' LIMIT 1];
+        System.runAs(userRecord){
+            // Set mock callout class 
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new MCRM_LegacyViewController_Test.MCRM_LegacyMockFailureResponseGenerator());
+            MCRM_LegacyViewController.ResponseWrapper res = MCRM_LegacyViewController.getLegacyData('27795','','','','ABFL','');
+            Test.stopTest();
+            System.assertEquals(404,res.statusCode, 'statusCode');
+        }
     }
 
     /**
