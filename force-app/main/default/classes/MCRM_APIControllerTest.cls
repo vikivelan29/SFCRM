@@ -12,97 +12,157 @@
 private class MCRM_APIControllerTest {
     @testSetup
     static void setupTestData() {
+        //Create wellness user
+        User userRecord = MCRM_TestDataFactory.createWellnessUser();
+        System.runAs(userRecord){
+            // Create ASF_Case_Category_Config__c Records
+            ASF_Case_Category_Config__c config1 = new ASF_Case_Category_Config__c(CCC_External_Id__c='Wellness_Req_001', Type__c='Polad', Sub_Type__c='Polad_Deletions');
+            insert config1;
 
-        // Create ASF_Case_Category_Config__c Records
-        ASF_Case_Category_Config__c config1 = new ASF_Case_Category_Config__c(CCC_External_Id__c='Wellness_Req_001', Type__c='Polad', Sub_Type__c='Polad_Deletions');
-        insert config1;
-
-        // Create an Account with Client_Code__c
-        Account testAccount = new Account(Name = 'Test Account', Client_Code__c = '6672118503');
-        insert testAccount;
-        
-        // Create an Asset linked to the Account
-        Asset testAsset = new Asset(Name = 'Test Asset', Policy_No__c = 'LAN1234', AccountId = testAccount.Id, Business_Unit__c = System.label.Wellness_BU);
-        insert testAsset;
-        
-        // Create a Case
-        Case testCase = new Case(Subject = 'Test Case');
-        testCase.AssetId = testAsset.Id;
-        testCase.AccountId = testAccount.Id;
-        insert testCase;
+            // Create an Account with Client_Code__c
+            Account testAccount = new Account(Name = 'Test Account', Client_Code__c = '6672118503');
+            insert testAccount;
+            
+            // Create an Asset linked to the Account
+            Asset testAsset = new Asset(Name = 'Test Asset', Policy_No__c = 'LAN1234', AccountId = testAccount.Id, Business_Unit__c = System.label.Wellness_BU);
+            insert testAsset;
+            
+            // Create a Case
+            Case testCase = new Case(Subject = 'Test Case');
+            testCase.AssetId = testAsset.Id;
+            testCase.AccountId = testAccount.Id;
+            insert testCase;
+        }
     }
     
 	@isTest
     static void fetchTableMetadata(){
-        Test.startTest();
-        MCRM_APIController.fetchTableMetadata('MCRM_TotalActiveDays');
-        Test.stopTest();
+        User userRecord = [
+            SELECT Id 
+            FROM User
+            WHERE Alias = 'standt'
+            LIMIT 1
+        ];
+        System.runAs(userRecord){
+            Test.startTest();
+            List<Asf_Dynamic_Datatable_Child__mdt> childConfigs = MCRM_APIController.fetchTableMetadata('MCRM_TotalActiveDays');
+            Assert.isTrue(childConfigs.size() > 0, 'Metadata should not be empty');
+            Test.stopTest();
+        }
     }
 
 	@isTest
     static void invokeAPIwithParams_Account(){
-        Test.startTest();
-        Account acc = [SELECT Id FROM Account LIMIT 1];
-        Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Wallet_Transaction', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2'});
-        Test.stopTest();
-        Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
-        Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
+        User userRecord = [
+            SELECT Id 
+            FROM User
+            WHERE Alias = 'standt'
+            LIMIT 1
+        ];
+        System.runAs(userRecord){
+            Test.startTest();
+            Account acc = [SELECT Id FROM Account LIMIT 1];
+            Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
+            MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Wallet_Transaction', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2'});
+            Test.stopTest();
+            Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
+            Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
+        }
     }
 
 	@isTest
     static void invokeAPIwithParams_Asset(){
-        Test.startTest();
-        Asset asst = [select id from Asset];
-        Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
+        User userRecord = [
+            SELECT Id 
+            FROM User
+            WHERE Alias = 'standt'
+            LIMIT 1
+        ];
+        System.runAs(userRecord){
+            Test.startTest();
+            Asset asst = [select id from Asset];
+            Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
 
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(asst.Id,'MCRM_Wallet_Transaction', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2'});
-        Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
-        Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');    
+            MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(asst.Id,'MCRM_Wallet_Transaction', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2'});
+            Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
+            Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank'); 
+        }   
     }
 
 	@isTest
     static void invokeAPIwithParamsWithDates(){
-        Test.startTest();
-        Account acc = [SELECT Id FROM Account LIMIT 1];
-        Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
+        User userRecord = [
+            SELECT Id 
+            FROM User
+            WHERE Alias = 'standt'
+            LIMIT 1
+        ];
+        System.runAs(userRecord){
+            Test.startTest();
+            Account acc = [SELECT Id FROM Account LIMIT 1];
+            Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
 
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Lifestyle_Voucher', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
-        Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
-        Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
+            MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Lifestyle_Voucher', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
+            Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
+            Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
+        }
     }
 
 	@isTest
     static void invokeAPIwithParamsWithDates_MCRM_ActiveDayURL(){
-        Test.startTest();
-        Account acc = [SELECT Id FROM Account LIMIT 1];
-        Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
+        User userRecord = [
+            SELECT Id 
+            FROM User
+            WHERE Alias = 'standt'
+            LIMIT 1
+        ];
+        System.runAs(userRecord){
+            Test.startTest();
+            Account acc = [SELECT Id FROM Account LIMIT 1];
+            Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
 
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_ActiveDayURL', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
-        Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
-        Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
+            MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_ActiveDayURL', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
+            Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
+            Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
+        }
     }
 
     @isTest
     static void invokeAPIwithParamsWithDatesException(){
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
-        try {
-            MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(null,null, null);
-        } catch (Exception ex) {
-            system.assertEquals(true,ex != null);
+        User userRecord = [
+            SELECT Id 
+            FROM User
+            WHERE Alias = 'standt'
+            LIMIT 1
+        ];
+        System.runAs(userRecord){
+            Test.startTest();
+            Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.MockHttpResponseGenerator());
+            try {
+                MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(null,null, null);
+            } catch (Exception ex) {
+                System.assertEquals(true,ex != null,'Exception should not be null');
+            }
         }
     }
 
     @isTest
     static void invokeAPIwithParamsWithDates_MCRM_Devices(){
-        Test.startTest();
-        Account acc = [SELECT Id FROM Account LIMIT 1];
-        Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.DevicesMockHttpResponseGenerator());
+        User userRecord = [
+            SELECT Id 
+            FROM User
+            WHERE Alias = 'standt'
+            LIMIT 1
+        ];
+        System.runAs(userRecord){
+            Test.startTest();
+            Account acc = [SELECT Id FROM Account LIMIT 1];
+            Test.setMock(HttpCalloutMock.class, new MCRM_APIControllerTest.DevicesMockHttpResponseGenerator());
 
-        MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Devices', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
-        Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
-        Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
+            MCRM_APIController.ResponseWrapper response = MCRM_APIController.invokeAPIwithParams(acc.Id,'MCRM_Devices', new Map<String, Object>{'param1'=>'Test1','param2'=>'Test2','startDate'=>Datetime.now().addDays(-5).format('YYYY-MM-DD'),'endDate'=>Datetime.now().format('YYYY-MM-DD')});
+            Assert.isTrue(response.statusCode == 200, 'Status Code should not be equal to 200');
+            Assert.isTrue(String.isNotBlank(response.payload), 'Payload should not be blank');
+        }
     }
 
     /****************************************************************************************************************
