@@ -10,25 +10,9 @@
 **/
 @IsTest
 public class Wellness_BulkCloseCaseConverterTest {
-    //private final static Profile WELLNESS_PROFILE = [SELECT Id FROM Profile WHERE name='Wellness CRM Base Profile' LIMIT 1];
     @testSetup
     static void setupTestData(){
-        User userRecord = MCRM_TestDataFactory.createWellnessUser();
-        /*Group slaGroup = new Group();        
-        slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
-        insert slaGroup;
-        User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
-                                   EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                                   LocaleSidKey='en_US', ProfileId = WELLNESS_PROFILE.Id,
-                                   TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657123456@gmail.com',
-                                   managerGroupId__c=slaGroup.Id);
-        insert userRecord;
-        List<PermissionSetAssignment> psa = new List<PermissionSetAssignment>();
-        PermissionSet ps = [SELECT Id
-                            FROM PermissionSet
-                            WHERE Name = 'Admin_User' ];
-        psa.add(new PermissionSetAssignment(AssigneeId = userRecord.Id, PermissionSetId = ps.Id));
-        Insert psa;*/
+        User userRecord = MCRM_TestDataFactory.createWellnessUser();       
         system.runAs(userRecord)
         {
             List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
@@ -41,20 +25,14 @@ public class Wellness_BulkCloseCaseConverterTest {
             if(Schema.sObjectType.Account.isCreateable()){
                 insert accRec;
             }            
-            //Account accRec = ASF_TestDataFactory.insertPersonAccount('FirstName','LastName','Test_145');
             Asset asset = new Asset();
-            //Id recordTypeId =Schema.Sobjecttype.Asset.getRecordTypeInfosByDeveloperName().get('Credit_Cards').getRecordTypeId();
             asset.Name = 'Test Asset';
-            //asset.recordTypeId = recordTypeId;
-            //asset.Financial_Account_Number__c = ASF_UtilityClass.generateTransactionId();
             asset.AccountId =accRec.Id;
             asset.Type__c = 'Loans';
             asset.ContractId__c = 'LAN1234';
             if(Schema.sObjectType.Asset.isCreateable()){
                 insert asset;
             }
-            //Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');            
-            //update asset;
             ASF_TestDataFactory.createCaseCategoryConfig();
             ASF_TestDataFactory.createC3WithPrePopulateIntegrations();
             ASF_TestDataFactory.createCaseRecords(0);
