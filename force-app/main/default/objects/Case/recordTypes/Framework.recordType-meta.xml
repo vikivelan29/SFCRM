@@ -1443,10 +1443,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Policy Document%3A Address Details are required</fullName>
             <default>false</default>
         </values>
