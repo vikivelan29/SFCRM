@@ -10,10 +10,11 @@
 **/
 @IsTest
 public class Wellness_BulkCloseCaseConverterTest {
-    private final static Profile WELLNESS_PROFILE = [SELECT Id FROM Profile WHERE name='Wellness CRM Base Profile' LIMIT 1];
+    //private final static Profile WELLNESS_PROFILE = [SELECT Id FROM Profile WHERE name='Wellness CRM Base Profile' LIMIT 1];
     @testSetup
     static void setupTestData(){
-        Group slaGroup = new Group();        
+        User userRecord = MCRM_TestDataFactory.createWellnessUser();
+        /*Group slaGroup = new Group();        
         slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup');
         insert slaGroup;
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
@@ -27,7 +28,7 @@ public class Wellness_BulkCloseCaseConverterTest {
                             FROM PermissionSet
                             WHERE Name = 'Admin_User' ];
         psa.add(new PermissionSetAssignment(AssigneeId = userRecord.Id, PermissionSetId = ps.Id));
-        Insert psa;
+        Insert psa;*/
         system.runAs(userRecord)
         {
             List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
