@@ -1509,10 +1509,6 @@
             <fullName>SAT%3A your phone was switched off</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Pending customer confirmation/documentation</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>
