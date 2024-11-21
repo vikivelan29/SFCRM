@@ -1,13 +1,3 @@
-<!--
-  @description       : 
-  @author            : rsinghnagar@salesforce.com
-  @group             : 
-  @last modified on  : 10-09-2024
-  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-  Modifications Log
-  Ver   Date         Author                       Modification
-  1.0   08-16-2024   rsinghnagar@salesforce.com   Initial Version
--->
 <template>
    <lightning-card title={cardTitle} class="slds-p-bottom_medium">
       <!-- Virendra : BELOW ALERT ADDED FOR PROSPECT TAGGING REQUIREMENT FOR PREFRAMEWORK - PR970457-426 -->
@@ -23,10 +13,14 @@
             <lightning-input type="text" label="" onchange={valChange}
                placeholder={productSearchPlaceholder}></lightning-input>
          </div>
+          
+         
          <div class="slds-col slds-size_1-of-3 slds-m-left_medium slds-p-top_medium">
             <lightning-button variant="brand" label="Create Prospect" title="Primary action"
                onclick={handleProspectCreation} class="slds-m-left_x-small"></lightning-button>
          </div>
+      
+      
       </div>
       <div class="slds-grid slds-gutters slds-m-left_medium">
          <div class="slds-size_1-of-1 ">
@@ -40,6 +34,7 @@
       <br /><br />
       <!-- Virendra : Added check to show LAN only when the selected record is Customer. For Prospect don't show the LAN records.-->
       <template if:true={showLANForCustomer}>
+        <!-- <template if:true={hideLanForABML}>  Shagun Start: Remove LAN Button for ABML -->
          <div class="slds-grid slds-gutters  slds-m-left_medium">
             <div class="slds-size_1-of-1">
                <br /><br />
@@ -47,7 +42,7 @@
                   <lightning-layout-item class="slds-p-top_small">
                      <strong> {selectLan} </strong> &nbsp;
                   </lightning-layout-item>
-                  <lightning-layout-item class="">
+                  <lightning-layout-item class=""> 
                      <lightning-input type="search" variant="label-hidden" onchange={handleSearch}></lightning-input>
                   </lightning-layout-item>
                </lightning-layout>
@@ -60,6 +55,7 @@
             </div>
          </div>
       </template>
+     <!-- </template> -->
 
    </lightning-card>
    <lightning-card>
