@@ -93,6 +93,7 @@ export default class Abfl_LegacyCases extends LightningElement {
         fetchAssets({accRec: this.recordId})
         .then(result => {
             this.options = result;
+            this.options = [{label: 'None', value: ''}, ...result];
         })
         .catch(error => {
             console.error("Error", error);
@@ -103,11 +104,24 @@ export default class Abfl_LegacyCases extends LightningElement {
         fetchMembers({strRecordId: this.recordId})
         .then(result => {
             this.memberOptions = result;
+            this.memberOptions = [{label: 'None', value: ''}, ...result];
             this.selectedMember = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
         })
         .catch(error => {
             console.error("Error", error);
         })
+    }
+
+    resetSearch() {
+        this.selectedMember = '';
+        this.selectedFinalAsset = '';
+        this.msdCaseNumber = '';
+        this.phoneNo = '';
+        this.emailId = '';
+        this.startDate = '';
+        this.endDate = '';
+        this.selectedAsset = '';
+        this.arcPolicyNo = '';
     }
 
     //Callout to get Legacy data
@@ -118,7 +132,7 @@ export default class Abfl_LegacyCases extends LightningElement {
         this.customerId = this.selectedMember;
         this.lob = getFieldValue(this.account.data, LOB_FIELD);
         console.log('$.$.Acc'+this.lob);
-        if(!this.selectedFinalAsset && !this.selectedMember && !this.startDate && !this.endDate && !this.msdCaseNumber && !this.phoneNo && !this.emailId){
+        if(!this.selectedFinalAsset && !this.selectedMember && !this.msdCaseNumber && !this.phoneNo && !this.emailId){
             this.selectedMember = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
         }
         this.mapRequest = {
