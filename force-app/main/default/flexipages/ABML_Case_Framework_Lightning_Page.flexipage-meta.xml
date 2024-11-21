@@ -625,6 +625,13 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab9</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Account.ABML_Contact_Type__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Customer</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-e7bcca42-aed9-4e90-9237-2ca2da3244a5</name>
