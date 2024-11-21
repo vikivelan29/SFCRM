@@ -84,7 +84,7 @@ export default class ABML_Queue extends LightningElement {
                     this.businessHours = false;
                     //alert('You dont have access to this component!');
                     LightningAlert.open({
-                        message: 'You dont have access to this component',
+                        message: 'This is specific to ABML team assignment. You do not have access to this functionality',
                         theme: 'warning', 
                         label: 'Warning!', 
                     });
