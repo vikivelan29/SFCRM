@@ -3,11 +3,6 @@
     <fullName>ABML_Prospect_FieldSet</fullName>
     <description>It is used in asf_CreateCaseWithProspect LWC</description>
     <displayedFields>
-        <field>Company</field>
-        <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
-    </displayedFields>
-    <displayedFields>
         <field>Email</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
