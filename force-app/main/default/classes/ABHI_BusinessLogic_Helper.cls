@@ -34,11 +34,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-                dedupeLogicOnCaseCreation();
+                dedupeLogicOnCaseCreation(triggerContext);
                 populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
-                dedupeLogicOnCaseCreation();
+                dedupeLogicOnCaseCreation(triggerContext);
                 populateFieldsOnCase(abhiNewCaseList, null);//RNWL
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
@@ -391,22 +391,40 @@ public with sharing class ABHI_BusinessLogic_Helper {
     * @description - Case De-Dupe Logic
     */
     @SuppressWarnings('PMD.NcssMethodCount,PMD.AvoidDeeplyNestedIfStmts')
-    public void dedupeLogicOnCaseCreation(){
+    public void dedupeLogicOnCaseCreation(String triggerCntxt){
         
         List<String> sourceToExcludeList = new List<String>();
         List<String> accIdList = new List<String>();
         List<String> policyIdList = new List<String>();
+        List<Case> newCaseDedupeList = new List<Case>();
         List<ASF_Case_Category_Config__c> caseCategoryConfigs = new List<ASF_Case_Category_Config__c>();
         Map<String,ASF_Case_Category_Config__c> mapOfcccExtIdToCCCRec = new Map<String,ASF_Case_Category_Config__c>();
         Map<String,List<Case>> mapOfcccExtIdToCaseList = new Map<String,List<Case>>();
         Map<String,Case> mapOfNewUniqueCaseList = new Map<String,Case>();
         String sourceToExc = '%Source to exclude%';
-        List<ABHI_Create_Case_Validations__mdt> abhiCreateCaseValMdt = getABHICreateCaseValidationMdt(sourceToExc, abhiNewCaseList[0].Business_Unit__c);
+
+        for(Case newCaseRec : abhiNewCaseList) {
+            if(triggerCntxt == 'AfterASFCodeBeforeUpdate') {
+                Case oldCaseRec = mapOfIdToOldCase.get(newCaseRec.Id);
+                if(newCaseRec.Is_Recategorise_Allowed__c == true && oldCaseRec.Recategorisation_Date__c != newCaseRec.Recategorisation_Date__c) {
+                    newCaseDedupeList.add(newCaseRec);
+                }
+            }
+            else if(triggerCntxt == 'AfterASFCodeInBeforeInsert') {
+                newCaseDedupeList.add(newCaseRec);
+            }
+        }
+
+        if(newCaseDedupeList.size() == 0) {
+            return;
+        }
+
+        List<ABHI_Create_Case_Validations__mdt> abhiCreateCaseValMdt = getABHICreateCaseValidationMdt(sourceToExc, newCaseDedupeList[0].Business_Unit__c);
         
         for(ABHI_Create_Case_Validations__mdt ccMdt : abhiCreateCaseValMdt) {
             sourceToExcludeList.add(ccMdt.Source__c.toLowerCase());
         }
-        for(Case cas : abhiNewCaseList) {
+        for(Case cas : newCaseDedupeList) {
             String csCCCExtId = cas?.CCC_External_Id__c;
             String uniqueKeyForCase = '';
 
