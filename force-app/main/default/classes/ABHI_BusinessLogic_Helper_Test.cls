@@ -2,7 +2,7 @@
 *Class        :  ABHI_BusinessLogic_Helper_Test
 *Author       :  ABHI and Renewal Team
 *Created Date :  03/09/2024
-*@description  :  Test Class for ABHI_BusinessLogic_Helper_Test 
+*@description  :  Test Class for ABHI_BusinessLogic_Helper 
 *********************************************************/
 
 @isTest
