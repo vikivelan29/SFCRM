@@ -11,7 +11,7 @@ public with sharing class ABML_ReportsIntegration{
     public static void getReports(Id caseRecId, string startDate, string endDate, string reportType,string financialYear){ 
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         Case caseRecord = [
-            SELECT Id,Business_Unit__c,SuppliedEmail,Client_Code__c FROM Case WHERE Id =: caseRecId];
+            SELECT Id,Business_Unit__c,Mapped_Email__c,Client_Code__c FROM Case WHERE Id =: caseRecId];
         string clientCode = caseRecord.Client_Code__c;
         string firmNumber = 'ABM-000001';
         string userName = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Username__c;                               // 'cllvl';
@@ -36,7 +36,7 @@ public with sharing class ABML_ReportsIntegration{
         caseInt.Business_External_Id__c = 'ABML_Report_Integration';
         caseInt.Status__c = pending; 
         if(reportType=='Statement Of Account'){
-            caseInt.Request__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfAccount'));
+            caseInt.Request__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfAccounts'));
         }
         if(reportType=='Statement Of Transaction'){
             caseInt.Request__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfTransaction'));
@@ -64,7 +64,7 @@ public with sharing class ABML_ReportsIntegration{
             caseIntOut.Integration_Name__c  ='ContractNote';
         }
         if(reportType=='Statement Of Account'){
-            caseIntOut.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfAccount'));
+            caseIntOut.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfAccounts'));
         }
         if(reportType=='Statement Of Transaction'){
             caseIntOut.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfTransaction'));
@@ -95,10 +95,10 @@ public with sharing class ABML_ReportsIntegration{
         }
         
         Map<Id,Case> caserecordsMap = new Map<Id,Case>();
-        List<Case> caseRecordList = [Select Id,Business_Unit__c,SuppliedEmail from Case where ID IN :caserecords];
+        List<Case> caseRecordList = [Select Id,Business_Unit__c,Mapped_Email__c from Case where ID IN :caserecords];
         if(!caseRecordList.isEmpty()){
             for(Case caserec :caseRecordList){
-                if(caserec.Business_Unit__c=='ABML' && caserec.SuppliedEmail != null){
+                if(caserec.Business_Unit__c=='ABML' && caserec.Mapped_Email__c != null){
                     caserecordsMap.put(caserec.Id,caserec);
                 }
             }
@@ -123,8 +123,8 @@ public with sharing class ABML_ReportsIntegration{
                     Case caseRecord = caserecordsMap.get(asfCaseRec2.Case__c);
                     
                     // Check if the case record and email are not null
-                    if (caseRecord != null && caseRecord.SuppliedEmail != null) {
-                        email.setToAddresses(new String[] { caseRecord.SuppliedEmail });
+                    if (caseRecord != null && caseRecord.Mapped_Email__c != null) {
+                        email.setToAddresses(new String[] { caseRecord.Mapped_Email__c });
                         email.setSubject('Email with File Attachment');
                         email.setPlainTextBody('Please find the attached file.');
                         email.setOrgWideEmailAddressId(owea.get(0).Id);
