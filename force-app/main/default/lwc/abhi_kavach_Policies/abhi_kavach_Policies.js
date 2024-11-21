@@ -122,7 +122,7 @@ export default class Abhi_kavach_Policies extends LightningElement {
     getPolicyDetails(){
         this.isLoading = true;
         console.log('Result1 @@ ==> '+ this.searchPolicy);
-        getPolicyExternalData({policyNo: this.searchPolicy, selectedSystem : this.selectedSystem}).then(result=>{
+        getPolicyExternalData({policyNo: this.searchPolicy, system : this.selectedSystem}).then(result=>{
            this.data = result;
            if(this.data.length > 0) {
                this.displayTable = true;
