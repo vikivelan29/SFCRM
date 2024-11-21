@@ -82,10 +82,10 @@ public without sharing class ABHI_OmniDocViewController_Test {
 		Asset objAst = [SELECT Id, Name, AccountId, Account.PersonEmail, Plan_Name__c FROM Asset WHERE Name = '12345678' LIMIT 1];
         Object objRet;
         try{
-			objRet = ABHI_OmniDocViewController.callOmiDocSearchRequest(objAst.Id, objAst.Name);
-			System.assert(objRet != null, 'Assert failed, objRet is null');
+            objRet = ABHI_OmniDocViewController.callOmiDocSearchRequest(objAst.Id, objAst.Name);
+			System.assert(objRet != null);  
         }catch(Exception objException){
-            System.assert(objRet == null, 'Assert failed, objRet is not null');
+            System.assert(objRet == null);
         }
 		Test.stopTest();
 	}
