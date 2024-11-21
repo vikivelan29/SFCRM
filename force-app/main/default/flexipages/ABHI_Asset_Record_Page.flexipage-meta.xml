@@ -222,10 +222,6 @@
                 <identifier>RecordLoan_ID_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -236,6 +232,10 @@
                 <identifier>RecordGoGreen_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-8deacd60-b761-42f2-be4e-2a620ee7fb31</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
