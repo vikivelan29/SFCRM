@@ -52,6 +52,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Client_ID__pc</fieldItem>
+                <identifier>RecordABML_Client_ID_pcField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.ABML_Contact_Type__c</fieldItem>
                 <identifier>RecordABML_Contact_Type_cField</identifier>
             </fieldInstance>
@@ -130,6 +140,16 @@
                 <identifier>RecordABML_Contact_Subcategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PAN__c</fieldItem>
+                <identifier>RecordPAN_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b1cff763-3731-41be-8485-0fa24c3aa9c9</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -174,8 +194,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PersonOtherPhone</fieldItem>
-                <identifier>RecordPersonOtherPhoneField</identifier>
+                <fieldItem>Record.ABML_Alternate_Mobile_No__pc</fieldItem>
+                <identifier>RecordABML_Alternate_Mobile_No_pcField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-becb3160-d095-4123-b0b8-95cde9af4b17</name>
@@ -221,98 +241,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Bank_Name__pc</fieldItem>
-                <identifier>RecordABML_Bank_Name_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Bank_Account_Number__pc</fieldItem>
-                <identifier>RecordABML_Bank_Account_Number_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_IFSC_code__pc</fieldItem>
-                <identifier>RecordABML_IFSC_code_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-443f3566-8303-4710-94c2-0a70aef01d8b</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Bank_Account_Type__pc</fieldItem>
-                <identifier>RecordABML_Bank_Account_Type_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Cheque_Name__pc</fieldItem>
-                <identifier>RecordABML_Cheque_Name_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_MICR__pc</fieldItem>
-                <identifier>RecordABML_MICR_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-6a94eafc-7f31-44cd-af16-a77d221ba5ff</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-443f3566-8303-4710-94c2-0a70aef01d8b</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-6a94eafc-7f31-44cd-af16-a77d221ba5ff</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-10a3c8c5-191f-4fc5-9110-1c9eeda04fb0</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
@@ -324,7 +252,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Fields</value>
+                    <value>BSB Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
@@ -346,24 +274,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-10a3c8c5-191f-4fc5-9110-1c9eeda04fb0</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Bank Details</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
