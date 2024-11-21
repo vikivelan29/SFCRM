@@ -8,7 +8,7 @@ public with sharing class ABML_QueueController {
     
     @AuraEnabled(cacheable=true)
     public static List<Group> getQueues() {
-        return [SELECT Id, Name FROM Group WHERE Type = 'Queue'];
+        return [SELECT Id, Name FROM Group WHERE Type = 'Queue' and Name like 'ABML%'];
     }
 
 
@@ -16,7 +16,7 @@ public with sharing class ABML_QueueController {
     @AuraEnabled
     public static List<Map<String, String>> getQueueNames() {
         List<Map<String, String>> queues = new List<Map<String, String>>();
-        for (Group g : [SELECT Id, Name FROM Group where Type = 'Queue']) {
+        for (Group g : [SELECT Id, Name FROM Group where Type = 'Queue' and Name like 'ABML%']) {
             queues.add(
                 new Map<String, String>{ 'label' => g.Name, 'value' => g.Id }
             );
