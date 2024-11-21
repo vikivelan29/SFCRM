@@ -65,7 +65,7 @@ public with sharing class ABML_QueueController {
         }
 
         // Fetch users in the selected queue with an optional user name filter
-        return [SELECT Id, Name FROM User WHERE Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :queueId) AND Name LIKE :('%' + userName + '%') ORDER BY Name];
+        return [SELECT Id, Name, Email FROM User WHERE Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :queueId) AND Name LIKE :('%' + userName + '%') ORDER BY Name];
     }
 
 
