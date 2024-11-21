@@ -34,7 +34,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             if(triggerContext == 'AfterASFCodeBeforeUpdate') {
                 policyIsMandatory();
-                dedupeLogicOnCaseCreation(triggerContext);
+                dedupeLogicOnCaseCreation();
                 populateFieldsOnCase(abhiNewCaseList, mapOfIdToOldCase);//RNWL
             }
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
@@ -45,9 +45,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
                 ABHI_BusinessLogic_Helper.abhiActiveOneValidationOnRecat(abhiNewCaseList, mapOfIdToOldCase);
             }
-            /*else if(triggerContext == 'AfterASFCodeInAfterInsert') {
-                abhiCsDetHelperObj.updateAccountFieldsonCaseDetail(abhiNewCaseList);
-            }*/
             else {
                 abhiCsDetHelperObj.updateAccountFieldsonCaseDetail(abhiNewCaseList);
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
@@ -556,7 +553,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                         mapDetailIdClaim.put(individualCase.ABHI_Case_Detail__c, individualCase.ClaimNo_Text__c);
                     }
                     else if(individualCase.ClaimNo_Text__c == null && oldMapOfCases != null && oldMapOfCases.get(individualCase.Id).ClaimNo_Text__c != individualCase.ClaimNo_Text__c) {
-                        if(!mapCaseDetUpdate.containsKey(individualCase.ABHI_Case_Detail__c)) {
+                        if(!mapCaseDetUpdate.containsKey(caseDetail.Id)) {
                             caseDetail = new ABHI_Case_Detail__c();
                             caseDetail.Id = individualCase.ABHI_Case_Detail__c;
                             mapCaseDetUpdate.put(caseDetail.Id, caseDetail);   
@@ -567,7 +564,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     if(individualCase.Customer_Member_Text__c != null) {
                                                 mapDetailIdCustomer.put(individualCase.Id, 'ABHI_'+individualCase.Customer_Member_Text__c);
                         mapCaseIdPolicyId.put(individualCase.Id, individualCase.AssetId);
-                                             }
+                    }
                     else if(individualCase.Customer_Member_Text__c == null && oldMapOfCases != null && oldMapOfCases.get(individualCase.Id).Customer_Member_Text__c != individualCase.Customer_Member_Text__c) {
                         if(!mapCaseDetUpdate.containsKey(individualCase.ABHI_Case_Detail__c)) {
                             caseDetail = new ABHI_Case_Detail__c();
@@ -588,12 +585,12 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     }
                     else if(individualCase.Cover_Code_Text__c == null && oldMapOfCases != null && 
                             oldMapOfCases.get(individualCase.Id).Cover_Code_Text__c != individualCase.Cover_Code_Text__c) {
-                        if(!mapCaseDetUpdate.containsKey(individualCase.ABHI_Case_Detail__c)) {
+                        if(!mapCaseDetUpdate.containsKey(caseDetail.Id)) {
                             caseDetail = new ABHI_Case_Detail__c();
                             caseDetail.Id = individualCase.ABHI_Case_Detail__c;
                             mapCaseDetUpdate.put(caseDetail.Id, caseDetail);   
                         }  
-                         mapCaseDetUpdate.get(individualCase.ABHI_Case_Detail__c).Cover_Name__c = null;                                                                           
+                         mapCaseDetUpdate.get(caseDetail.Id).Cover_Name__c = null;                                                                           
                     }   
                     System.debug('@@covrcode'+mapCaseDetUpdate.values());
                     if(individualCase.Hospital_Code_Text__c != null) {
@@ -607,22 +604,18 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     }
                     else if(individualCase.Hospital_Code_Text__c == null && oldMapOfCases != null && 
                          oldMapOfCases.get(individualCase.Id).Hospital_Code_Text__c != individualCase.Hospital_Code_Text__c) {
-                             if(!mapCaseDetUpdate.containsKey(individualCase.ABHI_Case_Detail__c)) {
+                             if(!mapCaseDetUpdate.containsKey(caseDetail.Id)) {
                                  caseDetail = new ABHI_Case_Detail__c();
                                  caseDetail.Id = individualCase.ABHI_Case_Detail__c;
                                  mapCaseDetUpdate.put(caseDetail.Id, caseDetail);   
                              }  
-                             mapCaseDetUpdate.get(individualCase.ABHI_Case_Detail__c).Hospital__c = null;                                                                           
+                             mapCaseDetUpdate.get(caseDetail.Id).Hospital__c = null;                                                                           
                    }   
                         
                     mapCaseDetails.put(individualCase.Id, individualCase.ABHI_Case_Detail__c);
                 }
             }
-            for(Claim__c claim : [SELECT Id, Name, Policy_Number__r.LAN__c from Claim__c WHERE Name IN :mapDetailIdClaim.values()]) {
-                if(!mapClaimDet.containsKey(claim.Name)) {
-                    mapClaimDet.put(claim.Name, claim.Id);  
-                }
-            }            
+                           
             /*for(Account acc : [SELECT ID,LOB_Client_Code__c FROM Cover__c where Cover_Code__c IN :mapDetailIdCover.values()]) {
                 if(!mapAccountLobId.containsKey(acc.LOB_Client_Code__c)) {
                     mapAccountLobId.put(acc.LOB_Client_Code__c, acc.ID);
@@ -669,6 +662,22 @@ public with sharing class ABHI_BusinessLogic_Helper {
             System.debug('@@@ mapCaseDetUpdate.values()'+ mapCaseDetUpdate.values());
             Database.SaveResult[] srList = Database.update(mapCaseDetUpdate.values(), false);
             System.debug('@@@ mapCaseDetUpdate.values()2'+ mapCaseDetUpdate.values());
+
+        // Iterate through each returned result
+        for (Database.SaveResult sr : srList) {
+            if (sr.isSuccess()) {
+                // Operation was successful, so get the ID of the record that was processed
+                System.debug('Successfully inserted account. Account ID: ' + sr.getId());
+            }
+            else {
+                // Operation failed, so get all errors                
+                for(Database.Error err : sr.getErrors()) {
+                    System.debug('The following error has occurred.');                    
+                    System.debug(err.getStatusCode() + ': ' + err.getMessage());
+                    System.debug('Account fields that affected this error: ' + err.getFields());
+                }
+            }
+        }
         }
         catch(Exception e) {
             logtheException(e);
@@ -694,7 +703,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
     @AuraEnabled
     public static String abhiCaseSourceValidation(Case caseRecord) {
 
-        Map<String, Map<String, ABHI_Create_Case_Validations__mdt>> issueSourceMap = new Map<String, Map<String, ABHI_Create_Case_Validations__mdt>>();
+        Map<String,List<ABHI_Create_Case_Validations__mdt>> issueCodeToErrorListMsgMap = new Map<String,List<ABHI_Create_Case_Validations__mdt>>();
+       // Map<String, Object> jsonMap = (Map<String, Object>) JSON.deserializeUntyped((caseRecord));
         String caseBusinessUnit = caseRecord.Business_Unit__c ?? '';
         String caseCCCExtId = caseRecord.CCC_External_Id__c ?? '';
         String caseSource = caseRecord.Source__c!=null?caseRecord.Source__c.toLowerCase(): '';
@@ -713,44 +723,38 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             //Fetch all metadata values and store it in map
             for (ABHI_Create_Case_Validations__mdt cseValidationMetaRecord : createCaseValidationMetaRecords) {
-                String issueCodeMdt = cseValidationMetaRecord?.Issue_Code__c ?? '';
-                String userSourceCodeMdt = cseValidationMetaRecord?.User_Source_Code__c ?? '';
-
-                if (!issueSourceMap.containsKey(issueCodeMdt)) {
-                    issueSourceMap.put(issueCodeMdt, new Map<String, ABHI_Create_Case_Validations__mdt>());
+                String cccExtId = cseValidationMetaRecord?.Issue_Code__c;
+                if(!issueCodeToErrorListMsgMap.containsKey(cccExtId)) {
+                    issueCodeToErrorListMsgMap.put(cccExtId, new List<ABHI_Create_Case_Validations__mdt>());
                 }
-                issueSourceMap.get(issueCodeMdt).put(userSourceCodeMdt, cseValidationMetaRecord);
+                issueCodeToErrorListMsgMap.get(cccExtId).add(cseValidationMetaRecord);
             }
 
             //validate the case record
-            if(caseCCCExtId != null && issueSourceMap.containsKey(caseCCCExtId)) {    
-                Map<String, ABHI_Create_Case_Validations__mdt> userSourceCodeToMetaDataRecMap = issueSourceMap?.get(caseCCCExtId) ?? new Map<String, ABHI_Create_Case_Validations__mdt>();
-                ABHI_Create_Case_Validations__mdt metaRec = new ABHI_Create_Case_Validations__mdt();
-                String validationNameMdt = '';
-                List<String> srcMdt = new List<String>();
-                List<ABHI_Create_Case_Validations__mdt> userSourceCodeToMetaList = userSourceCodeToMetaDataRecMap.values();
-
-                if(userSourceCodeToMetaDataRecMap.containsKey(userSourceCode) && userSourceCodeToMetaDataRecMap.values().size() > 0) {
-                    metaRec = userSourceCodeToMetaDataRecMap?.get(userSourceCode);
-                    validationNameMdt = metaRec?.Validation_Name__c ?? '';
-                    srcMdt = metaRec?.Source__c?.toLowerCase().split(',');
-
+            if(caseCCCExtId != null && issueCodeToErrorListMsgMap.containsKey(caseCCCExtId)) {    
+                List<ABHI_Create_Case_Validations__mdt> metaDataRecList = issueCodeToErrorListMsgMap.get(caseCCCExtId);
+                
+                for(ABHI_Create_Case_Validations__mdt createCaseValMdtRec : metaDataRecList) {
+                    String validationNameMdt = createCaseValMdtRec?.Validation_Name__c;
+                    List<String> srcMdt = createCaseValMdtRec?.Source__c.toLowerCase().split(',');
                     //PR1030924-703
                     if(validationNameMdt == 'Source_Based_Case_Creation_Restriction') {
                         if(!srcMdt.contains(caseSource)) {
-                            result = metaRec.Error_Message__c;
+                            result = createCaseValMdtRec.Error_Message__c;
                         }
                     }
                     // PR1030924-669
                     else if(validationNameMdt == 'User_Source_Code_Based_Case_Creation_Restriction') {
-                        if(metaRec.User_Source_Code__c == userSourceCode && !srcMdt.contains(caseSource)) {
-                            result = metaRec.Error_Message__c; 
+                        if(createCaseValMdtRec.User_Source_Code__c == userSourceCode && srcMdt.size() > 0 && !srcMdt.contains(caseSource)) {
+                            result = createCaseValMdtRec.Error_Message__c; 
+                        }
+                        else if(srcMdt.size() == 0 && createCaseValMdtRec.User_Source_Code__c != userSourceCode) {
+                            result = createCaseValMdtRec.Error_Message__c;
                         }
                     }
-                }
-                else {
-                    metaRec = userSourceCodeToMetaList[0];
-                    result = metaRec.Error_Message__c; 
+                    if(result != 'Success') {
+                        break;
+                    }
                 }
             }
         }
