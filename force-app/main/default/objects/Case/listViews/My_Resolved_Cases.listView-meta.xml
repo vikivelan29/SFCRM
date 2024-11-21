@@ -19,7 +19,7 @@
         <operation>equals</operation>
         <value>ABML</value>
     </filters>
-    <label>ABML  My Resolved Cases</label>
+    <label>ABML My Resolved Cases</label>
     <sharedTo>
         <group>ABML_Branch_Helpdesk_G</group>
         <group>ABML_Central_Customer_Service_G</group>
