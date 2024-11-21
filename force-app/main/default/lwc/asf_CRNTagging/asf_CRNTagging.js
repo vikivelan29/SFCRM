@@ -13,6 +13,8 @@ import { reduceErrors } from 'c/asf_ldsUtils';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import ABML_BU from '@salesforce/label/c.ABML_BU';
+
 
 
 // VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
@@ -47,7 +49,6 @@ export default class Asf_CRNTagging extends LightningElement {
     @track dupeLead=[];
     @track showDupeList=false;
     disableCreateBtn = false;
-    isDisabledUpdateCaseButton = true;
     accountCrn;
     FAId;
     caseSuppliedEmail;
@@ -55,8 +56,53 @@ export default class Asf_CRNTagging extends LightningElement {
     cardTitle;
     selectLan;
     asstCols;
+    hideLanForABML=true; //Added by Shagun
     
-    accCols;
+    accCols = [{
+        label: 'Id',
+        fieldName: 'recordId',
+        type: 'text',
+        fixedWidth: 1,
+        hideLabel: true,
+        hideDefaultActions: true
+    },
+    {
+        label: 'Customer Name',
+        fieldName: 'name',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Email ID',
+        fieldName: 'emailId',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Mobile Number',
+        fieldName: 'mobile',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Client Code',
+        fieldName: 'clientCode',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'PAN Number',
+        fieldName: 'pan',
+        type: 'text',
+        initialWidth: 180
+    },
+    {
+        label: 'Type',
+        fieldName: 'objectType',
+        type: 'text',
+        initialWidth: 180
+    }
+    ]
 
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
@@ -69,15 +115,16 @@ export default class Asf_CRNTagging extends LightningElement {
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
+        console.log('Inside getRecord');
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+            //this.hideLanForABML= this.loggedInUserBusinessUnit=='ABML'?false:true;//Added by Shagun: LAN is not present for ABML.
             this.cardTitle = lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE != null? lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE : lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
             this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
             this.selectLan = lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT != null? lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
             this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
-            this.accCols = lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS : lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
         } else if (error) {
-            //this.error = error; 
+            //this.error = error ;
         }
     }
 
@@ -137,19 +184,16 @@ export default class Asf_CRNTagging extends LightningElement {
             this.selectedCustomer = this.prestdAcctId;
 
             let my_ids1 = [];
-            if(this.FAId) {
-                my_ids1.push(this.FAId);
-            }
+            my_ids1.push(this.FAId);
             this.preSelectedAsset = my_ids1;
             console.log('con data--'+JSON.stringify(data));
         } else if (error) {
             this.error = error;
             console.log('error--'+JSON.stringify(error));
         }
-    }
+    } 
 
     valChange(event) {
-        this.isDisabledUpdateCaseButton = true;
         this.inpValue = event.target.value;
         if (this.inpValue && this.inpValue.length >= 2) {
             this.preSelectedRows = [];
@@ -176,14 +220,14 @@ export default class Asf_CRNTagging extends LightningElement {
             })
             .catch(error => {
             });
-    }
+    } 
 
     handleAccAction(event) {
-        this.isDisabledUpdateCaseButton = false;
         const row = event.detail.selectedRows;
+        console.log('@@@row',JSON.stringify(row));
         this.selectedCustomer = row[0].recordId;
         this.showLANForCustomer = false;
-        if(row[0].objectType == 'Customer'){
+        if(row[0].objectType == 'Customer' && this.loggedInUserBusinessUnit != ABML_BU){
             // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
             this.showLANForCustomer = true;
         }
@@ -203,10 +247,6 @@ export default class Asf_CRNTagging extends LightningElement {
         const row = event.detail.selectedRows;
         this.selectedAsset = row[0];
         console.log('sekectd asset--'+JSON.stringify(this.selectedAsset));
-        
-        if(this.selectedAsset) {
-            this.isDisabledUpdateCaseButton = false;
-        }
     }
 
     handleclick(event) {
@@ -229,7 +269,7 @@ export default class Asf_CRNTagging extends LightningElement {
                 selectedFANum = this.selectedAsset.LAN__c;
             }
         }
-        
+
         if (this.selectedCustomer) {
             updateCRN({
                 accountId: this.selectedCustomer,
@@ -255,19 +295,13 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
                 })
                 .catch(error => {
-                    let getErrMsg = reduceErrors(error)[0]
-
-                    if(getErrMsg) {
-                        this.showError("error", "Error ", getErrMsg);
-                    } else {
-                        const event = new ShowToastEvent({
-                            title: 'Error',
-                            message: this.noUpdate,
-                            variant: 'error',
-                            mode: 'dismissable'
-                        });
-                        this.dispatchEvent(event);
-                    }
+                    const event = new ShowToastEvent({
+                        title: 'Error',
+                        message: this.noUpdate,
+                        variant: 'error',
+                        mode: 'dismissable'
+                    });
+                    this.dispatchEvent(event);
                 });
         } else {
             const event = new ShowToastEvent({
@@ -280,7 +314,6 @@ export default class Asf_CRNTagging extends LightningElement {
         }
 
     }
-
     closeQuickAction() {
         this.dispatchEvent(new CloseActionScreenEvent());
     }
