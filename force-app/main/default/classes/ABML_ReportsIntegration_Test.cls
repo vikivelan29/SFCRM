@@ -13,6 +13,7 @@ public with sharing class ABML_ReportsIntegration_Test {
             Client_Code__c = 'ABCTest321',
             FirstName = 'test',
             LastName = 'test2',
+            PersonEmail='testuser@example.com',
             Business_Unit__c ='ABML'    
         );
         insert acc;
@@ -20,7 +21,7 @@ public with sharing class ABML_ReportsIntegration_Test {
         // Create a Case record
         Case testCase = new Case(
             Business_Unit__c = 'ABML',
-            SuppliedEmail = 'testuser@example.com',
+            //Mapped_Email__c = acc.PersonEmail,
             AccountId = acc.Id,
             Source__c = 'Email',
             Stage__c = 'Resolved',
@@ -64,7 +65,7 @@ public with sharing class ABML_ReportsIntegration_Test {
     
     @isTest 
     static void getReportsTestMethod() {
-        Case caseObj = [SELECT Id,Business_Unit__c, SuppliedEmail, Source__c,Stage__c FROM Case Limit 1];
+        Case caseObj = [SELECT Id,Business_Unit__c, Mapped_Email__c, Source__c,Stage__c FROM Case Limit 1];
         ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c,Case__c FROM ASF_Case_Integration__c WHERE Case__c = :caseObj.Id limit 1];
         
         Test.startTest();
@@ -84,7 +85,7 @@ public with sharing class ABML_ReportsIntegration_Test {
     
     @isTest 
     static void getReportsTestMethod1() {
-        Case caseObj = [SELECT Id,Business_Unit__c, SuppliedEmail, Source__c,Stage__c FROM Case Limit 1];
+        Case caseObj = [SELECT Id,Business_Unit__c, Mapped_Email__c, Source__c,Stage__c FROM Case Limit 1];
         ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c,Case__c FROM ASF_Case_Integration__c WHERE Case__c = :caseObj.Id limit 1];
         
         Test.startTest();
@@ -104,7 +105,7 @@ public with sharing class ABML_ReportsIntegration_Test {
     
     @isTest 
     static void getReportsTestMethod2() {
-        Case caseObj = [SELECT Id,Business_Unit__c, SuppliedEmail, Source__c,Stage__c FROM Case Limit 1];
+        Case caseObj = [SELECT Id,Business_Unit__c, Mapped_Email__c, Source__c,Stage__c FROM Case Limit 1];
         ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c,Case__c FROM ASF_Case_Integration__c WHERE Case__c = :caseObj.Id limit 1];
         
         Test.startTest();
@@ -124,7 +125,7 @@ public with sharing class ABML_ReportsIntegration_Test {
     
     @isTest 
     static void sendEmailAttachmentsTestMethod() {
-        Case caseObj = [SELECT Id,Business_Unit__c, SuppliedEmail, Source__c,Stage__c,AccountId FROM Case Where AccountId!=null Limit 1];
+        Case caseObj = [SELECT Id,Business_Unit__c, Mapped_Email__c, Source__c,Stage__c,AccountId FROM Case Where AccountId!=null Limit 1];
         ASF_Case_Integration__c updatedCaseInt = [SELECT Id,Status__c, Request__c, Response__c,Case__c FROM ASF_Case_Integration__c WHERE Status__c='Success' limit 1];
         ContentVersion sentContent = [SELECT Id, Title, VersionData,FirstPublishLocationId FROM ContentVersion WHERE FirstPublishLocationId = :updatedCaseInt.Id];
         Test.startTest();
