@@ -165,6 +165,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ABHI_UpdatesForSprinklr</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ABHI_EBOTCaseLogics</apexClass>
         <enabled>true</enabled>
     </classAccesses>  
@@ -2906,6 +2910,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Cover__c.Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Notes_from_Sprinklr__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Sprinklr_Case_Reference_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
