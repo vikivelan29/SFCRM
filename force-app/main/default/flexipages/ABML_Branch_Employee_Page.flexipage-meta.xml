@@ -82,28 +82,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Client_Branch_Franchisee__pc</fieldItem>
-                <identifier>RecordABML_Client_Branch_Franchisee_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.ABML_BM_Name__c</fieldItem>
                 <identifier>RecordABML_BM_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Contact_Category__c</fieldItem>
-                <identifier>RecordABML_Contact_Category_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-522a94dc-400b-4894-8b61-92fac1a2e0b6</name>
@@ -116,28 +96,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Business_Unit__c</fieldItem>
-                <identifier>RecordBusiness_Unit_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Status__pc</fieldItem>
-                <identifier>RecordABML_Status_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.PersonGenderIdentity</fieldItem>
-                <identifier>RecordPersonGenderIdentityField</identifier>
+                <fieldItem>Record.ABML_Client_Branch_Franchisee__pc</fieldItem>
+                <identifier>RecordABML_Client_Branch_Franchisee_pcField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -158,16 +118,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ABML_Designation__pc</fieldItem>
                 <identifier>RecordABML_Designation_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Contact_Subcategory__c</fieldItem>
-                <identifier>RecordABML_Contact_Subcategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b1cff763-3731-41be-8485-0fa24c3aa9c9</name>
@@ -272,7 +222,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Fields</value>
+                    <value>Branch Employee Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>

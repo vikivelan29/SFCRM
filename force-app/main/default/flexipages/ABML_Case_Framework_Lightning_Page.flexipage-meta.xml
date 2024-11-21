@@ -627,9 +627,9 @@
                 <identifier>flexipage_tab9</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.Account.ABML_Contact_Type__c}</leftValue>
+                        <leftValue>{!Record.Account.RecordType.DeveloperName}</leftValue>
                         <operator>EQUAL</operator>
-                        <rightValue>Customer</rightValue>
+                        <rightValue>ABML_Customer</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
