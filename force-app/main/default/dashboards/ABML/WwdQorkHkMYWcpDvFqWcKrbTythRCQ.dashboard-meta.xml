@@ -218,7 +218,7 @@
                         <sortOrder>a</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
-                <header>ABML Case Resolution Trend (By Month)</header>
+                <header>Case Resolution Trend (By Month)</header>
                 <legendPosition>Right</legendPosition>
                 <report>ABML/ABML_Case_Resolution_Trend_By_Month_9us</report>
                 <showPercentage>false</showPercentage>
