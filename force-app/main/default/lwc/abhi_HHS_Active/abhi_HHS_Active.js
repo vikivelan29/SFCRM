@@ -164,7 +164,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                 ActualAge: activeAge.ActualAge,
                 MultiplyAge: activeAge.MultiplyAge,
                 HeartAge: activeAge.HeartAge,
-                CalculationDate: activeAge.CalculationDate 
+                CalculationDate: activeAge.CalculationDate
             }];
             this.recordTable2 = tableData;  // Ensure this is populated as needed
             this.showDataTable = true;
