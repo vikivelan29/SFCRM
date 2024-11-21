@@ -2,7 +2,7 @@
   @description       : 
   @author            : aditya.jawadekar@salesforce.com
   @group             : 
-  @last modified on  : 10-29-2024
+  @last modified on  : 11-21-2024
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log
   Ver   Date         Author                       Modification
@@ -73,12 +73,13 @@
                     </lightning-input>
                 </lightning-layout-item>
             </lightning-layout>
-
-            <lightning-button label = "Search" title = "Search" onclick = {fetchLegacyCases} variant = "brand" 
-                class = "slds-var-m-top_x-small" disabled={disabled} >
-            </lightning-button>
+            <div class="slds-align_absolute-center">
+                <lightning-button class="slds-var-m-around_small" label = "Reset" title = "reset" onclick = {resetSearch} variant = "neutral" disabled={disabled} >
+                </lightning-button>
+                <lightning-button class="slds-var-m-around_small" label = "Search" title = "Search" onclick = {fetchLegacyCases} variant = "brand" disabled={disabled} >
+                </lightning-button>
+            </div>
         </div>
-        
         
         <div lwc:if = {displayTable}>
             <div class = "slds-var-p-vertical_medium slds-text-heading_medium">
