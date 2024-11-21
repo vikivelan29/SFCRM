@@ -205,6 +205,18 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     }
                 }
                 if(!String.isBlank(objCase.ABHI_Case_Detail__c) && objCase.ABHI_Case_Detail__r?.ABHI_isSecondStageAcknowledgementSent__c){
+                    if(ABHI_Constants.CASES_RESOLVED_LIST.contains(objCase.Status)){
+                        if(mapResolved2EmailTemplateMap != null && mapResolved2EmailTemplateMap.containsKey(objCase.CCC_External_Id__c) && !String.isBlank(mapResolved2EmailTemplateMap.get(objCase.CCC_External_Id__c))){
+                            mapFinalCaseId2Email.put(objCase.Id,mapResolved2EmailTemplateMap.get(objCase.CCC_External_Id__c));
+                            setCasesToCommunicate.add(objCase);
+                            mapFinalCaseId2isTransferred.put(objCase.Id, false);
+                        }
+                        if(mapResolved2SMSMetadataMap != null && mapResolved2SMSMetadataMap.containsKey(objCase.CCC_External_Id__c) && !String.isBlank(mapResolved2SMSMetadataMap.get(objCase.CCC_External_Id__c))){
+                            mapFinalCaseId2SMS.put(objCase.Id,mapResolved2SMSMetadataMap.get(objCase.CCC_External_Id__c));
+                            setCasesToCommunicate.add(objCase);
+                            mapFinalCaseId2isTransferred.put(objCase.Id, false);
+                        }
+                    }
                     if(ABHI_Constants.CASES_UNRESOLVED_LIST.contains(objCase.Status)){
                         if(mapUnresolved2EmailTemplateMap != null && mapUnresolved2EmailTemplateMap.containsKey(objCase.CCC_External_Id__c) && !String.isBlank(mapUnresolved2EmailTemplateMap.get(objCase.CCC_External_Id__c))){
                             mapFinalCaseId2Email.put(objCase.Id,mapUnresolved2EmailTemplateMap.get(objCase.CCC_External_Id__c));
