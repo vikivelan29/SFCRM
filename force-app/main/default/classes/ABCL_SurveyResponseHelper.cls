@@ -104,8 +104,8 @@ public without sharing class ABCL_SurveyResponseHelper {
                     surveyResponse.Client_Code__c = accountId;
                 }
                 //Code block for ABSLAMC Business Unit to identify the Account from the Asset/LAN
-                if(accountId == null && surveyResponse.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
-                    if(surveyResponse.LAN_Text__c.startsWithIgnoreCase('MF-')){
+                if(surveyResponse.Client_Code__c == null && surveyResponse.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU){
+                    if(surveyResponse.LAN_Text__c.startsWithIgnoreCase('-')){
                         amcSurveyLANNo.add(surveyResponse.LAN_Text__c.substringAfter('-'));
                     }
                     else{
@@ -133,7 +133,7 @@ public without sharing class ABCL_SurveyResponseHelper {
                 if(folioVsAsset.keySet().size()>0){
                     for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
                         String accountId = '';
-                        if(surveyResponse.Client_Code__c == null && surveyResponse.LAN_Text__c.startsWithIgnoreCase('MF-')){
+                        if(surveyResponse.Client_Code__c == null && surveyResponse.LAN_Text__c.startsWithIgnoreCase('-')){
                             surveyResponse.Client_Code__c = folioVsAsset.get(surveyResponse.LAN_Text__c.substringAfter('-'));
                         }
                         else if(surveyResponse.Client_Code__c == null){
