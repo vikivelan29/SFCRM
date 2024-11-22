@@ -7,6 +7,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+import ABML_BU from '@salesforce/label/c.ABML_BU'; //Added by EY for ABML
 
 const getCurrentCustomer = (event, parentJS) => {
     parentJS.preSelectedRows = [];
@@ -37,7 +38,7 @@ const setSelectedAccount = async(event, parentJS) => {
     parentJS.selectedCustomerClientCode = row[0].clientCode;
     parentJS.accountRecordType = row[0].objectRecordType;
     parentJS.showLANForCustomer = false;
-    if (row[0].objectType == 'Customer') {
+    if (row[0].objectType == 'Customer' && parentJS.businessUnit != ABML_BU) {
         // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
         parentJS.showLANForCustomer = true;
         parentJS.accountId = row[0].recordId;

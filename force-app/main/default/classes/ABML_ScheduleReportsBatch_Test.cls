@@ -79,6 +79,17 @@ public class ABML_ScheduleReportsBatch_Test {
         insert caseDetails;
         }
         
+        
+        List<ABML_Daily_Report_Sender__c> setsList = new List<ABML_Daily_Report_Sender__c>();
+        
+        ABML_Daily_Report_Sender__c sets = new ABML_Daily_Report_Sender__c();
+        sets.Name = 'test1';
+        sets.Email__c ='test@test.com';
+        setsList.add(sets);
+        insert setsList;
+        
+        //OrgWideEmailAddress[] addresses = [SELECT Id FROM OrgWideEmailAddress LIMIT 1];
+        
     }
     
     @isTest
