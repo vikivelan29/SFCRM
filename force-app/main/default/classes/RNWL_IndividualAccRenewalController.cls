@@ -164,7 +164,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
             
             if(isUpdatedNeeded) {
                 system.debug(oppList);
-                //update oppList[0];
+                update oppList[0];
             }
             
             if(combiPolicyNumbers.size() > 0){
