@@ -11,7 +11,7 @@ public class ABSLAMC_OmniChannelServResBatchCtrlTest {
             Email = 'testuser@example.com',
             Username = 'testuser9199@example.com',
             Alias = 'tuser',
-            CommunityNickname = 'tuser',
+            CommunityNickname = 'tuser012',
             TimeZoneSidKey = 'America/Los_Angeles',
             LocaleSidKey = 'en_US',
             EmailEncodingKey = 'UTF-8',
