@@ -4,7 +4,7 @@
 * Description      - Class for ABML_Queue Component
 ********************************************************
 */
-public with sharing class ABML_QueueController {
+public without sharing class ABML_QueueController { //Without sharing is added for avoiding apex class access issues
     
     @AuraEnabled(cacheable=true)
     public static List<Group> getQueues() {
