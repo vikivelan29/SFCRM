@@ -107,7 +107,7 @@
                         <valueListItems>
                             <value>Case.EscalateCase</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsEscalated}</leftValue>
                                     <operator>EQUAL</operator>
@@ -127,6 +127,11 @@
                                     <leftValue>{!Record.Is_Duplicate__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Status}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Unresolved</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
