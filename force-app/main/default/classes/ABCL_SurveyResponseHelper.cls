@@ -126,18 +126,18 @@ public without sharing class ABCL_SurveyResponseHelper {
             }
 
             if(amcSurveyLANNo.size()>0){
-                map<String,String> folioVsAsset = new map<string, String>();
+                map<String,String> folioVsAccountId = new map<string, String>();
                 for(Asset assetrec : [SELECT Id, AccountId,Folio__c from Asset where Folio__c in : amcSurveyLANNo AND Business_Unit__c=:ABSLAMC_Constants.ABSLAMCBU  WITH SYSTEM_MODE]){
-                    folioVsAsset.put(assetrec.Folio__c, assetrec.AccountId);
+                    folioVsAccountId.put(assetrec.Folio__c, assetrec.AccountId);
                 }
-                if(folioVsAsset.keySet().size()>0){
+                if(folioVsAccountId.keySet().size()>0){
                     for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
                         String accountId = '';
                         if(surveyResponse.Client_Code__c == null && surveyResponse.LAN_Text__c.contains('-')){
-                            surveyResponse.Client_Code__c = folioVsAsset.get(surveyResponse.LAN_Text__c.substringAfter('-'));
+                            surveyResponse.Client_Code__c = folioVsAccountId.get(surveyResponse.LAN_Text__c.substringAfter('-'));
                         }
                         else if(surveyResponse.Client_Code__c == null){
-                            surveyResponse.Client_Code__c = folioVsAsset.get(surveyResponse.LAN_Text__c);
+                            surveyResponse.Client_Code__c = folioVsAccountId.get(surveyResponse.LAN_Text__c);
                         }
                     }
                 }
