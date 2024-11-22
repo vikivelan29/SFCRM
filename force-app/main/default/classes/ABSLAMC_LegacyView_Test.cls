@@ -100,7 +100,7 @@ public class ABSLAMC_LegacyView_Test {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABSLAMC_LegacyMockResponseGenerator());
         Test.startTest();
-        ABSLAMC_LegacyView.ResponseWrapper res = ABSLAMC_LegacyView.getLegacyData('277956','','','','ABSLAMC');
+        ABSLAMC_LegacyView.ResponseWrapper res = ABSLAMC_LegacyView.getLegacyData('277956','','','ABSLAMC');
         Test.stopTest();
         
         System.assertEquals(200,res.statusCode, 'code');
@@ -110,7 +110,7 @@ public class ABSLAMC_LegacyView_Test {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABSLAMC_LegacyMockFailureResponseGenerator());
         Test.startTest();
-        ABSLAMC_LegacyView.ResponseWrapper res = ABSLAMC_LegacyView.getLegacyData('277956','','','','ABSLAMC');
+        ABSLAMC_LegacyView.ResponseWrapper res = ABSLAMC_LegacyView.getLegacyData('277956','','','ABSLAMC');
         Test.stopTest();
         
         System.assertEquals(404,res.statusCode, 'statusCode');
