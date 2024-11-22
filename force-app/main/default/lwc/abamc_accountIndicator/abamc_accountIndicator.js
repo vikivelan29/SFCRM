@@ -10,6 +10,8 @@ export default class Abamc_accountIndicator extends LightningElement {
     caseData = [];
     npsData = [];
     error;
+    noCaseData = false;
+    noNPSData = false;
 
     connectedCallback() {
         console.log('inside conne',CUSTOM_ABAMC_Indicator_CSS);
@@ -26,15 +28,18 @@ export default class Abamc_accountIndicator extends LightningElement {
 
     @wire(getCasesForAccount, { accId: '$recordId' })
     wiredCases({ error, data }) {
-        console.log('inside case wire');
         if (data) {
-            console.log('Case Data->',JSON.stringify(data))
             this.caseData = this.processCaseData(data);
             this.error = undefined;
-            console.log('Case Data->',this.caseData)
+            console.log('inside case data');
+            if(this.caseData.length === 0){
+                this.noCaseData = true;
+            }
         } else if (error) {
+            console.log('inside case error');
             this.error = error;
             this.caseData = undefined;
+            this.noCaseData = true;
         }
     }
 
@@ -51,20 +56,15 @@ export default class Abamc_accountIndicator extends LightningElement {
         return processedCaseData;
     }
 
-    get isCaseDataEmpty() {
-        return this.caseData.length === 0;
-    }
-
     @wire(getLatestNPSData, { accId: '$recordId' })
     wiredNPS({ error, data }) {
         if (data) {
-            console.log('NPS Data->',JSON.stringify(data))
             this.npsData = this.processNPSData(data);
             this.error = undefined;
-            console.log('nps data', JSON.stringify(this.npsData));
         } else if (error) {
             this.error = error;
             this.npsData = undefined;
+            this.nonpsData = true;
         }
     }
 
