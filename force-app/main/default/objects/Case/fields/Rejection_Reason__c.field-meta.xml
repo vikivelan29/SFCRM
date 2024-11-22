@@ -566,5 +566,11 @@
                 <default>false</default>
                 <label>Insufficient incomplete details from customer</label>
             </value>
+            <value>
+                <fullName>Insufficient/Incomplete details from Ops/Customer</fullName>
+                <default>false</default>
+                <isActive>true</isActive>
+                <label>Insufficient/Incomplete details from Ops/Customer</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
