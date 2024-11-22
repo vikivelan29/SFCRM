@@ -266,7 +266,7 @@
         <name>ShowSalesProspect</name>
     </customPermissions>
     <description>Permission set for ABHI.</description>
-  <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.all_Emails__c</field>
         <readable>true</readable>
