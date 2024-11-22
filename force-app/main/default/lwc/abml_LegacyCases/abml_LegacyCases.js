@@ -20,7 +20,7 @@ export default class Abml_LegacyCases extends LightningElement {
     pan;
     startDate;
     endDate;
-    branchOrFranchiseeCode;
+    code;
     lob;
     loaded = false;
     disabled = false;
@@ -38,6 +38,7 @@ export default class Abml_LegacyCases extends LightningElement {
     wiredPersonAccount({error,data}){
         if(data){
             this.personAccountData=data;
+            console.log('Wire Data==>',JSON.stringify(data));
         }
        else if(error){
            console.log('Wire Error==>',error);
@@ -81,29 +82,28 @@ export default class Abml_LegacyCases extends LightningElement {
         this.displayTable = false;
         this.displayError = false;
         this.data = null;
-        this.clientId=null;
-        this.pan=null;
-        this.lob=this.personAccountData.lob?this.personAccountData.lob:null;
+        // this.clientId=null;
+        // this.pan=null;
+       //this.code=null;
+        this.lob=this.personAccountData.lob;
         if(this.personAccountData.branchCode){
-            this.branchOrFranchiseeCode = this.personAccountData.branchCode;
+            this.code = this.personAccountData.branchCode;
         }
         else if(this.personAccountData.franchiseeCode){
-            this.branchOrFranchiseeCode = this.personAccountData.franchiseeCode;
+            this.code = this.personAccountData.franchiseeCode;
         }
-        else{
-            this.clientId=this.personAccountData.clientId?this.personAccountData.clientId:null;      
-            this.pan=this.personAccountData.pan?this.personAccountData.pan:null; 
-            this.branchOrFranchiseeCode = null;
-        }
+        this.clientId=this.personAccountData.clientId;      
+        this.pan=this.personAccountData.pan;   
+   
         console.log('Client ID '+this.clientId);
         console.log('PAN No '+this.pan);
-        console.log('Branch/Franchisee Code '+this.branchOrFranchiseeCode);
+        console.log('Code '+this.code);
         console.log('LOB '+this.lob);
         if(this.checkFieldValidity()) {
             this.disabled = true;
              this.isLoading = true;
-            getLegacyData({clientId: this.clientId, pan: this.pan, code: this.branchOrFranchiseeCode, startDate: this.startDate,
-                endDate: this.endDate}).then(result=>{
+            getLegacyData({clientId: this.clientId, pan: this.pan, code: this.code, startDate: this.startDate,
+                endDate: this.endDate, lob : this.lob}).then(result=>{
                 this.leagcyCaseData = result;
                 console.log('Result1 ==> ', result);
                 this.isLoading = false;
