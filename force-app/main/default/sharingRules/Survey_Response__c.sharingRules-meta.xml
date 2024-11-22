@@ -25,7 +25,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABHI Survey Response Sharing Rule</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABHI_Service_Manager</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
