@@ -161,7 +161,10 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Health Providers</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Search_Health__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Provider_Code__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
