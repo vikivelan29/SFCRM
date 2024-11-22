@@ -37,6 +37,22 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
         );
         insert userRecord1;
         
+        User userRecord2 = new User(
+            Alias = 'standt', 
+            Email = 'stanrduserEmails@testorg.com', 
+            EmailEncodingKey = 'UTF-8',
+            Business_Unit__c = ABSLAMC_Constants.ABSLAMCBU,
+			LOB__c = 'MF',
+            LastName = 'Testing', 
+            LanguageLocaleKey = 'en_US', 
+            LocaleSidKey = 'en_US', 
+            ProfileId = SYSTEMADMIN_PROFILE.Id, 
+            TimeZoneSidKey = 'America/Los_Angeles', 
+            UserName = 'cdefghijk5678@gmail.com', 
+            managerGroupId__c = slaGroup.Id
+        );
+        insert userRecord2;
+
         Test.startTest();
         PermissionSet ps = [SELECT Id 
                             FROM PermissionSet 
@@ -57,6 +73,10 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
         User userRecord = [SELECT Id
                            FROM User
                            WHERE UserName = 'cdefghijk567@gmail.com'];
+        User userRecord1 = [SELECT Id
+                           FROM User
+                           WHERE UserName = 'cdefghijk5678@gmail.com'];
+        
         System.runAs(userRecord){
             // Create common test Leads
             Lead newLead = new lead();
@@ -71,8 +91,10 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
             insert newLead;
 
             Test.startTest();
-            List<Lead> leadList = [SELECT Id, Line_Of_Business__c FROM Lead WHERE Id =:newLead.Id];
+            List<Lead> leadList = [SELECT Id, Line_Of_Business__c, ownerId FROM Lead WHERE Id =:newLead.Id];
             Assert.areEqual(newLead.LOB__c, leadList[0].Line_Of_Business__c, 'Line_Of_Business__c field on lead record should have been populated');
+            leadList[0].ownerId = userRecord1.Id;
+            update leadList[0];
             Test.stopTest();
         }
     }
