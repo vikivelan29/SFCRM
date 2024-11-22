@@ -69,10 +69,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABSLIG_SendCaseCreationEmail_Test</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ASF_Case360Controller</apexClass>
         <enabled>false</enabled>
     </classAccesses>
