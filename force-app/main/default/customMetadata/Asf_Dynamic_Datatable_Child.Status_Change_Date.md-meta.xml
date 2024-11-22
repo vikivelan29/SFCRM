@@ -12,10 +12,14 @@
     </values>
     <values>
         <field>Data_Type__c</field>
-        <value xsi:type="xsd:string">number</value>
+        <value xsi:type="xsd:string">date</value>
     </values>
     <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>Type_Attributes__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

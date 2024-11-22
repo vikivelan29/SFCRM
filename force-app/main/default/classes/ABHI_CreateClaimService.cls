@@ -5,18 +5,19 @@
 *Last Modified:  02/09/2024
 *@description :  This webservice is to create Claim records in SFDC.
 ***************************************/
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount')
 @RestResource (urlMapping='/CreateClaim')
-global class ABHI_CreateClaimService {
+global with sharing class ABHI_CreateClaimService {
     
-    
+    @SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.NcssMethodCount,PMD.ApexDoc')
     @HttpPost
         global static String doPost(){
            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
-           String accountId;
+           //String accountId;
            Boolean hasError = false;
            Map<String, Map<String, String>> mapObjectFieldMapping = new Map<String, Map<String, String>>();
-            Asset AssetPolicy = null;
-            Sobject refObject = null;        
+            Asset assetPolicy = null;
+            //Sobject refObject = null;        
             
    List<Map<String, Object>> requestBodyList = new List<Map<String, Object>>(); 
                List<Claim__c> claimsToProcess= new list<Claim__C>();
@@ -25,13 +26,11 @@ global class ABHI_CreateClaimService {
             for(ABHI_Field_Mapping__mdt fieldMap : [SELECT ID, ABHI_Field_API_Name__c, ABHI_JSON_Field_Name__c,
                                                  ABHI_Object_Mapping__r.DeveloperName, ABHI_Type__c, ABHI_Field_Type__c
                                                  FROM ABHI_Field_Mapping__mdt 
-                                                 WHERE ABHI_Object_Mapping__r.DeveloperName ='Claim']) {
+                                                 WHERE ABHI_Object_Mapping__r.DeveloperName ='Claim' WITH SYSTEM_MODE]) {
                                                      if(!mapObjectFieldMapping.containsKey(fieldMap.ABHI_Object_Mapping__r.DeveloperName)) {
                                                          mapObjectFieldMapping.put(fieldMap.ABHI_Object_Mapping__r.DeveloperName, new Map<String, String>());
                                                          }
-                                                         mapObjectFieldMapping.get(fieldMap.ABHI_Object_Mapping__r.DeveloperName).put(fieldMap.ABHI_JSON_Field_Name__c, fieldMap.ABHI_Field_API_Name__c);
-                                                     System.debug('Field Mapping: JSON Field - ' + fieldMap.ABHI_JSON_Field_Name__c +', API Field - ' +fieldMap.ABHI_Type__c + ', API Field - ' + fieldMap.ABHI_Field_API_Name__c);
-                                                 }
+                                                         mapObjectFieldMapping.get(fieldMap.ABHI_Object_Mapping__r.DeveloperName).put(fieldMap.ABHI_JSON_Field_Name__c, fieldMap.ABHI_Field_API_Name__c);                                                 }
             
               
             try {
@@ -42,19 +41,16 @@ global class ABHI_CreateClaimService {
                 for(requestListWrapper wrap : requestList){
                     requestBodyList.add((Map<String,Object>) JSON.deserializeUntyped(JSON.serialize(wrap)));
                     for(Map<String, Object> item: requestBodyList){ //(Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(wrap));
-                    String ClaimNumber = (String) item.get('Claim_Number');
+                    String claimNumber = (String) item.get('Claim_Number');
                     String policyNumber = (String) item.get('Policy_Number');
-                        system.debug(item);
-                                      // Map JSON fields to Salesforce fields
+                        
+                     // Map JSON fields to Salesforce fields
                      Claim__c claim = new Claim__c();
                      Map<String, String> fieldMapping = mapObjectFieldMapping.get('Claim');
                 if(fieldMapping != null) {
-                    for (String jsonField : mapObjectFieldMapping.get('Claim').keySet()) {
-                        system.debug('jsonField-->' +jsonField);                  
+                    for (String jsonField : mapObjectFieldMapping.get('Claim').keySet()) {              
                         String apiFieldName = fieldMapping.get(jsonField);
-                        Object fieldValue = item.get(jsonField); 
-                       System.debug('JSON Field: ' + jsonField + ', API Field: ' + apiFieldName + ', Value: ' + fieldValue);
-                        
+                        Object fieldValue = item.get(jsonField);                         
                             if(fieldValue != null) {
                                 try {
                                 if(apiFieldName.contains('__r')) {
@@ -70,8 +66,8 @@ global class ABHI_CreateClaimService {
                                             claim.Hospital_Code__r = new Health_Provider__c(Provider_Code__c = (String) fieldValue);
                                           system.debug('claim.Hospital_Code__r' +claim.Hospital_Code__r);
                                         
-                                        }else if (relationshipField == 'Customer_Member_Mapping__r') {
-                                            claim.Customer_Member_Mapping__r = new Account(LOB_Client_Code__c = (String) prefixedValue);
+                                        }else if (relationshipField == 'Customer__r') {
+                                            claim.Customer__r = new Account(LOB_Client_Code__c = (String) prefixedValue);
                                         } else { 
                                         claim.put(apiFieldName, fieldValue);// Other relationship fields
                                     }
@@ -155,9 +151,12 @@ private static Decimal parseCurrency(String currencyStr) {
     
     
     //wrapper class to hold the request Body.
+    @SuppressWarnings('PMD.ClassNamingConventions,PMD.ApexDoc')
     public class requestwrapper{
+         @SuppressWarnings('PMD.FieldNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
         public list<requestListWrapper> Request;
     }
+    @SuppressWarnings('PMD.ClassNamingConventions,PMD.ApexDoc,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
     public class requestListWrapper{
         
         public String Request_Type;
@@ -210,7 +209,10 @@ private static Decimal parseCurrency(String currencyStr) {
     }
     
      
-    //@description - This method is used to log the error if any occurs during the request.
+    /***************************************
+    *Method - logError
+    @description - This method is used to log the error if any occurs during the request.
+    ****************************************/
      private static String logError(String errorMsg, List<requestListWrapper> requestBody){
         ASF_Case_Integration__c integrationLog = new ASF_Case_Integration__c();
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();

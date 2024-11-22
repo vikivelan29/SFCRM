@@ -41,11 +41,6 @@
                 <default>false</default>
                 <label>BSB</label>
             </value>
-            <value>
-                <fullName>DP</fullName>
-                <default>false</default>
-                <label>DP</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

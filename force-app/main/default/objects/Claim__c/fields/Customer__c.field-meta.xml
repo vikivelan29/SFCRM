@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>ABHI</description>
     <externalId>false</externalId>
-    <label>Customer</label>
+    <label>Member Name</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Claims (Customer)</relationshipLabel>
     <relationshipName>Claims1</relationshipName>

@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Interaction</fullName>
@@ -1186,6 +1187,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Customer Not Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Digital%3A Group Policies can%27t access the app</fullName>
             <default>false</default>
         </values>
@@ -1358,7 +1363,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Insufficient%2FIncomplete details from Ops%2FCustomer</fullName>
+            <fullName>Insufficient incomplete details from customer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1410,7 +1415,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Other</fullName>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out of Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1717,6 +1726,10 @@
         </values>
         <values>
             <fullName>ATS</fullName>
+            <default>false</default>
+        </values>
+		<values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
     </picklistValues>

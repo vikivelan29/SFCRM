@@ -222,7 +222,14 @@ public without sharing class ASF_OppCommPETriggerHelper {
                 if(pLog.Send_To_Specific_Emails__c){
                     if(pLog.Specific_To_Address__c != null){
                         List<String> toSpecificAddresses = pLog.Specific_To_Address__c.deleteWhitespace().split(';');
-                        Messaging.SingleEmailMessage msg = getMessageGenerated(null, emailtempid, owAddress.Id, oppRec, pLog.CC_Addresses__c);
+                        Contact contactRec;
+                        if (mAccountIdContactId.containsKey(oppRec.AccountId)) {
+                            for(Contact con : mAccountIdContactId.get(oppRec.AccountId)) {
+                                contactRec = con;
+                                break;
+                            }
+                        }
+                        Messaging.SingleEmailMessage msg = getMessageGenerated(contactRec, emailtempid, owAddress.Id, oppRec, pLog.CC_Addresses__c);
                         msg.setToAddresses(toSpecificAddresses);
                         emails.add(msg); 
                         mIdxVsPELoggerId.put(iCounter,pLog.Id);
