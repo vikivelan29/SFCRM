@@ -20,7 +20,10 @@ public class ABML_LegacyView_Test {
         
         slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', Type = 'Queue');
         insert slaGroup;
-        Id accRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Franchisee').getRecordTypeId();
+        Id FraAccRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Franchisee').getRecordTypeId();
+        Id BranchEmpAccRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Branch Employee').getRecordTypeId();
+		Id CustAccRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Customer').getRecordTypeId();
+
         User superManagerUser = new User(
             IsActive = true,
             Business_Unit__c='ABML',
@@ -56,22 +59,35 @@ public class ABML_LegacyView_Test {
         insert psa;
         Test.stopTest();
         System.runAs(userRecord) {
+           
             Account testAccount = new Account(
-                Name = 'Test Account',
-                ABML_Branch_Code__c = 'Branch001',
-                ABML_Franchisee_Code__c = 'Franchisee001',
-                Line_of_Business__c = 'ABML',
-		RecordTypeId = accRecordTypeId
+                Name = 'Franchisee Account',
+            	RecordTypeId = FraAccRecordTypeId,
+            	ABML_Franchisee_Code__c = 'Franchisee001',
+            	Line_of_Business__c = 'ABML'
             );
             insert testAccount;
-    
-            Contact testContact = new Contact(
-                FirstName = 'John',
-                LastName = 'Doe',
-                AccountId = testAccount.Id,
-                ABML_Client_ID__c = 'Client123',
-                ABML_PAN__c = 'PAN987654321');
-            insert testContact;
+            
+            
+            Account testAccountBr = new Account(
+                LastName = 'Branch Employee Account',
+            	RecordTypeId = BranchEmpAccRecordTypeId,
+            	Line_of_Business__c = 'ABML',
+                ABML_Client_Branch_Franchisee__pc = testAccount.Id
+            );
+            insert testAccountBr;
+    		
+            
+            Account testAccountCa = new Account(
+                LastName = 'Customer Account',
+            	RecordTypeId = CustAccRecordTypeId,
+            	Line_of_Business__c = 'ABML',
+                ABML_Client_Branch_Franchisee__pc = testAccount.Id,
+                Client_Code__c = 'Client001',
+                PAN__c = 'PAN001'
+            );
+            insert testAccountCa;
+    		
             
         }
         
@@ -79,17 +95,19 @@ public class ABML_LegacyView_Test {
     
     @isTest
     static void testabmlGetPersonAccountData(){
-        List<Account> acc = [SELECT ID FROM Account LIMIT 1];
+        List<Account> acc = [SELECT ID FROM Account];
         Test.startTest();
         ABML_LegacyView.abmlPersonAccountWrapper result = ABML_LegacyView.abmlGetPersonAccountData(acc[0].Id);
+        ABML_LegacyView.abmlPersonAccountWrapper resultBr = ABML_LegacyView.abmlGetPersonAccountData(acc[1].Id);
+        ABML_LegacyView.abmlPersonAccountWrapper resultCa = ABML_LegacyView.abmlGetPersonAccountData(acc[2].Id);
         Test.stopTest();
-
         // Assertions to check that the result is correct
         System.assertNotEquals(null, result, 'The result should not be null');
-        System.assertEquals('Branch001', result.branchCode, 'Branch Code should match');
+        System.assertNotEquals(null, resultBr, 'The result should not be null');
+        System.assertNotEquals(null, resultCa, 'The result should not be null');
         System.assertEquals('Franchisee001', result.franchiseeCode, 'Franchisee Code should match');
-        System.assertEquals('Client123', result.clientId, 'Client ID should match');
-        System.assertEquals('PAN987654321', result.pan, 'PAN should match');
+        System.assertEquals('Client001', resultCa.clientCode, 'Client Code should match');
+        System.assertEquals('PAN001', resultCa.pan, 'PAN should match');
         System.assertEquals('ABML', result.lob, 'LOB should match');
     }
     
