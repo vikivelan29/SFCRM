@@ -52,16 +52,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Client_ID__pc</fieldItem>
-                <identifier>RecordABML_Client_ID_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.ABML_Contact_Type__c</fieldItem>
                 <identifier>RecordABML_Contact_Type_cField</identifier>
             </fieldInstance>
