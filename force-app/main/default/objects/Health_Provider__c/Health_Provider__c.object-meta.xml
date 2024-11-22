@@ -164,6 +164,7 @@
     <searchLayouts>
         <searchResultsAdditionalFields>Search_Health__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Provider_Code__c</searchResultsAdditionalFields>
-    </searchLayouts>    <sharingModel>ReadWrite</sharingModel>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
