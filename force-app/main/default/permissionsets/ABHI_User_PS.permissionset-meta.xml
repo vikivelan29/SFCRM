@@ -1662,7 +1662,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
+        <field>Case.ClaimNo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.oldCCCIdFields__c</field>
+     </fieldPermissions>
+       <fieldPermissions> 
+       <editable>false</editable>
         <field>ASF_Case_SLA_History__c.Stage_Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3413,7 +3422,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.Email</field>
+        <field>Asset.LAN__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Cover__c.Cover_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Cover__c.Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4842,6 +4861,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+            <editable>false</editable>
+            <field>Survey_Response__c.Business_Unit__c</field>
+            <readable>true</readable>
+      </fieldPermissions>
+      <fieldPermissions>
         <editable>false</editable>
         <field>Customer_Member_Mapping__c.Rider_Opted__c</field>
         <readable>true</readable>
