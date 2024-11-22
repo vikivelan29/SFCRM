@@ -3,6 +3,7 @@
     <fullName>Hospital__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>Please enter HO- to view list of available Patients</inlineHelpText>
     <label>Hospital</label>
     <referenceTo>Health_Provider__c</referenceTo>
     <relationshipLabel>ABHI Case Details</relationshipLabel>

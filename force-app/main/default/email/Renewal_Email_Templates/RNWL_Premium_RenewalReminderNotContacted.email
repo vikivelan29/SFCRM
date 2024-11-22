@@ -17,8 +17,8 @@
 
          <c:RNWL_MemberListVfc oppIdValue="{!relatedTo.Id}" />
          <br/>
-         Payment Link : 
-         <apex:outputLink value="{!relatedTo.Payment_Link__c}" id="theLink">Payment Link</apex:outputLink> 
+         Payment Link:
+         <a href="{!relatedTo.Payment_Link__c}"> {!relatedTo.Payment_Link__c}</a> 
          <br/><br/>
       
          In case of any further assistance, please feel free to reach out to us on our toll-free number 

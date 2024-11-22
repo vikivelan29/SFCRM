@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Business_Unit__c</fullName>
-        <fieldManageability>DeveloperControlled</fieldManageability>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Business Unit</label>
     <required>true</required>
     <type>Picklist</type>
@@ -39,6 +40,11 @@
                 <default>false</default>
                 <label>ABHI</label>
             </value>
-        </valueSetDefinition>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
+            </value>
+            </valueSetDefinition>
     </valueSet>
 </CustomField>

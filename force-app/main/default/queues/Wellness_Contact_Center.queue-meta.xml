@@ -8,6 +8,7 @@
             <publicGroup>Wellness_Contact_Center_G</publicGroup>
         </publicGroups>
     </queueMembers>
+    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

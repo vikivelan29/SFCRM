@@ -28,9 +28,9 @@
                 <label>Insufficient/incomplete details from customer</label>
             </value>
             <value>
-                <fullName>Other</fullName>
+                <fullName>Others</fullName>
                 <default>false</default>
-                <label>Other</label>
+                <label>Others</label>
             </value>
             <value>
                 <fullName>Pending Customer Confirmation/documentation</fullName>
@@ -538,23 +538,33 @@
                 <label>Claim: the policy has been cancelled</label>
             </value>
             <value>
-                <fullName>Cancelled - Not needed anymore</fullName>
+                <fullName>Incorrect Customer tagging</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Cancelled - Not needed anymore</label>
+                <isActive>true</isActive>
+                <label>Incorrect Customer tagging</label>
             </value>
             <value>
-                <fullName>Unresolved – Reject</fullName>
+                <fullName>Incorrect SubType tagging</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Unresolved – Reject</label>
+                <isActive>true</isActive>
+                <label>Incorrect SubType tagging</label>
             </value>
             <value>
-                <fullName>Unresolved- Additional information required</fullName>
+                <fullName>Out of Scope Request</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Unresolved- Additional information required</label>
+                <isActive>true</isActive>
+                <label>Out of Scope Request</label>
+            </value>
+            <value>
+                <fullName>Customer Not Contactable</fullName>
+                <default>false</default>
+                <isActive>true</isActive>
+                <label>Customer Not Contactable</label>
+            </value>
+            <value>
+                <fullName>Insufficient incomplete details from customer</fullName>
+                <default>false</default>
+                <label>Insufficient incomplete details from customer</label>
             </value>
         </valueSetDefinition>
     </valueSet>
-</CustomField>

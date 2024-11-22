@@ -31,7 +31,7 @@ public with sharing class ABCL_SendEmailValidation {
         } 
         for (EmailMessage email : newEmails) {                 
             if(!email.Incoming && email.ParentId != null){
-                if(email.ParentId.getSObjectType() == Case.sObjectType){
+                if(email.ParentId.getSObjectType() == Case.sObjectType && email.ValidatedFromAddress!=null){
                     outgoingCaseEmails.add(email);
                     selectedFromAddress.add(email.ValidatedFromAddress);
                    //  system.debug('mdtAllowedAddress '+selectedFromAddress);
@@ -53,7 +53,8 @@ public with sharing class ABCL_SendEmailValidation {
             // Getting restricted FROM address.For the restricted FROM email address email should not go to external domain.
             ABFL_Email_Validation_Configuration__mdt mdtRestrictedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance('Restricted_From_Address'); 
             // Getting allowed FROM address according to the team assigned on user.
-            ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance(userTeam[0].Team__c);
+            // ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance(userTeam[0].Team__c);
+            ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = [SELECT Id, DeveloperName, MasterLabel, Language, NamespacePrefix, Label, QualifiedApiName, Email_Addresses_Allowed_Long__c FROM ABFL_Email_Validation_Configuration__mdt where developerName =:userTeam[0].Team__c];
             // below code checks if FROM address selected is part of user's team allowed FROM address, if not throwing an error.
             if(mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c != null){
                 allowedFromAddress= mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c.split(',');
@@ -104,20 +105,29 @@ public with sharing class ABCL_SendEmailValidation {
     */
     public static void restrictUserToSendEmail(List<EmailMessage> newEmails){
         
+        Map<String, List<String>> mapOfBussUnitToSourceCodeList = new Map<String, List<String>>();
         List<String> selectedTeamList = new List<String>();
         List<EmailMessage> outgoingCaseEmails = new List<EmailMessage>();
 
         Custom_Messages__mdt mdtRestrictedErrorMessage = Custom_Messages__mdt.getInstance('Restrict_to_send_email_error_message'); 
-        List<User> userTeamRecord = [SELECT ID, Business_Unit__c, Team__c FROM USER WHERE ID = :UserInfo.getUserID() WITH SYSTEM_MODE];
-        String userTeam = userTeamRecord[0]?.Team__c?.toLowerCase() ?? '';
-        String userBusinessUnit = userTeamRecord[0]?.Business_Unit__c?.toLowerCase() ?? '';
+        List<User> userRecord = [SELECT ID, Business_Unit__c, Source_Code__c FROM USER WHERE ID = :UserInfo.getUserID() WITH SYSTEM_MODE];
+        String userSourceCode = userRecord[0]?.Source_Code__c?.toLowerCase() ?? '';
+        String userBusinessUnit = userRecord[0]?.Business_Unit__c?.toLowerCase() ?? '';
         List<String> buRestrictionList = LABEL.BU_Restrict_email.toLowerCase().split(',');
+        
+        for (String buRestricton : buRestrictionList) {
+            List<String> usrSourceCode = buRestricton.split(':');
+            String businessUnitName = usrSourceCode[0];
+            usrSourceCode.remove(0);
+            mapOfBussUnitToSourceCodeList.put(businessUnitName, usrSourceCode);
+        }
 
-        if(buRestrictionList.contains(userBusinessUnit)) {
+        if(mapOfBussUnitToSourceCodeList.containsKey(userBusinessUnit)) {
+            List<String> sourceCodeList = mapOfBussUnitToSourceCodeList.get(userBusinessUnit);
             for (EmailMessage email : newEmails) {
                 if(!email.Incoming && email.ParentId != null){
                     if(email.ParentId.getSObjectType() == Case.sObjectType){ 
-                        if(buRestrictionList.contains(userTeam)) {
+                        if(sourceCodeList.contains(userSourceCode)) {
                             email.addError(mdtRestrictedErrorMessage.Message__c);
                         }
                     }

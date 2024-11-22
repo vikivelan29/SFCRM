@@ -156,6 +156,22 @@
         <apexClass>ABHI_EndorsementLwcController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_EmailMessageHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_CaseIntegrationHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_UpdatesForSprinklr</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABHI_EBOTCaseLogics</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>  
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.DocumentIndex__c</field>
@@ -1304,6 +1320,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Latest_Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Cover_Code_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Hospital_Code_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Entity_Reference_No__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1489,7 +1520,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Customer_Member_Mapping__c.Relation__c</field>
+        <field>Customer_Member_Mapping__c.Relation1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1865,6 +1896,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Health_Provider__c.Provider_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Health_Provider__c.Search_Health__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2930,6 +2966,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Cover__c.Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Notes_from_Sprinklr__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Sprinklr_Case_Reference_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>

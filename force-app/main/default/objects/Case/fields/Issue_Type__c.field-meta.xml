@@ -1088,6 +1088,16 @@
                 <label>Surrender value not process</label>
             </value>
             <value>
+                <fullName>Policy Bond</fullName>
+                <default>false</default>
+                <label>Policy Bond</label>
+            </value>
+            <value>
+                <fullName>Branch Co Address</fullName>
+                <default>false</default>
+                <label>Branch Co Address</label>
+            </value>
+            <value>
                 <fullName>Survival benefit not proceed/ Delay</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

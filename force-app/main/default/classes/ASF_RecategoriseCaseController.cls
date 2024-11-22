@@ -80,7 +80,6 @@ public with sharing class ASF_RecategoriseCaseController {
 		
         Case currentRecord =  [SELECT id,
                                 RecordType.Name,
-                                Business_Unit__c,
                                 CCC_External_Id__c,
                                 Stage__c,
                                 account.Business_Unit__c,

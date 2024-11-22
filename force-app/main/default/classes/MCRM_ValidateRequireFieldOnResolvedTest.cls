@@ -4,7 +4,7 @@
 *Created Date :  10/18/2024
 *Last Modified:
 *Description  :  Test Class for MCRM_ValidateRequireFieldOnResolvedStage
-*********************************************************/
+*********************************************************/ 
 @isTest
 public class MCRM_ValidateRequireFieldOnResolvedTest {
     @TestSetup
@@ -16,9 +16,15 @@ public class MCRM_ValidateRequireFieldOnResolvedTest {
         
         List<ASF_Case_Stage_Config__c> caseStage = ABFL_TestDataFactory.createCaseStageConfigWithTwoStages(caseCat[0].Id, true);
         
-        Account acc = ABFL_TestDataFactory.createAccount();
+        Account acc = new Account();
+        acc.recordTypeId=[select id from RecordType where sobjectType='Account' and name='Individual'].Id;
+        acc.LastName = '12345';
+        acc.Office_Email__c = 'testAcc@123.com';
+        acc.Phone = '444-010-4444';
+        acc.PAN__c = 'ADNPN4241N';
+        acc.Client_Code__c = '1234';
         acc.Line_of_Business__c = 'Wellness';
-        update acc;
+        insert acc;
         List<ABFL_Case_Detail__c> caseDetList = ABFL_TestDataFactory.createCaseDetail('Corporate', true);
         caseDetList[0].Resolution_Comments__c = '';
         caseDetList[0].Case_Categorisation__c = 'Incorrect';

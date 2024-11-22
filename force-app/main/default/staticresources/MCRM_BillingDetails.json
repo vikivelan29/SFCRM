@@ -1,0 +1,80 @@
+[
+    {
+        "id": 199135,
+        "receiptNo": "R632575846",
+        "companyCd": "CC-ABW",
+        "applicationNo": "ABG240813152255",
+        "instrumentType": "Online Transfer",
+        "amount": 950.0,
+        "refundRequestAmount": 0.0,
+        "refundProcessedAmount": 0.0,
+        "status": "Cleared",
+        "lastUpdateDate": 1723487400000,
+        "modeOfFeePyment": "ONLINE",
+        "chequeDoType": "chequeDoType",
+        "receiptAmount": 950.0,
+        "ifscCode": "1",
+        "micrCode": "1",
+        "issuingBank": "bank",
+        "instrumentNumber": "ab7e22bd72140db94dba",
+        "instrumentAmount": 950.0,
+        "instrumentDate": 1723487400000,
+        "billingAttributes": [
+            {
+                "id": 361280,
+                "value": "",
+                "billingAttributeType": {
+                    "id": 5,
+                    "code": "AGENT_CD",
+                    "desc": "Agent Code",
+                    "eff_from_date": 1483209000000,
+                    "eff_to_date": 32503573800000
+                }
+            },
+            {
+                "id": 361283,
+                "value": "4487167",
+                "billingAttributeType": {
+                    "id": 1,
+                    "code": "CUST_ID",
+                    "desc": "Client Customer ID",
+                    "eff_from_date": 1483209000000,
+                    "eff_to_date": 32503573800000
+                }
+            },
+            {
+                "id": 361282,
+                "value": "Direct",
+                "billingAttributeType": {
+                    "id": 4,
+                    "code": "CHANNEL_CD",
+                    "desc": "Channel Code",
+                    "eff_from_date": 1483209000000,
+                    "eff_to_date": 32503573800000
+                }
+            },
+            {
+                "id": 361281,
+                "value": "MUM",
+                "billingAttributeType": {
+                    "id": 3,
+                    "code": "BRANCH_CD",
+                    "desc": "Branch Code",
+                    "eff_from_date": 1483209000000,
+                    "eff_to_date": 32503573800000
+                }
+            },
+            {
+                "id": 361279,
+                "value": "PRD_Multip",
+                "billingAttributeType": {
+                    "id": 2,
+                    "code": "PRODUCT_CD",
+                    "desc": "Plan Name",
+                    "eff_from_date": 1483209000000,
+                    "eff_to_date": 32503573800000
+                }
+            }
+        ]
+    }
+]

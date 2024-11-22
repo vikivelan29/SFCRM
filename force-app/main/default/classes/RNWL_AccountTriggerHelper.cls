@@ -18,11 +18,14 @@ public class RNWL_AccountTriggerHelper {
         }
         
         for(Opportunity opp : [SELECT Id, Mobile_Number__c, AccountId FROM Opportunity WHERE AccountId IN : updatedAccsIds]){
-            opp.Mobile_Number__c = accs.get(opp.AccountId).Phone;
+            opp.Mobile_Number__c = accs.get(opp.AccountId)?.Phone;
             oppsUpdateList.add(opp);
         }
         
-        update oppsUpdateList;
+        if(oppsUpdateList.size() > 0){
+           update oppsUpdateList; 
+        }
+        
     }
     
 

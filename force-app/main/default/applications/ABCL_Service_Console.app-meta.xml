@@ -1276,6 +1276,24 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Wellness_Lead_Lightning_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Service</recordType>
+        <type>Flexipage</type>
+        <profile>Wellness CRM Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Wellness_Lead_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Service</recordType>
+        <type>Flexipage</type>
+        <profile>Wellness CRM Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ABSLI_IGMS_Document_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
@@ -1642,6 +1660,38 @@
         <recordType>Case.Interaction</recordType>
         <type>Flexipage</type>
         <profile>ABSLAMC Base User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Dispositions_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Dispositions__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Dispositions_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Dispositions__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Dispositions_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Dispositions__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Dispositions_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Dispositions__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -1775,7 +1825,7 @@
         <mappings>
             <tab>standard-Asset</tab>
         </mappings>
-        <mappings>
+	<mappings>
             <tab>standard-Opportunity</tab>
         </mappings>
         <mappings>

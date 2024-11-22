@@ -747,6 +747,16 @@
                 <default>false</default>
                 <label>ATS</label>
             </value>
+            <value>
+                <fullName>Letters</fullName>
+                <default>false</default>
+                <label>Letters</label>
+            </value>
+            <value>
+                <fullName>Escalations</fullName>
+                <default>false</default>
+                <label>Escalations</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
