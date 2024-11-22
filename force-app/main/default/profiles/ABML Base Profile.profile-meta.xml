@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
- <classAccesses>
+    <classAccesses>
         <apexClass>ABCL_EmailMessageTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -14,6 +14,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABFL_InvokeBREProcess</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_CloseQueryCase</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -74,7 +78,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Case360Controller</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseEditPageController</apexClass>
@@ -122,11 +126,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseTriggerModularHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CommPETriggerHelper</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Constants</apexClass>
@@ -134,7 +138,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CreateCaseWithTypeController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CreateCaseWithTypeController_Test</apexClass>
@@ -495,6 +499,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ABML_Daily_Report_Sender_Mail__mdt.Email__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABML_LOA__c.ABML_Client_Id__c</field>
         <readable>true</readable>
@@ -531,7 +540,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>ABML_Report_Integration__mdt.DataString__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABML_Report_Integration__mdt.Password__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABML_Report_Integration__mdt.Username__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Case_Category_Config__c.Business_Unit__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ASF_PriorityEmailAddressesByBU__mdt.Case_Origin__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1056,6 +1085,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>BUSpecificAutoEmailMapping__mdt.Business_Unit__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.ABFL_Case_Detail__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1457,6 +1491,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Lead__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Mapped_Email__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2439,20 +2478,34 @@
         <field>User.Business_Unit__c</field>
         <readable>false</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.Team__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <layoutAssignments>
-        <layout>ABML_Bank__c-Bank Layout</layout>
+        <layout>ABML_Bank__c-ABML Bank Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ABML_Case_Detail__c-ABML Case Detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>ABML_DP__c-ABML DP Layout</layout>
+        <layout>ABML_DP__c-DP Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>ABML_LOA__c-ABML LOA Layout</layout>
+        <layout>ABML_Daily_Report_Sender_Mail__mdt-ABML Daily Report Sender Mail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ABML_LOA__c-LOA Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ABML_Report_Integration__mdt-ABML Report Integration Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ASF_Case_Stage_Config__c-Case Stage Config Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ASF_PriorityEmailAddressesByBU__mdt-ASF PriorityEmailAddressesByBU Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
@@ -2579,6 +2632,16 @@
         <default>false</default>
         <recordType>Case.Interaction</recordType>
         <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Lead.Sales</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Lead.Service</recordType>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
