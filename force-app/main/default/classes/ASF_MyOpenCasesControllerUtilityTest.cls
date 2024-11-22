@@ -1,4 +1,4 @@
-@isTest
+@isTest(SeeAllData = false)
 public class ASF_MyOpenCasesControllerUtilityTest {
     @testSetup
     static void setupTestData() {
@@ -6,7 +6,7 @@ public class ASF_MyOpenCasesControllerUtilityTest {
         User testUser = new User(
             FirstName = 'Test',
             LastName = 'User',
-            Alias = 'tuser',
+            Alias = 'tstuser',
             Email = 'testuser@example.com',
             Username = 'testuser0909@example.com.' + System.currentTimeMillis(),
             ProfileId = [SELECT Id FROM Profile WHERE Name = 'Standard User' LIMIT 1].Id,
@@ -33,17 +33,15 @@ public class ASF_MyOpenCasesControllerUtilityTest {
         insert cases;
     }
 
-    @isTest
+    @isTest(SeeAllData = false)
     static void testGetCasesGroupedByStage() {
         // Get the test user ID
-        User testUser = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
-
+        User testUser = [SELECT Id,Business_Unit__c FROM User WHERE Alias = 'tstuser' LIMIT 1];
         // Call the method
         Map<String, List<Case>> result = ASF_MyOpenCasesControllerUtility.getOpenCasesByOwner(testUser.Id);
 
         // Verify the results
         System.assertNotEquals(null, result, 'Expected non-null map of cases grouped by stage');
-System.debug('result::'+result);
         // Verify that each stage has the expected number of cases
         System.assertEquals(1, result.get('Open').size(), 'Expected 2 cases in "Open" stage');
         System.assertEquals(1, result.get('Approval').size(), 'Expected 2 cases in "Approval" stage');
