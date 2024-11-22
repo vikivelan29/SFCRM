@@ -216,6 +216,7 @@
         <fields>CASES.CREATED_DATE</fields>
         <fields>Source__c</fields>
         <fields>ClaimNo__c</fields>
+        <fields>all_Emails__c</fields>
         <profileName>ABHI Base Profile</profileName>
     </profileSearchLayouts>
     <profileSearchLayouts>
