@@ -76,7 +76,8 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         
         String csvContentFour = csvHeaderFour + csvBodyFour;
         
-        OrgWideEmailAddress orgWideEmail =[SELECT id, Address,DisplayName FROM OrgWideEmailAddress where DisplayName =:System.Label.ASF_default_no_reply_email_address];//'ABFL No-Reply'  
+        //BUSpecificAutoEmailMapping__mdt mdt = [Select Business_Unit__c,Default_Automated_Email_From_Address__c from BUSpecificAutoEmailMapping__mdt where Business_Unit__c=:System.Label.ABML_BU LIMIT 1];
+        OrgWideEmailAddress orgWideEmail =[SELECT id, Address,DisplayName FROM OrgWideEmailAddress where DisplayName =:System.Label.ASF_default_no_reply_email_address LIMIT 1];//    where Address =:mdt.Default_Automated_Email_From_Address__c
         List<Messaging.EmailFileAttachment> attach=new List<Messaging.EmailFileAttachment>();
         
         String deptPendant='ABML Department Pendency.csv';
@@ -93,18 +94,17 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         attach.add(csvAttachment3);
         attach.add(csvAttachment4);
         
-        
-        ABML_Daily_Report_Sender_Mail__mdt[] mailMdt = [Select Email__c from ABML_Daily_Report_Sender_Mail__mdt];
         List<string> toAddress = new List<string>();
-        for(ABML_Daily_Report_Sender_Mail__mdt mdt:mailMdt){
-             toAddress.add(mdt.Email__c);
+        List<ABML_Daily_Report_Sender__c> mailSetting = [select Email__c from ABML_Daily_Report_Sender__c];
+        for(ABML_Daily_Report_Sender__c sets:mailSetting){
+             toAddress.add(sets.Email__c);
         }
         
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>(); 
         
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         message.setFileAttachments(attach);  
-        message.setSubject('Reports');
+        message.setSubject('Daily Status Report -'+system.today());
         message.setorgWideEmailAddressId(orgWideEmail.Id);
         message.setPlainTextBody('Please find the reports attached.');    
         message.setToAddresses(toAddress);
