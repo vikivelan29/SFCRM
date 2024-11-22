@@ -26,6 +26,7 @@ public class ABSLI_CreateCaseValidations_Test {
         assetRec.Plan_Name__c = 'BSLI Saral Health FAV';
         assetRec.Type__c = 'ULIP';
         assetRec.Payment_Term__c = '6';
+        assetRec.Status = 'PREMIUM PAYING';
         update assetRec;
         
         Asset assetRec1 = ASF_TestDataFactory.createAsset(accRec.Id, 'Loans');
@@ -58,12 +59,13 @@ public class ABSLI_CreateCaseValidations_Test {
     
     @isTest
     static void testGenFundApiValidationCalloutSuccess() {
-        Asset asset = [SELECT Id,Policy_No__c,Effective_Date__c FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
+        Asset asset = [SELECT Id,Policy_No__c,Effective_Date__c, Status FROM Asset WHERE Policy_No__c = '1234' LIMIT 1];
         ABSLI_Case_Detail__c caseDetail = [SELECT Id FROM ABSLI_Case_Detail__c LIMIT 1];
         DateTime effectiveDateTime = DateTime.newInstance(asset.Effective_Date__c.year(), asset.Effective_Date__c.month(),asset.Effective_Date__c.day());
         Map<String, Object> caseRecordMap = new Map<String, Object>{
             'AssetId' => asset.Id,
-            'ABSLI_Case_Detail__c' => caseDetail.Id
+            'ABSLI_Case_Detail__c' => caseDetail.Id,
+            'CCC_External_Id__c' => 'PCPT033'
         };
         Map<String, Object> requestMap = new Map<String, Object>{
             'policy_id' => asset.Policy_No__c,
