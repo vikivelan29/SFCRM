@@ -3,6 +3,7 @@
     <fullName>ABML_DSA_Compact_Layout</fullName>
     <fields>Name</fields>
     <fields>ABML_Contact_Type__c</fields>
+    <fields>Client_Code__c</fields>
     <fields>ABML_Agent_Code__pc</fields>
     <fields>Line_of_Business__c</fields>
     <fields>Business_Unit__c</fields>
