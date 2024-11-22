@@ -162,16 +162,9 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Health Providers</pluralLabel>
-    <profileSearchLayouts>
-        <fields>NAME</fields>
-        <fields>Provider_Name__c</fields>
-        <fields>Provider_Code__c</fields>
-        <profileName>ABHI Base Profile</profileName>
-    </profileSearchLayouts>
     <searchLayouts>
+        <searchResultsAdditionalFields>Search_Health__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Provider_Code__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Provider_Name__c</searchResultsAdditionalFields>
-    </searchLayouts>
-    <sharingModel>Read</sharingModel>
+    </searchLayouts>    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
