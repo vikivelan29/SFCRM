@@ -18,7 +18,8 @@ public class ABSLAMC_AccountIndicatorControllerTest {
             Client_Code__c = testAccount.Id,
             Primary_Question_NPS__c = 10,
             Responded_on__c = Date.today(),
-            Case__c = cases[0].Id
+            Case__c = cases[0].Id,
+            Journey__c = 'Test'
         );
         insert surveyResponse;
     }
@@ -54,6 +55,6 @@ public class ABSLAMC_AccountIndicatorControllerTest {
         System.assertNotEquals(null, npsData, 'NPS Data map should not be null');
         System.assertEquals('10', npsData.get('Score'), 'NPS Score should be 10');
         System.assertEquals(String.valueOf(Date.today()), npsData.get('Latest Response'), 'Latest Response should match today\'s date');
-        System.assert(npsData.containsKey('Source'), 'Source should be present in the NPS data');
+        System.assert(npsData.containsKey('Journey'), 'Journey should be present in the NPS data');
     }
 }
