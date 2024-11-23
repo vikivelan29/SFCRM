@@ -30,7 +30,6 @@
             <operator>equals</operator>
             <value>Open,In Progress,Paid,Closed Won,Closed Lost</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Matrix</format>
     <groupingsAcross>
