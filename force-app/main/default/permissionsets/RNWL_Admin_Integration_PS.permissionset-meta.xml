@@ -167,11 +167,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.AddressProof__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.Advisor_Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
