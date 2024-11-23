@@ -222,11 +222,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.ApplicationNo__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.Area__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -318,11 +313,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Country__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Created_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -463,11 +453,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Health_Card_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.IDProof__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -827,11 +812,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Account.bofc__BOFC_ACC_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Account.e_Insurance_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1153,11 +1133,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.ContractIssueDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.ContractNo__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2337,11 +2312,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.SystemDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Asset.TDS_Indicator__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2443,11 +2413,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.branch_name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Asset.currentDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
