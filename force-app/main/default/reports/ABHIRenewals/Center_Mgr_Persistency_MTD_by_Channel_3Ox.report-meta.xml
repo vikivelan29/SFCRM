@@ -8,7 +8,7 @@
         <downGroupingContext>ROW_GRAND_SUMMARY</downGroupingContext>
         <isActive>true</isActive>
         <isCrossBlock>false</isCrossBlock>
-        <masterLabel>FTD%</masterLabel>
+        <masterLabel>MTD%</masterLabel>
         <scale>0</scale>
     </aggregates>
     <aggregates>
@@ -31,9 +31,6 @@
     </columns>
     <columns>
         <field>Dispositions__c$Call_Date_Time__c</field>
-    </columns>
-    <columns>
-        <field>Dispositions__c$callDisposeTime__c</field>
     </columns>
     <columns>
         <field>Dispositions__c$Calling_Mode__c</field>
