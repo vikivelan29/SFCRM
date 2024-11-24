@@ -105,8 +105,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Handle_With_Care_HWC__c</fieldItem>
-                <identifier>RecordHandle_With_Care_HWC_cField2</identifier>
+                <fieldItem>Record.Handle_With_Care_Indicator__c</fieldItem>
+                <identifier>RecordHandle_With_Care_Indicator_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -263,6 +263,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Country__c</fieldItem>
+                <identifier>RecordCountry_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Bank_Branch__c</fieldItem>
                 <identifier>RecordBank_Branch_cField</identifier>
                 <visibilityRule>
@@ -351,39 +361,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Customer_Status__c</fieldItem>
                 <identifier>RecordCustomer_Status_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>PMS</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>AIF</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>RE</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>PMS</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>AIF</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>RE</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -445,24 +422,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.PAN_AUM__c</fieldItem>
                 <identifier>RecordPAN_AUM_cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND (2 OR 3)</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.IsPersonAccount}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>MF</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>MF</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -493,16 +452,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Mobile__pc</fieldItem>
                 <identifier>RecordMobile_pcField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Client_Code__c</fieldItem>
-                <identifier>RecordClient_Code_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -589,8 +538,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Customer_Since__pc</fieldItem>
-                <identifier>RecordCustomer_Since_pcField</identifier>
+                <fieldItem>Record.Customer_Since__c</fieldItem>
+                <identifier>RecordCustomer_Since_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -823,13 +772,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Last_Update_Date_Time__c</fieldItem>
                 <identifier>RecordLast_Update_Date_Time__cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>MF</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b0f0b316-1fd3-472e-ae1d-b4e794cf704d</name>
