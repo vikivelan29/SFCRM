@@ -601,6 +601,12 @@
                 <fieldItem>Record.Count_of_Active_SIPs__c</fieldItem>
                 <identifier>RecordCount_of_Active_SIPs_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>MF</rightValue>
+                    </criteria>
                     <criteria>
                         <leftValue>{!Record.Line_of_Business__pc}</leftValue>
                         <operator>EQUAL</operator>
@@ -618,6 +624,12 @@
                 <fieldItem>Record.AUM_at_ARN_level__c</fieldItem>
                 <identifier>RecordAUM_at_ARN_level_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Line_of_Business__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>MF</rightValue>
+                    </criteria>
                     <criteria>
                         <leftValue>{!Record.Line_of_Business__pc}</leftValue>
                         <operator>EQUAL</operator>
@@ -635,7 +647,7 @@
                 <fieldItem>Record.NISM_21A__c</fieldItem>
                 <identifier>RecordNISM_21A_cField</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
+                    <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Line_of_Business__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -643,6 +655,16 @@
                     </criteria>
                     <criteria>
                         <leftValue>{!Record.Line_of_Business__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>AIF</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>PMS</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Line_of_Business__pc}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>AIF</rightValue>
                     </criteria>
@@ -665,8 +687,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Relationship_Manager_Name_Text__c</fieldItem>
-                <identifier>RecordRelationship_Manager_Name_Text_cField</identifier>
+                <fieldItem>Record.Last_Update_Date_Time__c</fieldItem>
+                <identifier>RecordLast_Update_Date_Time_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-246b168b-11bd-4881-9a10-fb0a6ee7b93f</name>
@@ -729,6 +751,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Relationship_Manager_Email_Text__c</fieldItem>
+                <identifier>RecordRelationship_Manager_Email_Text_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Brokerage_Payment_Mode__c</fieldItem>
                 <identifier>RecordBrokerage_Payment_Mode_cField</identifier>
             </fieldInstance>
@@ -741,16 +773,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Last_Payment_Amount__c</fieldItem>
                 <identifier>RecordLast_Payment_Amount_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Distributor_Last_Payment_Date__c</fieldItem>
-                <identifier>RecordDistributor_Last_Payment_Date_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -781,16 +803,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Self_Declaration_status__c</fieldItem>
                 <identifier>RecordSelf_Declaration_status_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Relationship_Manager_Email_Text__c</fieldItem>
-                <identifier>RecordRelationship_Manager_Email_Text_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-0810ec32-22a8-4a07-a1ec-9357a161c6e2</name>
