@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Individual</fullName>
+    <fullName>Person_Account</fullName>
     <active>true</active>
-    <label>Individual</label>
+    <label>Person Account</label>
     <picklistValues>
         <picklist>ABML_Bank_Account_Type__pc</picklist>
         <values>
@@ -134,7 +134,7 @@
         <values>
             <fullName>Payments</fullName>
             <default>false</default>
-      </values>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Business_Unit__pc</picklist>
@@ -156,59 +156,9 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Calling_Source__c</picklist>
-        <values>
-            <fullName>ATS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CRM %28In-House%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Ubona BOT</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Constitution__c</picklist>
         <values>
             <fullName>%2E%2E%2E%2E</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>CustomerType__c</picklist>
-        <values>
-            <fullName>1</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>10</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>100000000</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>11</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>3</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>6</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>9</fullName>
             <default>false</default>
         </values>
     </picklistValues>
