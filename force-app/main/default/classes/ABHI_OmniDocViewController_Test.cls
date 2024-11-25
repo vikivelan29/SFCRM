@@ -55,18 +55,13 @@ public without sharing class ABHI_OmniDocViewController_Test {
 	@IsTest
 	static void getColumnsForDataTableTest(){
 		Test.startTest();
-        list<Object> lstObjNoData = new list<Object>();
-        list<Object> lstObjData = new list<Object>();
-        try{
-            lstObjData = ABHI_OmniDocViewController.getColumnsForDataTable('ABHI_OmniDocView');
-			System.assert(!lstObjData.isEmpty(), 'Assert failed, lstObjData is empty');
-        }catch(Exception objException){
-			System.assert(lstObjData.isEmpty(), 'Assert failed, lstObjData is not empty');
-		}
+		list<Object> lstObjData = ABHI_OmniDocViewController.getColumnsForDataTable('ABHI_OmniDocView');
+		System.assert(!lstObjData.isEmpty(), 'Assert failed, lstObjData is empty');
+		list<Object> lstObjNoData = new list<Object>();
 		try{
 			lstObjNoData = ABHI_OmniDocViewController.getColumnsForDataTable('abc00test');
 		}catch(Exception objException){
-			System.assert(lstObjNoData.isEmpty(), 'Assert failed, lstObjNoData is not empty');
+			System.assert(lstObjNoData.isEmpty(), 'Assert failed, lstObjData is not empty');
 		}
 		Test.stopTest();
 	}
@@ -80,13 +75,8 @@ public without sharing class ABHI_OmniDocViewController_Test {
 	static void callOmiDocSearchRequestTest(){
 		Test.startTest();
 		Asset objAst = [SELECT Id, Name, AccountId, Account.PersonEmail, Plan_Name__c FROM Asset WHERE Name = '12345678' LIMIT 1];
-        Object objRet;
-        try{
-			objRet = ABHI_OmniDocViewController.callOmiDocSearchRequest(objAst.Id, objAst.Name);
-			System.assert(objRet != null, 'Assert failed, objRet is null');
-        }catch(Exception objException){
-            System.assert(objRet == null, 'Assert failed, objRet is not null');
-        }
+		Object objRet = ABHI_OmniDocViewController.callOmiDocSearchRequest(objAst.Id, objAst.Name);
+		System.assert(objRet != null, 'Assert failed, objRet is null');
 		Test.stopTest();
 	}
 	
@@ -107,14 +97,10 @@ public without sharing class ABHI_OmniDocViewController_Test {
 		}catch(Exception objException){
 			System.assert(objRetNullParam == null, 'Assert failed, objRetNullParam is not null');
 		}
-        try{
-			objAst = [SELECT Id, Name, AccountId, Account.PersonEmail, Plan_Name__c FROM Asset WHERE Name = '12345678' LIMIT 1];
-        	objASFCaseRec = (ASF_Case_Integration__c) ABHI_OmniDocViewController.createASFIntegrationRecord(objAst.Id, mapRow);
-			System.assert(objASFCaseRec != null, 'Assert failed, objASFCaseRec is null');
-			System.assert(!String.isBlank(objASFCaseRec.Id), 'Assert failed, objASFCaseRec Id is blank');
-        }catch(Exception objException){
-            
-        }
+		Asset objAst = [SELECT Id, Name, AccountId, Account.PersonEmail, Plan_Name__c FROM Asset WHERE Name = '12345678' LIMIT 1];
+		ASF_Case_Integration__c objASFCaseRec = (ASF_Case_Integration__c) ABHI_OmniDocViewController.createASFIntegrationRecord(objAst.Id, mapRow);
+		System.assert(objASFCaseRec != null, 'Assert failed, objASFCaseRec is null');
+		System.assert(!String.isBlank(objASFCaseRec.Id), 'Assert failed, objASFCaseRec Id is blank');
 		try{
 			boolCIO = ABHI_OmniDocViewController.publishCaseIntegrationOutbound(null, null, null);
 		}catch(Exception objException){
@@ -125,12 +111,8 @@ public without sharing class ABHI_OmniDocViewController_Test {
 		}catch(Exception objException){
 			System.assertEquals(boolCIO, false, 'Assert failed, boolCIO is not false');
 		}
-        try{
-			boolCIO = ABHI_OmniDocViewController.publishCaseIntegrationOutbound(objAst.Id, mapRow, objASFCaseRec.Id);
-			System.assertEquals(boolCIO, true, 'Assert failed, boolCIO is not true');
-        }catch(Exception objException){
-            
-        }
+		boolCIO = ABHI_OmniDocViewController.publishCaseIntegrationOutbound(objAst.Id, mapRow, objASFCaseRec.Id);
+		System.assertEquals(boolCIO, true, 'Assert failed, boolCIO is not true');
 		Test.stopTest();
 	}
 	
@@ -157,38 +139,31 @@ public without sharing class ABHI_OmniDocViewController_Test {
 		}catch(Exception objException){
 			System.assertEquals(boolCIO, false, 'Assert failed, boolCIO is not false');
 		}
-        try{
-			objASFCaseRecPend = (ASF_Case_Integration__c) ABHI_OmniDocViewController.createASFIntegrationRecord(objAst.Id, mapRow);
-			System.assert(objASFCaseRecPend != null, 'Assert failed, objASFCaseRecPend is null');
-			boolCIO = ABHI_OmniDocViewController.templateDetails(mapRow, objASFCaseRecPend.Id, objAst.Id, objAst.Plan_Name__c, objAst.AccountId, objAst.Account.PersonEmail);
-			System.assertEquals(boolCIO, false, 'Assert failed, boolCIO is not false');
-            objASFCaseRecFail = objASFCaseRecPend;
-			objASFCaseRecFail.Status__c = 'Failure';
-			UPDATE objASFCaseRecFail;
-        }catch(Exception objException){
-            
-        }
+		ASF_Case_Integration__c objASFCaseRecPend = (ASF_Case_Integration__c) ABHI_OmniDocViewController.createASFIntegrationRecord(objAst.Id, mapRow);
+		System.assert(objASFCaseRecPend != null, 'Assert failed, objASFCaseRecPend is null');
+		boolCIO = ABHI_OmniDocViewController.templateDetails(mapRow, objASFCaseRecPend.Id, objAst.Id, objAst.Plan_Name__c, objAst.AccountId, objAst.Account.PersonEmail);
+		System.assertEquals(boolCIO, false, 'Assert failed, boolCIO is not false');
+		ASF_Case_Integration__c objASFCaseRecFail = objASFCaseRecPend;
+		objASFCaseRecFail.Status__c = 'Failure';
+		UPDATE objASFCaseRecFail;
 		try{
 			boolCIO = ABHI_OmniDocViewController.templateDetails(mapRow, objASFCaseRecFail.Id, objAst.Id, objAst.Plan_Name__c, objAst.AccountId, objAst.Account.PersonEmail);
 		}catch(Exception objException){
 			System.assertEquals(boolCIO, false, 'Assert failed, boolCIO is not false');
 		}
-        try{
-			ASF_Case_Integration__c objASFCaseRecSucc = objASFCaseRecPend;
-			objASFCaseRecSucc.Status__c = 'Success';
-			UPDATE objASFCaseRecSucc;
-			boolCIO = ABHI_OmniDocViewController.templateDetails(mapRow, objASFCaseRecFail.Id, objAst.Id, objAst.Plan_Name__c, objAst.AccountId, objAst.Account.PersonEmail);
-			System.assertEquals(boolCIO, false, 'Assert failed, boolCIO is not false');
-			ContentVersion objCV = new ContentVersion();
-			objCV.PathOnClient = '<FileName111>';
-        	objCV.Title = '<FileName111>';
-        	objCV.VersionData = Blob.valueOf('<Base64111>');
-        	objCV.FirstPublishLocationId = objASFCaseRecSucc.Id;
-			INSERT objCV;
-			boolCIO = ABHI_OmniDocViewController.templateDetails(mapRow, objASFCaseRecSucc.Id, objAst.Id, objAst.Plan_Name__c, objAst.AccountId, objAst.Account.PersonEmail);
-			Test.stopTest();
-        }catch(Exception objException){
-            
-        }
+		ASF_Case_Integration__c objASFCaseRecSucc = objASFCaseRecPend;
+		objASFCaseRecSucc.Status__c = 'Success';
+		UPDATE objASFCaseRecSucc;
+		boolCIO = ABHI_OmniDocViewController.templateDetails(mapRow, objASFCaseRecFail.Id, objAst.Id, objAst.Plan_Name__c, objAst.AccountId, objAst.Account.PersonEmail);
+		System.assertEquals(boolCIO, false, 'Assert failed, boolCIO is not false');
+		ContentVersion objCV = new ContentVersion();
+		objCV.PathOnClient = '<FileName111>';
+        objCV.Title = '<FileName111>';
+        objCV.VersionData = Blob.valueOf('<Base64111>');
+        objCV.FirstPublishLocationId = objASFCaseRecSucc.Id;
+		INSERT objCV;
+		boolCIO = ABHI_OmniDocViewController.templateDetails(mapRow, objASFCaseRecSucc.Id, objAst.Id, objAst.Plan_Name__c, objAst.AccountId, objAst.Account.PersonEmail);
+		System.assertEquals(boolCIO, true, 'Assert failed, boolCIO is not true');
+		Test.stopTest();
 	}
 }

@@ -238,8 +238,8 @@ public without sharing class ABHI_OmniDocViewController{
                     strFromAddress = System.label.ABHI_OmniDocOrgWideAddressDisplayName;//ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
                 }
                 
-                lstOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress WITH SYSTEM_MODE LIMIT 1];
-                lstEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName WITH SYSTEM_MODE LIMIT 1];
+                objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress WITH SYSTEM_MODE LIMIT 1];
+                objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName WITH SYSTEM_MODE LIMIT 1];
                 lstAsfCaseIntegration = [SELECT Id, Business_External_Id__c, Status__c, Request__c, createdDate,
                                             (SELECT Id, ContentDocument.CreatedDate, ContentDocument.LatestPublishedVersion.FileType, ContentDocument.LatestPublishedVersion.VersionData, ContentDocument.LatestPublishedVersion.PathOnClient, ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)
                                             FROM ASF_Case_Integration__c
