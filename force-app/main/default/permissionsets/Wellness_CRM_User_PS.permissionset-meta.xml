@@ -2363,11 +2363,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>LAN_Mapping__c.MemberOfText__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>LAN_Mapping__c.MemberOf__c</field>
         <readable>true</readable>
     </fieldPermissions>
