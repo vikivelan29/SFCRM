@@ -3,11 +3,10 @@
     <fullName>ABML_Client_Code__c</fullName>
     <externalId>true</externalId>
     <label>Client Code</label>
-    <precision>18</precision>
+    <length>10</length>
     <required>false</required>
-    <scale>0</scale>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
+    <type>Text</type>
     <unique>false</unique>
 </CustomField>
