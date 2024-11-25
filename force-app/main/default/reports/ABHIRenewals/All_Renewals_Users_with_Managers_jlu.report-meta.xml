@@ -14,11 +14,12 @@
             <operator>equals</operator>
             <value>RNWL Base Profile,RNWL Manager Profile</value>
         </criteriaItems>
+        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Account.Advisor_Manager__c</field>
+        <field>User.Manager__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>All Renewals Users with Managers</name>
