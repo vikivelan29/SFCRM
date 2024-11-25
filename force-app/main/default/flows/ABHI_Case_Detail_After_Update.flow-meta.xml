@@ -157,6 +157,13 @@
                 <elementReference>$Record.Member__r.MemberId__r.PersonMobilePhone</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Member_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.Client_Code__c</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <name>UpdateNomineeFields</name>
