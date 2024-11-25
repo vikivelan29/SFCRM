@@ -33,9 +33,6 @@
         <field>Dispositions__c$Call_Date_Time__c</field>
     </columns>
     <columns>
-        <field>Dispositions__c$Call_Dispose_Time__c</field>
-    </columns>
-    <columns>
         <field>Dispositions__c$Calling_Mode__c</field>
     </columns>
     <columns>
