@@ -1,62 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Individual</fullName>
+    <fullName>Business_Account</fullName>
     <active>true</active>
-    <label>Individual</label>
-    <picklistValues>
-        <picklist>ABML_Bank_Account_Type__pc</picklist>
-        <values>
-            <fullName>Current</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Savings</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
+    <label>Business Account</label>
     <picklistValues>
         <picklist>ABML_Contact_Type__c</picklist>
         <values>
-            <fullName>BSB</fullName>
+            <fullName>Branch</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Branch Employee</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>DSA</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>ABML_Sensitive__pc</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
+            <fullName>Franchisee</fullName>
             <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>ABML_Status__c</picklist>
-        <values>
-            <fullName>Active</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Inactive</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>ABML_Status__pc</picklist>
         <values>
             <fullName>Active</fullName>
             <default>false</default>
@@ -121,7 +80,7 @@
         </values>
         <values>
             <fullName>ABML</fullName>
-            <default>true</default>
+            <default>false</default>
         </values>
         <values>
             <fullName>ABSLIG</fullName>
@@ -133,25 +92,6 @@
         </values>
         <values>
             <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Business_Unit__pc</picklist>
-        <values>
-            <fullName>ABFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABHFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABML</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>PAYMENTS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -358,10 +298,6 @@
         </values>
         <values>
             <fullName>ABML</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
         <values>
@@ -382,32 +318,6 @@
         </values>
         <values>
             <fullName>Wealth</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Line_of_Business__pc</picklist>
-        <values>
-            <fullName>ABFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABHFL</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABML</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>Payments</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Maritual_Status__pc</picklist>
-        <values>
-            <fullName>%2E%2E%2E%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>
