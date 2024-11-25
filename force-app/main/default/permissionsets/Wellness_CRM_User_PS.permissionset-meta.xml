@@ -2363,11 +2363,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>LAN_Mapping__c.MemberOfText__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>LAN_Mapping__c.MemberOf__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2906,6 +2901,14 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>EditCaseComments</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ExportReport</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>RunReports</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

@@ -50,7 +50,7 @@
         <field>Case$Type_Text__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Month wise Case wise</name>
+    <name>SR Category Wise</name>
     <params>
         <name>co</name>
         <value>1</value>
