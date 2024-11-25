@@ -1,8 +1,26 @@
+/**
+* @File Name : ABHI_BulkMoveNextConverterUtilityTest.cls
+* @Description : Test Class for ABHI_BulkMoveNextConverterUtility
+* @Author : Salesforce
+* @Last Modified By : Aditya Jawadekar
+* @Last Modified On : October 12, 2024
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | October 12, 2024 | Aditya Jawadekar  | Initial Version
+**/
+@SuppressWarnings('PMD.ApexSOQLInjection,PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
 @isTest
 public class ABHI_BulkMoveNextConverterUtilityTest {
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - setupTestData
+    * @description - This method will be used to create testdata setup
+    *****************************************************************************************************************/
     @testSetup
     static void setupTestData(){
-        List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHILLLL','Test_1');
         accRec.Client_Code__c = '352344';
         accRec.Business_Unit__c = 'ABHI';
@@ -17,7 +35,12 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         insert caseList;
         
     }
-
+	
+	/****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRows
+    * @description - Test method to test convertJSONRows - Happy path
+    *****************************************************************************************************************/    
     @IsTest
     static void testconvertJSONRows(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -33,10 +56,16 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'"}');
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
         Test.startTest();
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRows2
+    * @description - Test method to test convertJSONRows - Happy path
+    *****************************************************************************************************************/
     @IsTest
     static void testconvertJSONRows2(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -52,10 +81,16 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'"}');
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
         Test.startTest();
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRows3
+    * @description - Test method to test convertJSONRows - Blank case number
+    *****************************************************************************************************************/
     @IsTest
     static void testconvertJSONRows3(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -70,10 +105,16 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         jsonRows.put(lineitem.Id, '{"Case number":""}');
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
         Test.startTest();
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
     
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRows4
+    * @description - Test method to test convertJSONRows - Wrong case number
+    *****************************************************************************************************************/
     @IsTest
     static void testconvertJSONRows4(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -88,10 +129,16 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         jsonRows.put(lineitem.Id, '{"Case number":"ABCD"}');
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
         Test.startTest();
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
     
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRows5
+    * @description - Test method to test convertJSONRows - Happy path with CCC
+    *****************************************************************************************************************/
     @IsTest
     static void testconvertJSONRows5(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -111,10 +158,16 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'"}');
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
         Test.startTest();
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
     
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRows6
+    * @description - Test method to test convertJSONRows - Happy path
+    *****************************************************************************************************************/
     @IsTest
     static void testconvertJSONRows6(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -133,10 +186,16 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'"}');
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
         Test.startTest();
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
     
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRows7
+    * @description - Test method to test convertJSONRows - Closed case check
+    *****************************************************************************************************************/
     @IsTest
     static void testconvertJSONRows7(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -154,21 +213,33 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'"}');
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
         Test.startTest();
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testprepareDownloadTemplate
+    * @description - Test method to test prepareDownloadTemplate
+    *****************************************************************************************************************/
     @IsTest
     static void testprepareDownloadTemplate() {        
         List<String> columnNames = new List<String>{'Case number'};
         Case caserec = [Select Id from Case LIMIT 1];
         Test.startTest();
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
-        utility.prepareDownloadTemplate(columnNames, 'Case', null, new List<String>{caserec.Id});
+        List<Map<String,String>> lstRes = utility.prepareDownloadTemplate(columnNames, 'Case', null, new List<String>{caserec.Id});
+        System.assert(!lstRes.isEmpty(), 'List records for template download is null');
         Test.stopTest();
 
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testprepareDownloadTemplate2
+    * @description - Test method to test prepareCtstData
+    *****************************************************************************************************************/
     @IsTest
     static void testprepareDownloadTemplate2() {        
         List<String> columnNames = new List<String>{'Case number'};
@@ -176,8 +247,10 @@ public class ABHI_BulkMoveNextConverterUtilityTest {
         Test.setMock(HttpCalloutMock.class, new ASF_ListViewAPIMock());
         Test.startTest();
         ABHI_BulkMoveNextConverterUtility utility = new ABHI_BulkMoveNextConverterUtility();
-        utility.prepareDownloadTemplate(columnNames, 'Case', lv.Id, null);
-        utility.prepareCtstData(new List<String>(), '');
+        List<Map<String,String>> lstResPdt = utility.prepareDownloadTemplate(columnNames, 'Case', lv.Id, null);
+        List<Map<String,String>> lstResPctst = utility.prepareCtstData(new List<String>(), '');
+        System.assert(!lstResPdt.isEmpty(), 'List records for template download is null');
+        System.assert(lstResPctst.isEmpty(), 'List records for ctst download is not null');
         Test.stopTest();
 
     }
