@@ -26,8 +26,7 @@ private class RNWL_EmailTemplateVFCControllerTest {
             asset.Type__c = 'TestAsset';
             asset.Policy_No__c = '12456';
             asset.ABHI_Policy_Id__c = '12456';
-            asset.LAN__c = '12456';
-            asset.Sum_Assured__c = '1000';
+            asset.LAN__c = '12456'; 
             
             List<Asset> lstAsset = new List<Asset>();
             lstAsset.add(asset);
