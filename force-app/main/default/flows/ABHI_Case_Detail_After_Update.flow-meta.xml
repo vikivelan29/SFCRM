@@ -265,7 +265,7 @@
         </outputAssignments>
         <outputAssignments>
             <assignToReference>Pan_Number</assignToReference>
-            <field>PAN_Number__c</field>
+            <field>PAN__c</field>
         </outputAssignments>
     </recordLookups>
     <start>
