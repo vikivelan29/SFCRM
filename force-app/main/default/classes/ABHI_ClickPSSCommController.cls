@@ -27,6 +27,7 @@ public with sharing class ABHI_ClickPSSCommController {
                 pssCommList = [SELECT Allowed_PS_Public_Group__c, CommunicationType__c, Entity__c,
                                                                     TemplateId__c, TemplateName__c, IsUserAllowed__c, Email_Field__c, Alert_Code__c, Phone_Field__c from ABHI_PSSCommunicationConfig__mdt where Entity__c =: objectName AND Allowed_PS_Public_Group__c IN: groupNameSet WITH SYSTEM_MODE]; 
             }
+            
             return  pssCommList; 
                
         } catch (Exception e) {
@@ -98,7 +99,14 @@ public with sharing class ABHI_ClickPSSCommController {
         try {
             FormWrapper formDataWrap = (FormWrapper) JSON.deserialize(formData, FormWrapper.class);
             PSSRequestWrapper reqWrap = new PSSRequestWrapper();
-            ABHI_PSSCommunicationConfig__mdt mtdt = [SELECT TemplateName__c, Email_Field__c, Alert_Code__c, Phone_Field__c, ALERTV1__c, ALERTV2__c, ALERTV3__c, ALERTV4__c, ALERTV5__c, ALERTV6__c, ALERTV7__c, ALERTV8__c, ALERTV9__c, ALERTV10__c, ALERTV11__c, ALERTV12__c, ALERTV13__c, ALERTV14__c, ALERTV15__c, ALERTV16__c, ALERTV17__c, ALERTV18__c, ALERTV19__c, ALERTV20__c, ALERTV21__c, ALERTV22__c, ALERTV23__c, ALERTV24__c, ALERTV25__c, ALERTV26__c, ALERTV27__c, ALERTV28__c, ALERTV29__c, ALERTV30__c, ALERTV31__c, ALERTV32__c, ALERTV33__c, ALERTV34__c, ALERTV35__c, ALERTV36__c, ALERTV37__c, ALERTV38__c, ALERTV39__c, ALERTV40__c from ABHI_PSSCommunicationConfig__mdt where TemplateId__c =: formDataWrap.template AND Entity__c =: objectName AND CommunicationType__c =:formDataWrap.commType WITH SYSTEM_MODE];
+            List<GroupMember> gpList = [SELECT GroupId, UserOrGroupId, Group.DeveloperName from GroupMember where UserOrGroupId =: UserInfo.getUserId() WITH SYSTEM_MODE];
+            Set<String> groupNameSet = new Set<String>();
+            if(gpList.size()>0){
+                for(GroupMember gp : gpList){
+                    groupNameSet.add(gp.Group.DeveloperName);
+                }
+            }
+            ABHI_PSSCommunicationConfig__mdt mtdt = [SELECT TemplateName__c, Email_Field__c, Alert_Code__c, Phone_Field__c, ALERTV1__c, ALERTV2__c, ALERTV3__c, ALERTV4__c, ALERTV5__c, ALERTV6__c, ALERTV7__c, ALERTV8__c, ALERTV9__c, ALERTV10__c, ALERTV11__c, ALERTV12__c, ALERTV13__c, ALERTV14__c, ALERTV15__c, ALERTV16__c, ALERTV17__c, ALERTV18__c, ALERTV19__c, ALERTV20__c, ALERTV21__c, ALERTV22__c, ALERTV23__c, ALERTV24__c, ALERTV25__c, ALERTV26__c, ALERTV27__c, ALERTV28__c, ALERTV29__c, ALERTV30__c, ALERTV31__c, ALERTV32__c, ALERTV33__c, ALERTV34__c, ALERTV35__c, ALERTV36__c, ALERTV37__c, ALERTV38__c, ALERTV39__c, ALERTV40__c from ABHI_PSSCommunicationConfig__mdt where TemplateId__c =: formDataWrap.template AND Entity__c =: objectName AND CommunicationType__c =:formDataWrap.commType AND Allowed_PS_Public_Group__c IN: groupNameSet WITH SYSTEM_MODE];
             String query = 'SELECT Policy_No__c, Next_Premium_Date__c, SerialNumber, AccountId, Account.Phone, Account.Office_Email__c';
             // query = mtdt.Email_Field__c != null? query+', '+mtdt.Email_Field__c : query;
             // query = mtdt.Phone_Field__c != null? query+', '+mtdt.Phone_Field__c : query;
