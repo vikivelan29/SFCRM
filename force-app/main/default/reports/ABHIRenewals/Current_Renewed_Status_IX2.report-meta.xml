@@ -30,6 +30,7 @@
             <operator>equals</operator>
             <value>Open,In Progress,Paid,Closed Won,Closed Lost</value>
         </criteriaItems>
+        <language>en_US</language>
     </filter>
     <format>Matrix</format>
     <groupingsAcross>
@@ -42,7 +43,7 @@
         <field>Case$CreatedDate</field>
         <sortOrder>Desc</sortOrder>
     </groupingsDown>
-    <name>Current Renewed Status</name>
+    <name>SR Month Wise</name>
     <params>
         <name>co</name>
         <value>1</value>
