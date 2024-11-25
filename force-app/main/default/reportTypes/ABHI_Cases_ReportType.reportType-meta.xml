@@ -1338,5 +1338,5 @@
             <table>Case</table>
         </columns>
         <masterLabel>ABHI Case Detail</masterLabel>
-    </sections>
-</ReportType>
+    </sections>  
+</ReportType> 
