@@ -18,7 +18,7 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Account.Advisor_Manager__c</field>
+        <field>User.Manager__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>All Renewals Users with Managers</name>
