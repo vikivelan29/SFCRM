@@ -3,7 +3,7 @@
     <fullName>CMP_OPD__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>CMP_OPD</label>
+    <label>CMP</label>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Checkbox</type>
 </CustomField>
