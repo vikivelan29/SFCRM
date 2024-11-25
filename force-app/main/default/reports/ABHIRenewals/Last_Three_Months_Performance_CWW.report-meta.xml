@@ -40,6 +40,7 @@
             <operator>equals</operator>
             <value>LAST_N_MONTHS:3</value>
         </criteriaItems>
+        <language>en_US</language>
     </filter>
     <format>Matrix</format>
     <groupingsAcross>
@@ -57,7 +58,7 @@
         <field>Case$CreatedBy.Manager</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Last Three Months Performance</name>
+    <name>SR TeamLeader Wise</name>
     <params>
         <name>co</name>
         <value>1</value>
