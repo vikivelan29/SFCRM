@@ -42,7 +42,7 @@
         <field>Case$CreatedDate</field>
         <sortOrder>Desc</sortOrder>
     </groupingsDown>
-    <name>Current Renewed Status</name>
+    <name>SR Month Wise</name>
     <params>
         <name>co</name>
         <value>1</value>
