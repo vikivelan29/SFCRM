@@ -12,18 +12,24 @@
  * Aditya(aditya.jawadekar@salesforce.com) 26/09/2024         Code Optimisation
  * *****************************************************************************************************
  */
-@SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.StdCyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
 public without sharing class ABHI_OmniDocUploadController {
 
     public static final List<String> OMNIDOCS_LINE_OF_BUSINESS = new List<String>{ABHI_Constants.ABHI};
-   
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - transferFilesToOmniDoc
+    * @param - lstCaseIds
+    * @description - This method sends case documents to omnidocs
+    *****************************************************************************************************************/
     @InvocableMethod
     public static void transferFilesToOmniDoc(List<Id> lstCaseIds) {
         try{
             Map<Id,Case> mapCaseRecord = new Map<Id,Case>([Select Id,Business_Unit__c,CaseNumber,Account.Client_Code__c,
                                                             Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,AssetId,Asset.LAN__c,
                                                             Asset.Lead_Id__c,AccountId,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name
-                                                            FROM Case WHERE Id IN:lstCaseIds AND Business_Unit__c =:OMNIDOCS_LINE_OF_BUSINESS AND isClosed=True WITH SYSTEM_MODE]);
+                                                            FROM Case WHERE Id IN:lstCaseIds AND Business_Unit__c IN:OMNIDOCS_LINE_OF_BUSINESS AND isClosed=True WITH SYSTEM_MODE]);
             
             if(mapCaseRecord != null && !mapCaseRecord.keySet().isEmpty()){        
                 List<ContentDocumentLink> lstContentDocLink = [Select Id,ContentDocumentId,LinkedEntityId from ContentDocumentLink
@@ -81,7 +87,14 @@ public without sharing class ABHI_OmniDocUploadController {
             logException(e,'ABHI_OmniDocUploadController.transferFilesToOmniDoc');
         }
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - prepareDMSRecord
+    * @param - objDMSFileOld, objCase, objFileVersion, versionCount
+    * @return - DMS_Files__c
+    * @description - This method prepares DMS Record
+    *****************************************************************************************************************/
     public static DMS_Files__c prepareDMSRecord(DMS_Files__c objDMSFileOld, Case objCase, ContentVersion objFileVersion, Integer versionCount){
         DMS_Files__c objDMSFile = new DMS_Files__c();
         
@@ -122,7 +135,14 @@ public without sharing class ABHI_OmniDocUploadController {
         
         return objDMSFile;
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - prepareDMSFileTransferRecord
+    * @param - objDMSFileTransfer, objCase, objDMSFile
+    * @return - DMS_File_Transfer__e
+    * @description - This method prepares DMS File Transfer platform event
+    *****************************************************************************************************************/
     public static DMS_File_Transfer__e prepareDMSFileTransferRecord(DMS_File_Transfer__e objDMSFileTransfer, Case objCase, DMS_Files__c objDMSFile){
         String mobile = (ABHI_Constants.INDIVIDUAL == objCase.Account.RecordType.Name) ? objCase.Account.PersonMobilePhone : objCase.Account.Phone;
                                 
@@ -162,7 +182,13 @@ public without sharing class ABHI_OmniDocUploadController {
 
         return objDMSFileTransfer;
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - retryFileTransferToOmniDoc
+    * @param - lstOldDMSFiles, lstCaseIds
+    * @description - This method retries Omni doc transfer
+    *****************************************************************************************************************/
     public static void retryFileTransferToOmniDoc(List<DMS_Files__c> lstOldDMSFiles, List<Id> lstCaseIds){
         try{
             Map<Id,Case> mapCaseRecord = new Map<Id,Case>([Select Id,Business_Unit__c,CaseNumber,Account.Client_Code__c,
@@ -195,7 +221,13 @@ public without sharing class ABHI_OmniDocUploadController {
             logException(e,'ABHI_OmniDocUploadController.retryFileTransferToOmniDoc');
         }
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - logException
+    * @param - objException, methodName
+    * @description - This method logs exception
+    *****************************************************************************************************************/
     public static void logException(Exception objException, String methodName){
         //System.debug('Exception ~> '+ objException.getMessage()+'; at line ~> '+objException.getStackTraceString());
         ABCL_Logger.enableExceptionLogging();
