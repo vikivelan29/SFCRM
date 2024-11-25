@@ -189,6 +189,43 @@ public class RNWL_OpportunityTriggerHelper {
         }
     }
     
+     /****************************************************************************************************************
+    * @Function - fireABCLIntegrationPE
+    * @param newOpps -  list of Opportunities from trigger.new
+    * @return - void .
+    * @Description - Invoked from After Insert, this method fire platform Event : ABCL_Integration_Event__e
+    *****************************************************************************************************************/
+    public static void fireABCLIntegrationPE(List<Opportunity> newOpps){
+        
+        List<ABCL_Integration_Event__e> eventList = new List<ABCL_Integration_Event__e>();
+        
+        for(Opportunity opp : newOpps){
+            ABCL_Integration_Event__e evt = new ABCL_Integration_Event__e();
+            evt.Business_Unit__c = 'ABHI-RNWL';
+            evt.ObjectApiName__c = 'Opportunity';
+            evt.Record_Id__c = opp.Id;
+            evt.ServiceName__c = 'ShortURLConversion';
+            evt.Request__c = '{"objRequest":{"LongURL":"'+opp.Payment_Link__c?.toString()+'","LOB":"ABHI-RNWL","UserId":"'+System.Label.RNWL_UserId+'","Password":"'+System.Label.RNWL_UserPassword+'"}}';
+        	eventList.add(evt);
+        }
+        
+        if(eventList.size() > 0){
+            List<Database.SaveResult> results = EventBus.publish(eventList);
+            for (Database.SaveResult sr : results) {
+                if (sr.isSuccess()) {
+                    System.debug('Successfully published event.');
+                } else {
+                    for(Database.Error err : sr.getErrors()) {
+                        System.debug('Error returned: ' +
+                                     err.getStatusCode() +
+                                     ' - ' +
+                                     err.getMessage());
+                    }
+                }       
+            }
+        }
+    }
+    
 /*****************************************************************************************************************
 *                                      Data Getters
 *****************************************************************************************************************/
