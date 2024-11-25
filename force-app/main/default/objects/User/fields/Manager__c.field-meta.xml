@@ -3,7 +3,7 @@
     <fullName>Manager__c</fullName>
     <description>Used for reports</description>
     <externalId>false</externalId>
-    <formula>HYPERLINK(&apos;/&apos; &amp; Id, IF(ISBLANK(Manager.FirstName), Manager.LastName, Manager.FirstName &amp; &apos; &apos; &amp; Manager.LastName))</formula>
+    <formula>IF(ISBLANK(Manager.FirstName), Manager.LastName, Manager.FirstName &amp; &apos; &apos; &amp; Manager.LastName)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Manager</label>
     <required>false</required>
