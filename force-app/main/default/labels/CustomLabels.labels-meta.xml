@@ -1483,4 +1483,18 @@
         <shortDescription>ABML_BU</shortDescription>
         <value>ABML</value>
     </labels>
+    <labels>
+        <fullName>RNWL_UserId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_UserId</shortDescription>
+        <value>ClickPassProd</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_UserPassword</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_UserPassword</shortDescription>
+        <value>B8iaP9sbZLX09KKbijoqkg==</value>
+    </labels>
 </CustomLabels>

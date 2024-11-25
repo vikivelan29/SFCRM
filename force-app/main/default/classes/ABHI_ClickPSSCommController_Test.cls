@@ -28,6 +28,11 @@ public class ABHI_ClickPSSCommController_Test {
             TimeZoneSidKey='America/Los_Angeles'
         );
         insert testUser; 
+        Group gp = [SELECT id, DeveloperName from Group where DeveloperName = 'ABHI_Contact_Center'];
+        GroupMember gpm = new GroupMember();
+        gpm.GroupId = gp.Id;
+        gpm.UserOrGroupId = testUser.Id;
+        Database.insert(gpm);
         PermissionSetGroup psg = [SELECT id from PermissionSetGroup where DeveloperName = 'ABHI_Users_PSG'];
         PermissionSetAssignment psa = new PermissionSetAssignment(AssigneeId = testUser.Id, PermissionSetGroupId = psg.Id);
         insert psa;
@@ -116,8 +121,8 @@ public class ABHI_ClickPSSCommController_Test {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
-            String s = '';
-            res.setBody(s);
+            String str = '';
+            res.setBody(str);
             res.setStatusCode(400);
             return res;
         }
