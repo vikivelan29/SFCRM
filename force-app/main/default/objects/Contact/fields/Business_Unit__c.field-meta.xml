@@ -20,6 +20,11 @@
                 <label>ABHFL</label>
             </value>
             <value>
+                <fullName>ABHI</fullName>
+                <default>false</default>
+                <label>ABHI</label>
+            </value>
+            <value>
                 <fullName>PAYMENTS</fullName>
                 <default>false</default>
                 <label>PAYMENTS</label>
@@ -35,9 +40,9 @@
                 <label>ABSLIG</label>
             </value>
             <value>
-                <fullName>ABML</fullName>
+                <fullName>ABSLI</fullName>
                 <default>false</default>
-                <label>ABML</label>
+                <label>ABSLI</label>
             </value>
             <value>
                 <fullName>ABSLAMC</fullName>
@@ -45,19 +50,14 @@
                 <label>ABSLAMC</label>
             </value>
             <value>
-                <fullName>ABHI</fullName>
-                <default>false</default>
-                <label>ABHI</label>
-            </value>
-            <value>
                 <fullName>Wellness</fullName>
                 <default>false</default>
                 <label>Wellness</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
+                <fullName>ABML</fullName>
                 <default>false</default>
-                <label>ABSLI</label>
+                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>
