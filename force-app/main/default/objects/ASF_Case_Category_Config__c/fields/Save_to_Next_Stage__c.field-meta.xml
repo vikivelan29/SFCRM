@@ -3,6 +3,7 @@
     <fullName>Save_to_Next_Stage__c</fullName>
     <defaultValue>true</defaultValue>
     <description>Created for ABHI BU to bypass the move to next stage logic on Save .</description>
+    <externalId>false</externalId>
     <label>Save to Next Stage?</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
