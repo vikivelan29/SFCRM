@@ -1,5 +1,5 @@
 import { LightningElement,api,track } from 'lwc';
-import getQueues1 from "@salesforce/apex/ABML_QueueController.getQueueNames";
+import getQueues from "@salesforce/apex/ABML_QueueController.getQueueNames";
 import getUsersByQueue from "@salesforce/apex/ABML_QueueController.getUsersByQueue";
 import getUsersInQueue from "@salesforce/apex/ABML_QueueController.getUsersInQueue";
 import UpdateCaseOwner from "@salesforce/apex/ABML_QueueController.updateCaseOwner";
@@ -8,7 +8,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import dt_colors from '@salesforce/resourceUrl/ABML_Datatable_Css';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import checkBusinessHours from "@salesforce/apex/ABML_QueueController.checkBusinessHours";
-import checkProfileMethod from "@salesforce/apex/ABML_QueueController.checkProfile";
+import checkAssignedPermissionSet from "@salesforce/apex/ABML_QueueController.checkAssignedPermissionSet";
 import LightningAlert from 'lightning/alert';
 
 
@@ -31,6 +31,7 @@ export default class ABML_Queue extends LightningElement {
     isUserExist = false;
     error;
      @api recordId;
+     @api listRecordId;
      cases;
      @track hideCases = false;
      @track checkLength;
@@ -75,7 +76,7 @@ export default class ABML_Queue extends LightningElement {
                 }else if(this.businessHours==true){
 
                     //Profile Validation starts--
-            checkProfileMethod()
+             checkAssignedPermissionSet()
             .then(result => {
                 this.checkProfile = result;
                 console.log('im here checkProfile ');
@@ -109,13 +110,13 @@ export default class ABML_Queue extends LightningElement {
             
             
 
-        getQueues1().then((result) => {
+        getQueues().then((result) => {
             this.pickListOrdered = result.sort((a, b) =>
                 a.label.localeCompare(b.label)
             );
         });
 
-        getCaseDetails({ caseid: this.recordId })
+        getCaseDetails({ caseIdList: this.recordId })
             .then(result => {
                 this.cases = result;
                 if(result.length >= 2){
@@ -307,7 +308,7 @@ export default class ABML_Queue extends LightningElement {
         }else{
 
         
-        UpdateCaseOwner({ caseid: this.recordId, ownerids: this.selectedrecordid })
+        UpdateCaseOwner({ caseIdList: this.recordId, ownerId: this.selectedrecordid })
         .then(() => {
             this.showToast('Success','Records updated succesfully','success');
             this.successMessage = 'Record updated successfully!';

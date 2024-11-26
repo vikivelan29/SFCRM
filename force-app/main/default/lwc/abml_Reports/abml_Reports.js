@@ -166,7 +166,7 @@ export default class Abml_Reports extends LightningElement {
             monthVal = '0' + monthVal;}
         if (dateVal.toString().length < 2){
             dateVal = '0' + dateVal;}
-        var dtt = dateVal+'-'+monthVal+'-'+yearVal;
+        var dtt = yearVal+'-'+monthVal+'-'+dateVal;
         
         var endDate = new Date(this.endDate);
         var endDateVal = endDate.getDate();
@@ -177,7 +177,7 @@ export default class Abml_Reports extends LightningElement {
             endMonthVal = '0' + endMonthVal;}
         if (endDateVal.toString().length < 2){
             endDateVal = '0' + endDateVal;}
-        var dttt = endDateVal+'-'+endMonthVal+'-'+endYearVal;
+        var dttt = endYearVal+'-'+endMonthVal+'-'+endDateVal;
         var yr = yearVal+'-'+endYearVal;
         this.yeartoYear = yr;
         console.log('this.yeartoYear',this.yeartoYear);
