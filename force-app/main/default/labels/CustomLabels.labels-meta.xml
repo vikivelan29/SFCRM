@@ -1184,4 +1184,11 @@
         <shortDescription>ABHI Claim Details Header</shortDescription>
         <value>1000</value>
     </labels>
+    <labels>
+        <fullName>ABFL_GenAIIntegration</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_GenAIIntegration</shortDescription>
+        <value>UNFYD</value>
+    </labels>
 </CustomLabels>
