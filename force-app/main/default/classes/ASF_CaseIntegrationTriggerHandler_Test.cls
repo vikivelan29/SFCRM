@@ -44,6 +44,7 @@ public class ASF_CaseIntegrationTriggerHandler_Test {
     
     @isTest
     static void testReportIntegration(){
+        Test.startTest();
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Status__c = 'Pending';
         caseInt.Business_External_Id__c = 'ABML_Report_Integration';
@@ -52,6 +53,7 @@ public class ASF_CaseIntegrationTriggerHandler_Test {
         system.assertEquals('Pending', caseInt.Status__c);
         caseInt.Status__c = 'Success';
         update caseInt;
-        system.assertEquals('Success', caseInt.Status__c);   
+        system.assertEquals('Success', caseInt.Status__c); 
+        Test.stopTest();
     }
 }

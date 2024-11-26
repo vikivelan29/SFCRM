@@ -6,108 +6,81 @@
 */
 public without sharing class ABML_QueueController { //Without sharing is added for avoiding apex class access issues
     
-    @AuraEnabled(cacheable=true)
-    public static List<Group> getQueues() {
-        return [SELECT Id, Name FROM Group WHERE Type = 'Queue' and Name like 'ABML%'];
-    }
-
-
-    
     @AuraEnabled
     public static List<Map<String, String>> getQueueNames() {
-        List<Map<String, String>> queues = new List<Map<String, String>>();
-        for (Group g : [SELECT Id, Name FROM Group where Type = 'Queue' and Name like 'ABML%']) {
-            queues.add(
-                new Map<String, String>{ 'label' => g.Name, 'value' => g.Id }
+        List<Map<String, String>> listOfQueues = new List<Map<String, String>>();
+        for (Group objGroup : [SELECT Id, Name FROM Group where Type = 'Queue' and Name like 'ABML%']) {
+            listOfQueues.add(
+                new Map<String, String>{ 'label' => objGroup.Name, 'value' => objGroup.Id }
             );
         }
-        return queues;
-    }
-
-
+        return listOfQueues;
+    }  
     
     @AuraEnabled(cacheable=true)
     public static List<User> getUsersByQueue(Id queueId) {
-        return [
-            SELECT Id, Name, Email
-            FROM User
-            WHERE Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :queueId)
-        ];
-    }
-
-
+        return [SELECT Id, Name, Email FROM User WHERE Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :queueId)];
+    }    
+    
     @AuraEnabled
-    Public static void updateCaseOwner(List<id> caseid, Id ownerids){
-    try {
-        
-          /*case c = new case();
-          c.id = caseid;
-          c.ownerid = Ownerids;
-          update c;*/
-        List<Case> caseList = new List<Case>();
-        for(Case cs:[Select Id,ownerid from Case where Id IN:caseid]){
-            cs.OwnerId = ownerids;
-            caseList.add(cs);
-        }
-        update caseList;
-  
-
-    } catch (Exception e) {
+    public static void updateCaseOwner(List<Id> caseIdList, Id ownerId){
+        try {
+            List<Case> caseListToUpdate = new List<Case>();
+            
+            if(!Schema.sObjectType.Case.fields.OwnerId.isAccessible()){
+                return;
+            }
+            
+            for(Case objCase : [Select Id, OwnerId from Case where Id IN : caseIdList ]){
+                objCase.OwnerId = ownerId;
+                caseListToUpdate.add(objCase);
+            }
+            if(caseListToUpdate != null && caseListToUpdate.size() > 0){
+                update caseListToUpdate; 
+            }
+            
+        } 
+        catch (Exception e) {
             throw new AuraHandledException('Error updating record: ' + e.getMessage());
         }
-}
-
-
-@AuraEnabled(cacheable=true)
+    }    
+    
+    @AuraEnabled(cacheable=true)
     public static List<User> getUsersInQueue(String queueId, String userName) {
         if (String.isEmpty(queueId)) {
             return new List<User>();
-        }
-
+        }        
         // Fetch users in the selected queue with an optional user name filter
-        return [SELECT Id, Name, Email FROM User WHERE Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :queueId) AND Name LIKE :('%' + userName + '%') ORDER BY Name];
-    }
-
-
-
-
-     @AuraEnabled(cacheable=true)
-    public static List<Group> searchQueuesByName(String queueName) {
-        // Ensure we only retrieve Queues with the provided name filter.
-        String searchKey = '%' + queueName + '%';
-        return [SELECT Id, Name FROM Group WHERE Type = 'Queue' AND Name LIKE :searchKey ORDER BY Name LIMIT 100];
+        return [SELECT Id, Name, Email FROM User WHERE Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :queueId) AND Name LIKE :('%' + userName + '%') ORDER BY Name LIMIT 100];
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<Case> getCaseDetails(List<id> caseid) {//added by Dinoy
-        return [SELECT Id,ownerid,CaseNumber,Subject FROM Case WHERE Id IN:caseid];
+    public static List<Case> getCaseDetails(List<Id> caseIdList) {
+        if(!Schema.sObjectType.Case.fields.OwnerId.isAccessible() || !Schema.sObjectType.Case.fields.CaseNumber.isAccessible() || 
+           !Schema.sObjectType.Case.fields.Subject.isAccessible()){
+            return null;
+        }
+        return [SELECT Id, OwnerId, CaseNumber, Subject FROM Case WHERE Id IN : caseIdList];
     }
     
     @AuraEnabled(cacheable=true)
-    public static Boolean checkBusinessHours(){ //added by Dinoy, To show the abml_Queue component based on the business hours
-     
-       //String businessName = 'ABML';
-       BusinessHours bh = [SELECT Id FROM BusinessHours WHERE Name=:System.Label.ABML_BU]; 
-       Datetime targetTime = System.Now();
-
-       // Check whether the time is within the default business hours
-       Boolean isWithin= BusinessHours.isWithin(bh.id, targetTime);
+    public static Boolean checkBusinessHours(){ 
         
+        BusinessHours objBusinessHour = [SELECT Id FROM BusinessHours WHERE Name =: System.Label.ABML_BU Limit 1];         
+        // Check whether the time is within the default business hours
+        Boolean isWithin = BusinessHours.isWithin(objBusinessHour.id, System.Now());        
         return isWithin;
     }
     
     @AuraEnabled(cacheable=true)
-    public static Boolean checkProfile(){ //added by Dinoy, To show the abml_Queue component based on the permission set ABML_Bulk_Assignment_PS
-     
-        Boolean isCheck;
-        User usr = [SELECT Id,ProfileId FROM User WHERE Id=:UserInfo.getUserId()];
+    public static Boolean checkAssignedPermissionSet(){
         
-        List<PermissionSetAssignment> lstcurrentUserPerSet =    [   SELECT Id, PermissionSet.Name,AssigneeId
+        String userId = UserInfo.getUserId();
+        List<PermissionSetAssignment> assignedPermissionSets = [SELECT Id, PermissionSet.Name,AssigneeId
                                                                 FROM PermissionSetAssignment
-                                                                WHERE AssigneeId = :usr.Id and PermissionSet.Name =:System.Label.ABML_Bulk_Assignment_PS];
-        isCheck = lstcurrentUserPerSet.size()>0 ? true : false;
-        
+                                                                WHERE AssigneeId =: userId and PermissionSet.Name =: System.Label.ABML_Bulk_Assignment_PS Limit 1];
+        Boolean isCheck = assignedPermissionSets.size() > 0 ? true : false;        
         return isCheck;
     }
-
+    
 }
