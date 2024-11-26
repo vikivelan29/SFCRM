@@ -63,7 +63,7 @@ public with sharing class ABSLI_RegisterIGMSComplaintIntegration implements ASF_
                 bErrorOccured = true;
             }
             if(caseRecord.ABSLI_Case_Detail__r.IGMS_Complaint_Status__c != null){
-                errorMessage = 'Case is already sync with IGMS., ';
+                //errorMessage = 'Case is already sync with IGMS., ';
                 //bErrorOccured = true;
             }
             if(caseRecord.IGMS_Complaint_Type_Code__c != null && ABSLI_Constants.IGMS_COMPLAINT_CATEGORIES.contains(caseRecord.ABSLI_Case_Detail__r.Complaint_Category__c)){
