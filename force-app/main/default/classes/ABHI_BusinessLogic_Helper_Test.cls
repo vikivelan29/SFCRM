@@ -367,6 +367,9 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         ABHI_BulkMoveNextConverterUtility.boolSkipChklstAbhiBulk = true;
         
         Test.startTest();
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c, Status FROM Case LIMIT 1];
+        caseRec.Stage__c = 'In Progress';
+        ABHI_BulkMoveNextConverterUtility.boolSkipChklstAbhiBulk = true;
         UPDATE caseRec;
         
         caseRec.Stage__c = 'Unresolved ';
