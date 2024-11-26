@@ -323,7 +323,7 @@ export const lanLabels = {
     ABHI: {
         CTST_COLS: [
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+           // { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
         ],
