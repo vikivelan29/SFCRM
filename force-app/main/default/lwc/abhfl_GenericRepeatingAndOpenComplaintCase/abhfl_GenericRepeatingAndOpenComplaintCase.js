@@ -23,7 +23,6 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     @track surveyresponse = [];
     @track surveyresponse1 = [];
     @track surveyresponse2 = [];
-    @track errorinresponse;
     @track columns = [];
     @track columns1 = [];
     @track columns2 = [];
