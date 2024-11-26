@@ -97,7 +97,6 @@
             <operator>lessThan</operator>
             <value>THIS_MONTH</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Tabular</format>
     <name>Renewal SRs - History</name>
