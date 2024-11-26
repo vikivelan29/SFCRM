@@ -1,3 +1,4 @@
+
 /*********************************************************
 *Class        :  ABCL_CaseIntegrationHelper
 *Author       :  Shubham Sinha 
@@ -42,25 +43,26 @@ public with sharing class ABCL_CaseIntegrationHelper {
                         ABHFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABHFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABHFL_EbotWrapper.EbotResponseWrapper.class);
                         ABHFL_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse);
                         //Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(recordAfter);
-                    }
-                    else if (integrationCase.Business_Unit__c == 'ABFL'){
+                    }   
+                    else if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(integrationCase.Business_Unit__c) ){
                         if(System.Label.ABFL_GenAIIntegration=='UNFYD'){
-                            String unfdydResponseString = '{"CASENUMBER": "8879656","CUSTOMERNO": "8879656","AUTORESPONSE": "No","ISSMT":"No","ISMULTIPLEINTENT": "No", "LOB": "UNSECURED","ISREGISTEREDCUSTOMER": "YES”,"DEDUPE": "Yes","PAYTMINTERACTIONID": "PAYTM4832738","PRIORITY": "Medium","ISSUECODE": "hfl027","LAN": "ABFL-1234","MOODSTAMP": "Neutral","POTENTIALCOMPLAINT": "No","CONFIDENCESCORE": 0.90,"ISTRAILMAIL": "NO”,"ISATTACHMENT": "NO”,"ISMULTIPLELAN": "NO”,"DISPOSITION": "LOAN DETAILS/PARTNER RELATED”,"COMMENT": "","OWNERFULLNAME": "True","INTENT":"Loan Settlement","REMARKS":"In Json key value pair: Intent, Casetype, Subtype","CASE_INTEGRATION_ID":"ABWM1619"}';
-        					//ABFL_UNFYDWrapper.UNFYDResponseWrapper unfydResponse = (ABFL_UNFYDWrapper.UNFYDResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDWrapper.UNFYDResponseWrapper.class);
-        					ABFL_UNFYDWrapper.UNFYDResponseWrapper unfydResponse = (ABFL_UNFYDWrapper.UNFYDResponseWrapper)JSON.deserialize(unfdydResponseString,ABFL_UNFYDWrapper.UNFYDResponseWrapper.class);
-                        	ABFL_CaseIntegrationHelper.unfydResponseHandler(recordAfter.Case__c,unfydResponse);
+                            ABFL_UNFYDWrapper.UNFYDResponseWrapper unfydResponse = (ABFL_UNFYDWrapper.UNFYDResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDWrapper.UNFYDResponseWrapper.class);
+        					ABFL_CaseIntegrationHelper.unfydResponseHandler(recordAfter.Case__c,unfydResponse);
                         }else{
                             ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
                         	ABFL_EBOTCaseLogics.updateCaseDetailExtension(recordAfter.Case__c,ebotResponse);
                         }
-                        
                     }
-                    else if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(integrationCase.Business_Unit__c) ){
-                        ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
-                        ABFL_EBOTCaseLogics.updateCaseDetailExtension(recordAfter.Case__c,ebotResponse);
-                    }  
+                    else if(integrationCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT){
+                        ABSLI_EBotWrapper.EbotResponseWrapper ebotResponse = (ABSLI_EBotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABSLI_EBotWrapper.EbotResponseWrapper.class);
+                        ABSLI_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse,recordAfter);
+                    }
+                    else if(integrationCase.Business_Unit__c == ABHI_Constants.ABHI){
+                        ABHI_EBOTCaseLogics.UpdateCaseWrapper ebotResponse = (ABHI_EBOTCaseLogics.UpdateCaseWrapper)JSON.deserialize(recordAfter.Response__c,ABHI_EBOTCaseLogics.UpdateCaseWrapper.class);
+                        ABHI_EBOTCaseLogics.updateCaseExtension(recordAfter.Case__c,ebotResponse); 
+                    }
                 }
-            }      
+            }     
         }
         
     }
