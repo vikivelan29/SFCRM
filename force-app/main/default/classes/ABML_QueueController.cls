@@ -9,36 +9,17 @@ public without sharing class ABML_QueueController { //Without sharing is added f
     @AuraEnabled
     public static List<Map<String, String>> getQueueNames() {
         List<Map<String, String>> listOfQueues = new List<Map<String, String>>();
-        for (Group objGroup : [SELECT Id, Name FROM Group where Name like 'ABML%' AND Type = 'Queue']) {
-            String uId = String.valueOf(objGroup.Id); 
+        for (Group objGroup : [SELECT Id, Name FROM Group where Type = 'Queue' and Name like 'ABML%']) {
             listOfQueues.add(
                 new Map<String, String>{ 'label' => objGroup.Name, 'value' => objGroup.Id }
-            );            
+            );
         }
         return listOfQueues;
     }  
     
     @AuraEnabled(cacheable=true)
     public static List<User> getUsersByQueue(Id queueId) {
-        Set<String> setOfPublicGroupId = new Set<String>();
-        Set<String> setOfUserId = new Set<String>();
-        if(queueId != null){
-            for (GroupMember objGroupMember : [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId =: queueId]) {
-                 String uId = String.valueOf(objGroupMember.UserOrGroupId); 
-                if(uId.startsWith('00G')){
-                    setOfPublicGroupId.add(objGroupMember.UserOrGroupId);
-                }
-            }
-        }
-        for (GroupMember objGroupMember : [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN: setOfPublicGroupId]) {
-            setOfUserId.add(objGroupMember.UserOrGroupId);
-        }
-        if(setOfUserId != null){
-        	return [SELECT Id, Name, Email FROM User WHERE Id IN: setOfUserId];
-        }
-        else{
-            return new List<User>();
-        }
+        return [SELECT Id, Name, Email FROM User WHERE Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :queueId)];
     }    
     
     @AuraEnabled
@@ -68,26 +49,9 @@ public without sharing class ABML_QueueController { //Without sharing is added f
     public static List<User> getUsersInQueue(String queueId, String userName) {
         if (String.isEmpty(queueId)) {
             return new List<User>();
-        }
-        Set<String> setOfPublicGroupId = new Set<String>();
-        Set<String> setOfUserId = new Set<String>();
-        if(queueId != null){
-            for (GroupMember objGroupMember : [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId =: queueId]) {
-                 String uId = String.valueOf(objGroupMember.UserOrGroupId); 
-                if(uId.startsWith('00G')){
-                    setOfPublicGroupId.add(objGroupMember.UserOrGroupId);
-                }
-            }
-        }
-        for (GroupMember objGroupMember : [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN: setOfPublicGroupId]) {
-            setOfUserId.add(objGroupMember.UserOrGroupId);
-        }
-        if(setOfUserId != null){
-        	return [SELECT Id, Name, Email FROM User WHERE Id IN: setOfUserId AND Name LIKE :('%' + userName + '%') ORDER BY Name LIMIT 100];
-        }  
-        else{
-            return new List<User>();
-        }
+        }        
+        // Fetch users in the selected queue with an optional user name filter
+        return [SELECT Id, Name, Email FROM User WHERE Id IN (SELECT UserOrGroupId FROM GroupMember WHERE GroupId = :queueId) AND Name LIKE :('%' + userName + '%') ORDER BY Name LIMIT 100];
     }
     
     @AuraEnabled(cacheable=true)
@@ -109,25 +73,14 @@ public without sharing class ABML_QueueController { //Without sharing is added f
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<ListView> getCaseListViews() {
-        return [SELECT Id, Name, DeveloperName, SobjectType FROM ListView WHERE SobjectType = 'Case' AND Name LIKE '%ABML%'];
-    }
-    
-    /*@AuraEnabled(cacheable=true)
-    public static List<Case> getCaseRecords(String listViewId) {
-        if (String.isEmpty(listViewId)) {
-            return new List<Case>();
-        } 
-        String query = ABML_Listviewcallout.doCallout(listViewId);
-        return Database.query(query);
-    } */
-    
-    @AuraEnabled(cacheable=true)
-    public static List<Case> getSearchRecords(String searchText) {
-        if (String.isEmpty(searchText)) {
-            return new List<Case>();
-        }        
-        return [ SELECT Id, CaseNumber, Subject, Status, CreatedDate, Owner.Name, OwnerText__c, Description FROM Case WHERE Subject!=null and Status!='Resolved' and Business_Unit__c=:System.Label.ABML_BU and (Subject LIKE :('%' + searchText + '%') OR CaseNumber LIKE :('%' + searchText + '%') OR OwnerText__c LIKE :('%' + searchText + '%')) ORDER BY Subject LIMIT 200 ];
+    public static Boolean checkAssignedPermissionSet(){
+        
+        String userId = UserInfo.getUserId();
+        List<PermissionSetAssignment> assignedPermissionSets = [SELECT Id, PermissionSet.Name,AssigneeId
+                                                                FROM PermissionSetAssignment
+                                                                WHERE AssigneeId =: userId and PermissionSet.Name =: System.Label.ABML_Bulk_Assignment_PS Limit 1];
+        Boolean isCheck = assignedPermissionSets.size() > 0 ? true : false;        
+        return isCheck;
     }
     
 }
