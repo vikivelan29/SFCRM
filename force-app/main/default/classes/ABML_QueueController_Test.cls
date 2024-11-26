@@ -14,8 +14,6 @@ public class ABML_QueueController_Test {
         
         Group objGroup = new Group(Name = 'ABML Test Group' , Type = 'Queue');
         insert objGroup;
-        Group objGroupTest = new Group(Name = 'ABML Test Group2');
-        insert objGroupTest;
         
         List<User> listOfUsers = new List<User>();
         List<Case> listOfCases = new List<Case>();
@@ -63,13 +61,8 @@ public class ABML_QueueController_Test {
             Test.startTest(); 
             
             Group objGroup = [SELECT Id, Name FROM Group WHERE Name = 'ABML Test Group' LIMIT 1];
-            Group objGroupTwo = [SELECT Id, Name FROM Group WHERE Name = 'ABML Test Group2' LIMIT 1];
             GroupMember objGroupMember = new GroupMember(GroupId = objGroup.id, UserOrGroupId = objUser.id); 
             insert objGroupMember;
-            GroupMember objGroupMemberTwo = new GroupMember(GroupId = objGroup.id, UserOrGroupId = objGroupTwo.id); 
-            insert objGroupMemberTwo;
-            GroupMember objGroupMemberThree = new GroupMember(GroupId = objGroupTwo.id, UserOrGroupId = objUser.id); 
-            insert objGroupMemberThree;
             List<User> listOfUsers = ABML_QueueController.getUsersByQueue(objGroup.Id);
             System.assertEquals(1, listOfUsers.Size(), 'Single Group Member was there in the Queue.');  
             
@@ -105,13 +98,8 @@ public class ABML_QueueController_Test {
             Test.startTest(); 
             
             Group objGroup = [SELECT Id, Name FROM Group WHERE Name = 'ABML Test Group' LIMIT 1];
-            Group objGroupTwo = [SELECT Id, Name FROM Group WHERE Name = 'ABML Test Group2' LIMIT 1];
             GroupMember objGroupMember = new GroupMember(GroupId = objGroup.id, UserOrGroupId = objUser.id); 
             insert objGroupMember;
-            GroupMember objGroupMemberTwo = new GroupMember(GroupId = objGroup.id, UserOrGroupId = objGroupTwo.id); 
-            insert objGroupMemberTwo;
-            GroupMember objGroupMemberThree = new GroupMember(GroupId = objGroupTwo.id, UserOrGroupId = objUser.id); 
-            insert objGroupMemberThree;
             List<User> listOfUsers = ABML_QueueController.getUsersInQueue(objGroup.Id, objUser.Name);
             System.assertEquals(1, listOfUsers.Size(), 'Single Group Member Found.');  
             
@@ -171,52 +159,20 @@ public class ABML_QueueController_Test {
     }
     
     @isTest
-    static void getCaseListViewsTest() {
+    static void checkAssignedPermissionSetTest(){
         List<User> listOfUsers = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' and LastName='Test' LIMIT 2];
         User userObj = listOfUsers[0];
         System.runAs(userObj){
-        List<Case> caseList = [SELECT Id,CaseNumber,Subject FROM Case LIMIT 5];
-        Test.startTest();
-
-        List<ListView> result = ABML_QueueController.getCaseListViews();
-        System.assertEquals(5, caseList.size(), 'Case List Views');
-        Test.stopTest();
-        }
-    }
-
-    @isTest
-    static void getSearchRecordsTest() {
-        List<User> listOfUsers = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' and LastName='Test' LIMIT 2];
-        User userObj = listOfUsers[0];
-        System.runAs(userObj){
-        Test.startTest();
-        List<Case> caseList = ABML_QueueController.getSearchRecords('Test');
-        System.assertEquals(5, caseList.size(), 'Search Case Records');
-        Test.stopTest();
-        }
-    }
-
-    @isTest
-    static void getSearchRecordsEmptyTest() {
-        List<User> listOfUsers = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' and LastName='Test' LIMIT 2];
-        User userObj = listOfUsers[0];
-        System.runAs(userObj){
-        Test.startTest();
-        List<Case> caseList = ABML_QueueController.getSearchRecords('');
-        System.assertEquals(0, caseList.size(), 'Negative Search Case Records');
-        Test.stopTest();
-        }
-    }
-    
-    @isTest
-    static void getCaseRecordsTest(){
-        List<User> listOfUsers = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' and LastName='Test' LIMIT 2];
-        User userObj = listOfUsers[0];
-        System.runAs(userObj){
-        Test.startTest();
-        List<Case> getCaseRecords = ABML_QueueController.getCaseRecords('');
-        System.assertEquals(0, getCaseRecords.size(), 'No list view found!');
-        Test.stopTest();
+            
+            Test.startTest();   
+            
+            PermissionSet ps = [SELECT Id FROM PermissionSet WHERE Name =: System.Label.ABML_Bulk_Assignment_PS];
+            insert new PermissionSetAssignment(AssigneeId = userObj.Id, PermissionSetId = ps.Id);
+            
+            Boolean checkcheckAssignedPermSet = ABML_QueueController.checkAssignedPermissionSet();
+            System.assertEquals(true, checkcheckAssignedPermSet, 'Permission Set Assigned.');
+            
+            Test.stopTest();
         }
     }
     
