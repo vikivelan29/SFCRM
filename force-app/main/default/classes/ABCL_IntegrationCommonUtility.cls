@@ -300,6 +300,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
             String dmsFolderId = '', businessFileName = '', policyNumber = '', applicationId = '';
             Boolean isABSLIBusiness = false;
             if(caseRecordList.size()> 0){
+		Case caseRecord = caseRecordList[0];
             if (caseRecord.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT) {
                 isABSLIBusiness = true;
                 policyNumber = caseRecord.Asset.Policy_No__c != '' ? caseRecord.Asset.Policy_No__c : caseRecord.LAN__c;
