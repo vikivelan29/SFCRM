@@ -159,6 +159,16 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         ABHI_Case_Detail__c caseDetail = new ABHI_Case_Detail__c();
         INSERT caseDetail;
 
+        ABHI_Case_Detail__c caseDetail2 = new ABHI_Case_Detail__c();
+        INSERT caseDetail2;
+
+        ABHI_Case_Detail__c caseDetail3 = new ABHI_Case_Detail__c();
+        INSERT caseDetail3;
+
+        ABHI_Case_Detail__c caseDetail4 = new ABHI_Case_Detail__c();
+        INSERT caseDetail4;
+
+        List<Case> caseList = new List<Case>();
         Case caseRec = new Case();
         caseRec.Business_Unit__c = 'ABHI';
         caseRec.Notes__c = 'Test Case';
@@ -170,7 +180,47 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         caseRec.Source__c = 'Branch';
         caseRec.AssetId = asst1.Id;
         caseRec.ABHI_Case_Detail__c = caseDetail.Id;
-        INSERT caseRec;
+        caseList.add(caseRec);
+
+        Case caseRec2 = new Case();
+        caseRec2.Business_Unit__c = 'ABHI';
+        caseRec2.Notes__c = 'Test Case 5';
+        caseRec2.CCC_External_Id__c = 'CCC-CC-CCLTD-02';
+        caseRec2.AccountId = objAccount.Id;
+        caseRec2.Technical_Source__c = 'LWC';
+        caseRec2.Type_Text__c = 'Cashless';
+        caseRec2.Sub_Type_Text__c = 'Loading';
+        caseRec2.Source__c = 'Branch';
+        caseRec2.AssetId = asst1.Id;
+        caseRec2.ABHI_Case_Detail__c = caseDetail2.Id;
+        caseRec2.Recategorisation_Date__c = System.now();
+        caseList.add(caseRec2);
+
+        Case caseRec3 = new Case();
+        caseRec3.Business_Unit__c = 'ABHI';
+        caseRec3.CCC_External_Id__c = 'ABHI_Request_CCC_20';
+        caseRec3.AccountId = objAccount.Id;
+        caseRec3.Technical_Source__c = 'LWC';
+        caseRec3.Type_Text__c = 'Claims';
+        caseRec3.Sub_Type_Text__c = 'CRM-Claims';
+        caseRec3.Source__c = 'Underwriting';
+        caseRec3.AssetId = asst1.Id;
+        caseRec3.ABHI_Case_Detail__c = caseDetail3.Id;
+        caseList.add(caseRec3);
+
+        Case caseRec4 = new Case();
+        caseRec4.Business_Unit__c = 'ABHI';
+        caseRec4.CCC_External_Id__c = 'ABHI_Complaints1';
+        caseRec4.AccountId = objAccount.Id;
+        caseRec4.Technical_Source__c = 'LWC';
+        caseRec4.Type_Text__c = 'Legal / Ombudsman';
+        caseRec4.Sub_Type_Text__c = 'Claim / Service';
+        caseRec4.Source__c = '	Claim Email';
+        caseRec4.AssetId = asst1.Id;
+        caseRec4.ABHI_Case_Detail__c = caseDetail4.Id;
+        caseList.add(caseRec4);
+
+        insert caseList;
         
        // Opportunity oppRec = RNWL_TestDataFactory.createOpportunityRecords(objAccount.Id, asst1.Id);//RNWL
     }
@@ -197,7 +247,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     static void sendCommTestMethod01() {
         
         Test.startTest();
-        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case LIMIT 1];
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
         UPDATE caseRec;
         
@@ -213,7 +263,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     static void sendCommTestMethod02() {
         
         Test.startTest();
-        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case LIMIT 1];
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
         UPDATE caseRec;
         
@@ -231,7 +281,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     static void sendCommTestMethod03() {
         
         Test.startTest();
-        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case LIMIT 1];
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
         UPDATE caseRec;
         
@@ -250,8 +300,9 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     static void sendCommTestMethod04() {
         
         Test.startTest();
-        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c, Status FROM Case LIMIT 1];
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c, Status FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
+        ABHI_BulkMoveNextConverterUtility.boolSkipChklstAbhiBulk = true;
         UPDATE caseRec;
         
         caseRec.Stage__c = 'Unresolved ';
@@ -265,7 +316,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     
     @isTest
     static void test_populateFieldsOnCase(){
-        Case caseRec = [SELECT Id, AccountId, AssetId FROM Case LIMIT 1];
+        Case caseRec = [SELECT Id, AccountId, AssetId FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         Asset asst2 = new Asset();
         asst2.Name = 'Test Asset';
         asst2.AccountId = caseRec.AccountId;
@@ -282,8 +333,80 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     }
 
     @isTest
-    static void test_dedupeLogicOnCaseCreation() { 
+    static void testDedupeLogicOnCaseCreation() { 
         
+        ABHI_BusinessLogic_Helper abhiBusHelpObj = new ABHI_BusinessLogic_Helper();
 
+        Case caseRecToUpdate = [SELECT Id, assetId, accountId, ABHI_Case_Detail__c, 
+                                        Business_Unit__c, CCC_External_Id__c, Is_Recategorise_Allowed__c, 
+                                        Recategorisation_Date__c, Source__c
+                                FROM Case 
+                                WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-02'
+        ];
+        
+        Case caseRecOld = new Case();
+        caseRecOld.Business_Unit__c = 'ABHI';
+        caseRecOld.CCC_External_Id__c = 'CCC-CC-CCLTD-02';
+        caseRecOld.AccountId = caseRecToUpdate.AccountId;
+        caseRecOld.Technical_Source__c = 'LWC';
+        caseRecOld.Type_Text__c = 'Cashless';
+        caseRecOld.Sub_Type_Text__c = 'Loading';
+        caseRecOld.Source__c = 'Branch';
+        caseRecOld.AssetId = caseRecToUpdate.AssetId;
+        caseRecOld.ABHI_Case_Detail__c = caseRecToUpdate.ABHI_Case_Detail__c;
+        caseRecOld.Recategorisation_Date__c = System.now().addMinutes(-1);
+
+        abhiBusHelpObj.mapOfIdToOldCase = new Map<Id, Case>{caseRecToUpdate.Id => caseRecOld};
+        caseRecToUpdate.CCC_External_Id__c = 'CCC-CC-CCLTD-01';
+        caseRecToUpdate.Is_Recategorise_Allowed__c = true;
+        caseRecToUpdate.Recategorisation_Date__c = System.now();
+        abhiBusHelpObj.abhiNewCaseList = new List<Case>{caseRecToUpdate};
+        abhiBusHelpObj.dedupeLogicOnCaseCreation('AfterASFCodeBeforeUpdate');
+        System.assertEquals('CCC-CC-CCLTD-01', caseRecToUpdate.CCC_External_Id__c, 'Duplicate Case Found');
+    }
+
+    @isTest
+    static void testAbhiCaseSourceValidation() { 
+        
+        Map<String, Case> cccExtIdToCaseMap = new Map<String, Case>();
+
+        List<Case> caseRecToUpdate = [SELECT Id, Business_Unit__c, Source__c, CCC_External_Id__c
+                                FROM Case 
+                                WHERE CCC_External_Id__c in ('ABHI_Request_CCC_20', 'ABHI_Complaints1')
+        ];
+
+        for(Case csRec : caseRecToUpdate) {
+            cccExtIdToCaseMap.put(csRec.CCC_External_Id__c, csRec);
+        }
+
+        Case csRec1 = cccExtIdToCaseMap.get('ABHI_Request_CCC_20');
+        Case csRec2 = cccExtIdToCaseMap.get('ABHI_Complaints1');
+
+        String res = ABHI_BusinessLogic_Helper.abhiCaseSourceValidation(csRec1);
+        Assert.isTrue(res != 'Success', 'Not Success');
+
+        ASF_TestDataFactory.createCS60User();
+
+        User testUser = [SELECT id, Business_Unit__c, Source_Code__c FROM USER WHERE email = 'CS360@FCAAdmin.mock.com' LIMIT 1];
+        testUser.Business_Unit__c = 'ABHI';
+        testUser.Source_Code__c = '015';
+        update testUser;
+
+        System.runAs(testUser) {
+
+            // For Source_Based_Case_Creation_Restriction
+            String res2 = ABHI_BusinessLogic_Helper.abhiCaseSourceValidation(csRec1);
+            Assert.isTrue(res2 != 'Success', 'Not success');
+        }
+
+        testUser.Source_Code__c = '001';
+        update testUser;
+
+        System.runAs(testUser) {
+
+            // For User_Source_Code_Based_Case_Creation_Restriction
+            String res3 = ABHI_BusinessLogic_Helper.abhiCaseSourceValidation(csRec2);
+            Assert.isTrue(res3 != 'Success', 'Not success');
+        }
     }
 }

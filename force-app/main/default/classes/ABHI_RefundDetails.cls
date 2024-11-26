@@ -5,25 +5,30 @@
 *Last Modified:  09/09/2024
 *@description :  This class used as a outBound API call and a controller for abhi_RefundDetails component.
 ***************************************/
+@SuppressWarnings('PMD.ExcessivePublicCount')
 public with sharing class ABHI_RefundDetails {
     
-     @AuraEnabled
+     /******************************
+     @Method     : GetReceiptDetails
+     @description: Method to return IntegrationResponse when assetId passed.
+     ******************************/
+    @SuppressWarnings('PMD.MethodNamingConventions')
+    @AuraEnabled
     public static IntegrationResponseWrapper GetRefunds(String assetId){
         
         String customerId;
         Boolean hasError = false;
         String policyNumber;
-        String ProposalNumber;
-        String RequestType = 'RefundDetails';
-        String MemberNumber;
-        String ClaimNumber;
-        String ProviderCode;
-        String TestType;
+        String proposalNumber;
+        String requestType = 'RefundDetails';
+        String memberNumber;
+        String claimNumber;
+        String providerCode;
+        String testType;
         
         try{
             String integrationName = 'ABHI_RefundDetails';
-            Asset assets = [SELECT Policy_No__c,SerialNumber,AccountId from Asset where Id=: assetId];
-            system.debug('values ---' +assets);
+            Asset assets = [SELECT Policy_No__c,SerialNumber,AccountId from Asset where Id=: assetId WITH SYSTEM_MODE];
              if (assets!= null && assets.Policy_No__c != null){
                  policyNumber = assets.Policy_No__c;
                  ProposalNumber = assets.SerialNumber;
@@ -42,15 +47,13 @@ public with sharing class ABHI_RefundDetails {
             
             // Serialize RequestPayLoadWrapper to JSON
             String requestPayloadJson = JSON.serialize(requestPayload);
-            system.debug('requestBody-->' +requestPayloadJson);
                 ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,requestPayloadJson, null);
-            system.debug('integrationResp>>' +integrationResp);
                 IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
             system.debug('deserialized resp' +deserializedIntResponse);
                 return deserializedIntResponse;
-            
-            
+               
         }catch(Exception e){
+            System.debug('Deserialization error: ' + e.getMessage());
          throw new AuraHandledException('Error : '+e.getMessage());
         }
         
@@ -58,6 +61,11 @@ public with sharing class ABHI_RefundDetails {
     }
     
      //Request Wrapper class
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
+       /**********
+        @Class : RequestPayLoadWrapper
+        @description :  Wrapper class for API request payload.
+        ***********/
     public class RequestPayLoadWrapper{
         public String RequestType;
         public String PolicyNumber;
@@ -70,6 +78,11 @@ public with sharing class ABHI_RefundDetails {
     }
     
      //Response Wrapper class
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
+        /**********
+        @Class : IntegrationResponseWrapper
+        @description :  Wrapper class for API response.
+        ***********/
     public class IntegrationResponseWrapper{
         @AuraEnabled
         public ResponseObjWrapper ResponseObj;
@@ -77,6 +90,11 @@ public with sharing class ABHI_RefundDetails {
         public List<ReceiptObjWrapper> ReceiptObj;
        
     }
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.FormalParameterNamingConventions,PMD.VariableNamingConventions')
+    /**********
+        @Class : ResponseObjWrapper
+        @description :  Wrapper class for API response.
+        ***********/
     public class ResponseObjWrapper{ 
          @AuraEnabled
         public Integer Code;
@@ -87,6 +105,11 @@ public with sharing class ABHI_RefundDetails {
             this.Message = responseBody;
         }
     }
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
+    /**********
+        @Class : ReceiptObjWrapper
+        @description :  Wrapper class for API response.
+        ***********/
     public class ReceiptObjWrapper{
         @AuraEnabled
         public String ReceiptNumber;
@@ -94,6 +117,11 @@ public with sharing class ABHI_RefundDetails {
         public List<RefundDetailsWrapper> RefundDetails;
         
     }
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
+     /**********
+        @Class : RefundDetailsWrapper
+        @description :  Wrapper class for API response.
+        ***********/
     public class RefundDetailsWrapper{
         @AuraEnabled
         public String RefundNumber;
