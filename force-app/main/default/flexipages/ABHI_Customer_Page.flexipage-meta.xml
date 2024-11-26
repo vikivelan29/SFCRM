@@ -566,16 +566,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_Chronic__c</fieldItem>
-                <identifier>RecordIs_Chronic_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.CumulativeBonusEarned__c</fieldItem>
                 <identifier>RecordCumulativeBonusEarned_cField</identifier>
             </fieldInstance>
@@ -600,7 +590,17 @@
                 <identifier>RecordCMP_OPD_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-79043263-bd8d-410a-8505-7fc8df483cf4</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Chronic_care__c</fieldItem>
+                <identifier>RecordChronic_care_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-5ddcff42-679d-41fb-92ed-4f1eea09c61f</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -654,17 +654,7 @@
                 <identifier>RecordIs_Chronic_cField2</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Chronic_care__c</fieldItem>
-                <identifier>RecordChronic_care_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-f130745d-32f6-4f3f-aab9-e3d347fa59cb</name>
+        <name>Facet-4051452d-6206-4b87-8ef3-f81e016b744a</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
