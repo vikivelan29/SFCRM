@@ -162,6 +162,12 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         ABHI_Case_Detail__c caseDetail2 = new ABHI_Case_Detail__c();
         INSERT caseDetail2;
 
+        ABHI_Case_Detail__c caseDetail3 = new ABHI_Case_Detail__c();
+        INSERT caseDetail3;
+
+        ABHI_Case_Detail__c caseDetail4 = new ABHI_Case_Detail__c();
+        INSERT caseDetail4;
+
         List<Case> caseList = new List<Case>();
         Case caseRec = new Case();
         caseRec.Business_Unit__c = 'ABHI';
@@ -189,6 +195,31 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         caseRec2.ABHI_Case_Detail__c = caseDetail2.Id;
         caseRec2.Recategorisation_Date__c = System.now();
         caseList.add(caseRec2);
+
+        Case caseRec3 = new Case();
+        caseRec3.Business_Unit__c = 'ABHI';
+        caseRec3.CCC_External_Id__c = 'ABHI_Request_CCC_20';
+        caseRec3.AccountId = objAccount.Id;
+        caseRec3.Technical_Source__c = 'LWC';
+        caseRec3.Type_Text__c = 'Claims';
+        caseRec3.Sub_Type_Text__c = 'CRM-Claims';
+        caseRec3.Source__c = 'Underwriting';
+        caseRec3.AssetId = asst1.Id;
+        caseRec3.ABHI_Case_Detail__c = caseDetail3.Id;
+        caseList.add(caseRec3);
+
+        Case caseRec4 = new Case();
+        caseRec4.Business_Unit__c = 'ABHI';
+        caseRec4.CCC_External_Id__c = 'ABHI_Complaints1';
+        caseRec4.AccountId = objAccount.Id;
+        caseRec4.Technical_Source__c = 'LWC';
+        caseRec4.Type_Text__c = 'Legal / Ombudsman';
+        caseRec4.Sub_Type_Text__c = 'Claim / Service';
+        caseRec4.Source__c = '	Claim Email';
+        caseRec4.AssetId = asst1.Id;
+        caseRec4.ABHI_Case_Detail__c = caseDetail4.Id;
+        caseList.add(caseRec4);
+
         insert caseList;
         
        // Opportunity oppRec = RNWL_TestDataFactory.createOpportunityRecords(objAccount.Id, asst1.Id);//RNWL
