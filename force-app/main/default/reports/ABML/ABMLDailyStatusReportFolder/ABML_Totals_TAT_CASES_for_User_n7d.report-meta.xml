@@ -13,13 +13,19 @@
         <field>PC_$Contact.ABML_Agent_Code__c</field>
     </columns>
     <columns>
+        <field>FK_NAME</field>
+    </columns>
+    <columns>
         <field>Account.ABML_Franchisee_Code__c</field>
+    </columns>
+    <columns>
+        <field>SUBJECT</field>
     </columns>
     <columns>
         <field>Case.Nature__c</field>
     </columns>
     <columns>
-        <field>Case.Type_Text__c</field>
+        <field>TYPE</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
@@ -31,11 +37,7 @@
         <field>DESCRIPTION</field>
     </columns>
     <columns>
-        <field>Case.Created_Date__c</field>
-    </columns>
-    <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>Case.Ageing_Number_Of_Days__c</field>
+        <field>CREATED_DATE</field>
     </columns>
     <description>A bar chart that shows the number of cases that have their TAT Deadline on that day.</description>
     <filter>
@@ -60,7 +62,7 @@
         <field>OWNER</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>ABML Cases With Today&apos;s TAT Deadline</name>
+    <name>ABML Cases With Today&apos;s TAT Dealine</name>
     <params>
         <name>units</name>
         <value>h</value>
