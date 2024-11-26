@@ -77,14 +77,14 @@ public with sharing class ABHI_CaseStageUpdateHelper {
 
                     // Check for specific condition When stage move from  Previous Stage.
                     if ((oldCase.Previous_Stage__c == 'In Progress'|| oldCase.Previous_Stage__c =='Underwriting (In-Progress)'||oldCase.Previous_Stage__c =='Endorsement (In-Progress)') && 
-                        newCase.Stage__c == 'Open' && nature == 'Request' && newCase.Technical_Source__c == 'LWC') {
+                        newCase.Stage__c == 'Open' && nature == 'Request') {
                         newCase.MoveToNext__c = true;
                        }
                     if (
                         nature == 'Request' &&
                         orderValue == 1 &&
                         newCase.Stage__c == stageName &&
-                        newCase.moved_back__c == false && newCase.Technical_Source__c == 'LWC'
+                        newCase.moved_back__c == false
                     ) {
                         newCase.MoveToNext__c = true;
                         
