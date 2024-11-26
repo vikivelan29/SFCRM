@@ -30,6 +30,7 @@
     <label>ABSLAMC Cases with App Support</label>
     <sharedTo>
         <group>ABSLAMC_AIF_All_Teams_G</group>
+        <group>ABSLAMC_ALL_Users</group>
         <group>ABSLAMC_MF_All_Teams_G</group>
         <group>ABSLAMC_PMS_All_Teams_G</group>
         <group>ABSLAMC_RE_All_Teams_G</group>
