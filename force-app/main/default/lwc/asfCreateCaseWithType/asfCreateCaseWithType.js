@@ -407,6 +407,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
+        let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
+        if((selected) && this.sourceFldValue && this.businessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
+            this.isPhoneInbound = true;
+            this.showAniNumber = true;
+        }
         if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU))) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
