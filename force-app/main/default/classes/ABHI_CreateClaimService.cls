@@ -3,13 +3,19 @@
 *Author       :  Kuldeep Mishra
 *Created Date :  23/08/2024
 *Last Modified:  02/09/2024
-*@description :  This webservice is to create Claim records in SFDC.
+*@description :  This class provides a RESTful web service for creating and updating `Claim__c` records in Salesforce.
 ***************************************/
-@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount')
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.AvoidDeeplyNestedIfStmts')
 @RestResource (urlMapping='/CreateClaim')
 global with sharing class ABHI_CreateClaimService {
     
-    @SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.NcssMethodCount,PMD.ApexDoc')
+    @SuppressWarnings('PMD.NcssMethodCount')
+    /**********
+     @Method     : doPost
+     @description: This method handles the HTTP POST requests for the /CreateClaim REST API.
+     * The method processes the incoming JSON payload, validates field mappings with custom mdt, and then 
+     * performs DML operations on the `Claim__c` records.
+     ***********/
     @HttpPost
         global static String doPost(){
            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
@@ -103,7 +109,10 @@ global with sharing class ABHI_CreateClaimService {
                     }                    
                 } 
                 // Upsert claims
-            if (!claimsToProcess.isEmpty()) {
+                //check the user's permissions on the Claim__c object
+               if (Schema.sObjectType.Claim__c.isCreateable() && Schema.sObjectType.Claim__c.isUpdateable()) {
+                // Proceed with upsert if the user has Create and Update permissions on Claim__c
+                if (!claimsToProcess.isEmpty()) {
                 try{
                 upsert claimsToProcess ClaimExternalId__c;
                     return JSON.serialize(new ABHI_ResponseWrapper('200', 'Success', Custom_Messages__mdt.getInstance('ABHI_SuccessMessage').Message__c));
@@ -112,6 +121,11 @@ global with sharing class ABHI_CreateClaimService {
                 hasError = true;
             }
             }
+               } else {
+    // Handle error if the user doesn't have permission to create or update claims
+    integrationResponse.responseBody = logError('Insufficient permissions to create or update Claim records.', requestBody);
+    hasError = true;
+}
         }catch (Exception e){
             integrationResponse.responseBody = logError(Custom_Messages__mdt.getInstance('ABHI_InvalidJson').Message__c, requestBody);
             hasError = true;        
@@ -151,12 +165,20 @@ private static Decimal parseCurrency(String currencyStr) {
     
     
     //wrapper class to hold the request Body.
-    @SuppressWarnings('PMD.ClassNamingConventions,PMD.ApexDoc')
+    @SuppressWarnings('PMD.ClassNamingConventions')
+    /**********
+        @Class : requestwrapper
+        @description :  Wrapper class for API request payload.
+        ***********/
     public class requestwrapper{
-         @SuppressWarnings('PMD.FieldNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
+         @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
         public list<requestListWrapper> Request;
     }
-    @SuppressWarnings('PMD.ClassNamingConventions,PMD.ApexDoc,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
+    @SuppressWarnings('PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.TooManyFields')
+    /**********
+        @Class : requestListWrapper
+        @description :  Wrapper class for API request payload.
+        ***********/
     public class requestListWrapper{
         
         public String Request_Type;
