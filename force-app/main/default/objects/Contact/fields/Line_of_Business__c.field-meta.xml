@@ -30,11 +30,6 @@
                 <label>ABWM</label>
             </value>
             <value>
-                <fullName>ABML</fullName>
-                <default>false</default>
-                <label>ABML</label>
-            </value>
-            <value>
                 <fullName>ABSLI</fullName>
                 <default>false</default>
                 <label>ABSLI</label>
@@ -60,9 +55,14 @@
                 <label>PMS</label>
             </value>
             <value>
-                <fullName>AIF</fullName>
+                <fullName>AIF</fullName> 
                 <default>false</default>
-                <label>AIF</label>
+                <label>AIF</label> 
+            </value>
+            <value>
+                <fullName>RE</fullName>
+                <default>false</default>
+                <label>RE</label>
             </value>
             <value>
                 <fullName>Wellness</fullName>
@@ -70,9 +70,9 @@
                 <label>Wellness</label>
             </value>
             <value>
-                <fullName>RE</fullName>
+                <fullName>ABML</fullName>
                 <default>false</default>
-                <label>RE</label>
+                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>
