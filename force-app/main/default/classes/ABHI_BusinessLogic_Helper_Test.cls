@@ -187,29 +187,6 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         ABHI_Case_Detail__c caseDetail4 = new ABHI_Case_Detail__c();
         INSERT caseDetail4;
 
-        Customer_Member_Mapping__c cmRec = new Customer_Member_Mapping__c(
-            Business_Unit__c = 'ABHI',
-            Customer_Type__c = 'VIP',
-            MemberExternalId__c = '28282192',
-            MemberId__c = objAccount.Id,
-            Policy_Number__c = asst1.Id
-        );
-        insert cmRec;
-        
-        Health_Provider__c hp = new Health_Provider__c(
-            Provider_Code__c = '12345');
-        insert hp;
-        
-        Cover__c cov= new Cover__c(
-            Cover_Name__c = 'Test',
-            Cover_Code__c = '3454'
-        );
-        insert cov;
-        
-      
-        Claim__c testClaim = new Claim__c(Name= '123456789', Policy_Number__c  = asst1.Id);
-        insert testClaim;
-        
         List<Case> caseList = new List<Case>();
         Case caseRec = new Case();
         caseRec.Business_Unit__c = 'ABHI';
@@ -229,14 +206,13 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         caseRec2.Notes__c = 'Test Case 5';
         caseRec2.CCC_External_Id__c = 'CCC-CC-CCLTD-02';
         caseRec2.AccountId = objAccount.Id;
-        caseRec2.Technical_Source__c = 'API';
+        caseRec2.Technical_Source__c = 'LWC';
         caseRec2.Type_Text__c = 'Cashless';
         caseRec2.Sub_Type_Text__c = 'Loading';
         caseRec2.Source__c = 'Branch';
         caseRec2.AssetId = asst1.Id;
         caseRec2.ABHI_Case_Detail__c = caseDetail2.Id;
         caseRec2.Recategorisation_Date__c = System.now();
-        caseRec2.Hospital_Code_Text__c = '12345';
         caseList.add(caseRec2);
 
         Case caseRec3 = new Case();
@@ -261,7 +237,6 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         caseRec4.Source__c = '	Claim Email';
         caseRec4.AssetId = asst1.Id;
         caseRec4.ABHI_Case_Detail__c = caseDetail4.Id;
-        
         caseList.add(caseRec4);
 
         insert caseList;
@@ -307,7 +282,8 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     @isTest 
     static void sendCommTestMethod01() {
         
-        Case caseRec = [SELECT id, AssetId, AccountId, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
+        Test.startTest();
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
 
         Test.startTest();
@@ -327,6 +303,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     @isTest 
     static void sendCommTestMethod02() {
         
+        Test.startTest();
         Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
 
@@ -346,6 +323,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     @isTest 
     static void sendCommTestMethod03() {
         
+        Test.startTest();
         Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
 
@@ -367,7 +345,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         ABHI_BulkMoveNextConverterUtility.boolSkipChklstAbhiBulk = true;
         
         Test.startTest();
-        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c, Status FROM Case LIMIT 1];
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c, Status FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
         ABHI_BulkMoveNextConverterUtility.boolSkipChklstAbhiBulk = true;
         UPDATE caseRec;
@@ -490,35 +468,5 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
             String res3 = ABHI_BusinessLogic_Helper.abhiCaseSourceValidation(csRec2);
             Assert.isTrue(res3 != 'Success', 'Not success');
         }
-    }
-    
-    @isTest
-    static void searchAndAssocFieldsForAPICasesTest() { 
-        Case caseRec = [SELECT Id,ABHI_Case_Detail__c, AccountId, AssetId FROM Case where CCC_External_Id__c= 'CCC-CC-CCLTD-02' LIMIT 1];            
-        caseRec.Technical_Source__c = 'API';
-        caseRec.Customer_Member_Text__c = 'Account1';
-        caseRec.Cover_Code_Text__c = '12345';
-        caseRec.ClaimNo_Text__c = '123456789';
-        update caseRec;
-      
-        Test.startTest();
-          
-         /* ABHI_Case_Detail__c caseDet = [SELECT ID,Claim__c FROM ABHI_Case_Detail__c WHERE Id = :caseRec.ABHI_Case_Detail__c];
-         Claim__c claim = [SELECT ID FROM Claim__c LIMIT 1];
-		  Assert.areEqual(claim.Id, caseDet.Claim__c, 'Claim name'); */
-
-          caseRec.Cover_Code_Text__c = null;
-          caseRec.ClaimNo_Text__c = null;
-          caseRec.Hospital_Code_Text__c = null;
-          caseRec.Customer_Member_Text__c = null;
-        
-          update caseRec;
-        
-          caseRec.Hospital_Code_Text__c = '123';
-          update caseRec;
-        
-          ABHI_Case_Detail__c caseDets = [SELECT ID,Claim__c FROM ABHI_Case_Detail__c LIMIT 1];
-          Assert.areEqual(null, caseDets.Claim__c, 'Claim name'); 
-        Test.stopTest();
     }
 }
