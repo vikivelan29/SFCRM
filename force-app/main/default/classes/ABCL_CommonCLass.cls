@@ -125,9 +125,9 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
-            recordsToUpdate.addAll(recordupdateABFLcaseDetail.values()); // added by vikas
+            
         }
-        
+        recordsToUpdate.addAll(recordupdateABFLcaseDetail.values()); // added by vikas
         if(!recordsToUpdate.isEmpty()){
            // update recordsToUpdate;
 	   Database.update(recordsToUpdate, false);                    // added by vikas
