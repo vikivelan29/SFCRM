@@ -45,8 +45,8 @@ public with sharing class ABHI_CaseDetailHelper {
             
             for(ABHI_Case_Detail__c caseDetailRec : mapOfCaseDetailIdToCaseDetailRec.values()) {
                 String cccExtId = mapofCaseDetailToCase.get(caseDetailRec.Id).CCC_External_Id__c;
-                String typeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId).Type__c;
-                String subTypeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId).Sub_Type__c;
+                String typeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId)?.Type__c ?? '';
+                String subTypeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId)?.Sub_Type__c ?? '';
                 caseDetailRec.Sub_Type__c = typeOfCCC+':'+subTypeOfCCC;
             }
             

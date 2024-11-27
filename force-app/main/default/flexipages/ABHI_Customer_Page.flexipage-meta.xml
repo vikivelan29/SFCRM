@@ -566,16 +566,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_Chronic__c</fieldItem>
-                <identifier>RecordIs_Chronic_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.CumulativeBonusEarned__c</fieldItem>
                 <identifier>RecordCumulativeBonusEarned_cField</identifier>
             </fieldInstance>
@@ -598,6 +588,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.CMP_OPD__c</fieldItem>
                 <identifier>RecordCMP_OPD_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Chronic_care__c</fieldItem>
+                <identifier>RecordChronic_care_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-79043263-bd8d-410a-8505-7fc8df483cf4</name>
@@ -652,16 +652,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Is_Chronic__c</fieldItem>
                 <identifier>RecordIs_Chronic_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Chronic_care__c</fieldItem>
-                <identifier>RecordChronic_care_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-f130745d-32f6-4f3f-aab9-e3d347fa59cb</name>
