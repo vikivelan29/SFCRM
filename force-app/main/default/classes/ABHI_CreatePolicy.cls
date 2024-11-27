@@ -222,6 +222,8 @@ public with sharing class ABHI_CreatePolicy {
         upsert accounts.values() LOB_Client_Code__c ;
         upsert conList UniqueKey__c;
 		Database.UpsertResult results = Database.upsert(policy, Asset.ABHI_Policy_Id__c);
+        
+        System.debug('@@@results'+results);
         //upsert policy LAN__c;
         upsert listCustMemMapping MemberExternalId__c;        
         upsert listLanMap UniqueKey__c;
@@ -236,8 +238,7 @@ public with sharing class ABHI_CreatePolicy {
             List<Previous_Policy_Details__c> previousPolicy = createPreviousPolicy(mapPreviousPolicyList, mapObjectFieldMapping.get('Previous_Policy_Details'), policy);
         	upsert previousPolicy ;
         }
-        ABHI_CreateCRMPolicy.proposalNumber = policyMap.get('ProposalNumber').toString();
-        //return  policyMap.get('ProposalNumber').toString();
+        ABHI_CreateCRMPolicy.proposalNumber = policyMap.get('ProposalNumber').toString();        
     }
     
     /**
@@ -258,7 +259,7 @@ public with sharing class ABHI_CreatePolicy {
                     policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != ''?Date.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):null);
                 }
                 when 'Boolean' {
-                    policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != 'No'?Boolean.valueOf(policyMap.get(policyMapping.split(':')[0]).toString()):false);
+                    policy.put(policyObjectFieldMapping.get(policyMapping), policyMap.get(policyMapping.split(':')[0]) != null && policyMap.get(policyMapping.split(':')[0]) != 'No'?true:false);
                     
                 }
                 when 'ID' {
@@ -324,7 +325,7 @@ public with sharing class ABHI_CreatePolicy {
                         //policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != ''?(Date)(nominee.get(nomineeMapping.split(':')[0])):null);
                     }
                     when 'Boolean' {
-                        policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != 'No'?Boolean.valueOf(nominee.get(nomineeMapping.split(':')[0]).toString()):false); 
+                        policyNominee.put(nomineeFieldMapping.get(nomineeMapping), nominee.get(nomineeMapping.split(':')[0]) != null && nominee.get(nomineeMapping.split(':')[0]) != 'No'?true:false); 
                     }
                     when 'ID' {
                         policyNominee.put(nomineeFieldMapping.get(nomineeMapping), policy.Id);
