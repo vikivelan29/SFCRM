@@ -152,7 +152,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            this.cols = lanLabels[this.loggedInUserBusinessUnit].CTST_COLS != null? lanLabels[this.loggedInUserBusinessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+            this.cols = lanLabels[this.loggedInUserBusinessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
         } else if (error) {
             //this.error = error ;
         }

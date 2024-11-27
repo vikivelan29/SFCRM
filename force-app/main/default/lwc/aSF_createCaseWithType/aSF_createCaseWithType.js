@@ -334,9 +334,12 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-           this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
-           this.faValidMsg = lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE != null? lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE : lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
-           this.withFALabel = lanLabels[this.businessUnit].CREATE_CASE_WITH_FA != null? lanLabels[this.businessUnit].CREATE_CASE_WITH_FA : lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
+           this.cols = lanLabels[this.businessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+           this.faValidMsg = lanLabels[this.businessUnit]?.FA_VALIDATION_MESSAGE || lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
+           this.withFALabel = lanLabels[this.businessUnit]?.CREATE_CASE_WITH_FA || lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
+
+           // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
+           this.adjustAutoCommunications(undefined);
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
@@ -899,7 +902,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
-                    message: lanLabels[this.businessUnit].FA_MANDATORY_PREFRAMEWORK != null? lanLabels[this.businessUnit].FA_MANDATORY_PREFRAMEWORK : lanLabels["DEFAULT"].FA_MANDATORY_PREFRAMEWORK,
+                    message: lanLabels[this.businessUnit]?.FA_MANDATORY_PREFRAMEWORK || lanLabels["DEFAULT"].FA_MANDATORY_PREFRAMEWORK,
                     variant: 'Error',
                 }),
             );
