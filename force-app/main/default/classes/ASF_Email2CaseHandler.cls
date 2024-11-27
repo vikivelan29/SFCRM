@@ -214,7 +214,7 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                         // vikas starts here
                         List<String> tempOldToAddressess = new List<String>(); //poc
                         List<String> tempOldCcAddressess = new List<String>(); //poc
-                        String emailRoutingAddress = [SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: msg.EmailRoutingAddressId].Address; //poc
+                        //String emailRoutingAddress = [SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: msg.EmailRoutingAddressId].Address; //poc
                         if(msg.ToAddress != null){
                        		 tempOldToAddressess = msg.ToAddress.deleteWhitespace().split(';'); //poc    
                         }
