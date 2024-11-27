@@ -5,7 +5,7 @@
 *@description  :  Class for ABHI related Business Logic 
 *********************************************************/
 
-@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity')
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.NcssTypeCount')
 public with sharing class ABHI_BusinessLogic_Helper {
     
     public Map<String, List<Case>> mapOfBUToNewCase;
@@ -683,26 +683,33 @@ public with sharing class ABHI_BusinessLogic_Helper {
 
             //validate the case record
             if(caseCCCExtId != null && issueSourceMap.containsKey(caseCCCExtId)) {    
-                Map<String, ABHI_Create_Case_Validations__mdt> metaDataRecMap = issueSourceMap?.get(caseCCCExtId) ?? new Map<String, ABHI_Create_Case_Validations__mdt>();
-                ABHI_Create_Case_Validations__mdt metaRec = metaDataRecMap?.get(userSourceCode);
-                String validationNameMdt = metaRec?.Validation_Name__c ?? '';
-                List<String> srcMdt = metaRec?.Source__c?.toLowerCase().split(',') ?? new List<String>();
+                Map<String, ABHI_Create_Case_Validations__mdt> userSourceCodeToMetaDataRecMap = issueSourceMap?.get(caseCCCExtId) ?? new Map<String, ABHI_Create_Case_Validations__mdt>();
+                ABHI_Create_Case_Validations__mdt metaRec = new ABHI_Create_Case_Validations__mdt();
+                String validationNameMdt = '';
+                List<String> srcMdt = new List<String>();
+                List<ABHI_Create_Case_Validations__mdt> userSourceCodeToMetaList = userSourceCodeToMetaDataRecMap.values();
 
-                // PR1030924-669
-                if(metaRec == null) {
-                    result = Label.ABHI_Create_Case_Validation_Error_1;
-                }
-                //PR1030924-703
-                if(validationNameMdt == 'Source_Based_Case_Creation_Restriction') {
-                    if(!srcMdt.contains(caseSource)) {
-                        result = metaRec.Error_Message__c;
+                if(userSourceCodeToMetaDataRecMap.containsKey(userSourceCode) && userSourceCodeToMetaDataRecMap.values().size() > 0) {
+                    metaRec = userSourceCodeToMetaDataRecMap?.get(userSourceCode);
+                    validationNameMdt = metaRec?.Validation_Name__c ?? '';
+                    srcMdt = metaRec?.Source__c?.toLowerCase().split(',');
+
+                    //PR1030924-703
+                    if(validationNameMdt == 'Source_Based_Case_Creation_Restriction') {
+                        if(!srcMdt.contains(caseSource)) {
+                            result = metaRec.Error_Message__c;
+                        }
+                    }
+                    // PR1030924-669
+                    else if(validationNameMdt == 'User_Source_Code_Based_Case_Creation_Restriction') {
+                        if(metaRec.User_Source_Code__c == userSourceCode && !srcMdt.contains(caseSource)) {
+                            result = metaRec.Error_Message__c; 
+                        }
                     }
                 }
-                // PR1030924-669
-                else if(validationNameMdt == 'User_Source_Code_Based_Case_Creation_Restriction') {
-                    if(metaRec.User_Source_Code__c == userSourceCode && !srcMdt.contains(caseSource)) {
-                        result = metaRec.Error_Message__c; 
-                    }
+                else {
+                    metaRec = userSourceCodeToMetaList[0];
+                    result = metaRec.Error_Message__c; 
                 }
             }
         }

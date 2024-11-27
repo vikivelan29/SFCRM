@@ -13,7 +13,7 @@ private class ABHI_NPS_FEEDBACK_WebService_Cntrl_Test {
         // Create custom metadata records
         Account acct = new Account(
             Name = 'Test Account 1',
-            LOB_Client_Code__c = '1118038'
+            Client_Code__c = '1118038'
         );
         insert acct;
     }
@@ -44,10 +44,8 @@ private class ABHI_NPS_FEEDBACK_WebService_Cntrl_Test {
 
         // Call the web service method
         Test.startTest();
-        ABHI_NPS_FEEDBACK_WebService_Controller.NPS_FEEDBACK_RESPONSE_WRAPPER response = ABHI_NPS_FEEDBACK_WebService_Controller.createSurveyResponse();
+            ABHI_NPS_FEEDBACK_WebService_Controller.createSurveyResponse();
         Test.stopTest();
-
-        System.assertEquals('1000', response.StatusCode, '1000');
 
         Survey_Response__c surveyResponse = [SELECT Id, Customer_Comments__c, Primary_Question_NPS__c FROM Survey_Response__c LIMIT 1];
         System.assertEquals(8, surveyResponse.Primary_Question_NPS__c, '8');

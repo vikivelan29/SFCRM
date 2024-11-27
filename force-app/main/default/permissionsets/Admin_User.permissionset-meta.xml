@@ -2198,6 +2198,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ASF_Case_Category_Config__c.Save_to_Next_Stage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ASF_Case_Category_Config__c.is_FA_Mandatory__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8424,11 +8429,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>LAN_Mapping__c.LastName__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>LAN_Mapping__c.MemberOfText__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
