@@ -129,17 +129,25 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
         Set<Id> allcaseIds = new Set<Id>();
         
         String replyEmailBusinessUnit = '';
-        
+        Set<String> emailroutAddId = new Set<String>();     // poc 
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
                 allcaseIds.add(msg.ParentId);
+                emailroutAddId.add(msg.EmailRoutingAddressId);          // poc
             }
         }
         
         Map<Id,AggregateResult> mCaseEmailMessageCount = new Map<Id,AggregateResult>([SELECT ParentId Id, COUNT(ID) countOfRec FROM EmailMessage WHERE ParentId =: allcaseIds
                                                                                       GROUP BY ParentId]);
         
+         Map<Id,EmailRoutingAddress> emailboxlist = new map<Id,EmailRoutingAddress> ([SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: emailroutAddId]);  // poc
         
+        Map<Id,String> emailRoutingAdd = new Map<Id,String>();
+        for(EmailMessage msg : newList){
+            if(emailboxlist.containsKey(msg.EmailRoutingAddressId)){                                            // poc
+                emailRoutingAdd.put(msg.Id,emailboxlist.get(msg.EmailRoutingAddressId).Address);                // poc
+            }
+        }        
         
         List<ASF_PriorityEmailAddressesByBU__mdt> priorityEmailMdt = ASF_PriorityEmailAddressesByBU__mdt.getAll().values();
         
@@ -215,11 +223,11 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                         }
 
                         string ToAddressExtended = ''; //poc
-                        if(!tempOldToAddressess.contains(emailRoutingAddress) && !tempOldCcAddressess.contains(emailRoutingAddress)){    
+                        if(!tempOldToAddressess.contains(emailRoutingAdd.get(msg.Id)) && !tempOldCcAddressess.contains(emailRoutingAdd.get(msg.Id))){    
                         	if(msg.ToAddress != null){
-                               ToAddressExtended  = emailRoutingAddress + ';' + msg.ToAddress;   // poc
+                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.ToAddress;   // poc
                             }else{
-                               ToAddressExtended = emailRoutingAddress; //poc
+                               ToAddressExtended = emailRoutingAdd.get(msg.Id); //poc
                             }
                         }
                         if(ToAddressExtended != ''){
