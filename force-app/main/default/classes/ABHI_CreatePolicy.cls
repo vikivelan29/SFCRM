@@ -250,11 +250,9 @@ public without sharing class ABHI_CreatePolicy {
         System.debug('@@@accounts1'+policy);
         upsert accounts.values() LOB_Client_Code__c ;
         upsert conList UniqueKey__c;
-        //upsert policy ABHI_Policy_Id__c;
-
-        Database.UpsertResult results = Database.upsert(policy, Asset.ABHI_Policy_Id__c);
+		Database.UpsertResult results = Database.upsert(policy, Asset.ABHI_Policy_Id__c);
         
-        //System.debug('@@@results'+results);
+        System.debug('@@@results'+results);
         //upsert policy LAN__c;
         upsert listCustMemMapping MemberExternalId__c;        
         upsert listLanMap UniqueKey__c;
