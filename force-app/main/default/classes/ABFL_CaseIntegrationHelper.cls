@@ -14,7 +14,7 @@ public with sharing class ABFL_CaseIntegrationHelper {
             caseDetails.Intent__c=String.isNotBlank(unfydResponse.INTENT)? unfydResponse.INTENT : ''; // New field
             caseDetails.Correct_Call_Type__c= caseCatConfig.Type__c;
             caseDetails.Correct_Sub_Type__c=caseCatConfig.Sub_Type__c;
-            caseDetails.CustomerNo__c=String.isNotBlank(unfydResponse.CUSTOMERNO)? unfydResponse.CUSTOMERNO : '';
+            //caseDetails.CustomerNo__c=String.isNotBlank(unfydResponse.CUSTOMERNO)? unfydResponse.CUSTOMERNO : '';
             caseDetails.IsSMT__c = ( String.isNotBlank(unfydResponse.ISSMT) && unfydResponse.ISSMT == 'Yes') ? true : false;
             caseDetails.IsMultipleintent__c = (String.isNotBlank(unfydResponse.ISMULTIPLEINTENT) && unfydResponse.ISMULTIPLEINTENT == 'Yes') ? true : false; // New field
             caseDetails.LOB__c=String.isNotBlank(unfydResponse.LOB)? unfydResponse.LOB : ''; // New field
@@ -61,6 +61,7 @@ public with sharing class ABFL_CaseIntegrationHelper {
                 caseUpdate.CCC_External_Id__c=unfydResponse.ISSUECODE;
                 caseUpdate.Nature__c=caseCatConfig.Nature__c;
                 caseUpdate.LAN__c=String.isNotBlank(unfydResponse.LAN)? unfydResponse.LAN : '';
+                caseUpdate.Client_Code_Text__c=String.isNotBlank(unfydResponse.CUSTOMERNO)? unfydResponse.CUSTOMERNO : '';
                 //Update the status
                 caseUpdate.Status='Closed Duplicate';
                 Update caseUpdate;
