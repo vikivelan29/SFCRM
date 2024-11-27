@@ -20,8 +20,8 @@ public with sharing class ABHFL_EbotTriggerHelper {
         }
 
         Map<Id,EmailMessage> emailMsgMap = new Map<Id,EmailMessage>([Select Contentdocumentids,HasAttachment,CCAddress,FromAddress,ToAddress,BCCAddress,ParentId,Parent.Description,
-        Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c,Winning_Email__c from EmailMessage where id in: emailMsgIds]);
-
+                                                                     Parent.CaseNumber,Parent.Subject,Parent.Origin,Parent.Business_Unit__c,Winning_Email__c,CreatedById,CreatedDate from EmailMessage where id in: emailMsgIds]);
+        
         //system.debug('emailMsgMap'+emailMsgMap);
 
         List<Id> emailMsgContentDocumentIds = new List<Id>();
@@ -103,11 +103,61 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     }
                     string toAddress = emailMsg.ToAddress;
                     //system.debug('toAddress'+toAddress);
-                    if(emailMsg.Parent.Business_Unit__c == 'ABHFL'){
-                        List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
+                    Map<String, String> fieldsMap = new Map<String, String>();
+                    //Added by Mrinal Tripathi (EYIN) platform event made dynamic
+                    String platformEvent = 'CRM_to_EBOT_Event__e';
+                    String endpointFlag = System.Label.ABFL_GenAIIntegration;
+                    List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = new List<ASF_PriorityEmailAddressesByBU__mdt>();
+                    if(endpointFlag == 'UNFYD'){
+                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_UNFYD__c = true  WITH SYSTEM_MODE];
+                    }
+                    else{
+                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_ebot__c = true  WITH SYSTEM_MODE];
+                    }
+                    //Added by Mrinal Tripathi (EYIN) to trigger the logic when send to UNFYD flag is false
+                    if(emailMsg.Parent.Business_Unit__c == 'ABHFL' && emailAddressBU != null && emailAddressBU[0] != null){
+                        emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
                         if(emailAddressBU.size() > 0){
                             toAddress = emailAddressBU[0].Email2CaseAddress__c;
+                        }
+                        fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
+                        fieldsMap.put('Description__c', emailMsg.Parent.Description);
+                        fieldsMap.put('Line_of_Business__c',LOB);
+                        fieldsMap.put('Business_Unit__c',LOB);
+                        fieldsMap.put('Integration_Name__c','EBOT API');
+                        fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
+                        fieldsMap.put('From_Address__c',emailMsg.FromAddress);
+                        fieldsMap.put('To_Address__c', emailMsg.Winning_Email__c);
+                        fieldsMap.put('Subject__c',emailMsg.Parent.Subject);
+                        fieldsMap.put('Additional_Emails__c',additionalEmails);
+                        fieldsMap.put('File_Names__c',fileNames);
+                    }
+                    //Mrinal Tripathi(EYIN) change for UNFYD starts
+                    
+                    //Trigger this logic only when business unit is ABFL and send to UNFYD flag is set to true
+                    else if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null ){
+                        emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABFL' and Send_To_Ebot__c = false and send_to_UNFYD__c = true WITH SYSTEM_MODE];
+                        if(emailAddressBU.size() > 0){
+                            fileNamesList = generatePublicUrlsForCaseFiles(emailMsg.ParentId);
+                            if(fileNamesList!= null && fileNamesList.size() > 0){
+                                fileNames = String.join(fileNamesList,',');
+                            }
+                            
+                            toAddress = emailAddressBU[0].Email2CaseAddress__c;
+                            fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
+                            fieldsMap.put('Description__c', emailMsg.Parent.Description);
+                            fieldsMap.put('Line_of_Business__c',LOB);
+                            fieldsMap.put('Business_Unit__c',LOB);
+                            fieldsMap.put('Integration_Name__c','EBOT API');
+                            fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
+                            fieldsMap.put('From_Address__c',emailMsg.FromAddress);
+                            fieldsMap.put('To_Address__c', emailMsg.Winning_Email__c);
+                            fieldsMap.put('Subject__c',emailMsg.Parent.Subject);
+                            fieldsMap.put('Additional_Emails__c',additionalEmails);
+                            fieldsMap.put('Attachments_URL__c',fileNames); 
+                            platformEvent = 'CRM_to_UNFYD_EVA_Event__e';
                             //system.debug('toAddress--->'+toAddress);
+                            
                         }
                     }
                     
