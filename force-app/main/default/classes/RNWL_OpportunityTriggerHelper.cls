@@ -171,16 +171,14 @@ public class RNWL_OpportunityTriggerHelper {
 
         for(Asset pol : policiesList){
             
-            if(pol.Dispositions__r.size() == 0){ return; }
+            if(pol.Dispositions__r.size() == 0){ continue; }
             
             for(Dispositions__c disp : pol.Dispositions__r){
-                if(disp.Category__c == 'Renewal' && disp.Renewal_Request__c == null){
-                    updateDispList.add(
+                updateDispList.add(
                         new Dispositions__c(
                             Id = disp.Id, 
                             Renewal_Request__c = oppToPolicyIdMap.get(pol.Id))
-                    );
-                }
+                );
             }
         }
 
@@ -237,7 +235,9 @@ public class RNWL_OpportunityTriggerHelper {
                     (SELECT Id, 
                         Category__c,
                         Renewal_Request__c
-                    FROM Dispositions__r),
+                    FROM Dispositions__r
+                    WHERE Category__c = 'Renewal' 
+                    AND Renewal_Request__c = NULL),
                     (SELECT Id, 
                         Calling_Source__c 
                      FROM Cases)
