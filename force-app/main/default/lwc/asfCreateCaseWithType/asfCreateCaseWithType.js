@@ -412,7 +412,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.isPhoneInbound = true;
             this.showAniNumber = true;
         }
-        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU))) {
+        if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU) || (this.businessUnit === MCRM_BU))) { // PR970457-117 added MCRM_BU
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
@@ -1170,7 +1170,4 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             // setting theme would have no effect
         });
     }
-
-
-
 }
