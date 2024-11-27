@@ -277,6 +277,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         if((selected) && this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
             this.isPhoneInbound = true;
         }
+        let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
+            if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
+                this.showAniNumber = true;
+            }
         if((selected) && selected.Allowed_Issue_Types__c && this.loggedInUserBusinessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
