@@ -666,6 +666,16 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
+                    <value>Facet-4051452d-6206-4b87-8ef3-f81e016b744a</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-5ddcff42-679d-41fb-92ed-4f1eea09c61f</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
