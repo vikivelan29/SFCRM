@@ -116,9 +116,8 @@ public with sharing class ABCL_CommonCLass {
                 if(caseRec.ABFL_Case_Detail__c != null){
                     ABFL_Case_Detail__c detRec = new ABFL_Case_Detail__c(Id=caseRec.ABFL_Case_Detail__c);
                     detRec.Resolution_Comments__c = caseRec.Resolution_Comments__c;
-                    //recordmap.put(detRec.Id,detRec);      
                     recordupdateABFLcaseDetail.put(caseRec.ABFL_Case_Detail__c,detRec);          //added by vikas
-                    recordsToUpdate.add(detRec);
+                    //recordsToUpdate.add(detRec);
                 }
                 if(caseRec.ABHFL_Case_Detail__c != null){
                     ABHFL_Case_Detail__c detRec = new ABHFL_Case_Detail__c(Id=caseRec.ABHFL_Case_Detail__c);
@@ -126,14 +125,14 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
-            recordsToUpdate.addAll(recordupdateABFLcaseDetail.values());        // added by vikas
+            
         }
-        
+        recordsToUpdate.addAll(recordupdateABFLcaseDetail.values());        // added by vikas
         if(!recordsToUpdate.isEmpty()){
             
             // update recordsToUpdate;
             Database.update(recordsToUpdate, false);               // added by vikas
-            update recordsToUpdate;
+            
         }
         
     }
