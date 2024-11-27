@@ -235,6 +235,30 @@ else if(bussHrName.containsIgnoreCase('ABML')) { //Added by EY
         else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
             slaOverwriteIdentifier = '8';
         }
+        else if(calculateMinutes > 1320 && calculateMinutes <= 1440) {
+            slaOverwriteIdentifier = '1';
+        }
+        else if(calculateMinutes > 900 && calculateMinutes <= 960) {
+            slaOverwriteIdentifier = '2';
+        }
+        else if(calculateMinutes > 960 && calculateMinutes <= 1020) {
+            slaOverwriteIdentifier = '3';
+        }
+        else if(calculateMinutes > 1020 && calculateMinutes <= 1080) {
+            slaOverwriteIdentifier = '4';
+        }
+        else if(calculateMinutes > 1080 && calculateMinutes <= 1140) {
+            slaOverwriteIdentifier = '5';
+        }
+        else if(calculateMinutes > 1140 && calculateMinutes <= 1200) {
+            slaOverwriteIdentifier = '6';
+        }
+        else if(calculateMinutes > 1200 && calculateMinutes <= 1260) {
+            slaOverwriteIdentifier = '7';
+        }
+        else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
+            slaOverwriteIdentifier = '8';
+        }
         
         return slaOverwriteIdentifier;
     }
