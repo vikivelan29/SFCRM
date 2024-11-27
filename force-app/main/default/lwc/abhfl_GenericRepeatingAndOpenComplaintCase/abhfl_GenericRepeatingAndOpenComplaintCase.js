@@ -8,7 +8,7 @@ import BUSINESS_UNIT from '@salesforce/schema/Account.Business_Unit__c';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import loggedInUserId from '@salesforce/user/Id';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
-import getsurveyresponsefieldsByAccountId from '@salesforce/apex/Asf_NpsIndicatiorController.getsurveyresponsefieldsByAccountId';
+import getSurveyResponseFieldsByAccountId from '@salesforce/apex/Abhfl_GenericRepeatingAndOpenComplntClas.getSurveyResponseFieldsByAccountId';
 export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends LightningElement {
 
     @api recordId;
@@ -311,7 +311,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         console.log('I m here');
         // this.getCaseRecordCommon();
         this.isloading = true;
-        await getsurveyresponsefieldsByAccountId({
+        await getSurveyResponseFieldsByAccountId({
                 accountId: this.recordId
             })
             .then(data => {
