@@ -49,7 +49,7 @@ export default class Asf_RelateDeduplicateCase extends LightningElement {
             };
             this.parentCaseId = getFieldValue(data, PARENTCASEID_FIELD);
             this.businessUnit = getFieldValue(data, BUSINESS_UNIT_FIELD);
-            this.lanErrorMessage = lanLabels[this.businessUnit].RELATE_DUP_LAN_ERRORMSG != null? lanLabels[this.businessUnit].RELATE_DUP_LAN_ERRORMSG : lanLabels["DEFAULT"].RELATE_DUP_LAN_ERRORMSG;
+            this.lanErrorMessage = lanLabels[this.businessUnit]?.RELATE_DUP_LAN_ERRORMSG || lanLabels["DEFAULT"].RELATE_DUP_LAN_ERRORMSG;
             this.ownerValidation();
         } else if (error) {
             console.error('Error loading record', error);
