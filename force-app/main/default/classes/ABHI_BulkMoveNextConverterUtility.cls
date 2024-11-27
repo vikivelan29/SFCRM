@@ -47,7 +47,7 @@ public with sharing class ABHI_BulkMoveNextConverterUtility implements ASF_BulkC
         Set<String> caseStages = new Set<String>();
         Map<String, Boolean> stageConfigMap = new Map<String, Boolean>();
         Map<Id, Set<String>> recIdToSkipperFlag = new Map<Id, Set<String>>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
             configIds.add(caseRec.CCC_External_Id__c);
             caseStages.add(caseRec.Stage__c);
