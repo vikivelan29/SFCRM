@@ -6605,6 +6605,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>
+        <tab>Customer_Prospect_Search</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>
     </tabSettings>
