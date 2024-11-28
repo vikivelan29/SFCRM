@@ -262,8 +262,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Sum_Assured_Formula__c</fieldItem>
-                <identifier>RecordSum_Assured_Formula_cField</identifier>
+                <fieldItem>Record.Sum_Assured__c</fieldItem>
+                <identifier>RecordSum_Assured_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

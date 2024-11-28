@@ -8,6 +8,7 @@
     <columns>CASES.PRIORITY</columns>
     <columns>CASES.CREATED_DATE_DATE_ONLY</columns>
     <columns>CORE.USERS.ALIAS</columns>
+    <columns>CASES.ESCALATION_STATE</columns>
     <filterScope>Queue</filterScope>
     <label>ABHI Endorsement Team</label>
     <queue>ABHI_Endorsement_Team</queue>
