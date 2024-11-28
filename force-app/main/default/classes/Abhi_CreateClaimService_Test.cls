@@ -14,7 +14,7 @@ public class Abhi_CreateClaimService_Test {
         Asset testAsset = new Asset(Name = 'Test Asset',Policy_No__c='POL123',LAN__c='POL123');
         insert testAsset;
 
-        Health_Provider__c testProvider = new Health_Provider__c(Name = 'Test Provider', Provider_Code__c = 'PRO123');
+        Health_Provider__c testProvider = new Health_Provider__c(Provider_Code__c = 'PRO123');
         insert testProvider;
 
         Account testAccount = new Account(Name = 'Test Account', LOB_Client_Code__c = 'ABHI_1118038');

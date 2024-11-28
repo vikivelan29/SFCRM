@@ -650,36 +650,6 @@
                 <identifier>RecordRejected_Reason_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Sprinklr_Case_Reference_Number__c</fieldItem>
-                <identifier>RecordSprinklr_Case_Reference_Number__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Notes_from_Sprinklr__c</fieldItem>
-                <identifier>RecordNotes_from_Sprinklr__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Latest_Notes__c</fieldItem>
-                <identifier>RecordLatest_Notes__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-ad11d826-8847-4398-95cc-9603254220cf</name>
         <type>Facet</type>
     </flexiPageRegions>

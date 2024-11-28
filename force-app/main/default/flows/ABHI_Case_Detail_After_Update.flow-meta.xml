@@ -115,6 +115,27 @@
                 <elementReference>$Record.Member__r.MemberId__r.Client_Code__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_First_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_Last_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.LastName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_Gender__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.PersonGenderIdentity</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <name>UpdateNomineeFields</name>

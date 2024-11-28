@@ -81,6 +81,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Distributor_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>New_Stage_email_sent__c</field>
             </layoutItems>
             <layoutItems>
@@ -296,6 +300,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>SLA_Broken_DateTime__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Line_Of_Business__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
