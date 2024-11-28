@@ -24,6 +24,9 @@
     <columns>
         <field>Collections__c$Collection_Date__c</field>
     </columns>
+    <columns>
+        <field>Collections__c$Renewal_Request__c.Renewed_Policy__c.Issue_Date__c</field>
+    </columns>
     <format>Tabular</format>
     <name>Payment Collection for Renewal Request</name>
     <params>

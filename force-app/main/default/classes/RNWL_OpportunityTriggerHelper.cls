@@ -203,10 +203,10 @@ public class RNWL_OpportunityTriggerHelper {
             evt.ObjectApiName__c = 'Opportunity';
             evt.Record_Id__c = opp.Id;
             evt.ServiceName__c = 'ShortURLConversion';
-            evt.Request__c = '{"objRequest":{"LongURL":"'+opp.Payment_Link__c?.toString()+'","LOB":"ABHI-RNWL","UserId":"'+System.Label.RNWL_UserId+'","Password":"'+System.Label.RNWL_UserPassword+'"}}';
-        	eventList.add(evt);
+            evt.Request__c = '{"objRequest":{"LongURL":"'+opp.Payment_Link__c?.toString()+'","LOB":"ABCABH","UserId":"'+System.Label.RNWL_UserId+'","ExpiryDay":"210"}}';
+            eventList.add(evt);
         }
-        
+        system.debug('******eventList: ' + eventList);
         if(eventList.size() > 0){
             List<Database.SaveResult> results = EventBus.publish(eventList);
             for (Database.SaveResult sr : results) {
@@ -257,5 +257,4 @@ public class RNWL_OpportunityTriggerHelper {
             WHERE Id IN :oppIds
         ];
     }
-    
 }

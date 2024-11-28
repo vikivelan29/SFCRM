@@ -1587,7 +1587,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_UbonaCampaignId</shortDescription>
-        <value>40404041</value>
+        <value>40404049</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_SprinklrUpdateSpecificBUs</fullName>
@@ -1694,7 +1694,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_UserId</shortDescription>
-        <value>ClickPassProd</value>
+        <value>SFDC_ABHI</value>
     </labels>
     <labels>
         <fullName>RNWL_UserPassword</fullName>
