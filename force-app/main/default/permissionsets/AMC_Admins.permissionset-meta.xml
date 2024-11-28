@@ -2995,6 +2995,11 @@
         <field>Contact.GenderIdentity</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Conversion_Details__c.ARN_Code__c</field>
