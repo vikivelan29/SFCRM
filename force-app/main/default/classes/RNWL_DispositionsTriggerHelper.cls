@@ -52,7 +52,6 @@ public class RNWL_DispositionsTriggerHelper {
                         dispObj.Priority__c = priority;
                         dispObj.Dashboard_Category__c = dashboard;
                         dispositionsItemsToUpdate.add(dispObj);
-                        break;
                     }  
             }
             if(!dispositionsItemsToUpdate.isEmpty()){
@@ -112,51 +111,44 @@ public class RNWL_DispositionsTriggerHelper {
     // this method signature should be redeployed so commenting around the signature
         Set<Id> oppIds = new Set<Id>();
 
-        try{
-            for(Dispositions__c dis : newItems){
-                if(oldItems == null 
-                || oldItems.get(dis.Id).Renewal_Request__c != dis.Renewal_Request__c 
-                || oldItems.get(dis.Id).Priority__c != dis.Priority__c){
-                    if(dis.Renewal_Request__c != null)oppIds.add(dis.Renewal_Request__c);
-                }
-            }
-    
-            if(oppIds.size() > 0){
-                List<Opportunity> relatedRenewalReq = [SELECT Id, OwnerId ,
-                                                            (SELECT ID,Priority__c ,Agent_Name__c,Call_Date_Time__c
-                                                            FROM Dispositions__r ORDER BY CreatedDate DESC)
-                                                       FROM Opportunity WHERE ID IN:oppIds ];
-                
-                for(Opportunity opp : relatedRenewalReq){
-                    opp.Latest_Disposition__c = opp.Dispositions__r[0].Id;
-                    Integer priority;
-                    DateTime callDateTime;
-                    for(Dispositions__c disp : opp.Dispositions__r){
-                        if(disp.Priority__c != null 
-                        && (priority == null || 
-                            Integer.valueOf(disp.Priority__c) < priority || 
-                            (callDateTime != null && Integer.valueOf(disp.Priority__c) ==  priority && disp.Call_Date_Time__c >  callDateTime))){
-
-                            callDateTime = disp.Call_Date_Time__c;
-                            priority = Integer.valueOf(disp.Priority__c);
-
-                            opp.Best_Disposition__c = disp.Id;
-                            if(disp.Agent_Name__c != null && opp.OwnerId != disp.Agent_Name__c){
-                                opp.OwnerId = disp.Agent_Name__c;
-                            }
-                        }
-                    }
-                    // this line should be redeployed so commenting around the signature
-                    //Disposition Count Update on Opp
-                    opp.Disposition_Count__c = opp.Dispositions__r.size();
-                    // this line should be redeployed so commenting around the signature
-                }       
-                
-                
-                update relatedRenewalReq;
-            }
-        }catch(Exception e){
-            System.debug(e.getMessage());
+        for(Dispositions__c dis : newItems){
+            if(oldItems == null 
+               || oldItems.get(dis.Id).Renewal_Request__c != dis.Renewal_Request__c 
+               || oldItems.get(dis.Id).Priority__c != dis.Priority__c){
+                   if(dis.Renewal_Request__c != null)oppIds.add(dis.Renewal_Request__c);
+               }
         }
+        
+        if(oppIds.size() == 0){return;}
+        List<Opportunity> relatedRenewalReq = [SELECT Id, OwnerId ,
+                                               (SELECT ID,Priority__c ,Agent_Name__c,Call_Date_Time__c
+                                                FROM Dispositions__r ORDER BY CreatedDate DESC)
+                                               FROM Opportunity WHERE ID IN:oppIds ];
+        
+        for(Opportunity opp : relatedRenewalReq){
+            opp.Latest_Disposition__c = opp.Dispositions__r[0].Id;
+            Integer priority;
+            DateTime callDateTime;
+            for(Dispositions__c disp : opp.Dispositions__r){
+                if(disp.Priority__c != null 
+                   && (priority == null || 
+                       Integer.valueOf(disp.Priority__c) < priority || 
+                       (callDateTime != null && Integer.valueOf(disp.Priority__c) ==  priority && disp.Call_Date_Time__c >  callDateTime))){
+                           
+                           callDateTime = disp.Call_Date_Time__c;
+                           priority = Integer.valueOf(disp.Priority__c);
+                           
+                           opp.Best_Disposition__c = disp.Id;
+                           if(disp.Agent_Name__c != null && opp.OwnerId != disp.Agent_Name__c){
+                               opp.OwnerId = disp.Agent_Name__c;
+                           }
+                       }
+            }
+            // this line should be redeployed so commenting around the signature
+            //Disposition Count Update on Opp
+            opp.Disposition_Count__c = opp.Dispositions__r.size();
+            // this line should be redeployed so commenting around the signature
+        }       
+        update relatedRenewalReq;
     }
 }
