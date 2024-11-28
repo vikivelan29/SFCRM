@@ -101,7 +101,7 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     if(caseIdCaseIntegrationMap.containsKey(emailMsg.ParentId)){
                         caseIntegrationId = caseIdCaseIntegrationMap.get(emailMsg.ParentId).Name;
                     }
-                    string toAddress = emailMsg.ToAddress;
+                   
                     //system.debug('toAddress'+toAddress);
                     Map<String, String> fieldsMap = new Map<String, String>();
                     //Added by Mrinal Tripathi (EYIN) platform event made dynamic
@@ -116,7 +116,7 @@ public with sharing class ABHFL_EbotTriggerHelper {
                         emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_ebot__c = true  WITH SYSTEM_MODE];
                     }
                     
-                   	if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null ){
+                    if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null ){
                         emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABFL' and Send_To_Ebot__c = false and send_to_UNFYD__c = true WITH SYSTEM_MODE];
                         if(emailAddressBU.size() > 0){
                             fileNamesList = generatePublicUrlsForCaseFiles(emailMsg.ParentId);
@@ -124,7 +124,7 @@ public with sharing class ABHFL_EbotTriggerHelper {
                                 fileNames = String.join(fileNamesList,',');
                             }
                             
-                            toAddress = emailAddressBU[0].Email2CaseAddress__c;
+                            
                             fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
                             fieldsMap.put('Description__c', emailMsg.Parent.Description);
                             fieldsMap.put('Line_of_Business__c',LOB);
@@ -143,9 +143,14 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     }
                     //Added by Mrinal Tripathi (EYIN) to trigger the logic when send to UNFYD flag is false
                     else{
-                        emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
-                        if(emailAddressBU.size() > 0){
-                            toAddress = emailAddressBU[0].Email2CaseAddress__c;
+                        string toAddress = emailMsg.ToAddress;
+                        //system.debug('toAddress'+toAddress);
+                        if(emailMsg.Parent.Business_Unit__c == 'ABHFL'){
+                            emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
+                            if(emailAddressBU.size() > 0){
+                                toAddress = emailAddressBU[0].Email2CaseAddress__c;
+                                //system.debug('toAddress--->'+toAddress);
+                            }
                         }
                         fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
                         fieldsMap.put('Description__c', emailMsg.Parent.Description);
@@ -172,14 +177,14 @@ public with sharing class ABHFL_EbotTriggerHelper {
     }
     public static List<String> generatePublicUrlsForCaseFiles(Id caseId) {
         List<String> publicUrls = new List<String>();
-
+        
         // Query ContentDocument IDs linked to the Case
         List<ContentDocumentLink> fileLinks = [
             SELECT ContentDocumentId 
             FROM ContentDocumentLink 
             WHERE LinkedEntityId = :caseId
         ];
-
+        
         for (ContentDocumentLink link : fileLinks) {
             // Fetch the latest version of the ContentDocument
             ContentVersion contentVersion = [
@@ -189,7 +194,7 @@ public with sharing class ABHFL_EbotTriggerHelper {
                 ORDER BY CreatedDate DESC 
                 LIMIT 1
             ];
-
+            
             // Create a ContentDistribution (public link)
             ContentDistribution cd = new ContentDistribution();
             cd.Name = 'Public Link for Case File';
@@ -199,11 +204,11 @@ public with sharing class ABHFL_EbotTriggerHelper {
             cd.PreferencesNotifyOnVisit = false;    // Optional: No notifications
             cd.PreferencesLinkLatestVersion = true; // Links to the latest version
             insert cd;
-
+            
             // Add the public URL to the list
             publicUrls.add(cd.DistributionPublicUrl);
         }
-
+        
         return publicUrls;
     }
 }
