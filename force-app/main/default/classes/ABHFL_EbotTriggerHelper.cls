@@ -111,31 +111,12 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     if(endpointFlag == 'UNFYD'){
                         emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_UNFYD__c = true  WITH SYSTEM_MODE];
                     }
+                    
                     else{
                         emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_ebot__c = true  WITH SYSTEM_MODE];
                     }
-                    //Added by Mrinal Tripathi (EYIN) to trigger the logic when send to UNFYD flag is false
-                    if(emailMsg.Parent.Business_Unit__c == 'ABHFL' && emailAddressBU != null && emailAddressBU[0] != null){
-                        emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
-                        if(emailAddressBU.size() > 0){
-                            toAddress = emailAddressBU[0].Email2CaseAddress__c;
-                        }
-                        fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
-                        fieldsMap.put('Description__c', emailMsg.Parent.Description);
-                        fieldsMap.put('Line_of_Business__c',LOB);
-                        fieldsMap.put('Business_Unit__c',LOB);
-                        fieldsMap.put('Integration_Name__c','EBOT API');
-                        fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
-                        fieldsMap.put('From_Address__c',emailMsg.FromAddress);
-                        fieldsMap.put('To_Address__c', emailMsg.Winning_Email__c);
-                        fieldsMap.put('Subject__c',emailMsg.Parent.Subject);
-                        fieldsMap.put('Additional_Emails__c',additionalEmails);
-                        fieldsMap.put('File_Names__c',fileNames);
-                    }
-                    //Mrinal Tripathi(EYIN) change for UNFYD starts
                     
-                    //Trigger this logic only when business unit is ABFL and send to UNFYD flag is set to true
-                    else if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null ){
+                   	if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null ){
                         emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABFL' and Send_To_Ebot__c = false and send_to_UNFYD__c = true WITH SYSTEM_MODE];
                         if(emailAddressBU.size() > 0){
                             fileNamesList = generatePublicUrlsForCaseFiles(emailMsg.ParentId);
@@ -160,6 +141,28 @@ public with sharing class ABHFL_EbotTriggerHelper {
                             
                         }
                     }
+                    //Added by Mrinal Tripathi (EYIN) to trigger the logic when send to UNFYD flag is false
+                    else{
+                        emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
+                        if(emailAddressBU.size() > 0){
+                            toAddress = emailAddressBU[0].Email2CaseAddress__c;
+                        }
+                        fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
+                        fieldsMap.put('Description__c', emailMsg.Parent.Description);
+                        fieldsMap.put('Line_of_Business__c',LOB);
+                        fieldsMap.put('Business_Unit__c',LOB);
+                        fieldsMap.put('Integration_Name__c','EBOT API');
+                        fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
+                        fieldsMap.put('From_Address__c',emailMsg.FromAddress);
+                        fieldsMap.put('To_Address__c', emailMsg.Winning_Email__c);
+                        fieldsMap.put('Subject__c',emailMsg.Parent.Subject);
+                        fieldsMap.put('Additional_Emails__c',additionalEmails);
+                        fieldsMap.put('File_Names__c',fileNames);
+                    }
+                    //Mrinal Tripathi(EYIN) change for UNFYD starts
+                    
+                    //Trigger this logic only when business unit is ABFL and send to UNFYD flag is set to true
+                    
                     //Mrinal Tripathi(EYIN) change for UNFYD change ends
                     //system.debug('fieldsMap'+fieldsMap);
                     Database.SaveResult eventResult = ABHFL_CasePlatformEventHandler.publishPlatformEvent(platformEvent, fieldsMap);
