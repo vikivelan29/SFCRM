@@ -29,8 +29,8 @@ public with sharing class ABHI_CaseDetailHelper {
         if(mapofCaseDetailToCase.keySet().size() > 0) {
             Map<Id, ASF_Case_Category_Config__c> mapOfCCCIdToCCCRec = new Map<Id, ASF_Case_Category_Config__c>([
                 SELECT Id, Type__c, Sub_Type__c, CCC_External_Id__c
-            	FROM ASF_Case_Category_Config__c
-            	WHERE CCC_External_Id__c IN :listOfcccExtIds
+                FROM ASF_Case_Category_Config__c
+                WHERE CCC_External_Id__c IN :listOfcccExtIds
             ]);
             
             Map<Id, ABHI_Case_Detail__c> mapOfCaseDetailIdToCaseDetailRec = new Map<Id, ABHI_Case_Detail__c>([
@@ -139,7 +139,9 @@ public with sharing class ABHI_CaseDetailHelper {
                 Case cs = mapofCaseDetailToReopenedCase.get(abhiCaseDet.Id);
                  if(cs != null) {
                      abhiCaseDet.Case_Reopened_By__c = cs.OwnerText__c;
-                     abhiCaseDet.Case_Reopened_By_Id__c = cs.OwnerId;
+                     if(String.valueOf(cs.OwnerId).startsWith('005')){
+                         abhiCaseDet.Case_Reopened_By_Id__c = cs.OwnerId;
+                     }
                      abhiCaseDetList.add(abhiCaseDet);
                  }
             }

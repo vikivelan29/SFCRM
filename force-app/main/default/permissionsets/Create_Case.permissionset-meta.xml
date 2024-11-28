@@ -4871,7 +4871,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Asset.Sum_Assured_Formula__c</field>
+        <field>Asset.Sum_Assured__c</field>
         <readable>true</readable>
     </fieldPermissions>	
     <fieldPermissions>
