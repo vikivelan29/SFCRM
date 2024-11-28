@@ -1,0 +1,44 @@
+<template>
+    <lightning-card>
+    
+        <h2 slot="title">Case Indicator</h2>
+                <template if:true={caseData}>
+                    <div class="slds-grid slds-wrap" style="padding-inline: 10px;">
+                        <template for:each={caseData} for:item="caseCategory">
+                            <div key={caseCategory.category} class="slds-col slds-size_1-of-3 customcase-box">
+                                <h2><b>{caseCategory.category}</b></h2>
+                                <p class="text-6xl">{caseCategory.count} Cases</p>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <template if:true={noCaseData}>
+                    <div class="slds-text-color_error slds-p-around_medium">
+                        <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+                        No Case data found.
+                    </div>
+                </template>
+       
+                <h2 class="npsHeading"><b>Latest NPS Indicator</b></h2>
+            <template if:true={npsData}>
+                <div class="slds-grid slds-wrap" style="padding-inline: 10px;">
+                    <template for:each={npsData} for:item="npsItem">
+                        <div key={npsItem.key} class="slds-col slds-size_1-of-3 customnps-box">
+                            <p class="nps-key">{npsItem.key}</p>
+                            <p class={npsItem.cssClass} style="text-align: center;">
+                                {npsItem.value}
+                            </p>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template if:true={nonpsData}>
+                <div class="slds-text-color_error slds-p-around_medium">
+                    <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    No NPS data found.
+                </div>
+            </template>
+       
+
+</lightning-card>
+</template>

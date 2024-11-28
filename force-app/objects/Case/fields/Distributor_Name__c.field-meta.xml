@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distributor_Name__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Used for ABSLAMC BU to create a case On Behalf of Distributor.</description>
+    <label>Distributor Name</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+        <errorMessage>Distributor should belong to the LOB of the case.</errorMessage>
+        <filterItems>
+            <field>Account.RecordType.Name</field>
+            <operation>contains</operation>
+            <value>Distributor</value>
+        </filterItems>
+        <filterItems>
+            <field>Account.Line_of_Business__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Line_Of_Business__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Account.Line_of_Business__pc</field>
+            <operation>equals</operation>
+            <valueField>$Source.Line_Of_Business__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Cases</relationshipLabel>
+    <relationshipName>Cases</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

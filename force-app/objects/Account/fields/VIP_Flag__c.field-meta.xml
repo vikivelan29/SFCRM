@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VIP_Flag__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This checkbox is used to identify whether an account has VIP privileges or not</description>
+    <label>VIP Flag</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

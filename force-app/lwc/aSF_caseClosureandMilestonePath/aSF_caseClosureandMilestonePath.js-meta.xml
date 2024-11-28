@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+	<apiVersion>58.0</apiVersion>
+	<isExposed>true</isExposed>
+	<targets>
+		<target>lightning__RecordPage</target>
+		<target>lightning__AppPage</target>
+		<target>lightning__HomePage</target>
+		<target>lightningCommunity__Page</target>
+		<target>lightningCommunity__Default</target>
+	</targets>
+	<targetConfigs>
+		<targetConfig targets="lightningCommunity__Default">
+			<property
+				name="recordId"
+				type="String"
+				label="Record Id"
+				description="Pass the page's record id to the component variable"
+				default="{!recordId}" />
+		</targetConfig>
+		<targetConfig targets="lightning__RecordPage">
+			<property name="displayType" label="Display Type" type="String"
+			datasource="Timer,Date" description="Timer will display how much business hours/mins left for each SLA, Date will display the SLA dates only"/>
+			<property name="primarySLA" label="Primary SLA for display" type="String"
+			datasource="sla1,sla2,sla3" description="This SLA will be shown next to overall SLA"/>
+		</targetConfig>
+	</targetConfigs>
+</LightningComponentBundle>

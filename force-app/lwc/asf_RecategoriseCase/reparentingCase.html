@@ -1,0 +1,279 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-quick-action-panel header="Case Type Recategorize" class="slds-is-relative">
+        <template if:false={loaded}>
+            <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
+        </template>
+
+        <!-- OPTION TO SELECT IF THE REPARENTING OR RECATEGORISATION-->
+        <template if:true={showRecategorisationOptions}>
+            <lightning-layout vertical-align="center" class="x-large">
+                <lightning-layout-item flexibility="auto" padding="around-small">
+
+                    <div class="slds-box" style="cursor: pointer;" onclick={handleChangeAsset}>
+                        <p class="slds-align_absolute-center"><b>I want to change Customer & Asset on case</b></p>
+                    </div>
+
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small">
+                    <div class="slds-box" style="cursor: pointer;" onclick={handleChangeCTST}>
+                        <p class="slds-align_absolute-center"><b>I want to change Type and Sub-Type on case</b></p>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+        <!-- OPTION ENDS HERE-->
+
+
+        <!-- SHOW CUSTOMER SELECTION TABLE-->
+        <template if:true={isAssetChange}>
+            <template if:true={showCustomerSelection}>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_2-of-3 slds-m-left_medium">
+                        <lightning-input type="text" onchange={valChange} label="Customer Search"
+                            placeholder={assetSearchPlaceholder}></lightning-input>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters slds-m-left_medium">
+                    <div class="slds-size_1-of-1 ">
+                        <br />
+                        <strong>Select Customer </strong>
+                        <lightning-datatable key-field="recordId" data={accData} data-id="accTable" class="colorWhite"
+                            max-row-selection=1 onrowselection={handleAccAction} columns={accCols}
+                            selected-rows={preSelectedRows}>
+                        </lightning-datatable>
+                    </div>
+                </div>
+
+                <br /><br />
+
+                <!-- Virendra : Added check to show LAN only when the selected record is Customer. For Prospect don't show the LAN records.-->
+                <template if:true={showLANForCustomer}>
+
+                    <div class="slds-grid slds-gutters  slds-m-left_medium">
+                        <div class="slds-size_1-of-1">
+                            <br /><br />
+                            <lightning-layout>
+                                <lightning-layout-item class="slds-p-top_small">
+                                    <strong> {selectLan} </strong> &nbsp;
+                                </lightning-layout-item>
+                                <lightning-layout-item class="">
+                                    <lightning-input type="search" variant="label-hidden"
+                                        onchange={handleSearch}></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <br />
+                            <div style="overflow-x: auto;">
+                                <lightning-datatable key-field="Id" data-id="asstTable" max-row-selection="1"
+                                    data={currentCustomersAssets} class="colorWhite" columns={asstCols}
+                                    onrowselection={handleAsstAction}>
+                                </lightning-datatable>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+
+                <br>
+
+                <template if:true={showWhenCCCEligible}>
+                    <div class="slds-box slds-box_small" data-id="eligiblebox">
+                        <p><b>{eligibleWithNewCustomerCSTSMsg}</b></p>
+                        <br />
+                        <lightning-button variant="brand-outline" label={recategorisationBtn1Lable}
+                            onclick={handleAccountAssetUpd} class="slds-m-left_x-small"></lightning-button>
+                        <lightning-button variant="brand-outline" label={recategorisationBtn2Lable}
+                            onclick={handleProceedToRecategorised} class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                </template>
+                <template if:true={showWhenCCCNotEligible}>
+                    <div class="slds-box slds-box_small" data-id="noneligiblebox">
+                        <p><b>{noneligibleWithNewCustomerCSTMsg}</b></p>
+                        <br />
+                        <lightning-button variant="brand-outline" label={recategorisationBtn2Lable}
+                            onclick={handleProceedToRecategorised} class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                </template>
+            </template>
+        </template>
+        <!-- CUSTOMER SELECTION ENDS HERE.-->
+
+        <template if:false={showApproval}>
+        <template if:true={showRecategorisationDiv}>
+            <!--<div class="slds-form" role="list">
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                <abbr class="slds-required" title="required"></abbr>Customer Selected</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <p>{selectedCustomerName}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">Client Code</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <p>{selectedCustomerClientCode}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form" role="list">
+                <div class="slds-form__row">
+                    <div class="slds-form__item" role="listitem">
+                        <div
+                            class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                            <span class="slds-form-element__label">
+                                <abbr class="slds-required" title="required"></abbr>Loan Account Number</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">
+                                    <p>{selectedLoanAccNumber}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <template if:true={loaded}>
+                <lightning-layout multiple-rows="true" vertical-align="end">
+                    <lightning-layout-item size="8" padding="around-small">
+                        <lightning-input type="search" label="" value={searchKey} onchange={handelSearchKey}>
+                        </lightning-input>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="4" padding="around-small">
+                        <lightning-button label="Search" variant="brand" onclick={searchTypeSubtypeHandler}>
+                        </lightning-button>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="12" padding="around-small">
+                        <template if:true={boolShowNoData}>
+                            <lightning-formatted-text value={strNoDataMessage}></lightning-formatted-text>
+                        </template>
+
+                        <template if:false={boolShowNoData}>
+                            <lightning-datatable key-field="id" data={accounts} columns={cols} max-row-selection="1"
+                                onrowselection={getSelectedName} class="slds-max-medium-table_stacked">
+                            </lightning-datatable>
+                        </template>
+
+                        <br>
+                        <template if:true={createCaseWithAll}>
+                            <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_dark"
+                                role="status">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon-utility-info" title="information">
+                                        <lightning-icon icon-name="utility:info" alternative-text="Update Case"
+                                            title="Update Case" size="small" variant="inverse"></lightning-icon>
+                                        <span class="slds-assistive-text">information</span>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body">
+                                    <p>Please select the following values to recategorize a service request</p>
+                                </div>
+                            </div>
+
+                            <br>
+
+
+                            <lightning-record-edit-form object-api-name="Case" record-id={recordId} data-id="caseEditForm" onload={resetToBlank}>
+                                <lightning-messages></lightning-messages>
+                                <lightning-input-field field-name="Recategorisation_Reason__c" data-id="rejectReason"
+                                    required=true value={rejectionReasonVal}>
+                                </lightning-input-field>
+                                <lightning-input-field class="slds-hide" field-name="Business_Unit__c" data-id="bizUnit" style="display: none;">
+                                </lightning-input-field>
+                                <template if:true={showBotFeedbackDropdown}>
+                                    <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback" required=true
+                                        value={botFeedbackVal} onchange={handleBotDropdown}>
+                                    </lightning-input-field>
+                                </template>
+                                <template if:true={isAllNature}>
+                                    <lightning-input-field field-name="Nature__c" data-id="natureField" required=true
+                                        onchange={handleNatureVal} value={natureVal}>
+                                    </lightning-input-field>
+                                </template>
+                                <template if:true={isAllProduct}>
+                                    <lightning-input-field field-name="Product__c" data-id="productField" required=true
+                                        onchange={handleProductVal} value={productVal}>
+                                    </lightning-input-field>
+                                </template>
+                            </lightning-record-edit-form>
+
+                            <template if:true={isRequestAndQuery}>
+                                <lightning-combobox value={natureVal} label="Nature" options={natureValues}
+                                    onchange={handleChangeNature} required>
+                                </lightning-combobox>
+                            </template>
+                            <template if:true={showIssueType}>
+                                <div class="slds-form_horizontal slds-form slds-grid slds-wrap">
+                                    <lightning-combobox class="validate slds-size_1-of-1" name="issueType" label="Issue Type" data-id="issueType"
+                                    value={issueTypeVal} onchange={handleIssueTypeChange} options={issueTypeOptions} required ></lightning-combobox>
+                                </div>
+                            </template>
+
+                            <template if:true={showBotFeedback}>
+                                <lightning-layout-item size="8" padding="around-small">
+                                    <lightning-input type="checkbox" label="Send Bot Feedback" value={sendBotFeedback}
+                                        onchange={handleBotFeedback} checked>
+                                    </lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                        </template>
+
+                        <template if:true={complaintLevelVisible}>
+                            <lightning-record-edit-form object-api-name="Case">
+                                <lightning-input-field class="slds-hide" variant="label-stacked"
+                                    field-name="Complaint_Level__c" value={caseComplaintLevel} data-id="Source">
+                                </lightning-input-field>
+                                <lightning-input-field style="margin-left: -3px;" variant="label-stacked"
+                                    field-name="Sub_source__c" data-id="SubSource" required=true
+                                    onchange={handleSubSource} value={subsourceSelected}>
+                                </lightning-input-field>
+                            </lightning-record-edit-form>
+                            <lightning-input type="text" disabled value={selectedSRCategory}
+                                label="SR Category"></lightning-input>
+                        </template>
+
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+
+        </template>
+        <template if:false={recategorizeEnabled}>
+            <div class="slds-box">
+                <p>Case is not eligible for Recategorization</p>
+            </div>
+            
+        </template>
+        <template if:true={approvalPending}>
+            <div class="slds-box">
+                <p>This case is under Approval for Recategorization</p>
+            </div>
+            
+        </template>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
+            <template if:true={recategorizeEnabled}>
+                <lightning-button label="Submit" variant="brand" class="slds-p-left_x-small" disabled={isNotSelected}
+                onclick={handleUpdate}></lightning-button>
+            </template>
+            
+        </div>
+        </template>
+    </lightning-quick-action-panel>
+    <template if:true={showApproval}>
+        <c-asf_case-manual-approval record-id={recordId} object-api-name="Case" is-recat-request={isTrue}
+        type-sub-type-text={newTypeSubType} onclosescreen={closeAction} onsubmitcase={updateCaseHandlerNew}> </c-asf_case-manual-approval>      
+    </template>
+</template>

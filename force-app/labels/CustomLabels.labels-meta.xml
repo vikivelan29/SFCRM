@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>ABAMC_NonMandatoryUnresCommentsBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABAMC_NonMandatoryUnresCommentsBUs</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC BU</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_BackStageSatisfactoryReolyType</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_BackStageSatisfactoryReolyType</shortDescription>
+        <value>Reply Type cannot be Satisfactory while moving to Pending With CAMS Stage</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Back_Stage_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Back Stage Movement Error</shortDescription>
+        <value>You Can not go directly to the &quot;Open&quot; Stage.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CAMSMandatoryFieldsErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CAMSMandatoryFieldsErrorMsg</shortDescription>
+        <value>Please fill in the mandatory fields:</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseAssignmentQueueNames</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseAssignmentQueueNames</shortDescription>
+        <value>ABSLAMC MF Issue Management Unit</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseDuplicateAdminByPass</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseDuplicateAdminByPass</shortDescription>
+        <value>System Administrator,***System Admin</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_CaseSourcesforAssignment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_CaseSourcesforAssignment</shortDescription>
+        <value>Call Centre</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Case_Dedupe_Active</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Case Dedupe Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_ClosureReplyTypeForCAMSErrorMsg</shortDescription>
+        <value>Reply Type can only be Satisfactory while resolving a Case.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Duplicate_Case_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Duplicate Case Error Message</shortDescription>
+        <value>Duplicate case: A case (&lt;CaseNumber&gt;) with same criteria is already open with source as &lt;SOURCE&gt;.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Forward_Movement_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Forward Movement Error</shortDescription>
+        <value>Movement to this stage can only be done through CAMS</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Litmus_Allowed_CallerTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Litmus Allowed CallerTypes</shortDescription>
+        <value>Investor</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Litmus_Allowed_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Litmus Allowed Sources</shortDescription>
+        <value>Phone - Call Centre;Email - Call Centre;Branch Walk-In;Email - Branch</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_MandatoryApprovalRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_MandatoryApprovalRequired</shortDescription>
+        <value>The latest approval record must be approved for mandatory approval stages.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_NoApprovalRecordsFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_NoApprovalRecordsFound</shortDescription>
+        <value>Mandatory approval stage requires at least one approval record.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_NonMandatoryAppErrMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_NonMandatoryAppErrMsg</shortDescription>
+        <value>For non-mandatory stages, the latest approval must be approved or recalled.</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_Queue_error_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC Queue error message</shortDescription>
+        <value>Selected Queue is not from the Same LOB</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_SprinklrUpdateSpecificBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_SprinklrUpdateSpecificBUs</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ASF_BUs_Eligible_For_IDAM_Processing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF BUs Eligible For IDAM Processing</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ASF_List_of_BUs_To_AutoSelect_Single_Asset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+</CustomLabels>

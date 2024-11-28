@@ -1,0 +1,12 @@
+.custombox{
+    font-size: 1rem; 
+}
+.custom-tile {
+	display: block;
+	border: 1px solid #d2955d;
+	border-radius: .25rem;
+	background-color: #fae8d2;
+}
+.btnClass {
+    width: 500px;
+}
