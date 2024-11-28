@@ -15,14 +15,14 @@
             <value>Distributor</value>
         </filterItems>
         <filterItems>
-            <field>$Source.Line_Of_Business__c</field>
+            <field>Account.Line_of_Business__c</field>
             <operation>equals</operation>
-            <valueField>Account.Line_of_Business__c</valueField>
+            <valueField>$Source.Line_Of_Business__c</valueField>
         </filterItems>
         <filterItems>
-            <field>$Source.Line_Of_Business__c</field>
+            <field>Account.Line_of_Business__pc</field>
             <operation>equals</operation>
-            <valueField>Account.Line_of_Business__pc</valueField>
+            <valueField>$Source.Line_Of_Business__c</valueField>
         </filterItems>
         <isOptional>false</isOptional>
     </lookupFilter>
