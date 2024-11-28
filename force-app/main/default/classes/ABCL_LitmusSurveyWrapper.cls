@@ -29,4 +29,7 @@ public class ABCL_LitmusSurveyWrapper {
     public String caller_type;
     public String lob;
     public String type;
+    public ABCL_LitmusSurveyWrapper(){
+        
+    }
 }
