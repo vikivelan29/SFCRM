@@ -35,7 +35,7 @@ class ABHI_ReimbursementStpApi_Test {
         insert ass;
         Health_Provider__c hp = new Health_Provider__c(
             Business_Unit__c = 'ABHI',
-            Name = 'Apollo',
+            Provider_Name__c = 'Apollo',
             Provider_Code__c = '3454'
         );
         insert hp;
