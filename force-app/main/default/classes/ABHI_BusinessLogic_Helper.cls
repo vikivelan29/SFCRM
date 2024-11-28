@@ -620,6 +620,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             logtheException(e);
         }
     }
+
     /**
     * @description - Get Current user details
     * @return usr
@@ -722,7 +723,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
     /**
     * @param : newCases, oldCaseMap - 
     * @return : void 
-    * @description : Prepopulates Fields on Case during before insert and update
+    * @description : Prepopulates Fields on Case during before insert and update.
     */
     public void populateFieldsOnCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
         
@@ -735,7 +736,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             if(casRec.AssetId != null && 
                ((oldCaseMap == null) || 
                 (oldCase != null && oldCase.AssetId != casRec.AssetId))){
-                	assetIds.add(casRec.AssetId);
+                    assetIds.add(casRec.AssetId);
                     casesToUpdate.add(casRec);
             }
         }
@@ -753,7 +754,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         
         if(oldCaseMap != NULL){ return; }
         
-        //Update Renewal Request on Case for below profiles users
+        //Update Renewal Request on Case
         Id profileId = UserInfo.getProfileId();
         if(profileId == null){ return; }
         
@@ -765,7 +766,8 @@ public with sharing class ABHI_BusinessLogic_Helper {
             
             for(Case rnwlCase : casesToUpdate){
                 if(assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r.size() > 0){
-                   rnwlCase.Renewal_Request__c = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]?.Id; 
+                   Opportunity opp = assetIdToOppMap.get(rnwlCase.AssetId)?.Opportunities__r[0]; 
+                   rnwlCase.Renewal_Request__c = opp.Id;
                 }
             }  
         }
