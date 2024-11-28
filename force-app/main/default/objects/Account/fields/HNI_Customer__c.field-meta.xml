@@ -5,6 +5,5 @@
     <description>ABHI Field</description>
     <label>HNI Customer</label>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>
