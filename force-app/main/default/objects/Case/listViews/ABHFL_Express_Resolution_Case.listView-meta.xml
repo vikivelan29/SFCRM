@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_Express_Resolution_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL Express Resolution</label>
+  <queue>ABHFL_Express_Resolution</queue>
+  <sharedTo>
+    <group>ABHFL_Express_Resolution_G</group>
+  </sharedTo>
+</ListView>

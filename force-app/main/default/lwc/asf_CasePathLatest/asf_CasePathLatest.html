@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="">
+    <template if:true={refresh}>
+        <div class="page-section page-header slds-var-m-around_medium" align="center">     
+            <lightning-progress-indicator current-step={currentStage} type="path" variant="base">
+                <template for:each={caseStageLst} for:item="stage">
+                    <lightning-progress-step label={stage} value={stage} key={stage}></lightning-progress-step>      
+                </template>
+            </lightning-progress-indicator>
+        </div>
+    </template>
+</lightning-card>
+</template>

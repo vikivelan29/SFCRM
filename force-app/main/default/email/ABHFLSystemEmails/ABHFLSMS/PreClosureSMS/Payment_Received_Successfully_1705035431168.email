@@ -1,0 +1,7 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+Payment received against your loan account number {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}. If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you. Thank you. - Aditya Birla Housing Finance Limited</body>
+</html>

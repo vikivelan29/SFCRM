@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email2CaseAddress__c</fullName>
+    <description>From Email-To-Case Routing Address</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Email2CaseAddress</label>
+    <required>true</required>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>

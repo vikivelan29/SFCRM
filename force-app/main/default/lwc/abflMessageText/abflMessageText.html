@@ -1,0 +1,18 @@
+<template>
+    <div class="slds-p-bottom--medium">
+        <template if:true={odpData}>
+            <div  if:false={showMore}>
+                <div class='slds-truncate'>
+                    <lightning-formatted-rich-text  value={odpData.messageText}></lightning-formatted-rich-text>
+                </div>
+                <span onclick={updateview} class='slds-float--right slds-text-link slds-text-link_reset slds-text-body--regular' > Show More </span> 
+            </div>
+            <div  if:true={showMore}>
+                <div>
+                    <lightning-formatted-rich-text  value={odpData.messageText}></lightning-formatted-rich-text> 
+                </div>
+                <span onclick={updateview} class='slds-float--right slds-text-link slds-text-link_reset slds-text-body--regular' > Show Less </span> 
+            </div>
+        </template>
+    </div>
+</template>

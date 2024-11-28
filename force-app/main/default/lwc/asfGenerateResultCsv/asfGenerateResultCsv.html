@@ -1,0 +1,18 @@
+<template>
+        <template if:true={reqfromLwc}>
+            <p>Please click on the following link to download the Result </p>
+                <lightning-button variant="brand" class="slds-button slds-p-top_small" 
+                label="Download Result" onclick={downloadCsv}>
+                </lightning-button>
+        </template>
+        <template if:false={reqfromLwc}>
+            <lightning-card title="">
+            <template if:true={downloadFailed}>
+                <p class="slds-p-left_medium">{failureMessage}</p>
+            </template>
+            <template if:false={downloadFailed}>
+                <p class="slds-p-left_medium">{loadingMessage}</p>
+            </template>
+        </lightning-card>
+        </template>
+</template>

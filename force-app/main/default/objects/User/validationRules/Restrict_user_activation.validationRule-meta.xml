@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restrict_user_activation</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF( AND( $Profile.Name =&apos;ABFSSL_Support_Profile&apos;,OR(Profile.Name =&apos;***System Admin&apos;,Profile.Name =&apos;System Administrator&apos;,Profile.Name =&apos;ABHFL RPA Base Profile&apos;)   ,ISCHANGED( IsActive ) ) , true, false)</errorConditionFormula>
+    <errorMessage>User don&apos;t have permission to deactivate/activate admin and RPA Base user</errorMessage>
+</ValidationRule>

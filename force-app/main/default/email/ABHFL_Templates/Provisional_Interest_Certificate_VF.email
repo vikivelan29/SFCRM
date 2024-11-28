@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Provisional Interest Certificate for {!relatedTo.Masked_LAN__c}." recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Provisional Interest Certificate"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

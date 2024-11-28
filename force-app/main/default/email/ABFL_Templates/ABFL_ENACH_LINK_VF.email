@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Regarding re-registering the payment mode on your loan account!" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="ENACH LINK"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

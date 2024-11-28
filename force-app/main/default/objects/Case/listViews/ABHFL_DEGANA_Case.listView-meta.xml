@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_DEGANA_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL DEGANA</label>
+  <queue>ABHFL_DEGANA</queue>
+  <sharedTo>
+    <group>ABHFL_DEGANA_G</group>
+  </sharedTo>
+</ListView>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Payment LOB Admin</label>
+    <permissionSets>Create_Case</permissionSets>
+    <permissionSets>Manage_Case_Config</permissionSets>
+    <permissionSets>Manage_Case_Ownership</permissionSets>
+    <permissionSets>Payment_User_PS</permissionSets>
+    <permissionSets>Payments_LOB_Admin</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

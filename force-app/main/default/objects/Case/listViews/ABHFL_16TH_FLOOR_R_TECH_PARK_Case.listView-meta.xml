@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_16TH_FLOOR_R_TECH_PARK_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL 16TH FLOOR # R-TECH PARK</label>
+  <queue>ABHFL_16TH_FLOOR_R_TECH_PARK</queue>
+  <sharedTo>
+    <group>ABHFL_16TH_FLOOR_R_TECH_PARK_G</group>
+  </sharedTo>
+</ListView>

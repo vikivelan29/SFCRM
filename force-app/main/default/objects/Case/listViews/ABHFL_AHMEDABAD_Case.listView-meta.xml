@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_AHMEDABAD_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL AHMEDABAD</label>
+  <queue>ABHFL_AHMEDABAD</queue>
+  <sharedTo>
+    <group>ABHFL_AHMEDABAD_G</group>
+  </sharedTo>
+</ListView>

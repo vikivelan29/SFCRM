@@ -1,0 +1,15 @@
+<template>
+    <template lwc:if={showConfirmMsg}>
+        <lightning-quick-action-panel header="Clone Case" class="slds-is-relative">
+                <template lwc:if={isLoading}>
+                    <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
+                </template>
+                Please press Confirm to clone this Case
+            <div slot="footer">
+                <lightning-button variant="neutral" label="Cancel" onclick={closeAction}></lightning-button>
+                <lightning-button variant="brand" label="Confirm" class="slds-m-left_x-small"
+                    onclick={proceedCloning}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    </template>
+</template>

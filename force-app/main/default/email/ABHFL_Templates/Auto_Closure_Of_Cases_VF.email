@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Auto case closure due to non-receipt of payment (Payment link expiry)" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Auto Closure Of Cases"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_Segment__c</fullName>
+    <description>ABSLI Field  - Used to store Customer Segment</description>
+    <externalId>false</externalId>
+    <label>Segment</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Advisor</fullName>
+                <default>false</default>
+                <label>Advisor</label>
+            </value>
+            <value>
+                <fullName>Business Partners</fullName>
+                <default>false</default>
+                <label>Business Partners</label>
+            </value>
+            <value>
+                <fullName>FATCA</fullName>
+                <default>false</default>
+                <label>FATCA</label>
+            </value>
+            <value>
+                <fullName>FlS</fullName>
+                <default>false</default>
+                <label>FlS</label>
+            </value>
+            <value>
+                <fullName>GENERAL</fullName>
+                <default>false</default>
+                <label>GENERAL</label>
+            </value>
+            <value>
+                <fullName>HNI</fullName>
+                <default>false</default>
+                <label>HNI</label>
+            </value>
+            <value>
+                <fullName>Non HNI</fullName>
+                <default>false</default>
+                <label>Non HNI</label>
+            </value>
+            <value>
+                <fullName>NRI</fullName>
+                <default>false</default>
+                <label>NRI</label>
+            </value>
+            <value>
+                <fullName>Orphan</fullName>
+                <default>false</default>
+                <label>Orphan</label>
+            </value>
+            <value>
+                <fullName>PEP</fullName>
+                <default>false</default>
+                <label>PEP</label>
+            </value>
+            <value>
+                <fullName>PLATINUMHNI</fullName>
+                <default>false</default>
+                <label>PLATINUMHNI</label>
+            </value>
+            <value>
+                <fullName>SUPERHNI</fullName>
+                <default>false</default>
+                <label>SUPERHNI</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

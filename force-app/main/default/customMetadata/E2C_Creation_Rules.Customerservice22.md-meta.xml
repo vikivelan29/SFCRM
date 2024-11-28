@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Customerservice22</label>
+    <protected>false</protected>
+    <values>
+        <field>E2C_Creation_Scenarios__c</field>
+        <value xsi:type="xsd:string">ABWM_Customer_service_New</value>
+    </values>
+    <values>
+        <field>Error_Message__c</field>
+        <value xsi:type="xsd:string">Case creation failed as rule &apos;boxbe-notifications@boxbe.com&apos; is not satisfied for ABWM Customer service_New mailbox.</value>
+    </values>
+    <values>
+        <field>Field__c</field>
+        <value xsi:type="xsd:string">Sender</value>
+    </values>
+    <values>
+        <field>Operator__c</field>
+        <value xsi:type="xsd:string">Does Not Contain</value>
+    </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:type="xsd:string">boxbe-notifications@boxbe.com</value>
+    </values>
+</CustomMetadata>

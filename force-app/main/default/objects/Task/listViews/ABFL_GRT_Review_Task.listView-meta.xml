@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABFL_GRT_Review_Task</fullName>
+    <filterScope>Queue</filterScope>
+    <label>ABFL GRT Review</label>
+    <queue>ABFL_GRT_Review</queue>
+    <sharedTo>
+        <group>ABFL_GRT_Review_G</group>
+    </sharedTo>
+</ListView>

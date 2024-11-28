@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_GUNTUR_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL GUNTUR</label>
+  <queue>ABHFL_GUNTUR</queue>
+  <sharedTo>
+    <group>ABHFL_GUNTUR_G</group>
+  </sharedTo>
+</ListView>

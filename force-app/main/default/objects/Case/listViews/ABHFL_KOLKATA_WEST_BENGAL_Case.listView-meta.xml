@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_KOLKATA_WEST_BENGAL_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL KOLKATA WEST BENGAL</label>
+  <queue>ABHFL_KOLKATA_WEST_BENGAL</queue>
+  <sharedTo>
+    <group>ABHFL_KOLKATA_WEST_BENGAL_G</group>
+  </sharedTo>
+</ListView>

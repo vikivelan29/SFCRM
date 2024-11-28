@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Statement of Account Report for {!relatedTo.Masked_LAN__c}." recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Statement of Account"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

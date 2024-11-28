@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ASF_SelectList__c</fullName>
+    <externalId>false</externalId>
+    <label>SelectList</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Select</fullName>
+                <default>false</default>
+                <label>No Select</label>
+            </value>
+            <value>
+                <fullName>Multi Select</fullName>
+                <default>false</default>
+                <label>Multi Select</label>
+            </value>
+            <value>
+                <fullName>Radio Select</fullName>
+                <default>false</default>
+                <label>Radio Select</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

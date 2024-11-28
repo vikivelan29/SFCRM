@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Req_Loan_is_greater_than_max_loan</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISNEW()), 
+    ISCHANGED( Requested_Loan_Amount__c ), 
+    Requested_Loan_Amount__c &gt;  Max_Loan_Amount__c 
+)</errorConditionFormula>
+    <errorMessage>Requested Loan amount cannot be greater than Maximum Loan amount.</errorMessage>
+</ValidationRule>

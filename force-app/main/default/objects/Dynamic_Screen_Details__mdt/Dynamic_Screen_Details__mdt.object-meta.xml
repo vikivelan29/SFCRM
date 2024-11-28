@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This cmt will be linked to Dynamic Screen header and will store section/fields layout details.</description>
+    <label>Dynamic Screen Details</label>
+    <pluralLabel>Dynamic Screen Details</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Loan Closed - will share property papers</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Loan Account no. {{{Case.Masked_LAN__c}}} Closed</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

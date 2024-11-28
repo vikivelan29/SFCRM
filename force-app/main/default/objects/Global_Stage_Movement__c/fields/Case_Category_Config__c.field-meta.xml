@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Category_Config__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Case Category Config</label>
+    <referenceTo>ASF_Case_Category_Config__c</referenceTo>
+    <relationshipLabel>Global Stage Movements</relationshipLabel>
+    <relationshipName>Global_Stage_Movements</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

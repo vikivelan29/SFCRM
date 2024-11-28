@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>GroupMember-QueuePublicGroupMembership$GroupMember-User</field>
+    </columns>
+    <description>Scenario 6: As an agent I should be able to view a report on all agents and their team assignment.</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>GroupMember-QueuePublicGroupMembership$Group</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>ABFL Agent Team Assignment Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ABFL_Agent_Team_Assignment__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+</Report>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Mobile_Number_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(New_Mobile_Number__c)),
+    NOT(REGEX(New_Mobile_Number__c, &quot;\\b[1-9]\\d{9}\\b&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>New_Mobile_Number__c</errorDisplayField>
+    <errorMessage>Enter a Valid Mobile Number.</errorMessage>
+</ValidationRule>

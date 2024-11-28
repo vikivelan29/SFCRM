@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Persona_Mapping_View</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Field__c</columns>
+    <columns>Field_Type__c</columns>
+    <columns>Persona__c</columns>
+    <columns>IsMasked__c</columns>
+    <columns>Masking_Role__c</columns>
+    <columns>Object__c</columns>
+    <columns>Format_Sample__c</columns>
+    <columns>Masked_Char_Int__c</columns>
+    <columns>ksc_GroupName__c</columns>
+    <columns>ksc_IsActive__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ksc_GroupName__c</field>
+        <operation>equals</operation>
+        <value>Persona Mapping</value>
+    </filters>
+    <label>Persona Mapping View</label>
+</ListView>

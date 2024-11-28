@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sales_Prospect__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This is used for ABHFL Requirement.</description>
+    <externalId>false</externalId>
+    <label>Sales Prospect</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,152 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 09-12-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <template if:true={noMobileNum}>
+        <div class="slds-text-heading_small slds-text-color_error slds-text-align_center">Mobile number is not present for this record.</div>
+    </template>
+    <template if:false={showPolicyTable}>
+        <div class="slds-form_large" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <template if:true={showSearchInput}>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="searchInput">Search Policy</label>
+                                <div class="slds-form-element__control">
+                                    <input type="text" id="searchInput" class="slds-input" placeholder="Enter Policy"
+                                        oninput={handleSearchInputChange} />
+                                </div>
+                            </div>
+                        </template>
+                        <!--Result Table-->
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <template if:true={recordsToDisplay}>
+                                    <lightning-datatable key-field="Id" data={recordsToDisplay} columns={columns}
+                                        onrowselection={handleRowSelection} selected-rows={selectedRows}>
+                                    </lightning-datatable>
+                                </template>
+                            </div>
+                            <!--PAGE NAVIGATION-->
+                            <template if:true={showSearchInput}>
+                                <div class="slds-align_absolute-center" style="height:5rem">
+                                    <lightning-button disabled={bDisableFirst} icon-name="utility:jump_to_left"
+                                        label="First" class="slds-p-horizontal_x-small" alternative-text="first page"
+                                        onclick={firstPage}></lightning-button>
+                                    <lightning-button disabled={bDisableFirst} icon-name="utility:chevronleft"
+                                        label="Previous" alternative-text="Previous"
+                                        onclick={previousPage}></lightning-button>
+                                    &nbsp;
+                                    <span class="slds-badge">Showing {pageNumber} &nbsp;of&nbsp; {totalPages}
+                                        &nbsp;&nbsp;Page(s)</span>
+                                    &nbsp;
+                                    <lightning-button disabled={bDisableLast} icon-name="utility:chevronright"
+                                        label="Next" alternative-text="Next" onclick={nextPage}
+                                        class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+                                    <lightning-button disabled={bDisableLast} icon-name="utility:jump_to_right"
+                                        label="Last" alternative-text="last page" onclick={lastPage}
+                                        icon-position="right"></lightning-button>
+                                </div>
+                            </template>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={showQuickServices}>
+        <div class="slds-form" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <lightning-combobox label="Select Quick Services" value="" placeholder="Select Quick Service"
+                            options={options} onchange={handleFuncSelection} required></lightning-combobox>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={showPreview}>
+        <template if:false={showLoading}>
+            <!-- <div class="slds-form" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <label class="slds-checkbox_toggle slds-grid">
+                            <span class="slds-form-element__label slds-m-bottom_none">Send to registered mobile
+                                number</span>
+                            <input type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16"
+                                aria-describedby="checkbox-toggle-16" checked="" onchange={handleToggle} />
+                            <span id="checkbox-toggle-16" class="slds-checkbox_faux_container">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-checkbox_on">Yes</span>
+                                <span class="slds-checkbox_off">No</span>
+                            </span>
+                        </label>
+                    </div>
+
+                </div>
+                <template if:true={sendToUnregistered}>
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <lightning-input lwc:ref="unregisterednumber" type="tel" label="Unregistered Phone Number"
+                                pattern="[0-9]{10}" name="phone2" required class="validate"
+                                message-when-pattern-mismatch="Only numbers are allowed and upto 10 digit phone number."></lightning-input>
+                        </div>
+                    </div>
+                </template>
+
+            </div>
+        </div>-->
+            <br>
+            <div class="slds-form">
+                <div class="slds-form-element slds-form-element_stacked">
+                    <label class="slds-form-element__label" for="stacked-input-id-01">SMS Preview</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-theme_shade slds-p-around_small slds-m-top_medium">
+                            <lightning-formatted-rich-text value={templateBody}></lightning-formatted-rich-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </template>
+    <template if:true={showLoading}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>
+    <div class="slds-modal__footer">
+        <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+            onclick={invokeCloseModal}>Cancel</button>
+        <template if:false={showPolicy}>
+            <template if:true={selectedPolicyId}>
+                <button class="slds-button slds-button_brand" onclick={handleQuickLink}>Next To QuickLink</button>
+            </template>
+        </template>
+        <template if:false={validRPJ}>
+            <div class="slds-box slds-theme_error slds-m-top_medium">
+                <p>
+                    This policy is not Eligible for Retention Incentive, kindly refer to the Policy level flag.
+                </p>
+            </div>
+        </template>
+        <template if:true={showGenerateLink}>
+            <button class="slds-button slds-button_brand" onclick={handleGenerateLinkPrev}>Generate Link &
+                Preview</button>
+        </template>
+        <template if:true={showSendButton}>
+            <button class="slds-button slds-button_brand" onclick={handleSend}>Send</button>
+        </template>
+
+    </div>
+
+</template>

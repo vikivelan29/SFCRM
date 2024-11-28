@@ -1,0 +1,135 @@
+{
+    "ResponseGetLoanMISSnapshot": {
+        "@languageCode": "en-US",
+        "DataArea": {
+            "LoanMISSnapshot": {
+                "Response": {
+                    "repayment_detail": {
+                        "rows": [
+                            {
+                                "EMI_START_DATE": "19/04/2021",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "EMI_START_DATE": "19/04/2021",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "EMI_START_DATE": "19/04/2021",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "EMI_START_DATE": "19/04/2021",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "EMI_START_DATE": "19/04/2021",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "EMI_START_DATE": "19/04/2021",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "EMI_START_DATE": "19/04/2021",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "EMI_START_DATE": "19/04/2021",
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            }
+                        ]
+                    },
+                    "Overdue_Charges": {
+                        "rows": [
+                            {
+                                "INTEREST_OVERDUE": "53257",
+                                "PRINCIPAL_OVERDUE": "33047",
+                                "LOAN_ACCOUNT_NO": "ABCHN0PL000000010005",
+                                "INTEREST_FREQUENCY": null
+                            },
+                            {
+                                "INTEREST_OVERDUE": "44657",
+                                "PRINCIPAL_OVERDUE": "27263",
+                                "LOAN_ACCOUNT_NO": "ABCHN0PL000000010005",
+                                "INTEREST_FREQUENCY": null
+                            },
+                            {
+                                "INTEREST_OVERDUE": "61741",
+                                "PRINCIPAL_OVERDUE": "38947",
+                                "LOAN_ACCOUNT_NO": "ABCHN0PL000000010005",
+                                "INTEREST_FREQUENCY": null
+                            },
+                            {
+                                "INTEREST_OVERDUE": "61741",
+                                "PRINCIPAL_OVERDUE": "38947",
+                                "LOAN_ACCOUNT_NO": "ABCHN0PL000000010005",
+                                "INTEREST_FREQUENCY": null
+                            },
+                            {
+                                "INTEREST_OVERDUE": "61741",
+                                "PRINCIPAL_OVERDUE": "38947",
+                                "LOAN_ACCOUNT_NO": "ABCHN0PL000000010005",
+                                "INTEREST_FREQUENCY": null
+                            },
+                            {
+                                "INTEREST_OVERDUE": "61741",
+                                "PRINCIPAL_OVERDUE": "38947",
+                                "LOAN_ACCOUNT_NO": "ABCHN0PL000000010005",
+                                "INTEREST_FREQUENCY": null
+                            },
+                            {
+                                "INTEREST_OVERDUE": "61741",
+                                "PRINCIPAL_OVERDUE": "38947",
+                                "LOAN_ACCOUNT_NO": "ABCHN0PL000000010005",
+                                "INTEREST_FREQUENCY": null
+                            },
+                            {
+                                "INTEREST_OVERDUE": "61741",
+                                "PRINCIPAL_OVERDUE": "38947",
+                                "LOAN_ACCOUNT_NO": "ABCHN0PL000000010005",
+                                "INTEREST_FREQUENCY": null
+                            }
+                        ]
+                    },
+                    "loan_info": {
+                        "rows": [
+                            {
+                                "INSTALLMENT_PLAN": null,
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "INSTALLMENT_PLAN": null,
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "INSTALLMENT_PLAN": null,
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "INSTALLMENT_PLAN": null,
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "INSTALLMENT_PLAN": null,
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "INSTALLMENT_PLAN": null,
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "INSTALLMENT_PLAN": null,
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            },
+                            {
+                                "INSTALLMENT_PLAN": null,
+                                "LOAN_ACCOUNT_NUMBER": "ABCHN0PL000000010005"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

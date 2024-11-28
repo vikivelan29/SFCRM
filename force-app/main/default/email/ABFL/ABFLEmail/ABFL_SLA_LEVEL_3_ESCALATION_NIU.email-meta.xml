@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SLA LEVEL 3 ESCALATION_NIU</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>SLA Level 3 is escalated</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_64674678</developerName>
+        <masterLabel>Ageing</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Case.Ageing_Business_Days__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>5</to>
+            </sourceValues>
+            <value>0-5 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>5</from>
+                <to>10</to>
+            </sourceValues>
+            <value>6-10 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>10</from>
+                <to>15</to>
+            </sourceValues>
+            <value>11-15 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>15</from>
+            </sourceValues>
+            <value>Above 15 Days</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>picklist</bucketType>
+        <developerName>BucketField_26939785</developerName>
+        <masterLabel>Team</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Case.Stage__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>In Progress with CS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Open</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Pending with CS</sourceValue>
+            </sourceValues>
+            <value>CS Team</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>In Progress with TDS Ops</sourceValue>
+            </sourceValues>
+            <value>TDS Ops Team</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>In Progress with TDS</sourceValue>
+            </sourceValues>
+            <value>TDS Team</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>In Progress with Repayment Ops</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>In Progress with Branch Ops</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>In Progress with Revenue &amp; Retention</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Pending for Business / Credit Approval</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>In Progress with Ops</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>In Progress with Retention</sourceValue>
+            </sourceValues>
+            <value>Other</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_13498631</developerName>
+        <masterLabel>Test Bucket</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Case.LOB__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Digital</sourceValue>
+            </sourceValues>
+            <value>Digital</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Retail - Secured</sourceValue>
+            </sourceValues>
+            <value>MORTGAGE</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Retail - Unsecured</sourceValue>
+            </sourceValues>
+            <value>UNSECURED LOAN</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>CASE_NUMBER</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
+    </columns>
+    <columns>
+        <field>Case.Stage__c</field>
+    </columns>
+    <columns>
+        <field>STATUS</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Closed,Closed Duplicate,Resolved,Unresolved</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.CCC_External_Id__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>CORPRFCQ,RPRECLOSECFG,RWATDSCI,RWAITDDSMOR,RWAITDDSUN,CFGRTTSMOR,CFGRTTSUN,TR61219,CFGRTTS,CFGRTTSDIG,RDISPTDSMOR,RDISPTDSUNSEC,RDISPTDSDIG,RFCFCMOR</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.LOB__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>ABHFL</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case.LOB__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_26939785</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_64674678</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>TDS - Active cases Summary Report</name>
+    <params>
+        <name>units</name>
+        <value>h</value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CaseAsset@Case.ABFL_Case_Detail__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATEONLY</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

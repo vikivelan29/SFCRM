@@ -1,0 +1,7 @@
+.outer-form-columns > div {
+    margin-bottom: 10px; /* Adjust spacing between fields */
+},
+
+.inner-form-columns > div {
+    margin-bottom: 10px; /* Adjust spacing between fields */
+}

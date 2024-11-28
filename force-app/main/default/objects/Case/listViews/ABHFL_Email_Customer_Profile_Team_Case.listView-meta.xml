@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_Email_Customer_Profile_Team_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL Email Customer Profile Team</label>
+  <queue>ABHFL_Email_Customer_Profile_Team</queue>
+  <sharedTo>
+    <group>ABHFL_Email_Customer_Profile_Team_G</group>
+  </sharedTo>
+</ListView>

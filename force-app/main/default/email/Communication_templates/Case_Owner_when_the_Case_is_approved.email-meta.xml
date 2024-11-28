@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Case Owner when the Case is approved</name>
+    <style>none</style>
+    <subject>Case {!ASF_Case_Approv__c.Case_Number__c} approved by {!ApprovalRequest.Process_Approver}</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_Grievance_Head_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL Grievance Head</label>
+  <queue>ABHFL_Grievance_Head</queue>
+  <sharedTo>
+    <group>ABHFL_Grievance_Head_G</group>
+  </sharedTo>
+</ListView>

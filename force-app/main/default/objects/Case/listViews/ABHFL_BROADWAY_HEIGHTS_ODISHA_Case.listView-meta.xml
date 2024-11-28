@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_BROADWAY_HEIGHTS_ODISHA_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL BROADWAY HEIGHTS # ODISHA</label>
+  <queue>ABHFL_BROADWAY_HEIGHTS_ODISHA</queue>
+  <sharedTo>
+    <group>ABHFL_BROADWAY_HEIGHTS_ODISHA_G</group>
+  </sharedTo>
+</ListView>

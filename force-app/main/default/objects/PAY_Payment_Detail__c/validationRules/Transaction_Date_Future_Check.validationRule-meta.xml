@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transaction_Date_Future_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>Txn_date_time__c  &gt;= NOW()</errorConditionFormula>
+    <errorDisplayField>Txn_date_time__c</errorDisplayField>
+    <errorMessage>Please select a valid date in the past.</errorMessage>
+</ValidationRule>

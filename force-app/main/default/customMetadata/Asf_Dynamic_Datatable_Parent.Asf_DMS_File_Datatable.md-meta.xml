@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Asf_DMS File Datatable</label>
+    <protected>false</protected>
+    <values>
+        <field>Cache_Time__c</field>
+        <value xsi:type="xsd:double">300.0</value>
+    </values>
+    <values>
+        <field>DMS_Case_SOQL_Fields__c</field>
+        <value xsi:type="xsd:string">Id, Business_Unit__c, CaseNumber, Client_Code__c, Branch_Master__c, Branch_Master__r.Name, Branch_Master__r.Branch_Code__c, Account.Name, Account.PAN__c, Account.ABWM_RM_Name__c, Type_Text__c, Sub_Type_Text__c, Nature__c, Lead__c, CreatedDate, LAN__c,Asset.LAN__c,  Asset.Lead_Id__c, Asset.RM_Name__c, Account.Phone, Account.PersonMobilePhone, Account.RecordType.Name, LOB__c, Account.Client_Code__c, CCC_External_Id__c</value>
+    </values>
+    <values>
+        <field>DMS_Files_SOQL_Fields__c</field>
+        <value xsi:type="xsd:string">Id, LastModifiedDate,Business_Unit__c, LOB__c,Branch_Code__c, Branch_Name__c, Case__c, ContentDocumentId__c, ContentVersionId__c, DMS_External_ID__c, DMS_Link__c, DocumentID__c, Error_Code__c, Error_Description__c, File_Extension__c, File_Name__c, Has_Multiple_Versions__c, Is_Latest_Version__c, Next_Retry__c, Retry_Attempt__c, Retry__c, RM_Name__c, Status__c, Version_Number__c, Case__r.LAN__c, Case__r.Client_Code__c, Case__r.Account.Name, Case__r.Account.PAN__c, Case__r.LOB__c, Case__r.CaseNumber, Case__r.Account.Client_Code__c, Case__r.AssetId, Case__r.CCC_External_Id__c, Case__r.Type_Text__c, Case__r.Sub_Type_Text__c, Case__r.Nature__c</value>
+    </values>
+    <values>
+        <field>DMS_Retry_Interval__c</field>
+        <value xsi:type="xsd:double">15.0</value>
+    </values>
+    <values>
+        <field>Page_Size__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Query__c</field>
+        <value xsi:type="xsd:string">Select Id,Next_Retry__c,Retry_Attempt__c,Business_Unit__c,Name,DocumentID__c,Status__c,Case__c, File_Name__c,ContentVersionId__c,LastModifiedDate, File_Extension__c, Error_Description__c FROM DMS_Files__c WHERE Case__c =</value>
+    </values>
+</CustomMetadata>

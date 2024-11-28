@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Impact_Option_Logic__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Impact Option Logic Change for specific Case Sub Types.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Impact Option Logic</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,18 @@
+<template>
+    <lightning-card title="OwnerShip Change" icon-name="custom:custom63">
+        <div class="slds-m-around_medium">
+            <template if:true={ownerManager}>
+                <lightning-record-edit-form object-api-name="Case" onsuccess={handleSuccess} onerror={handleError}
+                    onsubmit={onSubmitHandler}>
+                    <label for="lookupFld">Select User</label>
+                    <lightning-input-field id="lookupFld" field-name="OwnerUser__c" variant="label-hidden">
+                    </lightning-input-field>
+                    <lightning-button type="submit" variant="brand" label="Save"></lightning-button>
+                </lightning-record-edit-form>
+            </template>
+            <p><lightning-formatted-text value="You are Not Manager of Record. You Cannot Change"
+                    if:false={ownerManager}></lightning-formatted-text></p>
+        </div>
+
+    </lightning-card>
+</template>

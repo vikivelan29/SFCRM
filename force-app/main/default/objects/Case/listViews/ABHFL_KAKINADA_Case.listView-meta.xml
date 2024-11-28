@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_KAKINADA_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL KAKINADA</label>
+  <queue>ABHFL_KAKINADA</queue>
+  <sharedTo>
+    <group>ABHFL_KAKINADA_G</group>
+  </sharedTo>
+</ListView>

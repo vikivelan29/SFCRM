@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Foreclosure letter is issued to customer</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Foreclosure Letter Issued for your ABHFL Loan Account</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

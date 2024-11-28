@@ -1,0 +1,52 @@
+<!--
+  @description       : 
+  @author            : shubham.sinha@salesforce.com
+  @group             : 
+  @last modified on  : 05-27-2024
+  @last modified by  : rsinghnagar@salesforce.com
+  Modifications Log
+  Ver   Date         Author                         Modification
+  1.0   05-02-2024   shubham.sinha@salesforce.com   PR970457-1404
+-->
+<template>
+    <lightning-spinner if:true={isLoading}></lightning-spinner>
+    <template if:true={isRecordPresent}>
+        <lightning-card>
+            <!-- Check if showChecklistColumn is true to include checkbox column -->
+            <lightning-button label="Refresh" onclick={refreshTable} slot="actions" class="slds-m-right_small"> </lightning-button> 
+            <template if:true={showChecklistColumn}>
+                <lightning-button label="Sync Records" onclick={syncDMSRecords} disabled={isDisabled} slot="actions"> </lightning-button>  
+                <lightning-datatable class="slds-resizable" key-field="Id" data={recordsToDisplay} columns={columns} selected-rows={selectedRows}  onrowselection={handleRowSelects} onrowaction={handleRowAction} min-column-width="155">
+                </lightning-datatable>
+            </template>
+            <template if:false={showChecklistColumn}>
+                <lightning-datatable class="slds-resizable" hide-checkbox-column="true" key-field="id" data={recordsToDisplay} columns={columns}  onrowaction={handleRowAction} min-column-width="155">
+                </lightning-datatable>
+            </template>
+            <br>
+            <!-- <div class="slds-align_absolute-center">
+                <button class="slds-button slds-button_neutral slds-button_stretch" onclick={handlePrevious} disabled={isPreviousDisabled} data-id="previousButton" style="margin-right: 10px;width:85px" >Previous</button>
+                <button class="slds-button slds-button_neutral slds-button_stretch" onclick={handleNext} disabled={isNextDisabled} data-id="nextButton" style="margin-left: 10px;width:85px" >Next</button>
+            </div> -->
+            <div class="slds-align_absolute-center">
+                <lightning-button disabled={bDisableFirst} icon-name="utility:jump_to_left" label="First"
+                    class="slds-p-horizontal_x-small" alternative-text="first page" onclick={firstPage}></lightning-button>
+                <lightning-button disabled={bDisableFirst} icon-name="utility:chevronleft" label="Previous"
+                    alternative-text="Previous" onclick={previousPage}></lightning-button>
+                &nbsp;
+                <span class="slds-badge">Showing {pageNumber} &nbsp;of&nbsp; {totalPages} &nbsp;&nbsp;Page(s)</span>
+                &nbsp;
+                <lightning-button disabled={bDisableLast} icon-name="utility:chevronright" label="Next"
+                    alternative-text="Next" onclick={nextPage} class="slds-p-horizontal_x-small"
+                    icon-position="right"></lightning-button>
+                <lightning-button disabled={bDisableLast} icon-name="utility:jump_to_right" label="Last"
+                    alternative-text="last page" onclick={lastPage} icon-position="right"></lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+    <template if:false={isRecordPresent}>
+        <div style="text-align: center; margin-top: 20px;" class="slds-box">
+            <strong>{noFileAvailableLabel}</strong>
+        </div>
+    </template>
+</template>

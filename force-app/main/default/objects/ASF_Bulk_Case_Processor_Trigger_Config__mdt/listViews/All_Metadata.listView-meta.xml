@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Metadata</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Config_Active__c</columns>
+    <columns>Index_Values__c</columns>
+    <columns>Trigger_Alias__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Metadata</label>
+</ListView>

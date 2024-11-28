@@ -1,0 +1,112 @@
+<template>
+    <div class="slds-m-around_small">
+        <div class="page-section page-header slds-p-top_medium">
+            <lightning-progress-indicator class=".In-Progress" current-step={currentStep} type="path" variant="base">
+                <lightning-progress-step label="Select Contact" value="1"></lightning-progress-step>
+                <lightning-progress-step label="Select Template" value="2"></lightning-progress-step>
+                <lightning-progress-step label="Preview" value="3"></lightning-progress-step>
+                <lightning-progress-step label="Status" value="4"></lightning-progress-step>
+            </lightning-progress-indicator>
+        </div>
+        <div class="page-section page-main slds-p-around_xxx-small slds-scrollable" style="height:300px">
+            <template if:false={spinner}>
+                <template if:true={isStepOne}>
+                    <lightning-card>
+                        <lightning-layout multiple-rows>
+                            <template if:true={isSearchEnabled}>
+                                <lightning-layout-item size="6" padding="around-small">
+                                    <lightning-input type="search" data-name="Contact Search" label="Search Contact" value={contactSearchWord} onchange={handleSearch}></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                        <template if:true={data}>
+                            <div class="slds-scrollable" style="max-height:280px" >
+                                <lightning-datatable key-field="id" data-name = "Contact Datatable" data={data} columns={columns} max-row-selection="1"
+                                onrowselection={getSelectedName} selected-rows={contactDTSelectedRows}>
+                                </lightning-datatable>
+                            </div>
+                            
+                        </template>
+                    </lightning-card>
+                </template>
+                <template if:true={isStepTwo}>
+                    <template if:true={msgWarning}>
+                        <div class="slds-box slds-theme_info slds-p-around_small slds-m-top_medium">
+                            {message}
+                        </div>
+                    </template>
+                    <lightning-layout multiple-rows>
+                            <template if:true={isTemplateSearchable}>
+                                <lightning-layout-item size="6" padding="around-small">
+                                    <lightning-input type="search" data-name="Whatsapp Search" label="Search Template" value={templateSearchWord} onchange={handleSearch}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" padding="around-small">
+                                    <div class="slds-p-top_large">
+                                        Total Templates: <lightning-badge label={templateSize} class="slds-badge_inverse"></lightning-badge>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                        <template if:true={templateData}>
+                                <div class="slds-scrollable" style="max-height:280px" >
+                                    <lightning-datatable key-field="id" data-name = "Template Datatable" data={templateData} columns={templateColumns} max-row-selection="1"
+                                    onrowselection={getSelectedTemplate} selected-rows={templateDTSelectedRows}>
+                                    </lightning-datatable>
+                                </div>
+                        </template>
+                    </lightning-layout>
+                </template>
+                <template if:true={isStepThree}>
+                    <div class="slds-box slds-theme_shade slds-p-around_small slds-m-top_medium">
+                        <lightning-formatted-rich-text value={templateBody}></lightning-formatted-rich-text>
+                    </div>
+                </template>
+                <template if:true={isStepFour}>
+                    <template if:true={msgWarning}>
+                        <div class="slds-box slds-theme_info slds-p-around_small slds-m-top_medium">
+                            {message}
+                        </div>
+                    </template>
+                    <template if:false={msgWarning}>
+                        <template if:true={msgSuccess}>
+                            <div class="slds-box slds-p-around_small slds-theme_success slds-m-top_medium">
+                                {message}
+                            </div>
+                        </template>
+                        <template if:false={msgSuccess}>
+                            <div class="slds-box slds-p-around_small slds-theme_error slds-m-top_medium">
+                                {message}
+                            </div>
+                        </template>
+                    </template>
+                </template>
+            </template>
+            <template if:true={spinner}>
+                <div>
+                    <lightning-spinner
+                        alternative-text="Loading..." variant="brand" size="medium">
+                    </lightning-spinner>
+                </div>
+            </template>
+        </div>    
+
+        <div class="page-footer page-section">
+            <div class="slds-grid slds-grid_align-center">
+                <template if:true={isEnablePrev}>
+                    <div class="slds-col slds-p-around_xx-small slds-m-top_small">
+                        <lightning-button variant="brand" label="Back" onclick={handlePrev}></lightning-button>
+                    </div>
+                </template>    
+                <template if:true={isEnableNext}>
+                    <div class="slds-col slds-p-around_xx-small slds-m-top_small">
+                        <lightning-button label="Next" variant="brand" onclick={handleNext}></lightning-button>
+                    </div>
+                </template>    
+                <template if:true={isEnableFinish}>
+                    <div class="slds-col slds-p-around_xx-small slds-m-top_small">
+                        <lightning-button label="Send" variant="brand" onclick={handleFinish}></lightning-button>
+                    </div>
+                </template>    
+            </div>
+        </div>
+    </div>
+</template>

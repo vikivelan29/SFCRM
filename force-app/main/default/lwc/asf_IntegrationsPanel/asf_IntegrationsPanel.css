@@ -1,0 +1,17 @@
+.intPanel{
+    background-color: var(--slds-g-color-neutral-base-95, var(--lwc-colorBackground,rgb(243, 243, 243)));
+    border-radius: 5px;
+}
+.errorBtn{
+    --slds-c-icon-color-foreground:#C23934;
+}
+.successBtn{
+    --slds-c-icon-color-foreground:#4BC980;
+}
+.pendingBtn{
+    --slds-c-icon-color-foreground:#0070D2;
+}
+
+.notStartedBtn{
+    --slds-c-icon-color-foreground:#747474;
+}

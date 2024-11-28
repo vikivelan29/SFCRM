@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>When_to_Appear__c</fullName>
+    <externalId>false</externalId>
+    <label>When to Appear</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Stage Entry</fullName>
+                <default>false</default>
+                <label>Stage Entry</label>
+            </value>
+            <value>
+                <fullName>During Stage</fullName>
+                <default>false</default>
+                <label>During Stage</label>
+            </value>
+            <value>
+                <fullName>Stage Exit</fullName>
+                <default>false</default>
+                <label>Stage Exit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

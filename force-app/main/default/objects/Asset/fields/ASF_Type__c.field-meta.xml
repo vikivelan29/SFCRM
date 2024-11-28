@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ASF_Type__c</fullName>
+    <description>USED IN CS360 TO GROUP THE PRODUCTS BASED ON DIFFERENT &apos;TYPE&apos;.</description>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CreditCard</fullName>
+                <default>false</default>
+                <label>CreditCard</label>
+            </value>
+            <value>
+                <fullName>DebitCard</fullName>
+                <default>false</default>
+                <label>DebitCard</label>
+            </value>
+            <value>
+                <fullName>Loans</fullName>
+                <default>false</default>
+                <label>Loans</label>
+            </value>
+            <value>
+                <fullName>Deposits</fullName>
+                <default>false</default>
+                <label>Deposits</label>
+            </value>
+            <value>
+                <fullName>CurrentAccount</fullName>
+                <default>false</default>
+                <label>CurrentAccount</label>
+            </value>
+            <value>
+                <fullName>SavingsAccount</fullName>
+                <default>false</default>
+                <label>SavingsAccount</label>
+            </value>
+            <value>
+                <fullName>OD</fullName>
+                <default>false</default>
+                <label>OD</label>
+            </value>
+            <value>
+                <fullName>WM Banking</fullName>
+                <default>false</default>
+                <label>WM Banking</label>
+            </value>
+            <value>
+                <fullName>TL</fullName>
+                <default>false</default>
+                <label>TL</label>
+            </value>
+            <value>
+                <fullName>WC</fullName>
+                <default>false</default>
+                <label>WC</label>
+            </value>
+            <value>
+                <fullName>CashCredit</fullName>
+                <default>false</default>
+                <label>CashCredit</label>
+            </value>
+            <value>
+                <fullName>Corporate Loans</fullName>
+                <default>false</default>
+                <label>Corporate Loans</label>
+            </value>
+            <value>
+                <fullName>ForexCard</fullName>
+                <default>false</default>
+                <label>ForexCard</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

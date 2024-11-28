@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_BANGALORE_STAR_AVENUES_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL BANGALORE STAR AVENUES</label>
+  <queue>ABHFL_BANGALORE_STAR_AVENUES</queue>
+  <sharedTo>
+    <group>ABHFL_BANGALORE_STAR_AVENUES_G</group>
+  </sharedTo>
+</ListView>

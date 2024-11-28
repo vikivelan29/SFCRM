@@ -1,0 +1,13 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+</style>
+Dear Customer,<br />
+We are trying to connect with you on {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} from 8069985500 in relation to your request for {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}, but we are unable to connect with you.<br />
+If any query, please do write to us on care.housingfinance@adityabirlacapital.com and we will be happy to assist you.<br />
+Thank you.<br />
+- Aditya Birla Housing Finance Limited</body>
+</html>

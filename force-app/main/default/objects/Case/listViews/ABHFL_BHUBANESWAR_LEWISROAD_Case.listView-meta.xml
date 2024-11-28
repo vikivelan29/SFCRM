@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_BHUBANESWAR_LEWISROAD_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL BHUBANESWAR_LEWISROAD</label>
+  <queue>ABHFL_BHUBANESWAR_LEWISROAD</queue>
+  <sharedTo>
+    <group>ABHFL_BHUBANESWAR_LEWISROAD_G</group>
+  </sharedTo>
+</ListView>

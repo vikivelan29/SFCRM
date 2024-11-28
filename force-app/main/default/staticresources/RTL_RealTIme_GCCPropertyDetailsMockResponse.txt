@@ -1,0 +1,33 @@
+{
+   "ResponseGetGCCPropertyDetails":{
+      "@languageCode":"en-US",
+      "DataArea":{
+         "GCCPropertyDetails":{
+            "Response":[
+               {
+                  "CollateralNumber":"CMS00005601",
+                  "PropertyClassification":"PROP_01",
+                  "PropertyOwnership":"LeaseHold",
+                  "MarketValue":null,
+                  "BuiltUpArea":null,
+                  "CarpetArea":"1",
+                  "PropertyPurpose":"Mixed_Use",
+                  "ResidualAgeOfProperty":"61063",
+                  "AgreementValue":null,
+                  "Country":"India",
+                  "AddressLine1":"AZAD NAGAR KARAMYOG CHSL 902 10th Floor BUILDING NO 27",
+                  "AddressLine2":"AZAD NAGAR, APNA BAZAR ROAD, SURVEY NO 135 & CTS NO 835 P",
+                  "AddressLine3":"902 10th Floor",
+                  "Region":null,
+                  "State":"MAHARASHTRA",
+                  "City":"MUMBAI",
+                  "District":"MUMBAI",
+                  "Village":null,
+                  "PropertyType":"FLAT",
+                  "ExternalLoanAccountNumber":"ABMUMLAP000000010205"
+               }
+            ]
+         }
+      }
+   }
+}

@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
+</style>
+Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+We have sent the preclosure statement on your registered Email address on {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}.<br />
+Thank you.<br />
+- Aditya Birla Housing Finance Limited</body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_UDUPI_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL UDUPI</label>
+  <queue>ABHFL_UDUPI</queue>
+  <sharedTo>
+    <group>ABHFL_UDUPI_G</group>
+  </sharedTo>
+</ListView>

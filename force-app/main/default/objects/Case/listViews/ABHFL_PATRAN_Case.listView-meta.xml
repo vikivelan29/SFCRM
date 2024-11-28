@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_PATRAN_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL PATRAN</label>
+  <queue>ABHFL_PATRAN</queue>
+  <sharedTo>
+    <group>ABHFL_PATRAN_G</group>
+  </sharedTo>
+</ListView>

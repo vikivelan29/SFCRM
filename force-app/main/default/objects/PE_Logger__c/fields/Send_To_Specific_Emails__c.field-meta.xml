@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Send_To_Specific_Emails__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is used when Email to be sent to specific email addresses and not to Case Account Contact or related addresses.</description>
+    <externalId>false</externalId>
+    <label>Send To Specific Emails</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

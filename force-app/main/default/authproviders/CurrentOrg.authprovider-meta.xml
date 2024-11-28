@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
+    <authorizeUrl>https://adityabirlafinancialsharedservices.my.salesforce.com/services/oauth2/authorize</authorizeUrl>
+    <consumerKey>3MVG9nCLpLBA9M1QezQ4MggDfWSUqiAfllhKhylMv5V9PVxNR_fJKlY6V9TW5TteymyRh.yECq_uKBvbuVbZ8</consumerKey>
+    <consumerSecret>Placeholder_Value</consumerSecret>
+    <defaultScopes>full refresh_token</defaultScopes>
+    <friendlyName>CurrentOrg</friendlyName>
+    <includeOrgIdInIdentifier>true</includeOrgIdInIdentifier>
+    <providerType>Salesforce</providerType>
+    <sendAccessTokenInHeader>false</sendAccessTokenInHeader>
+    <sendClientCredentialsInHeader>false</sendClientCredentialsInHeader>
+    <sendSecretInApis>true</sendSecretInApis>
+    <tokenUrl>https://adityabirlafinancialsharedservices.my.salesforce.com/services/oauth2/token</tokenUrl>
+</AuthProvider>

@@ -1,0 +1,6 @@
+<messaging:emailTemplate subject="Handover of collateral documents- Delay caused by Courier service
+" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="Handover of collateral documents-Delay caused by Courier service"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

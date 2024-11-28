@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+  <fullName>ABHFL_PRIDE_ICON_KHARADI_Case</fullName>
+  <filterScope>Queue</filterScope>
+  <label>ABHFL PRIDE ICON # KHARADI</label>
+  <queue>ABHFL_PRIDE_ICON_KHARADI</queue>
+  <sharedTo>
+    <group>ABHFL_PRIDE_ICON_KHARADI_G</group>
+  </sharedTo>
+</ListView>

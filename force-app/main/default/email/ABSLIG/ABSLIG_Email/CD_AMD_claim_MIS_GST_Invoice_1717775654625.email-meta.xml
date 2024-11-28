@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>CD /AMD / claim MIS /GST Invoice</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CD /AMD / claim MIS /GST Invoice</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Active member data / CD statement / Claim MIS / GST / Performa invoice request - Group Policy No &lt;&lt; Policy No &gt;&gt; &lt;&lt;Group Policy Holder &gt;&gt;</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

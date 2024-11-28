@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Here's your ABFL Loan Information you asked for." recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateDevloperName="ABFL_BASIC_LOAN_INFORMATION" dateformatStr="dd/MM/yyyy"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

@@ -1,0 +1,8 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}},<br />
+We note that you are yet to collect your collateral documents from the {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} branch. We urge you to visit the nearest branch and complete the formalities.<br />
+Regards, -Aditya Birla Housing Finance Limited</body>
+</html>

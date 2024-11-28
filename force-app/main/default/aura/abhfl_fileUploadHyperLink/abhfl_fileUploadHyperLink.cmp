@@ -1,0 +1,6 @@
+<aura:component implements="flexipage:availableForRecordHome,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName,lightning:isUrlAddressable" access="global">
+   <aura:attribute name="recordId" type="String" access="global" />
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<c:abhfl_assetdetail showAddAttachmentModal="true" isHyperlink="true" oncloseWorkSpace="{!c.closeWorkSpaceTab}" recordId="{!v.recordId}"></c:abhfl_assetdetail>
+<lightning:workspaceAPI aura:id="workspace"/>
+</aura:component>

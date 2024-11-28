@@ -1,0 +1,99 @@
+<template>
+    <template if:true={arePanelsPresent}>
+        <lightning-card>
+            <h3 slot="title">
+                <div class="slds-media slds-media--center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="standard:data_integration_hub" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body slds-text-heading--small">External Information
+                    </div>
+                </div>
+            </h3>
+            <lightning-icon 
+                icon-name="action:refresh" 
+                slot="actions" 
+                alternative-text="Refresh" 
+                title="Refresh"
+                size="xx-small"
+                onclick={refresh}>
+            </lightning-icon>
+            <template for:each={allActions} for:item="action" for:index="actionIndex">
+                <div class="slds-box slds-m-around_x-small slds-p-around_none" key={action.id}>
+                    <div class="slds-grid slds-grid_align-spread slds-p-around_small slds-border_bottom">
+                        <div class="slds-col slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-col slds-p-right_x-small">
+                                <template if:true={action.uiComponentDisplay}>
+                                    <lightning-icon 
+                                        icon-name="utility:chevrondown" 
+                                        alternative-text="Expand / Collapse" 
+                                        title="Expand / Collapse"
+                                        size="xx-small"
+                                        data-index={actionIndex} 
+                                        onclick={handleTogglePanel}>
+                                    </lightning-icon>
+                                </template>
+                                <template if:false={action.uiComponentDisplay}>
+                                    <lightning-icon 
+                                        icon-name="utility:chevronright" 
+                                        alternative-text="Expand / Collapse" 
+                                        title="Expand / Collapse"
+                                        size="xx-small"
+                                        data-index={actionIndex} 
+                                        onclick={handleTogglePanel}>
+                                    </lightning-icon>
+                                </template>
+                                
+                            </div>
+                            <div class="slds-col">
+                                <div>
+                                    <b>{action.label}</b>
+                                </div>
+                                <div>
+                                    <span>
+                                    <lightning-icon 
+                                        icon-name={action.icon} 
+                                        size="x-small" 
+                                        class={action.class}
+                                    ></lightning-icon>
+                                    </span>
+                                    <span class="slds-m-horizontal_x-small">
+                                        {action.status}
+                                        <template if:false={action.isNotStarted}>
+                                            <span class="slds-m-left_xx-small">(
+                                                <lightning-formatted-date-time 
+                                                    value={action.lastModified}
+                                                    year="numeric"
+                                                    month="numeric"
+                                                    day="numeric"
+                                                    hour="2-digit"
+                                                    minute="2-digit">
+                                                </lightning-formatted-date-time>
+                                            )
+                                            </span>
+                                        </template>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button 
+                                label="Run" 
+                                slot="actions"
+                                variant="neutral" 
+                                data-id={action.id}
+                                onclick={handleConfirmClick}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                    <template if:true={action.uiComponentDisplay}>
+                        <div>
+                            <lwc:component lwc:is={action.uiComponent} case-int-id={action.caseIntId}></lwc:component>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </lightning-card>
+    </template>
+   
+</template>

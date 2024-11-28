@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Handover of collateral documents- Delay caused by Courier service</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Handover of collateral documents-Delay caused by Courier service</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

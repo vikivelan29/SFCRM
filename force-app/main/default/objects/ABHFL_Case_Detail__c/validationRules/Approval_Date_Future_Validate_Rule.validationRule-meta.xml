@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approval_Date_Future_Validate_Rule</fullName>
+    <active>true</active>
+    <errorConditionFormula>DATEVALUE(Approval_Date__c)  &gt; TODAY()</errorConditionFormula>
+    <errorMessage>Approval Date should not be future date</errorMessage>
+</ValidationRule>

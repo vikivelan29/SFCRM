@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OnCreateCloseSR__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is coming from API, any channel creating case from API just for tracking purpose, going to send this field value as true, post, record creation, SR status is marked to Closed with Stage as Resolved.</description>
+    <externalId>false</externalId>
+    <label>OnCreateCloseSR</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

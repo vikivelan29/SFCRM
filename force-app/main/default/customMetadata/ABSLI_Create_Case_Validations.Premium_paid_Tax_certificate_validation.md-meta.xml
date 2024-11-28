@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Premium paid/Tax certificate validation</label>
+    <protected>false</protected>
+    <values>
+        <field>Asset_Values__c</field>
+        <value xsi:type="xsd:string">PENDING,NO ERRORS,REQ&apos;T CMPLT,U/W REQ:PENDING,NO ERRORS,REQ&apos;T O/S,U/W CMPLT:PENDING,NO ERRORS,REQ&apos;T O/S,U/W REQ&apos;D:PENDING,ERRORS,REQ&apos;T CMPLT,U/W REQ&apos;D:PENDING,ERRORS,REQ&apos;T O/S,U/W CMPLT:PENDING,ERRORS,REQ&apos;T O/S,U/W REQ&apos;D:NOT TAKEN</value>
+    </values>
+    <values>
+        <field>Business_Unit__c</field>
+        <value xsi:type="xsd:string">ABSLI</value>
+    </values>
+    <values>
+        <field>Error_Message__c</field>
+        <value xsi:type="xsd:string">Policy is not eligible for &apos;Premium paid certificate / Tax certificate&apos;</value>
+    </values>
+    <values>
+        <field>Issue_Code__c</field>
+        <value xsi:type="xsd:string">PEMT024</value>
+    </values>
+    <values>
+        <field>Operator__c</field>
+        <value xsi:type="xsd:string">NOT IN</value>
+    </values>
+</CustomMetadata>

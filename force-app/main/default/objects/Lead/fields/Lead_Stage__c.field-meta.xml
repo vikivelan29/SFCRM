@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Stage__c</fullName>
+    <externalId>false</externalId>
+    <label>Lead Stage</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Business_Unit__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Unattended</fullName>
+                <default>false</default>
+                <label>Unattended</label>
+            </value>
+            <value>
+                <fullName>Deal Captured</fullName>
+                <default>false</default>
+                <label>Deal Captured</label>
+            </value>
+            <value>
+                <fullName>Disbursed</fullName>
+                <default>false</default>
+                <label>Disbursed</label>
+            </value>
+            <value>
+                <fullName>Disqualified</fullName>
+                <default>false</default>
+                <label>Disqualified</label>
+            </value>
+            <value>
+                <fullName>Follow up</fullName>
+                <default>false</default>
+                <label>Follow up</label>
+            </value>
+            <value>
+                <fullName>Qualified</fullName>
+                <default>false</default>
+                <label>Qualified</label>
+            </value>
+            <value>
+                <fullName>Sanctioned</fullName>
+                <default>false</default>
+                <label>Sanctioned</label>
+            </value>
+            <value>
+                <fullName>Open</fullName>
+                <default>false</default>
+                <label>Open</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Disqualified</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Qualified</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Open</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

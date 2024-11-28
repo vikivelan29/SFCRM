@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Unit__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Business Unit</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ABSLI</fullName>
+                <default>true</default>
+                <label>ABSLI</label>
+            </value>
+            <value>
+                <fullName>ABHFL</fullName>
+                <default>false</default>
+                <label>ABHFL</label>
+            </value>
+            <value>
+                <fullName>ABFL</fullName>
+                <default>false</default>
+                <label>ABFL</label>
+            </value>
+            <value>
+                <fullName>Payments</fullName>
+                <default>false</default>
+                <label>Payments</label>
+            </value>
+            <value>
+                <fullName>ABSLAMC</fullName>
+                <default>false</default>
+                <label>ABSLAMC</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

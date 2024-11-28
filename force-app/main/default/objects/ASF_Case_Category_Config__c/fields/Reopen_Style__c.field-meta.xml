@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reopen_Style__c</fullName>
+    <description>Type of Reopen
+1. Case Reopens. when Reopened , Case Lands at First Stage , Medium Priority
+2. Case Reopens. when Reopened , Case Lands at Reopened Stage, but can move to other Stages also
+3. Case Reopens. when Reopened , Case Lands at Reopened Stage, but CANNOT move to any other Stages . Remains in Reopened and Goes to Closed Directly</description>
+    <externalId>false</externalId>
+    <label>Reopen Style</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Reopen Stage With Movement</fullName>
+                <default>false</default>
+                <label>Reopen Stage With Movement</label>
+            </value>
+            <value>
+                <fullName>Reopen Stage No Movement</fullName>
+                <default>false</default>
+                <label>Reopen Stage No Movement</label>
+            </value>
+            <value>
+                <fullName>Move To First Stage</fullName>
+                <default>false</default>
+                <label>Move To First Stage</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

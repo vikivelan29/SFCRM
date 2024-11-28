@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLIG_Email_Team_Case</fullName>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>CASES.EMAIL</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>ABFL_Incoming_Email_Count__c</columns>
+    <columns>Stage__c</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <columns>OWNER_NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <filterScope>Queue</filterScope>
+    <filters>
+        <field>CASES.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Closed,Resolved,Closed Duplicate</value>
+    </filters>
+    <label>ABSLIG Email Team</label>
+    <queue>ABSLIG_Email_Team</queue>
+    <sharedTo>
+        <group>ABSLIG_Email_Team_G</group>
+    </sharedTo>
+</ListView>

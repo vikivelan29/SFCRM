@@ -1,0 +1,13 @@
+.In-Progress {
+    --lwc-colorBackgroundPathComplete: grey;
+    /* --lwc-colorBackgroundPathCompleteHover:#7526e3; */
+    }
+    
+    .Success {
+    --lwc-colorBackgroundPathComplete: green;
+    /* --lwc-colorBackgroundPathCompleteHover:#7526e3; */
+    }
+    .Error {
+    --lwc-colorBackgroundPathComplete: red;
+    /* --lwc-colorBackgroundPathCompleteHover:#7526e3; */
+    }
