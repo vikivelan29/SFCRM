@@ -101,15 +101,69 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     if(caseIdCaseIntegrationMap.containsKey(emailMsg.ParentId)){
                         caseIntegrationId = caseIdCaseIntegrationMap.get(emailMsg.ParentId).Name;
                     }
-                    string toAddress = emailMsg.ToAddress;
+                   
                     //system.debug('toAddress'+toAddress);
-                    if(emailMsg.Parent.Business_Unit__c == 'ABHFL'){
-                        List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
+                    Map<String, String> fieldsMap = new Map<String, String>();
+                    //Added by Mrinal Tripathi (EYIN) platform event made dynamic
+                    String platformEvent = 'CRM_to_EBOT_Event__e';
+                    String endpointFlag = System.Label.ABFL_GenAIIntegration;
+                    List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = new List<ASF_PriorityEmailAddressesByBU__mdt>();
+                    if(endpointFlag == 'UNFYD'){
+                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_UNFYD__c = true  WITH SYSTEM_MODE];
+                    }
+                    
+                    else{
+                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_ebot__c = true  WITH SYSTEM_MODE];
+                    }
+                    
+                    if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null ){
+                        emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABFL' and Send_To_Ebot__c = false and send_to_UNFYD__c = true WITH SYSTEM_MODE];
                         if(emailAddressBU.size() > 0){
-                            toAddress = emailAddressBU[0].Email2CaseAddress__c;
+                            fileNamesList = generatePublicUrlsForCaseFiles(emailMsg.ParentId);
+                            if(fileNamesList!= null && fileNamesList.size() > 0){
+                                fileNames = String.join(fileNamesList,',');
+                            }
+                            
+                            
+                            fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
+                            fieldsMap.put('Description__c', emailMsg.Parent.Description);
+                            fieldsMap.put('Line_of_Business__c',LOB);
+                            fieldsMap.put('Business_Unit__c',LOB);
+                            fieldsMap.put('Integration_Name__c','EBOT API');
+                            fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
+                            fieldsMap.put('From_Address__c',emailMsg.FromAddress);
+                            fieldsMap.put('To_Address__c', emailMsg.Winning_Email__c);
+                            fieldsMap.put('Subject__c',emailMsg.Parent.Subject);
+                            fieldsMap.put('Additional_Emails__c',additionalEmails);
+                            fieldsMap.put('Attachments_URL__c',fileNames); 
+                            platformEvent = 'CRM_to_UNFYD_EVA_Event__e';
                             //system.debug('toAddress--->'+toAddress);
                         }
                     }
+                    //Added by Mrinal Tripathi (EYIN) to trigger the logic when send to UNFYD flag is false
+                    else{
+                        string toAddress = emailMsg.ToAddress;
+                        //system.debug('toAddress'+toAddress);
+                        if(emailMsg.Parent.Business_Unit__c == 'ABHFL'){
+                            emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABHFL' and Send_To_Ebot__c = true WITH SYSTEM_MODE];
+                            if(emailAddressBU.size() > 0){
+                                toAddress = emailAddressBU[0].Email2CaseAddress__c;
+                                //system.debug('toAddress--->'+toAddress);
+                            }
+                        }
+                        fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
+                        fieldsMap.put('Description__c', emailMsg.Parent.Description);
+                        fieldsMap.put('Line_of_Business__c',LOB);
+                        fieldsMap.put('Business_Unit__c',LOB);
+                        fieldsMap.put('Integration_Name__c','EBOT API');
+                        fieldsMap.put('Case_Number__c',emailMsg.Parent.CaseNumber);
+                        fieldsMap.put('From_Address__c',emailMsg.FromAddress);
+                        fieldsMap.put('To_Address__c', emailMsg.Winning_Email__c);
+                        fieldsMap.put('Subject__c',emailMsg.Parent.Subject);
+                        fieldsMap.put('Additional_Emails__c',additionalEmails);
+                        fieldsMap.put('File_Names__c',fileNames);
+                    }
+                    //Mrinal Tripathi(EYIN) change for UNFYD starts
                     
                     Map<String, String> fieldsMap = new Map<String, String>();
                     fieldsMap.put('Case_Integration_ID__c',caseIntegrationId);
@@ -128,5 +182,41 @@ public with sharing class ABHFL_EbotTriggerHelper {
                 }   
             }
         }
+    }
+    public static List<String> generatePublicUrlsForCaseFiles(Id caseId) {
+        List<String> publicUrls = new List<String>();
+        
+        // Query ContentDocument IDs linked to the Case
+        List<ContentDocumentLink> fileLinks = [
+            SELECT ContentDocumentId 
+            FROM ContentDocumentLink 
+            WHERE LinkedEntityId = :caseId
+        ];
+        
+        for (ContentDocumentLink link : fileLinks) {
+            // Fetch the latest version of the ContentDocument
+            ContentVersion contentVersion = [
+                SELECT Id 
+                FROM ContentVersion 
+                WHERE ContentDocumentId = :link.ContentDocumentId
+                ORDER BY CreatedDate DESC 
+                LIMIT 1
+            ];
+            
+            // Create a ContentDistribution (public link)
+            ContentDistribution cd = new ContentDistribution();
+            cd.Name = 'Public Link for Case File';
+            cd.ContentVersionId = contentVersion.Id;
+            cd.PreferencesAllowViewInBrowser = true; // Enable browser view
+            cd.PreferencesAllowOriginalDownload = true;     // Allow downloads
+            cd.PreferencesNotifyOnVisit = false;    // Optional: No notifications
+            cd.PreferencesLinkLatestVersion = true; // Links to the latest version
+            insert cd;
+            
+            // Add the public URL to the list
+            publicUrls.add(cd.DistributionPublicUrl);
+        }
+        
+        return publicUrls;
     }
 }
