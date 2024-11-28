@@ -2558,21 +2558,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customers_Discount__mdt.Customer_Id__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Customers_Discount__mdt.Discount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Customers_Discount__mdt.Total_Purchase__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>LOB_Rejection_Reason__mdt.LOB__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2659,9 +2644,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-Contact Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Customers_Discount__mdt-Customers Discount Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>LOBMappingDetails__mdt-LOB Mapping Details Layout</layout>
