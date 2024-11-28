@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABML_Available_Margin_Com__c</fullName>
     <externalId>false</externalId>
-    <label>Available Margin Com</label>
+    <label>Available Margin COM</label>
     <length>50</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
