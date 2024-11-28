@@ -67,19 +67,39 @@
                 <label>Duplicate</label>
             </value>
             <value>
-                <fullName>Incorrect Customer tagging</fullName>
+                <fullName>Resolution Provided</fullName>
                 <default>false</default>
-                <label>Incorrect Customer tagging</label>
+                <label>Resolution Provided</label>
             </value>
             <value>
-                <fullName>Incorrect SubType tagging</fullName>
+                <fullName>No Action Required</fullName>
                 <default>false</default>
-                <label>Incorrect SubType tagging</label>
+                <label>No Action Required</label>
             </value>
             <value>
-                <fullName>Insufficient/Incomplete details from Ops/Customer</fullName>
+                <fullName>Complaint Withdrawn</fullName>
                 <default>false</default>
-                <label>Insufficient/Incomplete details from Ops/Customer</label>
+                <label>Complaint Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Reversal Processed</fullName>
+                <default>false</default>
+                <label>Reversal Processed</label>
+            </value>
+            <value>
+                <fullName>Denied</fullName>
+                <default>false</default>
+                <label>Denied</label>
+            </value>
+            <value>
+                <fullName>Settled &amp; Recovery not initiated</fullName>
+                <default>false</default>
+                <label>Settled &amp; Recovery not initiated</label>
+            </value>
+            <value>
+                <fullName>Interaction wrongly created</fullName>
+                <default>false</default>
+                <label>Interaction wrongly created</label>
             </value>
         </valueSetDefinition>
     </valueSet>
