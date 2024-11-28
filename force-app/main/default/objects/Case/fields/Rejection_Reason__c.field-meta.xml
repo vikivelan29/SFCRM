@@ -1015,41 +1015,41 @@
                 <isActive>true</isActive>
                 <label>Customer Not Contactable</label>
             </value>
-			<value>
-				<fullName>Resolution Provided</fullName>
-				<default>false</default>
-				<label>Resolution Provided</label>
-			</value>
-			<value>
-				<fullName>No Action Required</fullName>
-				<default>false</default>
-				<label>No Action Required</label>
-			</value>
-			<value>
-				<fullName>Complaint Withdrawn</fullName>
-				<default>false</default>
-				<label>Complaint Withdrawn</label>
-			</value>
-			<value>
-				<fullName>Reversal Processed</fullName>
-				<default>false</default>
-				<label>Reversal Processed</label>
-			</value>
-			<value>
-				<fullName>Denied</fullName>
-				<default>false</default>
-				<label>Denied</label>
-			</value>
-			<value>
-				<fullName>Settled &amp; Recovery not initiated</fullName>
-				<default>false</default>
-				<label>Settled &amp; Recovery not initiated</label>
-			</value>
-			<value>
-				<fullName>Interaction wrongly created</fullName>
-				<default>false</default>
-				<label>Interaction wrongly created</label>
-			</value>
+	    <value>
+		<fullName>Resolution Provided</fullName>
+		<default>false</default>
+		<label>Resolution Provided</label>
+	    </value>
+	    <value>
+		<fullName>No Action Required</fullName>
+		<default>false</default>
+		<label>No Action Required</label>
+           </value>
+	   <value>
+		<fullName>Complaint Withdrawn</fullName>
+		<default>false</default>
+		<label>Complaint Withdrawn</label>
+	   </value>
+	   <value>
+		<fullName>Reversal Processed</fullName>
+		<default>false</default>
+		<label>Reversal Processed</label>
+	   </value>
+	   <value>
+		<fullName>Denied</fullName>
+		<default>false</default>
+		<label>Denied</label>
+	   </value>
+           <value>
+		<fullName>Settled &amp; Recovery not initiated</fullName>
+		<default>false</default>
+		<label>Settled &amp; Recovery not initiated</label>
+           </value>
+	   <value>
+		<fullName>Interaction wrongly created</fullName>
+		<default>false</default>
+		<label>Interaction wrongly created</label>
+           </value>
             <value>
                 <fullName>Insufficient incomplete details from customer</fullName>
                 <default>false</default>
