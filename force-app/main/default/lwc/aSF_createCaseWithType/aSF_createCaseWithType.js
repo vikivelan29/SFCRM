@@ -362,7 +362,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     // Rajendra Singh Nagar: PR1030924-209 - Added function
     adjustAutoCommunications(data){
-        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
+        if(AUTO_COMM_BU_OPT?.[this.businessUnit]?.OPTSLBLS){
             this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
                 label: item.label,
                 value: item.value
