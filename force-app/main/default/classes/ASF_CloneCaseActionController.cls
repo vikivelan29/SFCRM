@@ -235,7 +235,7 @@ public with sharing class ASF_CloneCaseActionController {
     }
 
     @AuraEnabled
-    public static CaseDetailWrapper createCloneCaseV2(Case cloneCaseRecord, Map<String, SObject> clonedCaseExtnRecords, Id originalCaseId, String assetId){
+    public static CaseDetailWrapper createCloneCaseV2(Case cloneCaseRecord, Map<String, SObject> clonedCaseExtnRecords, Id originalCaseId, String assetId, String inpArg){
         CaseDetailWrapper wrap = new CaseDetailWrapper();
         try {
 
@@ -261,12 +261,22 @@ public with sharing class ASF_CloneCaseActionController {
             cloneCaseRecord.AccountId = caseRec.AccountId;
             cloneCaseRecord.BusinessHoursId = caseRec.BusinessHoursId;
             if (assetId != 'NA'){
-                cloneCaseRecord.assetId = assetId;
+              cloneCaseRecord.assetId = assetId;
             }
            
             cloneCaseRecord.RecordTypeId = caseRec.RecordTypeId;
             for(String objectAPIName : clonedCaseExtnRecords.keySet()){
                 cloneCaseRecord.put(objectAPIName, (Id)clonedCaseExtnRecords.get(objectAPIName).get('Id'));
+            }
+            if(String.isNotBlank(inpArg)){
+                Map<String,String> mInpArg = (Map<String,String>) JSON.deserialize(inpArg, Map<String,String>.Class);
+                if(mInpArg.containsKey('clientCode') && !String.isBlank(mInpArg.get('clientCode'))){
+                    cloneCaseRecord.Client_Code_Text__c = mInpArg.get('clientCode');
+                }
+                if(mInpArg.containsKey('memberId') && !String.isBlank(mInpArg.get('memberId'))){
+                    cloneCaseRecord.AccountId = mInpArg.get('memberId');
+                }
+                
             }
             insert cloneCaseRecord;
 
