@@ -1302,7 +1302,13 @@
                             <value>Age__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>App_Download_Status__c</value>
+                            <value>Primary_Mobile_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Alternate_Mobile_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Primary_email_ID__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1369,9 +1375,6 @@
                     <valueList>
                         <valueListItems>
                             <value>NAME</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Member_Id__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Member_Name__c</value>
