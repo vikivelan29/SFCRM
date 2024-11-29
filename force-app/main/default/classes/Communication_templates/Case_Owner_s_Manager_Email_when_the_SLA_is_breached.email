@@ -1,0 +1,22 @@
+TAT Breached !!
+Escalated to <Level > on {!Case.Escalated_Date_Time__c} Please take steps to wrap up this Case as quickly as possible. <br/>
+Case Details<br/>
+=============================================================================<br/>
+Case No.: {!Case.CaseNumber}<br/>
+Case Nature: {!Case.Nature__c}<br/>
+Case Type : {!Case.Type_Text__c}<br/>
+Created Date/Time: {!Case.CreatedDate}<br/>
+Created By: {!Case.CreatedBy}<br/>
+Overall Case Closure SLA: {!Case.Overall_Case_Closure_SLA__c}<br/>
+=============================================================================<br/>
+Case Assignment Details<br/>
+=============================================================================<br/>
+Assigned Date/Time: {!Case.Case_Stage_Change_Date__c}<br/>
+
+Assigned to Dept.: {!Case.OwnerFullName}<br/>
+
+=============================================================================<br/>
+Customer Details<br/>
+=============================================================================<br/>
+Client Code : {!Case.Client_Code__c}<br/>
+Customer Name : {!Case.Customer_name_formula__c}<br/>
