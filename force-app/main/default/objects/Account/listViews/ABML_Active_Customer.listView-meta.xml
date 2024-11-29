@@ -13,6 +13,7 @@
     <columns>ABML_Activation_Date__c</columns>
     <columns>ABML_Status__c</columns>
     <columns>ABML_Mobile_Trading__pc</columns>
+    <columns>ABML_WelcomeCallStatus__pc</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Business_Unit__c</field>
