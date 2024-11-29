@@ -9,7 +9,7 @@ Dear Customer,<br />
 <br />
 <br />
 <br />
-Your Health Insurance has expired on {{{Opportunity.Policy_Expiry_Date__c}}} and is due for Renewal. You are currently not covered. We are concerned for your health and advise you to renew it today to stay protected at all times. Click https://abcap.co.in/ABCABH/RrOBKwU to pay. T&amp;C apply.<br />
+Your Health Insurance has expired on {{{Opportunity.Policy_Expiry_Date__c}}} and is due for Renewal. You are currently not covered. We are concerned for your health and advise you to renew it today to stay protected at all times. Click {{{Opportunity.Payment_Link__c}}} to pay. T&amp;C apply.<br />
 <br />
 <br />
 <br />
