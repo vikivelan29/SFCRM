@@ -7,41 +7,42 @@
 *********************************************************/
 
 public with sharing class ABCL_CommonCLass {
-    
+
     /****************************************************************************************************************
-* @Function - prepopulateCaseFlds
-* @param newItems -  list of sobject records.
-* @return - void .
-* @Description - This method pre-populates fields on Case.
-*****************************************************************************************************************/
+    * @Function - prepopulateCaseFlds
+    * @param newItems -  list of sobject records.
+    * @return - void .
+    * @Description - This method pre-populates fields on Case.
+    *****************************************************************************************************************/
     public void prepopulateCaseFlds(List<Sobject> newItems) {
-        
+
         List<Case> newCaseList = (List<Case>)newItems;
         prepopulateCaseFldsOnBasisOfBussinessUnit(newCaseList);
         populateCreatedDateRange(newCaseList);
     }
-    
+
     /****************************************************************************************************************
-* @Function - prepopulateCaseFldsOnBasisOfBussinessUnit
-* @param newItems -  list of case records.
-* @return - void .
-* @Description - This method pre-populates BusinessHoursId field on Case on the basis of Business Unit field.
-* Note - Please use the name of Business Unit of Case in Business Hour Name field of BusinessHours object
-*****************************************************************************************************************/
+    * @Function - prepopulateCaseFldsOnBasisOfBussinessUnit
+    * @param newItems -  list of case records.
+    * @return - void .
+    * @Description - This method pre-populates BusinessHoursId field on Case on the basis of Business Unit field.
+    * Note - Please use the name of Business Unit of Case in Business Hour Name field of BusinessHours object
+    *****************************************************************************************************************/
     public void prepopulateCaseFldsOnBasisOfBussinessUnit(List<Case> newCaseLst) {
-        
+
         Map<String, BusinessHours> mapOf_BusinessUnit_To_BusinessHr = new Map<String, BusinessHours>();
         Set<String> setOfCaseBusinessUnit = new Set<String>();
-        
+
         for(Case csRec : newCaseLst) {
             if(String.isNotBlank(csRec.Business_Unit__c)) {
                 if(csRec.Business_Unit__c == 'ABWM'){
-                    String bussUnit = 'ABFL'; 
+                  String bussUnit = 'ABFL'; 
                     if(!setOfCaseBusinessUnit.contains(bussUnit)) {
                     	setOfCaseBusinessUnit.add('%' + bussUnit + '%');
                 	} 
                 }
                 else{
+                    
                 	String bussUnit = csRec.Business_Unit__c; 
                 	if(!setOfCaseBusinessUnit.contains(bussUnit)) {
                     setOfCaseBusinessUnit.add('%' + bussUnit + '%');
@@ -49,11 +50,13 @@ public with sharing class ABCL_CommonCLass {
                 }
             }
         }
-        
+
         List<BusinessHours> bhList = [SELECT id, Name FROM BusinessHours WHERE Name Like :setOfCaseBusinessUnit AND IsActive = true WITH SECURITY_ENFORCED];
         
+
+        
         if(bhList.size() > 0) {
-            
+
             for(BusinessHours bh : bhList) {
                 String bussHrName = bh.Name;
                 if(bussHrName.containsIgnoreCase('ABHFL')) {
@@ -68,17 +71,13 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
                 }
-               else if(bussHrName.containsIgnoreCase('ABSLI')) {
-                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
-                }
-                else if(bussHrName.containsIgnoreCase('ABSLAMC')){
-                    mapOf_BusinessUnit_To_BusinessHr.put('ABSLAMC', bh);
-                }
-                else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
-                    mapOf_BusinessUnit_To_BusinessHr.put('Wellness', bh);
+                
+                // Added by EY
+                else if(bussHrName.containsIgnoreCase('ABML')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABML', bh);
                 }
             }
-            
+        
             for(Case csRec : newCaseLst) {  
                 if(String.isNotBlank(csRec.Business_Unit__c)) {
                     String busshrId ='';
@@ -86,6 +85,7 @@ public with sharing class ABCL_CommonCLass {
                     	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
                     }
                     else{
+                        
                     	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
                     }
                     csRec.BusinessHoursId = busshrId;
@@ -93,19 +93,19 @@ public with sharing class ABCL_CommonCLass {
             }
         }
     }
-    
+
     /****************************************************************************************************************
-* @Function - populateResolutionCommentOnCaseDetail
-* @param newItems oldMap -  list of sobject records. map of trigger.oldMap
-* @return - void .
-* @Description - Updates the resolution comment/remarks field on Case Detail object 
-* when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
-*****************************************************************************************************************/
+    * @Function - populateResolutionCommentOnCaseDetail
+    * @param newItems oldMap -  list of sobject records. map of trigger.oldMap
+    * @return - void .
+    * @Description - Updates the resolution comment/remarks field on Case Detail object 
+    * when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
+    *****************************************************************************************************************/
     public static void populateResolutionCommentOnCaseDetail(List<Case> newItems, Map<Id, Case> oldMap) {
         
         //if not bulk processing, do nothing, return;
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
-        
+
         List<SObject> recordsToUpdate = new List<SObject>();
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
