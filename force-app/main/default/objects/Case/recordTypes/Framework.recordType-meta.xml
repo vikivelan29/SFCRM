@@ -2060,6 +2060,10 @@
             <fullName>Branch walk in</fullName>
             <default>false</default>
         </values>
+         <values>
+            <fullName>Seller_Portal</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>

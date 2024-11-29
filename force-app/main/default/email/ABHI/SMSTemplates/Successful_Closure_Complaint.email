@@ -3,7 +3,7 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">Dear Customer,<br />
-Thank you for reaching out to us. Your Service Request registered under SR No.{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been Resolved. We appreciate the opportunity to serve you and look forward to being of service in the future.<br />
+Thank you for reaching out to us. Your Service Request registered under SR No. {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} has been Resolved. We appreciate the opportunity to serve you and look forward to being of service in the future.<br />
 Regards,<br />
 ABHI</body>
 </html>
