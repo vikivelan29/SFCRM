@@ -29,31 +29,11 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABML_CloseQueryCase</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABML_CloseQueryCase_Test</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABML_LegacyView</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ABML_LegacyView_Test</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABML_Listviewcallout</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABML_Listviewcallout_Test</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABML_MockGenerator</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -101,16 +81,12 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABSLIG_SendCaseCreationEmail_Test</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ASF_Case360Controller</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseEditPageController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseEditPageController_Test</apexClass>
@@ -154,15 +130,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseTriggerModularHelper</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseUIController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CaseUIController_Test</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_CommPETriggerHelper</apexClass>
@@ -205,15 +181,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AccountListViewController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MetadataDeploymentJob</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>
@@ -1100,11 +1068,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.TAN_Number__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.TextMasking__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2641,14 +2604,6 @@
         <layout>CaseClose-Close Case Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>CaseClose-Close Case Layout</layout>
-        <recordType>Case.Framework</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>CaseClose-Close Case Layout</layout>
-        <recordType>Case.Interaction</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>CaseInteraction-Case Feed Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -2714,10 +2669,6 @@
         <object>Contact</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <pageAccesses>
-        <apexPage>ABML_ListViewSession</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.ABML_Branch</recordType>
@@ -2736,7 +2687,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Case.Framework</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -2786,10 +2736,6 @@
         <recordType>PersonAccount.Person_Account</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
-    <tabVisibilities>
-        <tab>abml_List_View_Tab</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
     <tabVisibilities>
         <tab>standard-Account</tab>
         <visibility>DefaultOn</visibility>
