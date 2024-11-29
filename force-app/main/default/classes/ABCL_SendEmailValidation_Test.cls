@@ -10,41 +10,7 @@
 **/
 @isTest
 public class ABCL_SendEmailValidation_Test {
-
-    @TestSetup
-    static void setupTestData() {
-        
-    
-        Profile adminProfile = [SELECT Id FROM Profile WHERE Name = 'ABHI Base Profile' LIMIT 1];
-        
-    
-        User testUser = new User(
-            Username = 'testuser@example.com' + System.currentTimeMillis(),
-            Alias = 'tuser321',
-            Email = 'testuser321123@example.com',
-            LastName = 'Test',
-            TimeZoneSidKey = 'America/Los_Angeles',
-            LocaleSidKey = 'en_US',
-            EmailEncodingKey = 'UTF-8',
-            ProfileId = adminProfile.Id,
-            LanguageLocaleKey = 'en_US',
-            Business_Unit__c = 'ABHI',
-            Source_Code__c = '015'
-        );
-
-        insert testUser;
-
-        List<Case> csList = new List<Case>();
-        Case testCase1 = new Case(
-            Subject = 'Test Case 1',
-            Status = 'New',
-            Origin = 'Email'
-        );
-        csList.add(testCase1);
-        insert csList;
-    }
-
-    @isTest
+     @isTest
     public static void validateIfGoingFromAuthorizedAddress(){
            Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='ABFL Base Profile' LIMIT 1];
             User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
@@ -78,32 +44,31 @@ public class ABCL_SendEmailValidation_Test {
         Test.stopTest();            
     	}     
     }
-
+    
     @isTest
-    public static void testRestrictUserToSendEmailMethod() {
-        
-        User abhiTestUser = [SELECT id, Business_Unit__c, Source_Code__c FROM USER WHERE email = 'testuser321123@example.com' LIMIT 1];
-        List<Case> csLst = [SELECT id FROM Case];
-        Case testCase1 = csLst[0];
-
-        System.runAs(abhiTestUser) {
-            Test.startTest();
-                EmailMessage testEmailMessage = new EmailMessage(            
-                    FromAddress = 'sender@example.com',  
-                    ToAddress = 'recipient@example.com', 
-                    Subject = 'Test Email Subject',      
-                    TextBody = 'This is a test email body.',
-                    Status = '3',                        
-                    MessageDate = System.now()           
-                );
-                insert testEmailMessage;
+    public static void validateEmailTemplate(){
+        EmailTemplate et = new EmailTemplate();
+        et.id = '00XNy000000LcdNMAS';
+        et.isActive = true;
+        et.Name = 'Manual Email Template Test';
+        et.DeveloperName = 'Manual_Email_Template_Test_' + System.now().getTime();
+        et.FolderId = UserInfo.getUserId();
+        et.Body = 'Manual Email Template Test';
                 
-                EmailMessage insertedEmailMessage = [SELECT Id, ParentId, FromAddress, ToAddress, Subject, TextBody 
-                                                    FROM EmailMessage 
-                                                    WHERE Id = :testEmailMessage.Id];
+        ABCL_EmailTemplate_Mapping__mdt mdtList = new ABCL_EmailTemplate_Mapping__mdt(From_Address__c='abhfl.ceodesk@adityabirlacapital.com',Template_Id__c=et.Id,Template_Name__c='Manual Email Template');
                 
-                System.assertNotEquals(null, insertedEmailMessage, 'EmailMessage should be inserted successfully');
-            Test.stopTest();
-        }
+        EmailMessage email = new EmailMessage();
+        email.FromAddress = 'abhfl.ceodesk@adityabirlacapital.com';
+        email.Incoming = false;
+        email.ToAddress= 'test@xyz.org';
+        email.Subject = 'Test email';
+        email.HtmlBody = 'Test email body';
+        //email.ParentId = c.Id; 
+        email.EmailTemplateId = et.Id;
+        email.ValidatedFromAddress = 'abhfl.ceodesk@adityabirlacapital.com';
+        insert email;
+        ABCL_SendEmailValidation.verifyEmailTemplate(new List<sObject>{email});
+       
+                
     }
 }
