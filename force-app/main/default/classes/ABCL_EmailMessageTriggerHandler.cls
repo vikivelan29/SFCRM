@@ -18,6 +18,11 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
         
         RNWL_EmailMessageTriggerHandler.validateEmailCount(newItems);
+
+        //added by Nikhil for template id and from address validation. Assigned by Abhijeet and Navin.
+        if(Userinfo.getName() != 'ABCL Automation User'){
+             ABCL_SendEmailValidation.verifyEmailTemplate(newItems);
+        }
         
       //  for(EmailMessage em : (List<EmailMessage>)newItems){
             //System.debug('ASF - emailmessage before'+em);
