@@ -128,7 +128,7 @@ public with sharing class ABHI_CaseDetailHelper {
                 Case cs = mapofCaseDetailToResolvedCase.get(abhiCaseDet.Id);
                  if(cs != null) {
                      abhiCaseDet.Case_Closed_Resolution_Comments__c = abhiCaseDet.Resolution_Comments__c;
-                     abhiCaseDet.Case_Closed_Resolved_By__c = mapOfIdToOldCase.get(cs.Id).OwnerText__c;
+                     abhiCaseDet.Case_Closed_Resolved_By__c = cs.OwnerText__c;
                      abhiCaseDetList.add(abhiCaseDet);
                  }
             }
@@ -153,7 +153,7 @@ public with sharing class ABHI_CaseDetailHelper {
     }
     
     /**
-    * @description - populate permanent address fields
+    * @description - 
     */
     
     public void updateAccountFieldsonCaseDetail(List<Case> newCaseList) {
@@ -192,8 +192,8 @@ public with sharing class ABHI_CaseDetailHelper {
             }
             
             if(mapOfCaseDetailIdToCaseDetailRec.size() > 0) {
-               update mapOfCaseDetailIdToCaseDetailRec.values();
-           }
+                update mapOfCaseDetailIdToCaseDetailRec.values();
+            }
         }
     }
 }
