@@ -28,6 +28,18 @@
         <apexClass>ABML_LegacyView_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>ABML_Listviewcallout</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_Listviewcallout_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_MockGenerator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>ABML_QueueController</apexClass>
         <enabled>true</enabled>
@@ -114,6 +126,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ASF_Constants</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_EmailMessageHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
