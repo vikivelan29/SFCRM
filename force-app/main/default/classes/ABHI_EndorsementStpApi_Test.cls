@@ -14,7 +14,7 @@ public class ABHI_EndorsementStpApi_Test {
     integ.Query_Fields__c = 'CaseNumber,Stage__c,CreatedDate,Technical_Source__c,Description,Business_Unit__c,CCC_External_Id__c,Account.FirstName,Account.LastName,Account.PersonGenderIdentity,AssetId,Asset.Policy_No__c,Account.Street_Address_1__c,Account.PersonMobilePhone,Account.PersonBirthdate,ABHI_Case_Detail__r.Member__c,ABHI_Case_Detail__r.Inward_Number__c,ABHI_Case_Detail__r.Pan_Card__c,ABHI_Case_Detail__r.Existing_Pan_Card_Number__c,Sub_Type_Text__c,Asset.IsCombi__c,ABHI_Case_Detail__r.Policy__r.Policy_No__c,ABHI_Case_Detail__r.Policy__r.IsCombi__c,ABHI_Case_Detail__r.New_Nominee_Contact_Number__c,ABHI_Case_Detail__r.New_Nominee_Name__c,ABHI_Case_Detail__r.New_Nominee_Relationship__c,ABHI_Case_Detail__r.Aadhar_Number__c,ABHI_Case_Detail__r.Alternate_Email_ID_Member__c,ABHI_Case_Detail__r.Alternate_Email_Id__c,ABHI_Case_Detail__r.Alternate_Contact_Number__c,ABHI_Case_Detail__r.Alternate_Contact_Number_Member__c,ABHI_Case_Detail__r.Primary_Email_ID__c,ABHI_Case_Detail__r.Primary_Email_ID_Member__c,ABHI_Case_Detail__r.Primary_Contact_Number__c,ABHI_Case_Detail__r.Primary_Contact_Number_Member__c';
     integ.Processing_Class__c = 'ABHI_EndorsementStpApi';
     integ.When_to_Appear__c = 'Stage Entry';
-    integ.Type__c = 'UI Action'; 
+    integ.Type__c = 'UI Action';
     integ.Auto_Run_on_Load__c = false;
     insert integ;
 
@@ -104,7 +104,7 @@ public class ABHI_EndorsementStpApi_Test {
         Status,
         OwnerId,
         CaseNumber,ABHI_Case_Detail__r.Type_of_Disposal__c,Stage__c ,
-          Description,ABHI_Case_Detail__r.Resolution_Comments__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
+          Description ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
         Client_Code_Text__c,
         Account.Client_Code__c,
         ABHI_Case_Detail__c,
@@ -146,7 +146,7 @@ public class ABHI_EndorsementStpApi_Test {
         OwnerId,
         CaseNumber,
         Client_Code_Text__c,ABHI_Case_Detail__r.Type_of_Disposal__c,IGMS_Complaint_Type_Code__c  ,
-              IRDAI_Token_Number__c,ABHI_Case_Detail__r.Resolution_Comments__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
+              IRDAI_Token_Number__c,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
         Account.Client_Code__c,
         ABHI_Case_Detail__c,
         ABHI_Case_Detail__r.Status_Valid_For_STP__c,
@@ -182,7 +182,7 @@ public class ABHI_EndorsementStpApi_Test {
         CaseNumber,
               Description,
         Client_Code_Text__c,ABHI_Case_Detail__r.Type_of_Disposal__c,Stage__c ,
-        Account.Client_Code__c,ABHI_Case_Detail__r.Resolution_Comments__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
+        Account.Client_Code__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
         ABHI_Case_Detail__c,
         ABHI_Case_Detail__r.Status_Valid_For_STP__c,
         AccountId,AssetId,
@@ -225,7 +225,7 @@ public class ABHI_EndorsementStpApi_Test {
         OwnerId,
         CaseNumber,
         Client_Code_Text__c,ABHI_Case_Detail__r.Type_of_Disposal__c,IGMS_Complaint_Type_Code__c ,
-        Account.Client_Code__c,ABHI_Case_Detail__r.Resolution_Comments__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
+        Account.Client_Code__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
         ABHI_Case_Detail__c,
         ABHI_Case_Detail__r.Status_Valid_For_STP__c,
         AccountId,AssetId,
@@ -267,7 +267,7 @@ public class ABHI_EndorsementStpApi_Test {
         OwnerId,
         CaseNumber,
         Client_Code_Text__c,ABHI_Case_Detail__r.Type_of_Disposal__c,IGMS_Complaint_Type_Code__c,Stage__c ,
-        Account.Client_Code__c,ABHI_Case_Detail__r.Resolution_Comments__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
+        Account.Client_Code__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
         ABHI_Case_Detail__c,AssetId,
         ABHI_Case_Detail__r.Status_Valid_For_STP__c,
         AccountId,Sub_Type_Text__c ,
