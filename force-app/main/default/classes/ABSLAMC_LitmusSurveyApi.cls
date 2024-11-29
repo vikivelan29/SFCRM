@@ -27,7 +27,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
 
     public boolean isAllCasesClosed(String caseId, String accountId){
         Account accountWithCases = [SELECT id, 
-                                        (SELECT id, CaseNumber, Status,CCC_External_Id__c, Source__c, ABSLAMC_Case_Detail__r.Caller_Type__c 
+                                        (SELECT id, CaseNumber, Status,CCC_External_Id__c, Source__c
                                         FROM Cases 
                                         WHERE Stage__c NOT IN (:ABSLAMC_Constants.RESOLVED_STAGE, :ABSLAMC_Constants.UNRESOLVED_STAGE) AND Id != :caseId) 
                                     FROM Account 

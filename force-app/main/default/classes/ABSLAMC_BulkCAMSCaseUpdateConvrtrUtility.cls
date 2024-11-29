@@ -78,7 +78,7 @@ public with sharing class ABSLAMC_BulkCAMSCaseUpdateConvrtrUtility implements AS
             resultWrapper.resultRecords.put(lineItemId, caseRec);
             resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
         }
-
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
         return resultWrapper;
     }
 
