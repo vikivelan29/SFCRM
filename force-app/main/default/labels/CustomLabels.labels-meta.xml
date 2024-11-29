@@ -1497,4 +1497,18 @@
         <shortDescription>ABFL_GenAIIntegration</shortDescription>
         <value>UNFYD</value>
     </labels>
+    <labels>
+        <fullName>RNWL_CommunicationDailyFreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_CommunicationDailyFreq</shortDescription>
+        <value>You have exceeded the daily limit for sending this notification.</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_CommunicationOverallFreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_CommunicationOverallFreq</shortDescription>
+        <value>You have exceeded the overall limit for sending this notification.</value>
+    </labels>
 </CustomLabels>
