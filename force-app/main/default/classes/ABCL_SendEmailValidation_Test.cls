@@ -127,7 +127,7 @@ public class ABCL_SendEmailValidation_Test {
         email.HtmlBody = 'Test email body';
         //email.ParentId = c.Id; 
         email.EmailTemplateId = et.Id;
-        email.ValidatedFromAddress = 'abhfl.ceodesk@adityabirlacapital.com';
+        email.ValidatedFromAddress = '';
         insert email;
         ABCL_SendEmailValidation.verifyEmailTemplate(new List<sObject>{email});
     }
