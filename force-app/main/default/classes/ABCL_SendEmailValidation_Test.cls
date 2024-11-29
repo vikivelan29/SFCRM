@@ -106,4 +106,29 @@ public class ABCL_SendEmailValidation_Test {
             Test.stopTest();
         }
     }
+
+@isTest
+    public static void validateEmailTemplate(){
+        EmailTemplate et = new EmailTemplate();
+        et.id = '00XNy000000LcdNMAS';
+        et.isActive = true;
+        et.Name = 'Manual Email Template Test';
+        et.DeveloperName = 'Manual_Email_Template_Test_' + System.now().getTime();
+        et.FolderId = UserInfo.getUserId();
+        et.Body = 'Manual Email Template Test';
+                
+        ABCL_EmailTemplate_Mapping__mdt mdtList = new ABCL_EmailTemplate_Mapping__mdt(From_Address__c='abhfl.ceodesk@adityabirlacapital.com',Template_Id__c=et.Id,Template_Name__c='Manual Email Template');
+                
+        EmailMessage email = new EmailMessage();
+        email.FromAddress = 'abhfl.ceodesk@adityabirlacapital.com';
+        email.Incoming = false;
+        email.ToAddress= 'test@xyz.org';
+        email.Subject = 'Test email';
+        email.HtmlBody = 'Test email body';
+        //email.ParentId = c.Id; 
+        email.EmailTemplateId = et.Id;
+        email.ValidatedFromAddress = '';
+        insert email;
+        ABCL_SendEmailValidation.verifyEmailTemplate(new List<sObject>{email});
+    }
 }

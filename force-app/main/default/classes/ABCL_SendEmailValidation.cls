@@ -135,4 +135,47 @@ public with sharing class ABCL_SendEmailValidation {
             }
         }
     }
+
+   /****************************************************************************************************************
+    * @author - Nikhil Dhoke (EY-ABCL) 
+    * @param  newEmails List<EmailMessage> newEmails
+    * @description - validate the emailtemplate id and from address.
+    *****************************************************************************************************************/
+    public static void verifyEmailTemplate(List<SObject> newItems) {
+        
+        ABCL_Emailtemplate_LOB_Mapping__mdt lob = ABCL_Emailtemplate_LOB_Mapping__mdt.getInstance('Valid_Business_Unit');
+        User userObj = [SELECT Id, Name, Business_Unit__c FROM USER WHERE Id =: UserInfo.getUserId()];
+        if(lob != null && userObj.Business_Unit__c != null && lob.Business_Unit__c.toUppercase().contains(userObj.Business_Unit__c.toUppercase())){
+            
+            // Retrieve all custom metadata records for email templates
+            List<ABCL_EmailTemplate_Mapping__mdt> metadataRecords = [SELECT From_Address__c, Template_Id__c, Template_Name__c FROM ABCL_EmailTemplate_Mapping__mdt];
+            // Create a map to store the metadata records by Template Id
+            Map<String, ABCL_EmailTemplate_Mapping__mdt> templateMap = new Map<String, ABCL_EmailTemplate_Mapping__mdt>();
+            Map<String, ABCL_EmailTemplate_Mapping__mdt> correctTemplateMap = new Map<String, ABCL_EmailTemplate_Mapping__mdt>();
+            for (ABCL_EmailTemplate_Mapping__mdt record : metadataRecords) {
+                templateMap.put(record.Template_Id__c, record);
+                correctTemplateMap.put(record.From_Address__c,record);
+            }
+            
+            // Loop through the EmailMessage records passed to the method
+            for (EmailMessage em : (List<EmailMessage>)newItems) {
+                if(em.Incoming == false){
+                    if(em.EmailTemplateId==null){
+                        em.addError('Please select the template');
+                    }
+                    else if(correctTemplateMap.containsKey(em.ValidatedFromAddress) && !templateMap.containsKey(em.EmailTemplateId)){
+                        em.addError('Selected email template is not configured for the from address. Please select the template with name "' +correctTemplateMap.get(em.ValidatedFromAddress).Template_Name__c+'"');
+                    }
+                    else if(!correctTemplateMap.containsKey(em.ValidatedFromAddress) && templateMap.containsKey(em.EmailTemplateId)){
+                        em.addError('Invalid from address for selected template. Please select from address "' +templateMap.get(em.EmailTemplateId).From_Address__c+'"');
+                    }
+                    else if (templateMap.containsKey(em.EmailTemplateId) && templateMap.get(em.EmailTemplateId).From_Address__c != em.ValidatedFromAddress) {
+                        em.addError('Invalid email template for selected from address. Please select the template with name "' +correctTemplateMap.get(em.ValidatedFromAddress).Template_Name__c+'"');
+                    }
+                }
+                
+            }
+        }
+    }
+
 }
