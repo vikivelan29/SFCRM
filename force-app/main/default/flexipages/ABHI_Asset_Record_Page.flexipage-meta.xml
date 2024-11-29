@@ -1371,6 +1371,9 @@
                             <value>NAME</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Member_Id__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Member_Name__c</value>
                         </valueListItems>
                         <valueListItems>
