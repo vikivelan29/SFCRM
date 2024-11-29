@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Used for Email template and from address validation in email composer for LOB specific validation.</description>
+    <label>ABCL Emailtemplate LOB Mapping</label>
+    <pluralLabel>ABCL Emailtemplate LOB Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
