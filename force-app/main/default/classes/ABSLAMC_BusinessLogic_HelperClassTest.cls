@@ -7,9 +7,9 @@
 *********************************************************/
 @isTest
 public class ABSLAMC_BusinessLogic_HelperClassTest {
-    private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id
+    private final static Profile AMC_BASE_USER_PROFILE = [SELECT Id
                                                         FROM Profile
-                                                        WHERE name = 'System Administrator'
+                                                        WHERE name = 'ABSLAMC Base User'
                                                         LIMIT 1];
     @TestSetup
     static void makeData(){
@@ -21,6 +21,7 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
         );
         insert slaGroup;
         
+        
         User userRecord1 = new User(
             Alias = 'standt', 
             Email = 'stanrduserEmails@testorg.com', 
@@ -30,11 +31,12 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
             LastName = 'Testing', 
             LanguageLocaleKey = 'en_US', 
             LocaleSidKey = 'en_US', 
-            ProfileId = SYSTEMADMIN_PROFILE.Id, 
+            ProfileId = AMC_BASE_USER_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
             UserName = 'cdefghijk567@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
+        
         insert userRecord1;
         
         User userRecord2 = new User(
@@ -46,7 +48,7 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
             LastName = 'Testing', 
             LanguageLocaleKey = 'en_US', 
             LocaleSidKey = 'en_US', 
-            ProfileId = SYSTEMADMIN_PROFILE.Id, 
+            ProfileId = AMC_BASE_USER_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
             UserName = 'cdefghijk5678@gmail.com', 
             managerGroupId__c = slaGroup.Id
@@ -88,6 +90,7 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
             newLead.PANNO__c = 'PANNO2';
             newLead.Business_Unit__c = ABSLAMC_Constants.ABSLAMCBU;
 			newLead.LOB__c = 'MF';
+			//newLead.OwnerId = queuerec.Id;          
             insert newLead;
 
             Test.startTest();
@@ -117,6 +120,7 @@ public class ABSLAMC_BusinessLogic_HelperClassTest {
 			newLead.LOB__c = 'MF';
             newLead.Lead_Type__c = 'MF Transaction Related Outcall';
             newLead.Lead_Subtype__c = 'Activity - TRO SIP Expiry';
+            newLead.OwnerId = userRecord.Id;
             insert newLead;
 
             newLead.LOB__c = 'PMS';
