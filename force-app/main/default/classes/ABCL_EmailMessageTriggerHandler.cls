@@ -18,8 +18,8 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         ASF_EmailMessageHelper.checkAndReopenClosedCases(newItems);
         
         RNWL_EmailMessageTriggerHandler.validateEmailCount(newItems);
-
-//  for(EmailMessage em : (List<EmailMessage>)newItems){
+        
+      //  for(EmailMessage em : (List<EmailMessage>)newItems){
             //System.debug('ASF - emailmessage before'+em);
         //}
     }
@@ -49,17 +49,16 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         // IF EVERYTHING IS SUCCESSFUL THEN ONLY TRIGGER EBOT CODE.
         // VIRENDRA - TRIGGER EBOT WHEN EMAIL-TO-CASE ROUTING ADDRESS IS CONFIGURED TO SENDTOEBOT = TRUE
         ABCL_SendEmailValidation.validateUsersTeam(newEmails.values());
+        ABCL_SendEmailValidation.restrictUserToSendEmail(newEmails.values());
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newEmails.values());
         ABCL_EmailMessageHelper.ebotHandler(newEmails);
         // invoke ABFL E2C Case creation checks
 
         //PR1030924-237 handle cases of customers flagged as handle with care (HWC)
-       ABSLAMC_Email2CaseHandler.handleAbslamcHwcEmails(newEmails.values());
+        ABSLAMC_Email2CaseHandler.handleAbslamcHwcEmails(newEmails.values());
         
         // US- PR970457-575(ABWM chat originated cases) WEALTHCHATGENERATED CASES UPDATE SUPPLIED EMAIL WHICH IS ETRACTED FROM EMAIL BODY
         ABFL_WealthChatGeneratedCases.execute(newEmails.values());
-        ABSLIG_SendCaseCreationEmail.sendEmailOnCaseCreation(newEmails.values());
-       ABFL_WealthChatGeneratedCases.sendEmailWhenNotRegisteredCustomer(newEmails.values()); // Added by EY-Nikhil
         // ABFL_EmailCase_Logic.updateIncomingEmailCount(sEMIds);
         if(sEMIds.size()>0){
             Async_Transaction_Event__e ate = new Async_Transaction_Event__e(
@@ -73,6 +72,7 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     } 
     public override void beforeUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
         ABCL_SendEmailValidation.validateUsersTeam(newItemsCase.values());
+        ABCL_SendEmailValidation.restrictUserToSendEmail(newItemsCase.values());
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItemsCase.values());
     }
 }
