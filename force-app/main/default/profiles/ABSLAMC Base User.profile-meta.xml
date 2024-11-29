@@ -5324,6 +5324,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>standard-CollaborationGroup</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>ABFL_Location_Master__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
