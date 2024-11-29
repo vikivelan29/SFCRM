@@ -8192,6 +8192,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Customer_Member_Mapping__c.Primary_email_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Customer_Member_Mapping__c.Primary_Mobile_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Customer_Member_Mapping__c.Alternate_Mobile_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.Branch_Code__c</field>
         <readable>true</readable>
