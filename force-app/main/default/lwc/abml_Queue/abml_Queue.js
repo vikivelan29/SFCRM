@@ -8,7 +8,6 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import dt_colors from '@salesforce/resourceUrl/ABML_Datatable_Css';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import checkBusinessHours from "@salesforce/apex/ABML_QueueController.checkBusinessHours";
-import checkAssignedPermissionSet from "@salesforce/apex/ABML_QueueController.checkAssignedPermissionSet";
 import LightningAlert from 'lightning/alert';
 
 
@@ -31,7 +30,6 @@ export default class ABML_Queue extends LightningElement {
     isUserExist = false;
     error;
      @api recordId;
-     @api listRecordId;
      cases;
      @track hideCases = false;
      @track checkLength;
@@ -74,33 +72,6 @@ export default class ABML_Queue extends LightningElement {
                         theme: 'warning', // a red theme intended for error states
                         label: 'Warning!', // this is the header text
                     });
-                }else if(this.businessHours==true){
-
-                    //Profile Validation starts--
-             checkAssignedPermissionSet()
-            .then(result => {
-                this.checkProfile = result;
-                console.log('im here checkProfile ');
-                console.log('--checkProfile value:',this.checkProfile);
-                if(this.checkProfile==false){ //this.businessHours==true &&
-                    this.businessHours = false;
-                    //alert('You dont have access to this component!');
-                    LightningAlert.open({
-                        message: 'This is specific to ABML team assignment. You do not have access to this functionality',
-                        theme: 'warning', 
-                        label: 'Warning!', 
-                    });
-                }else{
-                    this.businessHours = true;
-                }
-                
-                this.error = undefined;
-            })
-            .catch(error => {
-                this.error = error;
-            });
-            //Profile Validation ends--
-
                 }
                 
                 this.error = undefined;
