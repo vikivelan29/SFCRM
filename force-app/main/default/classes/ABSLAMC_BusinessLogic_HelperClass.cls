@@ -197,7 +197,7 @@ public class ABSLAMC_BusinessLogic_HelperClass {
                         managerIds.add(managerId);
                         managerId = userMap.get(managerId) != null ? userMap.get(managerId).ManagerId : null;
                     }
-                    if (oldLead.OwnerId == UserInfo.getUserId() || managerIds.contains(UserInfo.getUserId())) {
+                    if (oldLead.OwnerId == UserInfo.getUserId() || managerIds.contains(UserInfo.getUserId()) || UserInfo.getUserType() == ABSLAMC_Constants.AUTOMATEDPROCESSUSRTYPE) {
                         isAuthorized = true;
                     }
                     if (!isAuthorized) {
