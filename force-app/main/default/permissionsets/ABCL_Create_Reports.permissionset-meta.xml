@@ -3,6 +3,14 @@
     <description>A permission set to enable users to create reports</description>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABCL Create Reports</label>
+    <tabSettings>
+        <tab>standard-Dashboard</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>standard-report</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <userPermissions>
         <enabled>true</enabled>
         <name>CreateCustomizeDashboards</name>

@@ -145,7 +145,7 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
                 caseRec.Is_Manual_Moved__c = true;
                 caseRec.No_Auto_Communication__c = blockCommunicationFlag?'Email;SMS':null;
                 ABHI_Case_Detail__c caseDetRec = new ABHI_Case_Detail__c();
-                caseDetRec.Resolution_Comments__c = resolutionComments;
+                //caseDetRec.Resolution_Comments__c = resolutionComments;
                 caseRec.Bulk_CaseDetail_JSON__c = JSON.serialize(caseDetRec);
             }else if(stage == 'Unresolved'){
                 caseRec.Stage__c = stage;
@@ -168,7 +168,7 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
 
         return resultWrapper;
     }
-	
+    
     /****************************************************************************************************************
     * @LOB - ABHI
     * @Function - prepareDownloadTemplate
@@ -180,7 +180,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'CaseNumber'=>'Case number',
-            'Resolution_Comments__c'=>'Case Resolved Comments',
             'Stage__c'=>'Stage',
             'Rejection_Reason__c'=>'Close Unresolved Reason',
             'Rejected_Reason__c'=>'Close Unresolved Details',
@@ -188,7 +187,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
         };
         Map<String, String> mapOfColumnNameToFieldApi = new Map<String,String>{
             'Case number'=>'CaseNumber',
-            'Case Resolved Comments'=>'Resolution_Comments__c',
             'Stage'=>'Stage__c',
             'Close Unresolved Reason'=>'Rejection_Reason__c',
             'Close Unresolved Details'=>'Rejected_Reason__c',
