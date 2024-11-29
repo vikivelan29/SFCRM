@@ -90,7 +90,7 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
             if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c != '3' && (caseRecord.IGMS_Complaint_Type_Code__c == '3' || caseRecord.IGMS_Complaint_Type_Code__c == '4')){
                 requestJSON.Claim_Received_Amount = String.valueof(caseRecord.ABHI_Case_Detail__r.Claim_Received_Amount__c.round(System.RoundingMode.UNNECESSARY));
             }
-            requestJSON.Remarks = caseRecord.ABHI_Case_Detail__r.Resolution_Comments__c;
+            //requestJSON.Remarks = caseRecord.ABHI_Case_Detail__r.Resolution_Comments__c;
             requestJSON.Type_of_disposal = caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c;
             if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c == '9'){
         requestJSON.Original_IRDA_Token_Num = caseRecord.ABHI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
@@ -308,12 +308,12 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
     }
     /**
     @description IGMS Attended Case Class to follow through Response Body JSON
-    */
+    
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
     public class AttendedComplaintResponseWrapper {
         public String ReturnMessage { get; set; }
         public String ReturnCode { get; set; }
         public String IRDA_TOKEN_NUMBER { get; set; }
         public String ENTITY_COMPLAINT_REF_NUMBER { get; set; }
-    }
+    } */
 }
