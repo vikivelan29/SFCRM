@@ -76,7 +76,7 @@ public with sharing class ABHI_CTSTHelper {
         List<Task> openTasks = [SELECT id,Status FROM Task WHERE WhatId =: caseId];
         Map<String, Schema.SObjectField> caseDetailFields = Schema.SObjectType.ABHI_Case_Detail__c.fields.getMap();
         Schema.DescribeFieldResult resolveCaseField = caseDetailFields.get('Resolve_case__c').getDescribe();
-        Schema.DescribeFieldResult resolutionCommentsField = caseDetailFields.get('Resolution_Comments__c').getDescribe();
+        //Schema.DescribeFieldResult resolutionCommentsField = caseDetailFields.get('Resolution_Comments__c').getDescribe();
         Schema.DescribeFieldResult investigationCommentsField = caseDetailFields.get('Investigation_Comment__c').getDescribe();
         Schema.DescribeFieldResult acknowledgementConField = caseDetailFields.get('Acknowledgement_contacted__c').getDescribe();
         for(Case caseR : caseRecs){
