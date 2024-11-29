@@ -201,16 +201,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>abml_Reports</componentName>
-                <identifier>c_abml_Reports</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-1098eb94-3c22-4650-9ebc-3f2825808d4e</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
@@ -267,20 +257,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-1098eb94-3c22-4650-9ebc-3f2825808d4e</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Reports</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab6</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-94cbcacb-97fa-4d61-9f2b-2765d10ef836</name>

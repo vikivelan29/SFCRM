@@ -65,4 +65,5 @@ public static final String SRC_CALLCENTRE = 'Call Centre';
     public static final String AMCLOB = 'AMC';
     public static final String PHDQUEUENAME = 'ABSLAMC_PHD';
     public static final String CLOSEDCASEERRORMSG = 'Case cannot be closed from Awaiting Response from App Support stage'; //added for UAT observations
+    public static final String AUTOMATEDPROCESSUSRTYPE = 'automatedprocess';
 }
