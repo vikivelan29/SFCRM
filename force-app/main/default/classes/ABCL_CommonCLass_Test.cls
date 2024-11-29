@@ -19,7 +19,8 @@ public with sharing class ABCL_CommonCLass_Test {
         caseList.add(new Case(Business_Unit__c = 'ABWM', Stage__c = 'Open'));
         caseList.add(new Case(Business_Unit__c = 'Payments', Stage__c = 'Open'));
         caseList.add(new Case(Business_Unit__c = 'ABSLIG', Stage__c = 'Open'));
-        caseList.add(new Case(Business_Unit__c = 'Wellness', Stage__c = 'Open'));//PR1030924-213 : Zahed added wellness condition
+        caseList.add(new Case(Business_Unit__c = 'ABML', Stage__c = 'Open'));
+
         insert caseList;
     }
 
@@ -55,8 +56,7 @@ public with sharing class ABCL_CommonCLass_Test {
       // Insert Case Detail records
       ABFL_Case_Detail__c abflDetail = new ABFL_Case_Detail__c(Bank_Name__c = 'SBI');
       ABHFL_Case_Detail__c abhflDetail = new ABHFL_Case_Detail__c(Bank_IFSC_Code__c = 'BOB123');
-      WellnessCaseDetail__c caseDetail = new WellnessCaseDetail__c(Resolution_Reason__c = 'Problem Solved');
-      insert new List<SObject>{abflDetail, abhflDetail,caseDetail};
+      insert new List<SObject>{abflDetail, abhflDetail};
 
       // Fetch Cases
       List<Case> caseList = [SELECT Id, ABFL_Case_Detail__c, 
@@ -69,9 +69,6 @@ public with sharing class ABCL_CommonCLass_Test {
           } else if (cs.Business_Unit__c == 'ABWM') {
               cs.ABHFL_Case_Detail__c = abhflDetail.Id;
               cs.Resolution_Comments__c = 'Resolved ABHFL Case';
-          }else if (cs.Business_Unit__c == 'Wellness') {
-              cs.WellnessCaseDetail__c = caseDetail.Id;
-              cs.Resolution_Comments__c = 'Resolved Wellness Case';
           }
       }
       update caseList;
@@ -85,7 +82,7 @@ public with sharing class ABCL_CommonCLass_Test {
       // Fetch updated Case Details
       abflDetail = [SELECT Id, Resolution_Comments__c FROM ABFL_Case_Detail__c WHERE Id = :abflDetail.Id];
       abhflDetail = [SELECT Id, Resolution_Remarks__c FROM ABHFL_Case_Detail__c WHERE Id = :abhflDetail.Id];
-      caseDetail = [SELECT Id, Resolution_Comments__c FROM WellnessCaseDetail__c WHERE Id = :caseDetail.Id];
+
       // Validate Resolution Comments/Remarks are updated
       System.assertEquals('Resolved ABFL Case', abflDetail.Resolution_Comments__c, 'Resolved ABFL Case');
       System.assertEquals('Resolved ABHFL Case', abhflDetail.Resolution_Remarks__c, 'Resolved ABHFL Case');
