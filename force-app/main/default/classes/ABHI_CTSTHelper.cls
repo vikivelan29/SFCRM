@@ -76,7 +76,7 @@ public with sharing class ABHI_CTSTHelper {
         List<Task> openTasks = [SELECT id,Status FROM Task WHERE WhatId =: caseId];
         Map<String, Schema.SObjectField> caseDetailFields = Schema.SObjectType.ABHI_Case_Detail__c.fields.getMap();
         Schema.DescribeFieldResult resolveCaseField = caseDetailFields.get('Resolve_case__c').getDescribe();
-        Schema.DescribeFieldResult resolutionCommentsField = caseDetailFields.get('Resolution_Comments__c').getDescribe();
+        //Schema.DescribeFieldResult resolutionCommentsField = caseDetailFields.get('Resolution_Comments__c').getDescribe();
         Schema.DescribeFieldResult investigationCommentsField = caseDetailFields.get('Investigation_Comment__c').getDescribe();
         Schema.DescribeFieldResult acknowledgementConField = caseDetailFields.get('Acknowledgement_contacted__c').getDescribe();
         for(Case caseR : caseRecs){
@@ -85,10 +85,10 @@ public with sharing class ABHI_CTSTHelper {
                 validation.blankFields.add(resolveCaseField.getLabel());
                 validation.result = true;
             }*/
-            if(String.isBlank(caseR.ABHI_Case_Detail__r.Resolution_Comments__c)) {
+            /*if(String.isBlank(caseR.ABHI_Case_Detail__r.Resolution_Comments__c)) {
               //  validation.blankFields.add(resolutionCommentsField.getLabel());
                 //validation.result = true;
-            }
+            }*/
             /*if(String.isBlank(caseR.ABHI_Case_Detail__r.Investigation_Comment__c)) {
                 validation.blankFields.add(investigationCommentsField.getLabel());
                 validation.result = true;
