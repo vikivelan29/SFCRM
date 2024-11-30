@@ -95,7 +95,7 @@ public class ABHI_CTSTHelper_Test {
    
      @IsTest
     static void testvalidateOpenStageFieldForReinstatement(){
-        List<Case> caseRecords = [Select id,Stage__c,ABHI_Case_Detail__c,ABHI_Case_Detail__r.Outcome__c,ABHI_Case_Detail__r.Resolution__c,CCC_External_Id__c,AssetId  from Case limit 1];
+        List<Case> caseRecords = [Select id,Stage__c,ABHI_Case_Detail__c,ABHI_Case_Detail__r.Outcome__c,ABHI_Case_Detail__r.Resolution__c,ABHI_Case_Detail__r.Resolution_Comments__c,CCC_External_Id__c,AssetId  from Case limit 1];
         Map<Id, ABHI_CTSTHelper.FieldValidationResult> resultsMap1 = new Map<Id, ABHI_CTSTHelper.FieldValidationResult>();
         resultsMap1= ABHI_CTSTHelper.validateResolutionfields (caseRecords);
         System.assertEquals(true, resultsMap1.get(caseRecords[0].Id).result);
