@@ -122,18 +122,18 @@ public with sharing class ABHI_CaseDetailHelper {
                 }
             }
             
-            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c  
+            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Resolution_Comments__c  
                                                    FROM ABHI_Case_Detail__c 
                                                    WHERE Id IN: abhiCaseDetIdsResolved] ) {
                 Case cs = mapofCaseDetailToResolvedCase.get(abhiCaseDet.Id);
                  if(cs != null) {
-                     //abhiCaseDet.Case_Closed_Resolution_Comments__c = abhiCaseDet.Resolution_Comments__c;
+                     abhiCaseDet.Case_Closed_Resolution_Comments__c = abhiCaseDet.Resolution_Comments__c;
                      abhiCaseDet.Case_Closed_Resolved_By__c = cs.OwnerText__c;
                      abhiCaseDetList.add(abhiCaseDet);
                  }
             }
             
-            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Case_Reopened_By_Id__c 
+            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Case_Reopened_By_Id__c, Resolution_Comments__c  
                                                    FROM ABHI_Case_Detail__c 
                                                    WHERE Id IN: abhiCaseDetIdsReopened] ) {
                 Case cs = mapofCaseDetailToReopenedCase.get(abhiCaseDet.Id);
@@ -151,4 +151,4 @@ public with sharing class ABHI_CaseDetailHelper {
             }
         }      
     }
-}
+    }
