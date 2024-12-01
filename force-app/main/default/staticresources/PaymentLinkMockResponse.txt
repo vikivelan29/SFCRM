@@ -1,5 +1,0 @@
-{
-    "returnCode": "1",
-    "returnMessage": "Record retrieved successfully.",
-    "shortUrl": "https://uat.abcap.co.in/dnD17Mm"
-}

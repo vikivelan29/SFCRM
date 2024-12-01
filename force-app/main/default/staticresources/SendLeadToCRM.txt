@@ -1,5 +1,0 @@
-{
-    "Status": 200,
-    "Message": "Created Lead Successfully",
-    "ErrorCode": ""
-}

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Amount_Less_Than_Zero</fullName>
-    <active>true</active>
-    <errorConditionFormula>OR(Refund_Amount__c &lt; 0, Diputed_Amount__c &lt; 0, Emi_Amount__c &lt; 0,  Amount__c &lt; 0, IO_recommended_Amount__c &lt; 0)</errorConditionFormula>
-    <errorMessage>Amount can&apos;t be less than zero</errorMessage>
-</ValidationRule>

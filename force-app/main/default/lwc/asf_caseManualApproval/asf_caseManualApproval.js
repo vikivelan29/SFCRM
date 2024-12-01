@@ -1,7 +1,7 @@
 import { LightningElement, wire, api } from 'lwc';
 import { getRecord, getFieldValue, getRecordNotifyChange, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/ASF_Case_Approv__c.Approver_01__c';
-import { modalStates, errorCodes, staticFields  } from "./caseManualApprovalUtility.js";
+import { modalStates, errorCodes, getBUSpecificStaticFields } from "./caseManualApprovalUtility.js";
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 import currentUserId from '@salesforce/user/Id';
@@ -74,6 +74,8 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
             this.caseNumber = data.fields.CaseNumber.value;
             this.caseStage = data.fields.Stage__c.value;
             this.businessUnit =data.fields.Business_Unit__c.value;
+            let staticFields = getBUSpecificStaticFields(this.businessUnit);
+            this.arr_Statisfields = staticFields.APPROVALSTATISFIELDS;
         }
     }
 
@@ -90,7 +92,7 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         this.approver4 = !this.isRecatRequest ? APPROVER4.fieldApiName : RECAT_APPROVER4.fieldApiName;
         this.approver5 = !this.isRecatRequest ? APPROVER5.fieldApiName : RECAT_APPROVER5.fieldApiName;
         this.arr_fields = !this.isRecatRequest ? modalStates.CASE_APPROVAL_FIELDS : modalStates.RECAT_APPROVAL_FIELDS;
-        this.arr_Statisfields = staticFields.APPROVALSTATISFIELDS;
+        
         this.isLoadedInCommunity();
     }
     renderedCallback() {
@@ -193,6 +195,10 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
                         if (fieldsToShow[arrEle].isRequied) {
                             ele.required = fieldsToShow[arrEle].isRequied;
                         }
+                        let staticField = this.arr_Statisfields.find((field)=>{return fieldsToShow[arrEle].fieldAPIName == field.fieldAPIName});
+                        if(staticField && staticField.defaulSelectedOption){
+                            ele.value = staticField.defaulSelectedOption;
+                        }
                     }
                 }
             }
@@ -270,11 +276,13 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         if (this.caseStage != '') {
             fields.Case_Stage_At_Creation__c = this.caseStage;
         }
-
         if (fields['Approval_Type__c'] == null || fields['Approval_Type__c'] == undefined || fields['Approval_Type__c'] == "") {
             fields['Approval_Type__c'] = 'Parallel - All to approve';
+            let staticField = this.arr_Statisfields.find((field)=>{return 'Approval_Type__c' == field.fieldAPIName});
+            if(staticField && staticField.defaulSelectedOption && staticField.defaulSelectedOption != 'Parallel'){
+                fields['Approval_Type__c'] = staticField.defaulSelectedOption;
+            }
         }
-
         if (fields['Approval_Type__c'].startsWith('Parallel')) {
             if (fields[this.approver1] != null) {
                 let temp_approverFields = [this.approver2, this.approver3, this.approver4, this.approver5];
@@ -402,6 +410,16 @@ export default class Asf_caseManualApproval extends NavigationMixin(LightningEle
         }else{
             errorMessage = '';
         }
+
+        this.template.querySelectorAll('lightning-input-field').forEach(ele => {
+            if ([this.approver1, this.approver2, this.approver3, this.approver4, this.approver5].includes(ele.fieldName)) {
+                this.template.querySelectorAll(`[data-error-help-for-field="${ele.fieldName}"]`).forEach(errorEle => {
+                    //commented below 2 line to keep the error message(s) to the respective fields
+                    //errorEle.innerText = '';
+                    //console.log('Cleared:', errorEle);
+                });
+            }
+        });
     
         // Set the error message for the specific field
         this.template.querySelectorAll(`[data-error-help-for-field="${fdName}"]`).forEach(errorEle => {

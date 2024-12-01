@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Company_Name_Validation</fullName>
-    <active>true</active>
-    <description>Company Name is required if the Prospect type is Non Individual</description>
-    <errorConditionFormula>IF(AND(ISPICKVAL($User.Business_Unit__c ,&apos;ABHFL&apos;),ISPICKVAL(ABHFL_Prospect_Type__c, &apos;Non Individual&apos;)), IF(Company == null, true, false)  , false)</errorConditionFormula>
-    <errorDisplayField>Company</errorDisplayField>
-    <errorMessage>Company is required</errorMessage>
-</ValidationRule>

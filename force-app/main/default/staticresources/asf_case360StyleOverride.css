@@ -1,3 +1,0 @@
-.fix-error .slds-form-element_horizontal .slds-form-element__help{
-  margin-left: calc((50% - 33.333%) - (var(--lwc-spacingXxSmall,0.25rem) * 2));
-}

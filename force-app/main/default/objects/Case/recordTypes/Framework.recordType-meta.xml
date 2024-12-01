@@ -70,11 +70,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG</fullName>
+            <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
         <values>
@@ -82,7 +82,62 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLI</fullName>
+            <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+    <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Feature_Skipper_Flag__c</picklist>
+        <values>
+            <fullName>SKIP_APPROVAL_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_ASSIGNMENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_CLOSE_CASE_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_INTEGRATION_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_OWNER_CHECK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_PERI_GENERATE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_ENTRY_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_STAGE_EXIT_CHECKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_CHECKLISTS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_RECAT_PARAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATE_TASKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SKIP_VALIDATION_CHECKS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -117,6 +172,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Adhoc communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Advisor Query</fullName>
             <default>false</default>
         </values>
@@ -130,6 +189,18 @@
         </values>
         <values>
             <fullName>Annuity option not clearly explained</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Apology communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application Status</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Application not coded</fullName>
             <default>false</default>
         </values>
         <values>
@@ -154,6 +225,10 @@
         </values>
         <values>
             <fullName>Bonus Statement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Co Address</fullName>
             <default>false</default>
         </values>
         <values>
@@ -269,6 +344,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Escalation Call back</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Excess premium</fullName>
             <default>false</default>
         </values>
@@ -289,6 +368,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Freelook Information</fullName>
             <default>false</default>
         </values>
@@ -305,6 +388,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Hoax Calls</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Hold refund</fullName>
             <default>false</default>
         </values>
@@ -314,6 +401,14 @@
         </values>
         <values>
             <fullName>Initial</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initial refund related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance related</fullName>
             <default>false</default>
         </values>
         <values>
@@ -382,6 +477,10 @@
         </values>
         <values>
             <fullName>Medical Test Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical reports related</fullName>
             <default>false</default>
         </values>
         <values>
@@ -465,6 +564,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Null %26 void communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>OR Cancellation</fullName>
             <default>false</default>
         </values>
@@ -481,7 +584,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Other LOB</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out calling -Query</fullName>
             <default>false</default>
         </values>
         <values>
@@ -521,6 +632,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Policy Bond</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy Bond %2FEIA related</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Policy Details</fullName>
             <default>false</default>
         </values>
@@ -534,6 +653,14 @@
         </values>
         <values>
             <fullName>Policy account statement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy cancellation related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy changes related</fullName>
             <default>false</default>
         </values>
         <values>
@@ -578,6 +705,10 @@
         </values>
         <values>
             <fullName>Reconciliation Refunds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recovery communication</fullName>
             <default>false</default>
         </values>
         <values>
@@ -733,6 +864,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Senior call back</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Shortage requirement completed%2FRevival with Loan excluded</fullName>
             <default>false</default>
         </values>
@@ -885,11 +1020,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Transfer call to other LOB</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Transfer from old policy</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>UW decision follow-up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unregistered Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -954,6 +1097,10 @@
             <fullName>SMS</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>WhatsApp</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Origin</picklist>
@@ -966,7 +1113,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLIG Email</fullName>
             <default>false</default>
         </values>
         <values>
@@ -995,10 +1150,6 @@
         </values>
         <values>
             <fullName>Web</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ABSLIG Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1101,6 +1252,18 @@
             <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Insufficient%2FIncomplete details from Ops%2FCustomer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Customer tagging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect SubType tagging</fullName>
+            <default>false</default>
+        </values> 
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>
@@ -1187,7 +1350,7 @@
             <fullName>Chatbot</fullName>
             <default>false</default>
         </values>
-                <values>
+        <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
@@ -1336,10 +1499,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>NCH</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>MH</fullName>
             <default>false</default>
         </values>
@@ -1348,11 +1507,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>NCH</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>OneABC</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Online Dispute Resolution %28ODR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1369,10 +1536,6 @@
         </values>
         <values>
             <fullName>Outbound call</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1475,7 +1638,11 @@
             <fullName>WhatsApp</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
+        <values>
+            <fullName>Escalations</fullName>
+            <default>false</default>
+        </values>
+     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
         <values>
@@ -1483,11 +1650,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Open</fullName>
+            <fullName>In Progress with SA</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>In Progress with SA</fullName>
+            <fullName>Open</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1507,6 +1674,10 @@
         </values>
         <values>
             <fullName>Incoming</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal</fullName>
             <default>false</default>
         </values>
         <values>

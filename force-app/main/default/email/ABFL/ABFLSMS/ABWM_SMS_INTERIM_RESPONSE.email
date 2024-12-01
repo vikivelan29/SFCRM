@@ -1,9 +1,0 @@
-<html style="overflow-y: hidden;">
-<head>
-	<title></title>
-</head>
-<body style="height: auto; min-height: auto;">Dear <span style="font-size:15px"><span style="font-family:Arial,sans-serif"><span style="color:black"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Customer</span></span></span></span></span></span>,<br />
-Thank you for choosing Aditya Birla Finance Limited. Your recent requirement with reference number {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} is currently under review. We are in the process of categorising it under {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}} for prompt action.<br />
-Warm regards,<br />
-Wealth -Aditya Birla Finance Limited</body>
-</html>

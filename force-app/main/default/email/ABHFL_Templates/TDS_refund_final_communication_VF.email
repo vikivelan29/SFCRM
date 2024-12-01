@@ -1,5 +1,0 @@
-<messaging:emailTemplate subject="TDS refund successfully done" recipientType="Contact" relatedToType="Case">
-<messaging:htmlEmailBody >
-<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="TDS refund final communication"></c:ASF_CaseEmail>
-</messaging:htmlEmailBody>
-</messaging:emailTemplate>

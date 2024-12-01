@@ -49,4 +49,16 @@
         <label>Converted</label>
         <converted>false</converted>
     </standardValue>
+    <standardValue>
+        <fullName>Lost</fullName>
+        <default>false</default>
+        <label>Lost</label>
+        <converted>false</converted>
+    </standardValue>
+    <standardValue>
+        <fullName>Won</fullName>
+        <default>false</default>
+        <label>Won</label>
+        <converted>true</converted>
+    </standardValue>
 </StandardValueSet>

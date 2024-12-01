@@ -187,7 +187,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
     @AuraEnabled(cacheable= true)
     public static List<ASF_Case_Stage_Config__c  > getStageConfig(string cccId){
         //Virendra : 6th March 2023: Added additional fields to query - Is_Approval_Stage__c,Manual_Stage__c
-        return [SELECT id,Case_Category_Config__r.Name, Name, Order__c, StageName__c,Is_Approval_Stage__c,Manual_Stage__c,Enable_Reassign_Owner__c FROM ASF_Case_Stage_Config__c  WHERE Case_Category_Config__c  =: cccId ORDER BY Order__c];
+        return [SELECT id,Case_Category_Config__r.Name, Name, Order__c, StageName__c,Is_Approval_Stage__c,Manual_Stage__c,Enable_Reassign_Owner__c,No_Action_stage__c, Save_Data_On_Back__c FROM ASF_Case_Stage_Config__c  WHERE Case_Category_Config__c  =: cccId ORDER BY Order__c];
     }
     
     @AuraEnabled(cacheable=true)

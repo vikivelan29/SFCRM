@@ -3,8 +3,8 @@
     <fullName>VIP_Flag__c</fullName>
     <defaultValue>false</defaultValue>
     <description>This checkbox is used to identify whether an account has VIP privileges or not</description>
-    <externalId>false</externalId>
     <label>VIP Flag</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>
