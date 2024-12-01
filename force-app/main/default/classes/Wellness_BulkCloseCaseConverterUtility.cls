@@ -125,6 +125,7 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
     * @description - Method to prepare Download Template
     */
     public List<Map<String,String>> prepareDownloadTemplate(List<String> columnNames, String objectName, Id listViewId, List<String> selectedRecordIds){
+        System.debug('***columnNames:'+columnNames);
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
             'CaseNumber'=>'Case number',
@@ -144,6 +145,7 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
                 fieldNames.add(mapOfColumnNameToFieldApi.get(columnName));
             }
         }
+        System.debug('***fieldNames:'+fieldNames);
         String strFinalQuery;
         if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
@@ -166,18 +168,19 @@ public with sharing class Wellness_BulkCloseCaseConverterUtility implements ASF_
         }
         if(String.isNotBlank(strFinalQuery)){
             strFinalQuery = strFinalQuery + ' LIMIT 50000';
+            System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
+                String fieldValue = '';
                 for(String fieldName : mapOfFieldApiToColumnName.keySet()){
-                    if (obj.getSObjectType().getDescribe().fields.getMap().containsKey(fieldName)) {
-                        String fieldValue = (String)obj.get(fieldName);
-                        fieldValue = fieldValue==null?' ':fieldValue;
-                        if(fieldName == 'CaseNumber'){
-                            //fieldValue = ' '+fieldValue;
-                        }
-                        fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
+                    if(fieldName.contains('.') && obj.getSobject((fieldName.split('\\.'))[0]) != null){
+                        fieldValue = (String)obj.getSobject(fieldName.split('\\.')[0]).get(fieldName.split('\\.')[1]);
+                    }else if(!fieldName.contains('.')){
+                        fieldValue = (String)obj.get(fieldName);
                     }
+                    fieldValue = fieldValue==null?' ':fieldValue;
+                    fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);
             }
