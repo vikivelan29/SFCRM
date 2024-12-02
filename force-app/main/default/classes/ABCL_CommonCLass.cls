@@ -9,11 +9,11 @@
 public with sharing class ABCL_CommonCLass {
     
     /****************************************************************************************************************
-	* @Function - prepopulateCaseFlds
-	* @param newItems -  list of sobject records.
-	* @return - void .
-	* @Description - This method pre-populates fields on Case.
-	*****************************************************************************************************************/
+* @Function - prepopulateCaseFlds
+* @param newItems -  list of sobject records.
+* @return - void .
+* @Description - This method pre-populates fields on Case.
+*****************************************************************************************************************/
     public void prepopulateCaseFlds(List<Sobject> newItems) {
         
         List<Case> newCaseList = (List<Case>)newItems;
@@ -22,12 +22,12 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /****************************************************************************************************************
-	* @Function - prepopulateCaseFldsOnBasisOfBussinessUnit
-	* @param newItems -  list of case records.
-	* @return - void .
-	* @Description - This method pre-populates BusinessHoursId field on Case on the basis of Business Unit field.
-	* Note - Please use the name of Business Unit of Case in Business Hour Name field of BusinessHours object
-	*****************************************************************************************************************/
+* @Function - prepopulateCaseFldsOnBasisOfBussinessUnit
+* @param newItems -  list of case records.
+* @return - void .
+* @Description - This method pre-populates BusinessHoursId field on Case on the basis of Business Unit field.
+* Note - Please use the name of Business Unit of Case in Business Hour Name field of BusinessHours object
+*****************************************************************************************************************/
     public void prepopulateCaseFldsOnBasisOfBussinessUnit(List<Case> newCaseLst) {
         
         Map<String, BusinessHours> mapOf_BusinessUnit_To_BusinessHr = new Map<String, BusinessHours>();
@@ -69,7 +69,7 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
                 }
-                else if(bussHrName.containsIgnoreCase('ABSLI')) {
+               else if(bussHrName.containsIgnoreCase('ABSLI')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
                 }
                 else if(bussHrName.containsIgnoreCase('ABSLAMC')){
@@ -101,26 +101,26 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /****************************************************************************************************************
-	* @Function - populateResolutionCommentOnCaseDetail
-	* @param newItems oldMap -  list of sobject records. map of trigger.oldMap
-	* @return - void .
-	* @Description - Updates the resolution comment/remarks field on Case Detail object 
-	* when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
-	*****************************************************************************************************************/
+* @Function - populateResolutionCommentOnCaseDetail
+* @param newItems oldMap -  list of sobject records. map of trigger.oldMap
+* @return - void .
+* @Description - Updates the resolution comment/remarks field on Case Detail object 
+* when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
+*****************************************************************************************************************/
     public static void populateResolutionCommentOnCaseDetail(List<Case> newItems, Map<Id, Case> oldMap) {
         
         //if not bulk processing, do nothing, return;
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
         
         List<SObject> recordsToUpdate = new List<SObject>();
-        Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();    // added by vikas
+       Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();         // added by vikas
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
                 if(caseRec.ABFL_Case_Detail__c != null){
                     ABFL_Case_Detail__c detRec = new ABFL_Case_Detail__c(Id=caseRec.ABFL_Case_Detail__c);
                     detRec.Resolution_Comments__c = caseRec.Resolution_Comments__c;
-                    recordupdateABFLcaseDetail.put(caseRec.ABFL_Case_Detail__c,detRec);          //added by vikas
-                    //recordsToUpdate.add(detRec);
+                   //recordmap.put(detRec.Id,detRec);      
+		    recordupdateABFLcaseDetail.put(caseRec.ABFL_Case_Detail__c,detRec);          //added by vikas
                 }
                 if(caseRec.ABHFL_Case_Detail__c != null){
                     ABHFL_Case_Detail__c detRec = new ABHFL_Case_Detail__c(Id=caseRec.ABHFL_Case_Detail__c);
@@ -130,12 +130,10 @@ public with sharing class ABCL_CommonCLass {
             }
             
         }
-        recordsToUpdate.addAll(recordupdateABFLcaseDetail.values());        // added by vikas
+        recordsToUpdate.addAll(recordupdateABFLcaseDetail.values()); // added by vikas
         if(!recordsToUpdate.isEmpty()){
-            
-            // update recordsToUpdate;
-            Database.update(recordsToUpdate, false);               // added by vikas
-            
+           // update recordsToUpdate;
+	   Database.update(recordsToUpdate, false);                    // added by vikas
         }
         
     }
