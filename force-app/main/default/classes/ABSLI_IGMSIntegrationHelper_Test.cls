@@ -166,7 +166,7 @@ public class ABSLI_IGMSIntegrationHelper_Test {
 	static void RegisterIGMSComplaint_Test_Method() {
 		ABSLI_IGMSIntegrationHelper complaint = new ABSLI_IGMSIntegrationHelper();
 		ASF_Integration__c integ = [
-			SELECT Id, Processing_Class__c, External_Id__c
+			SELECT Id, Processing_Class__c, External_Id__c, Do_Not_Retry_Integration__c
 			FROM ASF_Integration__c 
             WHERE Processing_Class__c = 'ABSLI_RegisterIGMSComplaintIntegration'
             LIMIT 1

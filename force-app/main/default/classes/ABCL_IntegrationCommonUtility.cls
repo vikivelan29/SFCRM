@@ -183,10 +183,10 @@ public with sharing class ABCL_IntegrationCommonUtility {
             peLogger.LOB__c = caseRecord.Business_Unit__c;
             peLogger.Lead__c = caseRecord.Lead__c;
         } else {
-            if(!caseFieldValMap.containsKey('Business_Unit__c')){
+            if(caseFieldValMap.containsKey('Business_Unit__c')){
                 peLogger.LOB__c = caseRec.Business_Unit__c;
             }
-            if(!caseFieldValMap.containsKey('Lead__c')){
+            if(caseFieldValMap.containsKey('Lead__c')){
                 peLogger.Lead__c = caseRec.Lead__c;
             }
         }
@@ -294,11 +294,13 @@ public with sharing class ABCL_IntegrationCommonUtility {
     @InvocableMethod
     public static void transferFilesToDMS(List<Id> recIds){
         if(recIds.size() == 1){
-            Case caseRecord = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,Asset.Lead_Id__c, Asset.Application_Number__c, Asset.Policy_No__c, LAN__c, CCC_External_Id__c,
+            List<Case> caseRecordList = [Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,Asset.Lead_Id__c, Asset.Application_Number__c, Asset.Policy_No__c, LAN__c, CCC_External_Id__c,
                             Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  from Case where Id =: recIds[0] and Business_Unit__c in: DMS_LINE_OF_BUSINESS WITH SYSTEM_MODE];
             // Custom Logic handling for ABSLI Business Unit
             String dmsFolderId = '', businessFileName = '', policyNumber = '', applicationId = '';
             Boolean isABSLIBusiness = false;
+	if(caseRecordList.size()> 0){
+                Case caseRecord = caseRecordList[0];
             if (caseRecord.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT) {
                 isABSLIBusiness = true;
                 policyNumber = caseRecord.Asset.Policy_No__c != '' ? caseRecord.Asset.Policy_No__c : caseRecord.LAN__c;
@@ -407,6 +409,7 @@ public with sharing class ABCL_IntegrationCommonUtility {
                     }
                 }
             }
+	}
         } else {
             transferToDMSBulk(recIds);
         }
@@ -590,7 +593,11 @@ public with sharing class ABCL_IntegrationCommonUtility {
      * @date 2024-05-28
 	 */
     public static String dateFormat(Date dt, String formatted){
-        return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format(formatted);
+        if(dt != null){
+          return DateTime.newInstance(dt.year(),dt.month(),dt.day()).format(formatted);  
+        }
+        return '';
+        
     }
 
 /*********************************************************

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Collections__c$Renewal_Request__c.Policy_Number__c</field>
+    </columns>
+    <columns>
+        <field>Collections__c$Renewal_Request__c</field>
+    </columns>
+    <columns>
+        <field>Collections__c$Renewal_Request__c.Policy__c.Maturity_Date__c</field>
+    </columns>
+    <columns>
+        <field>Collections__c$Renewal_Request__c.Best_Disposition__c.Agent_Name__c</field>
+    </columns>
+    <columns>
+        <field>Collections__c$Renewal_Request__c.Account</field>
+    </columns>
+    <columns>
+        <field>Collections__c$Renewal_Request__c.Status__c</field>
+    </columns>
+    <columns>
+        <field>Collections__c$Policy_Renewed_Date__c</field>
+    </columns>
+    <columns>
+        <field>Collections__c$Collection_Date__c</field>
+    </columns>
+    <columns>
+        <field>Collections__c$Renewal_Request__c.Renewed_Policy__c.Issue_Date__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>Payment Collection for Renewal Request</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Renewals_with_Payment_Details__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Collections__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

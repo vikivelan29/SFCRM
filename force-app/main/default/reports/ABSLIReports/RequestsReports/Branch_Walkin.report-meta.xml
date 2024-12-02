@@ -71,6 +71,34 @@
     <columns>
         <field>Case$Source__c</field>
     </columns>
+    <columns>
+        <field>Case$CreatedBy.Branch_Name__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Branch_Code__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Zone__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Region__c</field>
+    </columns>
+    <columns>
+        <field>CDF1</field>
+    </columns>
+    <columns>
+        <field>Case$Owner</field>
+    </columns>
+    <columns>
+        <field>Case$Status</field>
+    </columns>
+    <customDetailFormulas>
+        <calculatedFormula>IF(AND(Case.Owner.Name=&apos;ABFSGSFDC User&apos;, OR((TEXT(Case.Status)=&apos;Resolved&apos;),(TEXT(Case.Status)=&apos;Unresolved&apos;))),&apos;Yes&apos;,&apos;No&apos;)</calculatedFormula>
+        <dataType>Text</dataType>
+        <developerName>CDF1</developerName>
+        <label>STP?</label>
+        <scale>2</scale>
+    </customDetailFormulas>
     <filter>
         <criteriaItems>
             <column>Case$Source__c</column>
@@ -87,10 +115,12 @@
         <value>1</value>
     </params>
     <reportType>Case_With_Policy_and_Branch_Masters__c</reportType>
-    <scope>user</scope>
+    <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
+    <sortColumn>Case$Owner</sortColumn>
+    <sortOrder>Desc</sortOrder>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>
         <endDate>2024-09-30</endDate>

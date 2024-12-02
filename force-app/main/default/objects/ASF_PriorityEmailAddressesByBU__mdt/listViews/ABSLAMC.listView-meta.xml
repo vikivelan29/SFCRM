@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABSLAMC</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Active__c</columns>
+    <columns>Business_Unit__c</columns>
+    <columns>Priority_Index__c</columns>
+    <columns>Case_Business_Unit__c</columns>
+    <columns>Case_Origin__c</columns>
+    <columns>Default_Queue_Dev_Name__c</columns>
+    <columns>Email2CaseAddress__c</columns>
+    <columns>Send_to_EBOT__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>ABSLAMC</value>
+    </filters>
+    <label>ABSLAMC</label>
+</ListView>

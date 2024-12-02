@@ -44,6 +44,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
     string atleastOneApprRecordErrMsg = label.ABSLAMC_NoApprovalRecordsFound;
     string approvalReqErrMsg = 'Approval is required, but no approved or rejected records found';
     Set<Id> relatedCaseDetailRecordIds = new Set<Id>();
+    Map<Id, ABSLAMC_Case_Detail__c> relatedBRecordsMap = new Map<Id, ABSLAMC_Case_Detail__c>();
     
     for (Case caseRec : newMapCase.values()) {
         Case oldCaseRec = oldMapCase.get(caseRec.Id);
@@ -62,11 +63,13 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
                 }
             }
     }
-    Map<Id, ABSLAMC_Case_Detail__c> relatedBRecordsMap = new Map<Id, ABSLAMC_Case_Detail__c>([
+    if(!relatedCaseDetailRecordIds.isEmpty()){
+     relatedBRecordsMap = new Map<Id, ABSLAMC_Case_Detail__c>([
         SELECT Id, Approval_Required__c 
         FROM ABSLAMC_Case_Detail__c 
         WHERE Id IN :relatedCaseDetailRecordIds
     ]);
+    }
     
     if (!caseIdToCCCMap.isEmpty()) {
 
@@ -152,5 +155,65 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
         }
     }
 }
-    
+   
+/**
+    * @param newCaseList - list of new value cases from trigger
+    * @param olCasesMap - Map of old value cases from trigger
+    * @return null
+    * @description - calling this method in Before update trigger to assign to the correct LOB of the Case LOB - Bug-200 AMC bug tracker
+    */
+    public static void CheckQueueAssignementSpecificToLOB(Map<Id, Case> newCaseMap, Map<Id, Case> oldCasesMap){
+        list<String> queueIdList = new List<String>();
+        for (Case caseRec : newCaseMap.values()) {
+            Case oldcase = oldCasesMap.get(caseRec.Id);
+            if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && caseRec.OwnerId != oldCase.OwnerId && !String.valueOf(caseRec.OwnerId).startsWith('005') ){
+                queueIdList.add(caseRec.OwnerId);
+            }
+        }
+        if(queueIdList.size()>0){
+            map<String, String> queueIdwithDeveloperName = new map<String, String>();
+            for(Group qObj : [SELECT Id, DeveloperName  FROM Group where Type = 'Queue' AND Id IN : queueIdList]){
+                queueIdwithDeveloperName.put(qObj.Id, qObj.DeveloperName);
+            }
+            for(Case caseRec : newCaseMap.values()) {
+            Case oldcase = oldCasesMap.get(caseRec.Id);
+            if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && caseRec.OwnerId != oldCase.OwnerId && !String.valueOf(caseRec.OwnerId).startsWith('005') ){
+                if(queueIdwithDeveloperName.keySet().contains(caseRec.OwnerId)){
+                    String[] qDevNameArr = queueIdwithDeveloperName.get(caseRec.OwnerId).split('_');
+                    if(qDevNameArr[1] !=caseRec.Line_Of_Business__c && queueIdwithDeveloperName.get(caseRec.OwnerId) != ABSLAMC_Constants.PHDQUEUENAME){
+                        caseRec.addError(System.label.ABSLAMC_Queue_error_message);
+                    }
+                }
+            }
+        }
+        }
+    }
+    /**
+    * @param newCaseList - list of new value cases from trigger
+    * @param olCasesMap - Map of old value cases from trigger
+    * @return null
+    * @description - calling this method in Before update trigger to mark Resolution Comments as Mandatory when the case is resolved. - task/US - PR1030924-660
+    */
+    public static void checkAMCResolutionComments(Map<Id, Case> newCaseMap, Map<Id, Case> oldCasesMap){
+        list<String> caseDetailIdList = new list<string>();
+        map<Case, ABSLAMC_Case_Detail__c> mapCasesWithDetailExtension = new map<Case, ABSLAMC_Case_Detail__c>();
+        for(Case obj: newCaseMap.values()){
+            if(obj.ABSLAMC_Case_Detail__c !=null ){
+                if(obj.Stage__c == ABSLAMC_Constants.RESOLVED_STAGE)
+                    caseDetailIdList.add(obj.ABSLAMC_Case_Detail__c);
+            }
+        }
+        if(caseDetailIdList.size()>0){
+            map<id, ABSLAMC_Case_Detail__c> idwithCaseDetails = new Map<id,ABSLAMC_Case_Detail__c>([Select id, Resolution_Comments__c from ABSLAMC_Case_Detail__c where id in : caseDetailIdList]);
+            for(Case obj: newCaseMap.values()){
+                if(obj.ABSLAMC_Case_Detail__c !=null ){
+                    ABSLAMC_Case_Detail__c detailObj = idwithCaseDetails.get(obj.ABSLAMC_Case_Detail__c);
+                    if(obj.Stage__c == ABSLAMC_Constants.RESOLVED_STAGE && String.isBlank(detailObj.Resolution_Comments__c)){
+                        obj.addError('Resolution Comments is required.');
+                    }
+                        
+                }
+            }
+        }
+    }
 }

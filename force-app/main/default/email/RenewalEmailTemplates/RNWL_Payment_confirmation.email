@@ -1,0 +1,25 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto; font-family: Times New Roman;font-size: 10pt;">
+<div><span><b>Policy No : {{{Opportunity.Policy_Number__c}}} </b><br />
+<b>Plan Name: {{{Opportunity.Plan_Name__c}}}</b></span></div>
+&nbsp;<br />
+&nbsp;
+<div><span>Dear {{{Opportunity.Customer_Name__c}}},</span><br />
+<br />
+We value your relationship with us and thank you for trusting us with your health insurance needs.
+<p>We are glad to inform you that we have received your premium payment and your Health Insurance Policy is being processed for Renewal. You can now access your policy anytime anywhere effortlessly on the Activ Health App - <a href="https://play.google.com/store/apps/details?id=com.adityabirlahealth.insurance&amp;referrer=utm_source%3Dhomepage%26utm_campaign%3DActiv-Health">Google Play</a> - <a href="https://apps.apple.com/in/app/activ-health/id1179005764">Apple Store</a> ​​​​​​​</p>
+
+<p>In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at&nbsp;care.healthinsurance@adityabirlacapital.com. We advise you to download the Active Health App – a one stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 882800035.</p>
+
+<p>We wish you the best of health at all times!</p>
+
+<p>&nbsp;</p>
+
+<p>Warm Regards,<br />
+Aditya Birla Health Insurance</p>
+</div>
+</body>
+</html>

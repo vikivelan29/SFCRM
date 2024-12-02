@@ -111,6 +111,15 @@
         <fields>Segment__c</fields>
         <fields>Sanction_Amount__c</fields>
         <fields>ASSET.STATUS</fields>
+        <profileName>Wellness CRM Base Profile</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>ASSET.NAME</fields>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>PRODUCT2.NAME</fields>
+        <fields>Segment__c</fields>
+        <fields>Sanction_Amount__c</fields>
+        <fields>ASSET.STATUS</fields>
         <profileName>ABHFL Base Profile</profileName>
     </profileSearchLayouts>
     <searchLayouts>

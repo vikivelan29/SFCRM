@@ -502,6 +502,7 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
             return null;
         }
     }
+    /*
     @AuraEnabled
     public static List<String> getRejectionReasons(String cccExternalId){
         List<String> reasonValues = new List<String>();
@@ -536,8 +537,39 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
                     }
                 return reasonValues;
     }
-    
-    
-    
-    
+    */
+
+    /**
+    * @description : PR1030924-224: Method created to get resolved & rejected reasons.
+    * @author zahedali.mohammed@salesforce.com | 09-23-2024 
+    * @param String cccExternalId 
+    * @return List<LOB_Rejection_Reason__mdt> 
+    **/
+    @AuraEnabled
+    public static List<LOB_Rejection_Reason__mdt> getBUReasons(String cccExternalId){
+        List<LOB_Rejection_Reason__mdt> reasonValues = new List<LOB_Rejection_Reason__mdt>();
+        List<String> buList = new List<String>();
+        ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
+        if(cccExternalId != ''){
+            ccc = [SELECT Business_Unit__c, CCC_External_Id__c 
+                   FROM ASF_Case_Category_Config__c
+                   WHERE CCC_External_Id__c = :cccExternalId LIMIT 1];
+        }
+        if(String.isNotBlank(ccc.Business_Unit__c) && cccExternalId != ''){
+            String bu = ccc.Business_Unit__c;
+            if(bu.contains(',')){
+                for(String buVal : bu.split(',')){
+                    buList.add('%'+buVal.trim()+'%');
+                }                    
+            }else{
+                buList.add('%'+bu+'%');   
+            }            
+            for(LOB_Rejection_Reason__mdt buReason : [SELECT LOB__c, Reason__c ,Type__c
+                                                      FROM LOB_Rejection_Reason__mdt 
+                                                      WHERE LOB__c LIKE :buList ORDER BY Reason__c]){
+                                                          reasonValues.add(buReason);
+                                                      }
+        }
+        return reasonValues;
+    } 
 }

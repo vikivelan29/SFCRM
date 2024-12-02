@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Voucher Transaction Id</label>
+    <protected>false</protected>
+    <values>
+        <field>Api_Name__c</field>
+        <value xsi:type="xsd:string">voucherTxnId</value>
+    </values>
+    <values>
+        <field>Asf_Dynamic_Datatable_Parent__c</field>
+        <value xsi:type="xsd:string">MCRM_Lifestyle_Voucher</value>
+    </values>
+    <values>
+        <field>Data_Type__c</field>
+        <value xsi:type="xsd:string">text</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+</CustomMetadata>

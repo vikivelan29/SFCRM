@@ -4,10 +4,11 @@
     <externalId>false</externalId>
     <label>What activities are you currently doing</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory> 
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Category__c</controllingField>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -71,5 +72,54 @@
                 <label>Sports</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Steps</controllingFieldValue>
+            <valueName>Walking</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Steps</controllingFieldValue>
+            <valueName>Running</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Calories</controllingFieldValue>
+            <controllingFieldValue>Gym</controllingFieldValue>
+            <valueName>Zumba</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Calories</controllingFieldValue>
+            <valueName>Cardio @ home Aerobics</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Calories</controllingFieldValue>
+            <valueName>Cycling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Calories</controllingFieldValue>
+            <valueName>Dancing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Gym</controllingFieldValue>
+            <valueName>Workouts</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Gym</controllingFieldValue>
+            <valueName>Cardio</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non trackable (FA)</controllingFieldValue>
+            <valueName>Swimming</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non trackable (FA)</controllingFieldValue>
+            <valueName>Yoga @ gym</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non trackable (FA)</controllingFieldValue>
+            <valueName>Yoga @ home</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non trackable (FA)</controllingFieldValue>
+            <valueName>Sports</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

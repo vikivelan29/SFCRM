@@ -27,7 +27,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
 
     public boolean isAllCasesClosed(String caseId, String accountId){
         Account accountWithCases = [SELECT id, 
-                                        (SELECT id, CaseNumber, Status,CCC_External_Id__c, Source__c, ABSLAMC_Case_Detail__r.Caller_Type__c 
+                                        (SELECT id, CaseNumber, Status,CCC_External_Id__c, Source__c
                                         FROM Cases 
                                         WHERE Stage__c NOT IN (:ABSLAMC_Constants.RESOLVED_STAGE, :ABSLAMC_Constants.UNRESOLVED_STAGE) AND Id != :caseId) 
                                     FROM Account 
@@ -192,7 +192,22 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         userEml  = caseAccount.isPersonAccount ?  caseAccount.PersonEmail : (con.size()>0?con[0].Email:'');
 
         ABCL_LitmusSurveyWrapper litmusApiWrappObj = new ABCL_LitmusSurveyWrapper();
-        litmusApiWrappObj.app_id = cccRecord.Litmus_Project__c;
+        /**
+         * Branch - 0xzr_touchpoint
+            Email – Call Centre- 15kk_touchpoint
+            Phone - Call Centre - 9nu0_touchpoint
+         */
+
+        List<ABSLAMC_Litmus_AppId_Metadata__mdt> litmusAppIdMdtList = new List<ABSLAMC_Litmus_AppId_Metadata__mdt>();
+
+        litmusAppIdMdtList = [SELECT MasterLabel, Source__c, Channel__c, AppId__c
+                              FROM ABSLAMC_Litmus_AppId_Metadata__mdt
+                              WHERE Source__c =:caseRecord.Source__c
+                              AND Channel__c =:caseRecord.Channel__c];
+
+        String appid = litmusAppIdMdtList.size() > 0 ? litmusAppIdMdtList[0].AppId__c : '';
+        
+        litmusApiWrappObj.app_id = appid;
         litmusApiWrappObj.user_phone = userPhne;
         litmusApiWrappObj.user_email = userEml;
         litmusApiWrappObj.tag_sub_type = caseRecord.Sub_Type_Text__c;

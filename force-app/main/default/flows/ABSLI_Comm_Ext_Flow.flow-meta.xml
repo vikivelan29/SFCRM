@@ -221,12 +221,40 @@
         </rules>
         <rules>
             <name>New</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 OR (2 AND 3 AND 4 AND 5)</conditionLogic>
             <conditions>
                 <leftValueReference>currentRecord.Status</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>New</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>currentRecord.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>oldRecord.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RunningUserName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>IntegrationUserName</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>currentRecord.Technical_Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>API</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -237,6 +265,16 @@
     </decisions>
     <description>This is extension flow of Communication Log Flow from Case Record Trigger Flow.</description>
     <environments>Default</environments>
+    <formulas>
+        <name>IntegrationUserName</name>
+        <dataType>String</dataType>
+        <expression>{!$Label.ABCL_Integration_UserName}</expression>
+    </formulas>
+    <formulas>
+        <name>RunningUserName</name>
+        <dataType>String</dataType>
+        <expression>{!$User.FirstName} &amp; &quot; &quot; &amp; {!$User.LastName}</expression>
+    </formulas>
     <interviewLabel>ABSLI Comm Ext Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABSLI Comm Ext Flow</label>
     <processMetadataValues>

@@ -169,14 +169,14 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
                 totalScoreForPeriod: resultsList.totalScoreForPeriod,
             }];
             let scoresList = resultsList.scores;
-            scoresList = scoresList.sort((a, b) => new Date(a.activeDate) - new Date(b.activeDate));
+            scoresList = scoresList.sort((a, b) => this.parseDate(a.activeDate) - this.parseDate(b.activeDate)); //PR1030924-595
 
             this.scoresList = scoresList.flatMap(score => 
                 score.activities.map(activity => ({
                     eventDate: score.activeDate,
                     //eventDate: new Date(score.activeDate).toISOString().split('T')[0],
                     isScored: score.isScored === 'true' ? "True" : "False",
-                    caloriesActivity: activity.name === "Calories Activity" ? this.formatNumber(activity.value || 0) : '',
+                    caloriesActivity: activity.name === "Calorie Activity" ? this.formatNumber(activity.value || 0) : '',
                     Steps_Activity: activity.name === "Step Activity" ? this.formatNumber(activity.value || 0) : '',
                     gymActivity: activity.name === "Gym Activity" ? this.formatNumber(activity.value || 0) : '',
                     Score: this.formatNumber(activity.score || 0)
@@ -191,6 +191,22 @@ export default class Abhil_ActiveDaysDashboard extends LightningElement {
             this.error = 'No valid response from API';
         }
     }
+
+    //PR1030924-595
+    parseDate(dateString) {
+        // Check if the date string contains slashes (indicating a "dd/mm/yyyy" format)
+        if (dateString.includes('/')) {
+            let [datePart, timePart] = dateString.split(' ');
+            let [day, month, year] = datePart.split('/');
+            
+            // Manually construct the date in "yyyy-mm-ddTHH:MM:SS" format
+            return new Date(`${year}-${month}-${day}T${timePart}`);
+        }
+    
+        // If it's in a standard ISO format, use Date constructor directly
+        return new Date(dateString);
+    }
+
     handleRefresh(){
         this.handleSearch();
     }

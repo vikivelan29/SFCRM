@@ -1,0 +1,48 @@
+.nps-key {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.nps-detractor {
+    color: red; /* Detractor text in red */
+}
+
+.nps-passive {
+    color: orange; /* Passive text in orange */
+}
+
+.nps-promoter {
+    color: green; /* Promoter text in green */
+}
+
+.col-container {
+    display: table;
+    width: 100%;
+    padding: 1px;
+    
+  }
+  .col {
+    display: table-cell;
+    table-layout: fixed;
+    padding: 16px;
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+.customcase-box {
+    height: 100px; /* Set a custom height */
+    border: 5px solid aqua; /* Example border style */
+    border-radius: 5%;
+    padding: 20px; /* Example padding */
+    box-sizing: border-box; /* Ensure padding is included in box size */
+    
+}
+
+.customnps-box {
+    height: 100px; /* Set a custom height */
+    border: 5px solid aqua; /* Example border style */
+    border-radius: 5%;
+    padding: 20px; /* Example padding */
+    box-sizing: border-box; /* Ensure padding is included in box size */
+    
+}

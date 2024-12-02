@@ -2,8 +2,8 @@
 * @description       : 
 * @author            : Virendra Patil
 * @group             : 
-* @last modified on  : 26-05-2024
-* @last modified by  : Laxman
+* @last modified on  : 10-30-2024
+* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   01-17-2024   Virendra Patil   Initial Version
@@ -320,7 +320,7 @@ System.debug(decryptedString);*/
         public String ClientIPAddress{get;set;}	//
         public  BitlyRequestWrapper(String longurl){
             this.LongURL = longurl;
-            this.LOB = ABSLI_Constants.BITLY_LOB_VAL;
+            this.LOB = Label.ABSLI_BITLY_LOB_VAL;
             this.ExpiryDay = ABSLI_Constants.EXPIRY_DAY;
             this.Source = 'WYH';
             this.ClientIPAddress = ABSLI_Constants.BITLY_CLIENT_IP;
@@ -340,7 +340,7 @@ System.debug(decryptedString);*/
     public static String getCustomerPhoneNumber(String recordId){
         List<Contact> contacts = [SELECT ID,MobilePhone FROM Contact WHERE AccountId =: recordId AND Primary__c = true];
         if(contacts.size()>0){
-            return contacts[0].MobilePhone;
+            return (contacts[0].MobilePhone != null && contacts[0].MobilePhone != '') ? contacts[0].MobilePhone : 'NOMOBILE';
         }
         else{
             return null;

@@ -30,10 +30,12 @@ public with sharing class ASF_BulkCaseProcessorUtility {
 
     public void process(String triggerName) {
         Map<String, String> templateNameToApexClassMap = new Map<String,String>();
-        for(ASF_Bulk_Row_to_Record_Converter_Config__mdt converterMDT : [Select Id,Apex_Class_Name__c, Template_Name__c, Active__c from ASF_Bulk_Row_to_Record_Converter_Config__mdt where Template_Name__c IN :headIdToTemplateNameMap.values() AND Active__c = true]){
+        Map<String, String> ObjectNameToFieldNameMap = new Map<String,String>();
+        for(ASF_Bulk_Row_to_Record_Converter_Config__mdt converterMDT : [Select Id,Apex_Class_Name__c, Template_Name__c, Active__c,SObject_Name__c,FieldApiName__c from ASF_Bulk_Row_to_Record_Converter_Config__mdt where Template_Name__c IN :headIdToTemplateNameMap.values() AND Active__c = true]){
             templateNameToApexClassMap.put(converterMDT.Template_Name__c, converterMDT.Apex_Class_Name__c); 
+            ObjectNameToFieldNameMap.put(converterMDT.SObject_Name__c, converterMDT.FieldApiName__c);
+                
         }
-
         Map<Id, SObject> newCaseRecords = new Map<Id, SObject>();
         Map<Id, Map<String, String>> jsonMapResults = new Map<Id, Map<String, String>>();
         Map<Id, String> jsonResults = new Map<Id, String>();
@@ -73,7 +75,9 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             indexToLineItemIdMap.put(index, lineItemId);
             SObject record = newCaseRecords.get(lineItemId);
             if(record.Id == null){
-                record.put('OwnerId', lineItemToOwnerId.get(lineItemId));
+                if(record.get('OwnerId') == null){
+                   record.put('OwnerId', lineItemToOwnerId.get(lineItemId)); 
+                }
                 record.put('Business_Unit__c', ownerIdToUserMap.get(lineItemToOwnerId.get(lineItemId)).Business_Unit__c);
             }
             record.put('PlatformEventInitiatedBy__c', ownerIdToUserMap.get(lineItemToOwnerId.get(lineItemId)).Name);
@@ -86,27 +90,42 @@ public with sharing class ASF_BulkCaseProcessorUtility {
             List<Database.UpsertResult> srList = Database.upsert(recordsForDML, false);
             ASF_BulkCaseProcessorUtility.isBulkProcessing = false;
 
-            Set<Id> caseIds = new Set<Id>();
-            Map<Id, String> caseNumberMap = new Map<Id, String>();
+            Set<Id> recIds = new Set<Id>();
+            Map<Id, String> recordFieldToReturnMap = new Map<Id, String>();
             for(Database.UpsertResult sr : srList){
                 if(sr.isSuccess() && sr.isCreated()){
-                    caseIds.add(sr.getId());
+                    recIds.add(sr.getId());
                 }
             }
-
-            if(!caseIds.isEmpty()){
-                for(Case caseRec : [Select Id, CaseNumber from Case where Id IN :caseIds]){
-                    caseNumberMap.put(caseRec.Id, caseRec.CaseNumber);
-                }
+            /*Reason for query inside for loop : To fetch the objectName from the metadata , and make the
+            query generic for all SObjects, Also the query will run only once per object*/
+            for(String objName : ObjectNameToFieldNameMap.keySet()){
+                if(!recIds.isEmpty()){
+                    string strQuery = 'Select Id, '+ ObjectNameToFieldNameMap.get(objName) + ' FROM ' + objName + ' WHERE Id IN :recIds';
+                    List<sObject> sObjectRec = (List<sObject>)Database.query(strQuery);
+                    for(sObject rec : sObjectRec){
+                        recordFieldToReturnMap.put(rec.Id, String.valueOf(rec.get(ObjectNameToFieldNameMap.get(objName))));
+                        
+                    }
+                }  
             }
             index = 0;
+            Map<String, String> objectCodeMapping = new Map<String, String>();
             for(Database.UpsertResult sr : srList){
                 Id lineItemId = indexToLineItemIdMap.get(index);
                 Map<String, String> jsonMap = jsonMapResults.get(lineItemId);
                 if(sr.isSuccess()){
+                    SObject record = recordsForDML[index];
+                    String recordId = (String)record.Id;
+                    String subId = recordId.substring(0, 3);
+                    if (!objectCodeMapping.containsKey(subId)) {
+                       String objectName = record.getSObjectType().getDescribe().getName();
+                       objectCodeMapping.put(subId, objectName);
+                    }
+                    String objectName = objectCodeMapping.containsKey(subId) ? objectCodeMapping.get(subId): '';
                     System.debug('Success case number'+recordsForDML[index]);
                     jsonMap.put('Result', 'SUCCESS');
-                    jsonMap.put('Message', sr.isCreated()?caseNumberMap.get(sr.getId()):'Case Updated');
+                    jsonMap.put('Message', sr.isCreated()?recordFieldToReturnMap.get(sr.getId()):objectName+' Updated');
                 }else{
                     jsonMap.put('Result', 'FAILURE');
                     String errorMessage = '';

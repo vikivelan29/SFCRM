@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Preferred Communication Mode</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory> 
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -42,9 +42,9 @@
                 <label>Twitter</label>
             </value>
             <value>
-                <fullName>Phone call</fullName>
+                <fullName>Phone</fullName>
                 <default>false</default>
-                <label>Phone call</label>
+                <label>Phone</label>
             </value>
         </valueSetDefinition>
     </valueSet>

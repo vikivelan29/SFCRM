@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">APPLICATION LOGGED</value>
+        <value xsi:type="xsd:string">Application Logged</value>
     </values>
 </CustomMetadata>

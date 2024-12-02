@@ -660,16 +660,23 @@ public without sharing class ASF_CommPETriggerHelper {
                 }else if(cRec.Lead__c != null){
                     log = cLog.clone(false, true,false, false);
                     lead prospect = mLeads.get(cRec.Lead__c);
-                    log = createCommunincationLogRecord(log,null,null,cRec.Id,prospect.Name,prospect.MobilePhone,prospect.Id);
+                    if(prospect.MobilePhone != null && prospect.MobilePhone != ''){
+                        log = createCommunincationLogRecord(log,null,null,cRec.Id,prospect.Name,prospect.MobilePhone,prospect.Id);
                     
-                    if(prospect.MobilePhone != null &&  !String.isEmpty(log.SMS_LT_Name__c)){
-                        log.put('Status__c','In Progress');
-                    }                    
-                    log.put('Contact_Email__c', prospect.email);
-                    log.put('PE_Logger_Id__c',pLog.Id);
-                    log.LOB__c = pLog.LOB__c;
-                    logs.add(log);
+                        if(prospect.MobilePhone != null &&  !String.isEmpty(log.SMS_LT_Name__c)){
+                            log.put('Status__c','In Progress');
+                        }                    
+                        log.put('Contact_Email__c', prospect.email);
+                        log.put('PE_Logger_Id__c',pLog.Id);
+                        log.LOB__c = pLog.LOB__c;
+                        logs.add(log);
                     // IN case of Prospect Communication...
+                    }
+                    else{
+                        responseWrapper cls = new responseWrapper(pLog.Id,'Error','Lead on Case is without mobile number.');
+                    	peLogIdVsSuccessResult.put(pLog.Id,cls);
+                    }
+                    
                     
                 }
                 else{

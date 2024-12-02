@@ -7,6 +7,9 @@
         <field>Case$CaseNumber</field>
     </columns>
     <columns>
+        <field>Case$Created_Date_Value__c</field>
+    </columns>
+    <columns>
         <field>Case$CreatedDate</field>
     </columns>
     <columns>
@@ -37,13 +40,16 @@
         <field>Case$Asset.Branch__c.Zone__c</field>
     </columns>
     <columns>
-        <field>Case$Owner</field>
-    </columns>
-    <columns>
         <field>Case$Case_Assigned_Team__c</field>
     </columns>
     <columns>
+        <field>Case$Owner</field>
+    </columns>
+    <columns>
         <field>Case$Nature__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABSLI_Case_Detail__c.Complaint_Category__c</field>
     </columns>
     <columns>
         <field>Case$Type_Text__c</field>
@@ -53,9 +59,6 @@
     </columns>
     <columns>
         <field>Case$Description</field>
-    </columns>
-    <columns>
-        <field>Case$Overall_Case_Closure_SLA__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Investigation_Comment__c</field>
@@ -110,6 +113,9 @@
         <field>Case$ABSLI_Case_Detail__c.Case_Pending_With__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.Follow_up_Name__c</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.From_Date__c</field>
     </columns>
     <columns>
@@ -152,6 +158,9 @@
         <field>Case$ABSLI_Case_Detail__c.Resolved_settled_status__c</field>
     </columns>
     <columns>
+        <field>Case$Account.Customer_Segment__c</field>
+    </columns>
+    <columns>
         <field>Case$Account.Client_Code__c</field>
     </columns>
     <columns>
@@ -173,6 +182,9 @@
         <field>Case$ABSLI_Case_Detail__c.Closed_Looping_Done_on_Number__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.ICF_Reason_if_no__c</field>
+    </columns>
+    <columns>
         <field>Case$ABSLI_Case_Detail__c.IGMS_Complaint_Registration_Date__c</field>
     </columns>
     <columns>
@@ -186,15 +198,6 @@
     </columns>
     <columns>
         <field>Case$LastModifiedDate</field>
-    </columns>
-    <columns>
-        <field>Case$ABSLI_Case_Detail__c.Follow_up_Name__c</field>
-    </columns>
-    <columns>
-        <field>Case$ABSLI_Case_Detail__c.Screening_Date__c</field>
-    </columns>
-    <columns>
-        <field>Case$Account.Customer_Segment__c</field>
     </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(CONTAINS(Case.Type_Text__c, &quot;Sales&quot;), &quot;Sales&quot;, &quot;Non Sales&quot;)</calculatedFormula>

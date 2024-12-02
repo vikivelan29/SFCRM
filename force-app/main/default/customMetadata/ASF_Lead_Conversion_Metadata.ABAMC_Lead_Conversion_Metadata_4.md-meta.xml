@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Lead_Type__c</field>
-        <value xsi:type="xsd:string">MF Service To Sales</value>
+        <value xsi:type="xsd:string">MF Retention</value>
     </values>
     <values>
         <field>Track_conversion__c</field>

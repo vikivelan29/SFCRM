@@ -20,7 +20,9 @@ import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU'; 
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
 //tst strt
 import NATURE_FIELD from '@salesforce/schema/Case.Nature__c';
@@ -44,7 +46,8 @@ import Customer_Mandatory from '@salesforce/label/c.ASF_Customer_Mandatory';
 import CRN_Basis_Case from '@salesforce/label/c.ASF_CRN_Basis_Case';
 import WithoutFA from '@salesforce/label/c.ASF_CreateSRwithoutFA';
 import WithFA from '@salesforce/label/c.ASF_CreateSRwithFA';
-import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+//import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
 
 import getDuplicateCases from '@salesforce/apex/ABCL_CaseDeDupeCheckLWC.getDuplicateCases';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
@@ -56,6 +59,7 @@ import USER_ID from '@salesforce/user/Id';
 import CloseCaseWithoutCustomerLbl from '@salesforce/label/c.ASF_CloseCaseWithoutCustomer';
 import CreateCaseWithProspectLbl from '@salesforce/label/c.ASF_CreateCaseWithProspect';
 import CASE_PROSPECT_ID from '@salesforce/schema/Case.Lead__c';
+import UnresolvedCommentsNotReqBUs from '@salesforce/label/c.ABAMC_NonMandatoryUnresCommentsBUs';
 
 
 
@@ -180,6 +184,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     strDefaultChannel = '';
     currentObj = CASE_OBJECT.objectApiName;
 
+    UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
+
     get stageOptions() {
         return [
             { label: 'Pending for Rejection', value: 'Pending for Rejection' },
@@ -207,6 +213,17 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     }
 
+    //Added for ABSLAMC Bug195, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
+    get optionalResComment(){
+        const listOfBUs = this.UnresolvedCommentsNotReqBUs.split(',');
+        if(listOfBUs.includes(this.businessUnit)){
+            return false;
+        } else{
+            return true;
+        }
+        
+    }
+
     caseFields = [NATURE_FIELD, SOURCE_FIELD];
 
    //To get No Auto Communication and category picklist values
@@ -232,10 +249,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
    wiredPicklistValues({ error, data}) {
        if (data){
            if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-               this.noAutoCommOptions = data.values.map(item => ({
-                   label: item.label,
-                   value: item.value
-               }));
+                this.adjustAutoCommunications(data);
 
                this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                this.defaultRecTypeId = this.bsliRecTypeId;
@@ -304,7 +318,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
             // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT
             this.prospectRecId = this.caseRec.fields.Lead__c.value;
-            if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != ''){
+            if(this.prospectRecId != null && this.prospectRecId != undefined && this.prospectRecId != '' && this.businessUnit != ABSLAMC_BU){//ABSLAMC Bug203 Hide Create Case with Prospect btn
                 this.showOnProspectTagging = true;
             }
 
@@ -335,13 +349,34 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-           this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
-           this.faValidMsg = lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE != null? lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE : lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
-           this.withFALabel = lanLabels[this.businessUnit].CREATE_CASE_WITH_FA != null? lanLabels[this.businessUnit].CREATE_CASE_WITH_FA : lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
+           this.cols = lanLabels[this.businessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+           this.faValidMsg = lanLabels[this.businessUnit]?.FA_VALIDATION_MESSAGE || lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
+           this.withFALabel = lanLabels[this.businessUnit]?.CREATE_CASE_WITH_FA || lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
+
+           // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
+           this.adjustAutoCommunications(undefined);
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
+
+    // Rajendra Singh Nagar: PR1030924-209 - Added function
+    adjustAutoCommunications(data){
+        if(AUTO_COMM_BU_OPT?.[this.businessUnit]?.OPTSLBLS){
+            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }else{
+            if(data){
+                this.noAutoCommOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
+            }
+        }
+    }
+
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         console.log('hete in yext chage')
@@ -820,7 +855,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
     saveRejection(event) {
         console.log('this.rejectedDetails.length' + this.rejectedDetails.length);
-        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU) {
+        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU && this.optionalResComment) {//Added for ABSLAMC Bug195, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -901,7 +936,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
-                    message: lanLabels[this.businessUnit].FA_MANDATORY_PREFRAMEWORK != null? lanLabels[this.businessUnit].FA_MANDATORY_PREFRAMEWORK : lanLabels["DEFAULT"].FA_MANDATORY_PREFRAMEWORK,
+                    message: lanLabels[this.businessUnit]?.FA_MANDATORY_PREFRAMEWORK || lanLabels["DEFAULT"].FA_MANDATORY_PREFRAMEWORK,
                     variant: 'Error',
                 }),
             );
@@ -973,20 +1008,27 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
 
-    //To get Rejection Reason:
+    //To get Rejection Reason: 
+    //PR1030924-224 - Zahed - modifed as part of 
     async fetchRejectionReason(cccExtId) {
-        await getSrRejectReasons({ cccExternalId: cccExtId }).then(result => {
+        try{
+            const records = await getSrBUReasons({ cccExternalId: cccExtId });  
             this.reasonLOV = [];
-            result.forEach(reason => {
-                const optionVal = {
-                    label: reason,
-                    value: reason
-                };
-                this.reasonLOV.push(optionVal);
+           // this.reasonLOV.push(optionVal);
+            records.forEach(item => {
+                if(item.Type__c == 'Reject' || item.Type__c != 'Resolve'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.reasonLOV.push(optionVal);
+                }                  
             });
-        }).catch(error => {
-            console.log('Error: ' + JSON.stringify(error));
-        });
+            this.isLoading = false;
+        }catch (error) {
+            this.dispatchEvent(new ShowToastEvent({ title: 'Error', message: 'Error fetching BU reasons.', variant: 'error'}));
+            this.isLoading = false;              
+        }
     }
     
 

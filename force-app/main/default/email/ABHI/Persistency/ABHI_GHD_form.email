@@ -1,0 +1,44 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="margin-right: 4px; margin-left: 4px; text-align:justify">Dear {{{Case.Customer_name_formula__c}}},
+<p style="line-height:1.2"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Request you to please provide consent on below</span></span></span></span></span></span></p>
+<br />
+<p style="line-height:1.2; text-align:center"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:underline"><span style="-webkit-text-decoration-skip:none"><span style="text-decoration-skip-ink:none">Good Health Declaration</span></span></span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#333333"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Post commencement of your insurance policy with us, did you suffer from or are currently suffering from or have developed or investigated for or advised or taken medical opinion or advised surgery for any disease/illness/injury or accident/medical/surgical condition other than common cold or viral fever?</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#333333"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">______________________________________________________________________________</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#333333"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">If 'Yes', please provide details of medical/surgical condition &amp; duration&nbsp;</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#333333"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">______________________________________________________________________________</span></span></span></span></span></span></p>
+
+<p style="line-height:1.2"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#333333"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;______________________________________________________________________________</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#333333"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Please provide all the medical papers including but not limited to Doctor Prescription, Medical Test Reports, etc.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#333333"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Please note: Any non-disclosure or incomplete/ incorrect/ partially correct information may lead to repudiation of claim or cancellation of policy as per policy terms and conditions.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.295; margin-bottom:11px"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#333333"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">I agree to give consent to renew this policy as per terms and condition of expiring policy</span></span></span></span></span></span></p>
+
+<p style="line-height:1.295; margin-bottom:11px"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="background-color:#ffffff"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">&nbsp;</span></span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.295; margin-bottom:11px"><span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Customer Signature: _________________________________</span></span></span></span></span></span><br />
+<span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Date: </span></span></span></span></span></span><br />
+<span style="font-size:12pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Time:</span></span></span></span></span></span></p>
+
+<p style="line-height:1.2; text-align:justify">&nbsp;</p>
+</div>
+</body>
+</html>

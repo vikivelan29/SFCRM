@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">not contacted</value>
+        <value xsi:type="xsd:string">Not Contacted</value>
     </values>
 </CustomMetadata>

@@ -55,6 +55,7 @@ public with sharing class ABCL_CommonCLass {
         if(bhList.size() > 0) {
             
             for(BusinessHours bh : bhList) {
+                system.debug('line no 58 BH-->'+bh);
                 String bussHrName = bh.Name;
                 if(bussHrName.containsIgnoreCase('ABHFL')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABHFL', bh);
@@ -73,6 +74,11 @@ public with sharing class ABCL_CommonCLass {
                 }
                 else if(bussHrName.containsIgnoreCase('ABSLAMC')){
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLAMC', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ABHI')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABHI', bh);
+                }else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
+                    mapOf_BusinessUnit_To_BusinessHr.put('Wellness', bh);
                 }
             }
             
@@ -119,9 +125,9 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
-            recordsToUpdate.addAll(recordupdateABFLcaseDetail.values()); // added by vikas
+            
         }
-        
+        recordsToUpdate.addAll(recordupdateABFLcaseDetail.values()); // added by vikas
         if(!recordsToUpdate.isEmpty()){
            // update recordsToUpdate;
 	   Database.update(recordsToUpdate, false);                    // added by vikas
@@ -144,10 +150,10 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /**
-* @Function - populateCreatedDateRange
-* @param newItems -  map of Case from trigger.new.
-* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
-**/
+	* @Function - populateCreatedDateRange
+	* @param newItems -  map of Case from trigger.new.
+	* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
+	**/
     public void populateCreatedDateRange(List<Case> newItems) {
         
         Datetime currentDatetime = System.now();
@@ -166,16 +172,40 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /**
-* @Function - populateCreatedDateRange
-* @param calculateMinutes -  Time in minutes.
-* @return - String
-* @description - Method to calculate the SLA Overwrite Identifier
-**/
+	* @Function - populateCreatedDateRange
+	* @param calculateMinutes -  Time in minutes.
+	* @return - String
+	* @description - Method to calculate the SLA Overwrite Identifier
+	**/
     @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         
         String slaOverwriteIdentifier = '';
-       if(calculateMinutes > 0 && calculateMinutes <= 900) {
+        if(calculateMinutes <= 900) {
+            slaOverwriteIdentifier = '1';
+        }
+        else if(calculateMinutes > 900 && calculateMinutes <= 960) {
+            slaOverwriteIdentifier = '2';
+        }
+        else if(calculateMinutes > 960 && calculateMinutes <= 1020) {
+            slaOverwriteIdentifier = '3';
+        }
+        else if(calculateMinutes > 1020 && calculateMinutes <= 1080) {
+            slaOverwriteIdentifier = '4';
+        }
+        else if(calculateMinutes > 1080 && calculateMinutes <= 1140) {
+            slaOverwriteIdentifier = '5';
+        }
+        else if(calculateMinutes > 1140 && calculateMinutes <= 1200) {
+            slaOverwriteIdentifier = '6';
+        }
+        else if(calculateMinutes > 1200 && calculateMinutes <= 1260) {
+            slaOverwriteIdentifier = '7';
+        }
+        else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
+            slaOverwriteIdentifier = '8';
+        }
+        else if(calculateMinutes > 1320 && calculateMinutes <= 1440) {
             slaOverwriteIdentifier = '1';
         }
         else if(calculateMinutes > 900 && calculateMinutes <= 960) {

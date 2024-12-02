@@ -94,7 +94,7 @@ public with sharing class ABSLI_WithdrawalPolicyIntegration implements ASF_Integ
             WithdrawalPolicyRequestBody requestJSON = new WithdrawalPolicyRequestBody();
             requestJSON.TransNo = caseRecord.caseNumber;
             requestJSON.PolicyID = caseRecord.Asset.Policy_No__c;
-            requestJSON.EffectiveDt = String.valueOf(SYSTEM.TODAY());
+            requestJSON.EffectiveDt = String.valueOf(ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY'));
             requestJSON.IFSC_Code = caseRecord.ABSLI_Case_Detail__r.IFSC_Code__c;
             requestJSON.MICR_Code = ABSLI_Constants.BANKACCOUNTUPDATE_MICR_CODE;
             requestJSON.BankAccountNo = caseRecord.ABSLI_Case_Detail__r.Account_Number__c;
@@ -111,8 +111,8 @@ public with sharing class ABSLI_WithdrawalPolicyIntegration implements ASF_Integ
             requestJSON.FT_Amount_BR = '0';
             requestJSON.TDS_Ind = caseRecord.ABSLI_Case_Detail__r.TDS_Indicator__c == 'Y'?'true':'false';
             String surrenderAmount = '0';
-            if(caseRecord.ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c != null){
-                surrenderAmount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c.round());
+            if(caseRecord.ABSLI_Case_Detail__r.Requested_Withdrawal_Amount__c != null){
+                surrenderAmount = String.valueOf(caseRecord.ABSLI_Case_Detail__r.Requested_Withdrawal_Amount__c.round());
             }
             requestJSON.surrenderamount = surrenderAmount;
 

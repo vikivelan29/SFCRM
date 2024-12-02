@@ -3,6 +3,12 @@
     <columns>
         <field>Case$Type_Text__c</field>
     </columns>
+    <columns>
+        <field>Case$CaseNumber</field>
+    </columns>
+    <columns>
+        <field>Case$Sub_Type_Text__c</field>
+    </columns>
     <customDetailFormulas>
         <calculatedFormula>IF(CONTAINS(Case.Type_Text__c, &quot;Sales&quot;), &quot;Misselling&quot;, &quot;Non Misselling&quot;)</calculatedFormula>
         <dataType>Text</dataType>
@@ -34,7 +40,7 @@
     </params>
     <reportType>Case_With_Policy_and_Branch_Masters__c</reportType>
     <scope>organization</scope>
-    <showDetails>false</showDetails>
+    <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>

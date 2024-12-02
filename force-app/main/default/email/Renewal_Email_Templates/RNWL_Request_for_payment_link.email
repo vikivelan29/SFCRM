@@ -1,0 +1,29 @@
+<messaging:emailTemplate subject="Request for Payment Link for Policy No. {!relatedTo.Policy_Number__c}" renderUsingSystemContextWithoutSharing="true" recipientType="Contact" relatedToType="Opportunity">
+   <messaging:htmlEmailBody >
+        
+       <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Header" width="200" height="100" /> <br/><br/><br/>
+       
+       <body style="height: auto; min-height: auto; font-family: Times New Roman;font-size: 10pt;">
+            
+         <p><strong>Policy No : {!relatedTo.Policy_Number__c}</strong> </p>  
+         <p><strong> Plan Name : {!relatedTo.Plan_Name__c} </strong> </p>
+         <p>Dear {!relatedTo.Customer_Name__c},</p>
+         <p>We value your relationship with us and thank you for trusting us with your health insurance needs.</p>
+         <p>In reference to our telephonic conversation and as per your request, please find below the payment link for your existing policy. We have shared the details of your existing policy below for your ready reference:</p>
+     
+
+         <c:RNWL_MemberListVfc oppIdValue="{!relatedTo.Id}" /> <br></br>
+       
+          Payment Link:
+         <a href="{!relatedTo.Payment_Link__c}"> {!relatedTo.Payment_Link__c}</a>
+         
+         <p class="contact-info"> In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at  care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App – a one-stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 8828000035. </p>
+         <br/><p>We wish you the best of health at all times!</p><br/>
+         <p>Warm Regards,<br />Aditya Birla Health Insurance</p>
+         <p>
+         <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Footer1" width="800" height="120" /> <br/>
+         <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Footer_2" width="800" height="120" />  <br/>
+        </p>
+         </body>
+   </messaging:htmlEmailBody>
+</messaging:emailTemplate>

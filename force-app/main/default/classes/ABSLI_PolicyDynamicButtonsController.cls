@@ -10,7 +10,7 @@ public with sharing class ABSLI_PolicyDynamicButtonsController {
             String IV = Label.ABSLI_READY_RECK_IV;
             String KEY = Label.ABSLI_READY_RECK_KEY;
             String toBeEncrypted = usrADID +':'+policyNum;
-            String encryptedPolicyNum = getEncryptedValue(toBeEncrypted,IV,KEY,'AES256');
+            String encryptedPolicyNum = getEncryptedValue(toBeEncrypted,IV,KEY,'AES128');
             if(encryptedPolicyNum != null)
                 staticUrl += encryptedPolicyNum;
             

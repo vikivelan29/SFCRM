@@ -6,6 +6,8 @@
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
+    
+    public static Boolean requestFromBulkClose = false;
     /**
      * @description This method is called from the ASF_BulkCaseProcessorUtility while performing bulk close via csv upload
      * @param jsonRows
@@ -101,12 +103,14 @@ public with sharing class ABSLI_BulkCloseCaseConverterUtility implements ASF_Bul
                 caseRec.Pending_Clarification__c = false;
                 caseRec.moved_back__c = false;
                 caseRec.Is_Manual_Moved__c = true;
+                ABSLI_BulkCloseCaseConverterUtility.requestFromBulkClose = true;
                 caseRec.Bulk_CaseDetail_JSON__c = JSON.serialize(caseDetRec);
                 
             }else if(teamResolutionStatus == 'Unresolved'){
                 caseRec.Stage__c = teamResolutionStatus;
                 caseRec.Status = teamResolutionStatus;
                 caseRec.Reject_Case__c = true;
+                ABSLI_BulkCloseCaseConverterUtility.requestFromBulkClose = true;
                 caseRec.Bulk_CaseDetail_JSON__c = JSON.serialize(caseDetRec);
             }else{
                 keyValueMap.put('Result', 'FAILURE');

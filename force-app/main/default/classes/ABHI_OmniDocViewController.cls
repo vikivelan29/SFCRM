@@ -1,16 +1,18 @@
 /**
 * @File Name : ABHI_OmniDocViewController.cls
-* @Description :
+* @Description : Class to handle Omnidocs integration
 * @Author : Salesforce
-* @Last Modified By : Aditya Jawadekar
-* @Last Modified On : September 2, 2024
-* @Modification Log :
+* @Last Modified By : ChangeMeIn@UserSettingsUnder.SFDoc
+* @Last Modified On : 11-13-2024
+* @Modification Log : updated templateDetails method to handle opp email
 *==============================================================================
 * Ver | Date | Author | Modification
 *==============================================================================
 * 1.0 | August 20, 2024 | Aditya Jawadekar  | Initial Version
+* 1.1.| Oct 28, 2024    | Raj Raghuwanshi   | updated templateDetails method to handle opp email
 **/
 
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
 public without sharing class ABHI_OmniDocViewController{
 
     public static OmniDocListRequest objPayload{get;set;}
@@ -20,8 +22,6 @@ public without sharing class ABHI_OmniDocViewController{
     public static ASF_Case_Integration__c objASFCaseInt{get;set;}
     public static List<Asf_Dynamic_Datatable_Child__mdt> lstAllDatatableColumns{get;set;}
     public static list<Object> lstColumnsReturned{get;set;}
-    public static EmailTemplate objEmailTemplate{get;set;}
-    public static OrgWideEmailAddress objOrgWideEmailAddress{get;set;}
 
     static{
         objPayload = new OmniDocListRequest();
@@ -31,10 +31,15 @@ public without sharing class ABHI_OmniDocViewController{
         objASFCaseInt = new ASF_Case_Integration__c();
         lstAllDatatableColumns = new List<Asf_Dynamic_Datatable_Child__mdt>();
         lstColumnsReturned = new list<Object>();
-        objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME LIMIT 1];
-        objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = :ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME LIMIT 1];
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - getColumnsForDataTable
+    * @param - strParentConfigName 
+    * @return -  list<Object>
+    * @description - This method will be used to get datatable columns from metadata for a specific parent config name
+    *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
     public static list<Object> getColumnsForDataTable(String strParentConfigName){
 
@@ -69,19 +74,26 @@ public without sharing class ABHI_OmniDocViewController{
             throw callException(objException,true,'');
         }
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - callOmiDocSearchRequest
+    * @param - strAssetId, strPolicyNo
+    * @return - Object
+    * @description - This method performs omnidoc integration to get the list of documents
+    *****************************************************************************************************************/
     @AuraEnabled
     Public static Object callOmiDocSearchRequest(String strAssetId, String strPolicyNo){
 
         try{
-
             objPayload.LogicalID = ABHI_Constants.LOGICAL_ID;
             objPayload.TaskID = ABHI_Constants.TASK_ID;
             objPayload.ReferenceID = strAssetId;
             objPayload.CreationDateTime = System.now().format();
             objPayload.TODID = strAssetId;
             objPayload.CategoryID = ABHI_Constants.CATEGORY_ID;
-            objPayload.DocSearchParamId = ABHI_Constants.PARAM_ID;
+            if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case') objPayload.DocSearchParamId = ABHI_Constants.CASE_PARAM_ID;
+            else objPayload.DocSearchParamId = ABHI_Constants.PARAM_ID;
             objPayload.SourceSystemName = ABHI_Constants.LOGICAL_ID;
             objPayload.SearchOperator = ABHI_Constants.SEARCH_OPERATOR;
             objPayload.Value = strPolicyNo;
@@ -98,7 +110,14 @@ public without sharing class ABHI_OmniDocViewController{
             throw callException(objException,true,'');
         }
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - publishCaseIntegrationOutbound
+    * @param - strAssetId, mapRow, strASFRecordId
+    * @return - boolean
+    * @description - This method publishes platform event for AWS to send us the document on the created ASF record
+    *****************************************************************************************************************/
     @AuraEnabled
     Public static boolean publishCaseIntegrationOutbound(String strAssetId, Map<String, Object> mapRow, String strASFRecordId){
 
@@ -108,7 +127,7 @@ public without sharing class ABHI_OmniDocViewController{
 
                 lstAsfCaseIntegration = [SELECT Id, Name, Business_External_Id__c, Status__c, Request__c, createdDate
                                         FROM ASF_Case_Integration__c 
-                                        WHERE Id = :strASFRecordId
+                                        WHERE Id = :strASFRecordId WITH SYSTEM_MODE
                                         ORDER BY createdDate DESC
                                         LIMIT 1];
                 
@@ -140,7 +159,14 @@ public without sharing class ABHI_OmniDocViewController{
         }
         
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - createASFIntegrationRecord
+    * @param - strAssetId, mapRow
+    * @return - Object
+    * @description - This method creates ASF record where the documents are to be transferred
+    *****************************************************************************************************************/
     @AuraEnabled
     Public static Object createASFIntegrationRecord(String strAssetId, Map<String, Object> mapRow){
 
@@ -178,21 +204,62 @@ public without sharing class ABHI_OmniDocViewController{
             throw callException(objException,true,'');
         }
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - templateDetails
+    * @param - mapRow, strASFRecordId, strAssetId, strPlanName, strAccountId, strAccountEmail
+    * @return - boolean
+    * @description - This method sends email to customer with document
+    *****************************************************************************************************************/
 	@AuraEnabled(cacheable=false)
 	Public static boolean templateDetails(Map<String, Object> mapRow, String strASFRecordId, String strAssetId, String strPlanName, String strAccountId, String strAccountEmail){
 
         List<ASF_Case_Integration__c> lstAsfCaseIntegration = new List<ASF_Case_Integration__c>();
         List<String> lstString = new List<String>();
+        //EmailTemplate objEmailTemplate = new EmailTemplate();
+        //OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
+        //String strTemplateName; 
+        //String strFromAddress; 
 
         try{
+            EmailTemplate objEmailTemplate = new EmailTemplate();
+            String strTemplateName; 
+            String strFromAddress; 
+            String sObjName = Id.valueOf(strAssetId).getSObjectType().getDescribe().getName();
 
+            OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
+
+            if(sObjName == 'Opportunity'){
+                strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
+                strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
+            } 
+            else{
+                strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
+                strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+            }
+
+            objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
+            objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
             if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && !String.isBlank(strAccountEmail) && mapRow != null ){
-
+				
+                if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
+                    strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
+                    strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME; 
+                }else if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
+                    strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME_CASE;
+                    strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                }else{
+                    strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
+                    strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                }
+                
+                objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress WITH SYSTEM_MODE LIMIT 1];
+                objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName WITH SYSTEM_MODE LIMIT 1];
                 lstAsfCaseIntegration = [SELECT Id, Business_External_Id__c, Status__c, Request__c, createdDate,
                                             (SELECT Id, ContentDocument.CreatedDate, ContentDocument.LatestPublishedVersion.FileType, ContentDocument.LatestPublishedVersion.VersionData, ContentDocument.LatestPublishedVersion.PathOnClient, ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)
                                             FROM ASF_Case_Integration__c
-                                            WHERE Id = :strASFRecordId
+                                            WHERE Id = :strASFRecordId WITH SYSTEM_MODE
                                             ORDER BY createdDate DESC
                                             LIMIT 1];
 
@@ -207,13 +274,18 @@ public without sharing class ABHI_OmniDocViewController{
                 if(!lstString.isEmpty() && lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_SUCCESS){
 
                     if(calculateDateDifference(DateTime.now(), lstAsfCaseIntegration?.iterator()?.next()?.createdDate).minutes < 1){
-                        Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId];
+                        Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId WITH SYSTEM_MODE];
 
                         Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(objEmailTemplate.Id, objCon.Id, strAssetId);
                         objEmail.setTemplateId(objEmailTemplate.Id);
                         objEmail.setOrgWideEmailAddressId(objOrgWideEmailAddress.Id);
-                        objEmail.setSubject(objEmail.getSubject().replace(strPlanName, strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
-                        objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strPlanName, strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                        if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
+                            objEmail.setSubject(objEmail.getSubject().replace(strAssetId.substring(0,15), strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                            objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strAssetId.substring(0,15), strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                        }else{
+                            objEmail.setSubject(objEmail.getSubject().replace(strPlanName, strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                            objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strPlanName, strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
+                        }
                         objEmail.setEntityAttachments(lstString);
                         objEmail.setWhatId(strAssetId);
                         objEmail.setTargetObjectId(objCon.Id);
@@ -221,7 +293,7 @@ public without sharing class ABHI_OmniDocViewController{
                         Messaging.SendEmailResult[] sendResults = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {objEmail}, true);
                         return sendResults.iterator().next().isSuccess();
                     }else{
-			throw callException(null,false,ABHI_Constants.ERROR_OMNISUCCESSLONG);
+			            throw callException(null,false,ABHI_Constants.ERROR_OMNISUCCESSLONG);
                     }
                 }else if(lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_FAILURE){
                     throw callException(null,false,ABHI_Constants.ERROR_OMNIRESFAIL);
@@ -239,7 +311,14 @@ public without sharing class ABHI_OmniDocViewController{
         }
         return false;
 	}
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - calculateDateDifference
+    * @param - dateTimeNew, dateTimeOld
+    * @return - dateDifferenceWrap
+    * @description - This method calculates date difference
+    *****************************************************************************************************************/
     private static dateDifferenceWrap calculateDateDifference(DateTime dateTimeNew, DateTime dateTimeOld){
         Long dt1Long = dateTimeNew.getTime();
         Long dt2Long = dateTimeOld.getTime();
@@ -251,7 +330,14 @@ public without sharing class ABHI_OmniDocViewController{
         objDtWrap.days = (((milliseconds / 1000)/60)/60)/24;
         return objDtWrap;
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - callException
+    * @param - objException, boolIsException, strErrorMessage
+    * @return - AuraHandledException
+    * @description - This method handles exception
+    *****************************************************************************************************************/
     private static AuraHandledException callException(Exception objException, Boolean boolIsException, String strErrorMessage) {
         if(boolIsException && objException != null){
             AuraHandledException objAHException = new AuraHandledException('Exception ' + objException.getMessage() + ' at ' + objException.getLineNumber());
@@ -263,11 +349,23 @@ public without sharing class ABHI_OmniDocViewController{
             return objAHException;
         }
     }
-
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - generateExternalId
+    * @param - strVID, strOmniDocIndex, strOmniDocImageIndex, strAssetId
+    * @return - String
+    * @description - This method handles exception
+    *****************************************************************************************************************/
     public static String generateExternalId(String strVID, String strOmniDocIndex, String strOmniDocImageIndex,String strAssetId){
         return strVID + strOmniDocIndex + strOmniDocImageIndex + strAssetId + UserInfo.getUserId();
     }
-
+	
+    /*********************************************************
+    * @Class        :  dateDifferenceWrap 
+    * @Author       :  Aditya Jawadekar
+    * @description  :  Date difference wrapper
+    *********************************************************/
     public class dateDifferenceWrap{
         @AuraEnabled
         public long seconds;
@@ -278,7 +376,12 @@ public without sharing class ABHI_OmniDocViewController{
         @AuraEnabled
         public long days;
     }
-
+	
+    /*********************************************************
+    * @Class        :  OmniDocListRequest 
+    * @Author       :  Aditya Jawadekar
+    * @description  :  Wrapper class of Omnidoc List request
+    *********************************************************/
     public class OmniDocListRequest{
         @AuraEnabled
         public String LogicalID;
@@ -301,7 +404,12 @@ public without sharing class ABHI_OmniDocViewController{
         @AuraEnabled
         public String Value;
     }
-
+	
+    /*********************************************************
+    * @Class        :  OmniDocDownloadRequest 
+    * @Author       :  Aditya Jawadekar
+    * @description  :  Wrapper class of Omnidoc download request
+    *********************************************************/
     public class OmniDocDownloadRequest{
         @AuraEnabled
         public String LogicalID;

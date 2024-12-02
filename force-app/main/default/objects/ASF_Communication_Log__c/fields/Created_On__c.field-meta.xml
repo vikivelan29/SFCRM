@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Created_On__c</fullName>
+    <description>Indicates the timestamp at which the notification was initiated. This is created as a custom field instead of using the standard created date because these logs are created via platform event (asynchronously) and doesn&apos;t provide the real timestamp of initiation. Its not a formula field as PE Logger is a text field and not a lookup</description>
+    <externalId>false</externalId>
+    <label>Created On</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

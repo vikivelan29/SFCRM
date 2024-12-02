@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Display_Label__c</field>
-        <value xsi:type="xsd:string">Bulk Case Update</value>
+        <value xsi:type="xsd:string">Bulk Case Claim Update</value>
     </values>
     <values>
         <field>Fields_Name__c</field>

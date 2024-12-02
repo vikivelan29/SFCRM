@@ -7,6 +7,9 @@
         <field>Case$Nature__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.Complaint_Category__c</field>
+    </columns>
+    <columns>
         <field>Case$Type_Text__c</field>
     </columns>
     <columns>
@@ -79,6 +82,9 @@
         <field>Case$Asset.Plan_Name__c</field>
     </columns>
     <columns>
+        <field>Case$Asset.Type__c</field>
+    </columns>
+    <columns>
         <aggregateTypes>Sum</aggregateTypes>
         <field>Case$Asset.Annual_Premium__c</field>
     </columns>
@@ -105,9 +111,6 @@
     </columns>
     <columns>
         <field>Case$Asset.Status</field>
-    </columns>
-    <columns>
-        <field>Case$Asset.Type__c</field>
     </columns>
     <columns>
         <field>Case$Asset.PIVC_Status__c</field>

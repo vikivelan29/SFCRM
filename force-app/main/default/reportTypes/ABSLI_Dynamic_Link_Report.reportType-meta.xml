@@ -486,6 +486,26 @@
             <field>Case__c.ABSLI_Case_Detail__c.Source_Request_submitted_by__c</field>
             <table>ASF_Communication_Log__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Branch_Name__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Branch_Code__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Zone__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.Region__c</field>
+            <table>ASF_Communication_Log__c</table>
+        </columns>
         <masterLabel>Communication Logs</masterLabel>
     </sections>
 </ReportType>

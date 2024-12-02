@@ -78,8 +78,6 @@
     <showSubTotals>true</showSubTotals>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>
-        <endDate>2024-08-31</endDate>
         <interval>INTERVAL_CUSTOM</interval>
-        <startDate>2024-07-01</startDate>
     </timeFrameFilter>
 </Report>

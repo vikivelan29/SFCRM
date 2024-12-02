@@ -91,7 +91,7 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
         }
         //Map<Id, Set<Id>> groupIdToMemberIds = isUserInQueue(ownerIds, groupIds);
         
-        List<Case> downloadStpCases = new List<Case>();
+        //List<Case> downloadStpCases = new List<Case>();
         
         String cY = System.Label.ABHFL_LOD_Calendar_Year; 
         
@@ -114,14 +114,14 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
                 }
                 
             }
-            if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+            /*if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
                 caseRecord.Stage__c = ABHFL_Constants.RESOLVED;
                 if(Schema.sObjectType.Case.isUpdateable()){
                     	downloadStpCases.add(caseRecord);
 			//update caseRecord;
                 }
                 result = new ASF_IntegrationsController.IntegrationWrapper();
-            }
+            }*/
             //Boolean isUserinQueue = groupIdToMemberIds.containsKey(caseRecord.Asset.Branch__r.Branch_Queue_Id__c)?groupIdToMemberIds.get(caseRecord.Asset.Branch__r.Branch_Queue_Id__c).contains(caseRecord.OwnerId):false;
        
             //If Evaluate is failed and Source is not Branch, Assign to Branch Master Queue.
@@ -133,6 +133,9 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
                     system.debug('caseRecord.Asset.Branch__r.Branch_Queue_Id__c--->'+caseRecord.Asset.Branch__r.Branch_Queue_Id__c );
                     Case updatedCase = new Case(Id=caseRecord.Id);
                     updatedCase.OwnerId = caseRecord.Asset.Branch__r.Branch_Queue_Id__c;
+           if(caseRecord.ABHFL_Case_Detail__r.STP_Request_Type__c == ABHFL_Constants.STP_REQUEST_TYPE_DOWNLOAD){
+                 updatedCase.Stage__c = ABHFL_Constants.RESOLVED;    
+            }
                     result.updatedCase = updatedCase;
                     //Error Message when evaluation is failed.
                     result.response = Custom_Messages__mdt.getInstance('LOD_DisbursedBeforeBranchAssignment').Message__c;
@@ -141,9 +144,9 @@ public with sharing  class ABHFL_LODIntegration implements ASF_IntegrationInvoca
             }
             resultMap.put(caseRecord.Id, result);
         }
-        if(downloadStpCases.size()>0){
+      /*  if(downloadStpCases.size()>0){
             update downloadStpCases;
-        }
+        }*/
         system.debug('resultMap--->'+resultMap);
         return resultMap;
     }

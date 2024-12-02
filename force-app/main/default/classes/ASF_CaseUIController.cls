@@ -34,7 +34,7 @@ public with sharing class  ASF_CaseUIController {
                 prospectRecord.RecordTypeId = salesProspectRTId;
             }
             
-            insert prospectRecord;
+            insert prospectRecord; 
             mObjectVsRecId.put('Lead',prospectRecord);
         }
         
@@ -83,7 +83,7 @@ public with sharing class  ASF_CaseUIController {
                     RETURNING 
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
                     Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp OR Advisor_Code__c LIKE : userInp),
-                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR Application_Number__c LIKE : userInp),
+                    Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR ContractId__c LIKE : userInp OR Application_Number__c LIKE : userInp),
                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE Name LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
@@ -160,16 +160,20 @@ public with sharing class  ASF_CaseUIController {
         if(accountId!=''){
             Set<Id> assetIds = new Set<Id>();
             List<Asset> asstList = new List<Asset>();
-            for(LAN_Mapping__c mapping : [SELECT ID,Customer__c,LAN__c FROM LAN_Mapping__c WHERE Customer__c =: accountId]){
+            for(LAN_Mapping__c mapping : [SELECT ID,Customer__c,LAN__c,Relation__c FROM LAN_Mapping__c WHERE Customer__c =: accountId]){
                 if(mapping.LAN__c != null){
-                    assetIds.add(mapping.LAN__c);
+                    //Modified 19/11/2024: added equalsIgnoreCase because Relation__c can be 'Self' or 'SELF'
+                    if(String.isBlank(mapping.Relation__c) || mapping.Relation__c.equalsIgnoreCase('SELF')){
+                        assetIds.add(mapping.LAN__c);
+                    }
                 }
             }
             if(assetIds.size()>0 || accountId != null){
                 
                 asstList = [select id, Name, Product_Code__c, LAN__c, Disbursed_Amount__c, 
                             Loan_Disbursement_Status__c, Loan_Start_Date__c, Loan_End_Date__c, LOB__c, 
-                            Policy_No__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c
+                            Policy_No__c,ContractId__c, Status, Type__c, Application_Number__c, Zone__c, SM_Name__c, 
+                            Plan_Name__c, ContractStartDate__c, ContractEndDate__c
                             from asset where Id =:assetIds OR AccountId =:accountId];
             }
             conAssetWrapper wrapper = new conAssetWrapper(asstList);

@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>ABHI_Field_API_Name__c</field>
-        <value xsi:type="xsd:string">CombiPolicyNo__r:LAN__c</value>
+        <value xsi:type="xsd:string">CombiReferenceNo__c</value>
     </values>
     <values>
         <field>ABHI_Field_Type__c</field>
-        <value xsi:type="xsd:string">ID</value>
+        <value xsi:type="xsd:string">String</value>
     </values>
     <values>
         <field>ABHI_JSON_Field_Name__c</field>

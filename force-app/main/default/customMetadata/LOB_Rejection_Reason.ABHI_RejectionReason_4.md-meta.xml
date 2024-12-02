@@ -10,4 +10,8 @@
         <field>Reason__c</field>
         <value xsi:type="xsd:string">Customer Non Contactable</value>
     </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">Resolve</value>
+    </values>
 </CustomMetadata>

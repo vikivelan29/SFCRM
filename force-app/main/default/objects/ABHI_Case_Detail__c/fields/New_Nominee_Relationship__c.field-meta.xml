@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Nominee_Relationship__c</fullName>
+    <externalId>false</externalId>
+    <label>New Nominee Relationship</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Self</fullName>
+                <default>false</default>
+                <label>Self</label>
+            </value>
+            <value>
+                <fullName>Spouse</fullName>
+                <default>false</default>
+                <label>Spouse</label>
+            </value>
+            <value>
+                <fullName>Dependent Son</fullName>
+                <default>false</default>
+                <label>Dependent Son</label>
+            </value>
+            <value>
+                <fullName>Son</fullName>
+                <default>false</default>
+                <label>Son</label>
+            </value>
+            <value>
+                <fullName>Daughter</fullName>
+                <default>false</default>
+                <label>Daughter</label>
+            </value>
+            <value>
+                <fullName>Dependent Daughter</fullName>
+                <default>false</default>
+                <label>Dependent Daughter</label>
+            </value>
+            <value>
+                <fullName>Mother</fullName>
+                <default>false</default>
+                <label>Mother</label>
+            </value>
+            <value>
+                <fullName>Father</fullName>
+                <default>false</default>
+                <label>Father</label>
+            </value>
+            <value>
+                <fullName>Mother-In-Law</fullName>
+                <default>false</default>
+                <label>Mother-In-Law</label>
+            </value>
+            <value>
+                <fullName>Father-In-Law</fullName>
+                <default>false</default>
+                <label>Father-In-Law</label>
+            </value>
+            <value>
+                <fullName>Brother</fullName>
+                <default>false</default>
+                <label>Brother</label>
+            </value>
+            <value>
+                <fullName>Sister</fullName>
+                <default>false</default>
+                <label>Sister</label>
+            </value>
+            <value>
+                <fullName>Grandfather</fullName>
+                <default>false</default>
+                <label>Grandfather</label>
+            </value>
+            <value>
+                <fullName>Grandmother</fullName>
+                <default>false</default>
+                <label>Grandmother</label>
+            </value>
+            <value>
+                <fullName>Grandson</fullName>
+                <default>false</default>
+                <label>Grandson</label>
+            </value>
+            <value>
+                <fullName>Granddaughter</fullName>
+                <default>false</default>
+                <label>Granddaughter</label>
+            </value>
+            <value>
+                <fullName>Son-in-law</fullName>
+                <default>false</default>
+                <label>Son-in-law</label>
+            </value>
+            <value>
+                <fullName>Brother in-law</fullName>
+                <default>false</default>
+                <label>Brother in-law</label>
+            </value>
+            <value>
+                <fullName>Sister in-law</fullName>
+                <default>false</default>
+                <label>Sister in-law</label>
+            </value>
+            <value>
+                <fullName>Nephew</fullName>
+                <default>false</default>
+                <label>Nephew</label>
+            </value>
+            <value>
+                <fullName>Niece</fullName>
+                <default>false</default>
+                <label>Niece</label>
+            </value>
+            <value>
+                <fullName>Uncle</fullName>
+                <default>false</default>
+                <label>Uncle</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

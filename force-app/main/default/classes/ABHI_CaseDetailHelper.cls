@@ -29,8 +29,8 @@ public with sharing class ABHI_CaseDetailHelper {
         if(mapofCaseDetailToCase.keySet().size() > 0) {
             Map<Id, ASF_Case_Category_Config__c> mapOfCCCIdToCCCRec = new Map<Id, ASF_Case_Category_Config__c>([
                 SELECT Id, Type__c, Sub_Type__c, CCC_External_Id__c
-            	FROM ASF_Case_Category_Config__c
-            	WHERE CCC_External_Id__c IN :listOfcccExtIds
+                FROM ASF_Case_Category_Config__c
+                WHERE CCC_External_Id__c IN :listOfcccExtIds
             ]);
             
             Map<Id, ABHI_Case_Detail__c> mapOfCaseDetailIdToCaseDetailRec = new Map<Id, ABHI_Case_Detail__c>([
@@ -45,8 +45,8 @@ public with sharing class ABHI_CaseDetailHelper {
             
             for(ABHI_Case_Detail__c caseDetailRec : mapOfCaseDetailIdToCaseDetailRec.values()) {
                 String cccExtId = mapofCaseDetailToCase.get(caseDetailRec.Id).CCC_External_Id__c;
-                String typeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId).Type__c;
-                String subTypeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId).Sub_Type__c;
+                String typeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId)?.Type__c ?? '';
+                String subTypeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId)?.Sub_Type__c ?? '';
                 caseDetailRec.Sub_Type__c = typeOfCCC+':'+subTypeOfCCC;
             }
             
@@ -55,4 +55,100 @@ public with sharing class ABHI_CaseDetailHelper {
             }
         }
     } 
-}
+
+    /**
+    * Jira Story  - PR1030924-98
+    * @param abhiNewCaseList - List of ABHI new cases
+    * @param mapOfIdToOldCase - Map of Id to Old Case
+    * @param triggerContext  - In which context the method is being called
+    * @description - Claim filter based on customer or policy update on CASE
+    */
+    @SuppressWarnings('PMD.AvoidDeeplyNestedIfStmts,PMD.CognitiveComplexity,PMD.CyclomaticComplexity')
+    public void populateCaseOnABHICaseDet(List<Case> abhiNewCaseList, Map<Id, Case> mapOfIdToOldCase, String triggerContext){
+        
+        List<ABHI_Case_Detail__c> abhiCaseDetList = new List<ABHI_Case_Detail__c>();
+
+        for(Case cs : abhiNewCaseList) {
+            
+            if(String.isNotBlank(cs.ABHI_Case_Detail__c)) {
+                ABHI_Case_Detail__c abhiCaseDetRec = new ABHI_Case_Detail__c();
+                if(triggerContext == 'AfterASFCodeInAfterInsert') { 
+                    abhiCaseDetRec.Policy__c = cs?.AssetId;
+                }
+                else if(triggerContext == 'AfterASFCodeInAfterUpdate') {
+                    abhiCaseDetRec.Policy__c = cs?.AssetId;
+                    Case oldCase = mapOfIdToOldCase.get(cs.Id);
+                    if(String.isNotBlank(cs.AssetId) && cs.AssetId != oldCase.AssetId) {      
+                        abhiCaseDetRec.Claim__c = null;
+                    }
+                    else if(String.isBlank(cs.AssetId)) {
+                        abhiCaseDetRec.Claim__c = null;
+                        abhiCaseDetRec.Policy__c = null;
+                    }
+                }
+                ABHI_Case_Detail__c nullCheck = new ABHI_Case_Detail__c();
+                if(abhiCaseDetRec != nullCheck) {
+                    abhiCaseDetRec.Id = cs.ABHI_Case_Detail__c;
+                    abhiCaseDetList.add(abhiCaseDetRec);
+                }
+            }
+        }
+
+        if(Schema.sObjectType.ABHI_Case_Detail__c.isUpdateable() && abhiCaseDetList.size() > 0) {
+            update abhiCaseDetList;
+        }
+    }
+    
+    /**
+    * Jira Story  - PR1030924-419
+    * @description - Capture Case Old resolution comments, Case Old Resolved By and Case reopened By on reopen
+    */
+    
+    public void captureReopenFieldsOnCaseReopen(List<Case> abhiNewCaseList, Map<Id, Case> mapOfIdToOldCase, String triggerContext){
+        List<ABHI_Case_Detail__c> abhiCaseDetList = new List<ABHI_Case_Detail__c>();
+        Set<Id> abhiCaseDetIdsResolved = new Set<Id>();
+        Set<Id> abhiCaseDetIdsReopened = new Set<Id>();
+        Map<String, Case> mapofCaseDetailToResolvedCase = new Map<String, Case>();
+        Map<String, Case> mapofCaseDetailToReopenedCase = new Map<String, Case>();
+        if(triggerContext == 'AfterASFCodeInAfterUpdate') {
+            for(Case caseRec : abhiNewCaseList) {
+                if(caseRec.Business_Unit__c == 'ABHI' && caseRec.Stage__c == 'Resolved' && caseRec.Reopened__c == FALSE) {
+                    abhiCaseDetIdsResolved.add(caseRec.ABHI_Case_Detail__c);
+                    mapofCaseDetailToResolvedCase.put(caseRec.ABHI_Case_Detail__c, caseRec);
+                } 
+                else if(caseRec.Business_Unit__c == 'ABHI' && caseRec.Stage__c == 'Reopened' && caseRec.Reopened__c == true && mapOfIdToOldCase.get(caseRec.Id).Stage__c == 'Resolved') {
+                    abhiCaseDetIdsReopened.add(caseRec.ABHI_Case_Detail__c);
+                    mapofCaseDetailToReopenedCase.put(caseRec.ABHI_Case_Detail__c, caseRec);
+                }
+            }
+            
+            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Resolution_Comments__c  
+                                                   FROM ABHI_Case_Detail__c 
+                                                   WHERE Id IN: abhiCaseDetIdsResolved] ) {
+                Case cs = mapofCaseDetailToResolvedCase.get(abhiCaseDet.Id);
+                 if(cs != null) {
+                     abhiCaseDet.Case_Closed_Resolution_Comments__c = abhiCaseDet.Resolution_Comments__c;
+                     abhiCaseDet.Case_Closed_Resolved_By__c = cs.OwnerText__c;
+                     abhiCaseDetList.add(abhiCaseDet);
+                 }
+            }
+            
+            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Case_Reopened_By_Id__c, Resolution_Comments__c  
+                                                   FROM ABHI_Case_Detail__c 
+                                                   WHERE Id IN: abhiCaseDetIdsReopened] ) {
+                Case cs = mapofCaseDetailToReopenedCase.get(abhiCaseDet.Id);
+                 if(cs != null) {
+                     abhiCaseDet.Case_Reopened_By__c = cs.OwnerText__c;
+                     if(String.valueOf(cs.OwnerId).startsWith('005')){
+                         abhiCaseDet.Case_Reopened_By_Id__c = cs.OwnerId;
+                     }
+                     abhiCaseDetList.add(abhiCaseDet);
+                 }
+            }
+            System.debug('abhiCaseDetList****-->'+ abhiCaseDetList);
+            if(abhiCaseDetList.size() > 0) {
+            update abhiCaseDetList;
+            }
+        }      
+    }
+    }

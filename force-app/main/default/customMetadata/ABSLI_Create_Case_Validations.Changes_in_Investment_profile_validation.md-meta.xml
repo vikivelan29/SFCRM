@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Asset_Values__c</field>
-        <value xsi:type="xsd:string">PENDING,NO ERRORS,REQ&apos;T CMPLT:PENDING,ERRORS,REQ&apos;T CMPLT,U/W CMPLT:PENDING,ERRORS,REQ&apos;T O/S,U/W REQ&apos;D:PENDING,NO ERRORS,REQ&apos;T CMPLT,U/W REQ:PENDING,NO ERRORS,REQ&apos;T O/S,U/W CMPLT:PENDING,NO ERRORS,REQ&apos;T O/S,U/W REQ&apos;D</value>
+        <value xsi:type="xsd:string">PENDING,NO ERRORS,REQ&apos;T CMPLT:PENDING,ERRORS,REQ&apos;T CMPLT,U/W CMPLT:PENDING,ERRORS,REQ&apos;T O/S,U/W REQ&apos;D:PENDING,NO ERRORS,REQ&apos;T CMPLT,U/W REQ:PENDING,NO ERRORS,REQ&apos;T O/S,U/W CMPLT:PENDING,NO ERRORS,REQ&apos;T O/S,U/W REQ&apos;D:PENDING, ERRORS, REQ&apos;T CMPLT, U/W REQ&apos;D:PENDING, ERRORS, REQ&apos;T O/S, U/W CMPLT</value>
     </values>
     <values>
         <field>Business_Unit__c</field>
@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Error_Message__c</field>
-        <value xsi:type="xsd:string">The issue &apos;Changes in Investment profile / Fund Related&apos; isn&apos;t valid for this policy.</value>
+        <value xsi:type="xsd:string">Policy is not eligible for &apos;Changes in Investment profile / Fund Related&apos;</value>
     </values>
     <values>
         <field>Issue_Code__c</field>

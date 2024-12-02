@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Schedule_Diet_Plan_Appointment</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(Schedule_Diet_Plan_Appointment_1__c &gt; (Now()+7),Schedule_Diet_Plan_Appointment_2__c &gt; (Now()+7))</errorConditionFormula>
+    <errorMessage>Schedule Diet Plan Appointment should be within 7 days of case creation.</errorMessage>
+</ValidationRule>

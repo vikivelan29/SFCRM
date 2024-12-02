@@ -213,12 +213,12 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
                 this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_POLICY_NUMBER);
             }
-            this.selectLan = lanLabels[this.businessUnit].SELECT_PRODUCT != null? lanLabels[this.businessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
-            this.asstCols = lanLabels[this.businessUnit].ASSET_COLUMNS != null? lanLabels[this.businessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
-            this.assetSearchPlaceholder = lanLabels[this.businessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.businessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
-            this.eligibleWithNewCustomerCSTSMsg = lanLabels[this.businessUnit].CASE_ELIGIBLE_WITH_NEW_CTST_MSG != null? lanLabels[this.businessUnit].CASE_ELIGIBLE_WITH_NEW_CTST_MSG : lanLabels["DEFAULT"].CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
-            this.noneligibleWithNewCustomerCSTMsg = lanLabels[this.businessUnit].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG != null? lanLabels[this.businessUnit].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : lanLabels["DEFAULT"].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
-            this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+            this.selectLan = lanLabels[this.businessUnit]?.SELECT_PRODUCT || lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.businessUnit]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
+            this.assetSearchPlaceholder = lanLabels[this.businessUnit]?.PRODUCT_SEARCH_PLACEHOLDER || lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.eligibleWithNewCustomerCSTSMsg = lanLabels[this.businessUnit]?.CASE_ELIGIBLE_WITH_NEW_CTST_MSG || lanLabels["DEFAULT"].CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
+            this.noneligibleWithNewCustomerCSTMsg = lanLabels[this.businessUnit]?.CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG || lanLabels["DEFAULT"].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
+            this.cols = lanLabels[this.businessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
             
         } else if (error) {
             console.error('Error loading record', error);

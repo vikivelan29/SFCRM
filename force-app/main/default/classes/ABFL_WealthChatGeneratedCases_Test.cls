@@ -55,4 +55,39 @@ public class ABFL_WealthChatGeneratedCases_Test {
         System.assertEquals(null, currentCase.SuppliedPhone, 'Phone should be null');
     }
     
+    @isTest
+    Public static void testsendEmailWhenNotRegisteredCustomer(){
+        Case newCase = new Case();
+        newCase.Subject = 'Test case';
+        newCase.Origin = 'ABFL Email';
+        newCase.Business_unit__c = 'ABFL';
+        newCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        insert newCase;
+
+        ABFL_Case_Detail__c caseDetail = new ABFL_Case_Detail__c();
+        caseDetail.case__c = newCase.id;
+        caseDetail.IsRegisteredCustomer__c = 'No';
+        insert caseDetail;
+        
+        List<contact> con = [select id from contact limit 1];
+        
+        Test.startTest();
+        String[] toAddresses = new String[] {'test@test.com.invalid'}; 
+        EmailMessage email = new EmailMessage();
+        email.FromAddress = 'test@abc.org';
+        email.Incoming = True;
+        email.ToAddress= 'test@test.com.invalid';
+        email.Subject = 'Test case';
+        email.HtmlBody = 'This is test email with new name..';
+        email.ParentId = newCase.Id; 
+        email.Headers = 'teestheader';
+        insert email;
+        Test.stopTest();
+        
+        System.debug('+++3'+[SELECT id , Case__c FROM PE_Logger__c Where Case__c =: newCase.Id]);
+        
+        system.assertEquals(newCase.id , [SELECT id , Case__c FROM PE_Logger__c].Case__c);
+        
+    }
+    
 }

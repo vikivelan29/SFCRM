@@ -256,6 +256,12 @@
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <externalSharingModel>Private</externalSharingModel>
+    <profileSearchLayouts>
+        <fields>FULL_NAME</fields>
+        <fields>LEAD.MOBILE_PHONE</fields>
+        <fields>LEAD.EMAIL</fields>
+        <profileName>ABHI Base Profile</profileName>
+    </profileSearchLayouts>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
@@ -265,7 +271,7 @@
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
         <excludedStandardButtons>NewFromDocument</excludedStandardButtons>
         <excludedStandardButtons>New</excludedStandardButtons>
-        <excludedStandardButtons>IntelligenceView</excludedStandardButtons>
+        <!-- <excludedStandardButtons>IntelligenceView</excludedStandardButtons> commenting to sync with branch as it is causing deployment issue--> 
         <excludedStandardButtons>Accept</excludedStandardButtons>
         <excludedStandardButtons>ChangeStatus</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
@@ -279,6 +285,8 @@
         <excludedStandardButtons>SendListEmailAction</excludedStandardButtons>
         <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <excludedStandardButtons>MassAddToActionableList</excludedStandardButtons>
+        <listViewButtons>Download_CSV_for_Bulk_Update</listViewButtons>
+        <listViewButtons>Upload_CSV_for_Bulk_Update</listViewButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>LEAD.COMPANY</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>FULL_NAME</lookupPhoneDialogsAdditionalFields>

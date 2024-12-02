@@ -56,12 +56,13 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     ];
     cols_Lead = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
-        { label: 'Name', fieldName: 'Name', type: 'text' }
+        { label: 'Email', fieldName: 'Email', type: 'text' },
+        { label: 'Mobile', fieldName: 'MobilePhone', type: 'text' }
     ]
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
         { label: 'Email', fieldName: 'Email', type: 'text' },
-        { label: 'MobilePhone', fieldName: 'MobilePhone', type: 'text' }
+        { label: 'Mobile', fieldName: 'MobilePhone', type: 'text' }
     ]
 
 
@@ -70,9 +71,9 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            this.createCaseWithNewProspect = lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_NEW_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_NEW_PROSPECT : lanLabels["DEFAULT"].CREATE_CASE_WITH_NEW_PROSPECT;
-            this.createSalesProspectLabel = lanLabels[this.loggedInUserBusinessUnit].CREATE_SALES_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_SALES_PROSPECT : lanLabels["DEFAULT"].CREATE_SALES_PROSPECT;
-            this.headerName = lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_PROSPECT != null? lanLabels[this.loggedInUserBusinessUnit].CREATE_CASE_WITH_PROSPECT : lanLabels["DEFAULT"].CREATE_CASE_WITH_PROSPECT;
+            this.createCaseWithNewProspect = lanLabels[this.loggedInUserBusinessUnit]?.CREATE_CASE_WITH_NEW_PROSPECT || lanLabels["DEFAULT"].CREATE_CASE_WITH_NEW_PROSPECT;
+            this.createSalesProspectLabel = lanLabels[this.loggedInUserBusinessUnit]?.CREATE_SALES_PROSPECT || lanLabels["DEFAULT"].CREATE_SALES_PROSPECT;
+            this.headerName = lanLabels[this.loggedInUserBusinessUnit]?.CREATE_CASE_WITH_PROSPECT || lanLabels["DEFAULT"].CREATE_CASE_WITH_PROSPECT;
         } else if (error) {
             //this.error = error ;
         }
@@ -275,6 +276,7 @@ export default class Asf_GlobalSearchCustom extends NavigationMixin(LightningEle
 
     handleShowFlow(event){
         this.showProspectFlow = true;
+        this.headerName = 'Create Lead';
     }
 
 

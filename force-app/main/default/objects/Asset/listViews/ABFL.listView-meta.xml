@@ -15,4 +15,8 @@
         <value>ABFL</value>
     </filters>
     <label>ABFL</label>
+    <sharedTo>
+        <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+        <roleAndSubordinates>ABFL_Service_Agent</roleAndSubordinates>
+    </sharedTo>
 </ListView>

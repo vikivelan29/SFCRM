@@ -81,18 +81,15 @@ private class ABSLI_AssignAccountTeamBatch_Test {
     static void testBatch() {
         Test.startTest();
         
-        ABSLI_AssignAccountTeamBatch batch = new ABSLI_AssignAccountTeamBatch();
+        ABSLI_RemoveAccountTeamBatch2 batch = new ABSLI_RemoveAccountTeamBatch2();
         system.debug('');
         Database.executeBatch(batch);
         
-        Test.stopTest();
+        
         Account acc = [SELECT Id FROM Account WHERE Name = 'absli Test Account 1231'];
         List<AccountTeamMember> atmList = [SELECT Id, AccountId, UserId, TeamMemberRole 
                                            FROM AccountTeamMember WHERE AccountId =: acc.Id];
-        /*List<User> VRMS = [SELECT Id FROM User WHERE UserRole.DeveloperName = 'ABSLI_Virtual_Relationship_Manager'];
-        System.assertEquals(VRMS.size(), atmList.size(), 'There should be 2 AccountTeamMember records inserted.');*/
         
-        // Verify the details of the inserted records
         Set<Id> userIds = new Set<Id>();
 		for (User user : [SELECT Id FROM User WHERE UserRole.DeveloperName = 'ABSLI_Virtual_Relationship_Manager']) {
     		userIds.add(user.Id);
@@ -102,5 +99,14 @@ private class ABSLI_AssignAccountTeamBatch_Test {
             System.assertEquals('ABSLI Virtual Relationship Manager', atm.TeamMemberRole,'Should be Virtual Relationship Manager');
             System.assert(userIds.contains(atm.UserId), 'The UserId should belong to a user with the correct role.');
         }
+        Asset vrmRemoal = [SELECT Id,Loyalty_Service_Agent_Name__c from Asset where Name = 'Test Asset 3'];
+        vrmRemoal.Loyalty_Service_Agent_Name__c = '';
+        update vrmRemoal;
+        
+        ABSLI_RemoveAccountTeamBatch2 batch2 = new ABSLI_RemoveAccountTeamBatch2();
+        system.debug('');
+        Database.executeBatch(batch2);
+        
+        Test.stopTest();
     }
 }

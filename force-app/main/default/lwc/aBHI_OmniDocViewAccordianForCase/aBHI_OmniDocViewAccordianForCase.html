@@ -1,0 +1,16 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-22-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+	<lightning-accordion allow-multiple-sections-open active-section-name={openSections} onsectiontoggle={handleToggleSection}>
+		<lightning-accordion-section label={accordianName} name={accordianName}>
+            <template lwc:if={isVisible}>
+			<c-a-b-h-i-_-omni-doc-view record-id={recordId} object-api-name={objectApiName}></c-a-b-h-i-_-omni-doc-view>
+            </template>
+		</lightning-accordion-section>
+	</lightning-accordion>
+</template>

@@ -50,6 +50,7 @@ public class ABSLI_ModeChangeIntegration_Test {
        	Case caseRecord = [SELECT id,CaseNumber,ABSLI_Case_Detail__r.Status_Valid_For_STP__c,Asset.Policy_No__c,Technical_Source__c,
                            ABSLI_Case_Detail__r.Anniversary_Date__c,ABSLI_Case_Detail__r.New_Frequency__c
                            FROM Case LIMIT 1];
+        caseRecord.Technical_Source__c = 'API';
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = modeInt.evaluate(caseRecord);

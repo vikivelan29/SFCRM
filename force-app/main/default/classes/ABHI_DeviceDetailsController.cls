@@ -7,11 +7,11 @@
 *@description  :  This class is used to get the Device Details calling the ABCL_IntegrationCallout callout class.
 *@description  :  The class is used to get the device details for the customerId passed.
 *********************************************************/
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.CognitiveComplexity,PMD.FieldNamingConventions,PMD.ExcessivePublicCount,PMD.FormalParameterNamingConventions')
 public with sharing class ABHI_DeviceDetailsController {
 
     /****************************************************************************************************************
     * @Function - getDeviceDetails
-    * @param requestPayload - Payload to be passed for requesting the data
     * @param customerId - Id of the customer record
     * @return - ResponseWrapper - Wrapper including the needed device details
     * @description - This method is used to get the Device details for the customer id passed.
@@ -21,7 +21,7 @@ public with sharing class ABHI_DeviceDetailsController {
         try {
             String integrationName = 'ABHI_DeviceDetails';
             ABCL_IntegrationCallout.accountId = customerId;
-            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId];
+            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId WITH SYSTEM_MODE];
             String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
             if(code == '0'){
                 return new ResponseWrapper(
@@ -40,7 +40,7 @@ public with sharing class ABHI_DeviceDetailsController {
                 String decryptedResponse = ABHI_Encryption.decrypt(encryptedResponse.Content, integrationName);
                 if(integrationResponse.StatusCode == 200 && encryptedResponse.StatusCode == '1000'){
                     String responseDecryptedBody = (String) JSON.deserializeUntyped(decryptedResponse);
-                    deserilaizedResponse deserializedIntResponse = (deserilaizedResponse) JSON.deserialize(responseDecryptedBody, deserilaizedResponse.class);
+                    DeserilaizedResponse deserializedIntResponse = (DeserilaizedResponse) JSON.deserialize(responseDecryptedBody, DeserilaizedResponse.class);
                     ResponseWrapper returnResponse = new ResponseWrapper(Integer.valueOf(encryptedResponse.StatusCode), encryptedResponse.Message, deserializedIntResponse.data.devices);
                     return returnResponse;
                 }
@@ -72,6 +72,14 @@ public with sharing class ABHI_DeviceDetailsController {
         public String OS;
         public String PolicyStartDate;
         public String WellnessID;
+        /**
+         * @description parameterized constructor
+         * @param memberId - MemberId to be passed
+         * @param OS  - OS to be passed
+         * @param policyDate  - policyDate to be passed
+         * @param wellnessId  - wellnessId to be passed
+         */
+        @SuppressWarnings('PMD.ExcessiveParameterList')
         public RequestWrapper(String memberId, String OS, String policyDate, String wellnessId){
             this.MemberID = memberId;
             this.OS = OS;
@@ -156,13 +164,13 @@ public with sharing class ABHI_DeviceDetailsController {
 	}
 
     /*********************************************************
-    *Class        :  deserilaizedResponse
+    *Class        :  DeserilaizedResponse
     *Author       :  Amrit Preet Singh
     *Created Date :  05/08/2024
     *Last Modified:  05/08/2024
-    *@description  :  deserilaizedResponse is a wrapper class to hold the deserialiized response from the server
+    *@description  :  DeserilaizedResponse is a wrapper class to hold the deserialiized response from the server
     *********************************************************/
-    public class deserilaizedResponse{
+    public class DeserilaizedResponse{
         public Integer code;
         public String msg;
         public Object error;
@@ -182,11 +190,22 @@ public with sharing class ABHI_DeviceDetailsController {
         @AuraEnabled public Integer statusCode;
         @AuraEnabled public String Message;
         @AuraEnabled public Devices devices;
+        /**
+         * @description parameterized constructor
+         * @param code - code to be passed
+         * @param Message  - message to be passed
+         * @param device  - Devices to be passed
+         */
         public ResponseWrapper(Integer code, String Message, Devices device){
             this.statusCode = code;
             this.Message = Message;
             this.devices = device;
         }
+        /**
+         * @description parameterized constructor
+         * @param code - code to be passed
+         * @param Message  - message to be passed
+         */
         public ResponseWrapper(Integer code, String Message){
             this.statusCode = code;
             this.Message = Message;

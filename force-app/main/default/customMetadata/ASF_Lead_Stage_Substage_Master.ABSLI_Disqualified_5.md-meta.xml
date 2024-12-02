@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">language barrier</value>
+        <value xsi:type="xsd:string">Language Barrier</value>
     </values>
 </CustomMetadata>

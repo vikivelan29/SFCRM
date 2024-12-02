@@ -1,13 +1,15 @@
-/**
-* @description This class is called by the Flow for Case Email 
+/*********************************************************
+*@description  :  This class is called by the Flow for Case Email 
 * for Customers. It can return a custom email template
 * in case of supression / exception scenarios
 * The BU classes will be called from here, and
 *********************************************************/
 public without sharing class ASF_CustomerEmailInvocable {
-    
-    /**
-* @description The Flow must pass the case record id,
+     /****************************************************************************************************************
+    * @Function - getEmailTemplateName
+    * @param cases 
+    * @return  List<EmailOutputWrapper>
+    * @description - The Flow must pass the case record id,
 * Based on the BU stamped, the BU class is called
 * If Blank or Null is returned, the Flow takes the usual route of finding the template
 * names from CC and sends email 
@@ -18,6 +20,7 @@ public without sharing class ASF_CustomerEmailInvocable {
     public static List<EmailOutputWrapper> getEmailTemplateName(List<EmailInputWrapper> cases) {
         List<EmailOutputWrapper> result = new List<EmailOutputWrapper>();
         List<EmailInputWrapper> abflList = new List<EmailInputWrapper>();
+        List<EmailInputWrapper> wellnessList = new List<EmailInputWrapper>();
         List<EmailInputWrapper> abhflList = new List<EmailInputWrapper>();
         List<EmailInputWrapper> paymentsList = new List<EmailInputWrapper>();
         List<EmailInputWrapper> absliList = new List<EmailInputWrapper>();
@@ -39,11 +42,19 @@ public without sharing class ASF_CustomerEmailInvocable {
                  when 'ABSLI' {
                     absliList.add(wrap);
                 }
+               when 'Wellness'{
+                    wellnessList.add(wrap);
+                }
             }
         }
         
         Map<Id, EmailOutputWrapper> allOutputs = new Map<Id, EmailOutputWrapper>();
-        
+
+        if(!wellnessList.isEmpty()){
+            // Call BU Specific Class - Returns Map<Id, EmailOutputWrapper>
+            //allOutputs.putAll(arg0)
+            MCRM_SuppressEmailHelper.checkSuppressionLogic(cases,allOutputs);
+        }
         if(!abflList.isEmpty()){
             // Call BU Specific Class - Returns Map<Id, EmailOutputWrapper>
             //allOutputs.putAll(arg0)

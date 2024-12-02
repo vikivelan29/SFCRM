@@ -29,7 +29,8 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         if(!mAbsliCases.isEmpty()){
             absliCasesAdditionalFields = new Map<Id, Case>([SELECT Id,Asset.Issue_Date__c,ABSLI_Case_Detail__c,CCC_External_Id__c, 
                                                             ABSLI_Case_Detail__r.To_date__c, ABSLI_Case_Detail__r.From_date__c,CaseNumber,ABSLI_Case_Detail__r.IRDAI_Token_Number__c,Nature__c,Stage__c,Technical_Source__c,
-                                                            ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c,IGMS_Complaint_Type_Code__c ,FTR__c,ABSLI_Case_Detail__r.IGMS_type_of_policy__c,ABSLI_Case_Detail__r.Before_3_PM__c,ABSLI_Case_Detail__r.Branch_Receive_Date__c
+                                                            ABSLI_Case_Detail__r.Complaint_Category__c,ABSLI_Case_Detail__r.Resolve_case__c,IRDAI_Token_Number__c,IGMS_Complaint_Type_Code__c ,FTR__c,ABSLI_Case_Detail__r.IGMS_type_of_policy__c,ABSLI_Case_Detail__r.Before_3_PM__c,ABSLI_Case_Detail__r.Branch_Receive_Date__c,
+                                                            ABSLI_Case_Detail__r.Bonus_Amount__c
                                                             FROM Case 
                                                             WHERE Id IN :mAbsliCases.keySet()]);
             System.debug('Inside ABSLI before Update Trigger logic');
@@ -38,6 +39,7 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
             ABSLI_BeforeUpdateTriggerLogic.validateTasks(mAbsliCases.values(), oldMap, newMap);
             ABSLI_BeforeUpdateTriggerLogic.checkIfMandatoryChecklistNotCompleted(mAbsliCases, oldMap);
             ABSLI_BeforeUpdateTriggerLogic.checkComplaintApplicability(newMap.values(), oldMap, newMap);
+            ABSLI_BeforeUpdateTriggerLogic.bypassChecklistValForBulk(mAbsliCases.values());
         }  
     }
 
@@ -91,12 +93,13 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
     public static void validateFromDateToDate(List<Case> absliCases, Map<Id, Case> oldMap, Map<Id, Case> newMap){
         List<String> validSubTypes = new List<String>{'PEMT042', 'PEMT024'};
         List<String> validSubTypesBefore3PM = new List<String>{'PNFT042','PPAY001','PPAY008'};
+        String validSubTypeBonusWithdrawal = 'PBRPY007';
                 if(!absliCases.isEmpty()){
                     for (Case caseRec : absliCasesAdditionalFields.values()) {
                         System.debug(caseRec.ABSLI_Case_Detail__r.To_date__c);
                         System.debug(caseRec.ABSLI_Case_Detail__r.From_date__c);
                         // Check if the Case record is related to ABSLI business unit
-                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c)) {
+                        if (caseRec.ABSLI_Case_Detail__c != null  && validSubTypes.contains(caseRec.CCC_External_Id__c) && CaseRec.Technical_Source__c != 'Email') {
                             System.debug('Inside validate date: ' + caseRec.Asset.Issue_Date__c);
                             Date issueDate = caseRec.Asset.Issue_Date__c;
                             Date toDate = caseRec.ABSLI_Case_Detail__r.To_date__c;
@@ -140,6 +143,12 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
                                         caseError.addError('Invalid value for Before 3 PM');
                                     }
                                 }  
+                            }
+                        }
+                        if (caseRec.ABSLI_Case_Detail__c != null  && caseRec.CCC_External_Id__c == 'PBRPY007' && caseRec.Stage__c == 'Open') {
+                            Case caseError = newMap.get(caseRec.Id);
+                            if(caseRec.ABSLI_Case_Detail__r.Bonus_Amount__c != null && caseRec.ABSLI_Case_Detail__r.Bonus_Amount__c < 2000){
+                                caseError.addError('Bonus Amount cannot be less than 2000');
                             }
                         }
                    }  
@@ -297,6 +306,20 @@ public with sharing class ABSLI_BeforeUpdateTriggerLogic {
         }
     }
     
+    /**
+    * @description This method is used to bypass the checklist validation when a case is 
+    * updated via bulk case update operation
+    * @param mAbsliCases
+    */
+    public static void bypassChecklistValForBulk(List<Case> absliCases){
+        if(ABSLI_BulkCloseCaseConverterUtility.requestFromBulkClose){
+            Map<Id, Set<String>> recIdToSkipperFlag = new Map<Id, Set<String>>();
+            for(Case caseRec : absliCases){
+                recIdToSkipperFlag.put(caseRec.Id, new Set<String>{ASF_Constants.SKIP_VALIDATE_CHECKLISTS});
+            }
+            ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, null);
+        }
+    }
     //custom exception class
     public class MyCustomException extends Exception {}
 }

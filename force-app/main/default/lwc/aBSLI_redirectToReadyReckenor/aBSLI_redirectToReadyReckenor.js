@@ -9,7 +9,8 @@ export default class ABSLI_redirectToReadyReckenor extends LightningElement {
         .then((result)=>{
             debugger;
             console.log(result);
-            window.open(result);
+            //window.open(result);
+            window.open(result, '_blank', 'noreferrer')
             this.invokeCloseModal();
         })
         .catch((error)=>{

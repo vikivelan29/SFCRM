@@ -9,13 +9,13 @@ public with sharing class ABHI_CreatePolicyWrapper {
     
 	public class Policy {
 		public String AgentStatus;
-		//public String ARU;
-		//public String ActiveHealthVersion;
-		//public String ApplicationDate;
+		public String cover_type;
+		public String branch_name;
+		public String Copay_Applicability;
 		public String ProposalNumber;
 		public String AutoDebitFlag;
 		public String AutoDebitRegistrationStatus;
-		//public String BalanceHR;
+		public String TPA ;
 		public String BasicPremium;
 		public String BusinessType;
 		public String Channel;
@@ -89,7 +89,9 @@ public with sharing class ABHI_CreatePolicyWrapper {
 	public List<NomineeDetails> NomineeDetails;
     public List<PreviousPolicyDetails> PreviousPolicyDetails;
 	public Policy Policy;
-
+    public String StatusCode;
+	public String Message	;
+    
 	public class CustomerMemberMapping {
 		public String ClientId;
 		public String MemberId;
@@ -111,7 +113,7 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String policyYear;
         public String product;
         public String typeOfCover;
-        public String expiringBasSI;
+        public String expiringBaseSI;
         public String cumulativeBonus;
         public String expiringWaitingPeriod;
         public String optedSi;
@@ -159,7 +161,7 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String HNICustomer;
         public String CEOClubAdvisor;
         public String PriorityCustomer;
-        public String SensitiveCustomer;
+        public String sensitive_customer;
         public String CustomerRoleType;
 		/*public List<CustomerSegments> CustomerSegments;
 		public List<CustomerRoles> CustomerRoles;*/
@@ -186,7 +188,11 @@ public with sharing class ABHI_CreatePolicyWrapper {
         public String politically_exposed_person;
         public String district_town;
         public String District2;
-        public String BusinessUnit = 'ABHI';
+        public String BusinessUnit;
+        public String CMP_OPD;
+        public String Chronic_care;
+        public String IsChronicDisease;
+        public String Title;
 	}
 
 	public class CustomerSegments {
@@ -221,6 +227,10 @@ public with sharing class ABHI_CreatePolicyWrapper {
             this.StatusCode = StatusCode;
             this.StatusMessage = StatusMessage;
             this.StatusRemarks = StatusRemarks;
+        }
+        public ResponseWrapper(String StatusCode, String StatusMessage) {
+            this.StatusCode = StatusCode;
+            this.StatusMessage = StatusMessage;
         }
     }
 }

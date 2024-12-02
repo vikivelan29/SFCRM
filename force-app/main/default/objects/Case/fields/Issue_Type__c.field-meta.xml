@@ -1004,9 +1004,9 @@
                 <label>Medical Test Related</label>
             </value>
             <value>
-                <fullName>Alternate Test or Medial Waiver</fullName>
+                <fullName>Alternate Test or Medical Waiver</fullName>
                 <default>false</default>
-                <label>Alternate Test or Medial Waiver</label>
+                <label>Alternate Test or Medical Waiver</label>
             </value>
             <value>
                 <fullName>Video FMR Eligibility</fullName>
@@ -1086,6 +1086,116 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Surrender value not process</label>
+            </value>
+            <value>
+                <fullName>Policy Bond</fullName>
+                <default>false</default>
+                <label>Policy Bond</label>
+            </value>
+            <value>
+                <fullName>Unregistered Email</fullName>
+                <default>false</default>
+                <label>Unregistered Email</label>
+            </value>
+            <value>
+                <fullName>Hoax Calls</fullName>
+                <default>false</default>
+                <label>Hoax Calls</label>
+            </value>
+            <value>
+                <fullName>Feedback</fullName>
+                <default>false</default>
+                <label>Feedback</label>
+            </value>
+            <value>
+                <fullName>Other LOB</fullName>
+                <default>false</default>
+                <label>Other LOB</label>
+            </value>
+            <value>
+                <fullName>Escalation Call back</fullName>
+                <default>false</default>
+                <label>Escalation Call back</label>
+            </value>
+            <value>
+                <fullName>Senior call back</fullName>
+                <default>false</default>
+                <label>Senior call back</label>
+            </value>
+            <value>
+                <fullName>Out calling -Query</fullName>
+                <default>false</default>
+                <label>Out calling -Query</label>
+            </value>
+            <value>
+                <fullName>Transfer call to other LOB</fullName>
+                <default>false</default>
+                <label>Transfer call to other LOB</label>
+            </value>
+            <value>
+                <fullName>Application not coded</fullName>
+                <default>false</default>
+                <label>Application not coded</label>
+            </value>
+            <value>
+                <fullName>Application Status</fullName>
+                <default>false</default>
+                <label>Application Status</label>
+            </value>
+            <value>
+                <fullName>Insurance related</fullName>
+                <default>false</default>
+                <label>Insurance related</label>
+            </value>
+            <value>
+                <fullName>Policy Bond /EIA related</fullName>
+                <default>false</default>
+                <label>Policy Bond /EIA related</label>
+            </value>
+            <value>
+                <fullName>Initial refund related</fullName>
+                <default>false</default>
+                <label>Initial refund related</label>
+            </value>
+            <value>
+                <fullName>Policy cancellation related</fullName>
+                <default>false</default>
+                <label>Policy cancellation related</label>
+            </value>
+            <value>
+                <fullName>Medical reports related</fullName>
+                <default>false</default>
+                <label>Medical reports related</label>
+            </value>
+            <value>
+                <fullName>Policy changes related</fullName>
+                <default>false</default>
+                <label>Policy changes related</label>
+            </value>
+            <value>
+                <fullName>Null &amp; void communication</fullName>
+                <default>false</default>
+                <label>Null &amp; void communication</label>
+            </value>
+            <value>
+                <fullName>Apology communication</fullName>
+                <default>false</default>
+                <label>Apology communication</label>
+            </value>
+            <value>
+                <fullName>Recovery communication</fullName>
+                <default>false</default>
+                <label>Recovery communication</label>
+            </value>
+            <value>
+                <fullName>Adhoc communication</fullName>
+                <default>false</default>
+                <label>Adhoc communication</label>
+            </value>
+            <value>
+                <fullName>Branch Co Address</fullName>
+                <default>false</default>
+                <label>Branch Co Address</label>
             </value>
             <value>
                 <fullName>Survival benefit not proceed/ Delay</fullName>

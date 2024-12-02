@@ -10,6 +10,10 @@
             <feedItemType>EmailMessageEvent</feedItemType>
         </feedFilters>
         <feedFilters>
+            <feedFilterName>Case.Tasks</feedFilterName>
+            <feedFilterType>Custom</feedFilterType>
+        </feedFilters>
+        <feedFilters>
             <feedFilterName>Case.Posts</feedFilterName>
             <feedFilterType>Custom</feedFilterType>
         </feedFilters>
@@ -200,10 +204,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ABSLI_Case_Detail__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Signature_Validation__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

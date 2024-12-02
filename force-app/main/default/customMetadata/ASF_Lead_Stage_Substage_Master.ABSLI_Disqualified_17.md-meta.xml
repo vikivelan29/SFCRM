@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">Plan to invest later</value>
+        <value xsi:type="xsd:string">Plan to Invest Later</value>
     </values>
 </CustomMetadata>

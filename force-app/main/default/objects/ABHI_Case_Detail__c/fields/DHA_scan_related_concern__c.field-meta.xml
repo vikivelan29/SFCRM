@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DHA_scan_related_concern__c</fullName>
+    <externalId>false</externalId>
+    <label>DHA scan related concern</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Link is not working</fullName>
+                <default>false</default>
+                <label>Link is not working</label>
+            </value>
+            <value>
+                <fullName>Unable to do face scan</fullName>
+                <default>false</default>
+                <label>Unable to do face scan</label>
+            </value>
+            <value>
+                <fullName>Unable to submit the questionnaire</fullName>
+                <default>false</default>
+                <label>Unable to submit the questionnaire</label>
+            </value>
+            <value>
+                <fullName>While processing for DHA, auto populated message stating &quot;eligible for health assessment&quot;</fullName>
+                <default>false</default>
+                <label>While processing for DHA, auto populated message stating &quot;eligible for health assessment&quot;</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

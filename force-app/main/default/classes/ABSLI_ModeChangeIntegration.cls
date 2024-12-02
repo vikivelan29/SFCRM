@@ -38,7 +38,7 @@ public class ABSLI_ModeChangeIntegration implements ASF_IntegrationInvocable{
                     result.status = ABSLI_Constants.SUCCESS;
                 }  
             }else if(caseRecord.Technical_Source__c=='LWC'){
-                result.status = ABSLI_Constants.SUCCESS;
+                result.response = Custom_Messages__mdt.getInstance('ABSLI_MODECHANGE_ERR_BTN').Message__c;
             }
             
             resultMap.put(caseRecord.Id, result);

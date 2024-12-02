@@ -1,0 +1,46 @@
+<template>
+
+    <!-- Based on: https://dribbble.com/shots/5260798-Process -->
+
+    <template if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
+    <template if:false={loading}>
+        <div class="main-container slds-p-bottom_x-large">
+            <div class="steps-container">
+                    <div class={defaultfontCSS} >
+                        <strong>Endorsement Stp - {endorsementText}</strong> &nbsp;&nbsp;
+                        <lightning-icon icon-name={statusIcon} alternative-text="Status Icon" size="small"></lightning-icon>
+
+                    </div>
+            </div>
+        </div>
+        <template if:true={integrationInPending}>
+            <div class="slds-text-align_center" style="margin-bottom: 5rem;">
+                <strong>Integration is still in progress, please check after some time.</strong> &nbsp;&nbsp;
+            </div>
+        </template>
+        <template if:true={integrationInProgress}>
+            <div class="slds-text-align_center">
+                <marquee width="60%" direction="left" height="100px">
+                    <p><b>Integration In-Progress, please wait, this may take a little longer...</b></p>
+                </marquee>
+
+            </div>
+        </template>
+       
+        <template if:true={integrationFailure}>
+            <div class="slds-text-align_center">
+                <marquee width="60%" direction="left" height="100px">
+                    <p><b><span style="color:#ca1f34;">Integration failed, please check the Asf Case Integration record for log or you can retry by clicking submit button.</span></b></p>
+                </marquee>
+            </div>
+        </template>
+        <footer class="slds-grid slds-modal__footer slds-grid_align-center">
+            <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+            <button class="slds-button slds-button_brand" onclick={submit} disabled={submitDisabled}
+                title="Submit">Submit</button>
+        </footer>
+    </template>
+
+</template>

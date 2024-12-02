@@ -2,8 +2,8 @@
  * @description       : Constant class to store all the resable variables at one place
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 09-03-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @last modified on  : 10-22-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   05-13-2024   rsinghnagar@salesforce.com   Initial Version
@@ -70,8 +70,8 @@ public with sharing class ASF_Constants {
     public static final String MOCK_ENCRYPTION_KEY = 'OkSqBEB++kdiZmwmigEtCHMW8MXUgO02wGhVlA0+3JQ=';
     public static final String MOCK_ENCRYPTION_RESPONSE = 'ji+U/tVFevfj3LZQFHdIPyd9Q5MkYl7w1t0akDSgKPOYSX+b5F5EbgwnRe/YvMfkJH+sU4xuycbJCdt0a2YS9yTtGmwBPNy36m7vZiTnO1MLjSd0JhJYoSA6t1U5hVEy0o399b+8J6iC0ayjNq4cdtg7aoULEqZDq7P6IeaXlrpb2r3Ehf3zYDcBnVl9Z45PdPPmWnsR2R+8YAVVVCjUOw==';
     
-	public static final String STRING_AMOUNT_VALUE = 'amountValue';
-	public static final String STRING_CURRENCY_CODE = 'currencyCode';
+    public static final String STRING_AMOUNT_VALUE = 'amountValue';
+    public static final String STRING_CURRENCY_CODE = 'currencyCode';
 
     public static final String STRING_DEBIT_CARD = 'Debit';
     public static final String STRING_D = 'd';
@@ -135,7 +135,7 @@ public with sharing class ASF_Constants {
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
     /* Map to Store Case Origin Vs Business Unit */
-    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG','ABHI Email' => 'ABHI'};
+    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG','ABHI Email' => 'ABHI', 'ABSLAMC Email' => 'ABSLAMC', 'Wellness Email' => 'Wellness'};
     
     /* Map to Store Case Origin Vs Source */
     public static final Map<String,String> mCaseOriginVsSource= new Map<String,String>{'ABFL WM CHAT' =>'Chatbot'};
@@ -153,8 +153,14 @@ public with sharing class ASF_Constants {
     public static final List<String> BU_WITHOUT_LOB = new List<String>{'ABHFL','ABSLI','ABSLIG','ABHI'};
         
     /* Asset ExternalId fields per Business Unit */
-    public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG'};
+    public static final List<String> BUSpecificLANKey = new List<String>{'ABSLI','ABSLIG','Wellness'};
+    public static final List<String> SKIPBULANMAPPING = new List<String>{'ABSLI','ABSLIG'};
+    public static final Map<String, String> FETCH_ASSETS_FOR_BUCLAUSE = new Map<String, String>{
+        'Wellness'=>' AND Relation__c=\'SELF\''
+    };
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
+
+    public static final string CASE_ORIGIN = 'ABSLIG Email';
     
     public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
     public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';

@@ -1,15 +1,17 @@
 public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHandler{
 
     public override void BeforeInsert(List<SObject> newItems){
+        if(!ASF_TriggerSkipperUtility.isAllowedToRun('CaseComment', 'Before')){return;}
         validateCaseComment((List<CaseComment>)newItems, null);
     }
     public override void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        if(!ASF_TriggerSkipperUtility.isAllowedToRun('CaseComment', 'Before')){return;}
         validateCaseComment((List<CaseComment>)newItems.values(), (Map<Id, CaseComment>)oldItems);
     }
     public override void BeforeDelete(Map<Id, SObject> oldItems){
+        if(!ASF_TriggerSkipperUtility.isAllowedToRun('CaseComment', 'Before')){return;}
         validateCaseComment(null, (Map<Id, CaseComment>)oldItems);
     } 
-    
     public static void validateCaseComment(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         if(ABCL_CommonCLass.bypassValidation() && !Test.isRunningTest()){
            createFeedItem(newList, oldMap);
@@ -26,7 +28,7 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
             caseIds.add(caseCommentRec.ParentId);
         }
         if(!caseIds.isEmpty()){
-            for(Case caseRec : [SELECT Id, isClosed, ownerId from case where Id IN: caseIds]){
+            for(Case caseRec : [SELECT Id, isClosed, ownerId,Business_Unit__c from case where Id IN: caseIds]){
                 caseIdtoStatusMap.put(caseRec.Id, caseRec);
             }
         }
@@ -42,10 +44,17 @@ public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHand
                         caseCommentRec.addError(System.Label.ASF_CaseComment_edit_Err_Msg);
                     }
                 }
+                //[START] Added by Zahed : PR1030924-211
+                Case relatedCase = caseIdtoStatusMap.get(caseCommentRec.ParentId);                
+                if (relatedCase.Business_Unit__c == System.label.Wellness_BU  &&relatedCase != null && relatedCase.OwnerId != UserInfo.getUserId() && !Test.isRunningTest()) {
+                    caseCommentRec.addError(System.Label.Wellness_CaseComment_add_Err_Msg);
+                }
+                //[END]
             } 
             createFeedItem(newList, oldMap);
         }
     }
+
     
     public static void createFeedItem(List<CaseComment> newList, Map<Id, CaseComment> oldMap){
         Boolean isDelete = newList==null ? true : false;

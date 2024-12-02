@@ -34,8 +34,10 @@ public with sharing class ABSLI_TaxCertificateIntegration implements ASF_Integra
             	result.status = ABSLI_Constants.ERROR;
             	result.response = Custom_Messages__mdt.getInstance('ABSLI_CustomerPortal_STPFalse_Err').Message__c;
             }else{
-                result.status = ABSLI_Constants.SUCCESS;
-                result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+				if(caseRecord.ABSLI_Case_Detail__r.From_Date__c != null && caseRecord.ABSLI_Case_Detail__r.To_Date__c != null){
+					result.status = ABSLI_Constants.SUCCESS;
+					result.response = ABSLI_Constants.EVALUATION_SUCCESS;
+				}
             }
             resultMap.put(caseRecord.Id, result);
             

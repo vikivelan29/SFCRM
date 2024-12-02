@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Wellness</fullName>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>Type_Text__c</columns>
+    <columns>Stage__c</columns>
+    <columns>Nature__c</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>Customer_name_formula__c</columns>
+    <columns>Sub_Type_Text__c</columns>
+    <columns>Ageing_Business_Days__c</columns>
+    <columns>ASSET.NAME</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <columns>Overall_Case_Closure_SLA__c</columns>
+    <columns>SLA_Broken__c</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Business_Unit__c</field>
+        <operation>equals</operation>
+        <value>Wellness</value>
+    </filters>
+    <label>All Wellness</label>
+    <sharedTo>
+        <roleAndSubordinates>Wellness_Service_Agent</roleAndSubordinates>
+    </sharedTo>
+</ListView>

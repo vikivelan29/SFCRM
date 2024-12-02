@@ -7,6 +7,9 @@
         <field>Case$Nature__c</field>
     </columns>
     <columns>
+        <field>Case$ABSLI_Case_Detail__c.Complaint_Category__c</field>
+    </columns>
+    <columns>
         <field>Case$CCC_External_Id__c</field>
     </columns>
     <columns>
@@ -43,9 +46,6 @@
         <field>Case$Source__c</field>
     </columns>
     <columns>
-        <field>Case$Asset.Branch__c.Name</field>
-    </columns>
-    <columns>
         <field>Case$Asset.Advisor__c</field>
     </columns>
     <columns>
@@ -53,6 +53,9 @@
     </columns>
     <columns>
         <field>Case$Asset.Advisor__c.Advisor_Status__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Branch__c.Name</field>
     </columns>
     <columns>
         <field>Case$Asset.Branch__c.Branch_Code__c</field>
@@ -79,6 +82,9 @@
         <field>Case$Asset.Plan_Name__c</field>
     </columns>
     <columns>
+        <field>Case$Asset.Type__c</field>
+    </columns>
+    <columns>
         <aggregateTypes>Sum</aggregateTypes>
         <field>Case$Asset.Annual_Premium__c</field>
     </columns>
@@ -102,9 +108,6 @@
     </columns>
     <columns>
         <field>Case$Asset.Status</field>
-    </columns>
-    <columns>
-        <field>Case$Asset.Type__c</field>
     </columns>
     <columns>
         <field>Case$ABSLI_Case_Detail__c.Follow_up_Name__c</field>

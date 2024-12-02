@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>ABHI</description>
     <externalId>false</externalId>
-    <label>Hospital Code</label>
+    <label>Hospital Name</label>
     <referenceTo>Health_Provider__c</referenceTo>
     <relationshipLabel>Claims (Hospital Code)</relationshipLabel>
     <relationshipName>Claims1</relationshipName>

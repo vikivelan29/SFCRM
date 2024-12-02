@@ -15,13 +15,35 @@
     <sharingOwnerRules>
         <fullName>ABHFL_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <description>Rule to share all articles owned by ABFL role to other ABFL users</description>
-        <label>ABFL Sharing Rule</label>
+        <description>Rule to share all articles owned by ABHFL role to other ABHFL users</description>
+        <label>ABHFL Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinates>ABFL_Executive_Leadership</roleAndSubordinates>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_All_User</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC All User</label>
+        <sharedTo>
+            <group>ABSLAMC_ALL_Users</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABSLAMC_ALL_Users</group>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABHI_Knowledge_Sharing_Rule</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABHI Knowledge Sharing Rule</label>
+        <sharedTo>
+            <group>ABHI_Knowledge_G</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABHI_Knowledge_G</group>
         </sharedFrom>
     </sharingOwnerRules>
 </SharingRules>

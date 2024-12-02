@@ -66,6 +66,13 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
                 resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
                 continue;
             }
+            if(closeCase.trim() != '' && closeCase.trim().toLowerCase() != 'yes' && closeCase.trim().toLowerCase() != 'no'){
+                keyValueMap.put('Result', 'FAILURE');
+                keyValueMap.put('Message', 'Close Case value is Invalid. Valid values are Yes or No');
+                resultWrapper.resultJSONRows.put(lineItemId, JSON.serialize(keyValueMap));
+                resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
+                continue;
+            }
             if(!caseNumberToCaseMap.containsKey(caseNumber)){
                 keyValueMap.put('Result', 'FAILURE');
                 keyValueMap.put('Message', 'Invalid Case Number');
@@ -110,7 +117,7 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
             if(String.isNotBlank(subStatus)){
                 caseDetRec.Sub_Status__c = subStatus;
             }
-            if(closeCase.toLowerCase().equals('true')){
+            if(closeCase.toLowerCase().equals('yes')){
                 ABSLI_BulkUpdateCaseConverterUtility.requestFromBulkUpdate = true;
                 caseRec.Stage__c = 'Resolved';
                 caseRec.Status = 'Resolved';
@@ -188,6 +195,9 @@ public with sharing class ABSLI_BulkUpdateCaseConverterUtility implements ASF_Bu
                         fieldValue = String.valueOf(obj.get(fieldName));
                     }
                     fieldValue = fieldValue==null?' ':fieldValue;
+                    if(fieldName == 'IsClosed'){
+                        fieldValue = fieldValue.toUpperCase() == 'FALSE'? 'No':'Yes';
+                    }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }
                 listOfRecordsAsMap.add(fieldMap);

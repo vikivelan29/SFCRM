@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>SubStage__c</field>
-        <value xsi:type="xsd:string">follow up</value>
+        <value xsi:type="xsd:string">Follow Up</value>
     </values>
 </CustomMetadata>

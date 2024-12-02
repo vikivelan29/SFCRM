@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Troubleshooting_steps_should_be_yes</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISPICKVAL(Customer_did_troubleshooting_steps__c , &apos;No&apos;)</errorConditionFormula>
+    <errorDisplayField>Customer_did_troubleshooting_steps__c</errorDisplayField>
+    <errorMessage>Customer should complete troubleshooting steps.</errorMessage>
+</ValidationRule>

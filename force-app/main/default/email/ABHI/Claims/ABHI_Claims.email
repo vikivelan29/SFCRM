@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="margin-right: 4px; margin-left: 4px; text-align:justify">Dear {{{Case.Customer_name_formula__c}}},<br />
+<br />
+Thank you for choosing Aditya Birla Health Insurance as your health-first partner. We've dedicated ourselves to providing you with the best health cover, unwavering support for your wellbeing and remain committed to maintaining this level of care whenever you need us.<br />
+<br />
+We recognize that this could be a challenging time for you, and we want to make the process as smooth as possible. To expedite the processing of the above mentioned Service Request received on { DD/MM/YYYY }, we kindly request certain documents from you. You can find all the details outlined below. Please know that we're here to support you every step of the way.<br />
+<br />
+{ Additional Document }<br />
+{ Additional Document }<br />
+{ Additional Document }<br />
+{ Additional Document }<br />
+<br />
+We know this might be an additional task during a difficult time, but submitting these documents will ensure a smooth and timely processing of your request. You can email the documents to us on the below mentioned email ID. Click here or download the Activ Health App to track the Claim Status.<br />
+<br />
+We appreciate your patience and understanding during this time.<br />
+<br />
+Regards,<br />
+Aditya Birla Health Insurance Co. Limited</div>
+</body>
+</html>

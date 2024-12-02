@@ -8,15 +8,35 @@ import ACCOUNT_ID from '@salesforce/schema/Asset.AccountId';
 import ASSETID from '@salesforce/schema/Asset.Id';
 import ASSET_NAME from '@salesforce/schema/Asset.Name';
 import PLAN_NAME from '@salesforce/schema/Asset.Plan_Name__c';
+
+// Opp Fields 
+import OPP_ACCOUNT_EMAIL from '@salesforce/schema/Opportunity.Account.PersonEmail';
+import OPP_ACCOUNT_ID from '@salesforce/schema/Opportunity.AccountId';
+import OPP_POLICY_ID_FIELD from "@salesforce/schema/Opportunity.Policy_Number__c";
+import OPP_ASSET_NAME from '@salesforce/schema/Opportunity.Policy__r.Name';
+import OPP_PLAN_NAME from '@salesforce/schema/Opportunity.Policy__r.Plan_Name__c';
+
+// Case Fields
+import CASE_ACCOUNT_EMAIL from '@salesforce/schema/Case.Account.PersonEmail';
+import CASE_ACCOUNT_ID from '@salesforce/schema/Case.AccountId';
+import CASE_ASSET_PLAN_NAME from '@salesforce/schema/Case.Asset.Plan_Name__c';
+import CASE_NUMBER from '@salesforce/schema/Case.CaseNumber';
+import CASE_ID from "@salesforce/schema/Case.Id";
+
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { RefreshEvent } from 'lightning/refresh';
 import { getFieldValue, getRecord } from 'lightning/uiRecordApi';
 import { LightningElement, api, wire } from 'lwc';
 
 const ASSET_FIELDS = [ASSETID, ASSET_NAME, ACCOUNT_ID, PLAN_NAME, ACCOUNT_EMAIL];
+// Used when component is on opp details page.
+const OPP_ASSET_FIELDS = [OPP_POLICY_ID_FIELD, OPP_ASSET_NAME, OPP_ACCOUNT_ID, OPP_PLAN_NAME, OPP_ACCOUNT_EMAIL];
+// Used when component is on case details page.
+const CASE_FIELDS = [CASE_ID, CASE_NUMBER, CASE_ACCOUNT_ID, CASE_ASSET_PLAN_NAME, CASE_ACCOUNT_EMAIL];
 
 export default class ABHI_OmniDocView extends LightningElement {
     @api recordId;
+    @api objectApiName;
     boolLoad = true;
     showAwaitDoc;
     showEmailComposer;
@@ -34,9 +54,20 @@ export default class ABHI_OmniDocView extends LightningElement {
     wireData;
     noRecordsAvailable;
     boolShowNoRec;
-    objAssetRecord;// = {'sobjectType': 'Asset', 'sobjectFields': 'Account.PersonEmail'};
+    objAssetRecord;
 
-    @wire(getRecord, { recordId: "$recordId", fields: ASSET_FIELDS })
+    get fields() {
+        console.log('getObjectInfo Object Name ', this.objectApiName);
+        console.log('getObjectInfo Object Name ', this.recordId);
+        if (this.objectApiName == 'Opportunity') {
+            return OPP_ASSET_FIELDS;
+        }else if(this.objectApiName == 'Case'){
+            return CASE_FIELDS;
+        }
+        return ASSET_FIELDS; 
+    }
+
+    @wire(getRecord, { recordId: "$recordId", fields: "$fields" })
     async assetRecord({ error, data }) {
         if (error) {
             let message = "Unknown error";
@@ -49,10 +80,22 @@ export default class ABHI_OmniDocView extends LightningElement {
             this.boolLoad = false;
         }else if (data) {
             this.wireData = data;
-            this.policyNumber = getFieldValue(data, ASSET_NAME);
-            this.accountEmail = getFieldValue(data, ACCOUNT_EMAIL);
-            this.accountId = getFieldValue(data, ACCOUNT_ID);
-            this.planName = getFieldValue(data, PLAN_NAME);
+            if(this.objectApiName === 'Opportunity'){
+                this.policyNumber = getFieldValue(data, OPP_ASSET_NAME);
+                this.accountEmail = getFieldValue(data, OPP_ACCOUNT_EMAIL);
+                this.accountId = getFieldValue(data, OPP_ACCOUNT_ID);
+                this.planName = getFieldValue(data, OPP_PLAN_NAME);
+            }else if(this.objectApiName === 'Case'){
+                this.policyNumber = getFieldValue(data, CASE_NUMBER);
+                this.accountEmail = getFieldValue(data, CASE_ACCOUNT_EMAIL);
+                this.accountId = getFieldValue(data, CASE_ACCOUNT_ID);
+                this.planName = getFieldValue(data, CASE_ASSET_PLAN_NAME);
+            }else{
+                this.policyNumber = getFieldValue(data, ASSET_NAME);
+                this.accountEmail = getFieldValue(data, ACCOUNT_EMAIL);
+                this.accountId = getFieldValue(data, ACCOUNT_ID);
+                this.planName = getFieldValue(data, PLAN_NAME);
+            }
             await this.handleDynamicColumnNames();
             await this.dataForDataTable();
             this.boolLoad = false;
@@ -85,7 +128,7 @@ export default class ABHI_OmniDocView extends LightningElement {
             await getDataForDatatable({strAssetId: this.recordId, strPolicyNo: this.policyNumber}).then((response)=>{
                 if(response && response.SearchResponse){
                     for (let i = 0; i < response.SearchResponse.length; i++) {
-                        response.SearchResponse[i].policyNumber = this.policyNumber;
+                        if(this.objectApiName != 'Case') response.SearchResponse[i].policyNumber = this.policyNumber;
                         response.SearchResponse[i].rowUniqueId = Math.random().toString(16).slice(2,13);
                         if(response.SearchResponse[i].Error){
                             if(Array.isArray(response.SearchResponse[i].Error)){

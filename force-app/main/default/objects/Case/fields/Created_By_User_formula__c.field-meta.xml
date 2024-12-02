@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Created_By_User_formula__c</fullName>
     <externalId>false</externalId>
-    <formula>CreatedBy.FirstName + &quot; &quot; + CreatedBy.LastName</formula>
+    <formula>IF(  ISPICKVAL( Business_Unit__c, &apos;ABSLAMC&apos;), IF(CreatedById =  $User.Id, &apos;true&apos;, &apos;false&apos;) , CreatedBy.FirstName + &quot; &quot; + CreatedBy.LastName)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Created By</label>
     <required>false</required>

@@ -3,6 +3,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { NavigationMixin } from 'lightning/navigation';
 import { createRecord, getRecord } from "lightning/uiRecordApi";
+import { reduceErrors } from 'c/asf_ldsUtils';
 import getCaseFieldsConfig from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseFieldsConfig';
 import getUserDetails from '@salesforce/apex/ASF_CreateCaseWithTypeController.getUserDetails';
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
@@ -246,7 +247,7 @@ export default class Asf_createFTRCase extends NavigationMixin(LightningElement)
                 })
                 .catch(error => {
                     this.loading = false;
-                    this.showToast('Error', this.label.errorMessage, 'Error');
+                    this.showError('error', 'Oops! Error occured', error);
                 })
         }
     }
@@ -259,5 +260,15 @@ export default class Asf_createFTRCase extends NavigationMixin(LightningElement)
 
             return (validSoFar && field.reportValidity());
         }, true);
+    }
+
+    showError(variant, title, error) {
+        let errMsg = reduceErrors(error);
+        const event = new ShowToastEvent({
+            variant: variant,
+            title: title,
+            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
+        });
+        this.dispatchEvent(event);
     }
 }

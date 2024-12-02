@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Nature_of_treatment__c</fullName>
+    <externalId>false</externalId>
+    <label>Nature of treatment</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Medication</fullName>
+                <default>false</default>
+                <label>Medication</label>
+            </value>
+            <value>
+                <fullName>Surgery</fullName>
+                <default>false</default>
+                <label>Surgery</label>
+            </value>
+            <value>
+                <fullName>Untreated</fullName>
+                <default>false</default>
+                <label>Untreated</label>
+            </value>
+            <value>
+                <fullName>Planned for surgery</fullName>
+                <default>false</default>
+                <label>Planned for surgery</label>
+            </value>
+            <value>
+                <fullName>No treatment required</fullName>
+                <default>false</default>
+                <label>No treatment required</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -101,7 +101,7 @@ export default class Absli_legacyCasesView extends LightningElement {
                 this.isLoading = true;
                 debugger;
                 getLegacyData({
-                    customerId: this.customerId, lanNumber: this.selectedAsset, startDate: this.startDate,
+                    customerId: this.recordId, lanNumber: this.selectedAsset, startDate: this.startDate,
                     endDate: this.endDate, lob: this.lob, msdCaseNumber : this.msdCaseNumber
                 }).then(result => {
                     console.log('Result=>:'+JSON.stringify(result));
