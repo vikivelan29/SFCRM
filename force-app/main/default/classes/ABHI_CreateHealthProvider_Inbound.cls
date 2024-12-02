@@ -19,14 +19,12 @@ global with sharing class ABHI_CreateHealthProvider_Inbound {
     @HttpPost
     global static String createRecords(){
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
-        String accountId;
         Boolean hasError = false;
         ABCL_Integrations__mdt integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata('ABHI_CreateHealthIntent_Inbound');
         integrationResponse.requestBody = RestContext.request.requestBody.toString();
         RequestWrapper requestBody = new RequestWrapper();
         try{
             requestBody = (RequestWrapper) JSON.deserialize(RestContext.request.requestBody.toString(), RequestWrapper.class);
-            System.debug('body>>>'+ requestBody);
         
             try {
                 upsert requestBody.HealthProvider Provider_Code__c;
@@ -55,6 +53,7 @@ global with sharing class ABHI_CreateHealthProvider_Inbound {
     *Last Modified:  05/08/2024
     *@description  : wrapper class to hold the request details
     *********************************************************/
+    @SuppressWarnings('PMD.FieldNamingConventions')
     public class RequestWrapper{
         public List<Health_Provider__c> HealthProvider;
     }
@@ -67,15 +66,12 @@ global with sharing class ABHI_CreateHealthProvider_Inbound {
     * @description - This method is used to log the error if any occurs during the request.
     *****************************************************************************************************/
     private static String logError(String errorMsg, RequestWrapper requestBody){
-        ASF_Case_Integration__c integrationLog = new ASF_Case_Integration__c();
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
         Boolean hasError = true;
-        ABCL_Integrations__mdt  integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata('ABHI_CreateHealthIntent_Inbound');
         ABHI_ResponseWrapper abhiResponse = new ABHI_ResponseWrapper('100', 'Failure', errorMsg);
         //abhiResponse.responseBody = JSON.serialize(requestBody).substring(0,100000);
         integrationResponse.responseBody = JSON.serialize(abhiResponse) + JSON.serialize(requestBody);
         hasError = true;
-        // ABHI_ResponseWrapper.createLog(integrationLog,integrationMdt, integrationResponse, hasError);
         return JSON.serialize(abhiResponse);
     }
 }

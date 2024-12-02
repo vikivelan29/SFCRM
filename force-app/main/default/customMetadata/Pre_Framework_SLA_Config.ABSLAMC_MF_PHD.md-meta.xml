@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Queue_Name__c</field>
-        <value xsi:type="xsd:string">ABSLAMC_MF_PHD</value>
+        <value xsi:type="xsd:string">ABSLAMC_PHD</value>
     </values>
     <values>
         <field>SLA_In_Minutes__c</field>

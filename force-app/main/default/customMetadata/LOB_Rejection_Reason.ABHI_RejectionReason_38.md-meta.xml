@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Renewal: we require additional documents</value>
+        <value xsi:type="xsd:string">Endorsement: the document needs a password</value>
     </values>
     <values>
         <field>Type__c</field>

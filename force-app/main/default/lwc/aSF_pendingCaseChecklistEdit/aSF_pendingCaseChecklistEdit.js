@@ -9,8 +9,9 @@ import userId from '@salesforce/user/Id';
 import { NavigationMixin } from 'lightning/navigation';
 import Case_Status from '@salesforce/schema/Case.Status';
 import Case_Stage from '@salesforce/schema/Case.Stage__c';
+import Case_Closed from '@salesforce/schema/Case.IsClosed';
 import { reduceErrors } from 'c/asf_ldsUtils';
-const fields = [Case_Owner, Case_Status, Case_Stage];
+const fields = [Case_Owner, Case_Status, Case_Stage, Case_Closed];
 
 
 import { registerRefreshContainer, unregisterRefreshContainer, REFRESH_COMPLETE, REFRESH_COMPLETE_WITH_ERRORS, REFRESH_ERROR } from 'lightning/refresh'
@@ -26,6 +27,7 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
     isDisabled = true;
     checklistStatuses = new Map();
     statusVal;
+    wiredCaseResult;
     
 
     get isAnyStageMatchChecklistPresent(){
@@ -54,11 +56,12 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         
     }
     @wire(getRecord, { recordId: '$recordId', fields })
-    gAcc({ data, error }) {
-        if (data) {
-            const onwerId = getFieldValue(data, Case_Owner);
-            const status = getFieldValue(data, Case_Stage);
-            this.isClosed = status == 'Closed' ? true : false;
+    wiredCases(result) {
+        this.wiredCaseResult = result;
+        if (result.data) {
+            const onwerId = getFieldValue(result.data, Case_Owner);
+            //const status = getFieldValue(result.data, Case_Stage);
+            this.isClosed = getFieldValue(result.data, Case_Closed);
             this.areDetailsVisible = onwerId == this.ownerIdCase;
         }
     }
@@ -138,9 +141,20 @@ export default class ASF_pendingCaseChecklistEdit extends NavigationMixin(Lightn
         }
 
     }
-    handleSave(event) {
-        
+    async handleSave(event) {
         console.log('Refresh Apex called');
+        await refreshApex(this.wiredCaseResult);
+
+        if(this.isClosed){
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error updating record',
+                    message: 'The Case is already Closed',
+                    variant: 'error',
+                }),
+            ); 
+            return;
+        }
         updateMyCheckList({ updateChecklistRecords: this.listRecords }).then(result => {
             console.log('Refresh Apexsuccess called');
             refreshApex(this.wiredAccountsResult);

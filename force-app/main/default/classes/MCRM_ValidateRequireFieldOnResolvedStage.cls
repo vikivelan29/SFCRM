@@ -6,11 +6,15 @@
 * @last modified by  : rsinghnagar@salesforce.com
 **/
 public class MCRM_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageClassInvocable {
-    
+    /****************************************************************************************************************
+    * @Function - beforeStageMovement
+    * @param cases - List of cases
+    * @return - Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>
+    * @description - validate the case for required fields
+    */
     public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> beforeStageMovement(List<Case> cases){
         
         Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> mCaseIdVsretCls = new Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper>();
-        Set<Id> complaintCaseIds = new Set<Id>();
         for(Case caseRec : cases){
             ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
             if
@@ -38,6 +42,12 @@ public class MCRM_ValidateRequireFieldOnResolvedStage implements ASF_CaseStageCl
         return mCaseIdVsretCls;        
     }
     
+    /****************************************************************************************************************
+    * @Function - afterStageMovement
+    * @param cases - List of cases
+    * @return - Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>
+    * @description - NA
+    */
     public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> cases){
         Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper> mCaseIdVsretCls = new Map<Id,ASF_CaseMovementHelper.CaseStageValidationWrapper>();
         return mCaseIdVsretCls;

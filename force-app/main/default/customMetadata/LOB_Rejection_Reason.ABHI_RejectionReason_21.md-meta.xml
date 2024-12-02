@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Endorsement: the minimum age for adding a member is 5 yrs</value>
+        <value xsi:type="xsd:string">Digital: we were unable to contact you</value>
     </values>
     <values>
         <field>Type__c</field>

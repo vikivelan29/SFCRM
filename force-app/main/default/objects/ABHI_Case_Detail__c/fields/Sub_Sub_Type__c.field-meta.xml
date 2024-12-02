@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Sub_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Sub Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Receiving multiple calls</fullName>
+                <default>false</default>
+                <label>Receiving multiple calls</label>
+            </value>
+            <value>
+                <fullName>Not interested for renewal</fullName>
+                <default>false</default>
+                <label>Not interested for renewal</label>
+            </value>
+            <value>
+                <fullName>Policy is already renewed even though receiving call for renewal</fullName>
+                <default>false</default>
+                <label>Policy is already renewed even though receiving call for renewal</label>
+            </value>
+            <value>
+                <fullName>Other, please specify</fullName>
+                <default>false</default>
+                <label>Other, please specify</label>
+            </value>
+            <value>
+                <fullName>Mismatch in DOB</fullName>
+                <default>false</default>
+                <label>Mismatch in DOB</label>
+            </value>
+            <value>
+                <fullName>Mismatch in Name</fullName>
+                <default>false</default>
+                <label>Mismatch in Name</label>
+            </value>
+            <value>
+                <fullName>Mismatch in Communication Address</fullName>
+                <default>false</default>
+                <label>Mismatch in Communication Address</label>
+            </value>
+            <value>
+                <fullName>Mismatch in relationship</fullName>
+                <default>false</default>
+                <label>Mismatch in relationship</label>
+            </value>
+            <value>
+                <fullName>Mismatch in Gender</fullName>
+                <default>false</default>
+                <label>Mismatch in Gender</label>
+            </value>
+            <value>
+                <fullName>Mismatch in salutation</fullName>
+                <default>false</default>
+                <label>Mismatch in salutation</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Mismatch of premium in renewal notice and website</fullName>
+                <default>false</default>
+                <label>Mismatch of premium in renewal notice and website</label>
+            </value>
+            <value>
+                <fullName>Hike in premium amount</fullName>
+                <default>false</default>
+                <label>Hike in premium amount</label>
+            </value>
+            <value>
+                <fullName>Premium breakup required</fullName>
+                <default>false</default>
+                <label>Premium breakup required</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

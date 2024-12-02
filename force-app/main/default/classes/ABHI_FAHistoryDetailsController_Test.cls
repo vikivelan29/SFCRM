@@ -114,7 +114,7 @@ public class ABHI_FAHistoryDetailsController_Test {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
-            String s = '{\"ReturnCode\":\"2\",\"ReturnMessage\":\"Nodatafound\"}';
+            String s = '{\"ReturnCode\":\"400\",\"ReturnMessage\":\"Nodatafound\"}';
             res.setBody(s);
             res.setStatusCode(400);
             return res;

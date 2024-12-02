@@ -192,6 +192,26 @@
                 <identifier>RecordContractId_cField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Agentbranch__c</fieldItem>
+                <identifier>RecordAgentbranch_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.AgentStatus__c</fieldItem>
+                <identifier>RecordAgentStatus_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-89d4dcc1-1284-405f-a746-18ddcf6c2597</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -234,6 +254,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.AgentCode__c</fieldItem>
                 <identifier>RecordAgentCode_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Plan_Name__c</fieldItem>
+                <identifier>RecordPlan_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -292,8 +322,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Product2Id</fieldItem>
-                <identifier>RecordProduct2IdField</identifier>
+                <fieldItem>Record.ProductName__c</fieldItem>
+                <identifier>RecordProductName_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -812,6 +842,46 @@
             <componentInstance>
                 <componentName>mcrm_getPolicyDetails</componentName>
                 <identifier>c_mcrm_getPolicyDetails</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-3a190cb6-7a4d-4b18-a4eb-c033c2845568</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-3a190cb6-7a4d-4b18-a4eb-c033c2845568</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Policy Details</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>name</name>
+                    <value>accordionSection1</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:accordionSection</componentName>
+                <identifier>flexipage_accordionSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-64f4abe8-f994-4b28-98b2-b46f8b328faf</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>accordionSections</name>
+                    <value>Facet-64f4abe8-f994-4b28-98b2-b46f8b328faf</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>defaultSectionName</name>
+                    <value>accordionSection1</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:accordion</componentName>
+                <identifier>flexipage_accordion</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-58309a58-72e6-40e9-b8d1-7946d48e1485</name>

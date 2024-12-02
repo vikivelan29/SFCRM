@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Wellness_Operations</fullName>
+    <booleanFilter>1 OR 2 OR 3</booleanFilter>
     <columns>CASES.CASE_NUMBER</columns>
     <columns>Type_Text__c</columns>
     <columns>Sub_Type_Text__c</columns>
@@ -17,6 +18,21 @@
     <columns>Stage_SLA_2__c</columns>
     <columns>Stage_SLA_3__c</columns>
     <filterScope>Queue</filterScope>
+    <filters>
+        <field>Assigned_Team__c</field>
+        <operation>equals</operation>
+        <value>Contact Center Team</value>
+    </filters>
+    <filters>
+        <field>OWNER_NAME</field>
+        <operation>equals</operation>
+        <value>Contact Center Team</value>
+    </filters>
+    <filters>
+        <field>Case_Assigned_Team__c</field>
+        <operation>equals</operation>
+        <value>Contact Center Team</value>
+    </filters>
     <label>Operations Team</label>
     <queue>Wellness_Operations</queue>
     <sharedTo>

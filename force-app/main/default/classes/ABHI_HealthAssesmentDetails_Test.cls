@@ -1,9 +1,16 @@
+/***************************************
+*Class        :  ABHI_HealthAssesmentDetails_Test
+*Author       :  Kuldeep Mishra
+*Created Date :  25/08/2024
+*Last Modified:  25/08/2024
+*@description :  This class used as Test class for ABHI_HealthAssesmentDetails.
+***************************************/
 @isTest
 public class ABHI_HealthAssesmentDetails_Test {
     
     
     @isTest
-    static void testGetHealthDetails_Success() {
+    static void testGetHealthDetails() {
         // Setup test data
         Account testAccount = new Account(Name = 'Test Account');
         insert testAccount;
@@ -33,7 +40,7 @@ public class ABHI_HealthAssesmentDetails_Test {
     }
 
     @isTest
-    static void testGetHealthDetails_Error() {
+    static void testGetHealthDetailsError() {
         // Setup test data
         Account testAccount = new Account(Name = 'Test Account');
         insert testAccount;
@@ -63,13 +70,22 @@ public class ABHI_HealthAssesmentDetails_Test {
     }
 
     // Mock class for the integration callout
+    @SuppressWarnings('PMD.ApexDoc')
+    /**********
+     @Description: Mock Callout class for Success response.
+     ***********/
     private class ABCL_IntegrationCalloutMock implements HttpCalloutMock {
+            /***********
+            * @Description  HTTP response mocking
+            * @ Set all param req 
+            ** @return HTTPResponse
+            ************/
         private ABHI_HealthAssesmentDetails.IntegrationResponseWrapper response;
 
         ABCL_IntegrationCalloutMock(ABHI_HealthAssesmentDetails.IntegrationResponseWrapper response) {
             this.response = response;
         }
-
+        @SuppressWarnings('PMD.ApexDoc')
         public HTTPResponse respond(HTTPRequest request) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');

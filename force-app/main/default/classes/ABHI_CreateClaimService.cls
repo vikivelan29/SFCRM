@@ -3,20 +3,27 @@
 *Author       :  Kuldeep Mishra
 *Created Date :  23/08/2024
 *Last Modified:  02/09/2024
-*@description :  This webservice is to create Claim records in SFDC.
+*@description :  This class provides a RESTful web service for creating and updating `Claim__c` records in Salesforce.
 ***************************************/
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.AvoidDeeplyNestedIfStmts')
 @RestResource (urlMapping='/CreateClaim')
-global class ABHI_CreateClaimService {
+global with sharing class ABHI_CreateClaimService {
     
-    
+    @SuppressWarnings('PMD.NcssMethodCount')
+    /**********
+     @Method     : doPost
+     @description: This method handles the HTTP POST requests for the /CreateClaim REST API.
+     * The method processes the incoming JSON payload, validates field mappings with custom mdt, and then 
+     * performs DML operations on the `Claim__c` records.
+     ***********/
     @HttpPost
         global static String doPost(){
            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
-           String accountId;
+           //String accountId;
            Boolean hasError = false;
            Map<String, Map<String, String>> mapObjectFieldMapping = new Map<String, Map<String, String>>();
-            Asset AssetPolicy = null;
-            Sobject refObject = null;        
+            Asset assetPolicy = null;
+            //Sobject refObject = null;        
             
    List<Map<String, Object>> requestBodyList = new List<Map<String, Object>>(); 
                List<Claim__c> claimsToProcess= new list<Claim__C>();
@@ -25,13 +32,11 @@ global class ABHI_CreateClaimService {
             for(ABHI_Field_Mapping__mdt fieldMap : [SELECT ID, ABHI_Field_API_Name__c, ABHI_JSON_Field_Name__c,
                                                  ABHI_Object_Mapping__r.DeveloperName, ABHI_Type__c, ABHI_Field_Type__c
                                                  FROM ABHI_Field_Mapping__mdt 
-                                                 WHERE ABHI_Object_Mapping__r.DeveloperName ='Claim']) {
+                                                 WHERE ABHI_Object_Mapping__r.DeveloperName ='Claim' WITH SYSTEM_MODE]) {
                                                      if(!mapObjectFieldMapping.containsKey(fieldMap.ABHI_Object_Mapping__r.DeveloperName)) {
                                                          mapObjectFieldMapping.put(fieldMap.ABHI_Object_Mapping__r.DeveloperName, new Map<String, String>());
                                                          }
-                                                         mapObjectFieldMapping.get(fieldMap.ABHI_Object_Mapping__r.DeveloperName).put(fieldMap.ABHI_JSON_Field_Name__c, fieldMap.ABHI_Field_API_Name__c);
-                                                     System.debug('Field Mapping: JSON Field - ' + fieldMap.ABHI_JSON_Field_Name__c +', API Field - ' +fieldMap.ABHI_Type__c + ', API Field - ' + fieldMap.ABHI_Field_API_Name__c);
-                                                 }
+                                                         mapObjectFieldMapping.get(fieldMap.ABHI_Object_Mapping__r.DeveloperName).put(fieldMap.ABHI_JSON_Field_Name__c, fieldMap.ABHI_Field_API_Name__c);                                                 }
             
               
             try {
@@ -42,19 +47,16 @@ global class ABHI_CreateClaimService {
                 for(requestListWrapper wrap : requestList){
                     requestBodyList.add((Map<String,Object>) JSON.deserializeUntyped(JSON.serialize(wrap)));
                     for(Map<String, Object> item: requestBodyList){ //(Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(wrap));
-                    String ClaimNumber = (String) item.get('Claim_Number');
+                    String claimNumber = (String) item.get('Claim_Number');
                     String policyNumber = (String) item.get('Policy_Number');
-                        system.debug(item);
-                                      // Map JSON fields to Salesforce fields
+                        
+                     // Map JSON fields to Salesforce fields
                      Claim__c claim = new Claim__c();
                      Map<String, String> fieldMapping = mapObjectFieldMapping.get('Claim');
                 if(fieldMapping != null) {
-                    for (String jsonField : mapObjectFieldMapping.get('Claim').keySet()) {
-                        system.debug('jsonField-->' +jsonField);                  
+                    for (String jsonField : mapObjectFieldMapping.get('Claim').keySet()) {              
                         String apiFieldName = fieldMapping.get(jsonField);
-                        Object fieldValue = item.get(jsonField); 
-                       System.debug('JSON Field: ' + jsonField + ', API Field: ' + apiFieldName + ', Value: ' + fieldValue);
-                        
+                        Object fieldValue = item.get(jsonField);                         
                             if(fieldValue != null) {
                                 try {
                                 if(apiFieldName.contains('__r')) {
@@ -70,8 +72,8 @@ global class ABHI_CreateClaimService {
                                             claim.Hospital_Code__r = new Health_Provider__c(Provider_Code__c = (String) fieldValue);
                                           system.debug('claim.Hospital_Code__r' +claim.Hospital_Code__r);
                                         
-                                        }else if (relationshipField == 'Customer_Member_Mapping__r') {
-                                            claim.Customer_Member_Mapping__r = new Account(LOB_Client_Code__c = (String) prefixedValue);
+                                        }else if (relationshipField == 'Customer__r') {
+                                            claim.Customer__r = new Account(LOB_Client_Code__c = (String) prefixedValue);
                                         } else { 
                                         claim.put(apiFieldName, fieldValue);// Other relationship fields
                                     }
@@ -107,7 +109,10 @@ global class ABHI_CreateClaimService {
                     }                    
                 } 
                 // Upsert claims
-            if (!claimsToProcess.isEmpty()) {
+                //check the user's permissions on the Claim__c object
+               if (Schema.sObjectType.Claim__c.isCreateable() && Schema.sObjectType.Claim__c.isUpdateable()) {
+                // Proceed with upsert if the user has Create and Update permissions on Claim__c
+                if (!claimsToProcess.isEmpty()) {
                 try{
                 upsert claimsToProcess ClaimExternalId__c;
                     return JSON.serialize(new ABHI_ResponseWrapper('200', 'Success', Custom_Messages__mdt.getInstance('ABHI_SuccessMessage').Message__c));
@@ -116,6 +121,11 @@ global class ABHI_CreateClaimService {
                 hasError = true;
             }
             }
+               } else {
+    // Handle error if the user doesn't have permission to create or update claims
+    integrationResponse.responseBody = logError('Insufficient permissions to create or update Claim records.', requestBody);
+    hasError = true;
+}
         }catch (Exception e){
             integrationResponse.responseBody = logError(Custom_Messages__mdt.getInstance('ABHI_InvalidJson').Message__c, requestBody);
             hasError = true;        
@@ -155,9 +165,20 @@ private static Decimal parseCurrency(String currencyStr) {
     
     
     //wrapper class to hold the request Body.
+    @SuppressWarnings('PMD.ClassNamingConventions')
+    /**********
+        @Class : requestwrapper
+        @description :  Wrapper class for API request payload.
+        ***********/
     public class requestwrapper{
+         @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
         public list<requestListWrapper> Request;
     }
+    @SuppressWarnings('PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.TooManyFields')
+    /**********
+        @Class : requestListWrapper
+        @description :  Wrapper class for API request payload.
+        ***********/
     public class requestListWrapper{
         
         public String Request_Type;
@@ -210,7 +231,10 @@ private static Decimal parseCurrency(String currencyStr) {
     }
     
      
-    //@description - This method is used to log the error if any occurs during the request.
+    /***************************************
+    *Method - logError
+    @description - This method is used to log the error if any occurs during the request.
+    ****************************************/
      private static String logError(String errorMsg, List<requestListWrapper> requestBody){
         ASF_Case_Integration__c integrationLog = new ASF_Case_Integration__c();
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();

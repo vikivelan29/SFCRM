@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Additional information required</value>
+        <value xsi:type="xsd:string">Claim: we stand by our prior decision</value>
     </values>
     <values>
         <field>Type__c</field>

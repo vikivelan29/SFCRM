@@ -268,7 +268,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>TL</displayNameOverride>
             <field>Created_By_User_formula__c</field>
             <table>Case</table>
         </columns>
@@ -925,6 +924,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Case Type</displayNameOverride>
             <field>Type_Text__c</field>
             <table>Case</table>
         </columns>
@@ -1005,7 +1005,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Case Type</displayNameOverride>
+            <displayNameOverride>Category Type</displayNameOverride>
             <field>ABHI_Case_Detail__c.Complaint_Category__c</field>
             <table>Case</table>
         </columns>
@@ -1017,6 +1017,12 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>CreatedBy.Manager.Manager</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TL</displayNameOverride>
+            <field>CreatedBy.Manager</field>
             <table>Case</table>
         </columns>
         <masterLabel>Cases</masterLabel>

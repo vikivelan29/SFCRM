@@ -78,8 +78,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Product2Id</fieldItem>
-                <identifier>RecordProduct2IdField2</identifier>
+                <fieldItem>Record.ProductName__c</fieldItem>
+                <identifier>RecordProductName_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -88,8 +88,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Scheme__c</fieldItem>
-                <identifier>RecordScheme_cField</identifier>
+                <fieldItem>Record.Plan_Name__c</fieldItem>
+                <identifier>RecordPlan_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -110,6 +110,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.CombiPolicyNo__c</fieldItem>
                 <identifier>RecordCombiPolicyNo_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Cross_Sale_Applicable__c</fieldItem>
+                <identifier>RecordCross_Sale_Applicable_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -208,6 +218,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Date_of_Admission__c</fieldItem>
+                <identifier>RecordDate_of_Admission_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.GoGreen__c</fieldItem>
                 <identifier>RecordGoGreen_cField</identifier>
             </fieldInstance>
@@ -272,8 +292,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Maturity_Date__c</fieldItem>
-                <identifier>RecordMaturity_Date_cField</identifier>
+                <fieldItem>Record.Policy_End_Date__c</fieldItem>
+                <identifier>RecordPolicy_End_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -352,8 +372,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Issue_Date__c</fieldItem>
-                <identifier>RecordIssue_Date_cField</identifier>
+                <fieldItem>Record.OwnerId</fieldItem>
+                <identifier>RecordOwnerIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Policy_Start_Date__c</fieldItem>
+                <identifier>RecordPolicy_Start_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -769,13 +799,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -845,7 +875,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
@@ -860,13 +890,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -933,7 +963,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
@@ -948,13 +978,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1016,7 +1046,7 @@
                             <value>Nature__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CASES.TYPE</value>
+                            <value>Type_Text__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Sub_Type_Text__c</value>
@@ -1031,13 +1061,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1169,6 +1199,56 @@
                 <identifier>c_abhi_ViewClaimDetails_LWC</identifier>
             </componentInstance>
         </itemInstances>
+        <name>Facet-0be92a56-784b-4aa6-94ae-f956f0ebbcbc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>active</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0be92a56-784b-4aa6-94ae-f956f0ebbcbc</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Recent Claims</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab20</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ea4e9ec8-f847-4e3c-9f3c-1944e917d1fd</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>VCM</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab21</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-2e4af200-340d-4037-88b9-4e8de39cf833</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>tabs</name>
+                    <value>Facet-2e4af200-340d-4037-88b9-4e8de39cf833</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset4</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-be8cf508-ddc2-4ed7-9bee-09dc21e92106</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1213,7 +1293,7 @@
                             <value>Member_Status__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Relation__c</value>
+                            <value>Relation1__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>DOB__c</value>
@@ -1222,7 +1302,13 @@
                             <value>Age__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>App_Download_Status__c</value>
+                            <value>Primary_Mobile_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Alternate_Mobile_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Primary_email_ID__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1336,7 +1422,7 @@
                 <identifier>lst_dynamicRelatedList6</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</name>
+        <name>Facet-ea4e9ec8-f847-4e3c-9f3c-1944e917d1fd</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1743,20 +1829,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-dea44f56-1278-4aef-aa4c-aaf10d1e9d84</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>VCM</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

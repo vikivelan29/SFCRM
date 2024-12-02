@@ -23,7 +23,7 @@ import TRACK_ID from '@salesforce/schema/Case.Track_Id__c';
 import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no__c';
 import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import CASE_BUSINESS_UNIT_FIELD from '@salesforce/schema/Case.Business_Unit__c';
-
+import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-302
 import CASE_OBJECT from '@salesforce/schema/Case';
 import ABSLI_CASE_DETAIL_OBJECT from '@salesforce/schema/ABSLI_Case_Detail__c';
 
@@ -130,10 +130,10 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     wiredPicklistValues({ error, data}) {
         if (data){
             if(this.currentObj === CASE_OBJECT.objectApiName && this.picklistApiName === NOAUTOCOMM_FIELD){
-                this.noAutoCommOptions = data.values.map(item => ({
-                    label: item.label,
-                    value: item.value
-                }));
+                //this.noAutoCommOptions = data.values.map(item => ({
+                    //label: item.label,
+                    //value: item.value
+                //}));
 
                 this.currentObj = ABSLI_CASE_DETAIL_OBJECT.objectApiName;
                 this.defaultRecTypeId = this.bsliRecTypeId;
@@ -145,19 +145,37 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                     value: item.value
                 }));
             }
-            
+            this.adjustAutoCommunications(data);
             console.log('picklist options--'+JSON.stringify(this.noAutoCommOptions)+'--'+JSON.stringify(this.categoryTypeOptions));
         } else if (error){
             console.log('error in get picklist--'+JSON.stringify(error));
         }
     }
-
+    // Rajendra Singh Nagar: PR1030924-209 - Added function
+    adjustAutoCommunications(data){
+        if(AUTO_COMM_BU_OPT[this.loggedInUserBusinessUnit]?.OPTSLBLS){
+            this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.loggedInUserBusinessUnit].OPTSLBLS.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        }else{
+            if(data){
+                this.noAutoCommOptions = data.values.map(item => ({
+                    label: item.label,
+                    value: item.value
+                }));
+            }
+        }
+    }
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            this.cols = lanLabels[this.loggedInUserBusinessUnit].CTST_COLS != null? lanLabels[this.loggedInUserBusinessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+            this.cols = lanLabels[this.loggedInUserBusinessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+
+            //invoke adjustAutoCommunications once logged in User BU is identified
+            this.adjustAutoCommunications(undefined);
         } else if (error) {
             //this.error = error ;
         }
@@ -262,6 +280,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         if((selected) && this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
             this.isPhoneInbound = true;
         }
+        let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
+            if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
+                this.showAniNumber = true;
+            }
         if((selected) && selected.Allowed_Issue_Types__c && this.loggedInUserBusinessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
@@ -334,6 +357,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             message: Array.isArray(errMsg) ? errMsg[0] : errMsg
         });
         this.dispatchEvent(event);
+    }
+    handleFieldChange(event){ 
+        this.disableCreateBtn = false;
+        this.dupeLead = [];
+        this.showDupeList = false;
     }
     isInputValid() {
         let isValid = true;

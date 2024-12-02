@@ -5,20 +5,20 @@
 <body style="height: auto; min-height: auto;"><span style="font-size:16px;"><span style="font-family:Baskerville,Times New Roman,Times,serif;"><b>Policy No : {{{Opportunity.Policy_Number__c}}}</b><br />
 <b>Plan Name: {{{Opportunity.Plan_Name__c}}}</b><br />
 <br />
-Dear {{{Opportunity.Customer_Name__c}}},</span></span>
-<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:16px;"><span style="font-family:Baskerville,Times New Roman,Times,serif;"><span style="font-variant: normal; white-space: pre-wrap;"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We value your relationship with us and thank you for trusting us with your health insurance needs.<br />
+Dear {{{Opportunity.Customer_Name__c}}},</span></span><br />
 <br />
-In reference to our telephonic conversation and as per your request, please find attached the {policy wordings / brochure} for the captioned policy.<br />
+<span style="white-space-collapse: preserve; font-family: Baskerville, &quot;Times New Roman&quot;, Times, serif; font-size: 16px; text-align: justify;">We value your relationship with us and thank you for trusting us with your health insurance needs.</span><br />
 <br />
-In reference to our telephonic conversation and as per your request, please click on the below link for the complete list of our Network Hospitals.&nbsp;<br />
+<span style="white-space-collapse: preserve; font-family: Baskerville, &quot;Times New Roman&quot;, Times, serif; font-size: 16px; text-align: justify;">In reference to our telephonic conversation and as per your request, please find attached the {policy wordings / brochure} for the captioned policy.</span><br />
 <br />
-Network Hospitals: </span></span></span></span></span></span></span><a href="https://www.adityabirlacapital.com/healthinsurance/locate-care/hospital-listing">https://www.adityabirlacapital.com/healthinsurance/locate-care/hospital-listing</a><br />
+<span style="white-space-collapse: preserve; font-family: Baskerville, &quot;Times New Roman&quot;, Times, serif; font-size: 16px; text-align: justify;">In reference to our telephonic conversation and as per your request, please click on the below link for the complete list of our Network Hospitals.&nbsp;</span><br />
 <br />
-<span style="font-size:16px;"><span style="font-family:Baskerville,Times New Roman,Times,serif;"><span style="font-variant: normal; white-space: pre-wrap;"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at&nbsp;care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App – a one stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 882800035.<br />
+<span style="text-align: justify; font-size: 16px;"><span style="font-family:Baskerville,Times New Roman,Times,serif;"><span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; font-variant-emoji: normal; white-space-collapse: preserve;">Network Hospitals: </span></span></span><a href="https://www.adityabirlacapital.com/healthinsurance/locate-care/hospital-listing" style="text-align: justify;">https://www.adityabirlacapital.com/healthinsurance/locate-care/hospital-listing</a><br />
 <br />
-We wish you the best of health at all times!<br />
+<span style="white-space-collapse: preserve; font-family: Baskerville, &quot;Times New Roman&quot;, Times, serif; font-size: 16px; text-align: justify;">In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at&nbsp;care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App – a one stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 882800035.</span><br />
 <br />
-Warm Regards,<br />
-Aditya Birla Health Insurance</span></span></span></span></span></span></span></p>
-<span style="display: none;">&nbsp;</span></body>
+<span style="white-space-collapse: preserve; font-family: Baskerville, &quot;Times New Roman&quot;, Times, serif; font-size: 16px; text-align: justify;">We wish you the best of health at all times!</span><br />
+<br />
+<span style="white-space-collapse: preserve; font-family: Baskerville, &quot;Times New Roman&quot;, Times, serif; font-size: 16px; text-align: justify;">Warm Regards,</span><br />
+<span style="white-space-collapse: preserve; font-family: Baskerville, &quot;Times New Roman&quot;, Times, serif; font-size: 16px; text-align: justify;">Aditya Birla Health Insurance</span> <span style="display: none;">&nbsp;</span></body>
 </html>

@@ -31,7 +31,9 @@ public class ABSLAMC_BulkCloseLeadConverterTest {
             MobilePhone = '1234567890',
             Status = 'Open',
             OwnerId = newUser.Id,
-            Account__c = testAccount.Id
+            Account__c = testAccount.Id,
+            Business_Unit__c = 'ABSLAMC',
+            PANNO__c = 'ABCHS123'
         );
         insert testLead;
     }
@@ -39,7 +41,6 @@ public class ABSLAMC_BulkCloseLeadConverterTest {
     @IsTest
     static void testConvertJSONRows() {
         ABSLAMC_BulkCloseLeadConverterUtility utility = new ABSLAMC_BulkCloseLeadConverterUtility();
-        
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
         headObj.Template_Name__c = 'test';
         headObj.Total_Rows__c = 1;
@@ -50,14 +51,10 @@ public class ABSLAMC_BulkCloseLeadConverterTest {
         insert lineitem;
         
         Lead l1 = [SELECT Id, Lead_Number__c FROM Lead LIMIT 1]; 
-
-
         String jsonString = '{"Lead ID (System Identifier)":"' + l1.Lead_Number__c + '","Lead Status (Won/Lost)":"Won","Comments/Remarks":""}';
-        
         Map<Id, String> jsonRows = new Map<Id, String>();
         jsonRows.put(lineitem.Id, jsonString);
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
-        //System.assertEquals(1, result.resultRecords.size(), 'Expected one Lead record to be closed');
     }
     
     @IsTest
@@ -76,7 +73,6 @@ public class ABSLAMC_BulkCloseLeadConverterTest {
         Map<Id, String> jsonRows = new Map<Id, String>();
         jsonRows.put(lineitem.Id, '{"Lead ID (System Identifier)":"","Lead Status (Won/Lost)":"Won","Comments/Remarks":""}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
-        //System.assertEquals(1, result.resultRecords.size(), 'Expected one Lead record to be closed');
     }
     
     @IsTest
@@ -94,13 +90,11 @@ public class ABSLAMC_BulkCloseLeadConverterTest {
         
          Lead l1 = [SELECT Id, Lead_Number__c FROM Lead LIMIT 1]; 
 
-
         String jsonString = '{"Lead ID (System Identifier)":"' + l1.Lead_Number__c + '","Lead Status (Won/Lost)":"","Comments/Remarks":""}';
         
         Map<Id, String> jsonRows = new Map<Id, String>();
         jsonRows.put(lineitem.Id, jsonString);
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
-        //System.assertEquals(1, result.resultRecords.size(), 'Expected one Lead record to be closed');
     }
     
     @IsTest
@@ -117,17 +111,17 @@ public class ABSLAMC_BulkCloseLeadConverterTest {
         insert lineitem;
          Lead l1 = [SELECT Id, Lead_Number__c FROM Lead LIMIT 1];
 
-
         String jsonString = '{"Lead ID (System Identifier)":"' + l1.Lead_Number__c + '","Lead Status (Won/Lost)":"ABCH","Comments/Remarks":""}';
         
         Map<Id, String> jsonRows = new Map<Id, String>();
         jsonRows.put(lineitem.Id, jsonString);
+        ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
     }
     
     @IsTest
     static void testConvertJSONRows_MissingStatus() {
         ABSLAMC_BulkCloseLeadConverterUtility utility = new ABSLAMC_BulkCloseLeadConverterUtility();
-        
+        Lead l1 = [SELECT Id, Lead_Number__c FROM Lead LIMIT 1];
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
         headObj.Template_Name__c = 'test';
         headObj.Total_Rows__c = 1;
@@ -138,7 +132,47 @@ public class ABSLAMC_BulkCloseLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Lead ID (System Identifier)":"L-1234","Lead Status (Won/Lost)":"","Comments/Remarks":"testtt"}');
+        jsonRows.put(lineitem.Id, '{"Lead ID (System Identifier)":"' + l1.Lead_Number__c + '","Lead Status (Won/Lost)":"","Comments/Remarks":"testtt"}');
+        ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
+    }
+    
+    @IsTest
+    static void testConvertJSONRows_AlreadyLost() {
+        ABSLAMC_BulkCloseLeadConverterUtility utility = new ABSLAMC_BulkCloseLeadConverterUtility();
+        Lead ld = [SELECT Id, Lead_Number__c FROM Lead LIMIT 1];
+        ld.Status = 'Lost';
+        update ld;
+        ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
+        headObj.Template_Name__c = 'test';
+        headObj.Total_Rows__c = 1;
+        headObj.Status__c = 'Pending';
+        insert headObj;
+        ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
+        lineitem.Bulk_Upload_Header__c = headObj.Id;
+        insert lineitem;
+        
+        Map<Id, String> jsonRows = new Map<Id, String>();
+        jsonRows.put(lineitem.Id, '{"Lead ID (System Identifier)":"' + ld.Lead_Number__c + '","Lead Status (Won/Lost)":"Won","Comments/Remarks":"testtt"}');
+        ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
+    }
+    
+    @isTest static void testInvalidLeadId(){
+        ABSLAMC_BulkCloseLeadConverterUtility utility = new ABSLAMC_BulkCloseLeadConverterUtility();
+        Lead lead = new Lead(LastName = 'Test Lead', Company = 'Test Company');
+        insert lead;
+        Lead l1 = [Select Id,Lead_Number__c, LastName, Business_Unit__c from Lead where LastName = 'Test Lead' LIMIT 1];
+        String LeadNumber = l1.Lead_Number__c;
+        ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
+        headObj.Template_Name__c = 'test';
+        headObj.Total_Rows__c = 1;
+        headObj.Status__c = 'Pending';
+        insert headObj;
+        ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
+        lineitem.Bulk_Upload_Header__c = headObj.Id;
+        insert lineitem;
+        
+        Map<Id, String> jsonRows = new Map<Id, String>();
+        jsonRows.put(lineitem.Id, '{"Lead ID (System Identifier)":"' + LeadNumber + '","Lead Status (Won/Lost)":"Won","Comments/Remarks":"testtt"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
     }
     
