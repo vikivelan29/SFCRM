@@ -168,6 +168,18 @@
         <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_Listviewcallout</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_Listviewcallout_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_MockGenerator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
        <customPermissions>
         <enabled>true</enabled>
         <name>Restrict_User_Updation</name>
@@ -517,6 +529,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_LOA__c.ABML_Parent_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.ABML_Partner_Segmentation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1669,6 +1686,31 @@
         <field>Case.typeSubTypeMismatch__c</field>
         <readable>true</readable>
     </fieldPermissions>
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Contract_Mode__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Time__c</field>    
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Last_Trade_Date_COM__c</field>
+    <readable>true</readable>
+</fieldPermissions> 
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Contact_Preference__c</field>
+    <readable>true</readable>
+</fieldPermissions> 
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Last_Trade_Date_EQ__c</field>
+    <readable>true</readable>
+</fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ABML_Aadhar_No__c</field>
