@@ -13,7 +13,7 @@ public without sharing class ABFL_Util {
      * @param newMap
      * @param oldMap
      */
-    /*
+    
     public static void resolveCaseOnUTRPopulation(Map<Id, ABFL_Case_Detail__c> newMap, Map<Id, ABFL_Case_Detail__c> oldMap){
         Set<Id> abflCaseDetailSet = new Set<Id>();
         Map<Id, Case> caseIdToRecordMap = new Map<Id, Case>();
@@ -63,5 +63,5 @@ public without sharing class ABFL_Util {
             }
         }
     }
-    */
+    
 }
