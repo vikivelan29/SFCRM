@@ -132,7 +132,7 @@ export default class Abfl_LegacyCases extends LightningElement {
         this.customerId = this.selectedMember;
         this.lob = getFieldValue(this.account.data, LOB_FIELD);
         console.log('$.$.Acc'+this.lob);
-        if(!this.selectedFinalAsset && !this.selectedMember && !this.msdCaseNumber && !this.phoneNo && !this.emailId){
+        if(!this.selectedMember && !this.phoneNo && !this.emailId){
             this.selectedMember = getFieldValue(this.account.data, CLIENT_CODE_FIELD);
         }
         this.mapRequest = {
