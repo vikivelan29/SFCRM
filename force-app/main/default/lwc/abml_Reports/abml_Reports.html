@@ -1,0 +1,58 @@
+<template>
+    <!--name="progress"-->
+    <div class="mainComp">
+        <div class="inputs">
+    <lightning-combobox
+            label="Select Report"
+            value={reportValue}
+            placeholder="Select Report"
+            options={options}
+            required
+            onchange={handleChange} ></lightning-combobox>
+
+            <template if:true={changeYear}>
+            <lightning-combobox
+            label="Select Financial Year"
+            value={finValue}
+            placeholder="Select Financial Year"
+            options={financeYears}
+            required
+            onchange={handleYearChange} ></lightning-combobox>
+            <!--<span>Financial Year Selected:{finValue}</span>--></template>
+
+            <template if:true={showFinYear}>
+            <lightning-input
+            label="Select Financial Year"
+            onclick={changeFinYear}
+            required
+            value={finValue}>
+        </lightning-input>
+        <!--<a onclick={changeFinYear}>Change Financial Year</a>-->
+        </template>
+            
+
+            <!--min={minDate}  min={minEndDate}-->
+                <lightning-input
+                    label="Start date"
+                    type="date"
+                    value={startDate}
+                    onchange={startChange}
+                >
+                </lightning-input>
+
+                <lightning-input
+                    label="End date"
+                    type="date"
+                    value={endDate}
+                    onchange={endChange}
+                >
+                </lightning-input>
+                <div class="slds-grid slds-grid_align-end slds-p-around_medium">
+                    <div class="btnSubmit">
+                    <lightning-button variant="brand" label="Submit" title="Submit" onclick={onSubmit} ></lightning-button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+</template>

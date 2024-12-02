@@ -76,4 +76,9 @@
         <default>false</default>
         <label>Wellness Email</label>
     </standardValue>
+    <standardValue>
+        <fullName>ABML Email</fullName>
+        <default>false</default>
+        <label>ABML Email</label>
+    </standardValue>
 </StandardValueSet>

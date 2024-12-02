@@ -97,6 +97,10 @@
             <fullName>Wellness</fullName>
             <default>false</default>
         </values>
+		<values>
+            <fullName>ABML</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>
@@ -991,10 +995,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -1028,6 +1028,10 @@
         </values>
         <values>
             <fullName>Wellness Email</fullName>
+            <default>false</default>
+        </values>
+		<values>
+            <fullName>ABML Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1372,10 +1376,6 @@
         </values>
         <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insufficient%2FIncomplete details from Ops%2FCustomer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1760,7 +1760,7 @@
             <fullName>Chatbot</fullName>
             <default>false</default>
         </values>
-        <values>
+                <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
@@ -1833,6 +1833,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Letters</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>IVR-Bot</fullName>
             <default>false</default>
         </values>
@@ -1893,7 +1897,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Letters</fullName>
+            <fullName>Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter %2F Snail Mail</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1942,6 +1950,10 @@
         </values>
         <values>
             <fullName>Outbound call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2058,10 +2070,6 @@
         </values>
         <values>
             <fullName>Branch walk in</fullName>
-            <default>false</default>
-        </values>
-         <values>
-            <fullName>Seller_Portal</fullName>
             <default>false</default>
         </values>
     </picklistValues>
