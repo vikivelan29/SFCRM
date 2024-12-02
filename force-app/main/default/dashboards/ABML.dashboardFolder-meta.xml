@@ -2,7 +2,7 @@
 <DashboardFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
         <accessLevel>Manage</accessLevel>
-        <sharedTo>abhijeet.ambwade@in.ey.com</sharedTo>
+        <sharedTo>abhijeet.ambwade-v@adityabirlacapital.com</sharedTo>
         <sharedToType>User</sharedToType>
     </folderShares>
     <folderShares>
