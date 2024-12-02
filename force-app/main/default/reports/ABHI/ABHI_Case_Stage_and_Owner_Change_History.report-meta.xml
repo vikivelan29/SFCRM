@@ -22,7 +22,7 @@
         <field>Case$ABHI_Case_Detail__c.Concern__c</field>
     </columns>
     <columns>
-        <field>Case$ABHI_Case_Detail__c.Final_Resolution_Remark__c</field>
+        <field>Case$ABHI_Case_Detail__c.Resolution_Comments__c</field>
     </columns>
     <columns>
         <field>Case$ClosedDate</field>

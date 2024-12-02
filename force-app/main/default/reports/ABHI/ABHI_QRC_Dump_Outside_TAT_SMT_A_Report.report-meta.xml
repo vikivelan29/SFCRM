@@ -111,6 +111,9 @@
         <field>Case$Overall_Case_Closure_SLA__c</field>
     </columns>
     <columns>
+        <field>Case$Stage__c</field>
+    </columns>
+    <columns>
         <field>Case$Stage_SLA_3__c</field>
     </columns>
     <columns>

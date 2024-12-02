@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Interaction</fullName>
@@ -79,6 +80,10 @@
         </values>
         <values>
             <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
+		<values>
+            <fullName>ABML</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1009,6 +1014,10 @@
             <fullName>Wellness Email</fullName>
             <default>false</default>
         </values>
+		 <values>
+            <fullName>ABML Email</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
@@ -1070,6 +1079,18 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Cancellation and refund%3A Bank Details are required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancellation and refund%3A KYC Documents are required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancellation and refund%3A a cancelled cheque is required</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Cancellation and refund%3A we need the transaction details</fullName>
             <default>false</default>
         </values>
@@ -1094,7 +1115,23 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Claim%3A the concern is raised for review</fullName>
+            <fullName>Claim%3A proof of delivery is required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A the bills could not be found</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A the documents cannot be traced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A the policy has been cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A the shared document is unclear</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1106,6 +1143,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Claim%3A we stand by our prior decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim%3A we were unable to contact you</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Closed as Exception</fullName>
             <default>false</default>
         </values>
@@ -1114,11 +1159,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Counter offer%3A Medical Documents are required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Counter offer%3A the document needs a password</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Counter offer%3A the shared document is unclear</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Counter offer%3A we received incomplete documents</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Counter offer%3A we stand by our prior decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Not Contactable</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1130,7 +1195,47 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Digital%3A the call was declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital%3A the call went unanswered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital%3A the steps were added manually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital%3A we were unable to contact you</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital%3A your phone was switched off</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Empanelment%2Ffeedback%3A we were unable to contact you</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A a valid Age Proof is required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A a valid ID Proof is required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A an Address Proof is required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A an affidavit is required</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1138,11 +1243,39 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Endorsement%3A the document needs a password</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Endorsement%3A the minimum age for adding a member is 5 yrs</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Endorsement%3A the policy has been cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A the policy is no longer active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A the shared document is unclear</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A valid documents are required</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Endorsement%3A we need a Proposal Form as per the plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A we need a filled Proposal Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endorsement%3A we need additional documents</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1155,6 +1288,22 @@
         </values>
         <values>
             <fullName>Endorsement%3A your members consent is unclear</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grievance%3A the call was declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grievance%3A the call went unanswered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grievance%3A we were unable to contact you</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Grievance%3A your phone was switched off</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1178,7 +1327,39 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Health return%3A the call was declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A the call went unanswered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A the steps were added manually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A we were unable to contact you</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Health return%3A your medical check-up is pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health return%3A your phone was switched off</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Customer tagging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect SubType tagging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insufficient incomplete details from customer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1194,7 +1375,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Medical check-up%3A home visits are not available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical check-up%3A the Member was not available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical check-up%3A we were unable to contact you</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Medical check-up%3A your preferred Diagnostic Center is unavailable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical decision%3A Medical Documents are required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical decision%3A the document needs a password</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical decision%3A the shared document is unclear</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1202,7 +1407,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Other</fullName>
+            <fullName>Medical decision%3A we stand by our prior decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Out of Scope Request</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1218,7 +1431,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Policy Document%3A Address Details are required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy Document%3A the shared document is unclear</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Policy Document%3A we need the transaction details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy issuance%3A the shared document is unclear</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1234,7 +1459,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Renewal%3A Auto Debit is Inactive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal%3A DND is already activated</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Renewal%3A it doesn%27t meet the policy T%26C%27s</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal%3A the shared document is unclear</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal%3A we cannot trace the policy</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1246,7 +1487,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Renewal%3A we were unable to contact you</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reports%3A we cannot trace the reports</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Reports%3A we need your appointment details</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAT%3A the call was declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAT%3A the call went unanswered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAT%3A we were unable to reach you</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAT%3A your phone was switched off</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1457,6 +1722,10 @@
         </values>
         <values>
             <fullName>ATS</fullName>
+            <default>false</default>
+        </values>
+		<values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
     </picklistValues>

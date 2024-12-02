@@ -308,12 +308,12 @@ public with sharing class ABHI_AttendedIGMSComplaintIntegration implements ASF_I
     }
     /**
     @description IGMS Attended Case Class to follow through Response Body JSON
-    */
+   
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
     public class AttendedComplaintResponseWrapper {
         public String ReturnMessage { get; set; }
         public String ReturnCode { get; set; }
         public String IRDA_TOKEN_NUMBER { get; set; }
         public String ENTITY_COMPLAINT_REF_NUMBER { get; set; }
-    }
+    } */
 }

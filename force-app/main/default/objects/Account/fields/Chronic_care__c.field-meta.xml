@@ -3,7 +3,7 @@
     <fullName>Chronic_care__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Chronic_care</label>
+    <label>Chronic Care</label>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Checkbox</type>
 </CustomField>

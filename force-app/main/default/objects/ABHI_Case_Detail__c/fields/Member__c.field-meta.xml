@@ -3,6 +3,7 @@
     <fullName>Member__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>Please enter CM- to view list of available Members</inlineHelpText>
     <label>Member</label>
     <lookupFilter>
         <active>true</active>

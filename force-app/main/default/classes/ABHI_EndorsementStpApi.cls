@@ -15,50 +15,70 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs) {
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> resultMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         List<Case> caseRecords = new List<Case>();
+        Set<String> subTypeTextSet = new Set<String>();
         for (Case caseRec : caseRecs) {
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
+        for (case csRec: caseRecords ){
+        	subTypeTextSet.add(csRec.Sub_Type_Text__c);   
+        }
+         //String subTypeTextString = String.join(subTypeTextSet, ', ');
+         Map<String, ABHI_Endorsement_API__mdt> customMetaMap = new Map<String, ABHI_Endorsement_API__mdt>();
+        for (ABHI_Endorsement_API__mdt metaRecord : [SELECT MasterLabel, Id, Mandatory_Fields__c FROM ABHI_Endorsement_API__mdt WHERE MasterLabel IN :subTypeTextSet]) {
+    		customMetaMap.put(metaRecord.MasterLabel, metaRecord);
+		}
+        system.debug('customMeta1---->'+customMetaMap.keyset());
         for (Case caseRecord : caseRecords) {
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
             result.status = ABHI_Constants.ERROR;
-            String errorMessage = 'Please update the mandatory fields first';
             boolean bErrorOccured = false;
-            List<ABHI_Endorsement_API__mdt> customMetaList = [SELECT ID, Mandatory_Fields__c FROM ABHI_Endorsement_API__mdt WHERE MasterLabel = :caseRecord.Sub_Type_Text__c LIMIT 1]; 
-            system.debug('customMeta---->'+customMetaList); 
-            if(!customMetaList.isEmpty() && caseRecord.Technical_Source__c == 'LWC') {
-                String strMandatFields = customMetaList[0].Mandatory_Fields__c ;
-                List<String> mandatoryFields = strMandatFields.split(',');
-                for (String field : mandatoryFields) {
-                field = field.trim(); 
-                if (field.containsIgnoreCase('__r')) {
-                        Integer index = field.lastIndexOf('__r');
-                        String baseField = field.substring(index + 4).trim(); 
-                        System.debug('baseField---->' + baseField); 
-                        ABHI_Case_Detail__c caseDetail = caseRecord.ABHI_Case_Detail__r;
-                        if (caseDetail == null || caseDetail.get(baseField) == null) {
-                            bErrorOccured = true;
+            String errorMessage =''; 
+            system.debug('subtype---->'+caseRecord.Sub_Type_Text__c); 
+            	if(!customMetaMap.isEmpty()){
+		        	ABHI_Endorsement_API__mdt customMetaRecord = customMetaMap.get(caseRecord.Sub_Type_Text__c);
+                       system.debug('customMetaass---->'+ customMetaRecord.Mandatory_Fields__c ); 
+                        if(customMetaRecord !=null && caseRecord.Technical_Source__c == 'LWC' && caseRecord.AssetId != null ) {
+                            String strMandatFields = customMetaRecord.Mandatory_Fields__c ; 
+                            if(strMandatFields.contains('ABHI_Case_Detail__r.Member__c')){
+                                 errorMessage = 'Please update the Member field and other required fields if any and save';   
+                            }
+                            else{
+                                 errorMessage = 'Please update the Existing Nominee Name Selection field and other required fields if any and save';     
+                            }
+                            List<String> mandatoryFields = strMandatFields.split(',');
+                            for (String field : mandatoryFields) {
+                            field = field.trim(); 
+                            if (field.containsIgnoreCase('__r')) {
+                                    Integer index = field.lastIndexOf('__r');
+                                    String baseField = field.substring(index + 4).trim(); 
+                                    System.debug('baseField---->' + baseField); 
+                                    ABHI_Case_Detail__c caseDetail = caseRecord.ABHI_Case_Detail__r;
+                                    if (caseDetail == null || caseDetail.get(baseField) == null) {
+                                        bErrorOccured = true;
+                                    }
+                                } 
+                                else {
+                                    if (caseRecord.get(field) == null) {
+                                        bErrorOccured = true;
+                                    }
+                                }
+                            }
+                        }         
+                        if(bErrorOccured){
+                            errorMessage = errorMessage.removeEnd(', ');
+                            result.response = errorMessage;
+                            resultMap.put(caseRecord.Id, result);
+                        } 
+                        else{
+                            result.status = ABHI_Constants.SUCCESS;
+                            result.response = 'Evaluation Success';
                         }
-                    } 
-                    else {
-                        if (caseRecord.get(field) == null) {
-                            bErrorOccured = true;
-                        }
-                    }
+                        resultMap.put(caseRecord.Id, result);
                 }
-            }         
-            if(bErrorOccured){
-                errorMessage = errorMessage.removeEnd(', ');
-                result.response = errorMessage;
-                resultMap.put(caseRecord.Id, result);
-            } 
-            else{
-                result.status = ABHI_Constants.SUCCESS;
-                result.response = 'Evaluation Success';
             }
-            resultMap.put(caseRecord.Id, result);
-        }
-        system.debug('resultMap---->'+resultMap);
-        return resultMap;
+            system.debug('resultMap---->'+resultMap);
+            return resultMap;
+        
     }
 
     /**
@@ -237,6 +257,8 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
                 EndorsementResponse jsonMap = (EndorsementResponse) JSON.deserialize(caseInteg.Response__c,EndorsementResponse.class);
                 List<sObject> dmlRecords = new List<sObject>();
                 String inWardnumber = jsonMap.Response.InwardNumber;
+                            System.debug('@@@inWardnumber' +inWardnumber);
+
                 if(caseRecord.ABHI_Case_Detail__c != null){
                     ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
                     if(!string.isEmpty(inWardnumber)){
@@ -245,7 +267,7 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
                     dmlRecords.add(caseExt);
                     caseRecord.Stage__c = 'Resolved';
                     dmlRecords.add(caseRecord);
-                    Database.SaveResult[] results = Database.update(dmlRecords, true);
+                    Database.SaveResult[] results = Database.update(dmlRecords, false);
                 }
             }
              else if (caseInteg.Status__c == ABHI_Constants.FAILURE) {

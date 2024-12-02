@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Team__c</fullName>
-    <externalId>false</externalId>
     <label>Email Team</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -79,6 +78,16 @@
                 <fullName>Care</fullName>
                 <default>false</default>
                 <label>Care</label>
+            </value>
+            <value>
+                <fullName>ABHI Team 1</fullName>
+                <default>false</default>
+                <label>ABHI Team 1</label>
+            </value>
+            <value>
+                <fullName>ABML</fullName>
+                <default>false</default>
+                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>

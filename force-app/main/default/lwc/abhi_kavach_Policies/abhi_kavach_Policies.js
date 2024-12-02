@@ -19,17 +19,14 @@ export default class Abhi_kavach_Policies extends LightningElement {
     displayTable = false;
     displayError = false;
     isLoading = false;
-    selectedAsset;
-    leagcyCaseData;
-    startDate;
-    endDate;
     loaded = false;
     disabled = false;
     disabledSearch = true;
     //data;
     @track data = [];
     selectedOption;
-    selectedSystem;
+    selectedSystem = 'Jarvis';
+    targetSysOptions;
     columns;
     errorMessage;
    
@@ -65,9 +62,22 @@ export default class Abhi_kavach_Policies extends LightningElement {
                 ];
             })
             .catch(error => {
-                // todo: remove hardcoding
                 this.showNotification('Error','Error fetching data.','Error');
             });
+
+            getColumns({configName:'ABHI_Kavach_Policy_Systems'})
+            .then(result => {
+                    console.log('**rec2>'+JSON.stringify(result));
+                    this.targetSysOptions = [
+                        ...result.map(col => ({
+                            label: col.MasterLabel,
+                            value: col.MasterLabel
+                        })),
+                    ];
+                })
+                .catch(error => {
+                    this.showNotification('Error','Error fetching data.','Error');
+                });    
     }
 
     fetchExistingData() {
@@ -76,12 +86,12 @@ export default class Abhi_kavach_Policies extends LightningElement {
         this.data=[];
         this.displayTable = false;
         this.searchPolicy = this.template.querySelector('lightning-input[data-name="policy"]').value;
-        this.searchMasterPolicy = this.template.querySelector('lightning-input[data-name="masterpolicy"]').value;
-        console.log('Result1 ==> ', this.searchMasterPolicy);
-        if(this.searchPolicy || this.searchMasterPolicy) {
+       /* this.searchMasterPolicy = this.template.querySelector('lightning-input[data-name="masterpolicy"]').value;
+        console.log('Result1 ==> ', this.searchMasterPolicy);*/
+        if(this.searchPolicy /*|| this.searchMasterPolicy*/) {
             //this.disabled = true;
             this.isLoading = true;
-            getPolicyData({policyNo: this.searchPolicy, masterPolicyNo : this.searchMasterPolicy}).then(result=>{
+            getPolicyData({policyNo: this.searchPolicy}).then(result=>{
                 this.data = result;
                 if(this.data.length > 0) {
                     this.displayTable = true;
@@ -112,7 +122,7 @@ export default class Abhi_kavach_Policies extends LightningElement {
     getPolicyDetails(){
         this.isLoading = true;
         console.log('Result1 @@ ==> '+ this.searchPolicy);
-        getPolicyExternalData({policyNo: this.searchPolicy, masterPolicyNo : this.searchMasterPolicy}).then(result=>{
+        getPolicyExternalData({policyNo: this.searchPolicy, selectedSystem : this.selectedSystem}).then(result=>{
            this.data = result;
            if(this.data.length > 0) {
                this.displayTable = true;
@@ -135,10 +145,8 @@ export default class Abhi_kavach_Policies extends LightningElement {
        })
     }
     handleChange(event) {
-
-        this.selectedOption = event.detail.value;
-        console.log('this.v'+JSON.stringify(event.detail));
-     }
+        this.disabledSearch = true;
+    }
     handleChangeTargetSys(event) {
         this.selectedSystem = event.detail.value;
     }
@@ -152,14 +160,14 @@ export default class Abhi_kavach_Policies extends LightningElement {
 
         ];
     }
-    get targetSysOptions() {
+   /* get targetSysOptions() {
         return [
             { label: 'Kavach', value: 'Kavach' },
             { label: 'Jarvis', value: 'Jarvis' },
 
         ];
-    }
-
+    }*/
+    
     showNotification(title, message, variant) {
         const evt = new ShowToastEvent({
             title: title,

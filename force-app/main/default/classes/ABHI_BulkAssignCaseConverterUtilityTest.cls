@@ -1,5 +1,24 @@
+/**
+* @File Name : ABHI_BulkAssignCaseConverterUtilityTest.cls
+* @Description : Test Class for ABHI_BulkAssignCaseConverterUtility
+* @Author : Salesforce
+* @Last Modified By : Aditya Jawadekar
+* @Last Modified On : October 12, 2024
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | October 12, 2024 | Aditya Jawadekar  | Initial Version
+**/
+@SuppressWarnings('PMD.ApexSOQLInjection,PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
 @isTest
 public class ABHI_BulkAssignCaseConverterUtilityTest {
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - setupTestData
+    * @description - This method will be used to create testdata setup
+    *****************************************************************************************************************/
     @testSetup
     static void setupTestData(){
         List<sObject> ls = Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
@@ -21,6 +40,12 @@ public class ABHI_BulkAssignCaseConverterUtilityTest {
         caseRec.ABSLI_Case_Detail__c = [Select Id from ABSLI_Case_Detail__c LIMIT 1].Id;
         update caseRec;
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRows
+    * @description - Test method to test convertJSONRows - Happy path
+    *****************************************************************************************************************/
     @IsTest
     static void testconvertJSONRows(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -37,10 +62,16 @@ public class ABHI_BulkAssignCaseConverterUtilityTest {
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","New Owner":"'+newOwner+'", "Internal comments":"Owner change"}');
         ABHI_BulkAssignCaseConverterUtility utility = new ABHI_BulkAssignCaseConverterUtility();
         Test.startTest();
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
     
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testconvertJSONRowsResolved
+    * @description - Test method to test convertJSONRows - multiple scenarios check
+    *****************************************************************************************************************/
     @IsTest
     static void testconvertJSONRowsResolved(){
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
@@ -67,20 +98,35 @@ public class ABHI_BulkAssignCaseConverterUtilityTest {
         caserec.status = 'Resolved';
         update caserec;
         jsonRows.put(lineitem.Id, '{"Case number":"'+caserec.CaseNumber+'","New Owner":"newOwner", "Internal comments":"Owner change"}');
-        utility.convertJSONRows(jsonRows);
+        ASF_BulkCaseProcessorUtility.ConvertionResult objRes = utility.convertJSONRows(jsonRows);
+        System.assert(objRes != null, 'Bulk JSON is null');
         Test.stopTest();
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testprepareDownloadTemplate
+    * @description - Test method to test prepareDownloadTemplate
+    *****************************************************************************************************************/
     @IsTest
     static void testprepareDownloadTemplate() {        
         List<String> columnNames = new List<String>{'Case number','New Owner', 'Internal comments'};
             Case caserec = [Select Id from Case LIMIT 1];
         Test.startTest();
         ABHI_BulkAssignCaseConverterUtility utility = new ABHI_BulkAssignCaseConverterUtility();
-        utility.prepareDownloadTemplate(columnNames, 'Case', null, new List<String>{caserec.Id});
-        utility.prepareCtstData(new List<String>{'Id'},'ABSLI');
+        List<Map<String,String>> lstRes = utility.prepareDownloadTemplate(columnNames, 'Case', null, new List<String>{caserec.Id});
+        System.assert(!lstRes.isEmpty(), 'List records for template download is null');
+        List<Map<String,String>> lstResPctst = utility.prepareCtstData(new List<String>{'Id'},'ABSLI');
+        System.assert(lstResPctst.isEmpty(), 'List records for ctst download is not null');
         Test.stopTest();
         
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testprepareDownloadTemplate2
+    * @description - Test method to test prepareCtstData
+    *****************************************************************************************************************/
     @IsTest
     static void testprepareDownloadTemplate2() {        
         List<String> columnNames = new List<String>{'Case number','New Owner', 'Internal comments'};
@@ -88,8 +134,10 @@ public class ABHI_BulkAssignCaseConverterUtilityTest {
         Test.setMock(HttpCalloutMock.class, new ASF_ListViewAPIMock());
         Test.startTest();
         ABHI_BulkAssignCaseConverterUtility utility = new ABHI_BulkAssignCaseConverterUtility();
-        utility.prepareDownloadTemplate(columnNames, 'Case', lv.Id, null);
-        utility.prepareCtstData(new List<String>(), '');
+        List<Map<String,String>> lstResPdt = utility.prepareDownloadTemplate(columnNames, 'Case', lv.Id, null);
+        List<Map<String,String>> lstResPctst = utility.prepareCtstData(new List<String>(), '');
+        System.assert(!lstResPdt.isEmpty(), 'List records for template download is null');
+        System.assert(lstResPctst.isEmpty(), 'List records for ctst download is not null');
         Test.stopTest();
         
     }

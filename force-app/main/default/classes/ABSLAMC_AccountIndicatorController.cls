@@ -61,7 +61,7 @@ public class ABSLAMC_AccountIndicatorController {
         }
         
         System.debug('CaseMap: '+stageToCaseMap);
-        return stageToCaseMap;
+        return stageToCaseMap.isEmpty() ? new Map<String, List<Case>>() : stageToCaseMap;
     }
     
         
@@ -74,10 +74,10 @@ public class ABSLAMC_AccountIndicatorController {
     public static Map<String, String> getLatestNPSData(String accId) {
         Map<String, String> resultMap = new Map<String, String>();
         
-        Survey_Response__c surveyResp = [SELECT Id, Primary_Question_NPS__c, Responded_on__c, Case__r.Source__c
+        Survey_Response__c surveyResp = [SELECT Id, Primary_Question_NPS__c, Responded_on__c, Journey__c
                                          FROM Survey_Response__c 
                                          WHERE Client_Code__c = :accId 
-                                         AND Case__c != NULL 
+                                        
                                          ORDER BY Responded_on__c DESC LIMIT 1];
         
         if (surveyResp != null) {
@@ -89,12 +89,12 @@ public class ABSLAMC_AccountIndicatorController {
                 resultMap.put('Score', String.valueOf(surveyResp.Primary_Question_NPS__c));
             }
             
-            if (surveyResp.Case__r != null && surveyResp.Case__r.Source__c != null && surveyResp.Case__r.Source__c != '') {
-                resultMap.put('Source', String.valueOf(surveyResp.Case__r.Source__c));
+            if (surveyResp.Journey__c != null && surveyResp.Journey__c != '') {
+                resultMap.put('Journey', String.valueOf(surveyResp.Journey__c));
             }
         }
         
-        return resultMap;
+        return resultMap.isEmpty() ? new Map<String, String>() : resultMap;
     }
     
 }

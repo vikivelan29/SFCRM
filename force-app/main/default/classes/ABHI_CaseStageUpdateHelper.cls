@@ -5,12 +5,17 @@
  *Last Modified:  15/10/2024
  *@description :  This class is used as trigger helper class.
  ***************************************/
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.NcssTypeCount')
 public with sharing class ABHI_CaseStageUpdateHelper {
-    public static void MoveToStageMethod(
+     /**********
+     Method Name - MoveToStageMethod
+     @description :  Method to update MoveToNext__c on required conditions.
+     ***********/
+    public static void moveToStageMethod(
         List<Case> newCases,
         List<Case> oldCases
     ) {
-        Boolean STPcheck;
+        Boolean stpCheck;
         Set<String> cccExternalIds = new Set<String>();
         for (Case newCase : newCases) {
             if(newCase.CCC_External_Id__c != null && newCase.Rejection_Reason__c==null) {
@@ -31,11 +36,7 @@ public with sharing class ABHI_CaseStageUpdateHelper {
                         FROM Case_Stage_Configs__r
                     )
                 FROM ASF_Case_Category_Config__c
-                WHERE
-                    CCC_External_Id__c IN :cccExternalIds
-                    AND Is_STP__c = FALSE
-            ]
-        );
+                WHERE CCC_External_Id__c IN :cccExternalIds AND Is_STP__c = True AND Save_to_Next_Stage__c = True AND Nature__c = 'Request']);
 
         Map<String, ASF_Case_Category_Config__c> configMapByExternalId = new Map<String, ASF_Case_Category_Config__c>();
         for (ASF_Case_Category_Config__c config : caseConfigMap.values()) {
@@ -62,52 +63,33 @@ public with sharing class ABHI_CaseStageUpdateHelper {
                 //continue; // Skip processing this case if above condtions met.
                 return; // Skip processing if the field has changed
             }
-            Integer orderValue = 0;
-            String StageName;
+            //Integer orderValue = 0;
+            //String stageName;
             if (newCase.CCC_External_Id__c != null) {
-                if (
-                    configMapByExternalId.containsKey(
-                        newCase.CCC_External_Id__c
-                    )
-                ) {
-                    ASF_Case_Category_Config__c config = configMapByExternalId.get(
-                        newCase.CCC_External_Id__c
-                    );
-                    Decimal overallSLA = config.Overall_Case_Closure_SLA__c;
-                    String Nature = config.Nature__c;
-                    STPcheck = config.Is_STP__c;
-                    System.debug('Overall SLA: ' + overallSLA);
-                    if (!config.Case_Stage_Configs__r.isEmpty()) {
-                        orderValue = (Integer) config.Case_Stage_Configs__r[0]
-                            .Order__c;
-                        StageName = config.Case_Stage_Configs__r[0]
-                            .StageName__c;
-                    }
+                ASF_Case_Category_Config__c config = configMapByExternalId.get(newCase.CCC_External_Id__c);
+                if (config == null || config.Case_Stage_Configs__r.isEmpty()) {
+                    return; // Skip if no config found
+                }
+
+                Integer orderValue = (Integer) config.Case_Stage_Configs__r[0].Order__c;
+                String stageName = config.Case_Stage_Configs__r[0].StageName__c;
+                String nature = config.Nature__c;
+
                     // Check for specific condition When stage move from  Previous Stage.
                     if ((oldCase.Previous_Stage__c == 'In Progress'|| oldCase.Previous_Stage__c =='Underwriting (In-Progress)'||oldCase.Previous_Stage__c =='Endorsement (In-Progress)') && 
-                        newCase.Stage__c == 'Open' && Nature == 'Request') {
+                        newCase.Stage__c == 'Open' && nature == 'Request') {
                         newCase.MoveToNext__c = true;
                        }
                     if (
-                        Nature == 'Request' &&
+                        nature == 'Request' &&
                         orderValue == 1 &&
-                        newCase.Stage__c == StageName &&
+                        newCase.Stage__c == stageName &&
                         newCase.moved_back__c == false
                     ) {
                         newCase.MoveToNext__c = true;
-                        system.debug(
-                            'MoveToNext__c----->' + newCase.MoveToNext__c
-                        );
                         
-                    } else {
-                        System.debug(
-                            'MoveToNext__c condition not met for case ' +
-                            newCase.Id
-                        );
                     }
                 }
             }
         }
-        //update newCases;
     }
-}

@@ -42,13 +42,14 @@ public class ASF_CaseTriggerBUSpecificHandler {
                             PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI(mapOfBUToCases.get(businessUnit));
                         }
                     }
+                    else if(businessUnit == 'ABHI'){
+                        if(Label.ABHI_Case_Dedupe_Active == 'Active'){ // Story No: PR1030924-30
+                            abhiBusLogicHelperObj.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInBeforeInsert');  
+                        }
+                    }      
                 }
                 ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
-                commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));
-                
-                if(Label.ABHI_Case_Dedupe_Active == 'Active'){ // Story No: PR1030924-30
-                    abhiBusLogicHelperObj.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInBeforeInsert');  
-                }
+                commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));               
             }
         }
     }
@@ -159,8 +160,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_BU_CTSTHelper.restrictBackStageMovementFromStage3ToSatage1(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_BU_CTSTHelper.validateManualApproval(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
-                    ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue 
-                    ABSLAMC_BU_CTSTHelper.checkAMCResolutionComments((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); 
+                    ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue                
                 }
                 else if(businessUnit == 'ABHI'){
                     ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
@@ -225,6 +225,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 else if(businessUnit == 'ABSLAMC'){
                     ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFields(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>) oldItems);
                     ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFieldsForCams(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>) oldItems);
+                    ABSLAMC_BU_CTSTHelper.checkAMCResolutionComments((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); 
                 }
                 else if(businessUnit == 'Wellness'){
                     //PR1030924-219: calculate Billable Time on Case

@@ -51,9 +51,9 @@ public class ABSLAMC_BulkAssignCaseConverterUtility implements ASF_BulkCSVToReco
         }
         for(Id lineItemId : rows.keySet()){
             Map<String, String> keyValueMap = rows.get(lineItemId);
-            String caseNumber = String.isNotBlank(keyValueMap.get('Case Number'))?keyValueMap.get('Case Number').trim():keyValueMap.get('Case Number');
-            String ownerTeam = String.isNotBlank(keyValueMap.get('Owner Team'))?keyValueMap.get('Owner Team').trim():keyValueMap.get('Owner Team');
-            String ownerAdId = String.isNotBlank(keyValueMap.get('Owner AD ID'))?keyValueMap.get('Owner AD ID').trim():keyValueMap.get('Owner AD ID');
+            String caseNumber = String.isNotBlank(keyValueMap.get('Case Number'))?keyValueMap.get('Case Number').trim(): '';
+            String ownerTeam = String.isNotBlank(keyValueMap.get('Owner Team'))?keyValueMap.get('Owner Team').trim(): '';
+            String ownerAdId = String.isNotBlank(keyValueMap.get('Owner AD ID'))?keyValueMap.get('Owner AD ID').trim():'';
             
             if(caseNumber == null || caseNumber.trim() == ''){
                 keyValueMap.put('Result', 'FAILURE');

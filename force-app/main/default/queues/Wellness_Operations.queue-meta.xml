@@ -7,10 +7,8 @@
         <publicGroups>
             <publicGroup>Wellness_Operations_G</publicGroup>
         </publicGroups>
-        <users>
-    
-        </users>
     </queueMembers>
+    <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

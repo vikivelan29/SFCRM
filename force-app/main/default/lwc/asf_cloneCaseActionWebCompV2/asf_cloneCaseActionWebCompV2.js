@@ -31,6 +31,8 @@ import ACCOUNT_NAME from "@salesforce/schema/Case.Account.Id";
 import ASSET_NAME from "@salesforce/schema/Case.Asset.Id";
 import BUSINESS_UNIT from "@salesforce/schema/Case.Business_Unit__c";
 import ASSET_ID from "@salesforce/schema/Customer_Member_Mapping__c.Policy_Number__c";
+import CLIENT_CODE from "@salesforce/schema/Customer_Member_Mapping__c.MemberId__r.Client_Code__c";
+import SELECTED_ACCOUNT_ID from "@salesforce/schema/Customer_Member_Mapping__c.MemberId__c";
 
 export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(LightningElement) {
     /* API variables */
@@ -49,6 +51,8 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     cmRecordId;
     newAssetSelected = 'NA';
     caseBusinessUnit = '';
+    selectedClientCode = '';
+    selectedAccountId = '';
     matchingInfo = {
         primaryField: { fieldPath: "Name" },
         additionalFields: [{ fieldPath: "LAN__c"}],
@@ -63,7 +67,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     };
 
     displayInfoCm = {
-        additionalFields: ["Client_Id__r.Client_Code__c"]
+        additionalFields: ["MemberId__r.Client_Code__c"]
     };
 
     get showCustomerMember(){
@@ -80,11 +84,12 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
         this.template.querySelector(".cmPicker").reportValidity();
     }
 
-    @wire(getRecord, { recordId: "$cmRecordId", fields: [ASSET_ID] })
+    @wire(getRecord, { recordId: "$cmRecordId", fields: [ASSET_ID,CLIENT_CODE,SELECTED_ACCOUNT_ID] })
     user({ error, data}) {
         if (data){
            this.newAssetSelected = data.fields.Policy_Number__c.value;
-           console.log('new asset--'+this.newAssetSelected);
+           this.selectedClientCode = data.fields.MemberId__r.value.fields.Client_Code__c.value;
+           this.selectedAccountId = data.fields.MemberId__c.value;
         } else if (error){
             console.log('error in get CM record--'+JSON.stringify(error));
         }
@@ -268,7 +273,12 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             this.closeAction();
             return;
         }
+        const inpArg = new Map();
 
+        inpArg['clientCode'] = this.selectedClientCode;
+        inpArg['memberId'] = this.selectedAccountId;
+
+        let strInpArg = JSON.stringify(inpArg);
 
         try {
             //insert the clone records
@@ -276,7 +286,8 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                 cloneCaseRecord: clonedCaseRecord,
                 clonedCaseExtnRecords : clonedCaseExtnRecords,
                 originalCaseId : this.recordId,
-                assetId : this.newAssetSelected 
+                assetId : this.newAssetSelected,
+                inpArg : strInpArg
 
             });
             console.log('Cloned case id ', caseResult.caseRecord.Id);

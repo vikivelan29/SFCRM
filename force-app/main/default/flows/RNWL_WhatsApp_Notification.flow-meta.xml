@@ -134,6 +134,28 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Is_CRM_In_House_Disposition</name>
+        <label>Is CRM In House Disposition</label>
+        <locationX>898</locationX>
+        <locationY>299</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Check_Calling_Source</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Renewal_Request__r.Calling_Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CRM (In-House)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>decide_Template</targetReference>
+            </connector>
+            <label>Check Calling Source</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>isPELoggerNeeded</name>
         <label>isPELoggerNeeded</label>
         <locationX>643</locationX>
@@ -369,13 +391,13 @@ AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message und
         <locationX>401</locationX>
         <locationY>48</locationY>
         <connector>
-            <targetReference>decide_Template</targetReference>
+            <targetReference>Is_CRM_In_House_Disposition</targetReference>
         </connector>
         <object>Dispositions__c</object>
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>existingPELoggerForMetadata</name>
         <dataType>Number</dataType>

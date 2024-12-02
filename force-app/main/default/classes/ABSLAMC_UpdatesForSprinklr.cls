@@ -47,7 +47,7 @@ public with sharing class ABSLAMC_UpdatesForSprinklr implements ASF_IntegrationI
     
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
       ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-      if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && caseRec.Source__c == 'Social Media' && String.isNotBlank(caseRec.Sprinklr_Case_Reference_Number__c))
+      if(caseRec.Source__c == 'Social Media' && String.isNotBlank(caseRec.Sprinklr_Case_Reference_Number__c))
         {
           result.status = 'Success';
           result.response = 'Sprinklr API submitted successfully';            

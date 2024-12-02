@@ -948,14 +948,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
-        <value>ABFL,ABSLI</value>
+        <value>ABFL,ABSLI,ABHI</value>
     </labels>
     <labels>
         <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABSLAMC Email</value>
+        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABHI Email,ABSLAMC Email</value>
     </labels>
     <labels>
         <fullName>ABSLI_EBOT_EMAIL_INDICATOR_MESSAGE</fullName>
@@ -1587,7 +1587,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_UbonaCampaignId</shortDescription>
-        <value>85008514</value>
+        <value>40404049</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_SprinklrUpdateSpecificBUs</fullName>
@@ -1617,12 +1617,13 @@
         <shortDescription>RNWL_PageLink</shortDescription>
         <value>http://bit.ly/ABHRENEW</value>
     </labels>
+   
     <labels>
-        <fullName>BU_Restrict_email</fullName>
+        <fullName>ABHI_Case_Restriction_Creation</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>BU Restrict email</shortDescription>
-        <value>ABHI</value>
+        <shortDescription>ABHI Case Restriction Creation</shortDescription>
+        <value>Source_Based_Case_Creation_Restriction,User_Source_Code_Based_Case_Creation_Restriction</value>
     </labels>
     <labels>
         <fullName>Wellness_Insufficient_Access</fullName>
@@ -1632,24 +1633,110 @@
         <value>insufficient access rights on object id</value>
     </labels>
     <labels>
-        <fullName>RNWL_PageLink</fullName>
+        <fullName>BU_Restrict_email</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>RNWL_PageLink</shortDescription>
-        <value>http://bit.ly/ABHRENEW</value>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI:005:100,ABFL:50:200</value>
     </labels>
     <labels>
-        <fullName>ABCL_BU_for_E2C_Rules</fullName>
+        <fullName>ABHI_Create_Case_Validation_Error_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABCL_BU_for_E2C_Rules</shortDescription>
-        <value>ABFL,ABSLI,ABHI</value>
+        <shortDescription>ABHI Create Case Validation Error 1</shortDescription>
+        <value>Current user is not allowed to create case.</value>
     </labels>
     <labels>
-        <fullName>ABCL_Case_Origin_for_E2C_Rules</fullName>
+        <fullName>MCRM_Legacy_NoResults</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABCL_Case_Origin_for_E2C_Rules</shortDescription>
-        <value>ABSLI Email,ABFL Email,ABFL WM CHAT,ABWM Email,ABHI Email</value>
+        <shortDescription>MCRM_Legacy_NoResults</shortDescription>
+        <value>There is no data present for given inputs.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_Legacy_Search</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_Legacy_Search</shortDescription>
+        <value>Please select Filter, and click on Search to view results.</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation_Error_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation Error 1</shortDescription>
+        <value>Current user is not allowed to create case.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
+        <categories>Wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
+        <value>No records are available for display.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_BU</shortDescription>
+        <value>ABML</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_UserId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_UserId</shortDescription>
+        <value>SFDC_ABHI</value>
+    </labels>
+    <labels>
+        <fullName>ABFL_GenAIIntegration</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABFL_GenAIIntegration</shortDescription>
+        <value>UNFYD</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_CommunicationDailyFreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_CommunicationDailyFreq</shortDescription>
+        <value>You have exceeded the daily limit for sending this notification.</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_CommunicationOverallFreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_CommunicationOverallFreq</shortDescription>
+        <value>You have exceeded the overall limit for sending this notification.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
+        <categories>Wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
+        <value>No records are available for display.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_BU</shortDescription>
+        <value>ABML</value>
     </labels>
 </CustomLabels>

@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Reason__c</field>
-        <value xsi:type="xsd:string">Renewal: it doesn&apos;t meet the policy T&amp;C&apos;s</value>
+        <value xsi:type="xsd:string">Endorsement: your members consent is unclear</value>
     </values>
     <values>
         <field>Type__c</field>

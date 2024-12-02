@@ -523,7 +523,7 @@ public with sharing class ABHI_IGMSIntegrationHelper {
                         wrap.response = Custom_Messages__mdt.getInstance(ABSLI_Constants.ABSLI_IGMSSYNC_FAILURE_MESSAGE)
                             .Message__c;
                         resultMap.put(indexToCaseId.values()[index], wrap);
-                    }
+                    }   
                     index++;
                 } 
             }

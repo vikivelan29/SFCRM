@@ -5,6 +5,7 @@
 *Last Modified:  03/09/2024
 *@description  :  This class is the handler class to abhi_clickPSSCommController
 *********************************************************/
+@SuppressWarnings('PMD.CyclomaticComplexity,PMD.FieldNamingConventions,PMD.VariableNamingConventions,PMD.ExcessivePublicCount')
 public with sharing class ABHI_ClickPSSCommController {
 
     /****************************************************************************************************************
@@ -16,7 +17,7 @@ public with sharing class ABHI_ClickPSSCommController {
     @AuraEnabled(cacheable=true)
     public static List<ABHI_PSSCommunicationConfig__mdt> getMetadata(String objectName){
         try {
-            List<GroupMember> gpList = [SELECT GroupId, UserOrGroupId, Group.DeveloperName from GroupMember where UserOrGroupId =: UserInfo.getUserId()];
+            List<GroupMember> gpList = [SELECT GroupId, UserOrGroupId, Group.DeveloperName from GroupMember where UserOrGroupId =: UserInfo.getUserId() WITH SYSTEM_MODE];
             List<ABHI_PSSCommunicationConfig__mdt> pssCommList = new List<ABHI_PSSCommunicationConfig__mdt>();
             if(gpList.size()>0){
                 Set<String> groupNameSet = new Set<String>();
@@ -24,8 +25,9 @@ public with sharing class ABHI_ClickPSSCommController {
                     groupNameSet.add(gp.Group.DeveloperName);
                 }
                 pssCommList = [SELECT Allowed_PS_Public_Group__c, CommunicationType__c, Entity__c,
-                                                                    TemplateId__c, TemplateName__c, IsUserAllowed__c, Email_Field__c, Alert_Code__c, Phone_Field__c from ABHI_PSSCommunicationConfig__mdt where Entity__c =: objectName AND Allowed_PS_Public_Group__c IN: groupNameSet]; 
+                                                                    TemplateId__c, TemplateName__c, IsUserAllowed__c, Email_Field__c, Alert_Code__c, Phone_Field__c from ABHI_PSSCommunicationConfig__mdt where Entity__c =: objectName AND Allowed_PS_Public_Group__c IN: groupNameSet WITH SYSTEM_MODE]; 
             }
+            
             return  pssCommList; 
                
         } catch (Exception e) {
@@ -36,7 +38,9 @@ public with sharing class ABHI_ClickPSSCommController {
     /****************************************************************************************************************
     * @Function - doCommunication
     * @return String
-    * @param requestString - Request to be passed to the service 
+    * @param objectName - Name of the object for which the records are needed 
+    * @param recordId - Id of the record
+    * @param formData - form data of the record
     * @description This method will do the API call with the .
     *****************************************************************************************************************/
     @AuraEnabled
@@ -46,7 +50,6 @@ public with sharing class ABHI_ClickPSSCommController {
             
             // RecordType rt = [SELECT Id from RecordType where DeveloperName = 'PSS'];
             String requestString = createRequest(objectName, recordId, formData);
-            System.debug('requestString>>>'+requestString);
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,requestString,null);
             if(integrationResponse.responseBody != ''){
                 Map<String,Object> objectMap = (Map<String,Object>) JSON.deserializeUntyped(integrationResponse.responseBody);
@@ -64,7 +67,9 @@ public with sharing class ABHI_ClickPSSCommController {
                 if(intResponse.error == null){
                     return new ClientResponseWrapper(intResponse.StatusCode,Custom_Messages__mdt.getInstance('ABHI_Sent_Successfully').Message__c);
                 }
-                else return new ClientResponseWrapper(1001,intResponse.error.errorDesc);
+                else{
+                    return new ClientResponseWrapper(1001,intResponse.error.errorDesc);
+                } 
             }
             else {
                 try {
@@ -92,18 +97,24 @@ public with sharing class ABHI_ClickPSSCommController {
     *****************************************************************************************************************/
     public static String createRequest(String objectName, String recordId, String formData){
         try {
-            formWrapper formDataWrap = (formWrapper) JSON.deserialize(formData, formWrapper.class);
+            FormWrapper formDataWrap = (FormWrapper) JSON.deserialize(formData, FormWrapper.class);
             PSSRequestWrapper reqWrap = new PSSRequestWrapper();
-            ABHI_PSSCommunicationConfig__mdt mtdt = [SELECT TemplateName__c, Email_Field__c, Alert_Code__c, Phone_Field__c, ALERTV1__c, ALERTV2__c, ALERTV3__c, ALERTV4__c, ALERTV5__c, ALERTV6__c, ALERTV7__c, ALERTV8__c, ALERTV9__c, ALERTV10__c, ALERTV11__c, ALERTV12__c, ALERTV13__c, ALERTV14__c, ALERTV15__c, ALERTV16__c, ALERTV17__c, ALERTV18__c, ALERTV19__c, ALERTV20__c, ALERTV21__c, ALERTV22__c, ALERTV23__c, ALERTV24__c, ALERTV25__c, ALERTV26__c, ALERTV27__c, ALERTV28__c, ALERTV29__c, ALERTV30__c, ALERTV31__c, ALERTV32__c, ALERTV33__c, ALERTV34__c, ALERTV35__c, ALERTV36__c, ALERTV37__c, ALERTV38__c, ALERTV39__c, ALERTV40__c from ABHI_PSSCommunicationConfig__mdt where TemplateId__c =: formDataWrap.template AND Entity__c =: objectName AND CommunicationType__c =:formDataWrap.commType ];
+            List<GroupMember> gpList = [SELECT GroupId, UserOrGroupId, Group.DeveloperName from GroupMember where UserOrGroupId =: UserInfo.getUserId() WITH SYSTEM_MODE];
+            Set<String> groupNameSet = new Set<String>();
+            if(gpList.size()>0){
+                for(GroupMember gp : gpList){
+                    groupNameSet.add(gp.Group.DeveloperName);
+                }
+            }
+            ABHI_PSSCommunicationConfig__mdt mtdt = [SELECT TemplateName__c, Email_Field__c, Alert_Code__c, Phone_Field__c, ALERTV1__c, ALERTV2__c, ALERTV3__c, ALERTV4__c, ALERTV5__c, ALERTV6__c, ALERTV7__c, ALERTV8__c, ALERTV9__c, ALERTV10__c, ALERTV11__c, ALERTV12__c, ALERTV13__c, ALERTV14__c, ALERTV15__c, ALERTV16__c, ALERTV17__c, ALERTV18__c, ALERTV19__c, ALERTV20__c, ALERTV21__c, ALERTV22__c, ALERTV23__c, ALERTV24__c, ALERTV25__c, ALERTV26__c, ALERTV27__c, ALERTV28__c, ALERTV29__c, ALERTV30__c, ALERTV31__c, ALERTV32__c, ALERTV33__c, ALERTV34__c, ALERTV35__c, ALERTV36__c, ALERTV37__c, ALERTV38__c, ALERTV39__c, ALERTV40__c from ABHI_PSSCommunicationConfig__mdt where TemplateId__c =: formDataWrap.template AND Entity__c =: objectName AND CommunicationType__c =:formDataWrap.commType AND Allowed_PS_Public_Group__c IN: groupNameSet WITH SYSTEM_MODE];
             String query = 'SELECT Policy_No__c, Next_Premium_Date__c, SerialNumber, AccountId, Account.Phone, Account.Office_Email__c';
             // query = mtdt.Email_Field__c != null? query+', '+mtdt.Email_Field__c : query;
             // query = mtdt.Phone_Field__c != null? query+', '+mtdt.Phone_Field__c : query;
             for(Integer i=1;i<41;i++){
                 query = mtdt.get('ALERTV'+i+'__c') != null? query+', '+ mtdt.get('ALERTV'+i+'__c') : query;
             }
-            query += ' from Asset where id=:recordId';
+            query += ' from Asset where id=:recordId WITH SYSTEM_MODE';
             Sobject sobj = Database.query(query);
-            System.debug('sobj>>'+sobj);
             //Asset ass = [SELECT Policy_No__c, Next_Premium_Date__c, SerialNumber, Account.Phone, Account.Office_Email__c, AccountId from Asset where id=: recordId];
             reqWrap.PolicyID = String.valueOf(sobj.get('Policy_No__c'));
             ABCL_IntegrationCallout.accountId = String.valueOf(sobj.get('AccountId'));
@@ -128,11 +139,12 @@ public with sharing class ABHI_ClickPSSCommController {
                 else if(mtdt.get('ALERTV'+i+'__c') != null){
                     field=String.valueOf(sobj.get(String.valueOf(mtdt.get('ALERTV'+i+'__c'))));
                 }
-                else field = '';
+                else {
+                    field = '';
+                }
                 Object ov = (Object) field;
                 obj.put('AlertV'+i, ov);
             }
-            System.debug('obj>>>>'+obj);
             return JSON.serialize(obj);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
@@ -141,13 +153,13 @@ public with sharing class ABHI_ClickPSSCommController {
     }
 
     /*********************************************************
-    *Class        :  formWrapper
+    *Class        :  FormWrapper
     *Author       :  Amrit Preet Singh
     *Created Date :  03/09/2024
     *Last Modified:  03/09/2024
     *@description  : This is the wrapper class to hold the details sent from client during run time
     *********************************************************/
-    public class formWrapper{
+    public class FormWrapper{
         public String commType;
         public String template;
         public String alertCode;
@@ -165,6 +177,11 @@ public with sharing class ABHI_ClickPSSCommController {
     public class ClientResponseWrapper{
         @AuraEnabled public Integer statusCode;
         @AuraEnabled public String message;
+        /**
+         * @description parameterized constructor
+         * @param statusCode - Returned Status Code
+         * @param message  - Message to be passed
+         */
         public ClientResponseWrapper(Integer statusCode, String message){
             this.statusCode = statusCode;
             this.message = message;
@@ -199,6 +216,7 @@ public with sharing class ABHI_ClickPSSCommController {
     *Last Modified:  03/09/2024
     *@description  : This is the wrapper class to hold the response that we recieve from the API
     *********************************************************/
+    @SuppressWarnings('PMD.TooManyFields')
     public class PSSResponseWrapper{
         @AuraEnabled public String PolicyID;
         @AuraEnabled public String FIELD3;
@@ -213,7 +231,7 @@ public with sharing class ABHI_ClickPSSCommController {
         @AuraEnabled public String STATUS;
         @AuraEnabled public String field1;
         @AuraEnabled public String field2;
-        @AuraEnabled public errorWrapper error;
+        @AuraEnabled public ErrorWrapper error;
         @AuraEnabled public Integer StatusCode;
         @AuraEnabled public String message;
         @AuraEnabled public String ReturnCode;
@@ -221,13 +239,13 @@ public with sharing class ABHI_ClickPSSCommController {
     }
 
     /*********************************************************
-    *Class        :  errorWrapper
+    *Class        :  ErrorWrapper
     *Author       :  Amrit Preet Singh
     *Created Date :  03/09/2024
     *Last Modified:  03/09/2024
     *@description  : This is the wrapper class to hold the error response that we recieve from the API
     *********************************************************/
-    public class errorWrapper{
+    public class ErrorWrapper{
         @AuraEnabled public String errorcode;
         @AuraEnabled public String errorDesc;
     }

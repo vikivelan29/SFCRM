@@ -161,6 +161,11 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Customer Member Mappings</pluralLabel>
+    <profileSearchLayouts>
+        <fields>NAME</fields>
+        <fields>Member_Name__c</fields>
+        <profileName>ABHI Base Profile</profileName>
+    </profileSearchLayouts>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
         <searchResultsAdditionalFields>Member_Name__c</searchResultsAdditionalFields>
