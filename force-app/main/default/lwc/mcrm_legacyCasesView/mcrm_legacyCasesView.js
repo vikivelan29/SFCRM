@@ -122,6 +122,8 @@ export default class mcrm_legacyCasesView extends LightningElement {
                         this.loaded = true;
                         this.displayTable = true;
                         this.data = this.leagcyCaseData.legacyCaseResponse;
+                        console.log('***data ==> '+ JSON.stringify(this.data));
+                        this.adjustDates(this.data);
                         this.disabled = false;
                     }
                     else if (this.leagcyCaseData && this.leagcyCaseData.statusCode != 0 && (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
@@ -269,6 +271,44 @@ export default class mcrm_legacyCasesView extends LightningElement {
 
     get noDataMessage(){
         return this._isSearched==true?this.label.noResults:this.label.searchMsg;
+    }
+
+    adjustDates(data){
+        data.forEach(rec=>{
+            for (const prop in rec){
+                console.log('***prop:'+prop);
+                console.log('***valid:'+this.isValidDate(rec[prop]));
+                if((prop=='CaseResolvedOn' || prop=='CaseCreatedOn') && rec[prop] && this.isValidDate(rec[prop])){
+                    rec[prop] = this.convertToIST(rec[prop]);
+                    console.log('***rec[prop]:'+rec[prop]);
+                }
+            }
+        });
+    }
+
+    isValidDate(value) {
+        // Check if value is an instance of Date
+        const date = new Date(value);
+        // Check if the Date object is valid
+        return !isNaN(date.getTime());
+    }
+
+    convertToIST(dateString) {
+        // Parse the input date string as a Date object
+        const date = new Date(dateString);
+        
+        // Convert the date to IST timezone by adding 5 hours and 30 minutes
+        const IST_OFFSET = 5 * 60 + 30; // IST is GMT+5:30
+        const gmtOffset = date.getTimezoneOffset(); // Timezone offset in minutes
+        const istTime = new Date(date.getTime() + (IST_OFFSET - gmtOffset) * 60000);
+    
+        // Extract day, month, and year
+        const day = istTime.getDate().toString().padStart(2, '0');
+        const month = (istTime.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+        const year = istTime.getFullYear();
+    
+        // Return the formatted date as dd/mm/yyyy
+        return `${day}/${month}/${year}`;
     }
 
 }
