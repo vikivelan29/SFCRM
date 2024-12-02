@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Interaction</fullName>
@@ -79,6 +80,10 @@
         </values>
         <values>
             <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
+		<values>
+            <fullName>ABML</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -974,10 +979,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -1011,6 +1012,10 @@
         </values>
         <values>
             <fullName>Wellness Email</fullName>
+            <default>false</default>
+        </values>
+		 <values>
+            <fullName>ABML Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1414,6 +1419,34 @@
             <default>false</default>
         </values>
         <values>
+                <fullName>Resolution Provided</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Action Required</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Complaint Withdrawn</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Reversal Processed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Denied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Settled &amp; Recovery not initiated</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Interaction wrongly created</fullName>
+                <default>false</default>
+            </values>
+        <values>
             <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
@@ -1717,6 +1750,10 @@
         </values>
         <values>
             <fullName>ATS</fullName>
+            <default>false</default>
+        </values>
+		<values>
+            <fullName>Others</fullName>
             <default>false</default>
         </values>
     </picklistValues>
