@@ -45,9 +45,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
                 ABHI_BusinessLogic_Helper.abhiActiveOneValidationOnRecat(abhiNewCaseList, mapOfIdToOldCase);
             }
-            /*else if(triggerContext == 'AfterASFCodeInAfterInsert') {
+            else if(triggerContext == 'AfterASFCodeInAfterInsert') {
                 abhiCsDetHelperObj.updateAccountFieldsonCaseDetail(abhiNewCaseList);
-            }*/
+            }
             else {
                 abhiCsDetHelperObj.updateAccountFieldsonCaseDetail(abhiNewCaseList);
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
