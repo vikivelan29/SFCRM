@@ -262,11 +262,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ResolutionReason__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Resolution_Comments__c</field>
             <table>Case</table>
         </columns>
@@ -781,7 +776,7 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Asset.Policy_No__c</field> 
+            <field>Asset.Policy_No__c</field>
             <table>Case</table>
         </columns>
         <masterLabel>Asset</masterLabel>

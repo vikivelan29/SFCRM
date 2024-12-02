@@ -48,6 +48,7 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
         Map<Id, String> asfItegExtIds = new Map<Id, String>();
         Map<Id, sObject> eBotNewItems = new Map<Id, sObject>();
         Map<Id, sObject> eBotOldItems = new Map<Id, sObject>();
+		List<ASF_Case_Integration__c> asfCaseRecords = new List<ASF_Case_Integration__c>();
         for(ASF_Case_Integration__c caseInteg : (List<ASF_Case_Integration__c>)newItems.values()){
             if(caseInteg.Integration_Ext_Id__c != null){
                 if(caseInteg.Status__c != ((ASF_Case_Integration__c)oldItems.get(caseInteg.Id)).Status__c){
@@ -58,11 +59,18 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
                 eBotNewItems.put(caseInteg.Id, caseInteg);
                 eBotOldItems.put(caseInteg.Id, oldItems.get(caseInteg.Id));
             }
+			if(caseInteg.Status__c != null && caseInteg.Business_External_Id__c == 'ABML_Report_Integration' && caseInteg.Status__c != ((ASF_Case_Integration__c)oldItems.get(caseInteg.Id)).Status__c){
+                asfCaseRecords.add(caseInteg);                
+            }
         }
 
         // Call eBot Handler for Generic Case Integraitons
         if(!eBotNewItems.isEmpty()){
             ABCL_CaseIntegrationHelper.eBotHandler(eBotNewItems,eBotOldItems);
+        }
+		// added for ABML Report Integration
+        if(!asfCaseRecords.isEmpty()){
+            ABML_ReportsIntegration.sendEmailAttachments(asfCaseRecords);
         }
 
         // Call Framework Handler Processing for Framework Case Integraitons

@@ -78,8 +78,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Product2Id</fieldItem>
-                <identifier>RecordProduct2IdField2</identifier>
+                <fieldItem>Record.ProductName__c</fieldItem>
+                <identifier>RecordProductName_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -88,8 +88,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Scheme__c</fieldItem>
-                <identifier>RecordScheme_cField</identifier>
+                <fieldItem>Record.Plan_Name__c</fieldItem>
+                <identifier>RecordPlan_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -374,16 +374,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.OwnerId</fieldItem>
                 <identifier>RecordOwnerIdField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.OwnerClientCode__c</fieldItem>
-                <identifier>RecordOwnerClientCode_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1312,7 +1302,13 @@
                             <value>Age__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>App_Download_Status__c</value>
+                            <value>Primary_Mobile_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Alternate_Mobile_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Primary_email_ID__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

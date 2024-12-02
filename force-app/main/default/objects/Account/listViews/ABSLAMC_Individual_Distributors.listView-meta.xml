@@ -32,13 +32,5 @@
     <label>ABSLAMC Individual Distributors</label>
     <sharedTo>
         <group>ABSLAMC_ALL_Users</group>
-        <role>ABSLAMC_AIF_Executive_Leadership</role>
-        <role>ABSLAMC_AIF_Service_Agents_Users</role>
-        <role>ABSLAMC_MF_Executive_Leadership</role>
-        <role>ABSLAMC_MF_Service_Agents_Users</role>
-        <role>ABSLAMC_PMS_Executive_Leadership</role>
-        <role>ABSLAMC_PMS_Service_Agents_Users</role>
-        <role>ABSLAMC_RE_Executive_Leadership</role>
-        <role>ABSLAMC_RE_Service_Agents_Users</role>
     </sharedTo>
 </ListView>

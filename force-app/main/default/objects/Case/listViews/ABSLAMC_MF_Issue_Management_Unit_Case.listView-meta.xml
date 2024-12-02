@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Issue_Management_Unit_Case</fullName>
+    <fullName>ABSLAMC_MF_Issue_Management_Unit_Case</fullName>
     <columns>LOB__c</columns>
     <columns>CASES.CASE_NUMBER</columns>
     <columns>ASSET.NAME</columns>

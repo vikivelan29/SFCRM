@@ -41,7 +41,7 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH USER_MODE]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
 
@@ -168,7 +168,7 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
 
         return resultWrapper;
     }
-	
+    
     /****************************************************************************************************************
     * @LOB - ABHI
     * @Function - prepareDownloadTemplate

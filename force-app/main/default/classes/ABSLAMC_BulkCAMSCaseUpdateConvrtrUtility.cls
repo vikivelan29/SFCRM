@@ -78,7 +78,7 @@ public with sharing class ABSLAMC_BulkCAMSCaseUpdateConvrtrUtility implements AS
             resultWrapper.resultRecords.put(lineItemId, caseRec);
             resultWrapper.resultJSONMapRows.put(lineItemId, keyValueMap);
         }
-
+        ASF_TriggerSkipperUtility.markTriggerRun('Case');
         return resultWrapper;
     }
 
@@ -140,6 +140,12 @@ public with sharing class ABSLAMC_BulkCAMSCaseUpdateConvrtrUtility implements AS
                             }
                             fieldValue = fieldValue.equalsIgnoreCase('true') ? 'Yes' : 'No';
                         }
+                        else if(fieldName.contains('CAMS_SEBI_Reportable_Category__c')){
+                            if(fieldValue == null || fieldValue==' '){
+                                fieldValue = '';
+                            }
+                        }
+                        
                     }else if(!fieldName.contains('.')){
                         fieldValue = (String)obj.get(fieldName);
                     }else if(fieldName.contains('.') && obj.getSobject((fieldName.split('\\.'))[0]) == null){ // added this check to add the No in the blank/null value for reportable flag field.
@@ -148,6 +154,7 @@ public with sharing class ABSLAMC_BulkCAMSCaseUpdateConvrtrUtility implements AS
                             fieldValue = 'false';
                             fieldValue = fieldValue.equalsIgnoreCase('true') ? 'Yes' : 'No';
                         }
+                        
                     }
                     fieldMap.put(mapOfFieldApiToColumnName.get(fieldName), fieldValue);
                 }

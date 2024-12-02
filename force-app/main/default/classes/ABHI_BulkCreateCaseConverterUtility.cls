@@ -50,15 +50,15 @@ public with sharing class ABHI_BulkCreateCaseConverterUtility implements ASF_Bul
 
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
         Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
-        for(Account objAccountRec : [SELECT Id, Client_Code__c FROM Account WHERE Client_Code__c IN :setClientCodes AND Business_Unit__c =: ABHI_Constants.ABHI WITH USER_MODE]){
+        for(Account objAccountRec : [SELECT Id, Client_Code__c FROM Account WHERE Client_Code__c IN :setClientCodes AND Business_Unit__c =: ABHI_Constants.ABHI WITH SYSTEM_MODE]){
             lanToAccountIdMap.put(objAccountRec.Client_Code__c, objAccountRec.Id);
         }
-        for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans and Business_Unit__c =: ABHI_Constants.ABHI WITH USER_MODE]){
+        for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans and Business_Unit__c =: ABHI_Constants.ABHI WITH SYSTEM_MODE]){
             lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
         }
 
         Set<String> extIdFoundSet = new Set<String>();
-        for(ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccExtIds WITH USER_MODE]){
+        for(ASF_Case_Category_Config__c config : [SELECT Id, CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c IN :cccExtIds WITH SYSTEM_MODE]){
             extIdFoundSet.add(config.CCC_External_Id__c);
         }
 

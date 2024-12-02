@@ -90,7 +90,7 @@ public with sharing class ABFL_WealthChatGeneratedCases {
     
     // Added By EY-Nikhil for INC000000073049
     // To send the Unregister email to customer when email is blank on case Account 
-    public static void sendEmailWhenNotRegisteredCustomer(List<EmailMessage> emailMessageList) {
+    /*public static void sendEmailWhenNotRegisteredCustomer(List<EmailMessage> emailMessageList, Boolean isAccPresent) {
         Set<Id> caseIdsToSendEmail = new Set<Id>();
         Map<Id, String> mCaseEmailTemplateName = new Map<Id, String>();
         Map<String, String> mEmailAddressToTemplate = new Map<String, String>();
@@ -131,15 +131,23 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                     if (caseDetailMap.containsKey(caseObj.Id) && 
                         caseDetailMap.get(caseObj.Id).IsRegisteredCustomer__c == 'No') {
                             
-                  String templateDevName = 'ABFL_ACCOUNT_RELATED';
-                            
+                  List<String> templateDevList = new List<String>{'ABFL_FIRST_TAT_COMMUNICATION_DIGITAL','ABFL_ACCOUNT_RELATED','ABFL_CLOSE_CASE_EMAIL_TEMPLATE_DIGITAL_LENDING'};
+                  if(!isAccPresent){
+                    templateDevList.remove(1);
+                  }          
                   // Send the communication
-                  ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(caseObj, templateDevName, caseObj.SuppliedEmail, '', '');
+                  for(String templateDevName: templateDevList){
+                        ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(caseObj, templateDevName, caseObj.SuppliedEmail, '', '');
+                        Integer start = System.Now().millisecond();
+                        // while(System.Now().millisecond()< start+100){ 
+                        // }
+                    }
+                  
                    }
                 }
             }
         }
-    }
+    }*/
 
     
     /**

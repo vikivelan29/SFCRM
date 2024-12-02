@@ -223,7 +223,11 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                                     if(idx >= (Integer)mdt.Priority_Index__c || (idx == 0 && (Integer)mdt.Priority_Index__c > 0)){
                                         idx = (Integer)mdt.Priority_Index__c;
                                         priorityEmailAddress = mdt.Email2CaseAddress__c;
-                                        bSendToEbot = mdt.Send_to_EBOT__c;
+                                        if(mdt.Send_to_EBOT__c || mdt.Send_to_UNFYD__c){
+                                            bSendToEbot = true;
+                                        }else{
+                                            bSendToEbot=false;
+                                        }
                                         
                                     }
                                 }
@@ -235,7 +239,11 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                                     if(idx >= (Integer)mdt.Priority_Index__c || (idx == 0 && (Integer)mdt.Priority_Index__c > 0)){
                                         idx = (Integer)mdt.Priority_Index__c;
                                         priorityEmailAddress = mdt.Email2CaseAddress__c;
-                                        bSendToEbot = mdt.Send_to_EBOT__c;
+                                        if(mdt.Send_to_EBOT__c || mdt.Send_to_UNFYD__c){
+                                            bSendToEbot = true;
+                                        }else{
+                                            bSendToEbot=false;
+                                        }
                                         
                                     }
                                 }

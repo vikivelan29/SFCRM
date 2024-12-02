@@ -172,7 +172,10 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            this.cols = lanLabels[this.loggedInUserBusinessUnit].CTST_COLS != null? lanLabels[this.loggedInUserBusinessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+            this.cols = lanLabels[this.loggedInUserBusinessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+
+            //invoke adjustAutoCommunications once logged in User BU is identified
+            this.adjustAutoCommunications(undefined);
         } else if (error) {
             //this.error = error ;
         }
@@ -277,6 +280,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         if((selected) && this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
             this.isPhoneInbound = true;
         }
+        let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
+            if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
+                this.showAniNumber = true;
+            }
         if((selected) && selected.Allowed_Issue_Types__c && this.loggedInUserBusinessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
@@ -349,6 +357,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             message: Array.isArray(errMsg) ? errMsg[0] : errMsg
         });
         this.dispatchEvent(event);
+    }
+    handleFieldChange(event){ 
+        this.disableCreateBtn = false;
+        this.dupeLead = [];
+        this.showDupeList = false;
     }
     isInputValid() {
         let isValid = true;

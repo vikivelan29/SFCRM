@@ -258,11 +258,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ResolutionReason__c</field>
-            <table>Case</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Resolution_Comments__c</field>
             <table>Case</table>
         </columns>
@@ -1083,5 +1078,5 @@
             <table>Case</table>
         </columns>
         <masterLabel>ABHI Case Detail</masterLabel>
-    </sections>  
-</ReportType> 
+    </sections>
+</ReportType>

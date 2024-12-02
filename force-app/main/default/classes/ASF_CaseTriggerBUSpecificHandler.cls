@@ -42,13 +42,14 @@ public class ASF_CaseTriggerBUSpecificHandler {
                             PAY_CaseTriggerHelper.createCustomerForCreateCaseAPI(mapOfBUToCases.get(businessUnit));
                         }
                     }
+                    else if(businessUnit == 'ABHI'){
+                        if(Label.ABHI_Case_Dedupe_Active == 'Active'){ // Story No: PR1030924-30
+                            abhiBusLogicHelperObj.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInBeforeInsert');  
+                        }
+                    }      
                 }
                 ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
-                commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));
-                
-                if(Label.ABHI_Case_Dedupe_Active == 'Active'){ // Story No: PR1030924-30
-                    abhiBusLogicHelperObj.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInBeforeInsert');  
-                }
+                commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));               
             }
         }
     }

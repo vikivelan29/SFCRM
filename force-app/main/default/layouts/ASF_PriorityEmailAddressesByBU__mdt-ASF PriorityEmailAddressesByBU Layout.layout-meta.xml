@@ -30,6 +30,10 @@
                 <behavior>Edit</behavior>
                 <field>Case_Business_Unit__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Send_to_UNFYD__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
