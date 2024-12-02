@@ -216,11 +216,7 @@ public without sharing class ABHI_OmniDocViewController{
 	Public static boolean templateDetails(Map<String, Object> mapRow, String strASFRecordId, String strAssetId, String strPlanName, String strAccountId, String strAccountEmail){
 
         List<ASF_Case_Integration__c> lstAsfCaseIntegration = new List<ASF_Case_Integration__c>();
-        List<String> lstString = new List<String>();
-        //EmailTemplate objEmailTemplate = new EmailTemplate();
-        //OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
-        //String strTemplateName; 
-        //String strFromAddress; 
+        List<String> lstString = new List<String>(); 
 
         try{
             EmailTemplate objEmailTemplate = new EmailTemplate();
@@ -241,7 +237,7 @@ public without sharing class ABHI_OmniDocViewController{
 
             objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
             objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
-            if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && !String.isBlank(strAccountEmail) && mapRow != null ){
+            if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && mapRow != null ){
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
                     strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
