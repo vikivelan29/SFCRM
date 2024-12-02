@@ -223,25 +223,7 @@ public without sharing class ABHI_OmniDocViewController{
         //String strFromAddress; 
 
         try{
-            EmailTemplate objEmailTemplate = new EmailTemplate();
-            String strTemplateName; 
-            String strFromAddress; 
-            String sObjName = Id.valueOf(strAssetId).getSObjectType().getDescribe().getName();
-
-            OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
-
-            if(sObjName == 'Opportunity'){
-                strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
-                strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
-            } 
-            else{
-                strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
-                strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
-            }
-
-            objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
-            objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
-            if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && !String.isBlank(strAccountEmail) && mapRow != null ){
+            if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && mapRow != null ){
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
                     strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
@@ -274,7 +256,7 @@ public without sharing class ABHI_OmniDocViewController{
                 if(!lstString.isEmpty() && lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_SUCCESS){
 
                     if(calculateDateDifference(DateTime.now(), lstAsfCaseIntegration?.iterator()?.next()?.createdDate).minutes < 1){
-                        Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId WITH SYSTEM_MODE];
+                        Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId WITH SYSTEM_MODE LIMIT 1];
 
                         Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(objEmailTemplate.Id, objCon.Id, strAssetId);
                         objEmail.setTemplateId(objEmailTemplate.Id);
