@@ -143,6 +143,8 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethods {
         @AuraEnabled public String ResolutionComments;
         @AuraEnabled public String ClosureComments;
         @AuraEnabled public String SequenceId;
+        @AuraEnabled public String ModifiedBy;
+        @AuraEnabled public String ModifiedOn;
     }
      /*********************************************************
     * @Class           LegacyCaseResponseBodyWrapper
