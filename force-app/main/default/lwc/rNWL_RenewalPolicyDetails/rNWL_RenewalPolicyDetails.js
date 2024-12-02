@@ -83,7 +83,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
 
     getAdditionalData(){
 
-        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.oppRec.Proposal_Number__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.accountId }).then(response => {            
+        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policy.LAN__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.accountId }).then(response => {            
             if(response){
                 this.prepareAdditionalData(response);
             }
