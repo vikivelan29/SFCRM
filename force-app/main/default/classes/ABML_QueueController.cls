@@ -118,7 +118,8 @@ public without sharing class ABML_QueueController { //Without sharing is added f
         if (String.isEmpty(listViewId)) {
             return new List<Case>();
         } 
-        String query = ABML_Listviewcallout.doCallout(listViewId);
+        //String query = ABML_Listviewcallout.doCallout(listViewId);
+        String query;
         return Database.query(query);
     } 
     
