@@ -139,6 +139,8 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
             peLogger.RecordID__c = cList[i].Id;
             peLogger.Is_Attachment__c = true;
+            peLogger.Send_To_Specific_Emails__c  = True;
+            peLogger.Specific_To_MobilePhone__c = '9999999999';
             peLoggers.add(peLogger);
             
             ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
@@ -180,6 +182,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
             peLogger.RecordID__c = cList[i].Id;
             peLogger.Is_Attachment__c = true;
+            peLogger.Send_To_Specific_Emails__c  = True;
             peLoggers.add(peLogger);
             
             ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
@@ -221,6 +224,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
             peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
             peLogger.RecordID__c = cList[i].Id;
+            peLogger.Send_To_Specific_Emails__c  = True;
             peLogger.Retry_Time__c = DateTime.now().addMinutes(-2);
             peLoggers.add(peLogger);
             
@@ -257,6 +261,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
             peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
             peLogger.RecordID__c = cList[i].Id;
+            peLogger.Send_To_Specific_Emails__c  = True;
             peLogger.Case__c = cList[i].Id;
             peLogger.Retry_Time__c = DateTime.now().addMinutes(-2);
             peLogger.No_Auto_Communication__c = null;
@@ -282,6 +287,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
             peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
             peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
+                        peLogger.Send_To_Specific_Emails__c  = True;
             peLogger.RecordID__c = cList[i].Id;
             peLogger.Case__c = cList[i].Id;
             peLogger.Retry_Time__c = DateTime.now().addMinutes(-2);
@@ -336,5 +342,112 @@ private class ASF_CommPETriggerHandler_Test {
         }
         Test.stopTest();
         
-    }    
+    }  
+    
+    
+    @isTest
+    private static void executeAfterInsert_completed4(){
+        List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case LIMIT 1];
+        List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
+        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
+        
+        /*ContentVersion cvlist = new Contentversion(); 
+        cvlist.Title = 'CZDSTOU'; 
+        cvlist.PathOnClient = 'test'; 
+        cvlist.VersionData = ; 
+        List<ContentVersion> cvl = new List<ContentVersion>(); 
+        cvl.add(cvlist); 
+		insert cvl;
+        Id cdId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :cvl[0].Id].ContentDocumentId;*/
+        Test.startTest();
+        
+        for(Integer i=0;i<1;i++){
+            PE_Logger__c peLogger = new PE_Logger__c();
+            peLogger.PE_Name__c = 'CommnunicationLog';
+            peLogger.Retry_PE__c = false;
+            peLogger.Status__c = 'Pending';
+            peLogger.Case__c = cList[i].Id;
+            peLogger.Send_To_Specific_Emails__c  = True;
+            peLogger.Specific_To_Address__c  = 'abc.def@gm.com';
+            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
+            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
+           	peLogger.Email_Template_Name__c = 'SMT_Escalation_Template';
+            peLogger.RecordID__c = cList[i].Id;
+            peLogger.TakeBodyFromContentDoc__c = true;
+            peLoggers.add(peLogger);
+            
+            ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
+            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
+            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
+            evt.RecordID__c = cList[i].Id;
+            commEvts.add(evt);
+        }
+        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
+        if(peLoggers.size()>0){
+            insert peLoggers;
+        }
+        for(Integer i=0;i<1;i++){
+            ASF_CommnunicationLog__e evt = commEvts[i];
+            evt.PELoggerId__c = peLoggers[i].id;
+        }
+        if(commEvts.size()>0){
+            Database.SaveResult[] results = EventBus.publish(commEvts);
+            Test.getEventBus().deliver();
+            System.assertNotEquals(null, results, 'save result should not be null');
+        }
+        Test.stopTest();
+        
+    }
+    
+    @isTest
+    private static void executeAfterInsert_withoutContact(){
+        List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case];
+        List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
+        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
+        Test.startTest();
+        boolean errorCase = false;
+        for(Integer i=0;i<1;i++){
+            PE_Logger__c peLogger = new PE_Logger__c();
+            peLogger.PE_Name__c = 'CommnunicationLog';
+            peLogger.Retry_PE__c = false;
+            peLogger.Status__c = 'Pending';
+            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
+            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
+            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
+            peLogger.RecordID__c = cList[i].Id;
+            peLogger.Case__c = cList[i].Id;
+            peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
+            peLogger.Is_Attachment__c = true;
+            peLoggers.add(peLogger);
+            
+            ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
+            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
+            if(!errorCase){
+                evt.CustomMetadataName__c = 'XXXXXXXX';
+            }
+            else{
+                evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
+            }
+            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
+            evt.RecordID__c = cList[i].Id;
+            commEvts.add(evt);
+        }
+        
+        if(peLoggers.size()>0){
+            insert peLoggers;
+        }
+        for(Integer i=0;i<1;i++){
+            ASF_CommnunicationLog__e evt = commEvts[i];
+            evt.PELoggerId__c = peLoggers[i].id;
+        }
+        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
+        if(commEvts.size()>0){
+            
+            Database.SaveResult[] results = EventBus.publish(commEvts);
+            Test.getEventBus().deliver();
+            System.assertNotEquals(null, results, 'save result should not be null');
+        }
+        Test.stopTest();
+        
+    }
 }

@@ -24,4 +24,15 @@
             <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABSLAMC_All_User</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC All User</label>
+        <sharedTo>
+            <group>ABSLAMC_ALL_Users</group>
+        </sharedTo>
+        <sharedFrom>
+            <group>ABSLAMC_ALL_Users</group>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>
