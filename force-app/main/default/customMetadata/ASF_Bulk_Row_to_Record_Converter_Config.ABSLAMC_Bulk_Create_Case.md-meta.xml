@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>Fields_Name__c</field>
-        <value xsi:type="xsd:string">LOB,Issue Code,Category,Type,Sub-Type,CLIENT CODE (LOB + PAN/PEKRN),Folio,Owner Team,Owner AD ID,Source,Channel,Caller Type,Critical Request flag (Y/N),PHD Compaint Source,Description,Send Auto Communication?</value>
+        <value xsi:type="xsd:string">LOB,Issue Code,Category,Type,Sub-Type,CLIENT CODE (LOB + PAN/PEKRN),Folio,Owner Team,Owner AD ID,Source,Channel,Caller Type,Critical Request flag (Yes/No),PHD Compaint Source,Description,Send Auto Communication?</value>
     </values>
     <values>
         <field>Max_File_Size__c</field>

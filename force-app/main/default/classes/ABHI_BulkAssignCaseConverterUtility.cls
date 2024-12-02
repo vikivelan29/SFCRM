@@ -1,10 +1,25 @@
-@SuppressWarnings('PMD.ApexSOQLInjection')
+/**
+* @File Name : ABHI_BulkAssignCaseConverterUtility.cls
+* @Description : Class for bulk case upload
+* @Author : Salesforce
+* @Last Modified By : Aditya Jawadekar
+* @Last Modified On : October 12, 2024
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | October 12, 2024 | Aditya Jawadekar  | Initial Version
+**/
+@SuppressWarnings('PMD.ApexSOQLInjection,PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
 public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_BulkCSVToRecordConverter {
-    /**
-     * @description This method is called from the ASF_BulkCaseProcessorUtility while performing bulk close via csv upload
-     * @param jsonRows
-     * @param allOutputs - outputWrapper with updated values
-     */
+  
+  /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - convertJSONRows
+    * @param - jsonRows 
+    * @return -  ASF_BulkCaseProcessorUtility.ConvertionResult
+    * @description - This method will be used to create JSON format of the case records to be closed
+    *****************************************************************************************************************/
   public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
         //{'Case number':'00005150','New Owner':'queue name', 'Internal comments':'Comments'}
@@ -18,7 +33,6 @@ public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_Bul
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
-            System.debug('eachJSON'+eachJSON);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
             if(String.isNotBlank(keyValueMap.get('Case number'))){
                 caseNumbers.add(keyValueMap.get('Case number').trim());
@@ -34,10 +48,10 @@ public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_Bul
         for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
-        for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and DeveloperName LIKE 'ABHI_%' and name IN: ownerNames]){
+        for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and DeveloperName LIKE 'ABHI_%' and name IN: ownerNames WITH SYSTEM_MODE]){
             queueUserNameIdMap.put(queueRec.name, queueRec.Id);
         }
-        for(User userRec : [select Id, FederationIdentifier from User where FederationIdentifier IN: ownerNames]){
+        for(User userRec : [select Id, FederationIdentifier from User where FederationIdentifier IN: ownerNames WITH SYSTEM_MODE]){
             queueUserNameIdMap.put(userRec.FederationIdentifier, userRec.Id);
         }
         
@@ -94,12 +108,14 @@ public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_Bul
 
         return resultWrapper;
     }
-  /**
-     * @description This method is called from the ASF_BulkCsvController while performing bulk download of records
-     * for close operation
-     * @param jsonRows
-     * @param allOutputs - outputMap with key as field and value as the record value
-     */
+  	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - prepareDownloadTemplate
+    * @param - columnNames, objectName, listViewId, selectedRecordIds
+    * @return -  List<Map<String,String>>
+    * @description - This method will be used to prepare download template for users to add cases in sheet
+    *****************************************************************************************************************/
     public List<Map<String,String>> prepareDownloadTemplate(List<String> columnNames, String objectName, Id listViewId, List<String> selectedRecordIds){
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
@@ -118,7 +134,6 @@ public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_Bul
                 fieldNames.add(mapOfColumnNameToFieldApi.get(columnName));
             }
         }
-        System.debug('fieldNames'+fieldNames);
         String strFinalQuery;
         if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
@@ -128,7 +143,6 @@ public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_Bul
         else if(listViewId != null){
             String strFields = String.join(fieldNames, ',');
             String listViewQuery = ASF_BulkCsvDownloadHelper.getListViewSOQL(objectName, listViewId);
-            System.debug('listViewQuery'+listViewQuery);
             String strWhere = '';
             if(listViewQuery.contains('WHERE')){
                 strWhere = ' WHERE '+listViewQuery.substringAfter('WHERE');
@@ -143,7 +157,6 @@ public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_Bul
 
         if(String.isNotBlank(strFinalQuery)){
             strFinalQuery = strFinalQuery + ' LIMIT 50000';
-            System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
@@ -163,6 +176,14 @@ public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_Bul
 
         return listOfRecordsAsMap;
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - prepareCtstData
+    * @param - columnNames, businessUnit
+    * @return -  List<Map<String,String>>
+    * @description - This method will be used to prepare CTST data
+    *****************************************************************************************************************/
     public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
         return new List<Map<String,String>>();
     }

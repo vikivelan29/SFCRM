@@ -29,16 +29,23 @@
                 </lightning-layout-item>-->
                 <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_xx-small">
                     <div class = "slds-m-bottom_small">
-                        <lightning-input type="text" label="Enter policy No" data-name= "policy" 
-                        disabled={disabled}  placeholder="type here..."></lightning-input>
+                        <lightning-input type="text" label="Enter Policy No" data-name= "policy" 
+                        disabled={disabled}  onchange = {handleChange} placeholder="type here..."></lightning-input>
                     </div> 
                 </lightning-layout-item>
                 <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_xx-small">
                     <div class = "slds-m-bottom_small">
+                        <lightning-combobox name = "Target System" label = "Target System" value = {selectedSystem} placeholder = "Target System"
+                                options = {targetSysOptions} onchange = {handleChangeTargetSys} disabled={disabled}> 
+                        </lightning-combobox>
+                    </div> 
+                </lightning-layout-item>
+                <!--<lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_xx-small">
+                    <div class = "slds-m-bottom_small">
                         <lightning-input type="text" label="Enter Master policy No" data-name= "masterpolicy"
                         disabled={disabled}  placeholder="type here..."></lightning-input>
                     </div> 
-                </lightning-layout-item>
+                </lightning-layout-item>-->
                 <lightning-layout-item size="4" class="slds-m-right_x-large slds-p-top_large">
                     <div class = "slds-m-bottom_small">
                         <lightning-button label = "Search" title = "Search" onclick = {fetchExistingData} variant = "brand" 
@@ -60,13 +67,14 @@
         
         
         <div lwc:if = {displayTable}>
-            <div class = "slds-p-vertical_medium slds-text-heading_medium">
-                Search Kavach Policy
-            </div>
-
-            <c-abfl_-data-table-with-pagination columns={columns}
-															table-data={data} page-size = {label.pageSize}
-                                                            ></c-abfl_-data-table-with-pagination>
+            <lightning-card>
+                <div slot="title">
+                    Search Kavach Policy
+                </div>
+            </lightning-card>
+            <c-abfl_-data-table-with-pagination columns={columns} table-data={data} page-size = {label.pageSize}>
+		    
+	    </c-abfl_-data-table-with-pagination>
         </div>
         <div lwc:if = {displayError}>
             {errorMessage}

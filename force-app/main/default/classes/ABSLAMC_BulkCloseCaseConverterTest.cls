@@ -19,8 +19,12 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+        Case cs = [SELECT Id, CaseNumber, Business_Unit__c FROM Case LIMIT 1]; 
+        cs.Business_Unit__c = 'ABSLAMC';
+        update cs;
+        String caseNumber = cs.CaseNumber;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Case Number":"12345","Closure Stage(Resolved/ Unresolved)":"Resolved", "Resolution Remarks(For Resolved Stage)": "TestComments", "Close Unresolved Details(For Unresolved Stage)":"", "Close Unresolved Reason(For Unresolved Stage)"  : "", "Send Auto Communication?" : "Yes"}');
+        jsonRows.put(lineitem.Id, '{"Case Number":"'+caseNumber+'","Closure Stage(Resolved/ Unresolved)":"Resolved", "Resolution Remarks(For Resolved Stage)": "TestComments", "Close Unresolved Details(For Unresolved Stage)":"", "Close Unresolved Reason(For Unresolved Stage)"  : "", "Send Auto Communication?" : "Yes"}');
         ABSLAMC_BulkCloseCaseConverterUtility utility = new ABSLAMC_BulkCloseCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -54,8 +58,12 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+         Case cs = [SELECT Id, CaseNumber, Business_Unit__c FROM Case LIMIT 1]; 
+        cs.Business_Unit__c = 'ABSLAMC';
+        update cs;
+        String caseNumber = cs.CaseNumber;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Case Number":"12345","Closure Stage(Resolved/ Unresolved)":"Open", "Resolution Remarks(For Resolved Stage)": "TestComments", "Close Unresolved Details(For Unresolved Stage)":"", "Close Unresolved Reason(For Unresolved Stage)"  : "", "Send Auto Communication?" : "Yes"}');
+        jsonRows.put(lineitem.Id, '{"Case Number":"'+caseNumber+'","Closure Stage(Resolved/ Unresolved)":"Open", "Resolution Remarks(For Resolved Stage)": "TestComments", "Close Unresolved Details(For Unresolved Stage)":"", "Close Unresolved Reason(For Unresolved Stage)"  : "", "Send Auto Communication?" : "Yes"}');
         ABSLAMC_BulkCloseCaseConverterUtility utility = new ABSLAMC_BulkCloseCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -89,8 +97,12 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+         Case cs = [SELECT Id, CaseNumber, Business_Unit__c FROM Case LIMIT 1]; 
+        cs.Business_Unit__c = 'ABSLAMC';
+        update cs;
+        String caseNumber = cs.CaseNumber;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Case Number":"12345","Closure Stage(Resolved/ Unresolved)":"Unresolved", "Resolution Remarks(For Resolved Stage)": "", "Close Unresolved Details(For Unresolved Stage)":"", "Close Unresolved Reason(For Unresolved Stage)"  : "Cancelled", "Send Auto Communication?" : "Yes"}');
+        jsonRows.put(lineitem.Id, '{"Case Number":"'+caseNumber+'","Closure Stage(Resolved/ Unresolved)":"Unresolved", "Resolution Remarks(For Resolved Stage)": "", "Close Unresolved Details(For Unresolved Stage)":"", "Close Unresolved Reason(For Unresolved Stage)"  : "Cancelled", "Send Auto Communication?" : "Yes"}');
         ABSLAMC_BulkCloseCaseConverterUtility utility = new ABSLAMC_BulkCloseCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -115,6 +127,7 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterTest {
     }
     @IsTest
     static void testconvertJSONRows6(){
+        /*method same as 7*/
         ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
         headObj.Template_Name__c = 'test';
         headObj.Total_Rows__c = 1;
@@ -123,8 +136,12 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+         Case cs = [SELECT Id, CaseNumber, Business_Unit__c FROM Case LIMIT 1]; 
+        cs.Business_Unit__c = 'ABSLAMC';
+        update cs;
+        String caseNumber = cs.CaseNumber;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Case Number":"12345","Closure Stage(Resolved/ Unresolved)":"Unresolved", "Resolution Remarks(For Resolved Stage)": "", "Close Unresolved Details(For Unresolved Stage)":"Not resolved", "Close Unresolved Reason(For Unresolved Stage)"  : "TestReason", "Send Auto Communication?" : "Yes"}');
+        jsonRows.put(lineitem.Id, '{"Case Number":"'+caseNumber+'","Closure Stage(Resolved/ Unresolved)":"Unresolved", "Resolution Remarks(For Resolved Stage)": "", "Close Unresolved Details(For Unresolved Stage)":"Not resolved", "Close Unresolved Reason(For Unresolved Stage)"  : "TestReason", "Send Auto Communication?" : "Yes"}');
         ABSLAMC_BulkCloseCaseConverterUtility utility = new ABSLAMC_BulkCloseCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -140,8 +157,12 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+         Case cs = [SELECT Id, CaseNumber, Business_Unit__c FROM Case LIMIT 1]; 
+        cs.Business_Unit__c = 'ABSLAMC';
+        update cs;
+        String caseNumber = cs.CaseNumber;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Case Number":"12345","Closure Stage(Resolved/ Unresolved)":"Unresolved", "Resolution Remarks(For Resolved Stage)": "", "Close Unresolved Details(For Unresolved Stage)":"Not resolved", "Close Unresolved Reason(For Unresolved Stage)"  : "TestReason", "Send Auto Communication?" : ""}');
+        jsonRows.put(lineitem.Id, '{"Case Number":"'+caseNumber+'","Closure Stage(Resolved/ Unresolved)":"Unresolved", "Resolution Remarks(For Resolved Stage)": "", "Close Unresolved Details(For Unresolved Stage)":"Not resolved", "Close Unresolved Reason(For Unresolved Stage)"  : "Cancelled", "Send Auto Communication?" : ""}');
         ABSLAMC_BulkCloseCaseConverterUtility utility = new ABSLAMC_BulkCloseCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);
@@ -158,8 +179,58 @@ public with sharing class ABSLAMC_BulkCloseCaseConverterTest {
         ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
         lineitem.Bulk_Upload_Header__c = headObj.Id;
         insert lineitem;
+         Case cs = [SELECT Id, CaseNumber, Business_Unit__c FROM Case LIMIT 1]; 
+        cs.Business_Unit__c = 'ABSLAMC';
+        update cs;
+        String caseNumber = cs.CaseNumber;
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Case Number":"12345","Closure Stage(Resolved/ Unresolved)":"Unresolved", "Resolution Remarks(For Resolved Stage)": "", "Close Unresolved Details(For Unresolved Stage)":"Not resolved", "Close Unresolved Reason(For Unresolved Stage)"  : "TestReason", "Send Auto Communication?" : "TestValue"}');
+        jsonRows.put(lineitem.Id, '{"Case Number":"'+caseNumber+'","Closure Stage(Resolved/ Unresolved)":"Unresolved", "Resolution Remarks(For Resolved Stage)": "", "Close Unresolved Details(For Unresolved Stage)":"Not resolved", "Close Unresolved Reason(For Unresolved Stage)"  : "Cancelled", "Send Auto Communication?" : "TestValue"}');
+        ABSLAMC_BulkCloseCaseConverterUtility utility = new ABSLAMC_BulkCloseCaseConverterUtility();
+        Test.startTest();
+        utility.convertJSONRows(jsonRows);
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testconvertJSONRows9(){
+        ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
+        headObj.Template_Name__c = 'test';
+        headObj.Total_Rows__c = 1;
+        headObj.Status__c = 'Pending';
+        insert headObj;
+        ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
+        lineitem.Bulk_Upload_Header__c = headObj.Id;
+        insert lineitem;
+        Map<Id, String> jsonRows = new Map<Id, String>();
+        jsonRows.put(lineitem.Id, '{"Case Number":"12345","Closure Stage(Resolved/ Unresolved)":"Resolved", "Resolution Remarks(For Resolved Stage)": "case resolved", "Close Unresolved Details(For Unresolved Stage)":"", "Close Unresolved Reason(For Unresolved Stage)"  : "", "Send Auto Communication?" : "Yes"}');
+        ABSLAMC_BulkCloseCaseConverterUtility utility = new ABSLAMC_BulkCloseCaseConverterUtility();
+        Test.startTest();
+        utility.convertJSONRows(jsonRows);
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testconvertJSONRows10(){
+        ASF_Bulk_Upload_Header__c headObj = new ASF_Bulk_Upload_Header__c();
+        headObj.Template_Name__c = 'test';
+        headObj.Total_Rows__c = 1;
+        headObj.Status__c = 'Pending';
+        insert headObj;
+        ASF_Bulk_Upload_Line_Item__c lineitem = new ASF_Bulk_Upload_Line_Item__c();
+        lineitem.Bulk_Upload_Header__c = headObj.Id;
+        insert lineitem;
+        Case cs = [SELECT Id, CaseNumber, Business_Unit__c FROM Case LIMIT 1]; 
+        cs.Business_Unit__c = 'ABSLAMC';
+        cs.Stage__c = 'Resolved';
+        cs.Status = 'Resolved';
+        cs.Pending_Clarification__c = false;
+        cs.moved_back__c = false;
+        cs.Is_Manual_Moved__c = true;
+        cs.Resolution_Comments__c = 'Test is resolved';
+        update cs;
+        String caseNumber = cs.CaseNumber;
+        Map<Id, String> jsonRows = new Map<Id, String>();
+        jsonRows.put(lineitem.Id, '{"Case Number":"'+caseNumber+'","Closure Stage(Resolved/ Unresolved)":"Resolved", "Resolution Remarks(For Resolved Stage)": "case resolved", "Close Unresolved Details(For Unresolved Stage)":"", "Close Unresolved Reason(For Unresolved Stage)"  : "", "Send Auto Communication?" : "Yes"}');
         ABSLAMC_BulkCloseCaseConverterUtility utility = new ABSLAMC_BulkCloseCaseConverterUtility();
         Test.startTest();
         utility.convertJSONRows(jsonRows);

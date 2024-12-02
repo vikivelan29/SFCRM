@@ -76,7 +76,7 @@ public class ABSLAMC_OmniChannelServResBatchCtrl implements Database.Batchable<S
         
         if (!serviceResourcesToUpdate.isEmpty()) {
             Database.SaveResult[] updateResults = Database.update(serviceResourcesToUpdate, false);
-            handleUpsertResults(updateResults, scope, usersToUpdateStatus, permSet, 'Reprocess');
+            handleUpsertResults(updateResults, scope, usersToUpdateStatus, permSet, 'Remove');
         }
         
         if (!usersToUpdateStatus.isEmpty()) {

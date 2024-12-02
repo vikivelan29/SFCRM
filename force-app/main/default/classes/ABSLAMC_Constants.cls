@@ -63,5 +63,7 @@ public static final String SRC_CALLCENTRE = 'Call Centre';
     public static final String LEADOWNERCHANGEFORUSER = 'You are not authorized to change the lead owner';
     public static final String LEADOWNERCHANGEFORQUEUE = 'You are not the member of the queue';
     public static final String AMCLOB = 'AMC';
-    public static final String CLOSEDCASEERRORMSG = 'Case cannot be closed from Awaiting Response from App Support stage';
+    public static final String PHDQUEUENAME = 'ABSLAMC_PHD';
+    public static final String CLOSEDCASEERRORMSG = 'Case cannot be closed from Awaiting Response from App Support stage'; //added for UAT observations
+    public static final String AUTOMATEDPROCESSUSRTYPE = 'automatedprocess';
 }

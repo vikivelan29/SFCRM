@@ -430,19 +430,19 @@ export const lanLabels = {
             initialWidth: 180
         },
         {
-            label: 'Policy No',
-            fieldName: 'Policy_No__c',
+            label: 'Folio No',
+            fieldName: 'LAN__c',
             type: 'text',
             initialWidth: 180
         },
         {
-            label: 'Policy Status',
+            label: 'Folio Status',
             fieldName: 'Status',
             type: 'text',
             initialWidth: 180
         },
         {
-            label: 'Policy Type',
+            label: 'Folio Type',
             fieldName: 'Type__c',
             type: 'text',
             initialWidth: 180
@@ -514,16 +514,16 @@ export const lanLabels = {
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
         ],
-        SELECT_PRODUCT: "Select Policy",
-        PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /Policy# /PAN#",
-        CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and Policy combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
-        CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and Policy combination. We recommend selecting the right Case Type Sub Type for the case ?',
-        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/Policy Tagging",
-        RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same Policy as current case",
-        CREATE_SR_WITH_FA: "Create Case with Policy",
-        FA_VALIDATION_MESSAGE: "Please select Policy to process Case type search",
-        FA_MANDATORY_PREFRAMEWORK: "Please tag Policy to customer to process Case Type Search",
-        CREATE_CASE_WITH_FA: "Create Case with Policy"
+        SELECT_PRODUCT: "Select Folio",
+        PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /Folio# /PAN#",
+        CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and Folio combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
+        CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and Folio combination. We recommend selecting the right Case Type Sub Type for the case ?',
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/Folio Tagging",
+        RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same Folio as current case",
+        CREATE_SR_WITH_FA: "Create Case with Folio",
+        FA_VALIDATION_MESSAGE: "Please select Folio to process Case type search",
+        FA_MANDATORY_PREFRAMEWORK: "Please tag Folio to customer to process Case Type Search",
+        CREATE_CASE_WITH_FA: "Create Case with Folio"
     },
     Wellness: {
         SELECT_PRODUCT: "Select Contract",

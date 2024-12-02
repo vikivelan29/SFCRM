@@ -1,8 +1,27 @@
+/**
+* @File Name : ABHI_BulkCloseCaseConverterUtilityTest.cls
+* @Description : Test Class for ABHI_BulkCloseCaseConverterUtility
+* @Author : Salesforce
+* @Last Modified By : Aditya Jawadekar
+* @Last Modified On : October 12, 2024
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | October 12, 2024 | Aditya Jawadekar  | Initial Version
+**/
+@SuppressWarnings('PMD.ApexSOQLInjection,PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
 @isTest
 public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
     
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
-	@TestSetup
+	
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - makeData
+    * @description - This method will be used to create testdata setup
+    *****************************************************************************************************************/
+    @TestSetup
     static void makeData(){
         Group slaGroup = new Group();
         
@@ -66,22 +85,42 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
         }
         
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testGetLANRelatedAccount
+    * @description - Test method to test getAccountRelatedMembers
+    *****************************************************************************************************************/
     @isTest
     static void testGetLANRelatedAccount(){
         List<Account> acc = [SELECT ID FROM Account LIMIT 1];
         Test.startTest();
-        	List<ABFL_LegacyView.OptionsName> listLan = ABHI_LOBSpecificLegacyViewMethods.getAccountRelatedMembers(acc[0].Id);
+        List<ABFL_LegacyView.OptionsName> listLan = ABHI_LOBSpecificLegacyViewMethods.getAccountRelatedMembers(acc[0].Id);
+        System.assert(!listLan.isEmpty(), 'Members list is empty');
         Test.stopTest();
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testGetLANRelatedAccountWithCMM
+    * @description - Test method to test getAccountRelatedMembers
+    *****************************************************************************************************************/
     @isTest
     static void testGetLANRelatedAccountWithCMM(){
         List<Account> acc = [SELECT ID FROM Account LIMIT 1];
         Test.startTest();
-        	Customer_Member_Mapping__c objCMM = New Customer_Member_Mapping__c(MemberExternalId__c = acc.iterator().next().Id, Client_Id__c = acc.iterator().next().Id, MemberId__c = acc.iterator().next().Id);
-        	Insert objCMM;
-        	List<ABFL_LegacyView.OptionsName> listLan = ABHI_LOBSpecificLegacyViewMethods.getAccountRelatedMembers(acc[0].Id);
+        Customer_Member_Mapping__c objCMM = New Customer_Member_Mapping__c(MemberExternalId__c = acc.iterator().next().Id, Client_Id__c = acc.iterator().next().Id, MemberId__c = acc.iterator().next().Id);
+        Insert objCMM;
+        List<ABFL_LegacyView.OptionsName> listLan = ABHI_LOBSpecificLegacyViewMethods.getAccountRelatedMembers(acc[0].Id);
+        System.assert(!listLan.isEmpty(), 'Members list is empty');
         Test.stopTest();
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testgetLegacyData
+    * @description - Test method to test getLegacyData
+    *****************************************************************************************************************/
     @isTest static void testgetLegacyData() {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABHI_LegacyMockResponseGenerator());
@@ -93,6 +132,12 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
         System.assertEquals(200,res.statusCode, 'code');
         System.assertEquals('1', res.ReturnCode, 'return code');
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testgetLegacyFailureData
+    * @description - Test method to test getLegacyData
+    *****************************************************************************************************************/
     @isTest static void testgetLegacyFailureData() {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABHI_LegacyMockFailureResponseGenerator());
@@ -103,6 +148,12 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
         
         System.assertEquals(404,res.statusCode, 'statusCode');
     }
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - testgetLegacyBlankData
+    * @description - Test method to test getLegacyData
+    *****************************************************************************************************************/
     @isTest static void testgetLegacyBlankData() {
         // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new ABHI_LegacyMockBlankResponseGenerator());
@@ -113,6 +164,7 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
         
         System.assertEquals(0,res.statusCode, 'statusCode');
     }
+    
     /**
     * @description  Mocking success response
     */ 
@@ -131,6 +183,7 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
             return res;
         }
     }
+    
     /**
     * @description Mocking failure response
     */ 
@@ -149,6 +202,7 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
             return res;
         }
     }
+    
     /**
     * @description Mocking blank response
     */ 
@@ -167,5 +221,4 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
             return res;
         }
     }
-
 }

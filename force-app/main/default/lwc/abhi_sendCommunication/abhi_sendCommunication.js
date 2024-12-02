@@ -133,9 +133,10 @@ export default class Abhi_sendCommunication extends LightningElement {
                     this.formData.emailId=this.checkedToggle?'':this.formData.emailId;
                     
                     let recordIdVar = this.fetchRecordId();
-                    
+                    this.isLoading=true;
                     doComm({"objectName" : this.objectApiName, "recordId": recordIdVar, "formData": JSON.stringify(this.formData)})
                     .then(result => {
+                        this.isLoading=false;
                         if(result.statusCode == 1000){
                             this.dispatchEvent(new CloseActionScreenEvent({ bubbles: true, composed: true }));
                             this.showToast('Success', result.message, 'success');
@@ -146,6 +147,7 @@ export default class Abhi_sendCommunication extends LightningElement {
                         
                     })
                     .catch(error => {
+                        this.isLoading=false;
                         this.showToast('Error', error.body.message, 'error');
                     });
                 }

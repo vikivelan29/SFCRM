@@ -222,7 +222,14 @@ public without sharing class ASF_OppCommPETriggerHelper {
                 if(pLog.Send_To_Specific_Emails__c){
                     if(pLog.Specific_To_Address__c != null){
                         List<String> toSpecificAddresses = pLog.Specific_To_Address__c.deleteWhitespace().split(';');
-                        Messaging.SingleEmailMessage msg = getMessageGenerated(null, emailtempid, owAddress.Id, oppRec, pLog.CC_Addresses__c);
+                        Contact contactRec;
+                        if (mAccountIdContactId.containsKey(oppRec.AccountId)) {
+                            for(Contact con : mAccountIdContactId.get(oppRec.AccountId)) {
+                                contactRec = con;
+                                break;
+                            }
+                        }
+                        Messaging.SingleEmailMessage msg = getMessageGenerated(contactRec, emailtempid, owAddress.Id, oppRec, pLog.CC_Addresses__c);
                         msg.setToAddresses(toSpecificAddresses);
                         emails.add(msg); 
                         mIdxVsPELoggerId.put(iCounter,pLog.Id);
@@ -366,8 +373,8 @@ public without sharing class ASF_OppCommPETriggerHelper {
         Map<String,Object> untypedObj =  (Map<String,Object>) JSON.deserializeUntyped(serializedRequest);
 
         // currently only 5 merge fields exist at most, increase this as per need
-        for (Integer i = 0; i < 5; i++) {
-            Object mergeValue = log.get(channelFieldNamesWA[1] + (i + 1) + '__c');
+        for (Integer i = 1; i < 6; i++) {
+            Object mergeValue = log.get(channelFieldNamesWA[1] + i + '__c');
             untypedObj.put('AlertV' + i, mergeValue);
         }
         event.Request__c = JSON.serialize(untypedObj);

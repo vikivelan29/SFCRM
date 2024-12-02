@@ -17,14 +17,14 @@ public class ABHI_KavachPolicies {
     * @description  This method will get legacy date and display in SF
     *****************************************************************************************************************/
     @AuraEnabled(cacheable = true)
-    public static List<KavachResponseWrapper> getPolicyData(String policyNo, String masterPolicyNo){
+    public static List<KavachResponseWrapper> getPolicyData(String policyNo){
        List<KavachResponseWrapper> listKavachResponse = new List<KavachResponseWrapper>();
        try{
            KavachResponseWrapper kavach = null;
            System.debug('@@@kavach1'+policyNo);
            for(Asset policyData : [SELECT ID,LAN__c,Account.Name, Account.Client_Code__c, Account.Phone,Account.PersonMobilePhone,
                                   Account.PersonEmail, Account.Office_Email__c, Account.IsPersonAccount,MasterPolicyNumber__r.LAN__c 
-                                  FROM Asset WHERE LAN__c = :policyNo OR LAN__c = :masterPolicyNo]) {
+                                  FROM Asset WHERE LAN__c != null AND LAN__c = :policyNo]) {
                                       kavach = new KavachResponseWrapper(policyData);
                                               System.debug('@@@kavach'+kavach);
 
@@ -48,19 +48,19 @@ public class ABHI_KavachPolicies {
     * @description  This method will get legacy date and display in SF
     *****************************************************************************************************************/
     @AuraEnabled
-    public static List<KavachResponseWrapper> getPolicyExternalData(String policyNo, String masterPolicyNo){
+    public static List<KavachResponseWrapper> getPolicyExternalData(String policyNo, String selectedSystem){
        List<KavachResponseWrapper> listKavachResponse = new List<KavachResponseWrapper>();
        ABHI_CreatePolicyWrapper.ResponseWrapper response = null;
        try{
            String integrationName = 'ABHI_Kavach_Policy';
-           String conPayload =  JSON.serialize(new KavachRequest(policyNo, masterPolicyNo));
+           String conPayload =  JSON.serialize(new KavachRequest(policyNo, null , selectedSystem));
            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
            
            response = ABHI_CreatePolicy.createPolicy(integrationResponse.responseBody);
            System.debug('@@@@response.StatusCode'+response.StatusCode == '200');
           // listKavachResponse = getPolicyData(policyNo,'');
            if(response.StatusCode.equals('200')) {
-               listKavachResponse = getPolicyData(policyNo,'');
+               listKavachResponse = getPolicyData(policyNo);
            }
            else {
               throw new AuraHandledException(response.StatusMessage); 
@@ -68,6 +68,7 @@ public class ABHI_KavachPolicies {
            return listKavachResponse;
         }
         catch(Exception e) {
+            System.debug('@@ec'+e);
            throw new AuraHandledException(response.StatusMessage); 
         }
     }
@@ -80,9 +81,11 @@ public class ABHI_KavachPolicies {
     public class KavachRequest {
         String PolicyNumber;
         String MasterPolicyNumber;
-        KavachRequest(String policyNumber, String masterPolicyNumber){
+        String TargetSystem;
+        KavachRequest(String policyNumber, String masterPolicyNumber, String selectedSystem){
             this.PolicyNumber = policyNumber;
             this.MasterPolicyNumber = masterPolicyNumber;
+            this.TargetSystem = selectedSystem;
         }
     }
    /*********************************************************

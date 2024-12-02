@@ -220,7 +220,7 @@ blankSourcePresent = true;
                     //mapping Line_of_Business__c on caseRec
                     caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
                     // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
-                    if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
+                    if((!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU)||(caseRec.Business_Unit__c == 'ABHI' && appliedCCC.Is_STP__c == true)){
                         caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
                     }
                     caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
@@ -251,10 +251,8 @@ blankSourcePresent = true;
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
-                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null){
-                    // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
-                    String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
-                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
+                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
+                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
                 }else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';

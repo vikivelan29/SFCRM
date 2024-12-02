@@ -2,6 +2,11 @@
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
     <name>ABSLAMC RE All Teams</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABSLAMC_RE_All_Teams_G</publicGroup>
+        </publicGroups>
+    </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

@@ -7,6 +7,7 @@
 *@description  :  This class is used to get the FA History Details from the ABCL_IntegrationCallout callout class.
 *@description  :  The class is used to get the appointment details for the customerId passed.
 *********************************************************/
+@SuppressWarnings('PMD.FieldNamingConventions,PMD.ExcessivePublicCount')
 public with sharing class ABHI_FAHistoryDetailsController {
 
     /****************************************************************************************************************
@@ -20,7 +21,7 @@ public with sharing class ABHI_FAHistoryDetailsController {
         try {
             String integrationName = 'ABHI_FAHistoryDetails';
             ABCL_IntegrationCallout.accountId = customerId;
-            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId];
+            List<Account> acc = [SELECT Client_Code__c from Account where Id =: customerId WITH SYSTEM_MODE];
             Map<String, String> urlParams = new Map<String, String>();
             String code = acc[0].Client_Code__c != null && acc[0].Client_Code__c != ''  ? acc[0].Client_Code__c : '0';
             if(code == '0'){
@@ -40,6 +41,7 @@ public with sharing class ABHI_FAHistoryDetailsController {
             else {
                 try {
                     IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResponse.responseBody, IntegrationResponseWrapper.class);
+                    deserializedIntResponse.StatusCode = integrationResponse.StatusCode;
                     return deserializedIntResponse;
                 } catch (Exception e) {
                     return new IntegrationResponseWrapper(
@@ -84,6 +86,11 @@ public with sharing class ABHI_FAHistoryDetailsController {
         @AuraEnabled public List<CustomerAppointmentsWrapper> customerAppointments;
         @AuraEnabled public Integer StatusCode;	
 	    @AuraEnabled public String Message;	
+        /**
+         * @description parameterized constructor
+         * @param statusCode - status code to be passed
+         * @param responseBody  - response body to be passed
+         */
         public IntegrationResponseWrapper(Integer statusCode, String responseBody){
             this.StatusCode = statusCode;
             this.Message = responseBody;

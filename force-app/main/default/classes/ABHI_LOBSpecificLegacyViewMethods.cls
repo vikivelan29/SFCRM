@@ -1,16 +1,23 @@
 /**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 10-30-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @File Name : ABHI_LOBSpecificLegacyViewMethods.cls
+* @Description : Extension controller class for ABHI legacy case view
+* @Author : Salesforce
+* @Last Modified By : Aditya Jawadekar
+* @Last Modified On : October 29, 2024
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | October 29, 2024 | Aditya Jawadekar  | Initial Version
 **/
+@SuppressWarnings('PMD.ApexSOQLInjection,PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions,PMD.TooManyFields')
 public without sharing class ABHI_LOBSpecificLegacyViewMethods {
-    /* @LOB - ABHI
+    /****************************************************************************************************************
+    * @LOB - ABHI
     * @Function - getAccountRelatedMembers
-    * @param strRecordId
-    * @return List<OptionsName>
-    * @description This method will be used to get related customer member mapping records
+    * @param - strRecordId 
+    * @return -  List<ABFL_LegacyView.OptionsName>
+    * @description - This method will be used to fetch the related members of the Account
     *****************************************************************************************************************/
     @AuraEnabled(cacheable = true)
     public static List<ABFL_LegacyView.OptionsName> getAccountRelatedMembers(String strRecordId){
@@ -48,7 +55,8 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethods {
         return new List<ABFL_LegacyView.OptionsName>(optionList);
     }
 
-    /* @LOB - ABHI
+    /****************************************************************************************************************
+    *  @LOB - ABHI
     * @Function - getLegacyData
     * @param mapRow
     * @return  ResponseWrapper 
@@ -89,7 +97,8 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethods {
     * @Author          Aditya Jawadekar
     * @Created Date    28/10/2024
     * @Last Modified   28/10/2024
-    * @description     ResponseWrapper */
+    * @description     ResponseWrapper 
+    **********************************************************/
     public Class ResponseWrapper{
         @AuraEnabled public Integer statusCode;
         @AuraEnabled public String returnCode;
@@ -111,7 +120,8 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethods {
     * @Author          Aditya Jawadekar
     * @Created Date    28/10/2024
     * @Last Modified   28/10/2024
-    * @description     LegacyCaseResponseWrapper */
+    * @description     LegacyCaseResponseWrapper 
+    ***********************************************************/
     public class LegacyCaseResponseWrapper{
         @AuraEnabled public String CaseNumber;
         @AuraEnabled public String Customer;
@@ -133,13 +143,16 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethods {
         @AuraEnabled public String ResolutionComments;
         @AuraEnabled public String ClosureComments;
         @AuraEnabled public String SequenceId;
+        @AuraEnabled public String ModifiedBy;
+        @AuraEnabled public String ModifiedOn;
     }
      /*********************************************************
     * @Class           LegacyCaseResponseBodyWrapper
     * @Author          Aditya Jawadekar
     * @Created Date    28/10/2024
     * @Last Modified   28/10/2024
-    * @description     LegacyCaseResponseBodyWrapper */
+    * @description     LegacyCaseResponseBodyWrapper 
+    **********************************************************/
     public class LegacyCaseResponseBodyWrapper{
 		public String ReturnCode;
 		public String ReturnMessage;

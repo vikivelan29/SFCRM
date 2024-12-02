@@ -52,6 +52,6 @@
     </values>
     <values>
         <field>external_templateID__c</field>
-        <value xsi:type="xsd:string">clickpss_winback_whatsapp_2</value>
+        <value xsi:type="xsd:string">A6194</value>
     </values>
 </CustomMetadata>

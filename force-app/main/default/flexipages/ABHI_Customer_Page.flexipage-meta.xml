@@ -252,8 +252,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.PAN_Number__c</fieldItem>
-                <identifier>RecordPAN_Number_cField</identifier>
+                <fieldItem>Record.PAN__c</fieldItem>
+                <identifier>RecordPAN_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -464,7 +464,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Country__c</fieldItem>
+                <fieldItem>Record.ABHI_Country__c</fieldItem>
                 <identifier>RecordCountry_cField2</identifier>
             </fieldInstance>
         </itemInstances>
@@ -566,16 +566,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Is_Chronic__c</fieldItem>
-                <identifier>RecordIs_Chronic_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.CumulativeBonusEarned__c</fieldItem>
                 <identifier>RecordCumulativeBonusEarned_cField</identifier>
             </fieldInstance>
@@ -588,6 +578,26 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Chronic_Disease__c</fieldItem>
                 <identifier>RecordChronic_Disease_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CMP_OPD__c</fieldItem>
+                <identifier>RecordCMP_OPD_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Chronic_care__c</fieldItem>
+                <identifier>RecordChronic_care_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-79043263-bd8d-410a-8505-7fc8df483cf4</name>
@@ -632,6 +642,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.PEDWaitingPeriod__c</fieldItem>
                 <identifier>RecordPEDWaitingPeriod_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Chronic__c</fieldItem>
+                <identifier>RecordIs_Chronic_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-f130745d-32f6-4f3f-aab9-e3d347fa59cb</name>
@@ -881,13 +901,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -969,13 +989,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1057,13 +1077,13 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Closure_reason__c</value>
+                            <value>Rejection_Reason__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -1140,7 +1160,7 @@
                             <value>CASES.CREATED_DATE</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Assigned_Team__c</value>
+                            <value>Case_Assigned_Team__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.STATUS</value>
@@ -1366,16 +1386,16 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-	    <componentName>abamc_getSprinklrSocialMediaProfile</componentName>
-            <identifier>c_abamc_getSprinklrSocialMediaProfile</identifier>
-        </componentInstance>
-    </itemInstances>
-    <name>Facet-d2a7a993-17e1-4613-b9fc-204d3a10b74f</name>
-    <type>Facet</type>
-</flexiPageRegions>
-<flexiPageRegions>
-    <itemInstances>
-        <componentInstance>
+                <componentName>abamc_getSprinklrSocialMediaProfile</componentName>
+                <identifier>c_abamc_getSprinklrSocialMediaProfile</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-d2a7a993-17e1-4613-b9fc-204d3a10b74f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>apiName</name>
                     <value>ABHI_LegacyViewModal_LEGACY_CASE</value>
@@ -1399,6 +1419,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>adminFilters</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Business_Unit__c|EQUALS|[&quot;ABHI&quot;]</value>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
@@ -1592,24 +1617,24 @@
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
-         <itemInstances>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                <value>Facet-d2a7a993-17e1-4613-b9fc-204d3a10b74f</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>title</name>
-                <value>Social Profile</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:tab</componentName>
-            <identifier>flexipage_tab13</identifier>
-        </componentInstance>
-    </itemInstances>
-    <itemInstances>
-        <componentInstance>
-            <componentInstanceProperties>
-                <name>body</name>
+                    <value>Facet-d2a7a993-17e1-4613-b9fc-204d3a10b74f</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Social Profile</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab13</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
                     <value>Facet-aedb996a-3de9-46db-b751-9149d2cc6cae</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1677,5 +1702,6 @@
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
+    
     <type>RecordPage</type>
 </FlexiPage>

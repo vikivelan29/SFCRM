@@ -12,6 +12,12 @@
                         </template>
                     </div>
                 </template>
+                <template if:true={noCaseData}>
+                    <div class="slds-text-color_error slds-p-around_medium">
+                        <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+                        No Case data found.
+                    </div>
+                </template>
        
                 <h2 class="npsHeading"><b>Latest NPS Indicator</b></h2>
             <template if:true={npsData}>
@@ -24,6 +30,12 @@
                             </p>
                         </div>
                     </template>
+                </div>
+            </template>
+            <template if:true={nonpsData}>
+                <div class="slds-text-color_error slds-p-around_medium">
+                    <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    No NPS data found.
                 </div>
             </template>
        

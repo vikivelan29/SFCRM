@@ -5,36 +5,41 @@
 *Last Modified:  09/09/2024
 *@description :  This class used as a outBound API call and a controller for abhi_PolicyDetails component.
 ***************************************/
+@SuppressWarnings('PMD.ExcessivePublicCount')
 public with sharing class ABHI_PolicyDetails {
     
+     /**********
+     @Method     : GetPolicyDetails
+     @description: Method to return IntegrationResponse when assetId passed.
+     ***********/
+    @SuppressWarnings('PMD.MethodNamingConventions')
     @AuraEnabled
     public static IntegrationResponseWrapper GetPolicyDetails(String assetId){
         
         String customerId;
-        Boolean hasError = false;
+        //Boolean hasError = false;
         String policyNumber;
-        String ProposalNumber;
-        String RequestType = 'PolicyDetails';
-        String MemberNumber;
-        String ClaimNumber;
-        String ProviderCode;
-        String TestType;
+        String proposalNumber;
+        String requestType = 'PolicyDetails';
+        String memberNumber;
+        String claimNumber;
+        String providerCode;
+        String testType;
         
         try{
             String integrationName = 'ABHI_PolicyDetails';
-            Asset assets = [SELECT Policy_No__c,SerialNumber,AccountId from Asset where Id=: assetId];
-            system.debug('values ---' +assets);
+            Asset assets = [SELECT Policy_No__c,SerialNumber,AccountId from Asset where Id=: assetId WITH SYSTEM_MODE];
+
              if (assets!= null && assets.Policy_No__c != null){
                  policyNumber = assets.Policy_No__c;
-                 ProposalNumber = assets.SerialNumber;
+                 proposalNumber = assets.SerialNumber;
                  customerId = assets.AccountId;
-                System.debug('Policy Number retrieved from Asset: ' + policyNumber);
                 }
             ABCL_IntegrationCallout.accountId = customerId;
             RequestPayLoadWrapper requestPayload = new RequestPayLoadWrapper();
-                requestPayload.RequestType = RequestType; 
+                requestPayload.RequestType = requestType; 
                 requestPayload.PolicyNumber = policyNumber;
-                requestPayload.ProposalNumber = ProposalNumber;
+                requestPayload.ProposalNumber = proposalNumber;
                 requestPayload.MemberNumber = '';
                 requestPayload.ClaimNumber = '';
                 requestPayload.ProviderCode = '';
@@ -42,13 +47,9 @@ public with sharing class ABHI_PolicyDetails {
             
             // Serialize RequestPayLoadWrapper to JSON
             String requestPayloadJson = JSON.serialize(requestPayload);
-            system.debug('requestBody-->' +requestPayloadJson);
                 ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,requestPayloadJson, null);
-            system.debug('integrationResp>>' +integrationResp);
                 IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
-            system.debug('deserialized resp' +deserializedIntResponse);
-                return deserializedIntResponse;
-            
+                return deserializedIntResponse; 
             
         }catch(Exception e){
          throw new AuraHandledException('Error : '+e.getMessage());
@@ -58,6 +59,11 @@ public with sharing class ABHI_PolicyDetails {
     }
     
     //Request Wrapper class
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
+    /**********
+        @Class : RequestPayLoadWrapper
+        @description :  Wrapper class for API request payload.
+        ***********/
     public class RequestPayLoadWrapper{
         public String RequestType;
         public String PolicyNumber;
@@ -69,6 +75,11 @@ public with sharing class ABHI_PolicyDetails {
        
     }
     //Response Wrapper class
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
+      /**********
+        @Class : IntegrationResponseWrapper
+        @description :  Wrapper class for API response.
+        ***********/
     public class IntegrationResponseWrapper{
         @AuraEnabled
         public List<ResponseObjWrapper> ResponseObj;
@@ -76,8 +87,13 @@ public with sharing class ABHI_PolicyDetails {
         public List<ResponseWrapper> Response;
        
     }
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.FormalParameterNamingConventions,PMD.VariableNamingConventions')
+    /**********
+        @Class : ResponseObjWrapper
+        @description :  Wrapper class for API response.
+        ***********/
     public class ResponseObjWrapper{ 
-         @AuraEnabled
+        @AuraEnabled
         public Integer Code;
         @AuraEnabled
         public String Message;	
@@ -86,6 +102,11 @@ public with sharing class ABHI_PolicyDetails {
             this.Message = responseBody;
         }
     }
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions')
+    /**********
+        @Class : ResponseWrapper
+        @description :  Wrapper class for API response.
+        ***********/
     public class ResponseWrapper{
         @AuraEnabled
         public String BasicPremium;

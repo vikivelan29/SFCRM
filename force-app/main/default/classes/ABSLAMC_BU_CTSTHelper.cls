@@ -180,7 +180,7 @@ public static void validateManualApproval(Map<Id, Case> newMapCase, Map<Id, Case
             if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && caseRec.OwnerId != oldCase.OwnerId && !String.valueOf(caseRec.OwnerId).startsWith('005') ){
                 if(queueIdwithDeveloperName.keySet().contains(caseRec.OwnerId)){
                     String[] qDevNameArr = queueIdwithDeveloperName.get(caseRec.OwnerId).split('_');
-                    if(qDevNameArr[1] !=caseRec.Line_Of_Business__c){
+                    if(qDevNameArr[1] !=caseRec.Line_Of_Business__c && queueIdwithDeveloperName.get(caseRec.OwnerId) != ABSLAMC_Constants.PHDQUEUENAME){
                         caseRec.addError(System.label.ABSLAMC_Queue_error_message);
                     }
                 }
