@@ -55,7 +55,7 @@
             <targetReference>ListViewButtonScreen</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>InActive</status>
     <variables>
         <name>ids</name>
         <dataType>String</dataType>
