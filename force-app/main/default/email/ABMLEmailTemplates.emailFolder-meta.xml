@@ -2,7 +2,7 @@
 <EmailTemplateFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
         <accessLevel>Manage</accessLevel>
-        <sharedTo>dinoy.pauly@in.ey.com</sharedTo>
+        <sharedTo>vaibhav.kulkarni2@in.ey.com</sharedTo>
         <sharedToType>User</sharedToType>
     </folderShares>
     <name>ABML Email Templates</name>
