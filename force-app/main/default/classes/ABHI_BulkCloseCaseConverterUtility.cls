@@ -1,5 +1,25 @@
-@SuppressWarnings('PMD.ApexSOQLInjection')
+/**
+* @File Name : ABHI_BulkCloseCaseConverterUtility.cls
+* @Description : Class for bulk case upload
+* @Author : Salesforce
+* @Last Modified By : Aditya Jawadekar
+* @Last Modified On : October 12, 2024
+* @Modification Log :
+*==============================================================================
+* Ver | Date | Author | Modification
+*==============================================================================
+* 1.0 | October 12, 2024 | Aditya Jawadekar  | Initial Version
+**/
+@SuppressWarnings('PMD.ApexSOQLInjection,PMD.CyclomaticComplexity,PMD.StdCyclomaticComplexity,PMD.CognitiveComplexity,PMD.ExcessivePublicCount,PMD.IfStmtsMustUseBraces,PMD.IfElseStmtsMustUseBraces,PMD.AvoidDeeplyNestedIfStmts,PMD.ExcessiveParameterList,PMD.NcssMethodCount,PMD.ClassNamingConventions,PMD.FieldNamingConventions,PMD.VariableNamingConventions')
 public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_BulkCSVToRecordConverter{
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - convertJSONRows
+    * @param - jsonRows 
+    * @return -  ASF_BulkCaseProcessorUtility.ConvertionResult
+    * @description - This method will be used to create JSON format of the case records to be closed
+    *****************************************************************************************************************/
     public ASF_BulkCaseProcessorUtility.ConvertionResult convertJSONRows(Map<Id, String> jsonRows){
         //Each row will be
         //{'Case number':'00005150','Case Resolved Comments':'','Stage':'Unresolved', 'Close Unresolved Reason':'Others', 'Close Unresolved Details':'Sample text','Stop Communication':'TRUE'}
@@ -13,7 +33,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
         Map<Id, Map<String, String>> rows = new Map<Id, Map<String, String>>();
         for(Id lineItemId : jsonRows.keySet()){
             String eachJSON = jsonRows.get(lineItemId);
-            System.debug('eachJSON'+eachJSON);
             Map<String, String> keyValueMap = (Map<String, String>)JSON.deserialize(eachJSON, Map<String, String>.class);
             if(String.isNotBlank(keyValueMap.get('Case number'))){
                 caseNumbers.add(keyValueMap.get('Case number').trim());
@@ -22,7 +41,7 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
         }
 
         Map<String, Case> caseNumberToCaseMap = new Map<String,Case>();
-        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers]){
+        for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
 
@@ -149,7 +168,14 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
 
         return resultWrapper;
     }
-
+    
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - prepareDownloadTemplate
+    * @param - columnNames, objectName, listViewId, selectedRecordIds
+    * @return -  List<Map<String,String>>
+    * @description - This method will be used to prepare download template for users to add cases in sheet
+    *****************************************************************************************************************/
     public List<Map<String,String>> prepareDownloadTemplate(List<String> columnNames, String objectName, Id listViewId, List<String> selectedRecordIds){
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         Map<String, String> mapOfFieldApiToColumnName = new Map<String,String>{
@@ -174,7 +200,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
                 fieldNames.add(mapOfColumnNameToFieldApi.get(columnName));
             }
         }
-        System.debug('fieldNames'+fieldNames);
         String strFinalQuery;
         if(selectedRecordIds != null && !selectedRecordIds.isEmpty()){
             String strFields = String.join(fieldNames, ',');
@@ -199,7 +224,6 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
 
         if(String.isNotBlank(strFinalQuery)){
             strFinalQuery = strFinalQuery + ' LIMIT 50000';
-            System.debug('strFinalQuery'+strFinalQuery);
             List<SObject> recordsList = Database.query(strFinalQuery);
             for(SObject obj : recordsList){
                 Map<String,String> fieldMap = new Map<String,String>();
@@ -215,7 +239,14 @@ public with sharing class ABHI_BulkCloseCaseConverterUtility implements ASF_Bulk
         return listOfRecordsAsMap;
     }
     
-     public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+    /****************************************************************************************************************
+    * @LOB - ABHI
+    * @Function - prepareCtstData
+    * @param - columnNames, businessUnit
+    * @return -  List<Map<String,String>>
+    * @description - This method will be used to prepare CTST data
+    *****************************************************************************************************************/
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
         return new List<Map<String,String>>();
     }
 }

@@ -757,6 +757,11 @@
                 <default>false</default>
                 <label>Escalations</label>
             </value>
+            <value>
+                <fullName>Seller_Portal</fullName>
+                <default>false</default>
+                <label>Seller_Portal</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -6,6 +6,9 @@ import getCaseCounts from '@salesforce/apex/Asf_NpsIndicatiorController.getCaseC
 import getNpsScore from '@salesforce/apex/Asf_NpsIndicatiorController.getNpsScore';
 import BUSINESS_UNIT from '@salesforce/schema/Account.Business_Unit__c';
 import { lanLabels } from 'c/asf_ConstantUtility';
+import loggedInUserId from '@salesforce/user/Id';
+import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
+import getSurveyResponseFieldsByAccountId from '@salesforce/apex/Abhfl_GenericRepeatingAndOpenComplntClas.getSurveyResponseFieldsByAccountId';
 export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends LightningElement {
 
     @api recordId;
@@ -16,6 +19,18 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     @track caseRecord;
     @track records;
     @track fieldArr = 'id';
+
+    @track surveyresponse = [];
+    @track surveyresponse1 = [];
+    @track surveyresponse2 = [];
+    @track columns = [];
+    @track columns1 = [];
+    @track columns2 = [];
+    @track isrespdataaval = false;
+    @track isloading = false;
+    @track showdetailsbuttonhide = false;
+    @track loggedInUserBusinessUnit = '';
+    errorMessage;
 
     whereClauseForRI = '';
     whereClauseForOC = '';
@@ -35,6 +50,26 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     showCustomerNPSbyNumber;
     customerBU = '';
 
+
+     @wire(getRecord, {
+        recordId: loggedInUserId,
+        fields: [UserBusinessUnit]
+    })
+    currentUserInfo({
+        error,
+        data
+    }) {
+        if (data) {
+            console.log('dataaa-->' + JSON.stringify(data));
+            this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
+            console.log('loggedInUserBusinessUnit--->' + this.loggedInUserBusinessUnit);
+            if (this.loggedInUserBusinessUnit == 'ABHFL') {
+                this.showdetailsbuttonhide = true;
+            }
+        } else if (error) {
+            console.error('Error occured in  retrieving business unit', JSON.stringify(error));
+        }
+    }
     loadNpsScore() {
         getNpsScore({ customerId: this.recordId })
             .then(result => {
@@ -46,6 +81,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
                 console.error('Error loading NPS record', error);
             });
     }
+
     claculateNPSRating() {
 
         this.showCustomerNPSbyNumber = undefined;
@@ -269,5 +305,79 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         this.loadNpsScore();
         this.getCaseRecord();
         this.getCaseRecordNps();
+    }
+    // Added By Yogesh start[PR970457-2195]     
+     async handleClick() {
+        console.log('I m here');
+        // this.getCaseRecordCommon();
+        this.isloading = true;
+        await getSurveyResponseFieldsByAccountId({
+                accountId: this.recordId
+            })
+            .then(data => {
+                this.isloading = false;
+                this.isrespdataaval = true;
+                this.columns = data.columnwrap;
+                this.columns1 = data.columnwrap1;
+                this.columns2 = data.columnwrap2;
+                this.surveyresponse = data.rowdata;
+                this.surveyresponse1 = data.rowdata1;
+                this.surveyresponse2 = data.rowdata2;
+                console.log('data-->' + JSON.stringify(data));
+                this.mapPicklistOptionsToRows(this.surveyresponse, data.columnwrap);
+                this.mapPicklistOptionsToRows(this.surveyresponse1, data.columnwrap1);
+                this.mapPicklistOptionsToRows(this.surveyresponse2, data.columnwrap2);
+                //this.setupColumns(data);
+                //this.error = undefined;
+            })
+            .catch(error => {
+                //this.error=true;
+                this.isloading = false;
+                console.log('errror-->' + JSON.stringify(error));
+                this.errorMessage = error.body.message;
+            });
+    }
+
+    mapPicklistOptionsToRows(rows, columnwrap) {
+        
+        rows.forEach(row => {
+            columnwrap.forEach(column => {
+                console.log('column:::', JSON.stringify(column))
+                console.log('row:::', JSON.stringify(row))
+                let picklistField = column.fieldName; 
+                if (column.options && column.fieldName) {
+                    // Find the corresponding picklist label based on the API name
+                    const picklistOptions = column.options;
+                    let selectedValue = ''
+                    if (picklistField.includes('Case__r.')) {
+                        if (row['Case__r'] != undefined && row['Case__r'][picklistField.split('.')[1]] != undefined)
+                            selectedValue = row['Case__r'][picklistField.split('.')[1]];
+                    } else {
+                        selectedValue = row[picklistField];
+                    }
+                    const selectedOption = picklistOptions.find(option => option.value === selectedValue);
+
+                    if (selectedOption) {
+                        // Replace the API name with the label
+                        row[picklistField] = selectedOption.label;
+                    }
+                } else {
+                    let selectedValue = ''
+                    if (picklistField.includes('Case__r.')) {
+                        if (row['Case__r'] != undefined && row['Case__r'][picklistField.split('.')[1]] != undefined)
+                            selectedValue = row['Case__r'][picklistField.split('.')[1]];
+                    } else {
+                        selectedValue = row[picklistField];
+                    }
+                    if (selectedValue) {
+                        row[picklistField] = selectedValue;
+                    }
+                }
+            });
+        })
+    }
+
+    closeresp() {
+        this.isrespdataaval = false;
     }
 }

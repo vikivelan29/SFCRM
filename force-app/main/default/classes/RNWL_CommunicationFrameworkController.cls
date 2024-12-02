@@ -77,11 +77,11 @@ public with sharing class RNWL_CommunicationFrameworkController {
             List<RNWL_Communications__mdt> mdt = [SELECT id, DeveloperName, Metadata_Name__c, Frequency_per_Day__c, Frequency_per_Renewal_Request__c 
                FROM RNWL_Communications__mdt WHERE Metadata_Name__c=:metadataName LIMIT 1];
             
-            if(currentPECount >= (Integer)mdt[0].Frequency_per_Day__c){
-                errorMessage += 'You have exceeded the daily limit for sending this notification\n';
+            if(mdt[0].Frequency_per_Day__c != null && currentPECount >= (Integer)mdt[0].Frequency_per_Day__c){
+                errorMessage += System.Label.RNWL_CommunicationDailyFreq+'\n';
             }
-            if(totalPECount >= (Integer)mdt[0].Frequency_per_Renewal_Request__c){
-                errorMessage += 'You have exceeded the overall limit for sending this notification';
+            if(mdt[0].Frequency_per_Renewal_Request__c != null && totalPECount >= (Integer)mdt[0].Frequency_per_Renewal_Request__c){
+                errorMessage += System.Label.RNWL_CommunicationOverallFreq;
             }
             
             return errorMessage; 

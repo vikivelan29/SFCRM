@@ -2,5 +2,5 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Hi {{{Opportunity.Customer_Name__c}}}, We tried calling you to remind you about your pending Aditya Birla Health Insurance payment. You can call us on&nbsp;{{{Opportunity.Description}}} or click to renew :&nbsp;https://abcap.co.in/ABCABH/RrOBKwU</body>
+<body style="height: auto; min-height: auto;">Hi {{{Opportunity.Customer_Name__c}}}, We tried calling you to remind you about your pending Aditya Birla Health Insurance payment. You can call us on {{{Opportunity.Description}}} or click to renew : {{{Opportunity.Payment_Link__c}}}</body>
 </html>

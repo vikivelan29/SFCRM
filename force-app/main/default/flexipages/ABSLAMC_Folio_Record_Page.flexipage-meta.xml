@@ -97,6 +97,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.X2nd_Holder__c</fieldItem>
+                <identifier>RecordX2nd_Holder_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.X3rd_Holder__c</fieldItem>
                 <identifier>RecordX3rd_Holder_cField</identifier>
             </fieldInstance>
@@ -117,28 +127,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Bank_name__c</fieldItem>
-                <identifier>RecordBank_name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.IFSC_Code__c</fieldItem>
-                <identifier>RecordIFSC_Code_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Payment_Mode__c</fieldItem>
                 <identifier>RecordPayment_Mode_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Gap_Folio_Flag__c</fieldItem>
+                <identifier>RecordGap_Folio_Flag_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-338379ee-0869-4fd4-ac62-511029050d03</name>
@@ -171,26 +171,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.X2nd_Holder__c</fieldItem>
-                <identifier>RecordX2nd_Holder_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Guardian_Name__c</fieldItem>
-                <identifier>RecordGuardian_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Bank_Account_Number__c</fieldItem>
                 <identifier>RecordBank_Account_Number_cField</identifier>
             </fieldInstance>
@@ -201,8 +181,28 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.IFSC_Code__c</fieldItem>
+                <identifier>RecordIFSC_Code_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Bank_Branch_Name__c</fieldItem>
                 <identifier>RecordBank_Branch_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Bank_name__c</fieldItem>
+                <identifier>RecordBank_name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -281,6 +281,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Nominee3__c</fieldItem>
                 <identifier>RecordNominee3_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Guardian_Name__c</fieldItem>
+                <identifier>RecordGuardian_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-9d5517b1-33ac-48af-9f39-d20ead2b58ae</name>

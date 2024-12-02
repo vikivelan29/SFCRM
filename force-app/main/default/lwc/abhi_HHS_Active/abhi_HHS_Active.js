@@ -74,7 +74,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
             attributeCode: label,
             attributeValue: DEFAULT_VALUES[label]
         }));
-        console.log('Initialized Table with Defaults:', JSON.stringify(this.table, null, 2));
+        //console.log('Initialized Table with Defaults:', JSON.stringify(this.table, null, 2));
 
     }
 
@@ -85,7 +85,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
 
         getHhsActiveAge({customerId:customerId})
         .then(result => {
-            console.log('result---->', result);
             this.isLoading = false;
             this.showDataTable = true;
             this.ApiFailure = result.Message;
@@ -137,7 +136,6 @@ export default class AbhiActiveAgeDetails extends LightningElement {
         
         getColumns({ configName: 'ABHI_ActiveAgeDetails' })
         .then(result => {
-            console.log('result---->', result);
             this.columns2 = result.map(column => ({
                 label: column.MasterLabel,
                 fieldName: column.Api_Name__c,
@@ -149,20 +147,17 @@ export default class AbhiActiveAgeDetails extends LightningElement {
     }
 
     processResponse(response) {
-        console.log('API Response:', response);
         this.initializeTable(); // Initialize with default values
-        console.log('Initialized Table with Defaults:', this.table);
         this.recordTable = null;
         this.recordTable2 = [];
         this.currentPage = 1;
         let hasData = false;
         
         if (response && response.StatusCode === '1000'|| response.StatusCode === '1002') {
-            console.log('response code', response.StatusCode);
+            //console.log('response code', response.StatusCode);
           
             if(response.activeAge!=null){
                 const activeAge = response.activeAge;
-            console.log('activeAge-->',activeAge);
 
             const tableData = [{
                 CustomerNo: activeAge.CustomerNo,
@@ -196,7 +191,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                         const resultsList = response.HHSDetails.responseMap.resultsList;
                         const tierLevelName = resultsList.tierLevelName;
                         const activities = resultsList.activities;
-                            console.log('Activities:', JSON.stringify(activities, null, 2));
+                            //console.log('Activities:', JSON.stringify(activities, null, 2));
 
                             //let table = [...this.table];
                             let table = Object.keys(DEFAULT_VALUES).map(label => ({
@@ -243,7 +238,9 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                                 console.log('Table Data:', JSON.stringify(this.table, null, 2));
                                 this.showTable = true;
                                 hasData = true;
-                                console.log('hasData', hasData);
+                                this.totalRecords = this.table.length;
+            this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+            this.updateTableData();
                             } else {
                                 this.table = [];
                                 this.noResultsMessage = true;
@@ -251,7 +248,7 @@ export default class AbhiActiveAgeDetails extends LightningElement {
                             }
                    
                 } else if (resultMessage.businessDesc === "No Result found") {
-                    console.log('resultMessage.businessDesc', resultMessage.businessDesc);
+                    //console.log('resultMessage.businessDesc', resultMessage.businessDesc);
                     // Handle case where "No Result found" is present
                     this.resultMessageValue = response.HHSDetails.serviceMessages[0].businessDesc;
                 }

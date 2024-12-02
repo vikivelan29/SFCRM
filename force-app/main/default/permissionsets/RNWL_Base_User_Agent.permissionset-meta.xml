@@ -7,6 +7,16 @@
     <description>Base user permission for all external renewals users</description>
     <fieldPermissions>
         <editable>false</editable>
+        <field>User.Manager__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Payment_Link_Response__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ASF_Communication_Log__c.Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4743,11 +4753,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Customer_Member_Mapping__c.Pre_Existing_Disease_Waiting_Period__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Relation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

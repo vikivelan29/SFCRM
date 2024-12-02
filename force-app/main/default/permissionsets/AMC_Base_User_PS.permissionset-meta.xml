@@ -701,7 +701,7 @@
         <field>ABSLAMC_Case_Detail__c.Redemption_Letter_Received__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ABSLAMC_Case_Detail__c.Payout_Mode__c</field>
         <readable>true</readable>
@@ -2498,6 +2498,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.Handle_With_Care_Indicator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Income__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3449,6 +3454,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Folio__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Gap_Folio_Flag__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5306,7 +5316,7 @@
         <field>Case.Latest_Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.Notes_from_Sprinklr__c</field>
         <readable>true</readable>
@@ -6191,7 +6201,7 @@
         <field>PRODUCT_MASTER__c.Last_Update_Date_Time__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+        <fieldPermissions>
         <editable>false</editable>
         <field>Survey_Response__c.Business_Unit__c</field>
         <readable>true</readable>
@@ -6510,7 +6520,7 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Knowledge__kav</object>
-        <viewAllRecords>true</viewAllRecords>
+        <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
@@ -6589,6 +6599,10 @@
         <recordType>PersonAccount.Individual</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabSettings>
+        <tab>Customer_Prospect_Search</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <tabSettings>
         <tab>Knowledge__kav</tab>
         <visibility>Visible</visibility>

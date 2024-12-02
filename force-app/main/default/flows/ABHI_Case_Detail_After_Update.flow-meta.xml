@@ -28,6 +28,19 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <name>UpdateMemberCode</name>
+        <label>UpdateMemberCode</label>
+        <locationX>1106</locationX>
+        <locationY>395</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Member_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.Client_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>UpdateMemberFields</name>
         <label>UpdateMemberFields</label>
         <locationX>50</locationX>
@@ -95,6 +108,48 @@
                 <elementReference>$Record.Member__r.MemberExternalId__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Member_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.Client_Code__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_First_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.FirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_Last_Name__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.LastName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_Gender__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.PersonGenderIdentity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_Primary_Number_Member__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.PersonMobilePhone</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_DOB__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.PersonBirthdate</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <name>UpdateNomineeFields</name>
@@ -126,7 +181,7 @@
     <decisions>
         <name>CheckIfPolicyOrNomineeUpdated</name>
         <label>CheckIfPolicyOrNomineeUpdated</label>
-        <locationX>578</locationX>
+        <locationX>710</locationX>
         <locationY>287</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -217,6 +272,28 @@
             </connector>
             <label>Status Updated</label>
         </rules>
+        <rules>
+            <name>MemberCodeUpdate</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Member__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Member__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Member__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateMemberCode</targetReference>
+            </connector>
+            <label>MemberCodeUpdate</label>
+        </rules>
     </decisions>
     <description>ABHI Case Detail Status update</description>
     <environments>Default</environments>
@@ -265,11 +342,11 @@
         </outputAssignments>
         <outputAssignments>
             <assignToReference>Pan_Number</assignToReference>
-            <field>PAN_Number__c</field>
+            <field>PAN__c</field>
         </outputAssignments>
     </recordLookups>
     <start>
-        <locationX>452</locationX>
+        <locationX>584</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>CheckIfPolicyOrNomineeUpdated</targetReference>

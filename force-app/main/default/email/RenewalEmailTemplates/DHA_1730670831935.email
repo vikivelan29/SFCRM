@@ -9,7 +9,7 @@ Hi {{{Opportunity.Customer_Name__c}}},<br />
 <br />
 in continuation to your phone conversation with Aditya Birla Health Insurance, you can complete your Digital Health Assessment by clicking on the link given below. With a simple face scan assess your vital health parameters like Stress Index, Heart Rate, BP, BMI, Oxygen Saturation and more.<br />
 <br />
-Face scan #ABHIkaro https://adityabirlahealthinsurancetest.page.link/uAY8<br />
+Face scan #ABHIkaro http://onelink.to/ah-cms<br />
 <br />
-Remember to renew your health insurance for continued protection. https://abcap.co.in/ABCABH/RrOBKwU</body>
+Remember to renew your health insurance for continued protection. {{{Opportunity.Payment_Link__c}}}</body>
 </html>

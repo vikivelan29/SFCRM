@@ -260,6 +260,16 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Plan_Name__c</fieldItem>
+                <identifier>RecordPlan_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.PlanCode__c</fieldItem>
@@ -312,8 +322,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Product2Id</fieldItem>
-                <identifier>RecordProduct2IdField</identifier>
+                <fieldItem>Record.ProductName__c</fieldItem>
+                <identifier>RecordProductName_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
