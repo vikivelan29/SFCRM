@@ -12,16 +12,11 @@
     <columns>Assigned_Team__c</columns>
     <columns>Ageing_Business_Days__c</columns>
     <columns>SR_TAT_elapsed__c</columns>
-    <filterScope>Mine</filterScope>
+    <filterScope>Everything</filterScope>
     <filters>
         <field>Business_Unit__c</field>
         <operation>equals</operation>
         <value>ABHI</value>
-    </filters>
-    <filters>
-        <field>CASES.ESCALATION_STATE</field>
-        <operation>equals</operation>
-        <value>1</value>
     </filters>
     <label>ABHI Escalated Cases</label>
     <sharedTo>
