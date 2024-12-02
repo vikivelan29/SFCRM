@@ -74,5 +74,5 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>InActive</status>
+    <status>Obsolete</status>
 </Flow>
