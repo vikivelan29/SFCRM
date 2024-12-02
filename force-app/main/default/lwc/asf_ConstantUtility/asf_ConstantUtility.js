@@ -387,6 +387,21 @@ export const lanLabels = {
         CREATE_SALES_PROSPECT: 'Create Service Prospect',
 
     },
+      //Added by Praneeth for CTST columns of Case Category for ABML
+      ABML: {
+        
+        CREATE_CASE_WITH_FA: "Products not available for ABML",
+        PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
+        CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
+        CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and LAN combination. We recommend selecting the right Case Type Sub Type for the case ?',
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect Tagging",
+        CTST_COLS: [
+            { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+            { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+        ],
+        
+    },
     ABWM: {
         SELECT_PRODUCT: "Select LAN",
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
@@ -572,6 +587,10 @@ export const lanLabels = {
   export const AUTO_COMM_BU_OPT = {
       Wellness: {
           OPTSLBLS: [{"label":"Email","value":"Email"},{"label":"SMS","value":"SMS"}]
-        } 
+        },
+        // Added by Saravpreet(To remove SMS option for ABML BU)
+      ABML: {
+            OPTSLBLS: [{"label":"Email","value":"Email"}]
+          }   
     };
     // Rajendra Singh Nagar: PR1030924-209 - End
