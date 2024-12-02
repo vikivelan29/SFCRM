@@ -193,20 +193,22 @@ public class RNWL_OpportunityTriggerHelper {
     * @return - void .
     * @Description - Invoked from After Insert, this method fire platform Event : ABCL_Integration_Event__e
     *****************************************************************************************************************/
-    public static void fireABCLIntegrationPE(List<Opportunity> newOpps){
+    public static void fireABCLIntegrationPE(List<Opportunity> newOpps, Map<Id,Opportunity> oldMap){
         
         List<ABCL_Integration_Event__e> eventList = new List<ABCL_Integration_Event__e>();
         
         for(Opportunity opp : newOpps){
-            ABCL_Integration_Event__e evt = new ABCL_Integration_Event__e();
-            evt.Business_Unit__c = 'ABHI-RNWL';
-            evt.ObjectApiName__c = 'Opportunity';
-            evt.Record_Id__c = opp.Id;
-            evt.ServiceName__c = 'ShortURLConversion';
-            evt.Request__c = '{"objRequest":{"LongURL":"'+opp.Payment_Link__c?.toString()+'","LOB":"ABHI-RNWL","UserId":"'+System.Label.RNWL_UserId+'","Password":"'+System.Label.RNWL_UserPassword+'"}}';
-        	eventList.add(evt);
+            if(opp.Payment_Link_Response__c == null && oldMap.get(opp.Id).Dialer_Status__c	 == 'Schedule Call Request Submitted' &&
+              (opp.Dialer_Status__c	== 'Schedule Call Request Failed' || opp.Dialer_Status__c == 'Schedule Call Request Successful' )){
+                ABCL_Integration_Event__e evt = new ABCL_Integration_Event__e();
+                evt.Business_Unit__c = 'ABHI-RNWL';
+                evt.ObjectApiName__c = 'Opportunity';
+                evt.Record_Id__c = opp.Id;
+                evt.ServiceName__c = 'ShortURLConversion';
+                evt.Request__c = '{"objRequest":{"LongURL":"'+opp.Payment_Link__c?.toString()+'","LOB":"ABCABH","UserId":"'+System.Label.RNWL_UserId+'","ExpiryDay":"210"}}';
+                eventList.add(evt);
+            }
         }
-        
         if(eventList.size() > 0){
             List<Database.SaveResult> results = EventBus.publish(eventList);
             for (Database.SaveResult sr : results) {
@@ -257,5 +259,4 @@ public class RNWL_OpportunityTriggerHelper {
             WHERE Id IN :oppIds
         ];
     }
-    
 }

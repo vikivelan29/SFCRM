@@ -3,7 +3,7 @@
 	<title></title>
 </head>
 <body style="height: auto; min-height: auto;">Dear Customer,<br />
-We regret to inform you that we are unable to process your Service Request No.{{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} since {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}.<br />
+We regret to inform you that we are unable to process your Service Request No. {{{ASF_Communication_Log__c.SMS_Merge_Field1__c}}} since {{{ASF_Communication_Log__c.SMS_Merge_Field2__c}}}.<br />
 Regards,<br />
 ABHI</body>
 </html>

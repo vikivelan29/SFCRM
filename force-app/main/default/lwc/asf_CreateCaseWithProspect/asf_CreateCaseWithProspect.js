@@ -173,6 +173,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
             this.cols = lanLabels[this.loggedInUserBusinessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+
+            //invoke adjustAutoCommunications once logged in User BU is identified
+            this.adjustAutoCommunications(undefined);
         } else if (error) {
             //this.error = error ;
         }
@@ -354,6 +357,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             message: Array.isArray(errMsg) ? errMsg[0] : errMsg
         });
         this.dispatchEvent(event);
+    }
+    handleFieldChange(event){ 
+        this.disableCreateBtn = false;
+        this.dupeLead = [];
+        this.showDupeList = false;
     }
     isInputValid() {
         let isValid = true;

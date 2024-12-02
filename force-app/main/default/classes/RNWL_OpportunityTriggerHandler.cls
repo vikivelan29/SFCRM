@@ -13,7 +13,6 @@ public class RNWL_OpportunityTriggerHandler extends ASF_VTriggerHandler {
         if(isTriggerDisabled()){return;}
         RNWL_UbonaIntegrationController.firePlatformEventForUbona(newOpps.values(), null);
         RNWL_OpportunityTriggerHelper.tagOppOnDisposition(newOpps.values());
-        RNWL_OpportunityTriggerHelper.fireABCLIntegrationPE(newOpps.values());
     }  
     
     public override void beforeUpdate(map<Id, Sobject> newOppMap, map<Id, Sobject> oldOppMap){
@@ -27,6 +26,7 @@ public class RNWL_OpportunityTriggerHandler extends ASF_VTriggerHandler {
         if(isTriggerDisabled()){return;}
         RNWL_UbonaIntegrationController.firePlatformEventForUbona(newOpps.values(), (Map<Id, Opportunity>)oldOpps);
         RNWL_OpportunityTriggerHelper.afterUpdateOpp(newOpps.values(), (Map<Id, Opportunity>)oldOpps);
+        RNWL_OpportunityTriggerHelper.fireABCLIntegrationPE(newOpps.values() , (Map<Id, Opportunity>)oldOpps);
     }
 
 }

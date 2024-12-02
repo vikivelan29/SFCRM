@@ -1587,7 +1587,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_UbonaCampaignId</shortDescription>
-        <value>40404041</value>
+        <value>40404049</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_SprinklrUpdateSpecificBUs</fullName>
@@ -1694,14 +1694,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RNWL_UserId</shortDescription>
-        <value>ClickPassProd</value>
-    </labels>
-    <labels>
-        <fullName>RNWL_UserPassword</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RNWL_UserPassword</shortDescription>
-        <value>B8iaP9sbZLX09KKbijoqkg==</value>
+        <value>SFDC_ABHI</value>
     </labels>
     <labels>
         <fullName>ABFL_GenAIIntegration</fullName>
@@ -1709,5 +1702,41 @@
         <protected>false</protected>
         <shortDescription>ABFL_GenAIIntegration</shortDescription>
         <value>UNFYD</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_CommunicationDailyFreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_CommunicationDailyFreq</shortDescription>
+        <value>You have exceeded the daily limit for sending this notification.</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_CommunicationOverallFreq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_CommunicationOverallFreq</shortDescription>
+        <value>You have exceeded the overall limit for sending this notification.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
+        <categories>Wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
+        <value>No records are available for display.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_BU</shortDescription>
+        <value>ABML</value>
     </labels>
 </CustomLabels>
