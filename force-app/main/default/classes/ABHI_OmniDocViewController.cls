@@ -216,16 +216,28 @@ public without sharing class ABHI_OmniDocViewController{
 	Public static boolean templateDetails(Map<String, Object> mapRow, String strASFRecordId, String strAssetId, String strPlanName, String strAccountId, String strAccountEmail){
 
         List<ASF_Case_Integration__c> lstAsfCaseIntegration = new List<ASF_Case_Integration__c>();
-        List<String> lstString = new List<String>();
-        List<EmailTemplate> lstEmailTemplate = new List<EmailTemplate>();
-        List<OrgWideEmailAddress> lstOrgWideEmailAddress = new List<OrgWideEmailAddress>();
+        List<String> lstString = new List<String>(); 
 
         try{
-            
+            EmailTemplate objEmailTemplate = new EmailTemplate();
             String strTemplateName; 
-            String strFromAddress;
+            String strFromAddress; 
+            String sObjName = Id.valueOf(strAssetId).getSObjectType().getDescribe().getName();
 
-           if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && mapRow != null ){
+            OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
+
+            if(sObjName == 'Opportunity'){
+                strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
+                strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
+            } 
+            else{
+                strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
+                strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+            }
+
+            objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
+            objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
+            if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && mapRow != null ){
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
                     strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
