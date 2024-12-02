@@ -235,9 +235,7 @@ public without sharing class ABHI_OmniDocViewController{
                 strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
             }
 
-            objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress LIMIT 1];
-            objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName  LIMIT 1];
-            if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && mapRow != null ){
+           if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && mapRow != null ){
 				
                 if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Opportunity'){
                     strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
