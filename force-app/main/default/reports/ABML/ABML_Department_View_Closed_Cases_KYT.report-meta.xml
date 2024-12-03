@@ -64,6 +64,13 @@
             <operator>equals</operator>
             <value>,Resolved</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Contact.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABML</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
