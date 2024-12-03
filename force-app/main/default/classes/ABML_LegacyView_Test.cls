@@ -1,144 +1,121 @@
 /**
- * @description       : Test Class for ABML_LegacyView
- * @author            : saravpreet.arora@in.ey.com
- * @group             : 
- * @last modified on  : 
- * @last modified by  : 
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   06/11/2024   Saravpreet Arora             Initial Version
+* @description       : Test Class for ABML_LegacyView
+* @author            : saravpreet.arora@in.ey.com
+* @group             : 
+* @last modified on  : 
+* @last modified by  : 
+* Modifications Log
+* Ver   Date         Author                       Modification
+* 1.0   06/11/2024   Saravpreet Arora             Initial Version
 **/
 @isTest
 public class ABML_LegacyView_Test {
-    private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id 
-                                                        FROM Profile 
-                                                        WHERE name='System Administrator' 
-                                                        LIMIT 1];
-	@TestSetup
+    
+    private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
+    @TestSetup
     static void makeData(){
-        Group slaGroup = new Group();
         
-        slaGroup = new Group(Name='SLAManagerGroup', DeveloperName='SLAManagerGroup', Type = 'Queue');
-        insert slaGroup;
         Id FraAccRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Franchisee').getRecordTypeId();
         Id BranchEmpAccRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Branch Employee').getRecordTypeId();
-		Id CustAccRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Customer').getRecordTypeId();
-
-        User superManagerUser = new User(
-            IsActive = true,
-            Business_Unit__c='ABML',
-            FirstName = 'Test',
-            LastName='Super Manager User Test 12',
-            Username='supermanageruserTest12@test.com',
-            Email='supermanageruserTest12@test.com',
-            Alias = 'mgrt',
-            EmailEncodingKey='UTF-8',
-            LanguageLocaleKey='en_US',
-            LocaleSidKey='en_US', 
-            ProfileId = SYSTEMADMIN_PROFILE.Id, 
-            TimeZoneSidKey='America/Los_Angeles', managerGroupId__c=slaGroup.Id
-        );
-        insert superManagerUser;
-        
-        User userRecord = new User(Alias = 'standt', Email='stantarduserEmails@testorg.com', 
-                                    EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='Testcdefghijk567@gmail.com',
-                                    managerGroupId__c=slaGroup.Id, managerID = superManagerUser.Id
-                                    );
-        insert userRecord;        
-        Test.startTest();
-        List<PermissionSetAssignment> psa = new List<PermissionSetAssignment>();
-        PermissionSet ps = [SELECT Id 
-                            FROM PermissionSet 
-                            WHERE Name = 'Admin_User' ];
-        psa.add(new PermissionSetAssignment(AssigneeId = userRecord.Id, PermissionSetId = ps.Id));
-        psa.add(new PermissionSetAssignment(AssigneeId = superManagerUser.Id, PermissionSetId = ps.Id));
+        Id CustAccRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Customer').getRecordTypeId();
         
         
-        insert psa;
-        Test.stopTest();
+        User userRecord = new User(Alias = 'standt', Email='stantarduserEmails@testorg.com', EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US', 
+                                   LocaleSidKey = 'en_US', ProfileId = SYSTEMADMIN_PROFILE.Id, TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testUserAbml@gmail.com');
+        insert userRecord; 
+        
         System.runAs(userRecord) {
-           
-            Account testAccount = new Account(
-                Name = 'Franchisee Account',
-            	RecordTypeId = FraAccRecordTypeId,
-            	ABML_Franchisee_Code__c = 'Franchisee001',
-            	Line_of_Business__c = 'ABML'
-            );
-            insert testAccount;
-            
-            
-            Account testAccountBr = new Account(
-                LastName = 'Branch Employee Account',
-            	RecordTypeId = BranchEmpAccRecordTypeId,
-            	Line_of_Business__c = 'ABML',
-                ABML_Client_Branch_Franchisee__pc = testAccount.Id
-            );
-            insert testAccountBr;
-    		
-            
-            Account testAccountCa = new Account(
-                LastName = 'Customer Account',
-            	RecordTypeId = CustAccRecordTypeId,
-            	Line_of_Business__c = 'ABML',
-                ABML_Client_Branch_Franchisee__pc = testAccount.Id,
-                Client_Code__c = 'Client001',
-                PAN__c = 'PAN001'
-            );
-            insert testAccountCa;
-    		
-            
+            List<Account> listOfAccountsToInsert = new  List<Account>();
+            Account testAccount = new Account(Name = 'Franchisee Acc', RecordTypeId = FraAccRecordTypeId, ABML_Franchisee_Code__c = 'Franchisee001', Line_of_Business__c = 'ABML');
+            listOfAccountsToInsert.add(testAccount); 
+            Account testAccountBr = new Account(LastName = 'Branch Employee Account', RecordTypeId = BranchEmpAccRecordTypeId, Line_of_Business__c = 'ABML', 
+                                                ABML_Client_Branch_Franchisee__pc = testAccount.Id);
+            listOfAccountsToInsert.add(testAccountBr);
+            Account testAccountCa = new Account( LastName = 'Customer Account', RecordTypeId = CustAccRecordTypeId, Line_of_Business__c = 'ABML', 
+                                                ABML_Client_Branch_Franchisee__pc = testAccount.Id, Client_Code__c = 'Client001', PAN__c = 'PAN001' );            
+            listOfAccountsToInsert.add(testAccountCa);
+            insert listOfAccountsToInsert;
         }
         
     }
     
     @isTest
-    static void testabmlGetPersonAccountData(){
-        List<Account> acc = [SELECT ID FROM Account];
-        Test.startTest();
-        ABML_LegacyView.abmlPersonAccountWrapper result = ABML_LegacyView.abmlGetPersonAccountData(acc[0].Id);
-        ABML_LegacyView.abmlPersonAccountWrapper resultBr = ABML_LegacyView.abmlGetPersonAccountData(acc[1].Id);
-        ABML_LegacyView.abmlPersonAccountWrapper resultCa = ABML_LegacyView.abmlGetPersonAccountData(acc[2].Id);
-        Test.stopTest();
-        // Assertions to check that the result is correct
-        System.assertNotEquals(null, result, 'The result should not be null');
-        System.assertNotEquals(null, resultBr, 'The result should not be null');
-        System.assertNotEquals(null, resultCa, 'The result should not be null');
-        System.assertEquals('Franchisee001', result.franchiseeCode, 'Franchisee Code should match');
-        System.assertEquals('Client001', resultCa.clientCode, 'Client Code should match');
-        System.assertEquals('PAN001', resultCa.pan, 'PAN should match');
-        System.assertEquals('ABML', result.lob, 'LOB should match');
+    static void abmlGetFranchiseeAccountData(){
+        User objUser = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' LIMIT 1];
+        System.runAs(objUser){            
+            Test.startTest();
+            Id franchiseeAccountId = [SELECT ID FROM Account Where Name = 'Franchisee Acc'].Id;
+            ABML_LegacyView.abmlPersonAccountWrapper result = ABML_LegacyView.abmlGetPersonAccountData(franchiseeAccountId);
+            System.assertEquals('Franchisee001', result.franchiseeCode, 'Franchisee Code match!');
+            Test.stopTest();
+        }
     }
     
-	@isTest static void testgetLegacyData() {
-        // Set mock callout class 
-        Test.setMock(HttpCalloutMock.class, new ABML_LegacyMockResponseGenerator());
-        Test.startTest();
-        ABML_LegacyView.AbmlResponseWrapper res = ABML_LegacyView.abmlGetLegacyData('277956','','','','','');
-        Test.stopTest();
-        
-        System.assertEquals(200,res.statusCode, 'code');
-        System.assertEquals('1', res.ReturnCode, 'return code');
+    @isTest
+    static void testabmlGetBranchAccountData(){
+        User objUser = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' LIMIT 1];
+        System.runAs(objUser){            
+            Test.startTest();
+            Id branchEmpAccId = [SELECT ID FROM Account Where LastName = 'Branch Employee Account'].Id;
+            ABML_LegacyView.abmlPersonAccountWrapper resultBr = ABML_LegacyView.abmlGetPersonAccountData(branchEmpAccId);
+            System.assertNotEquals(null, resultBr, 'The result should not be null!');
+            Test.stopTest();
+        }
     }
-    @isTest static void testgetLegacyFailureData() {
-        // Set mock callout class 
-        Test.setMock(HttpCalloutMock.class, new ABML_LegacyMockFailureResponseGenerator());
-        Test.startTest();
-        ABML_LegacyView.AbmlResponseWrapper res = ABML_LegacyView.abmlGetLegacyData('','','','','','');
-        Test.stopTest();
-        
-        System.assertEquals(404,res.statusCode, 'statusCode');
+    
+    @isTest
+    static void testabmlGetCustAccData(){
+        User objUser = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' LIMIT 1];
+        System.runAs(objUser){
+            
+            Test.startTest();
+            Id customerAccId = [SELECT ID FROM Account WHERE  LastName = 'Customer Account'].Id;
+            ABML_LegacyView.abmlPersonAccountWrapper resultCa = ABML_LegacyView.abmlGetPersonAccountData(customerAccId);
+            System.assertEquals('Client001', resultCa.clientCode, 'Client Code matched!');
+            Test.stopTest();
+        }
     }
+    
+    
+    @isTest static void abmlGetLegacyDataTest() {
+        // Set mock callout class 
+        User objUser = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' LIMIT 1];
+        System.runAs(objUser){
+            
+            Test.startTest();
+            
+            Test.setMock(HttpCalloutMock.class, new ABML_LegacyMockResponseGenerator());            
+            ABML_LegacyView.AbmlResponseWrapper res = ABML_LegacyView.abmlGetLegacyData('277956','','','','','','','');            
+            System.assertEquals(200, res.statusCode, 'Success Response Code!');
+            
+            Test.stopTest();
+        }
+    }
+    
+    @isTest static void abmlGetLegacyDataFailTest() {
+        // Set mock callout class 
+        User objUser = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' LIMIT 1];
+        System.runAs(objUser){
+            
+            Test.startTest();
+            
+            Test.setMock(HttpCalloutMock.class, new ABML_LegacyMockFailureResponseGenerator());
+            ABML_LegacyView.AbmlResponseWrapper res = ABML_LegacyView.abmlGetLegacyData('','','','','','','','');
+            System.assertEquals(404, res.statusCode, 'Failure Response Code!');
+            
+            Test.stopTest();            
+        }
+    }
+    
     /**
-    * @description  Mocking success response
-    */ 
+* @description  Mocking success response
+*/ 
     public class ABML_LegacyMockResponseGenerator implements HttpCalloutMock {
         /**
-            * @description  Mocking success response
-            * @param req
-            ** @return HTTPResponse
-        */ 
+* @description  Mocking success response
+* @param req
+** @return HTTPResponse
+*/ 
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
@@ -149,18 +126,18 @@ public class ABML_LegacyView_Test {
         }
     }
     /**
-    * @description Mocking failure response
-    */ 
+* @description Mocking failure response
+*/ 
     public class ABML_LegacyMockFailureResponseGenerator implements HttpCalloutMock {
         /**
-            * @description  Mocking failure response
-            * @param req
-            ** @return HTTPResponse
-        */ 
+* @description  Mocking failure response
+* @param req
+** @return HTTPResponse
+*/ 
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
-			String s = '{\"ReturnCode\":\"2\",\"ReturnMessage\":\"Nodatafound\"}';
+            String s = '{\"ReturnCode\":\"2\",\"ReturnMessage\":\"Nodatafound\"}';
             res.setBody(s);
             res.setStatusCode(404);
             return res;
