@@ -165,7 +165,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>	
-	<fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ABML_Bank__c.ABML_Client_Code__c</field>
         <readable>false</readable>
@@ -2213,7 +2213,7 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Business_Unit__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2293,7 +2293,7 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.HomePhone</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2418,7 +2418,7 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Title</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
