@@ -142,6 +142,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
             for(String businessUnit : mapOfBUToCases.keySet()){
                 if(businessUnit == 'ABHFL'){
                     if(Label.ABHFL_Case_Dedupe_Active=='Active'){
+                        ABHFL_CTSTHelper.runDuplicateCheckForRecat((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
                         ABHFL_CTSTHelper.runDuplicateCheckForUpdate(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);    
                     }
                     ABHFL_CTSTHelper.preClosureStopAtCPUBanking(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
@@ -199,6 +200,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ctstHelperObj.callLitmusApi((List<Case>) mapOfBUToCases.get(businessUnit), (Map<Id, Case>) oldItems);
                     ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
                     ABHFL_CTSTHelper.backwardMovementEmail((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
+                    ABHFL_CTSTHelper.updateOwnerToRecatUsr((List<Case>)newItems.values(),(Map<Id, Case>)oldItems);
                     //AM-PR970457-1295
                     ABHFL_CTSTHelper.sendGrievanceDetailsEmail((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
                     //AM-call method to delete existing asset detail records on customer change
