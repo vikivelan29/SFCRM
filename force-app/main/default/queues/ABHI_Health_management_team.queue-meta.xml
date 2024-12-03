@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
-    <email>akshata.kale-v@adityabirlacapital.com</email>
     <name>ABHI Health management team</name>
-    <queueRoutingConfig>ABHI_Routing_Config</queueRoutingConfig>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABHI_Health_management_team</publicGroup>
+        </publicGroups>
+    </queueMembers>
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>
