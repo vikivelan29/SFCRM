@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
+    <assignments>
+        <name>Close_Case</name>
+        <label>Close Case</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Resolved</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Flow To Close Query Cases</description>
     <environments>Default</environments>
     <interviewLabel>ABML Close {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABML Close Query Case via Phone</label>
