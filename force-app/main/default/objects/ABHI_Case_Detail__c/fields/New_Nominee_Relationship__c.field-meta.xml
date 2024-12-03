@@ -11,17 +11,17 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>R054</fullName>
+                <fullName>R001</fullName>
                 <default>false</default>
                 <label>AUDITOR</label>
             </value>
             <value>
-                <fullName>R032</fullName>
+                <fullName>R002</fullName>
                 <default>false</default>
                 <label>AUNT</label>
             </value>
             <value>
-                <fullName>R027</fullName>
+                <fullName>R003</fullName>
                 <default>false</default>
                 <label>AUTHORIZED SIGNATORY</label>
             </value>
@@ -36,87 +36,87 @@
                 <label>BENEFICIARY OWNER</label>
             </value>
             <value>
-                <fullName>R009</fullName>
+                <fullName>R004</fullName>
                 <default>false</default>
                 <label>BROTHER</label>
             </value>
             <value>
-                <fullName>R017</fullName>
+                <fullName>R005</fullName>
                 <default>false</default>
                 <label>BROTHER IN-LAW</label>
             </value>
             <value>
-                <fullName>R049</fullName>
+                <fullName>R006</fullName>
                 <default>false</default>
                 <label>CO-DIRECTOR</label>
             </value>
             <value>
-                <fullName>R048</fullName>
+                <fullName>R007</fullName>
                 <default>false</default>
                 <label>CO-PARTNERS</label>
             </value>
             <value>
-                <fullName>R051</fullName>
+                <fullName>R008</fullName>
                 <default>false</default>
                 <label>CONTACT PERSON</label>
             </value>
             <value>
-                <fullName>R050</fullName>
+                <fullName>R009</fullName>
                 <default>false</default>
                 <label>COUSIN BROTHER</label>
             </value>
             <value>
-                <fullName>R047</fullName>
+                <fullName>R010</fullName>
                 <default>false</default>
                 <label>COUSIN SISTER</label>
             </value>
             <value>
-                <fullName>R016</fullName>
+                <fullName>R011</fullName>
                 <default>false</default>
                 <label>DAUGHTER IN-LAW</label>
             </value>
             <value>
-                <fullName>R004</fullName>
+                <fullName>R012</fullName>
                 <default>false</default>
                 <label>DEPENDENT DAUGHTER</label>
             </value>
             <value>
-                <fullName>D</fullName>
+                <fullName>R013</fullName>
                 <default>false</default>
                 <label>DEPENDENT PARENT</label>
             </value>
             <value>
-                <fullName>R003</fullName>
+                <fullName>R014</fullName>
                 <default>false</default>
                 <label>DEPENDENT SON</label>
             </value>
             <value>
-                <fullName>R046</fullName>
+                <fullName>R015</fullName>
                 <default>false</default>
                 <label>DIRECTOR</label>
             </value>
             <value>
-                <fullName>R024</fullName>
+                <fullName>R017</fullName>
                 <default>false</default>
                 <label>EMPLOYER-EMPLOYEE</label>
             </value>
             <value>
-                <fullName>R045</fullName>
+                <fullName>R018</fullName>
                 <default>false</default>
                 <label>EXECUTOR</label>
             </value>
             <value>
-                <fullName>R006</fullName>
+                <fullName>R019</fullName>
                 <default>false</default>
                 <label>FATHER</label>
             </value>
             <value>
-                <fullName>R008</fullName>
+                <fullName>R020</fullName>
                 <default>false</default>
                 <label>FATHER-IN-LAW</label>
             </value>
             <value>
-                <fullName>R044</fullName>
+                <fullName>R025</fullName>
                 <default>false</default>
                 <label>FRIEND</label>
             </value>
