@@ -102,7 +102,7 @@
                             <value>SumInsured__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Policy_number_Formula__c</value>
+                            <value>Policy_Number__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>DOB__c</value>
@@ -131,11 +131,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
-                    <value>__DEFAULT__</value>
+                    <value>Policy_Number__c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldOrder</name>
-                    <value>Default</value>
+                    <value>Ascending</value>
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList5</identifier>
