@@ -172,6 +172,14 @@
         <apexClass>ABHI_EBOTCaseLogics</apexClass>
         <enabled>true</enabled>
     </classAccesses>  
+    <classAccesses>
+        <apexClass>ABHI_ClosedIGMSComplaintIntegration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>  
+    <classAccesses>
+        <apexClass>ABHI_EBOTCaseLogics</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>  
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.DocumentIndex__c</field>
