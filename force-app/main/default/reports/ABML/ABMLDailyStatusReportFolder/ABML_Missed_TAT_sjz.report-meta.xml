@@ -19,7 +19,7 @@
         <field>FK_$ABML_Case_Detail__c.TAT_Deadline__c</field>
     </columns>
     <columns>
-        <field>FK_$ABML_Case_Detail__c.TAT_Days__c</field>
+        <field>Case.Overall_Case_Closure_SLA__c</field>
     </columns>
     <description>A bar chart that shows the number of cases that have missed their TAT Deadline</description>
     <format>Summary</format>

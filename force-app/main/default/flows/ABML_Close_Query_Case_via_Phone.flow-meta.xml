@@ -14,7 +14,6 @@
             </value>
         </assignmentItems>
     </assignments>
-    <description>Flow To Close Query Cases</description>
     <environments>Default</environments>
     <interviewLabel>ABML Close {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABML Close Query Case via Phone</label>
