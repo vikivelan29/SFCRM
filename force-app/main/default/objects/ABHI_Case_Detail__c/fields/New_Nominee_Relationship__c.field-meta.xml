@@ -12,17 +12,17 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Self</fullName>
+                <fullName>R001</fullName>
                 <default>false</default>
                 <label>Self</label>
             </value>
             <value>
-                <fullName>Spouse</fullName>
+                <fullName>R002</fullName>
                 <default>false</default>
                 <label>Spouse</label>
             </value>
             <value>
-                <fullName>Dependent Son</fullName>
+                <fullName>R003</fullName>
                 <default>false</default>
                 <label>Dependent Son</label>
             </value>
@@ -37,87 +37,87 @@
                 <label>Daughter</label>
             </value>
             <value>
-                <fullName>Dependent Daughter</fullName>
+                <fullName>R004</fullName>
                 <default>false</default>
                 <label>Dependent Daughter</label>
             </value>
             <value>
-                <fullName>Mother</fullName>
+                <fullName>R005</fullName>
                 <default>false</default>
                 <label>Mother</label>
             </value>
             <value>
-                <fullName>Father</fullName>
+                <fullName>R006</fullName>
                 <default>false</default>
                 <label>Father</label>
             </value>
             <value>
-                <fullName>Mother-In-Law</fullName>
+                <fullName>R007</fullName>
                 <default>false</default>
                 <label>Mother-In-Law</label>
             </value>
             <value>
-                <fullName>Father-In-Law</fullName>
+                <fullName>R008</fullName>
                 <default>false</default>
                 <label>Father-In-Law</label>
             </value>
             <value>
-                <fullName>Brother</fullName>
+                <fullName>R009</fullName>
                 <default>false</default>
                 <label>Brother</label>
             </value>
             <value>
-                <fullName>Sister</fullName>
+                <fullName>R010</fullName>
                 <default>false</default>
                 <label>Sister</label>
             </value>
             <value>
-                <fullName>Grandfather</fullName>
+                <fullName>R011</fullName>
                 <default>false</default>
                 <label>Grandfather</label>
             </value>
             <value>
-                <fullName>Grandmother</fullName>
+                <fullName>R012</fullName>
                 <default>false</default>
                 <label>Grandmother</label>
             </value>
             <value>
-                <fullName>Grandson</fullName>
+                <fullName>R013</fullName>
                 <default>false</default>
                 <label>Grandson</label>
             </value>
             <value>
-                <fullName>Granddaughter</fullName>
+                <fullName>R014</fullName>
                 <default>false</default>
                 <label>Granddaughter</label>
             </value>
             <value>
-                <fullName>Son-in-law</fullName>
+                <fullName>R015</fullName>
                 <default>false</default>
                 <label>Son-in-law</label>
             </value>
             <value>
-                <fullName>Brother in-law</fullName>
+                <fullName>R017</fullName>
                 <default>false</default>
                 <label>Brother in-law</label>
             </value>
             <value>
-                <fullName>Sister in-law</fullName>
+                <fullName>R018</fullName>
                 <default>false</default>
                 <label>Sister in-law</label>
             </value>
             <value>
-                <fullName>Nephew</fullName>
+                <fullName>R019</fullName>
                 <default>false</default>
                 <label>Nephew</label>
             </value>
             <value>
-                <fullName>Niece</fullName>
+                <fullName>R020</fullName>
                 <default>false</default>
                 <label>Niece</label>
             </value>
             <value>
-                <fullName>Uncle</fullName>
+                <fullName>R025</fullName>
                 <default>false</default>
                 <label>Uncle</label>
             </value>
