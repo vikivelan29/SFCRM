@@ -275,13 +275,11 @@ export default class mcrm_legacyCasesView extends LightningElement {
 
     adjustDates(data){
         data.forEach(rec=>{
-            for (const prop in rec){
-                console.log('***prop:'+prop);
-                console.log('***valid:'+this.isValidDate(rec[prop]));
-                if((prop=='CaseResolvedOn' || prop=='CaseCreatedOn') && rec[prop] && this.isValidDate(rec[prop])){
-                    rec[prop] = this.convertToIST(rec[prop]);
-                    console.log('***rec[prop]:'+rec[prop]);
-                }
+            if((rec['CaseResolvedOn']) && this.isValidDate(rec['CaseResolvedOn'])){
+                rec['CaseResolvedOn'] = this.convertToIST(rec['CaseResolvedOn']);
+            }
+            if((rec['CaseCreatedOn']) && this.isValidDate(rec['CaseCreatedOn'])){
+                rec['CaseCreatedOn'] = this.convertToIST(rec['CaseCreatedOn']);
             }
         });
     }
