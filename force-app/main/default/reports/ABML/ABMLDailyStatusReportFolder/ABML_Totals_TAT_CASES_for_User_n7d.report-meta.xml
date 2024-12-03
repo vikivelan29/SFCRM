@@ -13,13 +13,10 @@
         <field>PC_$Contact.ABML_Agent_Code__c</field>
     </columns>
     <columns>
-        <field>FK_NAME</field>
-    </columns>
-    <columns>
         <field>Account.ABML_Franchisee_Code__c</field>
     </columns>
     <columns>
-        <field>SUBJECT</field>
+        <field>FK_NAME</field>
     </columns>
     <columns>
         <field>Case.Nature__c</field>
@@ -34,10 +31,14 @@
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
-        <field>ACCOUNT.NAME</field>
+        <field>DESCRIPTION</field>
     </columns>
     <columns>
-        <field>CREATED_DATE</field>
+        <field>Case.Created_Date__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case.Ageing_Number_Of_Days__c</field>
     </columns>
     <description>A bar chart that shows the number of cases that have their TAT Deadline on that day.</description>
     <filter>
