@@ -21,14 +21,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ABML_CloseQueryCase</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABML_CloseQueryCase_Test</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ABML_LegacyView</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -141,7 +133,27 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_FieldSetController</apexClass>
+        <apexClass>ASF_CreateCaseWithTypeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CreateCaseWithTypeController_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_CustomerEmailInvocable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_Email2CaseHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_EmailMessageHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ASF_EmailMessageQueryHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -153,10 +165,26 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ASF_UbonaAccountRetrieval</apexClass>
+        <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <customPermissions>
+    <classAccesses>
+        <apexClass>ABML_Listviewcallout</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_Listviewcallout_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABML_MockGenerator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>ASF_UbonaAccountRetrieval</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>	
+       <customPermissions>
         <enabled>true</enabled>
         <name>Restrict_User_Updation</name>
     </customPermissions>
@@ -509,6 +537,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.ABML_Partner_Segmentation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.ABML_Activation_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -585,6 +618,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.ABML_Contact_Subcategory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.ABML_Contact_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -702,6 +740,11 @@
         <field>Account.AccountNumber</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Company_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.AccountSource</field>
@@ -730,11 +773,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Client_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Account.Company_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1657,6 +1695,31 @@
         <field>Case.typeSubTypeMismatch__c</field>
         <readable>true</readable>
     </fieldPermissions>
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Contract_Mode__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Time__c</field>    
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Last_Trade_Date_COM__c</field>
+    <readable>true</readable>
+</fieldPermissions> 
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Contact_Preference__c</field>
+    <readable>true</readable>
+</fieldPermissions> 
+<fieldPermissions>
+    <editable>true</editable>
+    <field>Contact.ABML_Last_Trade_Date_EQ__c</field>
+    <readable>true</readable>
+</fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.ABML_Aadhar_No__c</field>
@@ -1919,16 +1982,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.ABML_Sensitive__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.ABML_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.ABML_WelcomeCallStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1939,12 +1992,72 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Birthdate</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Business_Unit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Department</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Description</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Email</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Email2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Fax</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.GenderIdentity</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Line_of_Business__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.MailingAddress</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.MobilePhone</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Mobile_Phone_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.OtherAddress</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.OtherPhone</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
