@@ -1054,6 +1054,9 @@
                             <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>ASSET.NAME</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>CASES.CREATED_DATE_DATE_ONLY</value>
                         </valueListItems>
                         <valueListItems>
