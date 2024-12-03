@@ -30,6 +30,13 @@
             <operator>equals</operator>
             <value>Open</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABML</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
