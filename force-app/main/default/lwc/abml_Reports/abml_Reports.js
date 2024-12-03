@@ -222,7 +222,7 @@ export default class Abml_Reports extends LightningElement {
             //this.successMessage = 'Report type sent succesfully!';
             //this.errorMessage = '';
             LightningAlert.open({
-                message: 'Report details sent succesfully',
+                message: 'Report details sent successfully',
                 theme: 'success', 
                 label: 'Success!',
             });
