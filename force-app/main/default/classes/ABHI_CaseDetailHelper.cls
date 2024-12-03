@@ -191,9 +191,9 @@ public with sharing class ABHI_CaseDetailHelper {
                 caseDetailRec.Postal_Code__c = mapOfAccIdtoAcc.get(accId).BillingPostalCode;
             }
             
-           // if(mapOfCaseDetailIdToCaseDetailRec.size() > 0) {
-           //     update mapOfCaseDetailIdToCaseDetailRec.values();
-          //  }
+            if(mapOfCaseDetailIdToCaseDetailRec.size() > 0) {
+               update mapOfCaseDetailIdToCaseDetailRec.values();
+           }
         }
     }
 }
