@@ -64,7 +64,7 @@
     <description>A bar chart that shows the number of cases that have their TAT Deadline on that day.</description>
     <filter>
         <criteriaItems>
-            <column>FK_$ABML_Case_Detail__c.TAT_Deadline__c</column>
+            <column>Case.Overall_Case_Closure_SLA__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>

@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Attribute_Mapping__c</field>
-        <value xsi:type="xsd:string">LastUpdatedOn</value>
+        <value xsi:type="xsd:string">ModifiedOn</value>
     </values>
     <values>
         <field>DynamicScreenHeader__c</field>

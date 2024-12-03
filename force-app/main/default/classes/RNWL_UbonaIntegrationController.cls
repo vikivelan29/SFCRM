@@ -39,7 +39,7 @@ public without sharing class RNWL_UbonaIntegrationController {
         Map<Id, Account> accMap = new Map<Id, Account>([SELECT Id, BillingState, Name, Phone, PersonMobilePhone, RecordType.Name
             FROM Account 
             WHERE Id IN :accIdsSet]);
-		
+        
         List<ABCL_Integration_Event__e> outboundIntPEList = new List<ABCL_Integration_Event__e>();
         for(Opportunity opp : oppsToOperate){
             ABCL_Integration_Event__e intPE = new ABCL_Integration_Event__e();
@@ -49,11 +49,12 @@ public without sharing class RNWL_UbonaIntegrationController {
             
             if(policyIdToAssetMap.size() > 0 && policyIdToAssetMap.containsKey(opp.Policy__c) && 
                accMap.size() > 0 && accMap.containsKey(opp.AccountId)){
-               	   intPE.Request__c = formJSONBody(opp, policyIdToAssetMap.get(opp.Policy__c), accMap.get(opp.AccountId)); 
+                   intPE.Request__c = formJSONBody(opp, policyIdToAssetMap.get(opp.Policy__c), accMap.get(opp.AccountId)); 
                    system.debug('*******' + intPE.Request__c);
             }
             
             intPE.ServiceName__c = 'UbonaScheduleCallServiceRenewal';
+            system.debug('******intPE: ' + intPE);
             outboundIntPEList.add(intPE);
         }
         
@@ -98,7 +99,7 @@ public without sharing class RNWL_UbonaIntegrationController {
             + '"RN Number": "' + getValue(opp.Name) + '",'
             + '"State": "' + getValue(acc?.BillingState) + '",'
             + '"STP NSTP": "' + getValue(asset?.Proposal_Type__c) + '",'
-            + '"SUM INSURED": "' + getValue(asset.Sum_Assured__c) + '",';
+            + '"SUM INSURED": "' + getValue(asset.Sum_Assured__c) + '"}';
 
         payld.context = context;
         ubonaWrap.payload = JSON.serialize(payld);
