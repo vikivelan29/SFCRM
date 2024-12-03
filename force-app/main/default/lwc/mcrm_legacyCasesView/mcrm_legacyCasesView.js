@@ -293,12 +293,13 @@ export default class mcrm_legacyCasesView extends LightningElement {
 
     convertToIST(dateString) {
         // Parse the input date string as a Date object
-        const date = new Date(dateString);
+        const istTime = new Date(dateString);
     
         // Convert the date to IST timezone by adding 5 hours and 30 minutes
-        const IST_OFFSET = 5 * 60 + 30; // IST is GMT+5:30
-        const gmtOffset = date.getTimezoneOffset(); // Timezone offset in minutes
-        const istTime = new Date(date.getTime() + (IST_OFFSET - gmtOffset) * 60000);
+        // const IST_OFFSET = 5 * 60 + 30; // IST is GMT+5:30
+        // const gmtOffset = date.getTimezoneOffset(); // Timezone offset in minutes
+        // const istTime = new Date(date.getTime() + (IST_OFFSET - gmtOffset) * 60000);
+        // const istTime = new Date(date.getTime() + (IST_OFFSET - gmtOffset) * 60000);
     
         // Extract day, month, year, hours, minutes, and seconds
         const day = istTime.getDate().toString().padStart(2, '0');
@@ -306,7 +307,7 @@ export default class mcrm_legacyCasesView extends LightningElement {
         const year = istTime.getFullYear();
         const hours = istTime.getHours().toString().padStart(2, '0');
         const minutes = istTime.getMinutes().toString().padStart(2, '0');
-        const seconds = istTime.getSeconds().toString().padStart(2, '0');
+        // const seconds = istTime.getSeconds().toString().padStart(2, '0');
     
         // Return the formatted date and time as dd/mm/yyyy hh:mm:ss
         return `${day}-${month}-${year} ${hours}:${minutes}`;
