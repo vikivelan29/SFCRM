@@ -42,10 +42,8 @@ public with sharing class ABML_LegacyView {
             result.pan = personAccount.PAN__c;
         }
 			return result;
-        
-                
-        
     }
+    
     /*********************************************************
     * @Class           AbmlPersonAccountWrapper
     * @Author          Saravpreet Arora
@@ -61,7 +59,6 @@ public with sharing class ABML_LegacyView {
         @AuraEnabled public String agentCode;
         @AuraEnabled public String brokerCode;
     }
-
 
     /* @LOB - ABML
     * @Function - abmlGetLegacyData
@@ -113,6 +110,7 @@ public with sharing class ABML_LegacyView {
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
         }
     }
+
     /*********************************************************
     * @Class           AbmlLegacyViewRequest
     * @Author          Saravpreet Arora
@@ -140,6 +138,7 @@ public with sharing class ABML_LegacyView {
             this.BrokerCode = brokerCode;
         }
     }
+
      /*********************************************************
     * @Class           AbmlResponseWrapper
     * @Author          Saravpreet Arora
