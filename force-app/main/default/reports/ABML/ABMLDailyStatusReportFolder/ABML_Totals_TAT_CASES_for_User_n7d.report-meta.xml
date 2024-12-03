@@ -16,13 +16,10 @@
         <field>Account.ABML_Franchisee_Code__c</field>
     </columns>
     <columns>
-        <field>FK_NAME</field>
-    </columns>
-    <columns>
         <field>Case.Nature__c</field>
     </columns>
     <columns>
-        <field>TYPE</field>
+        <field>Case.Type_Text__c</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
@@ -43,11 +40,18 @@
     <description>A bar chart that shows the number of cases that have their TAT Deadline on that day.</description>
     <filter>
         <criteriaItems>
-            <column>FK_$ABML_Case_Detail__c.TAT_Deadline__c</column>
+            <column>Case.Overall_Case_Closure_SLA__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>TODAY</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABML</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
@@ -56,7 +60,7 @@
         <field>OWNER</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>ABML Cases With Today&apos;s TAT Dealine</name>
+    <name>ABML Cases With Today&apos;s TAT Deadline</name>
     <params>
         <name>units</name>
         <value>h</value>
