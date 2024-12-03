@@ -25,6 +25,8 @@ public class ABHI_IntegrationQueryHelperTest {
         List<ASF_Case_Integration__c> caseInt = ABHI_IntegrationQueryHelper.getCaseIntegrations1(new List<Case>{caseRec},new Set<String>{'Test'});
         System.assertEquals(1,caseInt.size(),'PASS');  
         List<ASF_Case_Integration__c> caseIntById = ABHI_IntegrationQueryHelper.getCaseIntegrations(caseInt);
+        Set<String> className = new Set<String>{'ABHI_ClosedIGMSComplaintIntegration'};
+        ABHI_IntegrationQueryHelper.getIntegrationInfo(className);
         System.assertEquals(1,caseIntById.size(),'PASS'); 
     }    
 }
