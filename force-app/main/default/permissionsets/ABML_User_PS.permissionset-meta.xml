@@ -180,7 +180,24 @@
         <apexClass>ABML_MockGenerator</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-       <customPermissions>
+	<classAccesses>
+        <apexClass>ASF_UbonaAccountRetrieval</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>ASF_CaseUIController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>ASF_FieldSetController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>ABCL_CommonCLass</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	
+    <customPermissions>
         <enabled>true</enabled>
         <name>Restrict_User_Updation</name>
     </customPermissions>
@@ -208,7 +225,6 @@
         <field>ABML_Bank__c.ABML_Cheque_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
-   
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_Bank__c.ABML_Default_Mode__c</field>
@@ -481,7 +497,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABML_DP__c.ABML_Client_ID__c</field>
+        <field>ABML_DP__c.ABML_Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -734,6 +750,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.AccountNumber</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Company_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1693,6 +1714,11 @@
 </fieldPermissions>
 <fieldPermissions>
     <editable>true</editable>
+    <field>Contact.ABML_Customer_Priority__c</field>
+    <readable>true</readable>
+</fieldPermissions>
+<fieldPermissions>
+    <editable>true</editable>
     <field>Contact.ABML_Time__c</field>    
     <readable>true</readable>
 </fieldPermissions>
@@ -1963,7 +1989,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.ABML_Sensitive__c</field>
+        <field>Contact.ABML_Segment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2068,9 +2094,9 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
-        <allowCreate>false</allowCreate>
+        <allowCreate>true</allowCreate>
         <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
+        <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>ABML_Case_Detail__c</object>
@@ -2164,6 +2190,14 @@
     </recordTypeVisibilities>
     <tabSettings>
         <tab>standard-Case</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+	<tabSettings>
+        <tab>standard-Lead</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+	 <tabSettings>
+        <tab>abml_List_View_Tab</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

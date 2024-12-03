@@ -150,13 +150,13 @@ export default class Abml_Reports extends LightningElement {
         this.endDatePass = dttt;
         console.log('this.startDatePass',this.startDatePass);
         console.log('this.endDatePass',this.endDatePass);
-        if(this.reportValue==undefined){
+        if(this.reportValue==undefined || this.reportValue ==''){
             LightningAlert.open({
                 message: 'Select Report type',
                 theme: 'warning', 
                 label: 'Warning!',
             });
-        }else if(this.finValue==undefined){
+        }else if(this.finValue==undefined || this.finValue ==''){
             LightningAlert.open({
                 message: 'Select financial year',
                 theme: 'warning', 
@@ -186,7 +186,7 @@ export default class Abml_Reports extends LightningElement {
             //this.successMessage = 'Report type sent succesfully!';
             //this.errorMessage = '';
             LightningAlert.open({
-                message: 'Report details sent succesfully',
+                message: 'Report details sent successfully',
                 theme: 'success', 
                 label: 'Success!',
             });

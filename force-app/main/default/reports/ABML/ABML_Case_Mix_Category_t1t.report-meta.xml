@@ -1,41 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
-    <chart>
-        <backgroundColor1>#FFFFFF</backgroundColor1>
-        <backgroundColor2>#FFFFFF</backgroundColor2>
-        <backgroundFadeDir>Diagonal</backgroundFadeDir>
-        <chartSummaries>
-            <axisBinding>y</axisBinding>
-            <column>RowCount</column>
-        </chartSummaries>
-        <chartType>HorizontalBar</chartType>
-        <enableHoverLabels>false</enableHoverLabels>
-        <expandOthers>true</expandOthers>
-        <groupingColumn>Case.Nature__c</groupingColumn>
-        <location>CHART_BOTTOM</location>
-        <showAxisLabels>true</showAxisLabels>
-        <showPercentage>false</showPercentage>
-        <showTotal>false</showTotal>
-        <showValues>false</showValues>
-        <size>Medium</size>
-        <summaryAxisRange>Auto</summaryAxisRange>
-        <textColor>#000000</textColor>
-        <textSize>12</textSize>
-        <title>ABML Case Mix (Category)</title>
-        <titleColor>#000000</titleColor>
-        <titleSize>18</titleSize>
-    </chart>
     <columns>
         <field>CASE_NUMBER</field>
-    </columns>
-    <columns>
-        <field>FK_$ABML_Case_Detail__c.Assigned_On__c</field>
     </columns>
     <columns>
         <field>DESCRIPTION</field>
     </columns>
     <columns>
-        <field>TYPE</field>
+        <field>Case.Type_Text__c</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
@@ -44,14 +16,10 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>AGE</field>
-    </columns>
-    <columns>
-        <field>OWNER</field>
-    </columns>
-    <columns>
         <field>Case.Assigned_Team__c</field>
+    </columns>
+    <columns>
+        <field>SUBJECT</field>
     </columns>
     <description>A bar chart that shows the number of active cases by category (Request, Query, Complain)</description>
     <filter>
