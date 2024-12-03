@@ -466,7 +466,7 @@ export default class Asf_CRNTagging extends LightningElement {
         return isValid;
     }
     handleBack(event){
-        his.showProspectCreation = false;
+        this.showProspectCreation = false;
         this.dupeLead=[];
         this.showDupeList=false;
     }
