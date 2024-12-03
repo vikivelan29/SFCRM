@@ -3,7 +3,7 @@
     <fullName>Claim__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <inlineHelpText>Claim Number is Mandatory. Please enter CL- to view list of available claims</inlineHelpText>
+    <inlineHelpText>Please enter Policy Number to view list of available claims</inlineHelpText>
     <label>Claim Number</label>
     <lookupFilter>
         <active>true</active>
