@@ -82,8 +82,8 @@ global with sharing class ABHI_NPS_FEEDBACK_WebService_Controller {
         createSurveyResponse.Date_of_Feedback__c  = Datetime.valueOf(npsReqWrapper?.responded_date);
         createSurveyResponse.Trigger_Name__c      = npsReqWrapper?.project_name ?? '';
 
-        Map<String,String> ratings                  = logicToPopulateRating(npsReqWrapper);
-        createSurveyResponse.Primary_Question_NPS__c = Integer.valueOf(ratings?.get('actualRating'));
+        Map<String,String> ratings                   = logicToPopulateRating(npsReqWrapper);
+        createSurveyResponse.Primary_Question_NPS__c = ratings.containsKey('actualRating') ? Integer.valueOf(ratings.get('actualRating')) : null;
         createSurveyResponse.L1_Driver__c            = ratings?.get('L1 Drivers');
         createSurveyResponse.L2_Driver__c            = ratings?.get('L2 Drivers');
         createSurveyResponse.L3_Driver__c            = ratings?.get('L3 Drivers');
