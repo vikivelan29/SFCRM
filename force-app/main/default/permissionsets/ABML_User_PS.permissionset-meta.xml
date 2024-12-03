@@ -485,7 +485,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABML_DP__c.ABML_Client_ID__c</field>
+        <field>ABML_DP__c.ABML_Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
