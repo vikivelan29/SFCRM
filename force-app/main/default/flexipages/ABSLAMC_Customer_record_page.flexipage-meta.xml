@@ -1097,6 +1097,9 @@
                             <value>CASES.CASE_NUMBER</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>ASSET.NAME</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>CASES.CREATED_DATE_DATE_ONLY</value>
                         </valueListItems>
                         <valueListItems>
@@ -1104,9 +1107,6 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CASES.CLOSED_DATE</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Source__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Nature__c</value>

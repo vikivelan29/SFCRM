@@ -11,7 +11,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         String query = 'SELECT Type_Text__c, Sub_Type_Text__c, Assigned_Team__c, Owner.Name, Account.Name, Subject, CreatedDate, CaseNumber, Client_Code__c, ABML_Case_Detail__c, ';
         query +=  'Description, Account.PersonDepartment, Account.Type, Nature__c, ABML_Case_Detail__r.Name, ABML_Case_Detail__r.TAT_Deadline_Date__c, Pending_Clarification__c, ';
         query += 'Account.Client_Code__c, Account.ABML_Broker_Code__pc, Account.ABML_Agent_Code__pc, Account.ABML_Branch_Code__c, Account.ABML_Franchisee_Code__c, Recategorisation_Date__c,Account.ABML_Contact_Type__c,Ageing_Number_Of_Days__c, ';
-        query += 'ABML_Case_Detail__r.TAT_Days__c, ABML_Case_Detail__r.Assigned_User__r.Name , Ageing_Business_Days__c FROM Case Where Business_Unit__c =: strLob';
+        query += 'ABML_Case_Detail__r.TAT_Days__c, ABML_Case_Detail__r.Assigned_User__r.Name , Ageing_Business_Days__c, Overall_Case_Closure_SLA__c FROM Case Where Business_Unit__c =: strLob';
         return Database.getQueryLocator(query);
     }
     
@@ -36,7 +36,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         List<Messaging.EmailFileAttachment> listOfAttachment = new List<Messaging.EmailFileAttachment>();
         
-        for(ABML_Daily_Report_Sender__c objReportSender : [Select Email__c from ABML_Daily_Report_Sender__c])
+        for(ABML_Daily_Report_Sender__c objReportSender : [Select Email__c from ABML_Daily_Report_Sender__c where Name!='ordWideAddress'])
         {
              listOfToAddress.add(objReportSender.Email__c);
         }        
@@ -81,7 +81,8 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
             + (objCase.ABML_Case_Detail__r.TAT_Deadline_Date__c != null ? objCase.ABML_Case_Detail__r.TAT_Deadline_Date__c : '') + '","'
             + (objCase.ABML_Case_Detail__r.TAT_Days__c != null ? objCase.ABML_Case_Detail__r.TAT_Days__c : '') + '","'
             + (objCase.Nature__c != null ? objCase.Nature__c : '') + '","'
-            + objCase.Recategorisation_Date__c + '","'
+            + objCase.Recategorisation_Date__c + '","' 
+            + objCase.Overall_Case_Closure_SLA__c + '","'
             + objCase.CreatedDate + '"\n';
             
             fourthCsvBody += '"' + (objCase.Account.Client_Code__c != null ? objCase.Account.Client_Code__c : '') + '","' 
@@ -106,8 +107,8 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         String thirdCsvContent = thirdCsvHeader + thirdCsvBody;        
         String fourthCsvContent = fourthCsvHeader + fourthCsvBody;
         
-        //BUSpecificAutoEmailMapping__mdt mdt = [Select Business_Unit__c,Default_Automated_Email_From_Address__c from BUSpecificAutoEmailMapping__mdt where Business_Unit__c=:System.Label.ABML_BU LIMIT 1];
-        OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress where DisplayName =: System.Label.ASF_default_no_reply_email_address LIMIT 1];//    where Address =:mdt.Default_Automated_Email_From_Address__c        
+        ABML_Daily_Report_Sender__c objReportSender = [SELECT Email__c from ABML_Daily_Report_Sender__c WHERE Name = 'ordWideAddress' LIMIT 1];
+        OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address =:objReportSender.Email__c  LIMIT 1];     
        
         Messaging.EmailFileAttachment firstAttachment = createAttachment(departmentPendency, firstCsvContent);
         Messaging.EmailFileAttachment secondAttachment = createAttachment(totalTat, secondCsvContent);

@@ -133,6 +133,27 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>ABSLIG</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Payments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>ABSLAMC</stringValue>
+            </value>
+        </filters>
         <object>Case</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <scheduledPaths>
