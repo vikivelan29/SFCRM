@@ -22,7 +22,7 @@
         <field>Case.Nature__c</field>
     </columns>
     <columns>
-        <field>TYPE</field>
+        <field>Case.Type_Text__c</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
@@ -41,6 +41,15 @@
         <field>Case.Ageing_Number_Of_Days__c</field>
     </columns>
     <description>A bar chart that shows the number of aging cases on that day per Agent</description>
+    <filter>
+        <criteriaItems>
+            <column>Case.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABML</value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>

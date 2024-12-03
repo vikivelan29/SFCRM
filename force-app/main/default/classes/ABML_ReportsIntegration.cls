@@ -126,20 +126,22 @@ public with sharing class ABML_ReportsIntegration{
             }
         }
         //BUSpecificAutoEmailMapping__mdt mdt = [Select Business_Unit__c,Default_Automated_Email_From_Address__c from BUSpecificAutoEmailMapping__mdt where Business_Unit__c=:System.Label.ABML_BU LIMIT 1];
-        OrgWideEmailAddress[] objOrgWideAddresses = [Select Id, DisplayName,Address from OrgWideEmailAddress where DisplayName =: System.Label.ASF_default_no_reply_email_address];//    where Address =:mdt.Default_Automated_Email_From_Address__c
+        //OrgWideEmailAddress[] objOrgWideAddresses = [Select Id, DisplayName,Address from OrgWideEmailAddress where DisplayName =: System.Label.ASF_default_no_reply_email_address];//    where Address =:mdt.Default_Automated_Email_From_Address__c
+        ABML_Daily_Report_Sender__c objReportSender = [SELECT Email__c from ABML_Daily_Report_Sender__c WHERE Name = 'ordWideAddress' LIMIT 1];
+        OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address =:objReportSender.Email__c  LIMIT 1]; 
         // Added for template
         Id templateId1 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Report_Integration_Email_Template_1733123089274' LIMIT 1].Id;
         Id templateId2 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_SOT_Email_Template_1733145673611' LIMIT 1].Id;
         Id templateId3 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Contract_Note_Email_Template_1733145822012' LIMIT 1].Id;
 
-        if(!objOrgWideAddresses.isEmpty() && !asfCaseIntList.isEmpty()){
+        if(!asfCaseIntList.isEmpty()){
             for (ASF_Case_Integration__c objAsfCaseRecord : asfCaseIntList) {
                 if (objAsfCaseRecord.Status__c == 'Success' && caseRecordsMap.containsKey(objAsfCaseRecord.Case__c) && newContentMap.containskey(objAsfCaseRecord.Id)){                    
                     // Get the associated case record
                     Case caseRecord = caseRecordsMap.get(objAsfCaseRecord.Case__c);                    
                     // Check if the case record and email are not null
                     if (caseRecord != null && caseRecord.Mapped_Email__c != null) {
-                        email.setOrgWideEmailAddressId(objOrgWideAddresses.get(0).Id);
+                        email.setOrgWideEmailAddressId(orgWideEmail.Id);
                         if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Statement of Accounts') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('SOA')){
                             email.setTemplateId(templateId1);
                         }

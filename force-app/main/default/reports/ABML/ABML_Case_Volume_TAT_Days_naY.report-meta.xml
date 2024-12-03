@@ -1,65 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
-    <chart>
-        <backgroundColor1>#FFFFFF</backgroundColor1>
-        <backgroundColor2>#FFFFFF</backgroundColor2>
-        <backgroundFadeDir>Diagonal</backgroundFadeDir>
-        <chartSummaries>
-            <axisBinding>y</axisBinding>
-            <column>RowCount</column>
-        </chartSummaries>
-        <chartType>HorizontalBar</chartType>
-        <enableHoverLabels>false</enableHoverLabels>
-        <expandOthers>true</expandOthers>
-        <groupingColumn>FK_$ABML_Case_Detail__c.TAT_Deadline__c</groupingColumn>
-        <location>CHART_BOTTOM</location>
-        <showAxisLabels>false</showAxisLabels>
-        <showPercentage>false</showPercentage>
-        <showTotal>false</showTotal>
-        <showValues>false</showValues>
-        <size>Medium</size>
-        <summaryAxisRange>Auto</summaryAxisRange>
-        <textColor>#000000</textColor>
-        <textSize>12</textSize>
-        <title>Case Volume- (TAT Days)</title>
-        <titleColor>#000000</titleColor>
-        <titleSize>18</titleSize>
-    </chart>
-    <columns>
-        <field>OWNER</field>
-    </columns>
-    <columns>
-        <field>AGE</field>
-    </columns>
-    <columns>
-        <field>OPEN</field>
-    </columns>
-    <columns>
-        <field>CLOSED</field>
-    </columns>
     <columns>
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
-        <field>TYPE</field>
+        <field>SUBJECT</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>DESCRIPTION</field>
+        <field>Case.Type_Text__c</field>
     </columns>
     <columns>
-        <field>CONTACT.ACCOUNT</field>
+        <field>DESCRIPTION</field>
     </columns>
     <columns>
         <field>Case.Assigned_Team__c</field>
     </columns>
     <columns>
-        <field>FK_$ABML_Case_Detail__c.Assigned_On__c</field>
+        <field>Case.Nature__c</field>
     </columns>
     <columns>
-        <field>Case.Nature__c</field>
+        <field>ACCOUNT.NAME</field>
     </columns>
     <description>A bar chart that shows the number of cases that have their TAT Deadline on that day.</description>
     <filter>
@@ -70,10 +36,17 @@
             <operator>equals</operator>
             <value>TODAY</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABML</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
-        <field>FK_$ABML_Case_Detail__c.TAT_Deadline__c</field>
+        <field>Case.Overall_Case_Closure_SLA__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>ABML Case Volume- (TAT Days)</name>
@@ -89,7 +62,7 @@
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
-    <showSubTotals>true</showSubTotals>
+    <showSubTotals>false</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CREATED_DATEONLY</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
