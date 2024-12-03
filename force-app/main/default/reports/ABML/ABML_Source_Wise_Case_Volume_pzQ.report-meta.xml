@@ -64,7 +64,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Email,Branch,IVR Inbound,Social Media,Call- in,Phone-Inbound,IVR</value>
+            <value>Email,Branch,Social Media,Others</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case.Stage__c</column>
