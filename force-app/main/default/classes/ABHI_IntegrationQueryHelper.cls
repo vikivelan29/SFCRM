@@ -110,7 +110,7 @@ public static List<ASF_Case_Integration__c> getCaseIntegrations1(List<Case> case
    * @param Set<String> className
    * @return Map<String, ASF_Integration__c>
    */
- /* public static Map<String, ASF_Integration__c> getIntegrationInfo(Set<String> className) {
+  public static Map<String, ASF_Integration__c> getIntegrationInfo(Set<String> className) {
     Map<String, ASF_Integration__c> integrationInfo = new Map<String, ASF_Integration__c>();
     for (ASF_Integration__c integration : [
       SELECT
@@ -129,7 +129,7 @@ public static List<ASF_Case_Integration__c> getCaseIntegrations1(List<Case> case
       integrationInfo.put(integration.Processing_Class__c, integration);
     }
     return integrationInfo;
-  }*/
+  }
 
   /*public static Map<Id, Case> getCases(Set<Id> caseIdSet) {
         Map<Id, Case> caseMapToReturn = new Map<Id, Case>();
