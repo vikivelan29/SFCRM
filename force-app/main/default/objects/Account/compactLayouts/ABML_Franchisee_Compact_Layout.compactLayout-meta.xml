@@ -4,6 +4,7 @@
     <fields>Name</fields>
     <fields>ABML_Contact_Type__c</fields>
     <fields>ABML_Franchisee_Code__c</fields>
+    <fields>OwnerId</fields>
     <fields>Line_of_Business__c</fields>
     <fields>Business_Unit__c</fields>
     <label>ABML Franchisee Compact Layout</label>
