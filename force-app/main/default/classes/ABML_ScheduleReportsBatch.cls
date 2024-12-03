@@ -5,10 +5,13 @@
 ********************************************************
 */
 global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Database.Batchable<sObject> {
-    global Database.QueryLocator start(DataBase.BatchableContext context){
-         
-        String abml=System.Label.ABML_BU;//'ABML';
-        String query = 'SELECT Type_Text__c,Sub_Type_Text__c,Assigned_Team__c, Owner.Name, Account.Name, Subject, CreatedDate,CaseNumber, Client_Code__c,ABML_Case_Detail__c,Description,Account.PersonDepartment, Account.Type,Nature__c,ABML_Case_Detail__r.Name,ABML_Case_Detail__r.TAT_Deadline_Date__c,ABML_Case_Detail__r.TAT_Days__c,Pending_Clarification__c,ABML_Case_Detail__r.Assigned_User__r.Name,Ageing_Business_Days__c FROM case where Business_Unit__c =:abml';
+    
+    global Database.QueryLocator start(DataBase.BatchableContext context){         
+        String strLob = System.Label.ABML_BU;
+        String query = 'SELECT Type_Text__c, Sub_Type_Text__c, Assigned_Team__c, Owner.Name, Account.Name, Subject, CreatedDate, CaseNumber, Client_Code__c, ABML_Case_Detail__c, ';
+        query +=  'Description, Account.PersonDepartment, Account.Type, Nature__c, ABML_Case_Detail__r.Name, ABML_Case_Detail__r.TAT_Deadline_Date__c, Pending_Clarification__c, ';
+        query += 'Account.Client_Code__c, Account.ABML_Broker_Code__pc, Account.ABML_Agent_Code__pc, Account.ABML_Branch_Code__c, Account.ABML_Franchisee_Code__c, Recategorisation_Date__c,Account.ABML_Contact_Type__c,Ageing_Number_Of_Days__c, ';
+        query += 'ABML_Case_Detail__r.TAT_Days__c, ABML_Case_Detail__r.Assigned_User__r.Name , Ageing_Business_Days__c, Overall_Case_Closure_SLA__c FROM Case Where Business_Unit__c =: strLob';
         return Database.getQueryLocator(query);
     }
     
@@ -94,20 +97,76 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         attach.add(csvAttachment3);
         attach.add(csvAttachment4);
         
-        List<string> toAddress = new List<string>();
-        List<ABML_Daily_Report_Sender__c> mailSetting = [select Email__c from ABML_Daily_Report_Sender__c];
-        for(ABML_Daily_Report_Sender__c sets:mailSetting){
-             toAddress.add(sets.Email__c);
+        for(ABML_Daily_Report_Sender__c objReportSender : [Select Email__c from ABML_Daily_Report_Sender__c where Name!='ordWideAddress'])
+        {
+             listOfToAddress.add(objReportSender.Email__c);
+        }        
+      
+        for (Case objCase : scope) {
+            firstCsvBody += '"' + (objCase.Account.Client_Code__c != null ? objCase.Account.Client_Code__c : '') + '","' 
+            + (objCase.Account.ABML_Broker_Code__pc != null ? objCase.Account.ABML_Broker_Code__pc : '') + '","'
+            + (objCase.Account.ABML_Agent_Code__pc != null ? objCase.Account.ABML_Agent_Code__pc : '') + '","'
+            + (objCase.Account.ABML_Branch_Code__c != null ? objCase.Account.ABML_Branch_Code__c : '') + '","'
+            + (objCase.Account.ABML_Franchisee_Code__c != null ? objCase.Account.ABML_Franchisee_Code__c : '') + '","'
+            + (objCase.Type_Text__c != null ? objCase.Type_Text__c : '') + '","' 
+            + (objCase.Sub_Type_Text__c != null ? objCase.Sub_Type_Text__c : '') + '","'
+            + (objCase.Assigned_Team__c != null ? objCase.Assigned_Team__c : '') + '","'
+            + (objCase.Account.ABML_Contact_Type__c != null ? objCase.Account.ABML_Contact_Type__c : '') + '","'
+            + (objCase.Description != null ? objCase.Description : '') + '","' 
+            + (objCase.Nature__c != null ? objCase.Nature__c : '') + '","'
+            + (objCase.CaseNumber != null ? String.valueOf(objCase.CaseNumber) : '') + '","'
+            + (objCase.Account.Name != null ? objCase.Account.Name : '') + '","'
+            + (objCase.Owner.Name != null ? objCase.Owner.Name : '') + '"\n';
+            
+            secondCsvBody += '"' + (objCase.Owner != null && objCase.Owner.Name != null ? objCase.Owner.Name : '') + '","'
+            + (objCase.Account.Client_Code__c != null ? objCase.Account.Client_Code__c : '') + '","' 
+            + (objCase.Account.ABML_Broker_Code__pc != null ? objCase.Account.ABML_Broker_Code__pc : '') + '","'
+            + (objCase.Account.ABML_Agent_Code__pc != null ? objCase.Account.ABML_Agent_Code__pc : '') + '","'
+            + (objCase.Account.ABML_Branch_Code__c != null ? objCase.Account.ABML_Branch_Code__c : '') + '","'
+            + (objCase.Account.ABML_Franchisee_Code__c != null ? objCase.Account.ABML_Franchisee_Code__c : '') + '","'
+            + (objCase.Account.Name != null ? objCase.Account.Name : '') + '","'
+            + (objCase.Subject != null ? objCase.Subject : '') + '","'
+            + objCase.CreatedDate + '","'
+            + (objCase.CaseNumber != null ? String.valueOf(objCase.CaseNumber) : '') + '","'
+            + (objCase.Description != null ? objCase.Description : '') + '","'
+            + (objCase.Type_Text__c != null ? objCase.Type_Text__c : '') + '","'
+            + (objCase.Sub_Type_Text__c != null ? objCase.Sub_Type_Text__c : '') + '","'
+            + (objCase.ABML_Case_Detail__r.Name != null ? objCase.ABML_Case_Detail__r.Name : '') + '"\n';
+            
+            thirdCsvBody += '"' + (objCase.CaseNumber != null ? String.valueOf(objCase.CaseNumber) : '') + '","'
+            + (objCase.Type_Text__c != null ? objCase.Type_Text__c : '') + '","'
+            + (objCase.Sub_Type_Text__c != null ? objCase.Sub_Type_Text__c : '') + '","'
+            + (objCase.Owner.Name != null ? objCase.Owner.Name : '') + '","'
+            + (objCase.Description != null ? objCase.Description : '') + '","'
+            + (objCase.Account.ABML_Contact_Type__c != null ? objCase.Account.ABML_Contact_Type__c : '') + '","'
+            + (objCase.ABML_Case_Detail__r.TAT_Deadline_Date__c != null ? objCase.ABML_Case_Detail__r.TAT_Deadline_Date__c : '') + '","'
+            + (objCase.ABML_Case_Detail__r.TAT_Days__c != null ? objCase.ABML_Case_Detail__r.TAT_Days__c : '') + '","'
+            + (objCase.Nature__c != null ? objCase.Nature__c : '') + '","'
+            + objCase.Recategorisation_Date__c + '","' 
+            + objCase.Overall_Case_Closure_SLA__c + '","'
+            + objCase.CreatedDate + '"\n';
+            
+            fourthCsvBody += '"' + (objCase.Account.Client_Code__c != null ? objCase.Account.Client_Code__c : '') + '","' 
+            + (objCase.Account.ABML_Broker_Code__pc != null ? objCase.Account.ABML_Broker_Code__pc : '') + '","'
+            + (objCase.Account.ABML_Agent_Code__pc != null ? objCase.Account.ABML_Agent_Code__pc : '') + '","'
+            + (objCase.Account.ABML_Branch_Code__c != null ? objCase.Account.ABML_Branch_Code__c : '') + '","'
+            + (objCase.Account.ABML_Franchisee_Code__c != null ? objCase.Account.ABML_Franchisee_Code__c : '') + '","'
+            + (objCase.ABML_Case_Detail__r.Name != null ? objCase.ABML_Case_Detail__r.Name : '') + '","'
+            + (objCase.Account.ABML_Contact_Type__c != null ? objCase.Account.ABML_Contact_Type__c : '') + '","'
+            + (objCase.Nature__c != null ? objCase.Nature__c : '') + '","'
+            + (objCase.Type_Text__c != null ? objCase.Type_Text__c : '') + '","'
+            + (objCase.Sub_Type_Text__c != null ? objCase.Sub_Type_Text__c : '') + '","'
+            + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '","' 
+            + (objCase.CaseNumber != null ? String.valueOf(objCase.CaseNumber) : '') + '","'
+            + (objCase.Description != null ? objCase.Description : '') + '","'
+            + (objCase.Owner.Name != null ? objCase.Owner.Name : '') + '","'
+            + objCase.CreatedDate +'"\n';
         }
         
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>(); 
         
-        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-        message.setFileAttachments(attach);  
-        message.setSubject('Daily Status Report -'+system.today());
-        message.setorgWideEmailAddressId(orgWideEmail.Id);
-        message.setPlainTextBody('Please find the reports attached.');    
-        message.setToAddresses(toAddress);
+        ABML_Daily_Report_Sender__c objReportSender = [SELECT Email__c from ABML_Daily_Report_Sender__c WHERE Name = 'ordWideAddress' LIMIT 1];
+        OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address =:objReportSender.Email__c  LIMIT 1];     
        
         emailList.add(message);
      

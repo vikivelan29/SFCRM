@@ -4,7 +4,10 @@
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
-        <field>TYPE</field>
+        <field>Case.Nature__c</field>
+    </columns>
+    <columns>
+        <field>Case.Type_Text__c</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
@@ -22,6 +25,15 @@
         <field>Case.Overall_Case_Closure_SLA__c</field>
     </columns>
     <description>A bar chart that shows the number of cases that have missed their TAT Deadline</description>
+    <filter>
+        <criteriaItems>
+            <column>Case.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABML</value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
