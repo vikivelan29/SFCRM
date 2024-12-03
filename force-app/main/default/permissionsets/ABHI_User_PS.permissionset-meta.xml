@@ -5000,6 +5000,11 @@
         <field>Opportunity.Premium_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Claim__c.Hospital_Provider__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABHI User PS</label>
     <objectPermissions>
