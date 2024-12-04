@@ -10,7 +10,7 @@
             <assignToReference>$Record.Member_Id__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.Patient_Name__r.MemberExternalId__c</elementReference>
+                <elementReference>$Record.Patient_Name__r.MemberId__r.Client_Code__c</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -105,7 +105,7 @@
             <assignToReference>$Record.Member_Id__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.Member__r.MemberExternalId__c</elementReference>
+                <elementReference>$Record.Member__r.MemberId__r.Client_Code__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
