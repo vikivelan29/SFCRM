@@ -3692,7 +3692,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Prospect_Type__c</field>
+        <field>ABHI_Case_Detail__c.Acccount_Number__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3756,12 +3756,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Previous_Policy_Details__c.Customer__c</field>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Confirm_Account_number__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>true</editable> 
         <field>ABHI_Case_Detail__c.Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4922,27 +4922,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Case_Reopened_By__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Case_Closed_Resolved_By__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Case_Closed_Resolution_Comments__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHI_Case_Detail__c.Member_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Disclosure_of_Illness__c</field>
+        <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
