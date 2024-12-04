@@ -198,8 +198,8 @@ public class RNWL_OpportunityTriggerHelper {
         List<ABCL_Integration_Event__e> eventList = new List<ABCL_Integration_Event__e>();
         
         for(Opportunity opp : newOpps){
-            if(opp.Payment_Link_Response__c == null && oldMap.get(opp.Id).Dialer_Status__c   == 'Schedule Call Request Submitted' &&
-              (opp.Dialer_Status__c == 'Schedule Call Request Failed' || opp.Dialer_Status__c == 'Schedule Call Request Successful' )){
+            if(opp.Payment_Link_Response__c == null && oldMap.get(opp.Id).Dialer_Status__c == 'Schedule Call Request Submitted' &&
+              (opp.Dialer_Status__c == 'Schedule Call Request Failed' || opp.Dialer_Status__c == 'Schedule Call Request Successful')){
                 ABCL_Integration_Event__e evt = new ABCL_Integration_Event__e();
                 evt.Business_Unit__c = 'ABHI-RNWL';
                 evt.ObjectApiName__c = 'Opportunity';
