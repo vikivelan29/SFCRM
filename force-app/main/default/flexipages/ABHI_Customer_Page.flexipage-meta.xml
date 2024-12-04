@@ -108,9 +108,6 @@
                             <value>DOB__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Rider_Opted__c</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Health_Return__c</value>
                         </valueListItems>
                         <valueListItems>
@@ -118,6 +115,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Is_Chronic__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Riders_Opted__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -644,7 +644,7 @@
                 <identifier>RecordPEDWaitingPeriod_cField</identifier>
             </fieldInstance>
         </itemInstances>
-         <itemInstances>
+        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -1784,6 +1784,5 @@
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
-    
     <type>RecordPage</type>
 </FlexiPage>
