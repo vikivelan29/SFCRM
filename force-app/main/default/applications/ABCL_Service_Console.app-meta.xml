@@ -56,8 +56,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment
-    >Action override created by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>Case_Category_Config_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -66,8 +65,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment
-    >Action override created by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>Case_Category_Config_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -76,8 +74,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment
-    >Action override created by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>ASF_Case_Integration_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -86,8 +83,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment
-    >Action override created by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>ASF_Case_Integration_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -96,8 +92,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment
-    >Action override created by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>Account_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -106,8 +101,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment
-    >Action override created by Lightning App Builder during activation.</comment>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>Account_Record_Page</content>
         <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
