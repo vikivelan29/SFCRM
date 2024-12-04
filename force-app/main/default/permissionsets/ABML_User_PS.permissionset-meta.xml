@@ -196,7 +196,18 @@
         <apexClass>ABCL_CommonCLass</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-	
+	<classAccesses>
+        <apexClass>ABCL_BaseViewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABCL_BaseViewController_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <pageAccesses>
+        <apexPage>ABML_ListViewSession</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>Restrict_User_Updation</name>
@@ -1985,6 +1996,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.ABML_Sensitive_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.ABML_Sensitive__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
