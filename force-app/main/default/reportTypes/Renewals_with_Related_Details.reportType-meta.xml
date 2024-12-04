@@ -805,11 +805,6 @@
             <field>MSCRM_ID__c</field>
             <table>Opportunity.Dispositions__r</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Remarks1__c</field>
-            <table>Opportunity.Dispositions__r</table>
-        </columns>
         <masterLabel>Dispositions</masterLabel>
     </sections>
 </ReportType>
