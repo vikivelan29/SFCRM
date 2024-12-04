@@ -266,6 +266,7 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
                     }
                     dmlRecords.add(caseExt);
                     caseRecord.Stage__c = 'Resolved';
+                    caseRecord.Status = 'Resolved';
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, false);
                 }
