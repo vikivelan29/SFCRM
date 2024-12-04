@@ -1,13 +1,4 @@
-/**
- * @description       Kavach Policies
- * @author            : achuriwala@salesforce.com
- * @group             : 
- * @last modified on  : 01-11-2024
- * Modifications Log
- * Ver   Date         Author                       Modification
- * 1.0   01-11-2024   achuriwala@salesforce.com   Initial Version
-**/
-public without sharing class ABHI_KavachPolicies {
+public class ABHI_KavachPolicies {
     /* @LOB - ABHI
     * @Function - getPolicyData
     * @param policyNo
@@ -24,7 +15,7 @@ public without sharing class ABHI_KavachPolicies {
            System.debug('@@@kavach1'+policyNo);
            for(Asset policyData : [SELECT ID,LAN__c,Account.Name, Account.Client_Code__c, Account.Phone,Account.PersonMobilePhone,
                                   Account.PersonEmail, Account.Office_Email__c, Account.IsPersonAccount,MasterPolicyNumber__r.LAN__c 
-                                  FROM Asset WHERE LAN__c != null AND LAN__c = :policyNo]) {
+                                  FROM Asset WHERE LAN__c = :policyNo]) {
                                       kavach = new KavachResponseWrapper(policyData);
                                               System.debug('@@@kavach'+kavach);
 
@@ -55,22 +46,26 @@ public without sharing class ABHI_KavachPolicies {
            String integrationName = 'ABHI_Kavach_Policy';
            String conPayload =  JSON.serialize(new KavachRequest(policyNo, null , selectedSystem));
            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
-           System.debug('@@@@response.integrationResponse'+integrationResponse);
-           KavachResponse kavchResponse = (KavachResponse)JSON.deserialize(integrationResponse.responseBody, KavachResponse.class);
-           Map<String, Object> kavchResponses = (Map<String, Object>)JSON.deserializeUntyped(integrationResponse.responseBody);
-           if(kavchResponse.StatusCode.equals('1002')) {
-                throw new AuraHandledException(kavchResponse.Message);
+           
+           response = ABHI_CreatePolicy.createPolicy(integrationResponse.responseBody);
+           System.debug('@@@@response.StatusCode'+response);
+          // listKavachResponse = getPolicyData(policyNo,'');
+           if(response.StatusCode.equals('200')) {
+               listKavachResponse = getPolicyData(policyNo);
+           }
+           else {
+              throw new AuraHandledException(response.StatusMessage); 
            }
            String createPolicyWrapper = JSON.serialize(kavchResponse.CustomerDetails[0]);
            System.debug('@@@@response.createPolicyWrapper'+createPolicyWrapper);
            response = ABHI_CreatePolicy.createPolicy(createPolicyWrapper);
            listKavachResponse = getPolicyData(policyNo);
            return listKavachResponse;
-       // }
-       /* catch(Exception e) {
+        }
+        catch(Exception e) {
             System.debug('@@ec'+e.getMessage()+e.getLineNumber());
-           //throw new AuraHandledException(response.StatusMessage); 
-        }*/
+           throw new AuraHandledException(response.StatusMessage); 
+        }
     }
     /*********************************************************
     * @Class           KavachRequest

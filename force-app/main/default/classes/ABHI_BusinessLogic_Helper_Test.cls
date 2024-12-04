@@ -499,7 +499,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         update caseRec;
       
         Test.startTest();
-          
+          update caseRec;
          /* ABHI_Case_Detail__c caseDet = [SELECT ID,Claim__c FROM ABHI_Case_Detail__c WHERE Id = :caseRec.ABHI_Case_Detail__c];
          Claim__c claim = [SELECT ID FROM Claim__c LIMIT 1];
 		  Assert.areEqual(claim.Id, caseDet.Claim__c, 'Claim name'); */
