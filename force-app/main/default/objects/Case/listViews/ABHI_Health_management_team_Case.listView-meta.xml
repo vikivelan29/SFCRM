@@ -12,6 +12,6 @@
     <label>ABHI Health management team</label>
     <queue>ABHI_Health_management_team</queue>
     <sharedTo>
-        <group>ABHI_Health_management_team</group>
+        <group>ABHI_Health_management_team_G</group>
     </sharedTo>
 </ListView>
