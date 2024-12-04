@@ -19,7 +19,7 @@
         <field>Collections__c$Renewal_Request__c.Status__c</field>
     </columns>
     <columns>
-        <field>Collections__c$Policy_Renewed_Date__c</field>
+        <field>Collections__c$Renewed_Date__c</field>
     </columns>
     <columns>
         <field>Collections__c$Collection_Date__c</field>
