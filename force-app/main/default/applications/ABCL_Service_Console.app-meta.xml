@@ -2495,6 +2495,78 @@
         <type>Flexipage</type>
         <profile>ABML Manager Profile</profile>
     </profileActionOverrides>
+	<profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABHI_Customer_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>RNWL Manager Profile</profile>
+    </profileActionOverrides>
     <tabs>Health_Provider__c</tabs>
     <tabs>Claim__c</tabs>
     <tabs>Health_Intent__c</tabs>
