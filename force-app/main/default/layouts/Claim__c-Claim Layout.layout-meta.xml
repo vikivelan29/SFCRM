@@ -51,10 +51,6 @@
                 <behavior>Edit</behavior>
                 <field>Provider_Status__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Hospital_Provider__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -87,7 +83,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Hospital_Code__c</field>
+                <field>Hospital_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
