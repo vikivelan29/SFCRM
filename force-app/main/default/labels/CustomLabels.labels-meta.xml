@@ -1338,5 +1338,11 @@
         <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
         <value>ABSLAMC</value>
     </labels>
-
+    <labels>
+        <fullName>SuppressCreateCase_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
+        <value>Wellness</value>
+    </labels>
 </CustomLabels>

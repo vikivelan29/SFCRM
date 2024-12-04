@@ -21,6 +21,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
+import SUPPRESSCREATECASE_BU from '@salesforce/label/c.SuppressCreateCase_BU'; 
 import { lanLabels } from 'c/asf_ConstantUtility';
 
 //tst strt
@@ -1064,5 +1065,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         });
     }
 
+    get showCreateCaseWOCustomer(){
+        return SUPPRESSCREATECASE_BU.includes(this.businessUnit)?false:this.showOnCustomerTagging;
+    }
 
 }

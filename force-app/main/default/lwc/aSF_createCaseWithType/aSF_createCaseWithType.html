@@ -2,8 +2,8 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 08-16-2024
-  @last modified by  : rsinghnagar@salesforce.com 
+  @last modified on  : 12-04-2024
+  @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
   1.0   08-16-2024   rsinghnagar@salesforce.com   Initial Version
@@ -15,10 +15,12 @@
             <template if:true={showOnCustomerTagging}>
                 <lightning-button class="slds-m-right_x-small" label={withFALabel} variant="brand" onclick={showModal}>
                 </lightning-button>&nbsp;
-                <!-- Create Case for Customer : TO BE VISIBLE WHEN CUSTOMER TAGGED TO CASE.-->
-                <lightning-button class="slds-m-left_x-small slds-m-right_x-small" label={withoutFALabel}
-                    variant="brand" onclick={showModalWitoutFA}>
-                </lightning-button>
+                <template if:true={showCreateCaseWOCustomer}>
+                    <!-- Create Case for Customer : TO BE VISIBLE WHEN CUSTOMER TAGGED TO CASE.-->
+                    <lightning-button class="slds-m-left_x-small slds-m-right_x-small" label={withoutFALabel}
+                        variant="brand" onclick={showModalWitoutFA}>
+                    </lightning-button>
+                </template>
             </template>
             <!-- Create Case without Customer : SHOW ALWAYS-->
             <template if:false={showOnCustomerTagging}>
