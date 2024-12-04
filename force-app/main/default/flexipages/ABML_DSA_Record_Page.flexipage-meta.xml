@@ -99,8 +99,8 @@
                     <name>uiBehavior</name>
                     <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Status__pc</fieldItem>
-                <identifier>RecordABML_Status_pcField</identifier>
+                <fieldItem>Record.ABML_Status__c</fieldItem>
+                <identifier>RecordABML_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -418,29 +418,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Case.Change_Priority</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Close_the_Case</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Framework_Snapshot</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.NewChildCase</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.SR_Snapshot_Preframework</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>MassChangeOwner</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>NewCase</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
