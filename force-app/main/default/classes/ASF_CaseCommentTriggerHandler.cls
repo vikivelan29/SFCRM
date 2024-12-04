@@ -1,12 +1,15 @@
 public with sharing class ASF_CaseCommentTriggerHandler extends ASF_VTriggerHandler{
 
     public override void BeforeInsert(List<SObject> newItems){
+        if(!ASF_TriggerSkipperUtility.isAllowedToRun('CaseComment', 'Before')){return;}
         validateCaseComment((List<CaseComment>)newItems, null);
     }
     public override void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
+        if(!ASF_TriggerSkipperUtility.isAllowedToRun('CaseComment', 'Before')){return;}
         validateCaseComment((List<CaseComment>)newItems.values(), (Map<Id, CaseComment>)oldItems);
     }
     public override void BeforeDelete(Map<Id, SObject> oldItems){
+        if(!ASF_TriggerSkipperUtility.isAllowedToRun('CaseComment', 'Before')){return;}
         validateCaseComment(null, (Map<Id, CaseComment>)oldItems);
     } 
     

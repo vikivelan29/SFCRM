@@ -53,9 +53,71 @@ export default class ASF_caseClosureandMilestonePath extends NavigationMixin(Lig
 
     caseObj;
     @api displayType;
+    @api primarySLA;
     get showTimer() {
         //default display type is Timer
         return this.displayType == undefined || this.displayType == 'Timer';
+    }
+    get sla1Prop(){
+        return {'label':'Level 1 Stage SLA','slaValue':this.caseObj?this.caseObj.Stage_SLA_1__c:null,'slaStyle':this.sla1Style};
+    }
+    get sla2Prop(){
+        return {'label':'Level 2 Stage SLA','slaValue':this.caseObj?this.caseObj.Stage_SLA_2__c:null,'slaStyle':this.sla2Style};
+    }
+    get sla3Prop(){
+        return {'label':'Level 3 Stage SLA','slaValue':this.caseObj?this.caseObj.Stage_SLA_3__c:null,'slaStyle':this.sla3Style};
+    }
+    get sla1TATProp(){
+        return {'label':'Level 1 Turnaround Time(TAT)','slaValue':this.caseObj?this.caseObj.Stage_SLA_1__c:null,'slaTAT':this.sla1TAT};
+    }
+    get sla2TATProp(){
+        return {'label':'Level 2 Turnaround Time(TAT)','slaValue':this.caseObj?this.caseObj.Stage_SLA_2__c:null,'slaTAT':this.sla2TAT};
+    }
+    get sla3TATProp(){
+        return {'label':'Level 3 Turnaround Time(TAT)','slaValue':this.caseObj?this.caseObj.Stage_SLA_3__c:null,'slaTAT':this.sla3TAT};
+    }
+    get primarySLAProp(){
+        if(this.primarySLA == 'sla1'){
+            return this.sla1Prop;
+        }else if(this.primarySLA == 'sla2'){
+            return this.sla2Prop;
+        }
+        else{
+            //nothing specified or sla3 specified
+            return this.sla3Prop;
+        }
+    }
+    get primarySLATATProp(){
+        if(this.primarySLA == 'sla1'){
+            return this.sla1TATProp;
+        }else if(this.primarySLA == 'sla2'){
+            return this.sla2TATProp;
+        }
+        else{
+            return this.sla3TATProp;
+        }
+    }
+    get secondarySLAProp(){
+        if(this.primarySLA == 'sla1'){
+            return this.sla2Prop;
+        }else if(this.primarySLA == 'sla2'){
+            return this.sla1Prop;
+        }
+        else{
+            //nothing specified or sla3 specified
+            return this.sla1Prop;
+        }
+    }
+    get tertiarySLAProp(){
+        if(this.primarySLA == 'sla1'){
+            return this.sla3Prop;
+        }else if(this.primarySLA == 'sla2'){
+            return this.sla3Prop;
+        }
+        else{
+            //nothing specified or sla3 specified
+            return this.sla2Prop;
+        }
     }
 
     get overallTAT_Timer(){

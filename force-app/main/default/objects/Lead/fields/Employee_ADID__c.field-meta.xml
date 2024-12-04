@@ -5,7 +5,6 @@
     <formula>CreatedBy.FederationIdentifier</formula>
     <label>Employee ADID</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>
