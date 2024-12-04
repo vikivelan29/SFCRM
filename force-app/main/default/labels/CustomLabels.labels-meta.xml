@@ -1511,4 +1511,11 @@
         <shortDescription>RNWL_CommunicationOverallFreq</shortDescription>
         <value>You have exceeded the overall limit for sending this notification.</value>
     </labels>
+    <labels>
+        <fullName>SuppressCreateCase_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
+        <value>Wellness</value>
+    </labels>
 </CustomLabels>
