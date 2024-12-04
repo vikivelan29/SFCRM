@@ -1,3 +1,12 @@
+/**
+ * @description       Kavach Policies
+ * @author            : achuriwala@salesforce.com
+ * @group             : 
+ * @last modified on  : 01-11-2024
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   01-11-2024   achuriwala@salesforce.com   Initial Version
+**/
 public class ABHI_KavachPolicies {
     /* @LOB - ABHI
     * @Function - getPolicyData
@@ -15,7 +24,7 @@ public class ABHI_KavachPolicies {
            System.debug('@@@kavach1'+policyNo);
            for(Asset policyData : [SELECT ID,LAN__c,Account.Name, Account.Client_Code__c, Account.Phone,Account.PersonMobilePhone,
                                   Account.PersonEmail, Account.Office_Email__c, Account.IsPersonAccount,MasterPolicyNumber__r.LAN__c 
-                                  FROM Asset WHERE LAN__c = :policyNo]) {
+                                  FROM Asset WHERE LAN__c != null AND LAN__c = :policyNo]) {
                                       kavach = new KavachResponseWrapper(policyData);
                                               System.debug('@@@kavach'+kavach);
 
@@ -50,7 +59,7 @@ public class ABHI_KavachPolicies {
            response = ABHI_CreatePolicy.createPolicy(integrationResponse.responseBody);
            System.debug('@@@@response.StatusCode'+response);
           // listKavachResponse = getPolicyData(policyNo,'');
-           if(response.StatusCode.equals('200')) {
+           if(response.StatusCode.equals('1000')) {
                listKavachResponse = getPolicyData(policyNo);
            }
            else {
