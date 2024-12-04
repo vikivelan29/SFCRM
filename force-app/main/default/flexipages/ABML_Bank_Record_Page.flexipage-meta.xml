@@ -132,6 +132,16 @@
                 <identifier>RecordABML_MICR_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Cheque_Name__c</fieldItem>
+                <identifier>RecordABML_Cheque_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-70be5394-2b95-4369-bc99-cf75363a4624</name>
         <type>Facet</type>
     </flexiPageRegions>

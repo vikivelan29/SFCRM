@@ -18,8 +18,8 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
     global void execute(DataBase.BatchableContext context,List<Case> scope){
         
         String firstCsvHeader = 'Client Code,Broker Code,Agent Code,Branch Code,Franchisee Code,Type,Sub Type,Assigned Team,Contact Type,Description,Nature,Case Number,Account Name,Case Owner\n';
-        String secondCsvHeader ='Client Code,Broker Code,Agent Code,Branch Code,Franchisee Code,Nature,Case Owner, Account Name, Subject, Date/Time Opened,Case Number,Description,Type,Sub Type,ABML Case Detail Name\n';
-        String thirdCsvHeader ='Case Number,Type,Sub Type,Case Owner,Description,Contact Type,TAT Deadline,TAT Days,Nature,Recategorisation Date,Created Date\n';
+        String secondCsvHeader ='Case Owner,Client Code,Broker Code,Agent Code,Branch Code,Franchisee Code,Nature, Account Name, Subject, Date/Time Opened,Case Number,Description,Type,Sub Type,ABML Case Detail Name\n';
+        String thirdCsvHeader ='Case Number,Type,Sub Type,Case Owner,Description,Contact Type,TAT Deadline,TAT Days,Nature,Recategorisation Date,Overall Case Closure SLA,Created Date\n';
         String fourthCsvHeader ='Client Code,Broker Code,Agent Code,Branch Code,Franchisee Code,ABML Case Detail Name,Contact Type,Nature,Type,Sub Type,Ageing(No of Days),Case Number,Description,Case Owner,Created Date\n';        
         
         String firstCsvBody = '';
@@ -63,9 +63,10 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
             + (objCase.Account.ABML_Agent_Code__pc != null ? objCase.Account.ABML_Agent_Code__pc : '') + '","'
             + (objCase.Account.ABML_Branch_Code__c != null ? objCase.Account.ABML_Branch_Code__c : '') + '","'
             + (objCase.Account.ABML_Franchisee_Code__c != null ? objCase.Account.ABML_Franchisee_Code__c : '') + '","'
+            + (objCase.Nature__c != null ? objCase.Nature__c : '') + '","'
             + (objCase.Account.Name != null ? objCase.Account.Name : '') + '","'
             + (objCase.Subject != null ? objCase.Subject : '') + '","'
-            + objCase.CreatedDate + '","'
+            + (String.valueOf(objCase.CreatedDate) != null ? String.valueOf(objCase.CreatedDate) : '') + '","'
             + (objCase.CaseNumber != null ? String.valueOf(objCase.CaseNumber) : '') + '","'
             + (objCase.Description != null ? objCase.Description : '') + '","'
             + (objCase.Type_Text__c != null ? objCase.Type_Text__c : '') + '","'
@@ -81,9 +82,9 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
             + (objCase.ABML_Case_Detail__r.TAT_Deadline_Date__c != null ? objCase.ABML_Case_Detail__r.TAT_Deadline_Date__c : '') + '","'
             + (objCase.ABML_Case_Detail__r.TAT_Days__c != null ? objCase.ABML_Case_Detail__r.TAT_Days__c : '') + '","'
             + (objCase.Nature__c != null ? objCase.Nature__c : '') + '","'
-            + objCase.Recategorisation_Date__c + '","' 
-            + objCase.Overall_Case_Closure_SLA__c + '","'
-            + objCase.CreatedDate + '"\n';
+            + (String.valueOf(objCase.Recategorisation_Date__c) != null ? String.valueOf(objCase.Recategorisation_Date__c) : '') + '","' 
+            + (String.valueOf(objCase.Overall_Case_Closure_SLA__c) != null ? String.valueOf(objCase.Overall_Case_Closure_SLA__c) : '') + '","'
+            + (String.valueOf(objCase.CreatedDate) != null ? String.valueOf(objCase.CreatedDate) : '') + '"\n';
             
             fourthCsvBody += '"' + (objCase.Account.Client_Code__c != null ? objCase.Account.Client_Code__c : '') + '","' 
             + (objCase.Account.ABML_Broker_Code__pc != null ? objCase.Account.ABML_Broker_Code__pc : '') + '","'
@@ -99,7 +100,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
             + (objCase.CaseNumber != null ? String.valueOf(objCase.CaseNumber) : '') + '","'
             + (objCase.Description != null ? objCase.Description : '') + '","'
             + (objCase.Owner.Name != null ? objCase.Owner.Name : '') + '","'
-            + objCase.CreatedDate +'"\n';
+            + (String.valueOf(objCase.CreatedDate) != null ? String.valueOf(objCase.CreatedDate) : '') +'"\n';
         }
         
         String firstCsvContent = firstCsvHeader + firstCsvBody;
