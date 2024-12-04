@@ -49,108 +49,121 @@ public without sharing class ABHFL_CTSTHelper {
  // This method will check duplicate for all cases of recategorization(Except for Complaint to Request OR Complaint to query nature).
  public static void runDuplicateCheckForRecat(List < Case > caseList, Map < Id, Case > oldCaseMap) {
 
-     List < ASF_Case_Category_Config__c > caseCategoryConfigsForAcc = new List < ASF_Case_Category_Config__c > ();
-     Map < String, List < Case >> accIdVsCases = new Map < String, List < Case >> ();
-     Map < String, List < Case >> lanVsCases = new Map < String, List < Case >> ();
-     Map < String, Set < Id >> cccVsAccIds = new Map < String, Set < Id >> ();
-     List < ABHFL_Case_Detail__c > lstcse = new List < ABHFL_Case_Detail__c > ();
-     Set < String > cccIdsForAcc = new Set < String > ();
-     Map < Id, Case > IdvsCase = new Map < Id, Case > ();
-     Boolean condsatisfy = true;
-     
-     for (Case c: caseList) {
-         if (c.Business_Unit__c == 'ABHFL' && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && oldCaseMap.get(c.Id).Nature__c == ABHFL_Constants.LowerNature && ABHFL_Constants.HigherNature.contains(c.Nature__c)) {
-             condsatisfy = false;
-             c.No_Auto_Communication__c = 'Email;SMS';
-             ABHFL_Case_Detail__c csedetail = new ABHFL_Case_Detail__c(Id = c.ABHFL_Case_Detail__c);
-             csedetail.Complaint_Overall_SLA__c = oldCaseMap.get(c.Id).Overall_Case_Closure_SLA__c;
-             lstcse.add(csedetail);
-         }
-         IdvsCase.put(c.Id, c);
-         if (c.Business_Unit__c == 'ABHFL' &&
-             (c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
-                 c.AccountId != oldCaseMap.get(c.Id).AccountId ||
-                 c.AssetId != oldCaseMap.get(c.Id).AssetId) && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && condsatisfy == true) {
-             if ((c.AccountId != null) &&
-                 c.CCC_External_Id__c != null &&
-                 (c.AssetId != null)
-             ) {
-                 if ((!accIdVsCases.containsKey(c.AccountId))) {
-                     accIdVsCases.put(c.AccountId, new List < Case > ());
-                 }
-                 accIdVsCases.get(c.AccountId).add(c);
+    List < ASF_Case_Category_Config__c > caseCategoryConfigsForAcc = new List < ASF_Case_Category_Config__c > ();
+    Map < String, List < Case >> accIdVsCases = new Map < String, List < Case >> ();
+    Map < String, List < Case >> lanVsCases = new Map < String, List < Case >> ();
+    Map < String, Set < Id >> cccVsAccIds = new Map < String, Set < Id >> ();
+    List < ABHFL_Case_Detail__c > lstcse = new List < ABHFL_Case_Detail__c > ();
+    Set < String > cccIdsForAcc = new Set < String > ();
+    Set < Id > detailids = new Set < Id > ();
+    Map < Id, Case > IdvsCase = new Map < Id, Case > ();
+    RecordType FrameworkRecType = [select id, Name, SobjectType from RecordType where Name = 'Framework'
+        and SobjectType = 'Case'
+        LIMIT 1
+    ];
+    Boolean condsatisfy = true;
+    for (Case cse: caseList) {
+        detailids.add(oldCaseMap.get(cse.Id).ABHFL_Case_Detail__c);
+    }
+    Map < Id, ABHFL_Case_Detail__c > csedetailmap = new Map < Id, ABHFL_Case_Detail__c > ([Select Id, Grievance_Type__c, Complaint_Type__c, Correct_Type__c, Correct_Sub_Type__c, Error__c, Action_Taken__c, Short_VOC__c from ABHFL_Case_Detail__c Where Id IN: detailids]);
+    for (Case c: caseList) {
+        if (c.Business_Unit__c == 'ABHFL' && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && oldCaseMap.get(c.Id).Nature__c == ABHFL_Constants.LowerNature && ABHFL_Constants.HigherNature.contains(c.Nature__c) && oldCaseMap.get(c.Id).RecordTypeId == FrameworkRecType.Id) {
+            condsatisfy = false;
+            c.No_Auto_Communication__c = 'Email;SMS';
+            ABHFL_Case_Detail__c csedetail = new ABHFL_Case_Detail__c(Id = c.ABHFL_Case_Detail__c);
+            csedetail.Complaint_Overall_SLA__c = oldCaseMap.get(c.Id).Overall_Case_Closure_SLA__c;
+            csedetail.Complaint_RCA__c = 'Grievance Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Grievance_Type__c + ';' + 'Complaint Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Complaint_Type__c + ';' + '\n' + 'Correct Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Correct_Type__c + ';' + 'Correct Sub Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Correct_Sub_Type__c + ';' + '\n' + 'Short VOC :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Short_VOC__c + ';' + 'Action Taken :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Action_Taken__c + ';' + '\n' + 'Error :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Error__c;
+            lstcse.add(csedetail);
+        }
+        IdvsCase.put(c.Id, c);
+        if (c.Business_Unit__c == 'ABHFL' &&
+            (c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c ||
+                c.AccountId != oldCaseMap.get(c.Id).AccountId ||
+                c.AssetId != oldCaseMap.get(c.Id).AssetId) && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && oldCaseMap.get(c.Id).RecordTypeId == FrameworkRecType.Id && condsatisfy == true) {
+            if ((c.AccountId != null) &&
+                c.CCC_External_Id__c != null &&
+                (c.AssetId != null)
+            ) {
+                if ((!accIdVsCases.containsKey(c.AccountId))) {
+                    accIdVsCases.put(c.AccountId, new List < Case > ());
+                }
+                accIdVsCases.get(c.AccountId).add(c);
 
 
-                 if (!cccVsAccIds.containsKey(c.CCC_External_Id__c)) {
-                     cccVsAccIds.put(c.CCC_External_Id__c, new Set < Id > ());
-                 }
-                 cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
+                if (!cccVsAccIds.containsKey(c.CCC_External_Id__c)) {
+                    cccVsAccIds.put(c.CCC_External_Id__c, new Set < Id > ());
+                }
+                cccVsAccIds.get(c.CCC_External_Id__c).add(c.AccountId);
 
 
-                 if ((!lanVsCases.containsKey(c.AssetId))) {
-                     lanVsCases.put(c.AssetId, new List < Case > ());
-                 }
-                 lanVsCases.get(c.AssetId).add(c);
-             }
-         }
-     }
+                if ((!lanVsCases.containsKey(c.AssetId))) {
+                    lanVsCases.put(c.AssetId, new List < Case > ());
+                }
+                lanVsCases.get(c.AssetId).add(c);
+            }
+        }
+    }
 
 
-     if (!cccVsAccIds.isEmpty()) {
-         caseCategoryConfigsForAcc = [SELECT ID, Type__c, Sub_Type__c, CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: cccVsAccIds.keySet()];
-         for (ASF_Case_Category_Config__c ccc: caseCategoryConfigsForAcc) {
-             cccIdsForAcc.add(ccc.CCC_External_Id__c);
-         }
-     }
+    if (!cccVsAccIds.isEmpty()) {
+        caseCategoryConfigsForAcc = [SELECT ID, Type__c, Sub_Type__c, CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: cccVsAccIds.keySet()];
+        for (ASF_Case_Category_Config__c ccc: caseCategoryConfigsForAcc) {
+            cccIdsForAcc.add(ccc.CCC_External_Id__c);
+        }
+    }
 
 
-     if (!cccVsAccIds.isEmpty()) {
-         for (Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
-                 FROM Case
-                 WHERE(AccountId IN: accIdVsCases.keySet())
-                 AND CCC_External_Id__c IN: cccVsAccIds.keySet()
-                 AND(AssetId IN: lanVsCases.keySet())
-                 AND isClosed != true
-             ]) {
-             if (cccIdsForAcc.contains(dupeCase.CCC_External_Id__c)) {
-                 if (accIdVsCases.containsKey(dupeCase.AccountId)) {
-                     for (Case c: accIdVsCases.get(dupeCase.AccountId)) {
-                         if (lanVsCases.containsKey(c.AssetId)) {
-                             if (c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c) {
-                                 ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase, oldCaseMap); //  After recategorisation, ovarall SLA should changed before marked as closed duplicate.
-                             }
+    if (!cccVsAccIds.isEmpty()) {
+        for (Case dupeCase: [SELECT Id, Sub_Type_Text__c, SLA_Broken_DateTime__c, Overall_Case_Closure_SLA__c, CaseNumber, AccountId, CCC_External_Id__c, AssetId
+                FROM Case
+                WHERE(AccountId IN: accIdVsCases.keySet())
+                AND CCC_External_Id__c IN: cccVsAccIds.keySet()
+                AND(AssetId IN: lanVsCases.keySet())
+                AND isClosed != true
+            ]) {
+            if (cccIdsForAcc.contains(dupeCase.CCC_External_Id__c)) {
+                if (accIdVsCases.containsKey(dupeCase.AccountId)) {
+                    for (Case c: accIdVsCases.get(dupeCase.AccountId)) {
+                        if (lanVsCases.containsKey(c.AssetId)) {
+                            if (c.Is_Recategorise_Allowed__c && c.CCC_External_Id__c != oldCaseMap.get(c.Id).CCC_External_Id__c) {
+                                ASF_CaseTriggerModularHelper.invokeSLACalculationMethods(IdvsCase, oldCaseMap); //  After recategorisation, ovarall SLA should changed before marked as closed duplicate.
+                            }
 
-                             c.Stage__c = ASF_Constants.DUPLICATESTAGE;
-                             c.Status = ASF_Constants.DUPLICATESTATUS;
-                             c.Rejected_Reason__c = 'Duplicate Case';
-                             c.Is_Duplicate__c = true;
-                             c.ParentId = dupeCase.Id;
+                            c.Stage__c = ASF_Constants.DUPLICATESTAGE;
+                            c.Status = ASF_Constants.DUPLICATESTATUS;
+                            c.Rejected_Reason__c = 'Duplicate Case';
+                            c.Is_Duplicate__c = true;
+                            c.ParentId = dupeCase.Id;
 
-                         }
-                     }
-                 }
-             }
-         }
-     }
-     if (!lstcse.isEmpty()) {
-         update lstcse;
-     }
- }
- public static void updateOwnerToRecatUsr(List < Case > caseList, Map < Id, Case > oldCaseMap) {
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (!lstcse.isEmpty()) {
+        update lstcse;
+    }
+}
+public static void updateOwnerToRecatUsr(List < Case > caseList, Map < Id, Case > oldCaseMap) {
 
-     List < Case > updatedcases = new List < Case > ();
-     for (Case c: caseList) {
+    List < Case > updatedcases = new List < Case > ();
+    RecordType FrameworkRecType = [select id, Name, SobjectType from RecordType where Name = 'Framework'
+        and SobjectType = 'Case'
+        LIMIT 1
+    ];
+    for (Case c: caseList) {
 
-         if (c.Business_Unit__c == 'ABHFL' && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && oldCaseMap.get(c.Id).Nature__c == ABHFL_Constants.LowerNature && ABHFL_Constants.HigherNature.contains(c.Nature__c)) {
-             Case cse = new Case(Id = c.Id);
-             cse.OwnerId = oldCaseMap.get(c.Id).OwnerId;
-             updatedcases.add(cse);
-         }
-     }
-     if (!updatedcases.isEmpty()) {
-         update updatedcases;
-     }
- }
+        if (c.Business_Unit__c == 'ABHFL' && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && oldCaseMap.get(c.Id).Nature__c == ABHFL_Constants.LowerNature && ABHFL_Constants.HigherNature.contains(c.Nature__c) && oldCaseMap.get(c.Id).RecordTypeId == FrameworkRecType.Id) {
+            Case cse = new Case(Id = c.Id);
+            cse.OwnerId = oldCaseMap.get(c.Id).OwnerId;
+            updatedcases.add(cse);
+        }
+    }
+    if (!updatedcases.isEmpty()) {
+        update updatedcases;
+    }
+}
     
     //AM-SLA broken reset change on Open --> In Progress for Complaints
     public static void updateSlaBrokenCheckOnStageMovement(List<Case> newCaseList, Map<Id, Case> oldCaseMap){
