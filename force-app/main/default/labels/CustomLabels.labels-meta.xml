@@ -1718,6 +1718,28 @@
         <value>You have exceeded the overall limit for sending this notification.</value>
     </labels>
     <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
+        <categories>Wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
+        <value>No records are available for display.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_BU</shortDescription>
+        <value>ABML</value>
+    </labels>
+    <labels>
         <fullName>SuppressCreateCase_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
