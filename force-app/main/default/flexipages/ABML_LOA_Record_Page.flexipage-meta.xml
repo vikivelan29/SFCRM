@@ -62,6 +62,16 @@
                 <identifier>RecordABML_LOA_Contact_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_LOA_AP__c</fieldItem>
+                <identifier>RecordABML_LOA_AP_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-5f3bcfcf-d40a-4989-a2ad-467a38169278</name>
         <type>Facet</type>
     </flexiPageRegions>
