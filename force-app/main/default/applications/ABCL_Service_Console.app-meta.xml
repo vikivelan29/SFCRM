@@ -2495,38 +2495,6 @@
         <type>Flexipage</type>
         <profile>ABML Manager Profile</profile>
     </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Health_Provider_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Health_Provider_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Health_Provider_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Health_Provider_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
     <tabs>Health_Provider__c</tabs>
     <tabs>Claim__c</tabs>
     <tabs>Health_Intent__c</tabs>
