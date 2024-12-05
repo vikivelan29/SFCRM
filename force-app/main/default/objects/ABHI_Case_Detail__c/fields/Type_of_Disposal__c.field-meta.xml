@@ -9,18 +9,17 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
                 <fullName>1</fullName>
                 <default>false</default>
-                <label>Infavor</label>
+                <label>Infavour</label>
             </value>
             <value>
                 <fullName>2</fullName>
                 <default>false</default>
-                <label>Partially favor</label>
+                <label>Partially Infavour</label>
             </value>
             <value>
                 <fullName>Rejected</fullName>
