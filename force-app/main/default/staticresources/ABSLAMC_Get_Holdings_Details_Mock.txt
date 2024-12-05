@@ -1,0 +1,24 @@
+{
+    "ReturnCode": "1",
+    "ReturnMessage": "Record Retrieved Successfully.",
+    "listObject": [
+        {
+            "LOB": "MF",
+            "FOLIO": "1043128326",
+            "SCHEME_CODE": "16Z",
+            "SCHEME_NAME": "ABSL  Digital India Fund - Growth-DIRECT",
+            "ASSET_CLASS": "EQUITY",
+            "UNIT_HOLDINGS": "0.0000",
+            "HOLDING_AMOUNT": "0.00"
+        },
+        {
+            "LOB": "MF",
+            "FOLIO": "1043128326",
+            "SCHEME_CODE": "66Y",
+            "SCHEME_NAME": "ABSL PSU Equity Fund Direct-Growth",
+            "ASSET_CLASS": "EQUITY",
+            "UNIT_HOLDINGS": "114.8550",
+            "HOLDING_AMOUNT": "4364.49"
+        }
+    ]
+}
