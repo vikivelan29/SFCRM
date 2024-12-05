@@ -204,10 +204,6 @@
         <apexClass>ABCL_BaseViewController_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <pageAccesses>
-        <apexPage>ABML_ListViewSession</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>Restrict_User_Updation</name>
@@ -563,6 +559,11 @@
         <field>Account.ABML_Partner_Segmentation__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+		<editable>true</editable>
+		<field>Account.ABML_Scheme__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.ABML_Activation_Date__c</field>
@@ -2187,6 +2188,14 @@
     <recordTypeVisibilities>
         <recordType>Case.Interaction</recordType>
         <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+	<recordType>Lead.Sales</recordType>
+	<visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Lead.Service</recordType>
+	<visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>PersonAccount.ABML_BSB</recordType>

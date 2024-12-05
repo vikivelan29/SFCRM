@@ -56,7 +56,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>,Open</value>
+            <value>Open</value>
         </criteriaItems>
         <criteriaItems>
             <column>Case.Business_Unit__c</column>
