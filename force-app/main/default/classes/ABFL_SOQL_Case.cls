@@ -38,7 +38,7 @@ public with sharing class ABFL_SOQL_Case {
         }
         return caseRec;
     }
-
+    
     /****************************************************************************************************************
      * @function - getCasesFromCaseDetailIds
      * @description - SOQL method for getting case details from set of abflCaseDetailId
@@ -57,7 +57,7 @@ public with sharing class ABFL_SOQL_Case {
             caseMapToReturn = caseIdToRecordMap;
         }
         return caseMapToReturn;
-    }
+    }  
     
     /****************************************************************************************************************
      * @function - getCases
