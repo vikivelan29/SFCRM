@@ -237,6 +237,7 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
                     }
                     dmlRecords.add(caseExt);
                     caseRecord.Stage__c = 'Resolved';
+                    caseRecord.Status = 'Resolved';
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, true);
                 }
