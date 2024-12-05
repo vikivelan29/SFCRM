@@ -1533,7 +1533,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Customer_Member_Mapping__c.Riders_Opted__c</field>
+        <field>Customer_Member_Mapping__c.Rider_Opted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2259,6 +2259,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Claim__c.Patient_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Claim__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Policy_Nominee__c.Policy_Number_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
