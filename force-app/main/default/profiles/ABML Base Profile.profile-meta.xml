@@ -164,6 +164,10 @@
         <apexClass>Asf_FetchAssetRelatedToAccountController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+	<pageAccesses>
+        <apexPage>ABML_ListViewSession</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <custom>true</custom>	
     <fieldPermissions>
         <editable>false</editable>
