@@ -983,7 +983,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Sync_Status__c</field>
+        <field>ABHI_Case_Detail__c.Sub_Concern__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2087,7 +2087,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Riders_Opted__c</field>
+        <field>Customer_Member_Mapping__c.Rider_Opted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2633,11 +2633,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Customer_Member_Mapping__c.Pre_Existing_Disease_Waiting_Period__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Riders_Opted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3622,11 +3617,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Riders_Opted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Customer_Member_Mapping__c.SumInsured__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3692,7 +3682,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.Prospect_Type__c</field>
+        <field>ABHI_Case_Detail__c.Acccount_Number__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3756,12 +3746,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Previous_Policy_Details__c.Customer__c</field>
+        <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Confirm_Account_number__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>true</editable> 
         <field>ABHI_Case_Detail__c.Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4922,27 +4912,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Case_Reopened_By__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Case_Closed_Resolved_By__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Case_Closed_Resolution_Comments__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ABHI_Case_Detail__c.Member_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Disclosure_of_Illness__c</field>
+        <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4960,11 +4930,6 @@
             <field>Survey_Response__c.Business_Unit__c</field>
             <readable>true</readable>
       </fieldPermissions>
-      <fieldPermissions>
-        <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Rider_Opted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Notes_from_Sprinklr__c</field>
@@ -5003,6 +4968,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Claim__c.Hospital_Provider__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Claim__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Policy_Nominee__c.Policy_Number_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>

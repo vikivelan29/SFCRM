@@ -2389,6 +2389,38 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Health_Provider_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Health_Provider_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Health_Provider_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Health_Provider_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ABML_Case_Pre_Framework_Lightning_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
