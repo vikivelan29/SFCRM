@@ -450,6 +450,10 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
       
         Test.startTest();
           update caseRec;
+         /* ABHI_Case_Detail__c caseDet = [SELECT ID,Claim__c FROM ABHI_Case_Detail__c WHERE Id = :caseRec.ABHI_Case_Detail__c];
+         Claim__c claim = [SELECT ID FROM Claim__c LIMIT 1];
+		  Assert.areEqual(claim.Id, caseDet.Claim__c, 'Claim name'); */
+
           caseRec.Cover_Code_Text__c = null;
           caseRec.ClaimNo_Text__c = null;
           caseRec.Hospital_Code_Text__c = null;
@@ -459,6 +463,9 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         
           caseRec.Hospital_Code_Text__c = '123';
           update caseRec;
+        
+          ABHI_Case_Detail__c caseDets = [SELECT ID,Claim__c FROM ABHI_Case_Detail__c LIMIT 1];
+          Assert.areEqual(null, caseDets.Claim__c, 'Claim name'); 
         Test.stopTest();
     }
 
