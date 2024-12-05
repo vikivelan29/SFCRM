@@ -13,6 +13,6 @@
     <label>ABHI CRM Reimbursement</label>
     <queue>ABHI_CRM_Reimbursement</queue>
     <sharedTo>
-        <group>ABHI_CRM_Reimbursement</group>
+        <allInternalUsers></allInternalUsers>
     </sharedTo>
 </ListView>
