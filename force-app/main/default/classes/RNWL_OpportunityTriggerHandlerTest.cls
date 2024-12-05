@@ -107,7 +107,7 @@ public class RNWL_OpportunityTriggerHandlerTest {
         Account acc = [Select Id FROM Account WHERE Name = 'test before opp' LIMIT 1]; 
         
         Opportunity objOpp1 = RNWL_TestDataFactory.createOpportunityRecords('Dialer Status Successful Opp', acc.Id);
-        
+        objOpp1.Payment_Link__c = 'test/test';
         objOpp1.Schedule_Request_Response__c = '{"responseCode":0,"responseDesc":"Call request deleted successfully"}'; 
         
         Opportunity objOpp2 = RNWL_TestDataFactory.createOpportunityRecords('Dialer Status Failed Opp', acc.Id);
