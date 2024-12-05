@@ -108,6 +108,9 @@
                             <value>DOB__c</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Rider_Opted__c</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Health_Return__c</value>
                         </valueListItems>
                         <valueListItems>
@@ -115,9 +118,6 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Is_Chronic__c</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Riders_Opted__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
