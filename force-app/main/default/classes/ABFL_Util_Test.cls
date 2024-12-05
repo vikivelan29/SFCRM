@@ -24,14 +24,14 @@ public with sharing class ABFL_Util_Test{
         
         User userRecord1 = new User(
             Alias = 'standt', 
-            Email = 'stanrduserEmails@testorg.com', 
+            Email = 'stanrduserEmailsutr@testorg.com', 
             EmailEncodingKey = 'UTF-8', 
             LastName = 'Testing_UTR', 
             LanguageLocaleKey = 'en_US', 
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk567@gmail.com', 
+            UserName = 'cdefghijk567utr@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
