@@ -184,16 +184,22 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <formFactor>Large</formFactor>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHFL_Account_Record_Page</content>
         <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHFL_Account_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
@@ -231,6 +237,35 @@
     <externalSharingModel>Private</externalSharingModel>
     <profileSearchLayouts>
         <fields>ACCOUNT.NAME</fields>
+        <fields>PC_SALUTATION</fields>
+        <fields>PC_PHONE3</fields>
+        <fields>Client_Code__c</fields>
+        <fields>PC_EMAIL</fields>
+        <fields>State__c</fields>
+        <fields>PC_BIRTHDATE</fields>
+        <fields>PAN__c</fields>
+        <profileName>Wellness CRM Base Profile</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>PC_TITLE</fields>
+        <fields>Client_Code__c</fields>
+        <fields>ACCOUNT.PHONE1</fields>
+        <fields>PC_EMAIL</fields>
+        <fields>Employee_Code__c</fields>
+        <profileName>RNWL Base Profile</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>PC_TITLE</fields>
+        <fields>Client_Code__c</fields>
+        <fields>ACCOUNT.PHONE1</fields>
+        <fields>PC_EMAIL</fields>
+        <fields>Employee_Code__c</fields>
+        <profileName>RNWL Manager Profile</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>ACCOUNT.NAME</fields>
         <fields>PC_TITLE</fields>
         <fields>ACCOUNT.PHONE1</fields>
         <fields>Client_Code__c</fields>
@@ -248,18 +283,16 @@
         <fields>PC_EMAIL</fields>
         <fields>State__c</fields>
         <fields>PC_BIRTHDATE</fields>
-        <fields>PAN__c</fields>
-        <profileName>Wellness CRM Base Profile</profileName>
+        <profileName>ABHFL Base Profile</profileName>
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>ACCOUNT.NAME</fields>
         <fields>PC_TITLE</fields>
-        <fields>ACCOUNT.PHONE1</fields>
         <fields>Client_Code__c</fields>
+        <fields>ACCOUNT.PHONE1</fields>
         <fields>PC_EMAIL</fields>
-        <fields>State__c</fields>
-        <fields>PC_BIRTHDATE</fields>
-        <profileName>ABHFL Base Profile</profileName>
+        <fields>Employee_Code__c</fields>
+        <profileName>ABHI Base Profile</profileName>
     </profileSearchLayouts>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <searchLayouts>
