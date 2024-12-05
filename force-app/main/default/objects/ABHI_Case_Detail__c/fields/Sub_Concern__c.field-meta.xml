@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ABML_Partner_Segmentation__c</fullName>
+    <fullName>Sub_Concern__c</fullName>
     <externalId>false</externalId>
-    <label>Partner Segmentation</label>
+    <label>Sub Concern</label>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Business</fullName>
+                <fullName>Schedule HA</fullName>
                 <default>false</default>
-                <label>Business</label>
+                <label>Schedule HA</label>
             </value>
             <value>
-                <fullName>Premium</fullName>
+                <fullName>Cancel HA</fullName>
                 <default>false</default>
-                <label>Premium</label>
+                <label>Cancel HA</label>
             </value>
         </valueSetDefinition>
     </valueSet>

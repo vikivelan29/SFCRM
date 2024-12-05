@@ -1135,6 +1135,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABHI_Case_Detail__c.Sub_Concern__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABHI_Case_Detail__c.TAT_Crossed_Remark__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3150,7 +3155,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Acccount_Number__c</field>
+        <field>ABHI_Case_Detail__c.Acccount_Number__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3200,11 +3205,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Confirm_Account_number__c</field>
+        <field>ABHI_Case_Detail__c.Confirm_Account_number__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>true</editable> 
         <field>ABHI_Case_Detail__c.Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4340,7 +4345,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field>
+        <field>ABHI_Case_Detail__c.Cancellation_Reason__c</field> 
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4396,6 +4401,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Claim__c.Hospital_Provider__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Claim__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Policy_Nominee__c.Policy_Number_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>

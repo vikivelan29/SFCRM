@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Collection_Payment_Amount__c</fullName>
+    <fullName>Policy_Number_Text__c</fullName>
     <externalId>false</externalId>
-    <label>Net Payment Amount</label>
-    <precision>18</precision>
+    <label>Policy Number Text</label>
+    <length>255</length>
     <required>false</required>
-    <scale>2</scale>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Currency</type>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>
