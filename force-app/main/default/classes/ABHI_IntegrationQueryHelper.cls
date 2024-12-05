@@ -26,7 +26,7 @@ public with sharing class ABHI_IntegrationQueryHelper {
         ContactId,
         No_Auto_Communication__c,
         Attachment_Status__c,
-        OwnerId,
+        OwnerId,Status,
         Source__c,
         Technical_Source__c ,
         CreatedById,
@@ -38,12 +38,12 @@ public with sharing class ABHI_IntegrationQueryHelper {
     ];
   }
 public static List<ASF_Case_Integration__c> getCaseIntegrations1(List<Case> caseRecs, Set<String> intgIds) {
-		return [
-			SELECT Id, Name, Status__c, Case__c, Integration_Ext_Id__c
-			FROM ASF_Case_Integration__c
-			WHERE Case__c IN :caseRecs AND Integration_Ext_Id__c IN :intgIds
-		];
-	}
+        return [
+            SELECT Id, Name, Status__c, Case__c, Integration_Ext_Id__c
+            FROM ASF_Case_Integration__c
+            WHERE Case__c IN :caseRecs AND Integration_Ext_Id__c IN :intgIds
+        ];
+    }
 
   /*
   public static List<ASF_Case_Category_Config__c> getCaseCategoryConfigs(String configExternalID) {
@@ -110,7 +110,7 @@ public static List<ASF_Case_Integration__c> getCaseIntegrations1(List<Case> case
    * @param Set<String> className
    * @return Map<String, ASF_Integration__c>
    */
- /* public static Map<String, ASF_Integration__c> getIntegrationInfo(Set<String> className) {
+  public static Map<String, ASF_Integration__c> getIntegrationInfo(Set<String> className) {
     Map<String, ASF_Integration__c> integrationInfo = new Map<String, ASF_Integration__c>();
     for (ASF_Integration__c integration : [
       SELECT
@@ -129,7 +129,7 @@ public static List<ASF_Case_Integration__c> getCaseIntegrations1(List<Case> case
       integrationInfo.put(integration.Processing_Class__c, integration);
     }
     return integrationInfo;
-  }*/
+  }
 
   /*public static Map<Id, Case> getCases(Set<Id> caseIdSet) {
         Map<Id, Case> caseMapToReturn = new Map<Id, Case>();

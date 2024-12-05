@@ -15,7 +15,10 @@ public with sharing class ABML_ReportsIntegration_Test{
         User userRecord = new User(Alias = 'usr1', Email = 'standarduser@testorg.com', EmailEncodingKey = 'UTF-8', LastName = 'Test', LanguageLocaleKey = 'en_US', LocaleSidKey = 'en_US', 
                                    ProfileId = SYSTEMADMIN_PROFILE.Id, TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testAbmlUser1@gmail.com', Business_Unit__c = 'ABML');
         insert userRecord;
-        
+        List<ABML_Daily_Report_Sender__c> listOfReportSender = new List<ABML_Daily_Report_Sender__c>();
+        ABML_Daily_Report_Sender__c objReportSenderTwo = new ABML_Daily_Report_Sender__c( Name = 'ordWideAddress', Email__c = 'abctsl.crmteam-noreply@adityabirlacapital.com');
+        listOfReportSender.add(objReportSenderTwo);
+        insert listOfReportSender;
         System.runAs(userRecord) {            
             Account acc = new Account(Client_Code__c = 'ABCTest321', FirstName = 'test', LastName = 'test2', PersonEmail='testuser@example.com', Business_Unit__c ='ABML');
             insert acc;

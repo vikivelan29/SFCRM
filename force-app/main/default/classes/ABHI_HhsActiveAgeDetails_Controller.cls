@@ -5,25 +5,26 @@
 *Last Modified:  15/08/2024
 *@description  :  This class is used as controller for the abhi_HHS_Active Component and for calling ActiveHealthdetails API
 ***************/
-
-public class ABHI_HhsActiveAgeDetails_Controller {
+@SuppressWarnings('PMD.FieldNamingConventions,PMD.VariableNamingConventions,PMD.ExcessivePublicCount')
+public with sharing class ABHI_HhsActiveAgeDetails_Controller {
     
-    
+     /**********
+     @Method Name - GetHhsActiveAge
+     @description :  Method returns IntegrationResponse, when customerId is passed on the Customer page.
+     ***********/
+   @SuppressWarnings('PMD.MethodNamingConventions')    
    @AuraEnabled
     public static IntegrationResponseWrapper GetHhsActiveAge(string customerId) {
     try{
         String integrationName = 'ABHI_HHS_ActiveAge_Details';
         //String activAge = '1187714';
         ABCL_IntegrationCallout.accountId = customerId;
-        Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId];
+        Account acc = [SELECT id, name, Client_Code__c from Account where Id =: customerId WITH SYSTEM_MODE];
         Map<String, String> urlParams = new Map<String, String>();
         urlParams.put('customerId', acc.Client_Code__c);
-        //urlParams.put('activAge',activAge);
-        system.debug('customerId' +acc.Client_Code__c);
+        
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,'',urlParams);
-        system.debug('IntegrationResp Code' +integrationResp.statuscode);
         IntegrationResponseWrapper deserializedIntResp = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
-        system.debug('deserializedIntResp>>' +deserializedIntResp);
         return deserializedIntResp;
            
         } catch (Exception e) {
@@ -32,6 +33,7 @@ public class ABHI_HhsActiveAgeDetails_Controller {
     }
     
     // wrapper class for Integration Response
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class IntegrationResponseWrapper {
         
        @AuraEnabled public HHSDetailsWrapper HHSDetails;     
@@ -45,14 +47,14 @@ public class ABHI_HhsActiveAgeDetails_Controller {
         }
         
     }
-    
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class HHSDetailsWrapper {
        @AuraEnabled public String operationStatus;
        @AuraEnabled public List<serviceMessagesWrapper> serviceMessages;
         @AuraEnabled public responseMapWrapper responseMap;
     }
     
-    
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class serviceMessagesWrapper{
         
         @AuraEnabled public String systemCode;
@@ -63,12 +65,14 @@ public class ABHI_HhsActiveAgeDetails_Controller {
        
     }
     
+     @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class responseMapWrapper{
         @AuraEnabled public resultsListWrapper resultsList;
        
         
     }
     
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class resultsListWrapper {
         @AuraEnabled public String gender;
         @AuraEnabled public Integer totalFsScore;
@@ -80,7 +84,7 @@ public class ABHI_HhsActiveAgeDetails_Controller {
         @AuraEnabled public List<activitiesWrapper> activities;
         
     }
-    
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')  
     public class activitiesWrapper{
         @AuraEnabled public String name;
         @AuraEnabled public String code;
@@ -91,19 +95,20 @@ public class ABHI_HhsActiveAgeDetails_Controller {
         @AuraEnabled public List<attributesWrapper> attributes;
         
     }
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class attributesWrapper{
         @AuraEnabled public String attributeCode;
         @AuraEnabled public String attributeValue;
 
     }
-    
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class infoWrapper{
         @AuraEnabled public String name;
         @AuraEnabled public Integer code;
         @AuraEnabled public String value;
         @AuraEnabled public String score; 
     }
-    
+    @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.ApexDoc,PMD.VariableNamingConventions')
     public class activeAgeWrapper{
         @AuraEnabled public Integer CustomerNo;
         @AuraEnabled public Integer ActualAge;

@@ -57,9 +57,9 @@ public class ABHI_KavachPolicies {
            ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
            
            response = ABHI_CreatePolicy.createPolicy(integrationResponse.responseBody);
-           System.debug('@@@@response.StatusCode'+response.StatusCode == '200');
+           System.debug('@@@@response.StatusCode'+response);
           // listKavachResponse = getPolicyData(policyNo,'');
-           if(response.StatusCode.equals('200')) {
+           if(response.StatusCode.equals('1000')) {
                listKavachResponse = getPolicyData(policyNo);
            }
            else {
@@ -68,7 +68,7 @@ public class ABHI_KavachPolicies {
            return listKavachResponse;
         }
         catch(Exception e) {
-            System.debug('@@ec'+e);
+            System.debug('@@ec'+e.getMessage()+e.getLineNumber());
            throw new AuraHandledException(response.StatusMessage); 
         }
     }

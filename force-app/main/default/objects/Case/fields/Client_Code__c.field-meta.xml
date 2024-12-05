@@ -10,7 +10,7 @@
         IF(
             ISPICKVAL(Account.ABML_Contact_Type__c, &apos;Franchisee&apos;),
             Account.ABML_Franchisee_Code__c,
-            Account.ABML_Client_ID__pc
+            Account.Client_Code__c
         )
     ),
     Account.Client_Code__c

@@ -48,10 +48,10 @@ public with sharing class ABHI_BulkAssignCaseConverterUtility implements ASF_Bul
         for(Case caseRec : [Select Id, CaseNumber, IsClosed, Stage__c, RecordTypeId, CCC_External_Id__c, AccountId from Case where CaseNumber IN :caseNumbers WITH SYSTEM_MODE]){
             caseNumberToCaseMap.put(caseRec.CaseNumber, caseRec);
         }
-        for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and DeveloperName LIKE 'ABHI_%' and name IN: ownerNames]){
+        for(Group queueRec : [select Id, name, DeveloperName from group where type='Queue' and DeveloperName LIKE 'ABHI_%' and name IN: ownerNames WITH SYSTEM_MODE]){
             queueUserNameIdMap.put(queueRec.name, queueRec.Id);
         }
-        for(User userRec : [select Id, FederationIdentifier from User where FederationIdentifier IN: ownerNames]){
+        for(User userRec : [select Id, FederationIdentifier from User where FederationIdentifier IN: ownerNames WITH SYSTEM_MODE]){
             queueUserNameIdMap.put(userRec.FederationIdentifier, userRec.Id);
         }
         

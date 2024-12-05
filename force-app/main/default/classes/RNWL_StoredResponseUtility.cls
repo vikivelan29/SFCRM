@@ -45,37 +45,19 @@ public class RNWL_StoredResponseUtility {
         if (mapOfFileNameToResponse.isEmpty()) return;
 
         try {
-            List<ContentVersion> lstCV = new List<ContentVersion>();
-            List<ContentDocumentLink> lstCDL = new List<ContentDocumentLink>();
-
+            List<ContentVersion> lstCV = new List<ContentVersion>(); 
             for (String strAPIName : mapOfFileNameToResponse.keySet()) {
                 Blob fileBodyBlob = Blob.valueOf(mapOfFileNameToResponse.get(strAPIName));
                 ContentVersion contentVersion = new ContentVersion(
                     Title = strAPIName + '-' + Date.today(),
                     PathOnClient = strAPIName + '-' + Date.today(),
                     VersionData = fileBodyBlob,
-                    Content_Source_API__c = strAPIName
+                    Content_Source_API__c = strAPIName,
+                    FirstPublishLocationId = objId
                 );
                 lstCV.add(contentVersion);
-            }
-
-            insert lstCV;
-
-            Map<Id, Id> cvToDocMap = new Map<Id, Id>();
-            for (ContentVersion cv : [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id IN :lstCV]) {
-                cvToDocMap.put(cv.Id, cv.ContentDocumentId);
-            }
-
-            for (Id cvId : cvToDocMap.keySet()) {
-                ContentDocumentLink cdl = new ContentDocumentLink(
-                    ContentDocumentId = cvToDocMap.get(cvId),
-                    LinkedEntityId = objId,
-                    ShareType = 'V'
-                );
-                lstCDL.add(cdl);
-            }
-
-            insert lstCDL;
+            } 
+            insert lstCV; 
 
         } catch (DmlException e) {
             system.debug('DML Exception: ' + e.getMessage());
@@ -119,9 +101,7 @@ public class RNWL_StoredResponseUtility {
     
     public static Abhi_HealthReturnController.ResponseWrapper getHealthDetails(String policyNo, String proposalNo){
         Abhi_HealthReturnController.ResponseWrapper objWrapper = Abhi_HealthReturnController.healthReturnCallout(policyNo, proposalNo);
-        
-        system.debug('objWrapper'+objWrapper);
-        
+          
         if(objWrapper.StatusCode != null && 
            (objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000)){
             mapOfFileNameToResponse.put('Health Return', JSON.serialize(objWrapper)); 

@@ -29,8 +29,8 @@ public with sharing class ABHI_CaseDetailHelper {
         if(mapofCaseDetailToCase.keySet().size() > 0) {
             Map<Id, ASF_Case_Category_Config__c> mapOfCCCIdToCCCRec = new Map<Id, ASF_Case_Category_Config__c>([
                 SELECT Id, Type__c, Sub_Type__c, CCC_External_Id__c
-            	FROM ASF_Case_Category_Config__c
-            	WHERE CCC_External_Id__c IN :listOfcccExtIds
+                FROM ASF_Case_Category_Config__c
+                WHERE CCC_External_Id__c IN :listOfcccExtIds
             ]);
             
             Map<Id, ABHI_Case_Detail__c> mapOfCaseDetailIdToCaseDetailRec = new Map<Id, ABHI_Case_Detail__c>([
@@ -45,8 +45,8 @@ public with sharing class ABHI_CaseDetailHelper {
             
             for(ABHI_Case_Detail__c caseDetailRec : mapOfCaseDetailIdToCaseDetailRec.values()) {
                 String cccExtId = mapofCaseDetailToCase.get(caseDetailRec.Id).CCC_External_Id__c;
-                String typeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId).Type__c;
-                String subTypeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId).Sub_Type__c;
+                String typeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId)?.Type__c ?? '';
+                String subTypeOfCCC = mapOfCCCExtIdIdsToCCCRec.get(cccExtId)?.Sub_Type__c ?? '';
                 caseDetailRec.Sub_Type__c = typeOfCCC+':'+subTypeOfCCC;
             }
             
@@ -122,7 +122,7 @@ public with sharing class ABHI_CaseDetailHelper {
                 }
             }
             
-            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Resolution_Comments__c 
+            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Resolution_Comments__c  
                                                    FROM ABHI_Case_Detail__c 
                                                    WHERE Id IN: abhiCaseDetIdsResolved] ) {
                 Case cs = mapofCaseDetailToResolvedCase.get(abhiCaseDet.Id);
@@ -133,13 +133,15 @@ public with sharing class ABHI_CaseDetailHelper {
                  }
             }
             
-            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Case_Reopened_By_Id__c, Resolution_Comments__c 
+            for(ABHI_Case_Detail__c abhiCaseDet : [SELECT Id, Case_Closed_Resolution_Comments__c , Case_Closed_Resolved_By__c , Case_Reopened_By__c , Case_Reopened_By_Id__c, Resolution_Comments__c  
                                                    FROM ABHI_Case_Detail__c 
                                                    WHERE Id IN: abhiCaseDetIdsReopened] ) {
                 Case cs = mapofCaseDetailToReopenedCase.get(abhiCaseDet.Id);
                  if(cs != null) {
                      abhiCaseDet.Case_Reopened_By__c = cs.OwnerText__c;
-                     abhiCaseDet.Case_Reopened_By_Id__c = cs.OwnerId;
+                     if(String.valueOf(cs.OwnerId).startsWith('005')){
+                         abhiCaseDet.Case_Reopened_By_Id__c = cs.OwnerId;
+                     }
                      abhiCaseDetList.add(abhiCaseDet);
                  }
             }
@@ -148,5 +150,50 @@ public with sharing class ABHI_CaseDetailHelper {
             update abhiCaseDetList;
             }
         }      
+    }
+    
+    /**
+    * @description - populate permanent address fields
+    */
+    
+    public void updateAccountFieldsonCaseDetail(List<Case> newCaseList) {
+        List<String> cccIds = new List<String>{'ABHI_Policy_Request1','ABHI_Policy_Request3'};
+        List<String> listOfAccIds = new List<String>();
+        Map<String, Case> mapofCaseDetailToCase = new Map<String, Case>();
+        for(Case caseRec : newCaseList) {
+            if(caseRec.AccountId != null && caseRec.ABHI_Case_Detail__c != null && caseRec.Business_Unit__c == 'ABHI' && cccIds.contains(caseRec.CCC_External_Id__c)) {
+                mapofCaseDetailToCase.put(caseRec.ABHI_Case_Detail__c, caseRec);
+                listOfAccIds.add(caseRec.AccountId);
+            }
+        }
+        
+        if(mapofCaseDetailToCase.keySet().size() > 0) {
+            
+            Map<Id, Account> mapOfAccIdtoAcc = new Map<Id, Account>([
+                SELECT Id, BillingStreet, BillingCity, BillingState, BillingCountry, BillingPostalCode
+                FROM Account
+                WHERE Id IN :listOfAccIds
+            ]);
+            
+            
+            Map<Id, ABHI_Case_Detail__c> mapOfCaseDetailIdToCaseDetailRec = new Map<Id, ABHI_Case_Detail__c>([
+                SELECT Id, Street__c, City__c , State__c , Country__c, Postal_Code__c 
+                FROM ABHI_Case_Detail__c
+                WHERE Id IN :mapofCaseDetailToCase.keySet()
+            ]);
+            
+            for(ABHI_Case_Detail__c caseDetailRec : mapOfCaseDetailIdToCaseDetailRec.values()) {
+                String accId = mapofCaseDetailToCase.get(caseDetailRec.Id).AccountId;
+                caseDetailRec.Street__c = mapOfAccIdtoAcc.get(accId).BillingStreet;
+                caseDetailRec.City__c = mapOfAccIdtoAcc.get(accId).BillingCity;
+                caseDetailRec.State__c = mapOfAccIdtoAcc.get(accId).BillingState;
+                caseDetailRec.Country__c = mapOfAccIdtoAcc.get(accId).BillingCountry;
+                caseDetailRec.Postal_Code__c = mapOfAccIdtoAcc.get(accId).BillingPostalCode;
+            }
+            
+            if(mapOfCaseDetailIdToCaseDetailRec.size() > 0) {
+               update mapOfCaseDetailIdToCaseDetailRec.values();
+           }
+        }
     }
 }

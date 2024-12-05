@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Api_Name__c</field>
-        <value xsi:type="xsd:string">discountPrice</value>
+        <value xsi:type="xsd:string">rebateAmount</value>
     </values>
     <values>
         <field>Asf_Dynamic_Datatable_Parent__c</field>
@@ -17,5 +17,9 @@
     <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">9.0</value>
+    </values>
+    <values>
+        <field>Type_Attributes__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

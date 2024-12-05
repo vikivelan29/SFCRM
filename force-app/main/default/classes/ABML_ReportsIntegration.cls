@@ -90,8 +90,10 @@ public with sharing class ABML_ReportsIntegration{
     public static void sendEmailAttachments(List<ASF_Case_Integration__c> asfCaseIntList){    
         Set<Id> caseRecordsIds = new Set<Id>();
         Set<Id> asfRecordIds = new Set<Id>();
+        Set<Id> accountRecords = new Set<Id>();
         Map<Id , Case> caseRecordsMap = new Map<Id , Case>();
         Map<Id , ContentVersion> newContentMap = new Map<Id , ContentVersion>();
+        Map<Id, Account> accountsMap = new Map<Id, Account>();
         Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
         
         if(!asfCaseIntList.isEmpty()){
@@ -102,13 +104,20 @@ public with sharing class ABML_ReportsIntegration{
         }        
    
         if(!caseRecordsIds.isEmpty()){
-            for(Case objCase : [Select Id, Business_Unit__c, Mapped_Email__c from Case where ID IN : caseRecordsIds]){
+            for(Case objCase : [Select Id, Business_Unit__c, Mapped_Email__c, AccountId, Customer_name_formula__c from Case where ID IN : caseRecordsIds]){
                 if(objCase.Business_Unit__c == 'ABML' && objCase.Mapped_Email__c != null){
                     caseRecordsMap.put(objCase.Id , objCase);
+                    accountRecords.add(objCase.AccountId);
                 }
             }
         }
-        
+        if(!accountRecords.isEmpty()){
+            for(Account accountObj : [Select Id, PersonContactId from Account where ID IN : accountRecords]){
+                if(accountObj.PersonContactId != null){
+                    accountsMap.put(accountObj.Id , accountObj);
+                }
+            }
+        }        
         if(!asfRecordIds.isEmpty()){
             for(ContentVersion objContentVersion : [Select Id, FirstPublishLocationId, Title, VersionData From ContentVersion Where FirstPublishLocationId IN : asfRecordIds]){
                 if(objContentVersion.FirstPublishLocationId != null && objContentVersion.Title != null){
@@ -117,19 +126,34 @@ public with sharing class ABML_ReportsIntegration{
             }
         }
         //BUSpecificAutoEmailMapping__mdt mdt = [Select Business_Unit__c,Default_Automated_Email_From_Address__c from BUSpecificAutoEmailMapping__mdt where Business_Unit__c=:System.Label.ABML_BU LIMIT 1];
-        OrgWideEmailAddress[] objOrgWideAddresses = [Select Id, DisplayName,Address from OrgWideEmailAddress where DisplayName =: System.Label.ASF_default_no_reply_email_address];//    where Address =:mdt.Default_Automated_Email_From_Address__c
-        
-        if(!objOrgWideAddresses.isEmpty() && !asfCaseIntList.isEmpty()){
+        //OrgWideEmailAddress[] objOrgWideAddresses = [Select Id, DisplayName,Address from OrgWideEmailAddress where DisplayName =: System.Label.ASF_default_no_reply_email_address];//    where Address =:mdt.Default_Automated_Email_From_Address__c
+        ABML_Daily_Report_Sender__c objReportSender = [SELECT Email__c from ABML_Daily_Report_Sender__c WHERE Name = 'ordWideAddress' LIMIT 1];
+        OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address =:objReportSender.Email__c  LIMIT 1]; 
+        // Added for template
+        Id templateId1 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Report_Integration_Email_Template_1733123089274' LIMIT 1].Id;
+        Id templateId2 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_SOT_Email_Template_1733145673611' LIMIT 1].Id;
+        Id templateId3 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Contract_Note_Email_Template_1733145822012' LIMIT 1].Id;
+
+        if(!asfCaseIntList.isEmpty()){
             for (ASF_Case_Integration__c objAsfCaseRecord : asfCaseIntList) {
                 if (objAsfCaseRecord.Status__c == 'Success' && caseRecordsMap.containsKey(objAsfCaseRecord.Case__c) && newContentMap.containskey(objAsfCaseRecord.Id)){                    
                     // Get the associated case record
                     Case caseRecord = caseRecordsMap.get(objAsfCaseRecord.Case__c);                    
                     // Check if the case record and email are not null
                     if (caseRecord != null && caseRecord.Mapped_Email__c != null) {
-                        email.setToAddresses(new String[] { caseRecord.Mapped_Email__c });
-                        email.setSubject('Email with File Attachment');
-                        email.setPlainTextBody('Please find the attached file.');
-                        email.setOrgWideEmailAddressId(objOrgWideAddresses.get(0).Id);
+                        email.setOrgWideEmailAddressId(orgWideEmail.Id);
+                        if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Statement of Accounts') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('SOA')){
+                            email.setTemplateId(templateId1);
+                        }
+                        if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Statement of Transaction') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('SOT')){
+                            email.setTemplateId(templateId2);
+                        }
+                        if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Contract Note') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('Contract')){
+                            email.setTemplateId(templateId3);
+                        }
+                        email.setTargetObjectId(accountsMap.get(caseRecord.AccountId).PersonContactId);
+                        email.setSaveAsActivity(false);
+                        email.setWhatId(caseRecord.Id);
                         
                         // Create the attachment
                         Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
@@ -137,7 +161,7 @@ public with sharing class ABML_ReportsIntegration{
                         attachment.setBody(emailVersionData);
                         attachment.setFileName(newContentMap.get(objAsfCaseRecord.Id).Title);
                         attachment.setContentType('application/pdf');
-                        email.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });    
+                        email.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });
                     } 
                     else {
                         System.debug('Case record or email address is null for Case ID: ' + objAsfCaseRecord.Case__c);
@@ -152,7 +176,7 @@ public with sharing class ABML_ReportsIntegration{
                 // Handle the exception and log the error
                 System.debug('Error sending email: ' + e.getMessage());
             }            
-        }     
+        }    
     }    
 
 /****************************************************************************************************************

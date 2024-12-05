@@ -21,6 +21,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
+import SUPPRESSCREATECASE_BU from '@salesforce/label/c.SuppressCreateCase_BU'; 
 import { lanLabels } from 'c/asf_ConstantUtility';
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
@@ -349,9 +350,9 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-           this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
-           this.faValidMsg = lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE != null? lanLabels[this.businessUnit].FA_VALIDATION_MESSAGE : lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
-           this.withFALabel = lanLabels[this.businessUnit].CREATE_CASE_WITH_FA != null? lanLabels[this.businessUnit].CREATE_CASE_WITH_FA : lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
+           this.cols = lanLabels[this.businessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
+           this.faValidMsg = lanLabels[this.businessUnit]?.FA_VALIDATION_MESSAGE || lanLabels["DEFAULT"].FA_VALIDATION_MESSAGE;
+           this.withFALabel = lanLabels[this.businessUnit]?.CREATE_CASE_WITH_FA || lanLabels["DEFAULT"].CREATE_CASE_WITH_FA;
 
            // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
            this.adjustAutoCommunications(undefined);
@@ -362,7 +363,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
 
     // Rajendra Singh Nagar: PR1030924-209 - Added function
     adjustAutoCommunications(data){
-        if(AUTO_COMM_BU_OPT[this.businessUnit]?.OPTSLBLS){
+        if(AUTO_COMM_BU_OPT?.[this.businessUnit]?.OPTSLBLS){
             this.noAutoCommOptions = AUTO_COMM_BU_OPT[this.businessUnit].OPTSLBLS.map(item => ({
                 label: item.label,
                 value: item.value
@@ -936,7 +937,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
-                    message: lanLabels[this.businessUnit].FA_MANDATORY_PREFRAMEWORK != null? lanLabels[this.businessUnit].FA_MANDATORY_PREFRAMEWORK : lanLabels["DEFAULT"].FA_MANDATORY_PREFRAMEWORK,
+                    message: lanLabels[this.businessUnit]?.FA_MANDATORY_PREFRAMEWORK || lanLabels["DEFAULT"].FA_MANDATORY_PREFRAMEWORK,
                     variant: 'Error',
                 }),
             );
@@ -1092,5 +1093,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         });
     }
 
+    get showCreateCaseWOCustomer(){
+        return SUPPRESSCREATECASE_BU.includes(this.businessUnit)?false:this.showOnCustomerTagging;
+    }
 
 }

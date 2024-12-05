@@ -80,6 +80,9 @@ public with sharing class ABCL_CommonCLass {
                 }else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
                     mapOf_BusinessUnit_To_BusinessHr.put('Wellness', bh);
                 }
+                else if(bussHrName.containsIgnoreCase('ABML')){
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABML', bh);
+                }
             }
             
             for(Case csRec : newCaseLst) {  
@@ -116,9 +119,8 @@ public with sharing class ABCL_CommonCLass {
                 if(caseRec.ABFL_Case_Detail__c != null){
                     ABFL_Case_Detail__c detRec = new ABFL_Case_Detail__c(Id=caseRec.ABFL_Case_Detail__c);
                     detRec.Resolution_Comments__c = caseRec.Resolution_Comments__c;
-                    //recordmap.put(detRec.Id,detRec);      
                     recordupdateABFLcaseDetail.put(caseRec.ABFL_Case_Detail__c,detRec);          //added by vikas
-                    recordsToUpdate.add(detRec);
+                    //recordsToUpdate.add(detRec);
                 }
                 if(caseRec.ABHFL_Case_Detail__c != null){
                     ABHFL_Case_Detail__c detRec = new ABHFL_Case_Detail__c(Id=caseRec.ABHFL_Case_Detail__c);
@@ -126,14 +128,14 @@ public with sharing class ABCL_CommonCLass {
                     recordsToUpdate.add(detRec);
                 }
             }
-            recordsToUpdate.addAll(recordupdateABFLcaseDetail.values());        // added by vikas
+            
         }
-        
+        recordsToUpdate.addAll(recordupdateABFLcaseDetail.values());        // added by vikas
         if(!recordsToUpdate.isEmpty()){
             
             // update recordsToUpdate;
             Database.update(recordsToUpdate, false);               // added by vikas
-            update recordsToUpdate;
+            
         }
         
     }
@@ -184,35 +186,32 @@ public with sharing class ABCL_CommonCLass {
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         
         String slaOverwriteIdentifier = '';
-        if(calculateMinutes > 0 && calculateMinutes <= 900) {
-            if(calculateMinutes <= 900) {
-                slaOverwriteIdentifier = '1';
-            }
-            else if(calculateMinutes > 900 && calculateMinutes <= 960) {
-                slaOverwriteIdentifier = '2';
-            }
-            else if(calculateMinutes > 960 && calculateMinutes <= 1020) {
-                slaOverwriteIdentifier = '3';
-            }
-            else if(calculateMinutes > 1020 && calculateMinutes <= 1080) {
-                slaOverwriteIdentifier = '4';
-            }
-            else if(calculateMinutes > 1080 && calculateMinutes <= 1140) {
-                slaOverwriteIdentifier = '5';
-            }
-            else if(calculateMinutes > 1140 && calculateMinutes <= 1200) {
-                slaOverwriteIdentifier = '6';
-            }
-            else if(calculateMinutes > 1200 && calculateMinutes <= 1260) {
-                slaOverwriteIdentifier = '7';
-            }
-            else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
-                slaOverwriteIdentifier = '8';
-            }
-            
-            else if(calculateMinutes > 1320 && calculateMinutes <= 1440) {
-                slaOverwriteIdentifier = '1';
-            }            
+        if(calculateMinutes <= 900) {
+            slaOverwriteIdentifier = '1';
+        }
+        else if(calculateMinutes > 900 && calculateMinutes <= 960) {
+            slaOverwriteIdentifier = '2';
+        }
+        else if(calculateMinutes > 960 && calculateMinutes <= 1020) {
+            slaOverwriteIdentifier = '3';
+        }
+        else if(calculateMinutes > 1020 && calculateMinutes <= 1080) {
+            slaOverwriteIdentifier = '4';
+        }
+        else if(calculateMinutes > 1080 && calculateMinutes <= 1140) {
+            slaOverwriteIdentifier = '5';
+        }
+        else if(calculateMinutes > 1140 && calculateMinutes <= 1200) {
+            slaOverwriteIdentifier = '6';
+        }
+        else if(calculateMinutes > 1200 && calculateMinutes <= 1260) {
+            slaOverwriteIdentifier = '7';
+        }
+        else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
+            slaOverwriteIdentifier = '8';
+        }
+        else if(calculateMinutes > 1320 && calculateMinutes <= 1440) {
+            slaOverwriteIdentifier = '1';
         }
         return slaOverwriteIdentifier;
     }

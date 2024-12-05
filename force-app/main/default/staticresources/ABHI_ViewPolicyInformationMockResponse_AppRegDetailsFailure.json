@@ -1,6 +1,106 @@
 {
-  "HHSDetails": null,
-  "activeAge": null,
+  "AppRegDetails": {
+    "@xmlns:ns0": "http://ABHI.MT.HealthCore.Schemas.PolicyInformation.PI_GetHealthReturnResponse"
+  },
+  "HealthReturns": {
+    "Response": [
+      {
+        "MemberCode": "PT87545156",
+        "MemberName": "AKSHAY PRAKASHRAO BHULE"
+      }
+    ],
+    "PolObj": [
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE"
+      }
+    ],
+    "HealthReturnObj": [
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Amount_Earn_Burn": "0",
+        "Source_Earn_Burn": "Activity",
+        "Frequency_Earn_Burn": "Earn"
+      }
+    ],
+    "TotalHealthReturnObj": [
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      },
+      {
+        "PolicyNumber": "12-24-0000239-01",
+        "PolicyType": "Individua",
+        "ProposerName": "AKSHAY PRAKASHRAO BHULE",
+        "Total_Earn": "0.0",
+        "Total_Burn": "0.0",
+        "Total_Balance": "100"
+      }
+    ]
+  },
   "StatusCode": 1001,
   "Message": "AppRegDetails Failure"
 }
