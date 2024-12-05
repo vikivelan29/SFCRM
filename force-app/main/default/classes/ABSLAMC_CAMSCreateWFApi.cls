@@ -65,7 +65,7 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
         ABSLAMC_Case_Detail__c caseDetailRec = getCaseDetail(caseRec.Id);
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         if(caseRec.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS && caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU 
-           && ((caseRec.MoveToNext__c == true && String.isBlank(caseDetailRec.CAMS_Ticket_Reference_Number__c)) || (caseRec.Pending_Clarification__c == true && caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS)))
+           && (String.isBlank(caseDetailRec.CAMS_Ticket_Reference_Number__c) || (caseRec.Pending_Clarification__c == true && caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS)))
         {
           result.status = 'Success';
           result.response = 'CAMS Api - CreateWorkflow submitted successfully';            
