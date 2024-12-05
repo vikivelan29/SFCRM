@@ -1128,6 +1128,78 @@
         <type>Flexipage</type>
         <profile>ABHFL RPA Base Profile</profile>
     </profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Small</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Sales</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Base Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Large</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Sales</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Base Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Small</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Sales</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Manager Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Large</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Sales</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Manager Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Small</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Service</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Base Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Large</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Service</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Base Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Small</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Service</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Manager Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Large</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Service</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Manager Profile</profile>
+	</profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Case_Pre_Framework_Lightning_Page</content>
