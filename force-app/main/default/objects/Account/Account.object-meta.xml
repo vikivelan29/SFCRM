@@ -239,17 +239,6 @@
     
     <profileSearchLayouts>
         <fields>ACCOUNT.NAME</fields>
-        <fields>PC_SALUTATION</fields>
-        <fields>PC_PHONE3</fields>
-        <fields>Client_Code__c</fields>
-        <fields>PC_EMAIL</fields>
-        <fields>State__c</fields>
-        <fields>PC_BIRTHDATE</fields>
-        <fields>PAN__c</fields>
-        <profileName>Wellness CRM Base Profile</profileName>
-    </profileSearchLayouts>
-    <profileSearchLayouts>
-        <fields>ACCOUNT.NAME</fields>
         <fields>PC_TITLE</fields>
         <fields>Client_Code__c</fields>
         <fields>ACCOUNT.PHONE1</fields>
@@ -276,6 +265,17 @@
         <fields>State__c</fields>
         <fields>PC_BIRTHDATE</fields>
         <profileName>ABSLAMC Base User</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>PC_SALUTATION</fields>
+        <fields>PC_PHONE3</fields>
+        <fields>Client_Code__c</fields>
+        <fields>PC_EMAIL</fields>
+        <fields>State__c</fields>
+        <fields>PC_BIRTHDATE</fields>
+        <fields>PAN__c</fields>
+        <profileName>Wellness CRM Base Profile</profileName>
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>ACCOUNT.NAME</fields>
