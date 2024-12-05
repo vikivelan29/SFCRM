@@ -21,7 +21,7 @@ public class ABSLAMC_SprinklrHelper {
         
         Map<Id,Case> fireNotificationCases = new Map<Id,Case>();
         for(Case caseRec:newMapCase.values()){
-            if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU
+            if((caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU || caseRec.Business_Unit__c == ABHI_Constants.ABHI)
                && caseRec.Source__c == 'Social Media'){
                    Case newCase = newMapCase.get(caseRec.Id);
                    Case oldCase = oldMapCase.get(caseRec.Id); 
@@ -139,7 +139,7 @@ public class ABSLAMC_SprinklrHelper {
     
     public static void blankOutLatestNotes(Map<Id,Case> newMapCase,Map<Id,Case> oldMapCase){
         for(Case caseRec:newMapCase.values()){
-            if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU
+            if((caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU || caseRec.Business_Unit__c == ABHI_Constants.ABHI)
                && caseRec.Source__c == 'Social Media'){
                    case newCase = newMapCase.get(caseRec.Id);
                    case oldCase = oldMapCase.get(caseRec.Id);
