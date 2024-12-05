@@ -17,6 +17,6 @@
     </filters>
     <label>Retail Mapping</label>
     <sharedTo>
-        <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+        <roleAndSubordinate>ABFL_Executive_Leadership</roleAndSubordinate>
     </sharedTo>
 </ListView>
