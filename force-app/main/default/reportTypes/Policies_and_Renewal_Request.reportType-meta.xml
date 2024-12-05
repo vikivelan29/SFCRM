@@ -4,7 +4,7 @@
     <category>opportunities</category>
     <deployed>true</deployed>
     <description>Collections report with parent opportunity, asset fields etc.</description>
-    <label>Renewals with Payment Details</label>
+    <label>Policies and Renewal Request</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
