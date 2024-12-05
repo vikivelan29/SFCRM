@@ -60,7 +60,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>,Open</value>
+            <value>Open</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
