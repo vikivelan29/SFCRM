@@ -18,6 +18,6 @@
     </filters>
     <label>All ABFL Retail Customer</label>
     <sharedTo>
-        <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
+        <roleAndSubordinate>ABFL_Executive_Leadership</roleAndSubordinate>
     </sharedTo>
 </ListView>
