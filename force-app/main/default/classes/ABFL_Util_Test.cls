@@ -69,7 +69,7 @@ public with sharing class ABFL_Util_Test{
     static void testResolveCaseOnUTRPopulation(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk567utr@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, ABFL_Case_Detail__r.UTRNo__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
                             FROM Case
