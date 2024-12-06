@@ -1351,12 +1351,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>abamc_aumDetails</componentName>
-                <identifier>c_abamc_aumDetails</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>

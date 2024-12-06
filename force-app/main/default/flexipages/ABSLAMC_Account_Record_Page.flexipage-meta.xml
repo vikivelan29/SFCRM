@@ -58,23 +58,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Office_Email__c</fieldItem>
-                <identifier>RecordOffice_Email_cField2</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.IsPersonAccount}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>false</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.PAN__c</fieldItem>
                 <identifier>RecordPAN_cField2</identifier>
             </fieldInstance>
@@ -204,23 +187,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Line_of_Business__c</fieldItem>
                 <identifier>RecordLine_of_Business_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Office_Email__c</fieldItem>
-                <identifier>RecordOffice_Email_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.IsPersonAccount}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>false</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1108,6 +1074,73 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>NewContact</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>adminFilters</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Account.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Contacts</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>CARD</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>FULL_NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CONTACT.EMAIL</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>CONTACT.PHONE1</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Contacts</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-edd513d7-112e-4aee-a7f7-85d85c3b8d1f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentName>abslamc_LegacyCases</componentName>
                 <identifier>c_abslamc_LegacyCases</identifier>
             </componentInstance>
@@ -1156,6 +1189,27 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-edd513d7-112e-4aee-a7f7-85d85c3b8d1f</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Contacts</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab5</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>ABSLAMC_Non_Individual_Distributor</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
