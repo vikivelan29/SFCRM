@@ -99,33 +99,33 @@ public with sharing class ABFL_EBOTCaseLogics {
                 sendSmtFlagYes(recCase[0],mdtEbotCase.SMT_Receiver_Address__c ); 
             }
             else if (objResponseBody.ISSMT == 'NO'){
-                List<EmailMessage> emailMessages = [SELECT Id, ToAddress, Winning_Email__c FROM EmailMessage WHERE ParentId =: caseId WITH SYSTEM_MODE LIMIT 1];
+                List<EmailMessage> emailMessages = [SELECT Id, ToAddress, Winning_Email__c, Incoming, ParentId, Headers, ReplyToEmailMessageId FROM EmailMessage WHERE ParentId =: caseId WITH SYSTEM_MODE LIMIT 1];
                 List<ASF_Case_Category_Config__c > cseCatConfig = [SELECT Id , EBOT_Auto_Close__c,EBOT_Auto_Response__c ,EBOT_Template__c ,EBOT_Registered_Template__c ,EBOT_Unregistered_Template__c , CCC_External_Id__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: recCase[0].CCC_External_Id__c  WITH SYSTEM_MODE LIMIT 1];
                 //system.debug('emailMessagesfound '+ emailMessages);
                 //system.debug('cseCatConfigfound '+ cseCatConfig);
                 if(checkIsSmtAndMultipleLAN(emailMessages[0], recCase[0], cseCatConfig[0],objResponseBody, mdtEbotCase)){
                     //system.debug('multipleLAn');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,True,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,True,false,false,false,emailMessages);
                 }
                 else if(checkPaytmInteractionNotNull(emailMessages[0],recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
                     //system.debug('paytmfired');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,false,false,true);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,false,false,true,emailMessages);
                 }
                 else if(checkLeadSubtype(emailMessages[0],recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
                    // system.debug('multipleLead');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,true,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,true,false,emailMessages);
                 }
                 else if(checkIsRegisteredCustomerNo(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
                     //system.debug('RegisteredCustomerNo');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,false,false,false,emailMessages);
                 }
                  else if(checkIsRegisteredCustomerYes(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
                     //system.debug('RegisteredCustomeryes');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,true,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,true,false,false,emailMessages);
                 }
                 else if(ConfidenceScoreAndSubtypeCheck(emailMessages[0], recCase[0],cseCatConfig[0], objResponseBody, mdtEbotCase)){
                     //system.debug('ConfidenceScore');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,true,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,true,false,false,emailMessages);
                 }
             }
         }
@@ -150,7 +150,7 @@ public with sharing class ABFL_EBOTCaseLogics {
     * @param isPaytm
     * @description - Sends an email to contact and closes the case according to the flow  mentioned on user story PR970457-132
     *****************************************************************************************************************/
-       public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed, String abflCaseExtId,Boolean templateName,Boolean isRegistered,Boolean isLead,Boolean isPaytm){
+       public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed, String abflCaseExtId,Boolean templateName,Boolean isRegistered,Boolean isLead,Boolean isPaytm, List<EmailMessage> emailMessages){
         List<Case> lstUpdateCase = new List<Case>();
         List<ABFL_Case_Detail__c> lstUpdateCaseExt = new List<ABFL_Case_Detail__c>();
         List<ASF_Checklist__c> lstUpdateChecklist = new List<ASF_Checklist__c>();
@@ -209,6 +209,16 @@ public with sharing class ABFL_EBOTCaseLogics {
                      }
                      else if(!isRegistered){
                         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c ,null,false);
+                     	
+                         if(recCase.Business_Unit__c == 'ABFL'){
+                            if(recCase.AccountId == null){
+                                ABFL_WealthChatGeneratedCases.sendEmailWhenNotRegisteredCustomer(emailMessages,false);
+                            }else{
+                                ABFL_WealthChatGeneratedCases.sendEmailWhenNotRegisteredCustomer(emailMessages,true);
+                            }
+                            
+                        }
+
                      }
                      else if(isRegistered){
                         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c ,null,false);
