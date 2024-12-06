@@ -797,6 +797,15 @@ blankSourcePresent = true;
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }else{
+                    //Added to reset IsMoveToNext flag to false in case of API
+                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                    if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                        Case caseObj = new Case(Id = caseRec.Id);
+                        caseFinalDMLMap.put(caseObj.Id, caseObj);
+                    }
+                    Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                    caseRecFromMap.MoveToNext__c = false;
+                    //Added to reset IsMoveToNext flag to false in case of API
                     if(supressErrors.containsKey(caseId) && supressErrors.get(caseId)){
                         triggerEncounteredError.put(caseId, true);
                     }else{                    system.debug('as-error6');
