@@ -2,8 +2,8 @@
 * @description       : 
 * @author            : Salesforce
 * @group             : 
-* @last modified on  : 04-24-2024
-* @last modified by  : Salesforce 
+* @last modified on  : 12-06-2024
+* @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   04-24-2024   Salesforce   Initial Version
@@ -220,7 +220,7 @@ blankSourcePresent = true;
                     //mapping Line_of_Business__c on caseRec
                     caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
                     // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
-                    if((!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU)||(caseRec.Business_Unit__c == 'ABHI' && appliedCCC.Is_STP__c == true)){
+                    if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
                         caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
                     }
                     caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
@@ -251,8 +251,10 @@ blankSourcePresent = true;
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
-                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
-                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
+                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null){
+                    // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
+                    String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
+                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
                 }else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';
@@ -393,6 +395,8 @@ blankSourcePresent = true;
     }
     //Creates extension record for Case, if case is created from Bulk page
     public static void createCaseExtnRecordForBulk(List<Case> newList) {
+        
+        
                 
         Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
         Integer index = 0;
@@ -1055,7 +1059,6 @@ blankSourcePresent = true;
                         }
                     }                
                 }
-
                     addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
                     addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
                     addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
@@ -1779,7 +1782,7 @@ User will now be forced to go recategorize.
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
                     if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null && caseRec.Business_Unit__c != ASF_Constants.ABSLIG_BU
-                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null) && !(caseRec.Business_Unit__c == 'ABHI' && caseRec.Source__c == 'IGMS')){
+                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null && caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU)){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  
