@@ -5,8 +5,15 @@
 <body style="height: auto; min-height: auto;">
 <style type="text/css"><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}-->
 </style>
-Dear Customer, your Health Insurance has expired on&nbsp;{{{Opportunity.Policy_Expiry_Date__c}}} and is due for Renewal. You are currently not covered. Renew it today to stay protected at all times. Click&nbsp;{{{Opportunity.Payment_Link__c}}} to pay. T&amp;C apply.<br />
+Dear Customer,<br />
+<br />
+<br />
+<br />
+Your Health Insurance has expired on {{{Opportunity.Policy_Expiry_Date__c}}} and is due for Renewal. You are currently not covered. We are concerned for your health and advise you to renew it today to stay protected at all times. Click {{{Opportunity.Payment_Link__c}}} to pay. T&amp;C apply.<br />
+<br />
+<br />
 <br />
 Regards,<br />
+<br />
 Aditya Birla Health Insurance</body>
 </html>

@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Class_Name__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">RNWL_Communications_Validations</value>
     </values>
     <values>
         <field>Email__c</field>
@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>Method_Name__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">winBackSMSValidation</value>
     </values>
     <values>
         <field>SMS__c</field>

@@ -26,6 +26,7 @@ public class RNWL_OpportunityTriggerHandler extends ASF_VTriggerHandler {
         if(isTriggerDisabled()){return;}
         RNWL_UbonaIntegrationController.firePlatformEventForUbona(newOpps.values(), (Map<Id, Opportunity>)oldOpps);
         RNWL_OpportunityTriggerHelper.afterUpdateOpp(newOpps.values(), (Map<Id, Opportunity>)oldOpps);
+        RNWL_OpportunityTriggerHelper.fireABCLIntegrationPE(newOpps.values() , (Map<Id, Opportunity>)oldOpps);
     }
 
 }

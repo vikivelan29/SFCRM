@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Reminder Renewal Premium Payment for Policy No. {!relatedTo.Policy_Number__c}" recipientType="User" relatedToType="Opportunity">
+<messaging:emailTemplate subject="Reminder Renewal Premium Payment for Policy No. {!relatedTo.Policy_Number__c}" renderUsingSystemContextWithoutSharing="true" recipientType="User" relatedToType="Opportunity">
    <messaging:htmlEmailBody >
    <p>
          <img id="theImage" src="https://adityabirlafinancialsharedservices--sit.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Bl000000TjGH&oid=00DBl000000V6nV" width="200" height="100"/> <br/><br/><br/>
@@ -6,10 +6,10 @@
          <strong>Policy No : {!relatedTo.Policy_Number__c} <br/>
          Plan Name :  {!relatedTo.Plan_Name__c}</strong>
          <br/><br/>Dear {!relatedTo.Customer_Name__c},
-         <br/><br/> We value your relationship with us and thank you for trusting us with your health insurance needs.
-         We wish to inform you that your Health Insurance Policy is due for Renewal on {!relatedTo.SystemDate__c}.
-         We tried reaching you on your registered mobile number, however, { Mr. / Ms. Relations} Name  answered the call on your behalf. 
-         We advise you to renew your policy to stay protected from any medical emergencies at all times.<br/><br/>
+         <br/><br/> We value your relationship with us and thank you for trusting us with your health insurance needs.<br/><br/>
+         We wish to inform you that your Health Insurance Policy is due for Renewal on {!DAY(relatedTo.SystemDate__c)}/{!CASE(MONTH(relatedTo.SystemDate__c),1,"01/",2,"02/",3,"03/",4,"04/",5,"05/",6,"06/",7,"07/",8,"08/",9,"09/",10,"10/",11,"11/",12,"12/","??/")}{!YEAR(relatedTo.SystemDate__c)}.  We tried <br/>  
+         reaching you on your registered mobile number, however, { Mr. / Ms. Relations} Name  answered the call on <br/> 
+         your behalf. We advise you to renew your policy to stay protected from any medical emergencies at all times.<br/><br/>
         
          We have shared the details of your existing policy below for your ready reference: <br/><br/>
 
@@ -19,15 +19,15 @@
          <apex:outputLink value="{!relatedTo.Payment_Link__c}" id="theLink">Payment Link</apex:outputLink> 
          <br/><br/>
       
-         It is advisable to have your contact details updated with us to receive timely updates. You can also <br/>
-         share an alternative Mobile No. for times you are unreachable on your primary contact number. 
-         <br/>
-         In case of any further assistance, please feel free to reach out to us on our toll-free number <br/>
-         1800-270-7000 or email us at care.healthinsurance@adityabirlacapital.com. We advise you to 
-         download the Activ Health App – a one stop solution for all your health needs. You may also use our <br/>
-         self-service options on our WhatsApp number +91 882800035. <br/><br/> 
+         It is advisable to have your contact details updated with us to receive timely updates. You can also share an <br/>
+         alternative Mobile No. for times you are unreachable on your primary contact number. 
+         <br/><br/>
+         In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 <br/>
+         or email us at care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App <br/>
+         – a one stop solution for all your health needs. You may also use our self-service options on our WhatsApp  <br/>
+         number +91 882800035. <br/><br/> 
          
-         <br/>We wish you the best of health at all times! <br/><br/>
+         We wish you the best of health at all times! <br/><br/>
          Warm Regards, <br/>      
          Aditya Birla Health Insurance <br/><br/>
          </body>

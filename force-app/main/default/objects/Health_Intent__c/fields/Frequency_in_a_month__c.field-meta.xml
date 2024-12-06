@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Frequency in a month</label>
     <required>false</required>
-    <trackHistory>true</trackHistory>
+    <trackHistory>true</trackHistory> 
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

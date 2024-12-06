@@ -7,6 +7,8 @@ import NOAUTOCOMM_FIELD from '@salesforce/schema/Case.No_Auto_Communication__c';
 import APPROVAL_PENDING_FIELD from '@salesforce/schema/Case.Is_Approval_Pending__c';
 import CASE_BUSINESSUNIT from '@salesforce/schema/Case.Business_Unit__c'; // Rajendra Singh Nagar: PR1030924-209
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility';// Rajendra Singh Nagar: PR1030924-209
+import CASE_ACCESS_ERROR from '@salesforce/label/c.Wellness_CaseComment_add_Err_Msg';
+import INSUFFICIENT_ACCESS_MSG from '@salesforce/label/c.Wellness_Insufficient_Access';
 
 export default class Asf_CaseEditPage extends LightningElement {
     @api fieldSetName; 
@@ -19,6 +21,11 @@ export default class Asf_CaseEditPage extends LightningElement {
     isGetPicklistValExecuted = false;
     isApprovalPending = false;
     businessUnit;
+
+    label = {
+        CASE_ACCESS_ERROR, 
+        INSUFFICIENT_ACCESS_MSG
+    };
 
     @wire(getObjectInfo, { objectApiName: 'Case' })
     objectInfo;
@@ -118,7 +125,13 @@ export default class Asf_CaseEditPage extends LightningElement {
     }
 
     handleError(event) {
-        this.showToastMessage('Error!', event.detail.detail, 'error');
+        let errorMessage = '';
+        if(event.detail.detail.indexOf(this.label.INSUFFICIENT_ACCESS_MSG) != -1){
+            errorMessage = this.label.CASE_ACCESS_ERROR; //PR1030924-818
+        }else{
+            errorMessage = event.detail.detail;
+        }
+        this.showToastMessage('Error!', errorMessage, 'error');
     }
     
     showToastMessage(title, message, variant){

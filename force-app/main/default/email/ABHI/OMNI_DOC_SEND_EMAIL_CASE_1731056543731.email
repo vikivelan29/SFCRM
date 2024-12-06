@@ -5,7 +5,7 @@
 <body style="height: auto; min-height: auto;">
 <div style="margin-right: 4px; margin-left: 4px; text-align:justify">Dear {{{Recipient.Salutation}}} {{{Recipient.Name}}},<br />
 &nbsp;<br />
-Please find the attached {{{Case.AssetId}}}&nbsp;as requested.<br />
+Please find the attached {{{Case.Id}}}&nbsp;as requested.<br />
 <br />
 Continue to use our digital journeys for enhanced experience like Active Health App, WhatsApp and<br />
 Web wherein you can track your policy details, health reports, claim status and much more.<br />

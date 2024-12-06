@@ -3,6 +3,7 @@
     <fullName>Policy_Nominee__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
+    <inlineHelpText>Please enter Policy Number to view list of available Nominees</inlineHelpText>
     <label>Existing Nominee Name Selection</label>
     <lookupFilter>
         <active>true</active>

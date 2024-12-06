@@ -20,6 +20,6 @@
     <label>ABSLAMC MF Punjab PPD</label>
     <queue>ABSLAMC_MF_Punjab_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_Punjab_PPD_G</group>
     </sharedTo>
 </ListView>

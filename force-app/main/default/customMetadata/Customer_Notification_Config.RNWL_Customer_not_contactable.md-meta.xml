@@ -52,6 +52,6 @@
     </values>
     <values>
         <field>external_templateID__c</field>
-        <value xsi:type="xsd:string">clickpss_customer_not_contactable</value>
+        <value xsi:type="xsd:string">A6192</value>
     </values>
 </CustomMetadata>

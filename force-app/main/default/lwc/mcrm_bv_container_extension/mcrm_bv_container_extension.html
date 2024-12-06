@@ -2,7 +2,7 @@
   @description       : 
   @author            : rsinghnagar@salesforce.com
   @group             : 
-  @last modified on  : 10-16-2024
+  @last modified on  : 11-13-2024
   @last modified by  : rsinghnagar@salesforce.com
   Modifications Log
   Ver   Date         Author                       Modification
@@ -66,7 +66,7 @@
 		<div lwc:elseif={showBaseView}>
 			<div class="slds-m-around--small">
 				<c-abc_base_tableview columns={columns} table-data={tableData}
-					page-size={pageSize}></c-abc_base_tableview>
+					page-size={pageSize} is-extension="true"></c-abc_base_tableview>
 			</div>
 		</div>
 		<div lwc:elseif={isError}>

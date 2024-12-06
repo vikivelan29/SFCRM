@@ -74,15 +74,19 @@ public without sharing class RNWL_OpportunityDataController {
                     status = 'Error';
                     List<String> errorMessageList = new List<String>();
                     for (Database.Error err : each.getErrors()) {
-                       errorMessageList.add(err.getMessage());
-                       responseMessage=String.join(errorMessageList, ',');
+                        if (err.getMessage() == 'Id not specified in an update call') {
+                            errorMessageList.add('Policy Number is either blank or not found. Please check');
+                        } else {
+                            errorMessageList.add(err.getMessage());
+                        }
+                        responseMessage = String.join(errorMessageList, ',');
                     }
                 }
-                    OpportunityDataWrapper oppWrap = new OpportunityDataWrapper(oppListToUpdate.get(i).Id,oppListToUpdate.get(i).Name,oppListToUpdate.get(i).Policy_Number__c,oppListToUpdate.get(i).Upsell_Eligibility_Flag__c,
+                OpportunityDataWrapper oppWrap = new OpportunityDataWrapper(oppListToUpdate.get(i).Id,oppListToUpdate.get(i).Name,oppListToUpdate.get(i).Policy_Number__c,oppListToUpdate.get(i).Upsell_Eligibility_Flag__c,
                     oppListToUpdate.get(i).Propensity_to_Pay__c,oppListToUpdate.get(i).Renewal_Calling_Flag__c,oppListToUpdate.get(i).Calling_Source__c,
                     oppListToUpdate.get(i).Upsell_SI_1__c,oppListToUpdate.get(i).Upsell_SI_2__c,oppListToUpdate.get(i).Upsell_SI_3__c,oppListToUpdate.get(i).Upsell_SI_4__c,
                     oppListToUpdate.get(i).Upsell_SI_5__c,oppListToUpdate.get(i).Max_Upsell__c,oppListToUpdate.get(i).Bucket__c,status,responseMessage);
-                    wrapperList.add(oppWrap);
+                wrapperList.add(oppWrap);
                 i++;
             }
             return wrapperList;

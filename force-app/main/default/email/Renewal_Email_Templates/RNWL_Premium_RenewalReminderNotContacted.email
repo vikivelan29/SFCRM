@@ -1,15 +1,16 @@
-<messaging:emailTemplate subject="Renewal Premium Payment for Policy No. {!relatedTo.Policy_Number__c}" recipientType="User" relatedToType="Opportunity">
+<messaging:emailTemplate subject="Reminder: Renewal Premium Payment for Policy No. {!relatedTo.Policy_Number__c}" renderUsingSystemContextWithoutSharing="true" recipientType="User" relatedToType="Opportunity">
    <messaging:htmlEmailBody >
    <p>
-         <img id="theImage" src="https://adityabirlafinancialsharedservices--sit.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Bl000000TjGH&oid=00DBl000000V6nV" width="200" height="100"/> <br/><br/><br/>
+       <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Header" width="200" height="100" /> <br/><br/><br/>
+          
          <body style="height: auto; min-height: auto; font-family: Times New Roman;font-size: 10pt;">
          <strong>Policy No : {!relatedTo.Policy_Number__c} <br/>
-         Plan Name :  {!relatedTo.Plan_Name__c}</strong>
+         Plan Name :  {!relatedTo.Plan_Name__c} </strong>
          <br/><br/> Dear {!relatedTo.Customer_Name__c},
          <br/><br/> We value your relationship with us and thank you for trusting us with your health insurance needs
-          / { allowing us to be a part of your wellness journey }.
+          / allowing us to be a part of your wellness journey.
 
-        <br/><br/> We wish to inform you that your Health Insurance Policy is due for Renewal on {!relatedTo.SystemDate__c}.
+        <br/><br/> We wish to inform you that your Health Insurance Policy is due for Renewal on {!DAY(relatedTo.Policy_Expiry_Date__c)}/{!CASE(MONTH(relatedTo.Policy_Expiry_Date__c),1,"01/",2,"02/",3,"03/",4,"04/",5,"05/",6,"06/",7,"07/",8,"08/",9,"09/",10,"10/",11,"11/",12,"12/","/")}{!YEAR(relatedTo.Policy_Expiry_Date__c)}.
          We tried reaching you on your registered mobile number, but we were unable to connect. We 
          advise you to renew your policy to stay protected from any medical emergencies at all times.<br/><br/>
         
@@ -17,8 +18,8 @@
 
          <c:RNWL_MemberListVfc oppIdValue="{!relatedTo.Id}" />
          <br/>
-         Payment Link : 
-         <apex:outputLink value="{!relatedTo.Payment_Link__c}" id="theLink">Payment Link</apex:outputLink> 
+         Payment Link:
+         <a href="{!relatedTo.Payment_Link__c}"> {!relatedTo.Payment_Link__c}</a> 
          <br/><br/>
       
          In case of any further assistance, please feel free to reach out to us on our toll-free number 
@@ -29,9 +30,9 @@
          We wish you the best of health at all times! <br/><br/> 
          Warm Regards,      <br/>
          Aditya Birla Health Insurance <br/><br/>
-         </body>
-         <img id="theImage1" src="https://adityabirlafinancialsharedservices--sit.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Bl000000Tcmj&oid=00DBl000000V6nV" width="800" height="120"/> <br/>
-         <img id="theImage2" src="https://adityabirlafinancialsharedservices--sit.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Bl000000TjPx&oid=00DBl000000V6nV" width="800" height="120"/> <br/>
+         </body>  
+         <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Footer1" width="800" height="120" /> <br/>
+         <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Footer_2" width="800" height="120" />  <br/>
          </p>
    </messaging:htmlEmailBody>
 </messaging:emailTemplate>

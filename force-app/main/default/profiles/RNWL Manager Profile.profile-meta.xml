@@ -86,6 +86,10 @@
         <visible>false</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>RNWL_Communications_Validations</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RNWL_RelatedListHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -979,10 +983,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABHI_CreateClaimService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ABHI_CreateHealthIntentRequestWrapper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -13656,11 +13656,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Sum_Insured__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Customer_Member_Mapping__c.Super_Ncb_Amount__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -18270,19 +18265,11 @@
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
-        <name>EditTask</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>false</enabled>
         <name>EditTopics</name>
     </userPermissions>
     <userPermissions>
         <enabled>false</enabled>
         <name>EmailMass</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>false</enabled>
-        <name>EmailSingle</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

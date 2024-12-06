@@ -34,7 +34,7 @@ public with sharing class  ASF_CaseUIController {
                 prospectRecord.RecordTypeId = salesProspectRTId;
             }
             
-            insert prospectRecord;
+            insert prospectRecord; 
             mObjectVsRecId.put('Lead',prospectRecord);
         }
         
@@ -160,9 +160,10 @@ public with sharing class  ASF_CaseUIController {
         if(accountId!=''){
             Set<Id> assetIds = new Set<Id>();
             List<Asset> asstList = new List<Asset>();
-            for(LAN_Mapping__c mapping : [SELECT ID,Customer__c,LAN__c FROM LAN_Mapping__c WHERE Customer__c =: accountId]){
+            for(LAN_Mapping__c mapping : [SELECT ID,Customer__c,LAN__c,Relation__c FROM LAN_Mapping__c WHERE Customer__c =: accountId]){
                 if(mapping.LAN__c != null){
-                    if(String.isBlank(mapping.Relation__c) || mapping.Relation__c == 'SELF'){
+                    //Modified 19/11/2024: added equalsIgnoreCase because Relation__c can be 'Self' or 'SELF'
+                    if(String.isBlank(mapping.Relation__c) || mapping.Relation__c.equalsIgnoreCase('SELF')){
                         assetIds.add(mapping.LAN__c);
                     }
                 }

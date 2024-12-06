@@ -21,7 +21,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Customer_Member_Mapping__c</field>
+                <field>Customer__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -83,7 +83,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Hospital_Code__c</field>
+                <field>Hospital_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

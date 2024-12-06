@@ -49,7 +49,7 @@ public with Sharing class ABSLAMC_Constants {
     public static final String SPRINKLRNOTESNOTIF = 'Notes from Sprinklr has been updated on Case: ';
     public static final String APIUSERPROILENAME = 'Salesforce API Only System Integrations';
     public static final Set<String> LEADSTATUS = new Set<String>{'Open','Lost', 'Won'};
-    public static final String SRC_CALLCENTRE = 'Call Centre';
+public static final String SRC_CALLCENTRE = 'Call Centre';
     public static final String SRC_BRANCH = 'Branch';
     public static final String CHNL_EMAIL = 'Email';
     public static final String CHNL_PHONE = 'Phone';
@@ -63,4 +63,7 @@ public with Sharing class ABSLAMC_Constants {
     public static final String LEADOWNERCHANGEFORUSER = 'You are not authorized to change the lead owner';
     public static final String LEADOWNERCHANGEFORQUEUE = 'You are not the member of the queue';
     public static final String AMCLOB = 'AMC';
+    public static final String PHDQUEUENAME = 'ABSLAMC_PHD';
+    public static final String CLOSEDCASEERRORMSG = 'Case cannot be closed from Awaiting Response from App Support stage'; //added for UAT observations
+    public static final String AUTOMATEDPROCESSUSRTYPE = 'automatedprocess';
 }

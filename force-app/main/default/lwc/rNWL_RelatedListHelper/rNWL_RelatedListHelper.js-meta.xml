@@ -4,10 +4,12 @@
     <isExposed>true</isExposed>
     <targets>
 		<target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
 	</targets>
     <targetConfigs>
-        <targetConfig targets="lightning__RecordPage">
+        <targetConfig targets="lightning__RecordPage,lightning__AppPage">
             <property name="mode" type="String" label="Mode" datasource="Best Disposition,Last Disposition,Email Message"/>
+            <property name="viewAll" type="Boolean" label="View All?"/>
             <supportedFormFactors>
                 <supportedFormFactor type="Large" />
                 <supportedFormFactor type="Small" />

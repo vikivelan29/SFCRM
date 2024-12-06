@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <label>What activities are you currently doing</label>
     <required>false</required>
-    <trackHistory>true</trackHistory>
+    <trackHistory>true</trackHistory> 
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>

@@ -31,12 +31,12 @@ public with sharing class ABHI_Encryption {
     *****************************************************************************************************************/
 	public static String encrypt(String dataToEncrypt, String metadataName) {
         // Call Crypto.encryptWithManagedIV specifying the selected AES Algorithm
-        String AES_KEY = getENachInt(metadataName).Int_Key__c;
-        String AES_IV = getENachInt(metadataName).Int_IV__c;
+        String aesKey = getENachInt(metadataName).Int_Key__c;
+        String aesIv = getENachInt(metadataName).Int_IV__c;
         Blob encryptedData = Crypto.encrypt(
         	'AES256',
-            EncodingUtil.base64Decode(AES_KEY),
-            EncodingUtil.base64Decode(AES_IV),
+            EncodingUtil.base64Decode(aesKey),
+            EncodingUtil.base64Decode(aesIv),
             Blob.valueOf(dataToEncrypt)
         );
         return EncodingUtil.base64Encode(encryptedData);
@@ -50,12 +50,12 @@ public with sharing class ABHI_Encryption {
     *****************************************************************************************************************/
     public static String decrypt(String dataToDecrypt, String metadataName) {
         // Call Crypto.encryptWithManagedIV specifying the selected AES Algorithm
-        String AES_KEY = getENachInt(metadataName).Int_Key__c;
-        String AES_IV = getENachInt(metadataName).Int_IV__c;
+        String aesKey = getENachInt(metadataName).Int_Key__c;
+        String aesIv = getENachInt(metadataName).Int_IV__c;
         Blob decryptedData = Crypto.decrypt(
         	'AES256',
-            EncodingUtil.base64Decode(AES_KEY),
-            EncodingUtil.base64Decode(AES_IV),
+            EncodingUtil.base64Decode(aesKey),
+            EncodingUtil.base64Decode(aesIv),
             EncodingUtil.base64Decode(dataToDecrypt)
         );
         return decryptedData.toString();

@@ -19,7 +19,7 @@ import OPP_PLAN_NAME from '@salesforce/schema/Opportunity.Policy__r.Plan_Name__c
 // Case Fields
 import CASE_ACCOUNT_EMAIL from '@salesforce/schema/Case.Account.PersonEmail';
 import CASE_ACCOUNT_ID from '@salesforce/schema/Case.AccountId';
-import CASE_ASSET_PLAN_NAME from '@salesforce/schema/Case.AssetId';
+import CASE_ASSET_PLAN_NAME from '@salesforce/schema/Case.Asset.Plan_Name__c';
 import CASE_NUMBER from '@salesforce/schema/Case.CaseNumber';
 import CASE_ID from "@salesforce/schema/Case.Id";
 

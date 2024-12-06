@@ -1,8 +1,10 @@
-<messaging:emailTemplate subject="Request for Payment Link for Policy No. {!relatedTo.Policy_Number__c}" recipientType="Contact" relatedToType="Opportunity">
+<messaging:emailTemplate subject="Request for Payment Link for Policy No. {!relatedTo.Policy_Number__c}" renderUsingSystemContextWithoutSharing="true" recipientType="Contact" relatedToType="Opportunity">
    <messaging:htmlEmailBody >
         
-         <img id="theImage" src="https://adityabirlafinancialsharedservices--sit.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Bl000000TjGH&oid=00DBl000000V6nV" width="200" height="100"/> <br/><br/><br/>
-         <body style="height: auto; min-height: auto; font-family: Times New Roman;font-size: 10pt;">
+       <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Header" width="200" height="100" /> <br/><br/><br/>
+       
+       <body style="height: auto; min-height: auto; font-family: Times New Roman;font-size: 10pt;">
+            
          <p><strong>Policy No : {!relatedTo.Policy_Number__c}</strong> </p>  
          <p><strong> Plan Name : {!relatedTo.Plan_Name__c} </strong> </p>
          <p>Dear {!relatedTo.Customer_Name__c},</p>
@@ -19,9 +21,9 @@
          <br/><p>We wish you the best of health at all times!</p><br/>
          <p>Warm Regards,<br />Aditya Birla Health Insurance</p>
          <p>
-         <img id="theImage1" src="https://adityabirlafinancialsharedservices--sit.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Bl000000Tcmj&oid=00DBl000000V6nV" width="800" height="120"/> <br/>
-         <img id="theImage2" src="https://adityabirlafinancialsharedservices--sit.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=015Bl000000TjPx&oid=00DBl000000V6nV" width="800" height="120"/> <br/>
-         </p>
+         <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Footer1" width="800" height="120" /> <br/>
+         <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Footer_2" width="800" height="120" />  <br/>
+        </p>
          </body>
    </messaging:htmlEmailBody>
 </messaging:emailTemplate>

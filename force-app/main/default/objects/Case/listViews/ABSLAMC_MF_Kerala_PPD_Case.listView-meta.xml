@@ -20,6 +20,6 @@
     <label>ABSLAMC MF Kerala PPD</label>
     <queue>ABSLAMC_MF_Kerala_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_Kerala_PPD_G</group>
     </sharedTo>
 </ListView>

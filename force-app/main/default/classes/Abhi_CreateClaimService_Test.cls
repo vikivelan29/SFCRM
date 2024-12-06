@@ -11,22 +11,22 @@ public class Abhi_CreateClaimService_Test {
     @isTest
     static void testCreateClaimSuccess() {
         // Set up test data
-        Asset testAsset = new Asset(Name = 'Test Asset', ABHI_Policy_Id__c = 'POL123');
+        Asset testAsset = new Asset(Name = 'Test Asset',Policy_No__c='POL123',LAN__c='POL123');
         insert testAsset;
 
-        Health_Provider__c testProvider = new Health_Provider__c(Name = 'Test Provider', Provider_Code__c = 'PRO123');
+        Health_Provider__c testProvider = new Health_Provider__c(Provider_Code__c = 'PRO123');
         insert testProvider;
 
-        Account testAccount = new Account(Name = 'Test Account', LOB_Client_Code__c = 'ACC123');
+        Account testAccount = new Account(Name = 'Test Account', LOB_Client_Code__c = 'ABHI_1118038');
         insert testAccount;
 
-        Claim__c testClaim = new Claim__c(ClaimExternalId__c = 'CLAIM123');
+        Claim__c testClaim = new Claim__c(Policy_Number__c = testAsset.Id,Name ='CLAIM123', ClaimExternalId__c = 'CLAIM123');
         insert testClaim;
 
         Test.startTest();
         
         // Prepare the JSON request body
-        String jsonBody = '[{"Claim_Number": "CLAIM123","ClaimDate": "2024-09-05","Paid_Amount": "1500.00","Date_of_admission": "2024-09-01T10:20:45", "Policy_Number": "POL123", "Hospital_Code":"PRO123", "Customer_Member_Mapping":"ACC123","Request_Type":"new req"}]';
+        String jsonBody = '[{"Claim_Number": "CLAIM123","ClaimDate": "2024-09-05","Paid_Amount": "1500.00","Date_of_admission": "2024-09-01T10:20:45", "Policy_Number": "POL123", "Hospital_Code":"PRO123", "Customer_Member_Mapping":"1118038","Request_Type":"new req"}]';
 
         // Set up the mock request
         RestRequest req = new RestRequest();
@@ -45,12 +45,12 @@ public class Abhi_CreateClaimService_Test {
         System.assertEquals('200', statusCode, 'Response should indicate success');
         
         // Verify the record is created
-        Claim__c createdClaim = [SELECT Id,Claim_Date__c,Paid_Amount__c,Date_of_admission__c,Policy_Number__r.ABHI_Policy_Id__c, ClaimExternalId__c FROM Claim__c WHERE ClaimExternalId__c = 'CLAIM123' LIMIT 1];
+        Claim__c createdClaim = [SELECT Id,Claim_Date__c,Paid_Amount__c,Date_of_admission__c,Policy_Number__r.LAN__c, ClaimExternalId__c FROM Claim__c WHERE ClaimExternalId__c = 'CLAIM123' LIMIT 1];
         System.assertNotEquals(null, createdClaim, 'Claim record should be created');
         System.assertEquals(Date.valueOf('2024-09-05'), createdClaim.Claim_Date__c , 'ClaimDate should be correctly converted');
         System.assertEquals(1500.00, createdClaim.Paid_Amount__c, 'Paid_Amount should be correctly converted');
         System.assertEquals(DateTime.valueOf('2024-09-01 10:20:45'), createdClaim.Date_of_admission__c, 'Date_of_admission should be correctly converted');
-        System.assertEquals('POL123', createdClaim.Policy_Number__r.ABHI_Policy_Id__c, 'Policy_Number should be correctly linked');
+        System.assertEquals('POL123', createdClaim.Policy_Number__r.LAN__c, 'Policy_Number should be correctly linked');
         
 
     }
@@ -61,7 +61,7 @@ public class Abhi_CreateClaimService_Test {
         Test.startTest();
         
         // Prepare JSON with missing required fields
-        String jsonBody = '[{"Claim_Number": "CLAIM123", "Policy_Number": "PRO123"}]';
+        String jsonBody = '[{"Claim_Number": "CLAIM123", "Policy_Number": "POL123"}]';
         
         // Set up the mock request
         RestRequest req = new RestRequest();
@@ -87,7 +87,7 @@ public class Abhi_CreateClaimService_Test {
         Test.startTest();
         
         // Prepare JSON with an invalid format to trigger exception
-        String jsonBody = '[{"Claim_Number": "CLAIM123", "Policy_Number": 12345, "Date_of_admission": "InvalidDate", "Claim_Amount":"InvalidCurrency"}]'; // Policy_Number should be a string
+        String jsonBody = '[{"Claim_Number": "CLAIM123", "Policy_Number": POL123, "Date_of_admission": "InvalidDate", "Claim_Amount":"InvalidCurrency"}]'; // Policy_Number should be a string
         
         // Set up the mock request
         RestRequest req = new RestRequest();

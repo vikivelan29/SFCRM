@@ -5,6 +5,7 @@
     <mutingPermissionSets>ABSLAMC_CAMS_BO_Access_Muted</mutingPermissionSets>
     <permissionSets>ABCL_Export_Reports</permissionSets>
     <permissionSets>ABSLAMC_Omnichannel</permissionSets>
+    <permissionSets>AMC_Base_User_PS</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

@@ -2,10 +2,10 @@
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <aggregates>
         <acrossGroupingContext>CDF1</acrossGroupingContext>
-        <calculatedFormula>IF (PARENTGROUPVAL(RowCount, Case.Created_By_User_formula__c,  Case.CreatedDate) == 0, 0, RowCount/PARENTGROUPVAL(RowCount, Case.Created_By_User_formula__c,  Case.CreatedDate))</calculatedFormula>
+        <calculatedFormula>IF (PARENTGROUPVAL(RowCount, Case.CreatedBy.Manager.Name,  Case.CreatedDate) == 0, 0, RowCount/PARENTGROUPVAL(RowCount, Case.CreatedBy.Manager.Name,  Case.CreatedDate))</calculatedFormula>
         <datatype>percent</datatype>
         <developerName>FORMULA1</developerName>
-        <downGroupingContext>Case$Created_By_User_formula__c</downGroupingContext>
+        <downGroupingContext>Case$CreatedBy.Manager</downGroupingContext>
         <isActive>true</isActive>
         <isCrossBlock>false</isCrossBlock>
         <masterLabel>%</masterLabel>
@@ -54,10 +54,10 @@
     </groupingsAcross>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Case$Created_By_User_formula__c</field>
+        <field>Case$CreatedBy.Manager</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Last Three Months Performance</name>
+    <name>SR TeamLeader Wise</name>
     <params>
         <name>co</name>
         <value>1</value>

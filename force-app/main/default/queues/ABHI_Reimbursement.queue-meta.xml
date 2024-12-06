@@ -7,6 +7,7 @@
             <publicGroup>ABHI_Reimbursement_G</publicGroup>
         </publicGroups>
     </queueMembers>
+    <queueRoutingConfig>ABHI_Routing_Config</queueRoutingConfig> 
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

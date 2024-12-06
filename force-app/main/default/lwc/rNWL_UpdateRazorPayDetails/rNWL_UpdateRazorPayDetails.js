@@ -1,6 +1,6 @@
 import { LightningElement, api, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { getRecord, notifyRecordUpdateAvailable } from 'lightning/uiRecordApi';
 import LINK_FIELD from "@salesforce/schema/Opportunity.Razor_Pay_Link__c";
 import AMOUNT_FIELD from "@salesforce/schema/Opportunity.Razor_Pay_Amount__c";
 import updateOppRecord from '@salesforce/apex/RNWL_RelatedListHelper.updateOpportunityFields';
@@ -51,6 +51,7 @@ export default class RNWL_UpdateRazorPayDetails extends LightningElement {
         .then(result => {
             this.dispatchEvent(new CloseActionScreenEvent());
             this.dispatchEvent(this.showToast('success', 'Updated Razor Pay details successfully', 'Success!', 'dismissable'));
+            notifyRecordUpdateAvailable([{recordId: this.recordId}]);
         })
         .catch(error=>{
             this.error = error;

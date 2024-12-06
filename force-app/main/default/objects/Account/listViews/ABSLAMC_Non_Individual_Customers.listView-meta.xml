@@ -3,6 +3,8 @@
     <fullName>ABSLAMC_Non_Individual_Customers</fullName>
     <booleanFilter>1 AND  3 AND ( 2 OR 4)</booleanFilter>
     <columns>ACCOUNT.NAME</columns>
+    <columns>Client_Code__c</columns>
+    <columns>Line_of_Business__c</columns>
     <columns>ACCOUNT.SITE</columns>
     <columns>ACCOUNT.ADDRESS1_STATE</columns>
     <columns>ACCOUNT.PHONE1</columns>
@@ -31,13 +33,6 @@
     </filters>
     <label>ABSLAMC Non-Individual Customers</label>
     <sharedTo>
-        <role>ABSLAMC_AIF_Executive_Leadership</role>
-        <role>ABSLAMC_AIF_Service_Agents_Users</role>
-        <role>ABSLAMC_MF_Executive_Leadership</role>
-        <role>ABSLAMC_MF_Service_Agents_Users</role>
-        <role>ABSLAMC_PMS_Executive_Leadership</role>
-        <role>ABSLAMC_PMS_Service_Agents_Users</role>
-        <role>ABSLAMC_RE_Executive_Leadership</role>
-        <role>ABSLAMC_RE_Service_Agents_Users</role>
+        <group>ABSLAMC_ALL_Users</group>
     </sharedTo>
 </ListView>

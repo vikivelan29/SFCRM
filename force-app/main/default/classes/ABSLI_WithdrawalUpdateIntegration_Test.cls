@@ -5,7 +5,7 @@ public class ABSLI_WithdrawalUpdateIntegration_Test {
 		ASF_Integration__c integ = new ASF_Integration__c();
 		integ.External_Id__c = 'PPAY008';
 		integ.Display_Name__c = 'WithdrawalPolicyIntegration';
-		integ.Query_Fields__c = 'ABSLI_Case_Detail__r.TDS_Indicator__c,Account.PAN__c,CaseNumber,Asset.Policy_No__c,ABSLI_Case_Detail__r.IFSC_Code__c,ABSLI_Case_Detail__r.MICR_Code__c,ABSLI_Case_Detail__r.Account_Number__c,ABSLI_Case_Detail__r.Bank_Name__c,ABSLI_Case_Detail__r.Branch_Name__c,Asset.Zone__c,ABSLI_Case_Detail__r.Account_Type__c,ABSLI_Case_Detail__r.Fund_Tranfer_Amount__c,Business_Unit__c';
+		integ.Query_Fields__c = 'ABSLI_Case_Detail__r.TDS_Indicator__c,Account.PAN__c,CaseNumber,Asset.Policy_No__c,ABSLI_Case_Detail__r.IFSC_Code__c,ABSLI_Case_Detail__r.MICR_Code__c,ABSLI_Case_Detail__r.Account_Number__c,ABSLI_Case_Detail__r.Bank_Name__c,ABSLI_Case_Detail__r.Branch_Name__c,Asset.Zone__c,ABSLI_Case_Detail__r.Account_Type__c,ABSLI_Case_Detail__r.Fund_Tranfer_Amount__c,Business_Unit__c,ABSLI_Case_Detail__r.Requested_Withdrawal_Amount__c';
 		integ.Processing_Class__c = 'ABSLI_WithdrawalPolicyIntegration';
 		integ.When_to_Appear__c = 'Stage Entry';
 		integ.Type__c = 'Process';
@@ -110,7 +110,7 @@ public class ABSLI_WithdrawalUpdateIntegration_Test {
     @IsTest
     static void testRun(){
         ABSLI_WithdrawalPolicyIntegration surInt = new ABSLI_WithdrawalPolicyIntegration();
-       	Case caseRecord = [SELECT id,ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c,ABSLI_Case_Detail__r.TDS_Indicator__c,Account.PAN__c,CaseNumber,Asset.Policy_No__c,ABSLI_Case_Detail__r.IFSC_Code__c,ABSLI_Case_Detail__r.MICR_Code__c,ABSLI_Case_Detail__r.Account_Number__c,ABSLI_Case_Detail__r.Bank_Name__c,ABSLI_Case_Detail__r.Branch_Name__c,Asset.Zone__c,ABSLI_Case_Detail__r.Account_Type__c,ABSLI_Case_Detail__r.Fund_Tranfer_Amount__c,Business_Unit__c FROM Case LIMIT 1];
+       	Case caseRecord = [SELECT id,ABSLI_Case_Detail__r.Withdrawal_Amount_Available__c,ABSLI_Case_Detail__r.TDS_Indicator__c,Account.PAN__c,CaseNumber,Asset.Policy_No__c,ABSLI_Case_Detail__r.IFSC_Code__c,ABSLI_Case_Detail__r.MICR_Code__c,ABSLI_Case_Detail__r.Account_Number__c,ABSLI_Case_Detail__r.Bank_Name__c,ABSLI_Case_Detail__r.Branch_Name__c,Asset.Zone__c,ABSLI_Case_Detail__r.Account_Type__c,ABSLI_Case_Detail__r.Fund_Tranfer_Amount__c,Business_Unit__c,ABSLI_Case_Detail__r.Requested_Withdrawal_Amount__c FROM Case LIMIT 1];
         ASF_Integration__c integ = [SELECT Id, Processing_Class__c, External_Id__c,Do_Not_Retry_Integration__c FROM ASF_Integration__c LIMIT 1];
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();

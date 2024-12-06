@@ -4,8 +4,8 @@
     <assignments>
         <name>customerContacted</name>
         <label>customerContacted</label>
-        <locationX>785</locationX>
-        <locationY>469</locationY>
+        <locationX>642</locationX>
+        <locationY>478</locationY>
         <assignmentItems>
             <assignToReference>integrationMetadataName</assignToReference>
             <operator>Assign</operator>
@@ -14,21 +14,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>getTodaysExistingPELogger</targetReference>
+            <targetReference>getPELoggerForMetadata</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>existingPELoggerCount</name>
         <label>existingPELoggerCount</label>
-        <locationX>337</locationX>
-        <locationY>825</locationY>
-        <assignmentItems>
-            <assignToReference>existingTodayPELoggers</assignToReference>
-            <operator>AssignCount</operator>
-            <value>
-                <elementReference>getTodaysExistingPELogger</elementReference>
-            </value>
-        </assignmentItems>
+        <locationX>501</locationX>
+        <locationY>723</locationY>
         <assignmentItems>
             <assignToReference>existingPELoggerForMetadata</assignToReference>
             <operator>AssignCount</operator>
@@ -43,8 +36,8 @@
     <assignments>
         <name>notContactable</name>
         <label>notContactable</label>
-        <locationX>289</locationX>
-        <locationY>482</locationY>
+        <locationX>370</locationX>
+        <locationY>480</locationY>
         <assignmentItems>
             <assignToReference>integrationMetadataName</assignToReference>
             <operator>Assign</operator>
@@ -53,7 +46,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>getTodaysExistingPELogger</targetReference>
+            <targetReference>getPELoggerForMetadata</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -141,10 +134,32 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Is_CRM_In_House_Disposition</name>
+        <label>Is CRM In House Disposition</label>
+        <locationX>898</locationX>
+        <locationY>299</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Check_Calling_Source</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Renewal_Request__r.Calling_Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CRM (In-House)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>decide_Template</targetReference>
+            </connector>
+            <label>Check Calling Source</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>isPELoggerNeeded</name>
         <label>isPELoggerNeeded</label>
-        <locationX>514</locationX>
-        <locationY>898</locationY>
+        <locationX>643</locationX>
+        <locationY>698</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -166,7 +181,7 @@
     <formulas>
         <name>dontCreatePELogger</name>
         <dataType>Boolean</dataType>
-        <expression>IF( OR({!existingTodayPELoggers} &gt;= 1, {!existingPELoggerForMetadata} &gt;= 5 ), true, false )</expression>
+        <expression>IF( {!existingPELoggerForMetadata} &gt;= 1, true, false )</expression>
     </formulas>
     <formulas>
         <name>NoPTP_Contacted</name>
@@ -229,8 +244,8 @@ AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message und
     <recordCreates>
         <name>createASFLogger</name>
         <label>createASFLogger</label>
-        <locationX>763</locationX>
-        <locationY>1089</locationY>
+        <locationX>956</locationX>
+        <locationY>836</locationY>
         <inputAssignments>
             <field>CustomMetadataName__c</field>
             <value>
@@ -255,8 +270,8 @@ AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message und
     <recordCreates>
         <name>createPELogger</name>
         <label>createPELogger</label>
-        <locationX>802</locationX>
-        <locationY>902</locationY>
+        <locationX>963</locationX>
+        <locationY>677</locationY>
         <connector>
             <targetReference>createASFLogger</targetReference>
         </connector>
@@ -326,8 +341,8 @@ AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message und
     <recordLookups>
         <name>getContact</name>
         <label>getContact</label>
-        <locationX>667</locationX>
-        <locationY>891</locationY>
+        <locationX>817</locationX>
+        <locationY>690</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>createPELogger</targetReference>
@@ -347,8 +362,8 @@ AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message und
     <recordLookups>
         <name>getPELoggerForMetadata</name>
         <label>getPELoggerForMetadata</label>
-        <locationX>509</locationX>
-        <locationY>728</locationY>
+        <locationX>503</locationX>
+        <locationY>561</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>existingPELoggerCount</targetReference>
@@ -372,46 +387,11 @@ AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message und
         <object>PE_Logger__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <name>getTodaysExistingPELogger</name>
-        <label>getTodaysExistingPELogger</label>
-        <locationX>525</locationX>
-        <locationY>598</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>getPELoggerForMetadata</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Opportunity_ID__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Renewal_Request__c</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>CustomMetadataName__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>integrationMetadataName</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>CreatedDate</field>
-            <operator>GreaterThanOrEqualTo</operator>
-            <value>
-                <elementReference>$Flow.CurrentDate</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>PE_Logger__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <start>
         <locationX>401</locationX>
         <locationY>48</locationY>
         <connector>
-            <targetReference>decide_Template</targetReference>
+            <targetReference>Is_CRM_In_House_Disposition</targetReference>
         </connector>
         <object>Dispositions__c</object>
         <recordTriggerType>Create</recordTriggerType>

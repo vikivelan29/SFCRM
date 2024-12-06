@@ -29,8 +29,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
             String responseBody = mapAPIResponse.containsKey('Renewal Check') ? mapAPIResponse.get('Renewal Check') : ''  ;
             set<String> setMemberId = new set<String>(); 
             
-            if(String.isBlank(responseBody)){ 
-                
+            if(String.isBlank(responseBody)){  
                 responseBody = RNWL_StoredResponseUtility.getRenewalDetails(policyNumber, 'Renewal Check', 'RNWL_RenewalDetail');
                 
                 if(String.isBlank(responseBody)) {  
@@ -53,8 +52,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
 
                 RNWL_StoredResponseUtility.uploadFileToOpportunity(opportunityId);
             }
-            else{
-                system.debug('responseBody From File-'+responseBody);
+            else{ 
                 rawResponseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
             }
             
@@ -65,13 +63,9 @@ public without sharing class RNWL_IndividualAccRenewalController {
             for(object objPolicy : rawPolicyData){
                 
                 Map<String, Object> policyData_Map = (Map<String, Object>)objPolicy;
-                
-                system.debug('policyNumber'+policyNumber);
-                system.debug('policyNumbertwo'+String.valueOf(policyData_Map.get('Policy_number')));
+                 
                 if(policyNumber == String.valueOf(policyData_Map.get('Policy_number'))){
-                    
-                    system.debug('policyData_Map'+ policyData_Map);
-                    
+                      
                     RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
                     
                     objRenewalWrapper.Id = Crypto.getRandomInteger();
@@ -80,10 +74,6 @@ public without sharing class RNWL_IndividualAccRenewalController {
                     objRenewalWrapper.Renewable_Flag = String.valueOf(policyData_Map.get('Renewable_Flag'));
                     objRenewalWrapper.Renewed_Flag = String.valueOf(policyData_Map.get('Renewed_Flag'));
                     objRenewalWrapper.sumInsuredtype = String.valueOf(policyData_Map.get('sumInsuredtype'));
-                    objRenewalWrapper.Renewal_Net_Premium = String.valueOf(policyData_Map.get('Renewal_Net_Premium'));
-                    objRenewalWrapper.Renewal_Gross_Premium = String.valueOf(policyData_Map.get('Renewal_Gross_Premium'));
-                    objRenewalWrapper.Upsell_Net_Premium = String.valueOf(policyData_Map.get('Upsell_Net_Premium'));
-                    objRenewalWrapper.Upsell_Gross_Premium = String.valueOf(policyData_Map.get('Upsell_Gross_Premium'));
                     
                     if(policyData_Map.containsKey('Is_cross_sell') && String.valueOf(policyData_Map.get('Is_cross_sell')) == 'Y'){
                         objRenewalWrapper.Is_cross_sell = 'Y';
@@ -102,10 +92,10 @@ public without sharing class RNWL_IndividualAccRenewalController {
                     
                     Map<String, Object> premium_Map = (Map<String, Object>)policyData_Map.get('premium');
                     
-                    objRenewalWrapper.Renewal_Net_Premium = String.valueOf(premium_Map.get('Renewal_Net_Premium'));
-                    objRenewalWrapper.Renewal_Gross_Premium = String.valueOf(premium_Map.get('Renewal_Gross_Premium'));
-                    objRenewalWrapper.Upsell_Gross_Premium = String.valueOf(premium_Map.get('Upsell_Gross_Premium'));
-                    objRenewalWrapper.Upsell_Net_Premium = String.valueOf(premium_Map.get('Upsell_Net_Premium'));  
+                    objRenewalWrapper.Renewal_Net_Premium = roundOfDecimal(premium_Map.get('Renewal_Net_Premium'));   
+                    objRenewalWrapper.Renewal_Gross_Premium = roundOfDecimal(premium_Map.get('Renewal_Gross_Premium'));  
+                    objRenewalWrapper.Upsell_Net_Premium = roundOfDecimal(premium_Map.get('Upsell_Net_Premium'));
+                    objRenewalWrapper.Upsell_Gross_Premium = roundOfDecimal(premium_Map.get('Upsell_Gross_Premium'));  
                     
                     List<Object> lstMember = (List<Object>) policyData_Map.get('Members');
                     
@@ -129,9 +119,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
                         objMember.CB = String.valueOf(member_Map.get('CB'));
                         objMember.MemberId = String.valueOf(member_Map.get('MemberId'));
                         
-                        setMemberId.add(String.valueOf(member_Map.get('MemberId')));  
-                        
-                        system.debug('MemberId'+objMember.MemberId);
+                        setMemberId.add(String.valueOf(member_Map.get('MemberId')));   
                         
                         lstRenewalMembers.add(objMember);
                     } 
@@ -151,9 +139,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
 
                     lstRenewalWrapper.add(objRenewalWrapper);
                 } 
-            }
-            
-            system.debug('lstRenewalWrapper '+lstRenewalWrapper);  
+            } 
             
             if(!lstRenewalWrapper.isEmpty()){  
                 updateValueForAccount(setMemberId, lstRenewalWrapper); 
@@ -251,10 +237,23 @@ public without sharing class RNWL_IndividualAccRenewalController {
             }
             return lstRenewalWrapper;      
         }catch(exception e){
+            system.debug(e.getLineNumber());
+            system.debug(e.getMessage());
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
         }
     } 
     
+    public static string roundOfDecimal(Object objValue){ 
+        String strValue = String.valueOf(objValue);
+        system.debug('before if strValue'+strValue);
+        if(strValue != null && strValue != '' && strValue != '0'){
+            system.debug('inside if strValue'+strValue);
+            return String.valueOf(Decimal.valueOf(strValue).setScale(2)); 
+        }else{
+            system.debug('inside else strValue'+strValue);
+            return strValue;
+        }  
+    }
     public static void getRenewalWrapperErrorInstance(String strErrorCode, String strErrorMessage, List<RNWL_RenewalWrapper> lstRenewalWrapper){
         RNWL_RenewalWrapper objRenewalWrapper = new RNWL_RenewalWrapper();
         objRenewalWrapper.ErrorCode = strErrorCode;
@@ -271,23 +270,19 @@ public without sharing class RNWL_IndividualAccRenewalController {
             mapOfMemberIdToAccount.put(objAccount.Client_Code__c, objAccount);
         }
         
-        if(!mapOfMemberIdToAccount.isEmpty()){
-            
+        if(!mapOfMemberIdToAccount.isEmpty()){ 
             List<RNWL_RenewalWrapper.cls_Members> lstCls_Members = new List<RNWL_RenewalWrapper.cls_Members>();
             
-            for(RNWL_RenewalWrapper.cls_Members objCls_Members : lstRenewalWrapper[0].Members ){
-                
+            for(RNWL_RenewalWrapper.cls_Members objCls_Members : lstRenewalWrapper[0].Members ){ 
                 if(mapOfMemberIdToAccount.containsKey(objCls_Members.MemberId)){
                     Account objAccount = mapOfMemberIdToAccount.get(objCls_Members.MemberId);
                     objCls_Members.Chronic_Disease = objAccount.Chronic_Disease__c;
                     objCls_Members.PED = objAccount.PED__c;   
                 }
                 lstCls_Members.add(objCls_Members);
-            }
-            
+            } 
             lstRenewalWrapper[0].Members = lstCls_Members;
-        }
-        
+        } 
         return;
     }
 }

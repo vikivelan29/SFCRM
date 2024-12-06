@@ -25,41 +25,9 @@
                 </div>
             </template>
             <template if:true={healthReturnData}>
-                <div class="slds-m-top_xxx-small">
-                    <lightning-layout multiple-rows>
-                        <lightning-layout-item size="6">
-                            <lightning-input type="text" label="Member ID" name="vchClientCode" read-only
-                                value={healthReturnFormData.vchClientCode} variant="label-inline"
-                                onchange={changeHandler}></lightning-input>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="6">
-                            <lightning-input type="number" label="Total Health return earned"
-                                name="TotalHealthReturnsTMEarned" formatter="number" read-only
-                                value={healthReturnFormData.TotalHealthReturnsTMEarned} variant="label-inline"
-                                onchange={changeHandler}></lightning-input>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="6">
-                            <lightning-input type="text" label="Member Name" name="Name" read-only
-                                value={healthReturnFormData.Name} variant="label-inline"
-                                onchange={changeHandler}></lightning-input>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="6">
-                            <lightning-input type="number" label="Total Health return Burned"
-                                name="TotalHealthReturnsTMBurnt" formatter="number" read-only
-                                value={healthReturnFormData.TotalHealthReturnsTMBurnt} variant="label-inline"
-                                onchange={changeHandler}></lightning-input>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="6">
-                            <lightning-input type="number" label="Total Active Days" name="TotalActiveDays"
-                                formatter="number" read-only value={healthReturnFormData.TotalActiveDays}
-                                variant="label-inline" onchange={changeHandler}></lightning-input>
-                        </lightning-layout-item>
-                        <lightning-layout-item size="6">
-                            <lightning-input type="number" label="Balanced Health return" name="BalanceHealthReturns"
-                                formatter="number" read-only value={healthReturnFormData.BalanceHealthReturns}
-                                variant="label-inline" onchange={changeHandler}></lightning-input>
-                        </lightning-layout-item>
-                    </lightning-layout>
+                <div class="slds-card slds-m-top_medium">
+                    <c-abfl_-data-table-with-pagination columns={healthReturnColumns} table-data={healthReturnAggData}
+                        page-size={label.pageSize} onrowaction={callRowAction}></c-abfl_-data-table-with-pagination>
                 </div>
 
             </template>

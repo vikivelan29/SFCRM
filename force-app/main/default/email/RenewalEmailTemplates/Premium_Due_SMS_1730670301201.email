@@ -2,10 +2,5 @@
 <head>
 	<title></title>
 </head>
-<body style="height: auto; min-height: auto;">Dear Customer,<br />
-<br />
-Your Health Insurance is due for Renewal on {{{Opportunity.Policy_Expiry_Date__c}}}. Please renew it to stay protected from any unforeseen incident. Click&nbsp;{{{Opportunity.Payment_Link__c}}} to pay. T&amp;C apply.<br />
-<br />
-Regards,<br />
-Aditya Birla Health Insurance</body>
+<body style="height: auto; min-height: auto;">Dear Customer, your Aditya Birla Health Insurance premium is due on {{{Opportunity.Policy_Expiry_Date__c}}}. You can pay by visiting <a href="https://vil.ltd/ABCABH/c/abhi-renew" target="_blank" title="https://vil.ltd/abcabh/c/abhi-renew">https://vil.ltd/ABCABH/c/abhi-renew</a> and continue your cover.</body>
 </html>

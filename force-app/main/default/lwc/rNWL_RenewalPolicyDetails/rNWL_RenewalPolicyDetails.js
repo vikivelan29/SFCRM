@@ -83,7 +83,7 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
 
     getAdditionalData(){
 
-        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.oppRec.Proposal_Number__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.accountId }).then(response => {            
+        getAPIResponse({ opportunityId : this.recordId, assetId: this.policyId, policyNum : this.policy.LAN__c, proposalNo : this.policy.SerialNumber, lstFileSrcAPI : this.apiList, accountId : this.accountId }).then(response => {            
             if(response){
                 this.prepareAdditionalData(response);
             }
@@ -112,48 +112,52 @@ export default class RNWL_RenewalPolicyDetails extends LightningElement {
                     }
                     //for Health returns
                     if(key == 'Health Return' && data[key]){
-                        if(JSON.parse(data[key]).Message.includes('Fail')){
+                        if(JSON.parse(data[key]).Message && JSON.parse(data[key]).Message.includes('Fail')){
                             if(apiErrMsg != ''){
                                 apiErrMsg = apiErrMsg +', ';
                             }
                             apiErrMsg = apiErrMsg + 'Health Returns';
                         }
                         else{
-                            healthArray = JSON.parse(data[key]).Response;
-                            if(healthArray){
-                                healthArray.forEach((item) => {
-                                    if(this.account.MMI_Customer_ID__c == item.vchClientCode){
-                                        this.heathRetrn = item;
-                                        this.healthFlag = true;
-                                        this.balanceHR = (this.heathRetrn.TotalHealthReturnsTM - this.heathRetrn.TotalHealthReturnsTMBurnt).toFixed(1);
-                                    }
-                                })
+                            if(JSON.parse(data[key]).Response){
+                                healthArray = JSON.parse(data[key]).Response;
+                                if(healthArray){
+                                    healthArray.forEach((item) => {
+                                        if(this.account.MMI_Customer_ID__c == item.vchClientCode){
+                                            this.heathRetrn = item;
+                                            this.healthFlag = true;
+                                            this.balanceHR = (this.heathRetrn.TotalHealthReturnsTM - this.heathRetrn.TotalHealthReturnsTMBurnt).toFixed(1);
+                                        }
+                                    })
+                                }
                             }
                         }
                     }
                     //For Fitness assessment
                     if(key == 'Fitness Assessment' && data[key]){
-                        if(JSON.parse(data[key]).Message.includes('Fail')){
+                        if(JSON.parse(data[key]).Message && JSON.parse(data[key]).Message.includes('Fail')){
                             if(apiErrMsg != ''){
                                 apiErrMsg = apiErrMsg +', ';
                             }
                             apiErrMsg = apiErrMsg + 'Health Assessment';
                         }
                         else{
-                            fitnessArray = JSON.parse(data[key]).Response;
-                            if(fitnessArray){
-                                fitnessArray.forEach((item) => {
-                                    if(this.account.MMI_Customer_ID__c == item.vchClientCode){
-                                        this.fitnessData = item;   
-                                        this.fitnessFlag = true;                 
-                                    }
-                                })
+                            if(JSON.parse(data[key]).Response){
+                                fitnessArray = JSON.parse(data[key]).Response;
+                                if(fitnessArray){
+                                    fitnessArray.forEach((item) => {
+                                        if(this.account.MMI_Customer_ID__c == item.vchClientCode){
+                                            this.fitnessData = item;   
+                                            this.fitnessFlag = true;                 
+                                        }
+                                    })
+                                }
                             }
                         }
                     }
                     //For App registration details
                     if(key == 'AppRegDetails' && data[key]){
-                        if(JSON.parse(data[key]).Message.includes('Fail')){
+                        if(JSON.parse(data[key]).Message && JSON.parse(data[key]).Message.includes('Fail')){
                             if(apiErrMsg != ''){
                                 apiErrMsg = apiErrMsg +', ';
                             }

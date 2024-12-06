@@ -20,6 +20,6 @@
     <label>ABSLAMC - App Support Queue</label>
     <queue>ABSLAMC_MF_App_Support_Queue</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_App_Support_G</group>
     </sharedTo>
 </ListView>

@@ -24,7 +24,6 @@ public with sharing class ABHI_WelcomeBot_Queuable Implements Queueable, Databas
      * @LOB - ABHI
      * @Function - execute function of Queuable 
      * @param qc - QueueableContext
-     * @param scope - List of Assets & disposition for failure
      * @description - 
      *****************************************************************************************************************/
     public void execute(QueueableContext qc)
@@ -33,19 +32,14 @@ public with sharing class ABHI_WelcomeBot_Queuable Implements Queueable, Databas
         ASF_Case_Integration__c caseIntg = new ASF_Case_Integration__c();
         ABCL_Integrations__mdt integrationMdt = ABCL_IntegrationCallout.getIntegrationMetadata(integrationName);
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
-        try {
-            integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
-            if(integrationResponse.StatusCode == 200) {
-                //Success
-                System.debug('@@@Reponse'+integrationResponse);
-            }
-            else {
-                ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
-            }
+        
+        integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,payload,null);
+        if(integrationResponse.StatusCode == 200) {
+            //Success
+            System.debug('@@@Reponse'+integrationResponse);
         }
-        catch(Exception e) {
-            integrationResponse.responseBody = JSON.serialize(new ABHI_ResponseWrapper('100', ABHI_Constants.FAILURE, e.getMessage()), true);
+        else {
             ABHI_ResponseWrapper.createLog(caseIntg, integrationMdt, integrationResponse, true);
-        }  
+        }
     }
 }

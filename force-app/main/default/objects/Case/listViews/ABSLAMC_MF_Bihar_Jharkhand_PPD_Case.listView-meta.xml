@@ -20,6 +20,6 @@
     <label>ABSLAMC MF Bihar_Jharkhand PPD</label>
     <queue>ABSLAMC_MF_Bihar_Jharkhand_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_Bihar_Jharkhand_PPD_G</group>
     </sharedTo>
 </ListView>

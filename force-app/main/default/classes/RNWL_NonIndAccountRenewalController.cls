@@ -27,7 +27,6 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                 String payload = '{"lead_Id":null,"master_policy_number":null,"certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
                 
                 ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('RNWL_Non_Ind_Account', payload, null);
-                String fileName = 'Renewal Group Check-'+Date.today();
                 system.debug(responseWrapper);
                 responseBody = responseWrapper.responseBody;
                 respWrapper = (ResponseBodyWrapper)JSON.deserialize(responseBody, ResponseBodyWrapper.class);
@@ -39,7 +38,8 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                         return details;
                 }
                 else if(String.isNotBlank(responseBody)){
-                    uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Group Check');
+                    RNWL_StoredResponseUtility.mapOfFileNameToResponse = new Map<String,String>{'Renewal Group Check'=>responseBody};
+                    RNWL_StoredResponseUtility.uploadFileToOpportunity(oppList[0].Id);
                 }else{
                     details.hasError = true;
                     details.errorMessage = 'API Call Failed Please Retry'; 
@@ -110,12 +110,14 @@ public without sharing class RNWL_NonIndAccountRenewalController {
             Set<String> renewdMasterPolicyNumbers = new Set<String>();
 
             for(cls_Renew_Info data: respWrapper.Renew_Info){
-                if(data.Renewed_MaterPolicy_Number != null && data.Renewed_MaterPolicy_Number == masterPolicyNumber){
-                    Renewal_Info renewalDetail = (Renewal_Info)JSON.deserialize((JSON.serialize(data)) , Renewal_Info.class);
-                    renewalInfos.add(renewalDetail);
-					renewedProposalNumber = data?.Renewed_Policy_Proposal_Number;
-                }else if(combiFlag && data.Renewed_MaterPolicy_Number != masterPolicyNumber){
-                    renewdMasterPolicyNumbers.add(data.Renewed_MaterPolicy_Number);
+                if(String.isNotBlank(data.Renewed_MaterPolicy_Number) && String.isNotBlank(masterPolicyNumber)){
+                    if(data.Renewed_MaterPolicy_Number != null && data.Renewed_MaterPolicy_Number == masterPolicyNumber){
+                        Renewal_Info renewalDetail = (Renewal_Info)JSON.deserialize((JSON.serialize(data)) , Renewal_Info.class);
+                        renewalInfos.add(renewalDetail);
+                        renewedProposalNumber = data?.Renewed_Policy_Proposal_Number;
+                    }else if(combiFlag && data.Renewed_MaterPolicy_Number != masterPolicyNumber){
+                        renewdMasterPolicyNumbers.add(data.Renewed_MaterPolicy_Number);
+                    }
                 }
             }
 
@@ -243,31 +245,13 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                                            FROM ContentVersion 
                                            WHERE CreatedDate = TODAY
                                            AND ContentDocumentId IN: documentIds
-                                           AND Content_Source_API__c =:fileSourceAPI ];
+                                           AND Content_Source_API__c =:fileSourceAPI
+                                           ORDER BY CreatedDate DESC ];
             if(cvList != null && cvList.size() > 0){
                 return cvList[0]?.VersionData?.toString();
             }
         }
         return null;                                   
-    }
-
-    public static void uploadFileToOpportunity(Id opportunityId, String fileBody, String fileName, String fileSourceAPI) {
-        Blob fileBodyBlob = Blob.valueof(fileBody);
-        ContentVersion contentVersion = new ContentVersion();
-        contentVersion.Title = fileName;
-        contentVersion.PathOnClient = fileName;
-        contentVersion.VersionData = fileBodyBlob;
-        contentVersion.Content_Source_API__c = fileSourceAPI;
-        insert contentVersion;
-
-		contentVersion = [Select Id,ContentDocumentId From ContentVersion Where id=:contentVersion.Id LIMIT 1];
-
-        ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
-        contentDocumentLink.ContentDocumentId = contentVersion.ContentDocumentId;
-        contentDocumentLink.LinkedEntityId = opportunityId;
-        contentDocumentLink.ShareType = 'V'; // V = Viewer
-        insert contentDocumentLink;
-
     }
 
     class ResponseBodyWrapper{

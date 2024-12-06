@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appointment_Date_and_Time</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				NOT(ISBLANK(Appointment_Date_and_Time__c)),
+				OR(Appointment_Date_and_Time__c &lt; (NOW()+1),
+				Appointment_Date_and_Time__c &gt; (NOW()+7))
+)</errorConditionFormula>
+    <errorMessage>Appointment Date should be within 7 days of case creation.</errorMessage>
+</ValidationRule>

@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>ABHI</description>
     <externalId>false</externalId>
-    <label>Owner Client Code</label>
+    <label>Policy Owner ID</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Assets (Owner Client Code)</relationshipLabel>
     <relationshipName>Assets2</relationshipName>

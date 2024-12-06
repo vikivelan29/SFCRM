@@ -50,7 +50,7 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"ABFL1234","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Prospect","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"ABFL1234","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Prospect","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment"}');
         
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         
@@ -74,7 +74,7 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"ABFL1234","Assigned User - AD ID":"userFed123","LOB":"","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Prospect","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"ABFL1234","Assigned User - AD ID":"userFed123","LOB":"","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Prospect","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         System.assertEquals(0, result.resultRecords.size(), 'No Leads should be created');
         String errorMessage = result.resultJSONMapRows.get(lineitem.Id).get('Message');
@@ -95,11 +95,11 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         System.assertEquals(0, result.resultRecords.size(), 'No Leads should be created');
         String errorMessage = result.resultJSONMapRows.get(lineitem.Id).get('Message');
-        System.assertEquals('CLIENT CODE - LOB +PAN/PERKN  is required', errorMessage, 'Expected client code error for existing customer');
+        System.assertEquals('CLIENT CODE - LOB +PAN/PEKRN  is required', errorMessage, 'Expected client code error for existing customer');
     }
     
     @IsTest
@@ -116,7 +116,7 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         System.assertEquals(0, result.resultRecords.size(), 'No Leads should be created');
         String errorMessage = result.resultJSONMapRows.get(lineitem.Id).get('Message');
@@ -137,7 +137,7 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"","First Name":"John","Last Name":"Doe","Lead Category":"Category1","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         System.assertEquals(0, result.resultRecords.size(), 'No Leads should be created');
         String errorMessage = result.resultJSONMapRows.get(lineitem.Id).get('Message');
@@ -158,7 +158,7 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"","Lead Type":"Type1","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         System.assertEquals(0, result.resultRecords.size(), 'No Leads should be created');
         String errorMessage = result.resultJSONMapRows.get(lineitem.Id).get('Message');
@@ -179,7 +179,7 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"Cat1","Lead Type":"","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"Cat1","Lead Type":"","Lead Sub-Type":"SubType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         System.assertEquals(0, result.resultRecords.size(), 'No Leads should be created');
         String errorMessage = result.resultJSONMapRows.get(lineitem.Id).get('Message');
@@ -200,7 +200,7 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"Cat1","Lead Type":"Type1","Lead Sub-Type":"","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Existing customer","First Name":"John","Last Name":"Doe","Lead Category":"Cat1","Lead Type":"Type1","Lead Sub-Type":"","Comments/Remarks":"Test comment","Lead Status":"Open"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         System.assertEquals(0, result.resultRecords.size(), 'No Leads should be created');
         String errorMessage = result.resultJSONMapRows.get(lineitem.Id).get('Message');
@@ -221,7 +221,7 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         insert lineitem;
         
         Map<Id, String> jsonRows = new Map<Id, String>();
-        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PERKN":"ABFL1234","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Prospect","First Name":"John","Last Name":"","Lead Category":"Cat1","Lead Type":"Type1","Lead Sub-Type":"subType1","Comments/Remarks":"Test comment","Lead Status":"Open"}');
+        jsonRows.put(lineitem.Id, '{"Folio":"LAN1234","CLIENT CODE - LOB +PAN/PEKRN":"ABFL1234","Assigned User - AD ID":"userFed123","LOB":"Retail","Mobile No":"1234567890","Customer Type - Prospect / Existing customer":"Prospect","First Name":"John","Last Name":"","Lead Category":"Cat1","Lead Type":"Type1","Lead Sub-Type":"subType1","Comments/Remarks":"Test comment"}');
         ASF_BulkCaseProcessorUtility.ConvertionResult result = utility.convertJSONRows(jsonRows);
         System.assertEquals(0, result.resultRecords.size(), 'No Leads should be created');
         String errorMessage = result.resultJSONMapRows.get(lineitem.Id).get('Message');
@@ -236,18 +236,18 @@ public class ABSLAMC_BulkCreateLeadConverterTest {
         List<String> columnNames = new List<String>{
             'LOB', 
                 'Folio', 
-                'CLIENT CODE - LOB +PAN/PERKN', 
+                'CLIENT CODE - LOB +PAN/PEKRN', 
                 'PAN', 
-                'PERKN', 
-                'Mobile No', 
+                'PEKRN', 
+                'Mobile No',
+                'Customer Type - Prospect / Existing customer',
                 'First Name', 
                 'Last Name', 
                 'Lead Category', 
                 'Lead Type', 
                 'Lead Sub-Type', 
                 'Comments/Remarks', 
-                'Assigned User - AD ID', 
-                'Lead Status'
+                'Assigned User - AD ID'
                 };
                     
         Id listViewId = null;

@@ -5,28 +5,32 @@
 *Last Modified:  11/10/2024 // update by Raj Raghuwanshi added HHS_End_Date, HHS_Start_Date,HR_Expiry_Date in wrapper as part of renewal requirment 
 *@description :  This class used as a outBound API call and a controller for abhi_HealthAssesmentDetails component.
 ***************************************/
+@SuppressWarnings('PMD.ExcessivePublicCount')
 public with sharing class ABHI_HealthAssesmentDetails {
     
+     /**********
+     Method Name - GetHealthDetails
+     @description :  Method returns IntegrationResponse, when assetId is passed on the Asset page.
+     ***********/
+    @SuppressWarnings('PMD.MethodNamingConventions')
     @AuraEnabled
     public static IntegrationResponseWrapper GetHealthDetails(String assetId){
         
         String policyNumber;
         String customerId;
-        Boolean hasError = false;
+        //Boolean hasError = false;
         
         try{
             string integrationName = 'ABHI_HealthAssesmentDetails';
-            Asset assets = [SELECT Policy_No__c,AccountId from Asset where Id =: assetId];
+            Asset assets = [SELECT Policy_No__c,AccountId from Asset where Id =: assetId WITH SYSTEM_MODE];
             if (assets!= null && assets.Policy_No__c != null) {
                 policyNumber = assets.Policy_No__c;
                 customerId = assets.AccountId;
-                System.debug('Policy Number retrieved from Asset: ' + policyNumber);
             }
             ABCL_IntegrationCallout.accountId = customerId;
             String conPayload =  JSON.serialize(new HealthViewRequest(policyNumber));
             ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResp = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload, null);
             IntegrationResponseWrapper deserializedIntResponse = (IntegrationResponseWrapper) JSON.deserialize(integrationResp.responseBody, IntegrationResponseWrapper.class);
-            system.debug('deserialized resp' +deserializedIntResponse);
             return deserializedIntResponse;
         }catch(Exception e){
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
@@ -34,7 +38,11 @@ public with sharing class ABHI_HealthAssesmentDetails {
     }
     
     
-    
+      /**********
+     @Class - HealthViewRequest
+     @description :  Request wrapper
+     ***********/
+       @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.VariableNamingConventions')
     public class HealthViewRequest {
         public String policyNumber;
         HealthViewRequest(String policyNumber) {
@@ -42,8 +50,11 @@ public with sharing class ABHI_HealthAssesmentDetails {
         }
     }
     
-    
-    //Response Wrapper class
+     /**********
+     @Class - IntegrationResponseWrapper
+     @description :  Response Wrapper class
+     ***********/
+       @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.VariableNamingConventions')
     public class IntegrationResponseWrapper{
         @AuraEnabled
         public List<requestListWrapper> Response;
@@ -56,6 +67,12 @@ public with sharing class ABHI_HealthAssesmentDetails {
         //this.Message = responseBody;
         //}
     }
+    
+     /**********
+     @Class - requestListWrapper
+     @description :  Response Wrapper class
+     ***********/
+       @SuppressWarnings('PMD.FieldNamingConventions,PMD.ClassNamingConventions,PMD.VariableNamingConventions,PMD.TooManyFields')
     public class requestListWrapper{
         @AuraEnabled
         public String AHCdate;

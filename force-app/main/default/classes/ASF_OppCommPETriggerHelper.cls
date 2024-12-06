@@ -222,7 +222,14 @@ public without sharing class ASF_OppCommPETriggerHelper {
                 if(pLog.Send_To_Specific_Emails__c){
                     if(pLog.Specific_To_Address__c != null){
                         List<String> toSpecificAddresses = pLog.Specific_To_Address__c.deleteWhitespace().split(';');
-                        Messaging.SingleEmailMessage msg = getMessageGenerated(null, emailtempid, owAddress.Id, oppRec, pLog.CC_Addresses__c);
+                        Contact contactRec;
+                        if (mAccountIdContactId.containsKey(oppRec.AccountId)) {
+                            for(Contact con : mAccountIdContactId.get(oppRec.AccountId)) {
+                                contactRec = con;
+                                break;
+                            }
+                        }
+                        Messaging.SingleEmailMessage msg = getMessageGenerated(contactRec, emailtempid, owAddress.Id, oppRec, pLog.CC_Addresses__c);
                         msg.setToAddresses(toSpecificAddresses);
                         emails.add(msg); 
                         mIdxVsPELoggerId.put(iCounter,pLog.Id);
@@ -366,8 +373,8 @@ public without sharing class ASF_OppCommPETriggerHelper {
         Map<String,Object> untypedObj =  (Map<String,Object>) JSON.deserializeUntyped(serializedRequest);
 
         // currently only 5 merge fields exist at most, increase this as per need
-        for (Integer i = 0; i < 5; i++) {
-            Object mergeValue = log.get(channelFieldNamesWA[1] + (i + 1) + '__c');
+        for (Integer i = 1; i < 6; i++) {
+            Object mergeValue = log.get(channelFieldNamesWA[1] + i + '__c');
             untypedObj.put('AlertV' + i, mergeValue);
         }
         event.Request__c = JSON.serialize(untypedObj);
@@ -639,42 +646,20 @@ public without sharing class ASF_OppCommPETriggerHelper {
             
             for (Integer counter = 1; counter <= mergeFields.size(); counter++) {
                 mergeField = mergeFields[counter-1].trim();
-                
-                if(mergeField.contains('.')){
-                    String[] arr = mergeField.split('\\.');
-                    integer iRelLevel = 0;
-                    for(integer i=0;i<arr.size();i++){
-                        if(arr[i].endsWith('__r')){
-                            iRelLevel++;
-                            if(iRelLevel >=3){
-                                break;
-                            }
-                        }
-                    }
-                    if (iRelLevel == 1) {
-                        fieldValue = String.valueOf(oppRecord.getSobject(arr[0])?.get(arr[1]));
-                    } else if(iRelLevel ==2){
-                        fieldValue = String.valueOf(oppRecord.getSobject(arr[0]).getSobject(arr[1])?.get(arr[2]));
-                    } else if(iRelLevel ==3){
-                        fieldValue = String.valueOf(oppRecord.getSobject(arr[0]).getSobject(arr[1]).getSobject(arr[2])?.get(arr[3]));
-                    } else{
-                        fieldValue = String.valueOf(oppRecord.getSobject(arr[0])?.get(arr[1]));
-                    }
-                    fieldValue = formatedValue(oppRecord,arr[0],fieldValue,arr[1]);  
-                } else {                
-                    Schema.DisplayType FldType = oppFieldInfo.get(mergeField).getDescribe().getType();
-                    if(FldType == Schema.DisplayType.DateTime){
-                        Datetime dt = (Datetime) oppRecord.get(mergeField);
-                        if (dt!=null) {
-                            fieldValue = dt.format();
-                        }  
-                    } else if(FldType == Schema.DisplayType.Date){
-                        Date dt = (Date) oppRecord.get(mergeField);
-                        if(dt!=null)
-                            fieldValue = dt.format();
-                    } else{
-                        fieldValue = String.valueOf(oppRecord.get(mergeField));
-                    }
+                // currently none of the merge fields are parent object fields so limiting the code to object specific fields only. 
+                // in future if templates need parent fields, update this to use getSobject method similar to other communication helpers
+                Schema.DisplayType FldType = oppFieldInfo.get(mergeField).getDescribe().getType();
+                if(FldType == Schema.DisplayType.DateTime){
+                    Datetime dt = (Datetime) oppRecord.get(mergeField);
+                    if (dt!=null) {
+                        fieldValue = dt.format();
+                    }  
+                } else if(FldType == Schema.DisplayType.Date){
+                    Date dt = (Date) oppRecord.get(mergeField);
+                    if(dt!=null)
+                        fieldValue = dt.format();
+                } else{
+                    fieldValue = String.valueOf(oppRecord.get(mergeField));
                 }
                 fieldName = channelFieldNames[1] + counter + '__c';
                 masterlog.put(fieldName, fieldValue);
@@ -692,28 +677,6 @@ public without sharing class ASF_OppCommPETriggerHelper {
         }
 
         mPeLogIdCommunicationLog.put(pLogId, masterlog);   
-    }
-
-    public static String formatedValue(Opportunity oppRecord, String objectName, String fieldValue, String fieldName) {
-        // fixed for Null Pointer exception
-        if(oppRecord.getSobject(objectName) == null){
-            return '';
-        }
-        String extObjectName = String.valueOf(oppRecord.getSobject(objectName).getSObjectType());
-        Map<String, Schema.SObjectField> extFields = Schema.getGlobalDescribe().get(extObjectName.toLowerCase()).getDescribe().fields.getMap();
-        Schema.DisplayType fldType = extFields.get(fieldName).getDescribe().getType();
-        if(fldType == Schema.DisplayType.DateTime){
-            Datetime dt =  DateTime.ValueOf(fieldValue); 
-            if (dt!=null) {
-                fieldValue = dt.format();
-            }
-        }else if(fldType == Schema.DisplayType.Date){
-            Date dt = Date.valueOf(fieldValue);
-            if (dt!=null) {
-                fieldValue = dt.format();
-            }
-        }
-        return fieldValue;
     }
 
     public class WhatsAppAPIRequestWrapper {

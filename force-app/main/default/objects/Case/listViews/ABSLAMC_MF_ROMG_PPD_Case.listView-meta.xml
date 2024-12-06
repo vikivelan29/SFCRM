@@ -20,6 +20,6 @@
     <label>ABSLAMC MF ROMG PPD</label>
     <queue>ABSLAMC_MF_ROMG_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_ROMG_PPD_G</group>
     </sharedTo>
 </ListView>

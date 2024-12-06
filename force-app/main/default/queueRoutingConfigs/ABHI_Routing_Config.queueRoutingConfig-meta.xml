@@ -4,6 +4,6 @@
     <capacityWeight>1.0</capacityWeight>
     <isAttributeBased>false</isAttributeBased>
     <label>ABHI Routing Config</label>
-    <routingModel>LEAST_ACTIVE</routingModel>
+    <routingModel>LEAST_ACTIVE</routingModel> 
     <routingPriority>1</routingPriority>
 </QueueRoutingConfig>

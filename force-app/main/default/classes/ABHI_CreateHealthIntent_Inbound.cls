@@ -9,7 +9,7 @@
 global with sharing class ABHI_CreateHealthIntent_Inbound {
     @HttpPost
     global static String processHealthData() {
-        ABHI_CreateHealthIntentRequestWrapper.RequestBody requestBody;
+        ABHI_CreateHealthIntent_Inbound.RequestBody requestBody;
         String accountId;
         Boolean hasError = false;
         ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
@@ -18,7 +18,7 @@ global with sharing class ABHI_CreateHealthIntent_Inbound {
 
         try {
             // Parsing the JSON request into the RequestBody class
-            requestBody = (ABHI_CreateHealthIntentRequestWrapper.RequestBody)JSON.deserialize(RestContext.request.requestBody.toString(), ABHI_CreateHealthIntentRequestWrapper.RequestBody.class);
+            requestBody = (ABHI_CreateHealthIntent_Inbound.RequestBody)JSON.deserialize(RestContext.request.requestBody.toString(), ABHI_CreateHealthIntent_Inbound.RequestBody.class);
             
             // Checking for member id 
             try {
@@ -32,8 +32,8 @@ global with sharing class ABHI_CreateHealthIntent_Inbound {
 
             // Preparing to collect Health intent records
             List<Health_Intent__c> lsthealthIntent = new List<Health_Intent__c>();
-            for (ABHI_CreateHealthIntentRequestWrapper.CategoryDetail category : requestBody.CategoryDetails) {
-                for (ABHI_CreateHealthIntentRequestWrapper.ActivityDetail detail : category.ActivityDetails) {
+            for (ABHI_CreateHealthIntent_Inbound.CategoryDetail category : requestBody.CategoryDetails) {
+                for (ABHI_CreateHealthIntent_Inbound.ActivityDetail detail : category.ActivityDetails) {
                     Health_Intent__c healthIntentRecord = new Health_Intent__c();
                     healthIntentRecord.Member_Id__c = accountId;
                     healthIntentRecord.Active_on_Social_Media__c = requestBody.ActiveOnSocialMedia;
@@ -88,5 +88,42 @@ global with sharing class ABHI_CreateHealthIntent_Inbound {
 
     public static ABHI_ResponseWrapper createFailureResponse(String statusCode, String statusMessage, String statusRemarks) {
         return new ABHI_ResponseWrapper(statusCode, statusMessage, statusRemarks);
+    }
+       public class ActivityDetail {
+        public String DoYouTrackThese;
+        public String FrequencyInMonth;
+        public String HowDoYouTrackYourActivity;
+        public String WhatActivitiesCurrentlyDoing;
+    }
+
+    public class CategoryDetail {
+        public List<ActivityDetail> ActivityDetails;
+        public String Category;
+    }
+
+    public class RequestBody {
+        public String ActiveOnSocialMedia;
+        public List<CategoryDetail> CategoryDetails;
+        public String HealthReturn;
+        public String MemberId;
+        public String PreferredCommunicationMode;
+        public String PreferredLanguage;
+        public String SocialMediaId;
+        public String Source;
+        public String WaitingPeriodAndExclusive;
+        public String WhichPhone;
+    }
+
+    public class SuccessResponse {
+        public String memberId;
+        public String StatusCode;
+        public String StatusMessage;
+        public String StatusRemarks;
+    }
+
+    public class FailureResponse {
+        public String StatusCode;
+        public String StatusMessage;
+        public String StatusRemarks;
     }
 }

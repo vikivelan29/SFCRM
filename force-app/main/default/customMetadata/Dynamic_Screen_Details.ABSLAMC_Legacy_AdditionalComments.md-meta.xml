@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">31.0</value>
+        <value xsi:type="xsd:double">30.0</value>
     </values>
     <values>
         <field>Section_Name__c</field>
@@ -28,6 +28,6 @@
     </values>
     <values>
         <field>Type__c</field>
-        <value xsi:type="xsd:string">RightSide</value>
+        <value xsi:type="xsd:string">LeftSide</value>
     </values>
 </CustomMetadata>

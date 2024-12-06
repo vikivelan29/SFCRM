@@ -1,7 +1,7 @@
 <template>
 
     <template if:true={showSpinner}>
-        <lightning-spinner variant="brand" alternative-text="Loading" size="small"></lightning-spinner>
+        <lightning-spinner class="spinnerClass" variant="brand" alternative-text="Loading" size="small"></lightning-spinner>
     </template>
 
     <template if:false={hasError}>

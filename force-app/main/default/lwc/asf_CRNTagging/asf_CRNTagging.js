@@ -15,6 +15,7 @@ import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import WellnessBU from '@salesforce/label/c.Wellness_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
 
+
 // VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
 import CUSTOMERPROSPECTSEARCH from "./asf_CRNTagging.html";
 import PROSPECTCREATION from "./asf_ProspectTagging.html";
@@ -24,6 +25,9 @@ import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm'
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import createProspectAndUpdCase from '@salesforce/apex/ASF_CaseUIController.CreateProspectAndUpdateOnCase';
+import INSUFFICIENT_ACCESS_MSG from '@salesforce/label/c.Wellness_Insufficient_Access';//PR1030924-905
+import CASE_ACCESS_ERROR from '@salesforce/label/c.Wellness_CaseComment_add_Err_Msg';//PR1030924-905
+import ABML_BU from '@salesforce/label/c.ABML_BU'; //Added by EY
 // VIRENDRA - PROSPECT TAGGING IMPORTS ENDS HERE.
 
 export default class Asf_CRNTagging extends LightningElement {
@@ -66,7 +70,10 @@ export default class Asf_CRNTagging extends LightningElement {
     ]
     asstData;
     accData;
-
+    label = {
+        CASE_ACCESS_ERROR, //PR1030924-905
+        INSUFFICIENT_ACCESS_MSG //PR1030924-905
+    };
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
@@ -182,10 +189,9 @@ export default class Asf_CRNTagging extends LightningElement {
     handleAccAction(event) {
         this.isDisabledUpdateCaseButton = false;
         const row = event.detail.selectedRows;
-        this.selectedCustomerData = row[0];
         this.selectedCustomer = row[0].recordId;
         this.showLANForCustomer = false;
-        if(row[0].objectType == 'Customer'){
+        if(row[0].objectType == 'Customer' && this.loggedInUserBusinessUnit != ABML_BU){// Added by EY for ABML business unit
             // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
             this.showLANForCustomer = true;
         }
@@ -257,10 +263,12 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
                 })
                 .catch(error => {
-                    let getErrMsg = reduceErrors(error)[0]
-
-                    if(getErrMsg) {
-                        this.showError("error", "Error ", getErrMsg);
+                    let errorMessage = reduceErrors(error)[0];
+                    if(errorMessage) {
+                        if(errorMessage.indexOf(this.label.INSUFFICIENT_ACCESS_MSG) != -1){
+                            errorMessage = this.label.CASE_ACCESS_ERROR; //PR1030924-905
+                        }
+                        this.showError("error", "Error ", errorMessage);
                     } else {
                         const event = new ShowToastEvent({
                             title: 'Error',
@@ -460,6 +468,8 @@ export default class Asf_CRNTagging extends LightningElement {
     }
     handleBack(event){
         this.showProspectCreation = false;
+        this.dupeLead=[];
+        this.showDupeList=false;
     }
     showError(variant, title, error) {
         let errMsg = reduceErrors(error);

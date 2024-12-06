@@ -7,7 +7,7 @@
 *********************************************************/
 public with sharing class ABCL_EmailMessageHelper {
     
-    public static Set<String> originSet = new Set<String>{'ABHFL Email', 'ABFL Email','Payments Email','ABWM Email','ABFL WM CHAT','ABSLI Email','ABSLIG Email'}; //PR970457-91 Added 'ABFL Email' to execute the logic for ABFL        
+    public static Set<String> originSet = new Set<String>{'ABHFL Email', 'ABFL Email','Payments Email','ABWM Email','ABFL WM CHAT','ABSLI Email','ABSLIG Email','ABHI Email'}; //PR970457-91 Added 'ABFL Email' to execute the logic for ABFL        
         /****************************************************************************************************************
 * @LOB - ABHFL
 * @Function - ebotHandler
@@ -82,7 +82,6 @@ public with sharing class ABCL_EmailMessageHelper {
             email.Incoming == true && ((String.isBlank(email.Headers)|| !email.Headers.contains('In-Reply-To:')) ||
            (email.Headers != null && email.Headers.contains('In-Reply-To:') && email.ReplyToEmailMessageId == null )) &&
                 String.isBlank(EmailMessages.getRecordIdFromEmail(email.subject, '', email.textBody))){ // i.e. emailmessage doesn't have threading Id embedded
-
                 lEMessages.add(email);
             }
         }

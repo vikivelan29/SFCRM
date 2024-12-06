@@ -20,6 +20,6 @@
     <label>ABSLAMC MF UPUK PPD</label>
     <queue>ABSLAMC_MF_UPUK_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_UPUK_PPD_G</group>
     </sharedTo>
 </ListView>

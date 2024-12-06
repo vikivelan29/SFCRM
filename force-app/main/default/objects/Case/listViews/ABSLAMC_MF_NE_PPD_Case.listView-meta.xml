@@ -20,6 +20,6 @@
     <label>ABSLAMC MF NE PPD</label>
     <queue>ABSLAMC_MF_NE_PPD</queue>
     <sharedTo>
-        <allInternalUsers></allInternalUsers>
+        <group>ABSLAMC_MF_NE_PPD_G</group>
     </sharedTo>
 </ListView>

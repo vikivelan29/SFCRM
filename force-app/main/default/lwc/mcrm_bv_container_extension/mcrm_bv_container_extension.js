@@ -32,7 +32,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 	pageSize;
 	isError = false;
 	errorMessage = "";
-	isShowExtension = true;
+	isShowExtension = false;
 
 	// Internals
 	showBaseView = false;
@@ -122,32 +122,53 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 		);
 	}
 
+	clearExtenstion(){
+		this.tableData = [];
+		this.showBaseView = false;
+		this.showPreview=false;
+	}
+
 	handleMessage(message) {
 		console.log('***handleMessage:'+JSON.stringify(message));
-		this.isLoading = true;
 		if (this.dynTableExAPI == 'MCRM_ActiveDays' && message.name == 'MCRM_ActiveDayURL') {
+			this.isLoading = true;
 			if(message.payLoadType == 'showExtension'){
-				this.isShowExtension = message.payLoad.showExtension;
+				this.isShowExtension = (this.tableData && this.tableData.length > 0)?message.payLoad.showExtension:false;
+			}else if(message.payLoadType == 'clear'){
+				this.clearExtenstion();
 			}else{
+				this.isShowExtension = true;
 				this.getActiveDays(message.payLoad);
+				this.showBaseView = true;
+				this.showPreview=true;
 			}
+			this.isLoading = false;
 		} else if (this.dynTableExAPI == 'MCRM_GymNameLocation' && message.name == 'MCRM_Gym_Voucher') {
+			this.isLoading = true;
 			if(message.payLoadType == 'showExtension'){
-				this.isShowExtension = message.payLoad.showExtension;
+				this.isShowExtension = (this.tableData && this.tableData.length > 0)?message.payLoad.showExtension:false;
+			}else if(message.payLoadType == 'clear'){
+				this.clearExtenstion();
 			}else{
+				this.isShowExtension = true;
 				this.getGymNameLocation(message.payLoad);
+				this.showBaseView = true;
+				this.showPreview=true;
 			}
+			this.isLoading = false;
 		} else if (this.dynTableExAPI == 'MCRM_Rewards' && message.name == 'MCRM_Benefits'){
+			this.isLoading = true;
 			if(message.payLoadType == 'showExtension'){
-				this.isShowExtension = message.payLoad.showExtension;
+				this.isShowExtension = (this.tableData && this.tableData.length > 0)?message.payLoad.showExtension:false;
+			}else if(message.payLoadType == 'clear'){
+				this.clearExtenstion();
 			}else{
+				this.isShowExtension = true;
 				this.getRewards(message.payLoad);
+				this.showBaseView = true;
+				this.showPreview=true;
 			}
-		}
-		this.isLoading = false;
-		if(message.payLoadType != 'showExtension'){
-			this.showBaseView = true;
-			this.showPreview=true;
+			this.isLoading = false;
 		}
 	}
 	
@@ -170,7 +191,10 @@ export default class Mcrm_bv_container_extension extends LightningElement {
 				)
 			});
 		});
-		this.tableData = responseArray;
+		this.tableData = responseArray; // required to enable preview button
+		setTimeout(() => {
+			this.template.querySelector("c-abc_base_tableview").refreshTable(responseArray);
+		}, 200);
 	}
 
 	getGymNameLocation(message) {
@@ -311,7 +335,7 @@ export default class Mcrm_bv_container_extension extends LightningElement {
     }
 
 	get disablePreview(){
-		return this.tableData?.length == 0;
+		return this.tableData==undefined || this.tableData?.length == 0;
 	}
 
 	get alignDiv(){

@@ -154,14 +154,14 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Wellness Case Detail</label>
+    <label>Case Detail</label>
     <nameField>
         <displayFormat>WL-{0000}</displayFormat>
         <label>Wellness Case Detail Name</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Wellness Case Detail</pluralLabel>
+    <pluralLabel>Case Details</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

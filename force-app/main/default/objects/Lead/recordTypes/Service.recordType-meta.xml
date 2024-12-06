@@ -80,6 +80,14 @@
             <fullName>ABHI</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Wellness</fullName>
+            <default>false</default>
+        </values>
+		    <values>
+            <fullName>ABML</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Employment_Type__c</picklist>

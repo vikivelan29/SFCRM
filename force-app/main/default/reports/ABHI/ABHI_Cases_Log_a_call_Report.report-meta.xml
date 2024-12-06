@@ -60,7 +60,7 @@
             <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>Open</value>
-        </criteriaItems>
+        </criteriaItems> 
     </filter>
     <format>Tabular</format>
     <name>ABHI Cases Log a call Report</name>

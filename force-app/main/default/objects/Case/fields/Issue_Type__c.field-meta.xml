@@ -1088,10 +1088,205 @@
                 <label>Surrender value not process</label>
             </value>
             <value>
+                <fullName>Policy Bond</fullName>
+                <default>false</default>
+                <label>Policy Bond</label>
+            </value>
+            <value>
+                <fullName>Unregistered Email</fullName>
+                <default>false</default>
+                <label>Unregistered Email</label>
+            </value>
+            <value>
+                <fullName>Hoax Calls</fullName>
+                <default>false</default>
+                <label>Hoax Calls</label>
+            </value>
+            <value>
+                <fullName>Feedback</fullName>
+                <default>false</default>
+                <label>Feedback</label>
+            </value>
+            <value>
+                <fullName>Other LOB</fullName>
+                <default>false</default>
+                <label>Other LOB</label>
+            </value>
+            <value>
+                <fullName>Escalation Call back</fullName>
+                <default>false</default>
+                <label>Escalation Call back</label>
+            </value>
+            <value>
+                <fullName>Senior call back</fullName>
+                <default>false</default>
+                <label>Senior call back</label>
+            </value>
+            <value>
+                <fullName>Out calling -Query</fullName>
+                <default>false</default>
+                <label>Out calling -Query</label>
+            </value>
+            <value>
+                <fullName>Transfer call to other LOB</fullName>
+                <default>false</default>
+                <label>Transfer call to other LOB</label>
+            </value>
+            <value>
+                <fullName>Application not coded</fullName>
+                <default>false</default>
+                <label>Application not coded</label>
+            </value>
+            <value>
+                <fullName>Application Status</fullName>
+                <default>false</default>
+                <label>Application Status</label>
+            </value>
+            <value>
+                <fullName>Insurance related</fullName>
+                <default>false</default>
+                <label>Insurance related</label>
+            </value>
+            <value>
+                <fullName>Policy Bond /EIA related</fullName>
+                <default>false</default>
+                <label>Policy Bond /EIA related</label>
+            </value>
+            <value>
+                <fullName>Initial refund related</fullName>
+                <default>false</default>
+                <label>Initial refund related</label>
+            </value>
+            <value>
+                <fullName>Policy cancellation related</fullName>
+                <default>false</default>
+                <label>Policy cancellation related</label>
+            </value>
+            <value>
+                <fullName>Medical reports related</fullName>
+                <default>false</default>
+                <label>Medical reports related</label>
+            </value>
+            <value>
+                <fullName>Policy changes related</fullName>
+                <default>false</default>
+                <label>Policy changes related</label>
+            </value>
+            <value>
+                <fullName>Null &amp; void communication</fullName>
+                <default>false</default>
+                <label>Null &amp; void communication</label>
+            </value>
+            <value>
+                <fullName>Apology communication</fullName>
+                <default>false</default>
+                <label>Apology communication</label>
+            </value>
+            <value>
+                <fullName>Recovery communication</fullName>
+                <default>false</default>
+                <label>Recovery communication</label>
+            </value>
+            <value>
+                <fullName>Adhoc communication</fullName>
+                <default>false</default>
+                <label>Adhoc communication</label>
+            </value>
+            <value>
+                <fullName>Branch Co Address</fullName>
+                <default>false</default>
+                <label>Branch Co Address</label>
+            </value>
+            <value>
                 <fullName>Survival benefit not proceed/ Delay</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Survival benefit not proceed/ Delay</label>
+            </value>
+            <value>
+                <fullName>Refund status</fullName>
+                <default>false</default>
+                <label>Refund status</label>
+            </value>
+            <value>
+                <fullName>Reject Refund Status</fullName>
+                <default>false</default>
+                <label>Reject Refund Status</label>
+            </value>
+            <value>
+                <fullName>Bank details updation</fullName>
+                <default>false</default>
+                <label>Bank details updation</label>
+            </value>
+            <value>
+                <fullName>Policy status</fullName>
+                <default>false</default>
+                <label>Policy status</label>
+            </value>
+            <value>
+                <fullName>Pending requirements</fullName>
+                <default>false</default>
+                <label>Pending requirements</label>
+            </value>
+            <value>
+                <fullName>Clarification</fullName>
+                <default>false</default>
+                <label>Clarification</label>
+            </value>
+            <value>
+                <fullName>Holding Reply</fullName>
+                <default>false</default>
+                <label>Holding Reply</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Death Claim refund</fullName>
+                <default>false</default>
+                <label>Death Claim refund</label>
+            </value>
+            <value>
+                <fullName>Health claim related</fullName>
+                <default>false</default>
+                <label>Health claim related</label>
+            </value>
+            <value>
+                <fullName>Health policy</fullName>
+                <default>false</default>
+                <label>Health policy</label>
+            </value>
+            <value>
+                <fullName>GST invoice related</fullName>
+                <default>false</default>
+                <label>GST invoice related</label>
+            </value>
+            <value>
+                <fullName>Communication not received</fullName>
+                <default>false</default>
+                <label>Communication not received</label>
+            </value>
+            <value>
+                <fullName>Line Disconnect</fullName>
+                <default>false</default>
+                <label>Line Disconnect</label>
+            </value>
+            <value>
+                <fullName>Line not Clear</fullName>
+                <default>false</default>
+                <label>Line not Clear</label>
+            </value>
+            <value>
+                <fullName>Junk</fullName>
+                <default>false</default>
+                <label>Junk</label>
+            </value>
+            <value>
+                <fullName>Policy related</fullName>
+                <default>false</default>
+                <label>Policy related</label>
             </value>
         </valueSetDefinition>
     </valueSet>

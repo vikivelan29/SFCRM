@@ -71,6 +71,7 @@ export default class Abhi_pssReportCmp extends LightningElement {
                 });
                 this.showRecords=true;
                 this.isLoading=false;
+                this.displayError=false;  
             }
             else{
                 this.message = result.Message;
