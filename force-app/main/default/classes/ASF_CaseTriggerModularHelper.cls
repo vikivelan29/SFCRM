@@ -2,8 +2,8 @@
 * @description       : 
  * @author            : rsinghnagar@salesforce.com
 * @group             : 
-* @last modified on  : 10-10-2024
-* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @last modified on  : 12-06-2024
+* @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
  * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
@@ -251,8 +251,10 @@ blankSourcePresent = true;
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
-                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
-                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
+                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null){
+                    // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
+                    String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
+                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
                 }else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';
@@ -395,7 +397,7 @@ blankSourcePresent = true;
     public static void createCaseExtnRecordForBulk(List<Case> newList) {
         
         
-        
+                
         Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
         Integer index = 0;
         for(Case caseRec : newList){
@@ -1046,8 +1048,8 @@ blankSourcePresent = true;
                             }
                             addlDataFromStageMovementMethods.get(caseRec.Id).tasksToInsert.add(taskRec);
                         }
-                    }
-                }                
+                    }                
+                }
                     addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
                     addlDataFromStageMovementMethods.get(caseRec.Id).approvalsToInsert = dataWrapper.get(caseRec.Id).approvalsToInsert;
                     addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
