@@ -112,10 +112,10 @@ public with sharing class ABHFL_CaseIntegrationHelper {
                     caseRecord.MoveToNext__c = true;
                     update caseRecord;
                 }*/
-               /* if(ebotResponse.ISREGISTRED == 'No' && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
+                if(ebotResponse.ISREGISTRED == 'No' && !caseRec.Is_Duplicate__c && caseRec.Stage__c !='Duplicate'){
                     caseRecord.Stage__c ='Resolved';
                     update caseRecord;
-                }*/
+                }
           validateEbotResponseAndAutoclosed(caseRec, ebotResponse); //it will validate conditions to proceed for Auto resolved cases.Added by Yogesh
                 if(ebotResponse.EBOTLAN != null && ebotResponse.EBOTLAN.size() > 0){
                     createMultipleCaseWithLAN(caseRecord.Id,caseDetails.Id,lanWithAssetIdMap,ebotResponse);
