@@ -15,7 +15,7 @@ public with sharing class ABML_ReportsIntegration{
         Case caseRecord = new Case();
         
         if(caseRecId != null){
-            caseRecord = [SELECT Id, Business_Unit__c, Mapped_Email__c, Client_Code__c FROM Case WHERE Id =: caseRecId LIMIT 1];
+            caseRecord = [SELECT Id, Business_Unit__c, Client_Code__c FROM Case WHERE Id =: caseRecId LIMIT 1];
         }
         
         String clientCode = caseRecord.Client_Code__c != null ? caseRecord.Client_Code__c : '';
@@ -104,8 +104,8 @@ public with sharing class ABML_ReportsIntegration{
         }        
    
         if(!caseRecordsIds.isEmpty()){
-            for(Case objCase : [Select Id, Business_Unit__c, Mapped_Email__c, AccountId, Customer_name_formula__c from Case where ID IN : caseRecordsIds]){
-                if(objCase.Business_Unit__c == 'ABML' && objCase.Mapped_Email__c != null){
+            for(Case objCase : [Select Id, Business_Unit__c, AccountId, Customer_name_formula__c from Case where ID IN : caseRecordsIds]){
+                if(objCase.Business_Unit__c == 'ABML'){
                     caseRecordsMap.put(objCase.Id , objCase);
                     accountRecords.add(objCase.AccountId);
                 }
@@ -140,7 +140,7 @@ public with sharing class ABML_ReportsIntegration{
                     // Get the associated case record
                     Case caseRecord = caseRecordsMap.get(objAsfCaseRecord.Case__c);                    
                     // Check if the case record and email are not null
-                    if (caseRecord != null && caseRecord.Mapped_Email__c != null) {
+                    if (caseRecord != null) {
                         email.setOrgWideEmailAddressId(orgWideEmail.Id);
                         if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Statement of Accounts') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('SOA')){
                             email.setTemplateId(templateId1);

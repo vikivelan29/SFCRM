@@ -227,6 +227,11 @@
         <field>ABML_Bank__c.ABML_Bank_Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>ABML_Bank__c.Bank_Unique__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_Bank__c.ABML_Cheque_Name__c</field>
@@ -523,7 +528,11 @@
         <field>ABML_DP__c.ABML_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ABML_DP__c.DP_Unique__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_LOA__c.ABML_LOA_AP__c</field>
@@ -552,6 +561,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_LOA__c.ABML_Parent_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>ABML_LOA__c.LOA_Unique__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
