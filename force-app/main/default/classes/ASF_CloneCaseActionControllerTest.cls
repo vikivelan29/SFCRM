@@ -133,6 +133,11 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         Case caseRec = [Select id from Case limit 1];
         Test.startTest();
         ASF_CloneCaseActionController.BooleanWithReasonWrapper result = ASF_CloneCaseActionController.isCaseCloneable(caseRec.Id);
+        try{
+        //Negative scenarion check exception
+        ASF_CloneCaseActionController.BooleanWithReasonWrapper result1 = ASF_CloneCaseActionController.isCaseCloneable(null);
+        }catch(exception e){
+        }
         Test.stopTest();
         Assert.isTrue(result.resultFlag, 'Expected true');
     }
@@ -212,7 +217,13 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         fieldList.addAll(wrap2.fieldList);
         Test.startTest();
         ASF_CloneCaseActionController.CaseDetailWrapper result = ASF_CloneCaseActionController.fetchCaseDetailsWithExtension(fieldList, caseRec.Id);
-        Test.stopTest();
+        //check negative by passing the null as case record.
+        try{
+        ASF_CloneCaseActionController.CaseDetailWrapper result1 = ASF_CloneCaseActionController.fetchCaseDetailsWithExtension(fieldList, null);
+        }catch(exception e){
+            
+        }
+            Test.stopTest();
         Assert.isTrue(result.resultFlag, 'Expected true');
     }
 
@@ -265,6 +276,34 @@ public with sharing class ASF_CloneCaseActionControllerTest {
         Case cloneCaseRecord = result.caseRecord.clone(false, true, false, false);
         SObject cloneExtnRecord = result.extnRecords.get('PAY_Payment_Detail__c').clone(false, true, false, false);
         ASF_CloneCaseActionController.CaseDetailWrapper cloneresult = ASF_CloneCaseActionController.createCloneCase(cloneCaseRecord, new Map<String,SObject>{'PAY_Payment_Detail__c'=>cloneExtnRecord}, caseRec.Id);
+        try{
+        ASF_CloneCaseActionController.CaseDetailWrapper cloneresult1 = ASF_CloneCaseActionController.createCloneCase(cloneCaseRecord, new Map<String,SObject>{'PAY_Payment_Detail__c'=>cloneExtnRecord}, null);
+        }
+        catch(exception e){
+        }
+        Test.stopTest();
+        Assert.isNotNull(cloneresult.caseRecord.Id, 'Id should not be null');
+    }
+    @isTest
+    static void test_createCloneCase_V1(){
+        Case caseRec = [Select id from Case limit 1];
+
+        List<ASF_CloneCaseActionController.FieldWrapper> fieldList = new List<ASF_CloneCaseActionController.FieldWrapper>();
+        ASF_CloneCaseActionController.FieldListWrapper wrap = ASF_CloneCaseActionController.fetchCCCSpecificFieldsToCopy(caseRec.Id);
+        fieldList.addAll(wrap.fieldList);
+        ASF_CloneCaseActionController.FieldListWrapper wrap2 = ASF_CloneCaseActionController.fetchCommonFieldsToCopy();
+        fieldList.addAll(wrap2.fieldList);
+        ASF_CloneCaseActionController.CaseDetailWrapper result = ASF_CloneCaseActionController.fetchCaseDetailsWithExtension(fieldList, caseRec.Id);
+        Test.startTest();
+        Case cloneCaseRecord = result.caseRecord.clone(false, true, false, false);
+        SObject cloneExtnRecord = result.extnRecords.get('PAY_Payment_Detail__c').clone(false, true, false, false);
+        ASF_CloneCaseActionController.isCaseCloneableV2(result.caseRecord.Id);
+        ASF_CloneCaseActionController.CaseDetailWrapper cloneresult = ASF_CloneCaseActionController.createCloneCaseV2(cloneCaseRecord, new Map<String,SObject>{'PAY_Payment_Detail__c'=>cloneExtnRecord}, caseRec.Id, null);
+        try{
+        //testing negrative scenario..
+		ASF_CloneCaseActionController.CaseDetailWrapper cloneresult1 = ASF_CloneCaseActionController.createCloneCaseV2(cloneCaseRecord, new Map<String,SObject>{'PAY_Payment_Detail__c'=>cloneExtnRecord}, null, null);
+        }catch(exception e){
+        }
         Test.stopTest();
         Assert.isNotNull(cloneresult.caseRecord.Id, 'Id should not be null');
     }

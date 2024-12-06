@@ -61,4 +61,9 @@
         <default>false</default>
         <label>ABSLIG Email</label>
     </standardValue>
-</StandardValueSet>
+     <standardValue>
+        <fullName>ABSLAMC Email</fullName>
+        <default>false</default>
+        <label>ABSLAMC Email</label>
+    </standardValue>
+   </StandardValueSet>

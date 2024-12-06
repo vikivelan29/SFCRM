@@ -184,16 +184,22 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHFL_Account_Record_Page</content>
         <formFactor>Large</formFactor>
-        <type>Default</type>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHFL_Account_Record_Page</content>
         <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
@@ -227,8 +233,21 @@
     <compactLayoutAssignment>Account_Compact_Layout</compactLayoutAssignment>
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>true</enableFeeds>
-    <enableHistory>false</enableHistory>
+    <enableHistory>true</enableHistory>
     <externalSharingModel>Private</externalSharingModel>
+    
+    
+    <profileSearchLayouts>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>PC_TITLE</fields>
+        <fields>ACCOUNT.PHONE1</fields>
+        <fields>Client_Code__c</fields>
+        <fields>Line_of_Business__c</fields>
+        <fields>PC_EMAIL</fields>
+        <fields>State__c</fields>
+        <fields>PC_BIRTHDATE</fields>
+        <profileName>ABSLAMC Base User</profileName>
+    </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>ACCOUNT.NAME</fields>
         <fields>PC_TITLE</fields>
@@ -240,6 +259,7 @@
         <profileName>ABHFL Base Profile</profileName>
     </profileSearchLayouts>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.ADDRESS1_CITY</customTabListAdditionalFields>
