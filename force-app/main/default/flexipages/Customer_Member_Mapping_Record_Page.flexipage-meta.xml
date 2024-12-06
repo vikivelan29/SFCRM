@@ -131,11 +131,10 @@
                 <identifier>RecordCumulativeBonus__cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                <name>uiBehavior</name>
-        <itemInstances>
+        <name>Facet-e25d4426-f623-4803-bc78-fd389a4a700d</name>
+        <type>Facet</type>
+        </flexiPageRegions>
+        <flexiPageRegions>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
