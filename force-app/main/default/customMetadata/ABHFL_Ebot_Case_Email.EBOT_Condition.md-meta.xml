@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>EBOT Condition</label>
+    <protected>false</protected>
+    <values>
+        <field>CONFIDENCESCORE__c</field>
+        <value xsi:type="xsd:string">0.60</value>
+    </values>
+    <values>
+        <field>ISATTACHMENT__c</field>
+        <value xsi:type="xsd:string">No</value>
+    </values>
+    <values>
+        <field>ISREGISTRED__c</field>
+        <value xsi:type="xsd:string">Yes</value>
+    </values>
+    <values>
+        <field>ISREGULATOR__c</field>
+        <value xsi:type="xsd:string">No</value>
+    </values>
+    <values>
+        <field>ISREPEAT__c</field>
+        <value xsi:type="xsd:string">No</value>
+    </values>
+    <values>
+        <field>ISSMT__c</field>
+        <value xsi:type="xsd:string">No</value>
+    </values>
+    <values>
+        <field>ToAddress__c</field>
+        <value xsi:type="xsd:string">care.housingfinance@adityabirlacapital.com</value>
+    </values>
+</CustomMetadata>
