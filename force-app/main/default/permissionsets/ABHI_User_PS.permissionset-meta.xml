@@ -2220,11 +2220,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Riders_Opted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Customer_Member_Mapping__c.SumInsured__c</field>
         <readable>true</readable>
     </fieldPermissions>
