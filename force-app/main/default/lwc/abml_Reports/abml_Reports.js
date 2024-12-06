@@ -64,7 +64,7 @@ export default class Abml_Reports extends LightningElement {
         this.startDate = event.target.value;
         console.log('this.startDate--:',this.startDate);
 
-        if(this.startDate < this.finacialStart){
+        if(this.startDate < this.finacialStart || this.startDate > this.financialEnd){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The start date for the report must fall within the selected financial year date range',
@@ -77,7 +77,7 @@ export default class Abml_Reports extends LightningElement {
 
     endChange(event){
         this.endDate = event.target.value;
-        if(this.endDate > this.financialEnd){
+        if(this.endDate > this.financialEnd || this.endDate < this.finacialStart){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The end date for the report must fall within the selected financial year date range',
@@ -162,7 +162,7 @@ export default class Abml_Reports extends LightningElement {
                 theme: 'warning', 
                 label: 'Warning!',
             });
-        }else if(this.startDate < this.finacialStart){
+        }else if(this.startDate < this.finacialStart || this.startDate > this.financialEnd){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The start date for the report must fall within the selected financial year date range',
@@ -170,10 +170,16 @@ export default class Abml_Reports extends LightningElement {
                 label: 'Warning!',
             });
             //this.startDate = this.finacialStart;
-        } else if(this.endDate > this.financialEnd){
+        } else if(this.endDate > this.financialEnd || this.endDate < this.finacialStart){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The end date for the report must fall within the selected financial year date range',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        } else if(this.startDate > this.endDate){
+            LightningAlert.open({
+                message: 'The start date cannot be greater than end date',
                 theme: 'warning', 
                 label: 'Warning!',
             });
