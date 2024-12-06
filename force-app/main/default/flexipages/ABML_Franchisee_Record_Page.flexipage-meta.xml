@@ -105,8 +105,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Contact_Category__c</fieldItem>
-                <identifier>RecordABML_Contact_Category_cField</identifier>
+                <fieldItem>Record.Active_Date__c</fieldItem>
+                <identifier>RecordActive_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -115,8 +115,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Activation_Date__c</fieldItem>
-                <identifier>RecordABML_Activation_Date__cField</identifier>
+                <fieldItem>Record.ABML_Contact_Category__c</fieldItem>
+                <identifier>RecordABML_Contact_Category_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
