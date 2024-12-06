@@ -31,8 +31,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Mobile__pc</fieldItem>
-                <identifier>RecordMobile_pcField</identifier>
+                <fieldItem>Record.PersonMobilePhone</fieldItem>
+                <identifier>RecordPersonMobilePhoneField3</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
