@@ -2220,11 +2220,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Riders_Opted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Customer_Member_Mapping__c.SumInsured__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4359,11 +4354,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Rider_Opted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Notes_from_Sprinklr__c</field>
         <readable>true</readable>
@@ -4416,6 +4406,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Policy_Nominee__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.SubType_Text_1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.SubType_Text_2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
