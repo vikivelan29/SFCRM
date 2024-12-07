@@ -7,7 +7,7 @@
     </folderShares>
     <folderShares>
         <accessLevel>View</accessLevel>
-        <sharedTo>RNWL_Calling_Unit_Manager</sharedTo>
+        <sharedTo>RNWL_Team_Leader_ATS</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
     <folderShares>
@@ -17,8 +17,8 @@
     </folderShares>
     <folderShares>
         <accessLevel>View</accessLevel>
-        <sharedTo>RNWL_Reporting_Manager</sharedTo>
+        <sharedTo>RNWL_Team_Leader_In_House</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
-    <name>ABHI - Renewals Center Manager Reports</name>
+    <name>ABHI - Renewals Team Leader Dashboards</name>
 </ReportFolder>

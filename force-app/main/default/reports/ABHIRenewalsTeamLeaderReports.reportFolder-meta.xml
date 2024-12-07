@@ -12,6 +12,11 @@
     </folderShares>
     <folderShares>
         <accessLevel>View</accessLevel>
+        <sharedTo>RNWL_Team_Leader_ATS</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
         <sharedTo>RNWL_Admin</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
@@ -20,5 +25,10 @@
         <sharedTo>RNWL_Reporting_Manager</sharedTo>
         <sharedToType>Role</sharedToType>
     </folderShares>
-    <name>ABHI - Renewals Center Manager Reports</name>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>RNWL_Team_Leader_In_House</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <name>ABHI - Renewals Team Leader Reports</name>
 </ReportFolder>
