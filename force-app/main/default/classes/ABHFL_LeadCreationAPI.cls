@@ -1,105 +1,101 @@
 /*********************************************************
-*Class        :  ABHFL_LeadCreationAPI 
-*Author       :  Vishal Gangwar
-*Created Date :  25/01/2024
-*Last Modified:  
-*Description  :  Sending Lead To External Lead Management System
-*********************************************************/
+ *Class        :  ABHFL_LeadCreationAPI 
+ *Author       :  Vishal Gangwar
+ *Created Date :  25/01/2024
+ *Last Modified:  
+ *Description  :  Sending Lead To External Lead Management System
+ *********************************************************/
 
 public with sharing class ABHFL_LeadCreationAPI {
-    
+
     /****************************************************************************************************************
-    * @LOB - ABHFL
-    * @Function - sendLead
-    * @param leadId - Lead Id getting from abhfl_SendLeadToCRM Lwc Component.
-    * @return - string
-    * @description - Invoked from the abhfl_SendLeadToCRM Lwc components to send lead to External Lead management system
-    *****************************************************************************************************************/
+     * @LOB - ABHFL
+     * @Function - sendLead
+     * @param leadId - Lead Id getting from abhfl_SendLeadToCRM Lwc Component.
+     * @return - string
+     * @description - Invoked from the abhfl_SendLeadToCRM Lwc components to send lead to External Lead management system
+     *****************************************************************************************************************/
     @auraEnabled
-    public static string sendLead(Id leadId, boolean executingFromTrigger){
-        String message; 
+    public static string sendLead(Id leadId, boolean executingFromTrigger) {
+        String message;
         Lead leadObj = new Lead();
 
-        try{
+        try {
             leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, ABHFL_Prospect_Type__c, External_Lead_ID__c,
-                                    MobilePhone, PANNO__c, Product__c, Prospect_Type__c,API_Response_Message__c, Preferred_Communication__c,
-                                    RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
-                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c, Source_Code__c, Campaign_Name__c, State__c , ABHFL_Employee_Number_Owner__c, Existing_Customer__c, Is_Property_Identified__c, Distributor_Code_Text__c, Country_Code__c, LAT__c, LOG__c, Street__c, GeocodeAccuracy__c, Property_Address_City__c, Property_Address_CountryCode__c, Property_Address_PostalCode__c, Property_Address_StateCode__c 
-                                FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
-        }catch(Exception e){
-        }
-        If(leadObj != null && leadObj.API_Response_Message__c != 'Created Lead Successfully'){
+                MobilePhone, PANNO__c, Product__c, Prospect_Type__c, API_Response_Message__c, Preferred_Communication__c,
+                RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c, Create_Lead_To_CRM_Status__c,
+                LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c, Source_Code__c,Lead_Stage__c, Campaign_Name__c, State__c , ABHFL_Employee_Number_Owner__c, Existing_Customer__c, Is_Property_Identified__c, Distributor_Code_Text__c, Country_Code__c, LAT__c, LOG__c, Street__c, GeocodeAccuracy__c, Property_Address_City__c, Property_Address_CountryCode__c, Property_Address_PostalCode__c, Property_Address_StateCode__c 
+                FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'
+            ];
+        } catch (Exception e) {}
+        If(leadObj != null && leadObj.API_Response_Message__c != 'Created Lead Successfully') {
             PayloadWrapper payloadWrp = new PayloadWrapper(leadObj);
             String payload = JSON.serialize(payloadWrp);
-            
+
             ResponseWrapper responseWrapperObj = new ResponseWrapper();
-            ABCL_IntegrationCallout.IntegrationResponseWrapper leadCreationWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.SEND_LEAD_TO_CRM,payload,null);
-            if(!Test.isRunningTest()){
-                if(String.isNotBlank(leadCreationWrp.responseBody)){                      //  check added by Vikas Kore to restrict the null values, as part of INC000000034556 ticket.
- 
+            ABCL_IntegrationCallout.IntegrationResponseWrapper leadCreationWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.SEND_LEAD_TO_CRM, payload, null);
+            if (!Test.isRunningTest()) {
                 responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
-				}
-               // responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
             }
             leadObj.API_Response_Message__c = '';
             leadObj.Create_Lead_To_CRM_Status__c = '';
             leadObj.API_Error_Code__c = '';
-            leadObj.API_Error_Fields__c = ''; 
-            if(responseWrapperObj.Status == '200'){
+            leadObj.API_Error_Fields__c = '';
+            if (responseWrapperObj.Status == '200') {
                 leadObj.API_Response_Message__c = responseWrapperObj.Message;
                 leadObj.Create_Lead_To_CRM_Status__c = 'Success';
                 leadObj.Sales_Lead_Id__c = responseWrapperObj.id;
                 message = 'Send Lead to CRM is Successful';
-                try{
-                    update leadObj;    
-                }catch(Exception e){
-                    system.debug('Error=='+e.getMessage());
+                try {
+                    update leadObj;
+                } catch (Exception e) {
+                    system.debug('Error==' + e.getMessage());
                 }
-            }else{
-                    message = responseWrapperObj.Message;
-                if(responseWrapperObj.Message!=null){
-                    leadObj.API_Response_Message__c = responseWrapperObj.Message.substring(0,Math.min(responseWrapperObj.Message.length(), 255));
+            } else {
+                message = responseWrapperObj.Message;
+                if (responseWrapperObj.Message != null) {
+                    leadObj.API_Response_Message__c = responseWrapperObj.Message.substring(0, Math.min(responseWrapperObj.Message.length(), 255));
                 }
-                    
-                    leadObj.Create_Lead_To_CRM_Status__c = responseWrapperObj.status;
-                    leadObj.API_Error_Code__c = responseWrapperObj.ErrorCode;
-                    /*if(responseWrapperObj.Fileds != null && responseWrapperObj.Fileds.size() > 0){
-                        leadObj.API_Error_Fields__c = string.join(responseWrapperObj.Fileds,',');
-                    }*/
-                    try{
-                    	update leadObj;    
-                    }catch(Exception e){
-                        system.debug('Error=='+e.getMessage());
-                    }
-                	
-					
-                	if(!Test.isRunningTest() && !executingFromTrigger){
-                        //throw new AuraHandledException('Send Lead to CRM Failed.');
-                        return 'Send Lead to CRM Failed.Please check CRM Status Section for more Information.';
-                    }
+
+                leadObj.Create_Lead_To_CRM_Status__c = responseWrapperObj.status;
+                leadObj.API_Error_Code__c = responseWrapperObj.ErrorCode;
+                /*if(responseWrapperObj.Fileds != null && responseWrapperObj.Fileds.size() > 0){
+                    leadObj.API_Error_Fields__c = string.join(responseWrapperObj.Fileds,',');
+                }*/
+                try {
+                    update leadObj;
+                } catch (Exception e) {
+                    system.debug('Error==' + e.getMessage());
+                }
+
+
+                if (!Test.isRunningTest() && !executingFromTrigger) {
+                    //throw new AuraHandledException('Send Lead to CRM Failed.');
+                    return 'Send Lead to CRM Failed.Please check CRM Status Section for more Information.';
+                }
             }
-            
+
             /*try{
                 UPDATE leadObj;
             }catch(Exception e){
                 system.debug('Error=='+e.getMessage());
             }*/
-        }else{
+        } else {
             message = 'Lead is already created Successfully';
         }
         return message;
     }
-    
-    @future (callout=true)
-    public static void executeSendLeadToCRM(set<Id> leadIdSet){
-        List<Id> leadIdList = new List<Id>();
+
+    @future(callout = true)
+    public static void executeSendLeadToCRM(set < Id > leadIdSet) {
+        List < Id > leadIdList = new List < Id > ();
         leadIdList.addAll(leadIdSet);
-        if(leadIdList.size() > 0){
-        sendLead(leadIdList[0], true);
+        if (leadIdList.size() > 0) {
+            sendLead(leadIdList[0], true);
 
         }
     }
-    
+
     /*private static boolean checkConditions(Lead leadObj){
         if(leadObj.Product__c == null || leadObj.ABHFL_Prospect_Type__c == null || leadObj.LeadSource == null || 
            leadObj.LeadSource == null || leadObj.Sub_Source__c == null || leadObj.MobilePhone == null || 
@@ -121,7 +117,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         
         return true;
     }*/
-    
+
     public class PayloadWrapper {
         public String Company_Name;
         public String Email_ID;
@@ -145,8 +141,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         public String RecordType;
         //public string distributerName;
         public string SPOC_Name;
-
-        // Newly added parameters by Yogesh(EY) as requested by Business
+        // Newly added parameters by Yogesh(EY)
         public string Lead_Stage;
         public string Source_Code;
         public string Campaign_Name;
@@ -164,7 +159,7 @@ public with sharing class ABHFL_LeadCreationAPI {
         public string Property_Address_CountryCode;
         public string Property_Address_PostalCode;
         public string Property_Address_StateCode;
-    
+
         // Constructor to map Lead fields to PayloadWrapper fields
         public PayloadWrapper(Lead leadObj) {
             this.Company_Name = leadObj.Company;
@@ -185,7 +180,7 @@ public with sharing class ABHFL_LeadCreationAPI {
             this.Sub_Variant = ABHFL_Constants.SUB_VARIANT;
             this.Variant = ABHFL_Constants.VARIANT;
             this.RecordType = ABHFL_Constants.EXTERNAL_RECORD_TYPE;
-           
+
             //this.distributerName = leadObj.Distributer_Name__c;
             /*Ishan - 14/05/2024
             Commenting the below code as ABHFL Gateway team needs First Name and Last Name 
@@ -200,9 +195,8 @@ public with sharing class ABHFL_LeadCreationAPI {
             }*/
 
             this.SPOC_Name = leadObj.FirstName + ' ' + leadObj.LastName;
-
-           //This parameters are requested by business in lead API
-           // Added by Yogesh(EY)
+            //Added by Yogesh(EY)
+            //This parameters are requested by business in lead API
             this.Lead_Stage = leadObj.Lead_Stage__c;
             this.Source_Code = leadObj.Source_Code__c;
             this.Campaign_Name = leadObj.Campaign_Name__c;
@@ -220,17 +214,19 @@ public with sharing class ABHFL_LeadCreationAPI {
             this.Property_Address_CountryCode = leadObj.Property_Address_CountryCode__c;
             this.Property_Address_PostalCode = leadObj.Property_Address_PostalCode__c;
             this.Property_Address_StateCode = leadObj.Property_Address_StateCode__c;
+
         }
     }
 
-    
-    public class ResponseWrapper{
+
+    public class ResponseWrapper {
         public String ErrorCode;
         public String Status;
         public String Message;
         public String id;
-        public List<String> Fileds;
-        
+        //public boolean success;
+        public List < String > Fileds;
+
         public ResponseWrapper parse(String json) {
             return (ResponseWrapper) System.JSON.deserialize(json, ResponseWrapper.class);
         }
