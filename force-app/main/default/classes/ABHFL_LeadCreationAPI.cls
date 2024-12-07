@@ -24,7 +24,7 @@ public with sharing class ABHFL_LeadCreationAPI {
             leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, ABHFL_Prospect_Type__c, External_Lead_ID__c,
                                     MobilePhone, PANNO__c, Product__c, Prospect_Type__c,API_Response_Message__c, Preferred_Communication__c,
                                     RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
-                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c, Source_Code__c,Lead_Stage__c, Campaign_Name__c, State__c , ABHFL_Employee_Number_Owner__c, Existing_Customer__c, Is_Property_Identified__c, Distributor_Code_Text__c, Country_Code__c, LAT__c, LOG__c, Street__c, GeocodeAccuracy__c, Property_Address_City__c, Property_Address_CountryCode__c, Property_Address_PostalCode__c, Property_Address_StateCode__c 
+                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c,Lead_Stage__c,Source_Code__c, Campaign_Name__c, State__c , ABHFL_Employee_Number_Owner__c, Existing_Customer__c, Is_Property_Identified__c, Distributor_Code_Text__c, Country_Code__c, LAT__c, LOG__c, Street__c, GeocodeAccuracy__c, Property_Address_City__c, Property_Address_CountryCode__c, Property_Address_PostalCode__c, Property_Address_StateCode__c
                                 FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
         }catch(Exception e){
         }
@@ -35,11 +35,7 @@ public with sharing class ABHFL_LeadCreationAPI {
             ResponseWrapper responseWrapperObj = new ResponseWrapper();
             ABCL_IntegrationCallout.IntegrationResponseWrapper leadCreationWrp = ABCL_IntegrationCallout.executeCallout(ABHFL_Constants.SEND_LEAD_TO_CRM,payload,null);
             if(!Test.isRunningTest()){
-                if(String.isNotBlank(leadCreationWrp.responseBody)){                      //  check added by Vikas Kore to restrict the null values, as part of INC000000034556 ticket.
- 
                 responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
-				}
-               // responseWrapperObj = responseWrapperObj.parse(leadCreationWrp.responseBody);
             }
             leadObj.API_Response_Message__c = '';
             leadObj.Create_Lead_To_CRM_Status__c = '';
@@ -200,8 +196,7 @@ public with sharing class ABHFL_LeadCreationAPI {
             }*/
 
             this.SPOC_Name = leadObj.FirstName + ' ' + leadObj.LastName;
-
-           //This parameters are requested by business in lead API
+            //This parameters are requested by business in lead API
            // Added by Yogesh(EY)
             this.Lead_Stage = leadObj.Lead_Stage__c;
             this.Source_Code = leadObj.Source_Code__c;
