@@ -42,6 +42,7 @@ export default class Asf_IntegrationsPanel extends LightningElement {
     isModalOpen;
     selectedAction;
     _wiredCaseIntegrations;
+    componentConstructor;
 
     @wire(getRecord, {
         recordId: "$recordId",
@@ -65,6 +66,7 @@ export default class Asf_IntegrationsPanel extends LightningElement {
     wiredIntegrationsList({ error, data }) {
         if (data) {
           this.allIntegrations = data;
+          debugger;
           this.allIntExtIds = this.allIntegrations.map((intRec) => intRec.External_Id__c);
         } else if (error) {
           
@@ -92,7 +94,8 @@ export default class Asf_IntegrationsPanel extends LightningElement {
                 class:caseInt.Status__c == 'Pending'?'pendingBtn':(caseInt.Status__c == 'Success'?'successBtn':'errorBtn'),
                 isSuccess:caseInt.Status__c == 'Success',
                 isFailure:caseInt.Status__c == 'Failure',
-                isPending:caseInt.Status__c == 'Pending'
+                isPending:caseInt.Status__c == 'Pending',
+                uiComponent:int.UI_Component__c
               })
             }
             else{
@@ -104,7 +107,8 @@ export default class Asf_IntegrationsPanel extends LightningElement {
                 type:int.Type__c,
                 icon:'utility:ban',
                 class:'notStartedBtn',
-                isNotStarted:true
+                isNotStarted:true,
+                uiComponent:int.UI_Component__c
               })
             }
           })
@@ -135,16 +139,29 @@ export default class Asf_IntegrationsPanel extends LightningElement {
     closeModal() {
       // to close modal set isModalOpen value as false
       this.isModalOpen = false;
+      this.selectedAction = undefined;
     }
 
     get areActionsPresent(){
       return (this.allIntegrations && this.allIntegrations.length);
     }
-
+    get isUIActionSelected(){
+      return this.selectedAction && this.selectedAction.type == 'UI Action';
+    }
     actionSelected(event){
       let intId = event.target.dataset.id;
       this.selectedAction = this.allActions.find((el) => el.id == intId);
+      this.loadDynamicUIAction();
       this.openModal();
+    }
+    async loadDynamicUIAction(){
+      if(this.isUIActionSelected && this.selectedAction.uiComponent){
+        const { default: ctor } = await import("c/" + this.selectedAction.uiComponent)
+        .catch((err) => console.log("loadDynamicUIAction Error importing component", JSON.stringify(err)));
+        this.componentConstructor = ctor;
+      }else{
+        //this.showMessage('error', 'Error while running Integration', 'No screen specified for this action, contact system administrator');
+      }
     }
 
     sendRefreshEvent(){
@@ -167,6 +184,7 @@ export default class Asf_IntegrationsPanel extends LightningElement {
     submit(){
       // Find Int Record
       let selectedInt = this.allIntegrations.find((el) => el.Id == this.selectedAction.id);
+      debugger;
       
       if(selectedInt){
         runIntegration({integ:selectedInt, caseRec:this.caseRecord})

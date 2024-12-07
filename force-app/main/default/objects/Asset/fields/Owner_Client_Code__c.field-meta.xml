@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Owner_Client_Code__c</fullName>
+    <description>ABSLI : 21 May 2024 - Created for ABSLI Asset Data Model requirement etc</description>
+    <externalId>false</externalId>
+    <label>Owner Client Code</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

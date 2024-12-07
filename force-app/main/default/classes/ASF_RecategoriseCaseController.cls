@@ -22,10 +22,18 @@ public with sharing class ASF_RecategoriseCaseController {
         ASF_CreateCaseWithTypeController.CaseDetailsWrapper originalList = ASF_CreateCaseWithTypeController.getAccountDataByCustomerType(keyword,asssetProductType,isasset,accRecordType,assetLOB);
         List<ASF_Case_Category_Config__c> filteredCCCList = new List<ASF_Case_Category_Config__c>();
         for(ASF_Case_Category_Config__c ccc : originalList.lstCCCrecords){
-            if (ccc.CCC_External_Id__c != currentCCCId ){
-                filteredCCCList.add(ccc);
+            if(ccc.Business_Unit__c == ASF_Constants.ABSLI_BU){
+                if(ccc.CCC_External_Id__c != currentCCCId && (ccc.Nature__c == 'Complaint' || ccc.Nature__c == 'Query')){
+                    filteredCCCList.add(ccc);
+                }
+                else if(ccc.CCC_External_Id__c == currentCCCId && ccc.Allowed_Issue_Types__c != null && (ccc.Nature__c == 'Complaint' || ccc.Nature__c == 'Query')){
+                    filteredCCCList.add(ccc);
+                }
+            }else{
+                if(ccc.CCC_External_Id__c != currentCCCId){
+                    filteredCCCList.add(ccc);
+                }
             }
-
         }
         /* IF Filtered List is not having any record, show the ErrorMessage e.g. No Records found for the selected search.
          */
@@ -80,6 +88,7 @@ public with sharing class ASF_RecategoriseCaseController {
                                 account.Client_Code__c,
                                 assetId,
                                 asset.LAN__c,
+                               	asset.Policy_No__c,
                                 asset.LOB__c,
                                 Lead__c,
                                 Lead__r.Business_Unit__c,
@@ -93,6 +102,7 @@ public with sharing class ASF_RecategoriseCaseController {
                                 oldCCCIdFields__c,
                                 Type_Text__c,
                                 Sub_Type_Text__c,
+                                Issue_Type__c,
                                 (SELECT Stage__c,
                                     Stage_End_Date__c,
                                     is_Running_Record__c    
@@ -101,7 +111,7 @@ public with sharing class ASF_RecategoriseCaseController {
                                 WHERE id=:recId];
         String extensionObjecAPIname = ASF_GetCaseRelatedDetails.getCaseRelatedObjName(currentRecord.CCC_External_Id__c);
         Set<String> uniqueStages = new Set<String>();
-        List<ASF_Case_Approv__c> approvalList = [select Id from ASF_Case_Approv__c where SR__c =: recId AND Is_Recategorization_Request__c = true
+        List<ASF_Case_Approv__c> approvalList = [select Id from ASF_Case_Approv__c where SR__c =: recId
                                                 and Approval_Status__c = 'Pending'];
         resultMap.put('recategorizeEnabled',false);
         resultMap.put('approvalPending',false);
@@ -137,7 +147,7 @@ public with sharing class ASF_RecategoriseCaseController {
     @AuraEnabled
     public static void updateCaseWithNewCCCId( String recId, String oldCCCId, String newCaseJson, String typeSubTypeText){
         /*
-        newCaseJson looks like below
+        newCaseJson looks like below 
         '{"apiName":"Case","fields":{"CCC_External_Id__c":"payments_indi_206","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in"}}'
         */
         List<ASF_Checklist__c> openCheckLists = [SELECT ID 
@@ -182,9 +192,13 @@ public with sharing class ASF_RecategoriseCaseController {
         if((String)caseObject.get('AssetId') != null && (String)caseObject.get('AssetId') != ''){
             toUpdateCase.AssetId = (String)caseObject.get('AssetId');
             toUpdateCase.Lead__c = null;
-            List<Asset> assetList = [SELECT Id, LAN__c from Asset where Id =: (String)caseObject.get('AssetId')];
+            List<Asset> assetList = [SELECT Id, LAN__c, Policy_No__c from Asset where Id =: (String)caseObject.get('AssetId')];
             if(!assetList.isEmpty()){
-                toUpdateCase.LAN__c = assetList[0].LAN__c;
+                if(ASF_Constants.BUSpecificLANKey.contains((String)caseObject.get('Business_Unit__c'))){
+                    toUpdateCase.LAN__c = assetList[0].Policy_No__c;
+                }else{
+                    toUpdateCase.LAN__c = assetList[0].LAN__c;
+                }
             }
         }
         if((String)caseObject.get('Lead__c') != null && (String)caseObject.get('Lead__c') != ''){
@@ -219,6 +233,7 @@ public with sharing class ASF_RecategoriseCaseController {
         toUpdateCase.Reopen_SLA_Broken_Date_Time__c = null;
         toUpdateCase.SLA_Broken__c = false;
         toUpdateCase.SLA_Broken_DateTime__c = null;
+        toUpdateCase.Issue_Type__c = (String)caseObject.get('Issue_Type__c');
         //ASF_Case_Category_Config__c cccRecord = [Select First_Stage__c,type__c,Sub_Type__c From ASF_Case_Category_Config__c where CCC_External_Id__c = :oldCCCId Limit 1];
         // String currentstageOfCase = cccRecord.First_Stage__c;
         // toUpdateCase.stage__c = currentstageOfCase;
@@ -283,8 +298,8 @@ public with sharing class ASF_RecategoriseCaseController {
                      RETURNING 
                      Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
                      Account (Id, Name, PersonEmail,RecordType.Name WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp),
-                     Asset (Id, AccountId WHERE Name  LIKE : userInp OR LAN__c LIKE : userInp),
-                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE FirstName LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
+                     Asset (Id, AccountId WHERE Name  LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR Application_Number__c LIKE : userInp),
+                     Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE Name LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
                 if(searchList[0].size()>0){
@@ -305,7 +320,7 @@ public with sharing class ASF_RecategoriseCaseController {
                 }
                 if(searchList[3].size()>0){
                     for(Lead prospect : (List<Lead>)searchList[3]){
-                        ASF_CaseUIController.searchResponse resp = new ASF_CaseUIController.searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'');
+                        ASF_CaseUIController.searchResponse resp = new ASF_CaseUIController.searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'','');
                         
                         lstResponse.add(resp);
                     }     
@@ -331,12 +346,12 @@ public with sharing class ASF_RecategoriseCaseController {
             for(Account customer : accList){
                 ASF_CaseUIController.searchResponse custResp;
                 if(customer.IsPersonAccount){
-                    custResp = new ASF_CaseUIController.searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name);
+                    custResp = new ASF_CaseUIController.searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),customer.PAN__c,customer.RecordType.Name,'');
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
                     
-                    custResp = new ASF_CaseUIController.searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name);
+                    custResp = new ASF_CaseUIController.searchResponse(customer.Id,'Customer',customer.Name,customer.Client_Code__c,email,phone,customer.PAN__c,customer.RecordType.Name,'');
                 }
                 
                 lstResponse.add(custResp);
@@ -371,7 +386,7 @@ public with sharing class ASF_RecategoriseCaseController {
         
         ASF_Case_Category_Config__c cccRecord = [SELECT ID,Business_Unit__c,LOB__c,Custom_Segment__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = : cccId];
         
-        if(customerBU == 'ABHFL' || assetBU =='ABHFL'){
+        if(ASF_Constants.BU_WITHOUT_LOB.contains(customerBU) || ASF_Constants.BU_WITHOUT_LOB.contains(assetBU)){
             if(customerBU.equalsIgnoreCase(cccRecord.Business_Unit__c) ||
                assetBU.equalsIgnoreCase(cccRecord.Business_Unit__c))
             {
@@ -432,7 +447,7 @@ public with sharing class ASF_RecategoriseCaseController {
                 objType = 'Lead';
             }
             ASF_Case_Category_Config__c cccRecord = [SELECT ID,Business_Unit__c,LOB__c,Custom_Segment__c,Is_Prospect_Related__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c = : cccId];
-            if(recordBU == 'ABHFL'){
+            if(ASF_Constants.BU_WITHOUT_LOB.contains(recordBU)){
                 if(recordBU.equalsIgnoreCase(cccRecord.Business_Unit__c) && (objType =='Account' || (objType == 'Lead' && cccRecord.Is_Prospect_Related__c)))
                 {
                     bReturnVal = true;

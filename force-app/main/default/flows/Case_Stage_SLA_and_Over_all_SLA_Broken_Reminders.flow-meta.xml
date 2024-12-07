@@ -12,6 +12,10 @@
             <targetReference>Send_Holding_Response</targetReference>
         </connector>
         <dataTypeMappings>
+            <typeName>T__caseRecord</typeName>
+            <typeValue>Case</typeValue>
+        </dataTypeMappings>
+        <dataTypeMappings>
             <typeName>T__cccRecord</typeName>
             <typeValue>ASF_Case_Category_Config__c</typeValue>
         </dataTypeMappings>
@@ -20,6 +24,12 @@
             <name>caseId</name>
             <value>
                 <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>caseRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -40,6 +50,7 @@
                 <elementReference>EmailTempDevName</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ASF_CustomerEmailInvocable</nameSegment>
         <outputParameters>
             <assignToReference>SuppresssEmail</assignToReference>
             <name>supressEmail</name>
@@ -48,6 +59,7 @@
             <assignToReference>EmailTempDevName</assignToReference>
             <name>templateName</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Handle_Stage_SLA_2_Breach_Action</name>
@@ -63,6 +75,8 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ASF_CaseStageSLA2TimeBasedAction</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Handle_Stage_SLA_3_Breach_Action</name>
@@ -78,6 +92,8 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ASF_CaseStageSLA3TimeBasedAction</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Mark_Overall_Case_SLA_Broken</name>
@@ -99,6 +115,8 @@
                 <elementReference>$Record.Reopened__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ASF_OverallCaseSlaBroken</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Send_Stage_1_SLA_Broken_Email</name>
@@ -114,6 +132,8 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ASF_CaseStageSLATimeBasedAction</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
@@ -251,7 +271,9 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>When case SLA is broken or Stage SLA is broken , this is executed</description>
+    <description>When case SLA is broken or Stage SLA is broken , this is executed
+Passing Case record Id to invocable class</description>
+    <environments>Default</environments>
     <interviewLabel>Case Stage SLA and Over all SLA Broken Reminders {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case Over all SLA Broken Reminders</label>
     <processMetadataValues>

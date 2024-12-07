@@ -58,6 +58,11 @@
                 <default>false</default>
                 <label>Incoming</label>
             </value>
+            <value>
+                <fullName>Internal</fullName>
+                <default>false</default>
+                <label>Internal</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Call Center</controllingFieldValue>
@@ -96,6 +101,10 @@
         <valueSettings>
             <controllingFieldValue>Branch</controllingFieldValue>
             <valueName>Letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Branch</controllingFieldValue>
+            <valueName>Internal</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

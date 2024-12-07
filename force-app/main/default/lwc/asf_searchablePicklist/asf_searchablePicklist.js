@@ -1,5 +1,6 @@
-import { LightningElement, wire, api } from 'lwc';
-import getPicklists from '@salesforce/apex/ASF_customPicklistUtility.getPicklistValues';
+import { LightningElement, wire, api, track } from 'lwc';
+//import getPicklists from '@salesforce/apex/ASF_customPicklistUtility.getPicklistValues';
+import getPicklists from '@salesforce/apex/ASF_customPicklistUtility.getDependentPicklistValues';
 
 export default class Asf_searchablePicklist extends LightningElement {
     picklistVal;
@@ -19,6 +20,10 @@ export default class Asf_searchablePicklist extends LightningElement {
     formElementClasses = "slds-form-element slds-form-element_horizontal";
     bshowErrorHelpText = false;
     selectedValues = [];
+    @track mapReturnVal = new Map();
+    @track dependentPicklist = false;
+    @api maxMultiSelectAllowed;
+    @track bmaxMultipleSelected = false;
 
 
     connectedCallback() {
@@ -27,11 +32,23 @@ export default class Asf_searchablePicklist extends LightningElement {
     handleLoad() {
         getPicklists({ sObjectName: this.objectname, fieldName: this.fieldname })
             .then(result => {
-                this.picklistVal = result;
-                this.serverSidePiclistVal = result;
-                this.serverSidePiclistVal.forEach(ele => {
-                    this.arr_originalVal.push(ele.value.toLowerCase().trim());
-                })
+                debugger;
+                this.mapReturnVal = JSON.parse(JSON.stringify(result));
+
+                Object.entries(this.mapReturnVal).forEach(([key, value]) => {
+                    if(key == 'SYS_DEFAULT'){
+                        this.picklistVal = value;
+                        this.serverSidePiclistVal = value;
+                        this.serverSidePiclistVal.forEach(ele => {
+                            this.arr_originalVal.push(ele.value.toLowerCase().trim());
+                        })
+                    }
+                    else{
+                        this.dependentPicklist = true;
+                    }
+                });
+                
+                
             })
             .catch(error => {
                 if (Array.isArray(error.body)) {
@@ -75,6 +92,18 @@ export default class Asf_searchablePicklist extends LightningElement {
             this.selectedValue = value;
         }
 
+    }
+
+    @api callDependentPicklistChanges(controllingValue){
+        Object.entries(this.mapReturnVal).forEach(([key, value]) => {
+            if(key == controllingValue){
+                this.picklistVal = value;
+                this.serverSidePiclistVal = value;
+                this.serverSidePiclistVal.forEach(ele => {
+                    this.arr_originalVal.push(ele.value.toLowerCase().trim());
+                });
+            }
+        });
     }
 
     /*
@@ -221,12 +250,18 @@ export default class Asf_searchablePicklist extends LightningElement {
             this.serverSidePiclistVal.forEach(entry => {
                 if (entry.value.toLowerCase().trim() == optionVal.trim().toLowerCase()) {
                     if (this.multiselect == "true" || this.multiselect == true) {
-                        if (this.selectedValues.includes(entry.value)) {
-                            this.selectedValues.splice(this.selectedValues.indexOf(entry.value), 1);
+                        if(this.selectedValues.length >= this.maxMultiSelectAllowed){
+                            // do nothing.
                         }
-                        else {
-                            this.selectedValues.push(entry.value);
+                        else{
+                            if (this.selectedValues.includes(entry.value)) {
+                                this.selectedValues.splice(this.selectedValues.indexOf(entry.value), 1);
+                            }
+                            else {
+                                this.selectedValues.push(entry.value);
+                            }
                         }
+                        
                     }
                     else {
                         this.selectedValue = optionVal;
@@ -327,7 +362,7 @@ export default class Asf_searchablePicklist extends LightningElement {
         }
     }
     get showHideRequired() {
-        return this.required;
+        return this.required && !this.bDisabled;
     }
 
     @api validateCustomPicklistField() {

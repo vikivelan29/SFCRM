@@ -40,16 +40,16 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             });
     }
     get showCustomerNPSbyNumber() {
-        if (this.nps == 0 || this.nps == undefined) {
+        if (this.nps == undefined) {
             return "❌";
         }
-        else if(this.nps > 0 && this.nps <= 3){
+        else if(this.nps >= 0 && this.nps <= 6){
             return "🙁";
         }
-        else if(this.nps > 3 &&  this.nps <= 6){
+        else if(this.nps > 6 &&  this.nps <= 8){
             return "😐";
         }
-        else if(this.nps > 6 && this.nps <= 10){
+        else if(this.nps > 8 && this.nps <= 10){
             return "😁";
         }
         else {
@@ -180,7 +180,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     addAndChangeAttributes(attrbObj) {
         let getLightningIcon = this.template.querySelector(attrbObj.dataId);
-      //  getLightningIcon.variant = attrbObj.variant;
+        //getLightningIcon.variant = attrbObj.variant;
     }
 
     addIconClass(dataId, iconClass) {

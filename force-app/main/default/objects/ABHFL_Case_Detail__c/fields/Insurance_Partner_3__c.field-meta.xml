@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>Go digit</label>
             </value>
+            <value>
+                <fullName>ICICI</fullName>
+                <default>false</default>
+                <label>ICICI</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

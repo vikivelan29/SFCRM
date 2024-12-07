@@ -372,6 +372,7 @@
             <label>Rejection - Stage</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>PE_UniqueID</name>
         <dataType>String</dataType>

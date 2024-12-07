@@ -22,7 +22,7 @@ public with sharing class ASF_IntegrationsController {
                 FROM ASF_Integration__c
                 WHERE C3ExternalId__c =: c3ExtId
                 AND Case_Stage_Config__r.StageName__c =: stageName
-                AND (Type__c = 'Process' OR Type__c = 'Pre Populate')
+                AND (Type__c = 'Process' OR Type__c = 'Pre Populate' OR Type__c = 'UI Action')
                 ORDER BY Display_Order__c
             ];
         }
@@ -110,7 +110,6 @@ public with sharing class ASF_IntegrationsController {
             Map<String, List<Case>> apexClassToCasesForEvaluate = new Map<String, List<Case>>();
             Map<String, List<Case>> apexClassToCasesForRun = new Map<String, List<Case>>();
             Set<String> all_fields = new Set<String>{'id'};
-
             for(Case caseRec : caseRecs){
                 if(integs.containsKey(caseRec.Id)){
                     for(ASF_Integration__c integ : integs.get(caseRec.Id)){

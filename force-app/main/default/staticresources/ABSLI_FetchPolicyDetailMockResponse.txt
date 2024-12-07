@@ -1,0 +1,14 @@
+{
+    "ReturnMessage": "Record retrieved successfully.",
+    "ReturnCode": "0",
+    "lstDetails": {
+        "POLICY_NO": "003149963",
+        "FUND_ID": "I0003",
+        "FUND_VALUE": "0.00",
+        "NAV": "68.519600000",
+        "NAV_DATE": "28-11-2019",
+        "FUND_NAME": "Individual Life - Enhancer",
+        "ALLOCATION_RATIO": "100.0000",
+        "UNITS": "0.000000000"
+    }
+}

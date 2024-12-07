@@ -6,6 +6,7 @@ public class ABHFL_PaymentLinkHandler_Test {
         Account accIndRec = ASF_TestDataFactory.insertPersonAccount('Test_FN','Test_LN','Test_2');
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' and DeveloperName like 'ABHFL%' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec.LAN__c = 'Test';
@@ -14,6 +15,7 @@ public class ABHFL_PaymentLinkHandler_Test {
         ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
         caseDetail.STP_Request_Type__c = 'Email';
         caseDetail.As_On_Date__c = date.today();
+        caseDetail.Payable_Charges__c=1000;
         insert caseDetail;
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
         caseRecList[0].AssetId = astRec.Id;

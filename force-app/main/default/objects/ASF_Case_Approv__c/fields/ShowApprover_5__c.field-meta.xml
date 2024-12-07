@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ShowApprover_5__c</fullName>
     <externalId>false</externalId>
-    <formula>IF( Approver_01__c  = Approver_05__c  , false, true)</formula>
+    <formula>IF ( (Approver_01__c = Approver_05__c) || ISBLANK(Approver_05__c) ,false, true)</formula>
     <label>ShowApprover 5</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

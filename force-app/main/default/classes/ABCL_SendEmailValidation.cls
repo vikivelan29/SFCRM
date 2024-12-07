@@ -48,7 +48,8 @@ public with sharing class ABCL_SendEmailValidation {
             // Getting restricted FROM address.For the restricted FROM email address email should not go to external domain.
             ABFL_Email_Validation_Configuration__mdt mdtRestrictedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance('Restricted_From_Address'); 
             // Getting allowed FROM address according to the team assigned on user.
-             ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance(userTeam[0].Team__c);
+            // ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = ABFL_Email_Validation_Configuration__mdt.getInstance(userTeam[0].Team__c);
+            ABFL_Email_Validation_Configuration__mdt mdtAllowedFromAddress = [SELECT Id, DeveloperName, MasterLabel, Language, NamespacePrefix, Label, QualifiedApiName, Email_Addresses_Allowed_Long__c FROM ABFL_Email_Validation_Configuration__mdt where developerName =:userTeam[0].Team__c];
              // below code checks if FROM address selected is part of user's team allowed FROM address, if not throwing an error.
              if(mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c != null){
                 allowedFromAddress= mdtAllowedFromAddress.Email_Addresses_Allowed_Long__c.split(',');

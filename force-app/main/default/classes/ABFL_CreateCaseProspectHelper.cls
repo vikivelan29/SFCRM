@@ -32,6 +32,7 @@ public with sharing class ABFL_CreateCaseProspectHelper {
                         newLead.MobilePhone = res.MOBILE;
                         newLead.Email = res.Email;
                         newLead.PANNO__c = res.PANNO;
+                        newLead.Business_Unit__c = ABFL_Constants.ABFL;
                         newLeadsList.add(newLead);
                     }else{
                         // Stamp lead to existing cases

@@ -99,6 +99,34 @@
                 <identifier>RecordApproval_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Requested_CCC_Details__c</fieldItem> 
+                <identifier>RecordRequested_CCC_Details_cField</identifier>
+                <visibilityRule>
+                    <booleanFilter>(1 AND 2) OR 3</booleanFilter>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABFL Base Profile</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Is_Recategorization_Request__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>System Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-830aaa22-1120-4095-8af6-2934fd8afb13</name>
         <type>Facet</type>
     </flexiPageRegions>

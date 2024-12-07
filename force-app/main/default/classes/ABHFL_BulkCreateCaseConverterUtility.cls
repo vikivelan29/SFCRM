@@ -27,7 +27,7 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
 
         Map<String, Id> lanToAccountIdMap = new Map<String,Id>();
         Map<String, Id> lanToAssetIdMap = new Map<String,Id>();
-        for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans]){
+        for(Asset assetRec : [Select Id, LAN__c, AccountId from Asset where LAN__c IN :lans and Business_Unit__c = 'ABHFL']){
             lanToAccountIdMap.put(assetRec.LAN__c, assetRec.AccountId);
             lanToAssetIdMap.put(assetRec.LAN__c, assetRec.Id);
         }
@@ -199,5 +199,8 @@ public with sharing class ABHFL_BulkCreateCaseConverterUtility implements ASF_Bu
         }
 
         return listOfRecordsAsMap;
+    }
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
     }
 }

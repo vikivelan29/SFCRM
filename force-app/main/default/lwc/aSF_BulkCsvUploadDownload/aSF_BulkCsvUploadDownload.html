@@ -46,7 +46,7 @@
 
                     <template lwc:if={boolShowFileUploadButton}> 
                         <div>
-                            <lightning-input label="Please upload the CSV file here. The maximum case limit is 50k and max file size allowed is 20 MB." name="file uploader" onchange={handleFilesChange} type="file" accept=".csv"></lightning-input>
+                            <lightning-input label={uploadLabel} name="file uploader" onchange={handleFilesChange} type="file" accept=".csv"></lightning-input>
                         </div>
                         <div class="slds-text-body_small slds-text-color_weak">{fileName}
                             <div class="slds-text-body_small slds-text-color_error"><br/>{strCSVFileError} </div>
@@ -65,6 +65,9 @@
                             </template>
                             <template lwc:if={boolShowDownloadButton}>  
                                 <lightning-button label={strDownloadTemplate} title="Download action" onclick={downloadTemplate} variant="brand"></lightning-button>
+                                <template if:true={boolShowCTST}>
+                                    <lightning-button label={strDownloadCtst} title="Download CTST" onclick={downloadCtst} variant="brand" class="slds-p-left_small"></lightning-button>
+                                </template>
                             </template>            
                         </lightning-button-group>
                         </div>

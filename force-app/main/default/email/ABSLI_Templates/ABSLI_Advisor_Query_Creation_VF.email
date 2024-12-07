@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Acknowledgement of  your query / request for your Aditya Birla Sun Life Insurance {!relatedTo.Account.Advisor_Code__c}" recipientType="Contact" relatedToType="Case">
+<messaging:htmlEmailBody >
+<c:ASF_CaseEmail caseIdValue="{!relatedTo.Id}" templateName="ABSLI Advisor Case Creation"></c:ASF_CaseEmail>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

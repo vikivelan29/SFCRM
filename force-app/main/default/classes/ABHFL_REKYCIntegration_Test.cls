@@ -14,6 +14,7 @@ public class ABHFL_REKYCIntegration_Test {
         update accRec;
         Branch_Master__c branchMstr = new Branch_Master__c();
         branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = '234234';
         insert branchMstr;
         Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
         astRec.LAN__c = 'Test';

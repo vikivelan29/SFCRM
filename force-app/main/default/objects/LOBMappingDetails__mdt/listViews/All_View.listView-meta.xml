@@ -4,6 +4,7 @@
     <columns>MasterLabel</columns>
     <columns>Channel__c</columns>
     <columns>Source__c</columns>
+    <columns>New_Source__c</columns>
     <columns>Sub_Source__c</columns>
     <columns>Source_Code__c</columns>
     <columns>LOB__c</columns>

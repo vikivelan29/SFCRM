@@ -37,4 +37,7 @@ public with sharing class ASF_CreateCaseConverterUtilityForTest implements ASF_B
         List<Map<String, String>> listOfRecordsAsMap = new List<Map<String, String>>();
         return listOfRecordsAsMap;
     }
+    public List<Map<String,String>> prepareCtstData(List<String> columnNames, String businessUnit){
+        return new List<Map<String,String>>();
+    }
 }

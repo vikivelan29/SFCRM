@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CASE_NUMBER</field>
+    </columns>
+    <columns>
+        <field>CREATED_DATEONLY</field>
+    </columns>
+    <columns>
+        <field>CDF1</field>
+    </columns>
+    <columns>
+        <field>Case.Source__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage__c</field>
+    </columns>
+    <columns>
+        <field>CLOSED_DATEONLY</field>
+    </columns>
+    <columns>
+        <field>FK_$ABSLI_Case_Detail__c.Type_of_Disposal__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case.Ageing_Business_Days__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case.Ageing_Number_Of_Days__c</field>
+    </columns>
+    <columns>
+        <field>Case.Channel__c</field>
+    </columns>
+    <columns>
+        <field>Case.Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Case.Sub_Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>Asset.Policy_No__c</field>
+    </columns>
+    <columns>
+        <field>SUBJECT</field>
+    </columns>
+    <customDetailFormulas>
+        <calculatedFormula>IF(
+  OR(
+    CASESAFEID(Case.Channel__c) = &quot;IGMS&quot;,
+    CASESAFEID(Case.Channel__c) = &quot;PMO&quot;,
+    CASESAFEID(Case.Channel__c) = &quot;NCH&quot;,
+    CASESAFEID(Case.Channel__c) = &quot;Prime Ministers Office&quot;,
+    CASESAFEID(Case.Channel__c) = &quot;IRDA&quot;
+  ),
+  &quot;IGMS&quot;,
+  &quot;Non IGMS&quot;
+)</calculatedFormula>
+        <dataType>Text</dataType>
+        <description>ABSLI - Query &amp; Complaints Reporting Set - 1</description>
+        <developerName>CDF1</developerName>
+        <label>IGMS / NON IGMS</label>
+        <scale>2</scale>
+    </customDetailFormulas>
+    <description>ABSLI - Query &amp; Complaints Reporting Set - 1</description>
+    <filter>
+        <criteriaItems>
+            <column>Case.Nature__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Complaint</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Resolved</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>FK_$ABSLI_Case_Detail__c.Mode_of_communication_sent__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Fax</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.Case_Assigned_Team__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>Retention</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>PC_EMAIL</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>qkabccgro@qualitykiosk.com</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Forms 1 - 7</name>
+    <params>
+        <name>units</name>
+        <value>h</value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CaseAsset@Case.ABSLI_Case_Detail__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>CDF1</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATEONLY</dateColumn>
+        <endDate>2024-08-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2024-07-01</startDate>
+    </timeFrameFilter>
+</Report>

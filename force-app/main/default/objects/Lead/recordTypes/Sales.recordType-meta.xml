@@ -16,6 +16,45 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>ABSLI_Lead_Type__c</picklist>
+        <values>
+            <fullName>Agency Winback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contact Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D2C Winback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HDFC Win back</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Send an Advisor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service to Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service to Sales- NBO</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Business_Unit__c</picklist>
         <values>
             <fullName>ABFL</fullName>
@@ -23,6 +62,14 @@
         </values>
         <values>
             <fullName>ABHFL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABSLIG</fullName>
             <default>false</default>
         </values>
         <values>
@@ -196,6 +243,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>LOB__c</picklist>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RE</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>LeadSource</picklist>
         <values>
             <fullName>Branch Ops</fullName>
@@ -207,9 +273,28 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Lead_Category__c</picklist>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service2Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Winback</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Lead_Stage__c</picklist>
         <values>
             <fullName>Deal Captured</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disbursed</fullName>
             <default>false</default>
         </values>
         <values>
@@ -221,11 +306,204 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Open</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Qualified</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Sanctioned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unattended</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lead_Sub_Stage__c</picklist>
+        <values>
+            <fullName>Application Logged</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Appointment Scheduled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Busy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Back</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Call Disconnected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Connected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Different Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Existing Customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow Up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fresh</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Funds Not Available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hung Up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Language Barrier</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Looking For Job</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medical Unfit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Met Follow Up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Met Not Interested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Serviceable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Contacted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Eligible</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Interested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Met Not Interested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Reachable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opted Competitors Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Plan to Invest Later</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ringing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switched Off</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wrong No%2E</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lead_Subtype__c</picklist>
+        <values>
+            <fullName>Activity - Client Interested To Invest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Distributor Interested To Get Empanelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - POST- Redemption Saved by SRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - PRE-Redemption Saved by SRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Redemption Saved by Sales RM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - SIP Cancellation Saved Winback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - TRO Cheque Bounce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - TRO Purchase</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - TRO SIP Expiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - TRO Systematic Transaction</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lead_Type__c</picklist>
+        <values>
+            <fullName>MF Service To Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF Transaction Related Outcall</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS Client Leads</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS Distributor Leads</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -371,7 +649,22 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Not Attempted</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Warm</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Source_Code__c</picklist>
+        <values>
+            <fullName>Customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DSE</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2046,6 +2339,161 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>State__c</picklist>
+        <values>
+            <fullName>ANDAMAN %26 NICOBAR ISLANDS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ANDHRA PRADESH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ARUNACHAL PRADESH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ASSAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BIHAR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHANDIGARH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CHATTISGARH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DADRA AND NAGAR HAVELI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DELHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DIU AND DAMAN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GOA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GUJARAT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HARYANA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HIMACHAL PRADESH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>JAMMU %26 KASHMIR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KARNATAKA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KERALA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LADAKH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LAKSHADWEEP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MADHYA PRADESH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MAHARASHTRA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MANIPUR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MEGHALAYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MIZORAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NAGALAND</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ORISSA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PONDICHERRY</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PUNJAB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RAJASTHAN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SIKKIM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SILVASSA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TAMIL NADU</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TELANGANA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TRIPURA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UTTAR PRADESH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UTTARAKHAND</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UTTARANCHAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WEST BENGAL</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Sub_Source__c</picklist>
         <values>
             <fullName>Asset Service Desk</fullName>
@@ -2176,6 +2624,68 @@
         </values>
         <values>
             <fullName>TOPUP%28NEW%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Target_LOBs__c</picklist>
+        <values>
+            <fullName>Health Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Housing Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loans</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Motor%2F Travel Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mutual Funds</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stock broking</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Target_Sub_LOBs__c</picklist>
+        <values>
+            <fullName>CFG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CMG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HFC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mortgage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unsecured</fullName>
             <default>false</default>
         </values>
     </picklistValues>

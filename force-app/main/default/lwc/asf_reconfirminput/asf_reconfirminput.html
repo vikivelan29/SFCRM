@@ -1,0 +1,24 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+        class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 class="slds-modal__title slds-hyphenate">
+                    Confirm Value</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium">
+                <lightning-input required type="password" class="slds-m-top_small confirmation" label="Enter Value"
+                    data-field-name={fieldNameToSearch} onchange={handleOriginalTextChange}></lightning-input>
+                <lightning-input type={confirmFieldType} required class="slds-m-top_small" label="Re enter value"
+                    onchange={handleConfirmTextChange}></lightning-input>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning-button class="slds-m-around_small" label="Cancel"
+                    onclick={cancelConfirmFieldPopup}></lightning-button>
+                <lightning-button class="slds-m-around_small" label="Save" onclick={varifyConfirmFieldPopup}
+                    disabled={bConfirmationTextNotMatching}></lightning-button>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

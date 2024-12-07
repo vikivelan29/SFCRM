@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>EIA account opening or conversion</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EIA account opening or conversion Email</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>EIA account opening or conversion</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

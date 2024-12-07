@@ -63,6 +63,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>CRM_SPOC__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Zone__c</field>
             </layoutItems>
             <layoutItems>

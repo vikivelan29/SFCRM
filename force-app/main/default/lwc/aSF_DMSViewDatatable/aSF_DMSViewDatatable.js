@@ -15,6 +15,11 @@ import Synching_initiated from '@salesforce/label/c.Synching_initiated';
 import Sync_Manually from '@salesforce/label/c.Sync_Manually';
 import pageSize from '@salesforce/label/c.ABFL_DMSPageSize';
 import manualSyncThreshold from '@salesforce/label/c.ABFL_Manual_Sync_Threshold';
+import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import { getColumnsStatic } from './asf_DMSColumn';
+import { getRecord } from "lightning/uiRecordApi";
+
+const CASEFIELDS = ["Case.Business_Unit__c"];
 
 export default class ASF_DMSViewDatatable extends NavigationMixin(LightningElement) {
     isLoading=false;
@@ -30,9 +35,11 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
     isDisabled = true;
     @track currentPage = 1;
     @track totalRecords = 0;
+    businessUnit;
     label = {
         pageSize
     };
+    processApexReturnValue;
 
     /**Table Attributes */
     totalNoOfRecordsInDatatable = 0;
@@ -44,9 +51,17 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
     isPreviousDisabled ;
     isNextDisabled;
 
+    @wire(getRecord, { recordId: "$recordId", fields: CASEFIELDS })
+    async processResult(caseResult) {
+        this.processApexReturnValue = caseResult;
+
+        if (caseResult.data) {
+            this.retrieveData();
+            this.isPreviousDisabled = true;
+        }
+    }
+
     connectedCallback() {
-        this.retrieveData();
-        this.isPreviousDisabled = true;
     }
     retrieveData() {
         this.isLoading=true;
@@ -62,6 +77,8 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
         return new Promise((resolve, reject) => {
             getColumns({configName:'Asf_DMS_File_Datatable'})
                 .then(result => {
+                    this.columns = getColumnsStatic(result,this.processApexReturnValue.data.fields.Business_Unit__c.value);
+                    /*
                     this.columns = [
                         {
                             label: DMS_File_Name,
@@ -104,7 +121,7 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                                 disabled: { fieldName: 'showButtonsSynch' }
                             }
                         }
-                    ];
+                    ];*/
                     resolve();
                 })
                 .catch(error => reject(error));
@@ -188,7 +205,9 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
             if (row.DocumentID__c == null || row.DocumentID__c == undefined) {
                 this.showToast('Error','Document Id is null','Error');
             } else {
-                generateLinkParams({ documentId: row.DocumentID__c })
+                //Currently ABSLI DMS Integration is not having any Redirect URL. In Future when this URL is provided please write your code down here.
+                if(row.Business_Unit__c != ABSLI_BU){
+                    generateLinkParams({ documentId: row.DocumentID__c })
                     .then(result => {
                         console.log('generateLinkParams:', result);
                         // this.baseUrl = DMS_URL;
@@ -210,6 +229,7 @@ export default class ASF_DMSViewDatatable extends NavigationMixin(LightningEleme
                        // console.error('Error:', error);
                         this.showToast('Error','Error fetching necessary document view attributes.','Error');
                     });
+                }
             }
         } else if (action.name === 'manualSync') {
             console.log('manualSync ');

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delay_Reason__c</fullName>
+    <label>Delay Reason</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Inter Departmental Delay</fullName>
+                <default>false</default>
+                <label>Inter Departmental Delay</label>
+            </value>
+            <value>
+                <fullName>System Issue</fullName>
+                <default>false</default>
+                <label>System Issue</label>
+            </value>
+            <value>
+                <fullName>Procedural Delay</fullName>
+                <default>false</default>
+                <label>Procedural Delay</label>
+            </value>
+            <value>
+                <fullName>External Delay</fullName>
+                <default>false</default>
+                <label>External Delay</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

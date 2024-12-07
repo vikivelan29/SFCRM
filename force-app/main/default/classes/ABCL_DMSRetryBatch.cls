@@ -1,22 +1,22 @@
 public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database.Stateful, Schedulable {
-    
+
     public Database.QueryLocator start(Database.BatchableContext bc){
         string queryForContentLink = 'Select id,ContentDocumentid,LinkedEntityId from ContentDocumentLink where LinkedEntityId in'+
-            						 '(Select id from Case where IsClosed = true and ClosedDate <= today and Business_Unit__c = \'ABHFL\')';
+            						 '(Select id from Case where IsClosed = true and ClosedDate <= today and Business_Unit__c IN (\'ABHFL\',\'ABSLI\'))';
         return Database.getQueryLocator(queryForContentLink);
     }
-    
+
     public void execute(Database.BatchableContext bc, List<ContentDocumentLink> contentDocumentLinkList){
-        
+
         //ContentDocument Records of Closed Cases
         Set<String> contentDocumentIds = new Set<String>();
         for(ContentDocumentLink docLink : contentDocumentLinkList){
             contentDocumentIds.add(docLink.ContentDocumentId);
         }
-        
-        Map<Id,ContentVersion> contentVersionInitialMap = new Map<Id,ContentVersion>([ Select id,Title,ContentDocumentId,VersionNumber,FileExtension 
+
+        Map<Id,ContentVersion> contentVersionInitialMap = new Map<Id,ContentVersion>([ Select id,Title,ContentDocumentId,VersionNumber,FileExtension
                                                    		   from ContentVersion where ContentDocumentId in: contentDocumentIds]);
-        
+
         Set<String> contentVersionIds = new Set<String>();
         Map<String,Set<String>> contentDocumentContentVersionMap = new Map<String,Set<String>>();
         for(ContentVersion contentVersion : contentVersionInitialMap.values()){
@@ -26,18 +26,18 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             }else{
                 Set<String> contentVersionId = contentDocumentContentVersionMap.get(contentVersion.ContentDocumentId);
                 contentVersionId.add(contentVersion.Id);
-               	contentDocumentContentVersionMap.put(contentVersion.ContentDocumentId,contentVersionId);             
+               	contentDocumentContentVersionMap.put(contentVersion.ContentDocumentId,contentVersionId);
             }
         }
-        
+
         //Find Out Successful DMS Transfers for relevant ContentDocuments
-        Map<Id,DMS_Files__c> dmsRecords = new Map<Id,DMS_Files__c>([Select id,ContentDocumentId__c,Case__c,ContentVersionId__c from DMS_Files__c 
+        Map<Id,DMS_Files__c> dmsRecords = new Map<Id,DMS_Files__c>([Select id,ContentDocumentId__c,Case__c,ContentVersionId__c from DMS_Files__c
                                                                     where ContentVersionId__c in: contentVersionIds and Status__c = 'Success']);
         Set<String> caseContentHashString = new Set<String>();
         for(DMS_Files__c dmsFiles : dmsRecords.values()){
             caseContentHashString.add(dmsFiles.Case__c+'_'+dmsFiles.ContentDocumentId__c+'_'+dmsFiles.ContentVersionId__c);
         }
-        
+
         Set<String> pendingCaseRecords = new Set<String>();
         //Filter out ContentDocumentIds with unsuccessful DMS File Transfers
         List<contentDocumentLink> pendingContentDocumentLink = new List<ContentDocumentLink>();
@@ -51,19 +51,36 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                     pendingContentDocumentLink.add(contentDocumentLinkList[i]);
                 }
             }
-			
-        }        
-        
+
+        }
+
         Map<Id,Case> caseRecordMap = new Map<Id,Case>([Select id,Business_Unit__c,CaseNumber,Account.Client_Code__c,
                                                        Type_Text__c,Sub_Type_Text__c,Nature__c,Lead__c,CreatedDate,Asset.LAN__c,
-                                                       Asset.Lead_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name  
+                                                       Asset.Lead_Id__c,Asset.Application_Number__c, Asset.Policy_No__c, LAN__c, CCC_External_Id__c,Account.Phone,Account.PersonMobilePhone,Account.RecordType.Name
                                                        from Case where Id =: pendingCaseRecords]);
-        
+
+        // Custom Logic handling for ABSLI Business Unit
+        Map<String,ASF_Case_Category_Config__c> cccRecord = new Map<String,ASF_Case_Category_Config__c>();
+        Set<String> cccExternalIds = new Set<String>();
+        for(Case cs : caseRecordMap.values()){
+            if(cs.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT){
+                cccExternalIds.add(cs.CCC_External_Id__c);
+            }
+        }
+        for (ASF_Case_Category_Config__c ccc : [
+            SELECT Id, CCC_External_Id__c, DMS_Folder_Id__c
+            FROM ASF_Case_Category_Config__c
+            WHERE CCC_External_Id__c IN :cccExternalIds
+            WITH SECURITY_ENFORCED
+        ]) {
+            cccRecord.put(ccc.CCC_External_Id__c, ccc);
+        }
+
         Map<Id,Case> contentDocumentCaseMap = new Map<Id,Case>();
         for(ContentDocumentLink docLink : pendingContentDocumentLink){
             contentDocumentCaseMap.put(docLink.ContentDocumentId,caseRecordMap.get(docLink.LinkedEntityId));
         }
-        
+
         Map<String,Integer> contentDocumentVersionMap = new Map<String,Integer>();
         for(ContentVersion version : contentVersionFinalList){
             Integer count = 0;
@@ -73,13 +90,27 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             count += 1;
             contentDocumentVersionMap.put(version.ContentDocumentId,count);
         }
-        
-        //Create DMS Files Records for unsuccessful ContentVersionids 
+
+        //Create DMS Files Records for unsuccessful ContentVersionids
         List<DMS_Files__c> fileRecList = new List<DMS_Files__c>();
         for(ContentVersion fileVersion : contentVersionFinalList){
-            
+
             DMS_Files__c fileRec = new DMS_Files__c();
             Case relatedCase = contentDocumentCaseMap.get(fileVersion.ContentDocumentId);
+
+            // Custom Logic handling for ABSLI Business Unit
+            String dmsFolderId = '', businessFileName = '', policyNumber = '', applicationId = '';
+            Boolean isABSLIBusiness = false;
+            if (relatedCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT) {
+                isABSLIBusiness = true;
+                policyNumber = relatedCase.Asset.Policy_No__c != '' ? relatedCase.Asset.Policy_No__c : relatedCase.LAN__c;
+                dmsFolderId = cccRecord.get(relatedCase.CCC_External_Id__c).DMS_Folder_Id__c;
+                applicationId = relatedCase.Asset.Application_Number__c;
+                businessFileName =
+                    applicationId +'_' +policyNumber +'_' +dmsFolderId +'_' +
+                    Datetime.now().format('ddMMyyyy');
+            }
+
             string leadId = '';
             if(relatedCase.Asset.Lead_Id__c != null){
                 leadId = relatedCase.Asset.Lead_Id__c;
@@ -87,11 +118,10 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                 leadId = relatedCase.Lead__c;
             }
             Integer versionCount = contentDocumentVersionMap.get(fileVersion.ContentDocumentId);
-            
+
             fileRec.ContentDocumentId__c = fileVersion.ContentDocumentId;
             fileRec.Case__c = relatedCase.Id;
             fileRec.ContentVersionId__c = fileVersion.Id;
-            fileRec.File_Name__c = fileVersion.Title;
             fileRec.Has_Multiple_Versions__c = versionCount > 1 ? true : false;
             fileRec.Is_Latest_Version__c = versionCount == Integer.valueof(fileVersion.VersionNumber) ? true : false;
             fileRec.Version_Number__c = fileVersion.VersionNumber;
@@ -99,19 +129,24 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             DateTime currentDateTime = System.now();
             fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
             fileRec.File_Extension__c = fileVersion.FileExtension;
-            fileRec.Next_Retry__c = System.now().addMinutes(15);
-            if(String.isBlank(leadId)){
+            if(String.isBlank(leadId) && !isABSLIBusiness){
                 fileRec.Status__c = ABHFL_Constants.CANCELED;
                 fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
             } else {
                 fileRec.Status__c = ABHFL_Constants.PENDING;
             }
+            // Modified Attribute for ABSLI specific Business Unit
+            fileRec.File_Name__c = isABSLIBusiness ? businessFileName : fileVersion.Title;
+            fileRec.DMS_Folder_Id__c = isABSLIBusiness ? dmsFolderId : '';
+            fileRec.Application_ID__c = isABSLIBusiness ? applicationId : relatedCase.Asset.LAN__c;
+            fileRec.Policy_No__c = isABSLIBusiness ? policyNumber : '';
+            fileRec.Next_Retry__c = isABSLIBusiness ? null : System.now().addMinutes(15);
             fileRecList.add(fileRec);
         }
-        
+
         if(fileRecList.size() > 0){
             insert fileRecList;
-            
+
             List<DMS_File_Transfer__e> dmsEventList = new List<DMS_File_Transfer__e>();
             for(DMS_Files__c file : fileRecList){
                 if(file.Status__c == ABHFL_Constants.PENDING){
@@ -128,7 +163,7 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                     } else if(relatedCase.Lead__c != null){
                         leadId = relatedCase.Lead__c;
                     }
-                    
+
                     dmsEventList.add(new DMS_File_Transfer__e(
                         Business_Unit__c = file.Business_Unit__c,
                         CaseNumber__c = relatedCase.CaseNumber,
@@ -138,7 +173,9 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                         File_Name__c = file.File_Name__c,
                         Is_Latest_Version__c = file.Is_Latest_Version__c,
                         Version_Number__c = file.Version_Number__c,
-                        Application_ID__c = relatedCase.Asset.LAN__c,
+                        Application_ID__c = file.Application_ID__c,
+                        DMS_Folder_Id__c = file.DMS_Folder_Id__c,
+                        Policy_No__c = file.Policy_No__c,
                         Document_Type__c = relatedCase.Type_Text__c+'-'+relatedCase.Sub_Type_Text__c+'-'+relatedCase.Nature__c,
                         File_Extension__c = file.File_Extension__c,
                         Doc_SubType__c = relatedCase.Sub_Type_Text__c,
@@ -149,19 +186,19 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
                     ));
                 }
             }
-            
+
             if(dmsEventList.size() > 0){
                 List<Database.SaveResult> eventResult = EventBus.publish(dmsEventList);
             }
         }
-        
+
     }
-    
+
     public void finish(Database.BatchableContext bc){
-    }    
-    
+    }
+
     public void execute(SchedulableContext sc) {
     }
-    
-    
+
+
 }

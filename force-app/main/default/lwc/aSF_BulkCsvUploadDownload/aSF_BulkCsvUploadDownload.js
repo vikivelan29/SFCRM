@@ -1,6 +1,7 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import getMetadataDetails from '@salesforce/apex/ASF_BulkCsvController.getMetadataDetails';
 import generateCSVFile from '@salesforce/apex/ASF_BulkCsvController.generateCSVFileWithData';
+import generateCtstFile from '@salesforce/apex/ASF_BulkCsvController.generateCSVFileWithCtst';
 import getCSVTemplate from '@salesforce/apex/ASF_BulkCsvController.getCSVTemplate';
 import insertHeaderRowWithLineItems from '@salesforce/apex/ASF_BulkUploadUtilityController.insertHeaderRowWithLineItems';
 import insertLineItemsChunk from '@salesforce/apex/ASF_BulkUploadUtilityController.insertLineItemsChunk';
@@ -18,7 +19,7 @@ import DOWNLOAD_LIMIT_MESSAGE from '@salesforce/label/c.ASF_BulkDownloadLimit_Ms
 export default class ASF_BulkCsvUploadDownload extends LightningElement {
     @api strURL = '';
     @api strButtonName = '';
-    @api selectedCases= '';
+    @api selectedRecords= '';
     cmpTitle = 'Welcome to the Bulk Data Uploader';
     @track UploadFile = 'Upload CSV';
     @track strDownloadTemplate = 'Download Template';
@@ -29,6 +30,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     strCSVGeneration = 'Please wait. The CSV generation is in progress...';
     listViewId = 'Recent';
     strNoAccessError = 'You do not have access to perform Bulk Operation';
+    strDownloadCtst = 'Download CTST';
     MAX_CHUNK_SIZE = CHUNK_SIZE;
     downloadLimitMsg = DOWNLOAD_LIMIT_MESSAGE;
 
@@ -73,8 +75,10 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     chunkedLineItems;
     allLineItems;
     currentChunkIndex = 0;
+    boolShowCTST = false;
 
-   
+    @api objectApiName;
+    uploadLabel = 'Please upload the CSV file here. The maximum case limit is 50k and max file size allowed is 20 MB.';
     //Disable Upload Button
     get noOperationTypeValue(){
         if(!this.operationRecordTypeValue ){
@@ -84,7 +88,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
     }
 
     //Fetches the access and operation details based on the logged In user's business Unit
-    @wire(getMetadataDetails)
+    @wire(getMetadataDetails, { objectAPIName: '$objectApiName' })
     wiredMetaResult({ error, data }) {
         if (data) {
             let objErrorPicklist = {'label':'No Relevant Values Found', 'value':'No Relevant Values Found'};
@@ -131,6 +135,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
             this.boolShowUploadButton = true;
             this.boolShowFileUploadButton = true;
         }
+        this.uploadLabel = 'Please upload the CSV file here. The maximum '+ this.objectApiName  +' limit is 50k and max file size allowed is 20 MB.';
         this.listViewId = this.strURL.split('filterName%3D')[1].split('&')[0];
         this.loadValidationFile();
         this.showLoadingSpinner = false;
@@ -169,6 +174,30 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
                 this.disableUploadBtn = false;
             }
         });
+        this.boolShowCTST = this.selectedConfigRec.CTST_Query_Fields__c != undefined && this.selectedConfigRec.CTST_Query_Fields__c != null? true : false;
+    }
+    //Method to Download CTST CSV records
+    downloadCtst(){
+        this.boolDisplayLoadingText = true;
+        this.strErrorMessage = '';
+
+        generateCtstFile({strConfigName: this.selectedConfigRec.DeveloperName})
+        .then(result => {
+            this.boolDisplayLoadingText = false;
+                this.dataCSV = result;
+                this.showLoadingSpinner = true;
+                if(Array.isArray(this.dataCSV)){
+                    this.downloadCSVFile('CTST Data');
+                    }
+                else {
+                    this.showLoadingSpinner = false;
+                    this.getCSVClick(result,'CTST Data');
+                }
+        })
+        .catch(error => { 
+            this.boolDisplayLoadingText = false;
+            this.displayErrorMessage(error, '');
+        });
     }
 
     //Method to Download CSV template along with records
@@ -178,14 +207,14 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
 
         generateCSVFile({ strConfigName: this.selectedConfigRec.DeveloperName, 
                             strURL:this.strURL,
-                            strSelectedRecords : this.selectedCases,
+                            strSelectedRecords : this.selectedRecords,
                             listViewId : this.listViewId })
             .then(result => {
                 this.boolDisplayLoadingText = false;
                 this.dataCSV = result;
                 this.showLoadingSpinner = true;
                 if(Array.isArray(this.dataCSV )){
-                    this.downloadCSVFile();
+                    this.downloadCSVFile('');
                     }
                 else {
                     this.showLoadingSpinner = false;
@@ -198,7 +227,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         });
     }
     //This method validates the dataCSV and creates the csv file to download
-    async downloadCSVFile() {   
+    async downloadCSVFile(fileName) {   
         let csvString = '';
 
         this.dataCSV = this.dataCSV.map(obj => {
@@ -218,7 +247,8 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
         //     csvString = csvString.replaceAll('\n', '\n=');
         // } 
         this.showLoadingSpinner = false;
-        this.getCSVClick(csvString,this.operationRecordTypeValue +'-' + Date.now() );
+        let csvName = fileName != '' ? fileName : this.operationRecordTypeValue +'-' + Date.now();
+        this.getCSVClick(csvString, csvName);
     }
 
     //This method downloads CSV
@@ -295,7 +325,7 @@ export default class ASF_BulkCsvUploadDownload extends LightningElement {
      //This method handles logic of 'Go Back' Button
      handleListViewNavigation() {
         const baseURL = window.location.origin;
-        const listViewUrl = `${baseURL}/lightning/o/Case/list?filterName=${this.listViewId}`;
+        const listViewUrl = `${baseURL}/lightning/o/${this.objectApiName}/list?filterName=${this.listViewId}`;
         window.open(listViewUrl,"_self");
     }
 

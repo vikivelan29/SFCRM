@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Asset_Fields__c</field>
-        <value xsi:type="xsd:string">LAN__c</value>
+        <value xsi:type="xsd:string">LAN__c,DA_Transaction__c</value>
     </values>
     <values>
         <field>Impact_Option_Logic__c</field>

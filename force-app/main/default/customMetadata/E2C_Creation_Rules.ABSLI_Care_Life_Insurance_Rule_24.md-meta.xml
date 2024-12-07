@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ABSLI Care Life Insurance Rule 24</label>
+    <protected>false</protected>
+    <values>
+        <field>E2C_Creation_Scenarios__c</field>
+        <value xsi:type="xsd:string">ABSLI_Care_Life_Insurance</value>
+    </values>
+    <values>
+        <field>Error_Message__c</field>
+        <value xsi:type="xsd:string">Case creation failed as rule &apos;info@kananprep.com&apos; is not satisfied for ABSLI_Care_Life_Insurance mailbox.</value>
+    </values>
+    <values>
+        <field>Field__c</field>
+        <value xsi:type="xsd:string">Sender</value>
+    </values>
+    <values>
+        <field>Operator__c</field>
+        <value xsi:type="xsd:string">Does Not Contain</value>
+    </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:type="xsd:string">info@kananprep.com</value>
+    </values>
+</CustomMetadata>

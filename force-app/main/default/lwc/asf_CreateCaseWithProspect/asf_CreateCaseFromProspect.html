@@ -61,6 +61,7 @@
                             <template if:true={boolAllSourceVisible}>
                                 <lightning-combobox data-id="Source Field" value={sourceFldValue} label="Source"
                                     options={sourceFldOptions} onchange={handleSource} placeholder={strSource}
+                                    disabled={boolSourceComboboxDisabled}
                                     required>
                                 </lightning-combobox>
                             </template>
@@ -71,18 +72,45 @@
                                 </lightning-combobox>
                             </template>
 
-                            <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
-                                label="No Auto Communication" options={noAutoCommOptions} value={noAutoCommValue}
-                                onchange={handleAutoCommChange}>
-                            </lightning-checkbox-group>
+                            <template if:true={boolNoAutoComm}>
+                                <lightning-checkbox-group name="nocomm" class="slds-p-top_small"
+                                    label="No Auto Communication" options={noAutoCommOptions} value={noAutoCommValue}
+                                    onchange={handleAutoCommChange}>
+                                </lightning-checkbox-group>
+                            </template>
                         </template>
-
-
-
-                        <template if:true={isPhoneInbound}>
-                            <lightning-input type="text" label="Track Id" value={trackId} onchange={handleTrackId}
-                                required></lightning-input>
-                        </template>
+                        <div class="slds-grid slds-grid_vertical slds-var-p-top_small">
+                            <div class="slds-col slds-size_2-of-8">
+                                <template if:true={isPhoneInbound}>
+                                    <lightning-input class="validate" type="text" label="Track Id" value={trackId} onchange={handleTrackId} required ></lightning-input>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_2-of-8">
+                                <template if:true={showAniNumber}>
+                                    <lightning-input class="validate" type="text" label="ANI Number" value={aniNumber} onchange={handleAniNumber} pattern="[0-9]*" required ></lightning-input>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_2-of-8">
+                                <template if:true={showIssueType}>
+                                    <lightning-combobox class="validate" name="issueType" label="Issue Type" value={issueTypeVal} onchange={handleIssueTypeChange} options={issueTypeOptions} required ></lightning-combobox>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_2-of-8 slds-p-top_x-small slds-p-bottom_x-small">
+                                <template if:true={showFtr}>
+                                    <lightning-input type="checkbox" label="FTR" value={ftrValue} onchange={handleFtr}></lightning-input>
+                                </template>
+                            </div>
+                            <div class="slds-col slds-size_2-of-8">
+                                <template if:true={showCategoryType}>
+                                    <lightning-combobox data-id="Category_Type"
+                                    label="Category Type"
+                                    class="validate" 
+                                    options={categoryTypeOptions}
+                                    required>
+                                    </lightning-combobox> 
+                                </template>
+                            </div>
+                        </div>
 
                         <template if:true={isTransactionRelated}>
                             <lightning-input type="text" label="Transaction Number" value={transactionNumber}

@@ -65,7 +65,7 @@
                                         data-id="rejectReason" required=true value={rejectionReasonVal}>
                                     </lightning-input-field>
                                     <lightning-input-field field-name="Business_Unit__c" data-id="bizUnit"
-                                        value={caseBUVal} class="slds-hide">
+                                        value={caseBUVal} class="slds-hide" style="display: none;">
                                     </lightning-input-field>
                                     <lightning-input-field field-name="Bot_Feedback__c" data-id="botfeedback"
                                         required=true value={botFeedbackVal}>
@@ -112,7 +112,7 @@
 
                             <template if:true={complaintLevelVisible}>
                                 <lightning-record-edit-form object-api-name="Case">
-                                    <lightning-input-field class="slds-hide" variant="label-stacked"
+                                    <lightning-input-field class="slds-hide" style="display: none;" variant="label-stacked"
                                         field-name="Complaint_Level__c" value={caseComplaintLevel} data-id="Source">
                                     </lightning-input-field>
                                     <lightning-input-field style="margin-left: -3px;" variant="label-stacked"

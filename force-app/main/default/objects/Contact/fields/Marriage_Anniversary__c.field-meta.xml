@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Marriage_Anniversary__c</fullName>
+    <description>ABSLI Field</description>
+    <externalId>false</externalId>
+    <label>Marriage Anniversary</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Date</type>
+</CustomField>

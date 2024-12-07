@@ -130,7 +130,8 @@ public class ASF_CaseUIController_Test{
             FirstName = 'Test',
             LastName = 'Lead',
             Company = 'Test Company',
-            mobilephone = '1234567890'
+            mobilephone = '1234567890',
+            PANNO__c = 'ABCDE1234E'
         );
         insert testLead;
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
@@ -160,7 +161,8 @@ public class ASF_CaseUIController_Test{
             FirstName = 'Test',
             LastName = 'Lead',
             Company = 'Test Company',
-            mobilephone = '1234567890'
+            mobilephone = '1234567890',
+            PANNO__c = 'ABCDE1234E'
         );
         ASF_CaseUIController.CreateProspectAndUpdateOnCase(cs,testLead2);
         System.assertEquals(null, relObjName, 'not equal to null');
@@ -180,7 +182,8 @@ public class ASF_CaseUIController_Test{
             FirstName = 'Test',
             LastName = 'Lead',
             Company = 'Test Company',
-            mobilephone = '1234567890'
+            mobilephone = '1234567890',
+            PANNO__c = 'ABCDE1234E'
         );
         insert testLead;
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
@@ -222,6 +225,7 @@ public class ASF_CaseUIController_Test{
         Lead leadRecord = new Lead();
         leadRecord.MobilePhone  = '9855494949';
         leadRecord.LastName = 'test';
+        leadRecord.PANNO__c = 'ABCDE1234E';
         insert caseRecord;
         //insert leadRecord;
         //caseRecord.Lead__c =leadRecord.Id;

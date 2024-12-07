@@ -28,7 +28,7 @@ public class ASF_SMSCommunicationParser_Test {
         //a.CRN__c = '12344';
         insert a;
         
-        Lead leads = new Lead(FirstName = 'test', lastName = 'data', MobilePhone = '0000000000');
+        Lead leads = new Lead(FirstName = 'test', lastName = 'data', MobilePhone = '0000000000',PANNO__c = 'ABCDE1234E');
         insert leads;
         
         ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
