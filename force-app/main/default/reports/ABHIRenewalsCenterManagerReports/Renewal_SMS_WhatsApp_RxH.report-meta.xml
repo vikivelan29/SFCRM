@@ -60,7 +60,6 @@
             <operator>notEqual</operator>
             <value></value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Tabular</format>
     <name>Renewal SMS &amp; WhatsApp</name>
