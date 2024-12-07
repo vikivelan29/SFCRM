@@ -138,6 +138,7 @@ public without sharing class RNWL_IndividualAccRenewalController {
                     }
 
                     lstRenewalWrapper.add(objRenewalWrapper);
+                    break;
                 } 
             } 
             
