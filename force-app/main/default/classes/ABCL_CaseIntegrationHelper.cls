@@ -49,7 +49,7 @@ public with sharing class ABCL_CaseIntegrationHelper {
                         if(mdtEbotCase.Send_to_UNFYD__c == true){
                             if(recordAfter.Type__c == 'EMAILRESPONSE'){
                                 //String unfdydResponseString = '{"Id": "8879656","response": "This is Gen AI Response","Success": "yes","Failure":"No"}';
-                                ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDWrapper.class);
+                                ABFL_UNFYDEmailWrapper unfydResponse = (ABFL_UNFYDEmailWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDEmailWrapper.class);
                                 //ABFL_UNFYDEmailWrapper unfydResponse = (ABFL_UNFYDEmailWrapper)JSON.deserialize(unfdydResponseString,ABFL_UNFYDEmailWrapper.class);
                                 ABFL_CaseIntegrationHelper.unfydEmailResponseHandler(recordAfter.Case__c,unfydResponse);
                             }
