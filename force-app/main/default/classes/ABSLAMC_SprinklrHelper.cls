@@ -152,8 +152,14 @@ public class ABSLAMC_SprinklrHelper {
                        if(newCase.Stage__c == oldCase.Stage__c){
                            callSprinklrUpdateAPICases.add(newCase.clone(True,True,True,True));
                        }
-                       ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.clear();
-                       ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
+					  if(caseRec.Business_Unit__c == 'ABHI'){
+                           ABHI_UpdatesForSprinklr.caseLatestNotesMap.clear();
+                           ABHI_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
+                       }
+                       else{
+                           ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.clear();
+                           ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
+                       }
                        newCase.Latest_Notes__c = '';
                    }
                    
