@@ -74,22 +74,23 @@ public class ABSLAMC_AccountIndicatorController {
     public static Map<String, String> getLatestNPSData(String accId) {
         Map<String, String> resultMap = new Map<String, String>();
         
-        List<Survey_Response__c> surveyResp = [SELECT Id, Primary_Question_NPS__c, Responded_on__c, Journey__c
+        Survey_Response__c surveyResp = [SELECT Id, Primary_Question_NPS__c, Responded_on__c, Journey__c
                                          FROM Survey_Response__c 
                                          WHERE Client_Code__c = :accId 
+                                        
                                          ORDER BY Responded_on__c DESC LIMIT 1];
         
-        if (!surveyResp.isEmpty()) {
-            if (surveyResp[0].Responded_on__c != null) {
-                resultMap.put('Latest Response', String.valueOf(Date.valueOf(surveyResp[0].Responded_on__c)));
+        if (surveyResp != null) {
+            if (surveyResp.Responded_on__c != null) {
+                resultMap.put('Latest Response', String.valueOf(Date.valueOf(surveyResp.Responded_on__c)));
             }
             
-            if (surveyResp[0].Primary_Question_NPS__c != null) {
-                resultMap.put('Score', String.valueOf(surveyResp[0].Primary_Question_NPS__c));
+            if (surveyResp.Primary_Question_NPS__c != null) {
+                resultMap.put('Score', String.valueOf(surveyResp.Primary_Question_NPS__c));
             }
             
-            if (surveyResp[0].Journey__c != null && surveyResp[0].Journey__c != '') {
-                resultMap.put('Journey', String.valueOf(surveyResp[0].Journey__c));
+            if (surveyResp.Journey__c != null && surveyResp.Journey__c != '') {
+                resultMap.put('Journey', String.valueOf(surveyResp.Journey__c));
             }
         }
         
