@@ -33,5 +33,5 @@ public class ABFL_UNFYDWrapper {
     public static ABFL_UNFYDWrapper fromJson(String jsonString) {
         return (ABFL_UNFYDWrapper) JSON.deserialize(jsonString, ABFL_UNFYDWrapper.class);
     }
-    
+
 }
