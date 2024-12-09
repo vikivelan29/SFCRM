@@ -9,7 +9,7 @@
  * 1.0   10-17-2024   santanu.halder@salesforce.com   Initial Version
 -->
 <template>
-    <lightning-card>
+    <lightning-card class="slds-p-around_medium">
         <div slot="title">
             <lightning-button-icon slot="actions" icon-name="action:new_case" size="small" class="slds-m-right_x-small" variant="brand"></lightning-button-icon>
             Search old Cases
@@ -45,6 +45,20 @@
 </div>
 </template>
         </div>
+        <template if:true={showAlert}>
+            <div>
+            <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                <span class="slds-assistive-text">error</span>
+                <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" title="Description of icon when needed">
+                <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+                </svg>
+                </span>
+                <h2>{alertMessage}
+                </h2>
+                </div>
+            </div>
+        </template>
         
         
         <div lwc:if = {displayTable}>
