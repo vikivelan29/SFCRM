@@ -38,14 +38,14 @@ public with sharing class ABFL_CaseIntegrationHelper {
             }
             //AutoResponse Logic
             if(unfydResponse.AUTORESPONSE=='Yes'){
-                //sendEmailAndCaseUpdate(caseId,caseDetails.Id ,unfydResponse);
+                sendEmailAndCaseUpdate(caseId,caseDetails.Id ,unfydResponse);
             }
             if(unfydResponse.AUTORESPONSE=='No'){
                 publishUNFYDEmailEvent(caseId);
             }
             //Dedup Check
-            if(String.isNotBlank(caseId) && caseCatConfig!= null && unfydResponse.DEDUPE=='Yes'){
-                closeDuplicateCase(caseId,unfydResponse,caseCatConfig);
+            if(String.isNotBlank(caseId) && caseCatConfig!= null){
+                updateCase(caseId,unfydResponse,caseCatConfig);
             }
         }catch(exception ex){
             System.debug('Exception caught: ' + ex.getMessage());
@@ -53,13 +53,13 @@ public with sharing class ABFL_CaseIntegrationHelper {
         
     }
     
-    public static void closeDuplicateCase(String caseId, ABFL_UNFYDWrapper unfydResponse,ASF_Case_Category_Config__c caseCatConfig){
+    public static void updateCase(String caseId, ABFL_UNFYDWrapper unfydResponse,ASF_Case_Category_Config__c caseCatConfig){
         try{
-            Case parentCase= [SELECT Id,AccountId,Type_Text__c,Sub_Type_Text__c,Is_Duplicate__c,CaseNumber,ParentId from Case WHERE Type_Text__c=:caseCatConfig.Type__c AND Sub_Type_Text__c=:caseCatConfig.Sub_Type__c AND Status NOT IN ('Closed','Resolved','Closed Duplicate','Unresolved') AND LAN__c=:unfydResponse.LAN AND Source__c=:'Email' LIMIT 1];
-            if(parentCase != null){
+            List<Case> parentCase= [SELECT Id,AccountId,Type_Text__c,Sub_Type_Text__c,Is_Duplicate__c,CaseNumber,ParentId from Case WHERE Type_Text__c=:caseCatConfig.Type__c AND Sub_Type_Text__c=:caseCatConfig.Sub_Type__c AND Status NOT IN ('Closed','Resolved','Closed Duplicate','Unresolved') AND LAN__c=:unfydResponse.LAN AND Source__c=:'Email' LIMIT 1];
+            if(parentCase.size()>0 && unfydResponse.DEDUPE=='Yes'){
                 Case caseUpdate = new Case();
                 caseUpdate.Id = caseId;
-                caseUpdate.ParentId= parentCase.Id;
+                caseUpdate.ParentId= parentCase[0].Id;
                 caseUpdate.CCC_External_Id__c=unfydResponse.ISSUECODE;
                 caseUpdate.Nature__c=caseCatConfig.Nature__c;
                 caseUpdate.LAN__c=String.isNotBlank(unfydResponse.LAN)? unfydResponse.LAN : '';
@@ -68,6 +68,14 @@ public with sharing class ABFL_CaseIntegrationHelper {
                 caseUpdate.Status='Closed Duplicate';
                 Update caseUpdate;
                 //Send email
+            }else{
+                Case caseUpdate = new Case();
+                caseUpdate.Id = caseId;
+                caseUpdate.CCC_External_Id__c=unfydResponse.ISSUECODE;
+                caseUpdate.Nature__c=caseCatConfig.Nature__c;
+                caseUpdate.LAN__c=String.isNotBlank(unfydResponse.LAN)? unfydResponse.LAN : '';
+                caseUpdate.Client_Code_Text__c=String.isNotBlank(unfydResponse.CUSTOMERNO)? unfydResponse.CUSTOMERNO : '';
+                Update caseUpdate;
             }
         }catch(exception ex){
             System.debug('Exception caught: ' + ex.getMessage());
@@ -83,7 +91,7 @@ public with sharing class ABFL_CaseIntegrationHelper {
 *****************************************************************************************************************/ 
     public static void sendEmailAndCaseUpdate(String caseId, String caseDetailId ,ABFL_UNFYDWrapper unfydResponse){
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && unfydResponse!=null ){
-            ABFL_EBOT_Case_Email__mdt mdtEbotCase = ABFL_EBOT_Case_Email__mdt.getInstance('EBOT_Condition'); 
+            ABFL_EBOT_Case_Email__mdt mdtEbotCase = ABFL_EBOT_Case_Email__mdt.getInstance('EBOT_Condition');
             List<case> recCase = [SELECT ID,AccountId,ContactId ,Business_Unit__c ,No_Auto_Communication__c , SuppliedEmail,CCC_External_Id__c ,Sub_Type_Text__c FROM CASE WHERE ID =:caseId WITH SYSTEM_MODE LIMIT 1 ];
             if(unfydResponse.ISSMT == 'YES'){
                 sendSmtFlagYes(recCase[0],mdtEbotCase.SMT_Receiver_Address__c ); 
@@ -93,53 +101,54 @@ public with sharing class ABFL_CaseIntegrationHelper {
                 List<ASF_Case_Category_Config__c > cseCatConfig = [SELECT Id , EBOT_Auto_Close__c,EBOT_Auto_Response__c ,EBOT_Template__c ,EBOT_Registered_Template__c ,EBOT_Unregistered_Template__c , CCC_External_Id__c,Nature__c  FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c =: recCase[0].CCC_External_Id__c  WITH SYSTEM_MODE LIMIT 1];
                 //IsPotentialComplaint
                 if(checkIsPotentialCustomerYes(unfydResponse, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,true,false,false,false,false,false,false,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,true,false,false,false,false,false,false,false,emailMessages);
                 }
-                //Excluded Domain
-                else if(checkIsExcludedDomainYes(emailMessages[0],recCase[0],cseCatConfig[0], unfydResponse, mdtEbotCase)){
-                    // system.debug('multipleLead');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,true,false,false,false,false,false,false,false,false);
-                }
+                /**Excluded Domain
+else if(checkIsExcludedDomainYes(emailMessages[0],recCase[0],cseCatConfig[0], unfydResponse, mdtEbotCase)){
+system.debug('multipleLead');
+genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,true,false,false,false,false,false,false,false,false,emailMessages);
+}**/
                 //ST=Lead
-                else if(checkLeadSubtype(recCase[0],unfydResponse, mdtEbotCase)){
+                else if(checkLeadSubtype(emailMessages[0],recCase[0],cseCatConfig[0],unfydResponse, mdtEbotCase)){
                     // system.debug('multipleLead');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,false,true,false,false,false,false,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,false,true,false,false,false,false,false,false,emailMessages);
                 }
                 //IsMultiLAN
-                else if(checkIsSmtAndMultipleLAN(unfydResponse, mdtEbotCase)){
+                else if(checkIsSmtAndMultipleLAN(emailMessages[0], recCase[0], cseCatConfig[0],unfydResponse, mdtEbotCase)){
                     //system.debug('multipleLAn');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,True,false,false,false,true,false,false,false,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,false,false,true,false,false,false,false,false,emailMessages);
                 }
                 //ST=PAYTM
-                else if(checkPaytmInteractionNotNull(unfydResponse, mdtEbotCase)){
+                else if(checkPaytmInteractionNull(emailMessages[0],recCase[0],cseCatConfig[0],unfydResponse, mdtEbotCase)){
                     //system.debug('paytmfired');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,False,false,false,false,false,true,false,false,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],true,caseDetailId,false,false,false,true,false,false,false,false,emailMessages);
                 }
                 //Is Register Customer
-                else if(checkIsRegisteredCustomerNo(cseCatConfig[0], unfydResponse, mdtEbotCase)){
+                else if(checkIsRegisteredCustomerNo(emailMessages[0], recCase[0],cseCatConfig[0], unfydResponse, mdtEbotCase)){
                     //system.debug('RegisteredCustomerNo');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,false,false,false,false,false,false,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,false,false,false,false,false,false,false,false,emailMessages);
                 }
                 else if(checkIsRegisteredCustomerYes(emailMessages[0], recCase[0],cseCatConfig[0], unfydResponse, mdtEbotCase)){
                     //system.debug('RegisteredCustomeryes');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,false,false,false,false,true,false,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,false,false,false,false,true,false,false,false,emailMessages);
                 }
                 //IsMulti Intent
                 else if(checkIsMultipleIntentYes(unfydResponse, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,false,false,false,false,false,true,false,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,false,false,false,false,false,true,false,false,emailMessages);
                 }
                 //IsAttachment
                 else if(checkIsAttchmentYes(unfydResponse, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,false,false,false,false,false,false,true,false,false);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,false,false,false,false,false,false,true,false,emailMessages);
                 }
-                //IsTrailMail
-                else if(checkIsTrailMailYes(unfydResponse, mdtEbotCase)){
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,false,false,false,false,false,false,false,true,false);
-                }
+                /**
+//IsTrailMail
+else if(checkIsTrailMailYes(unfydResponse, mdtEbotCase)){
+genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,false,false,false,false,false,false,false,true,false,emailMessages);
+}**/
                 //Confidence score
-                else if(confidenceScoreAndSubtypeCheck(cseCatConfig[0], unfydResponse, mdtEbotCase)){
+                else if(confidenceScoreAndSubtypeCheck(emailMessages[0], recCase[0],cseCatConfig[0], unfydResponse, mdtEbotCase)){
                     //system.debug('ConfidenceScore');
-                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,False,false,false,false,false,false,false,false,false,false,true);
+                    genericSendEmailAndCaseClose(cseCatConfig[0],recCase[0],false,caseDetailId,false,false,false,false,false,false,false,true,emailMessages);
                 }
             }
         }
@@ -226,9 +235,29 @@ public with sharing class ABFL_CaseIntegrationHelper {
 * @return - Boolean .
 * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
 *****************************************************************************************************************/
-    public static Boolean checkLeadSubtype(Case recCase,ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
-        
-        return recCase.Sub_Type_Text__c == condition.Sub_Type_Text_Lead__c  &&
+    public static Boolean checkLeadSubtype(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
+        List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
+        List<String> allowedToAddress = condition.ToAddress__c.split(',');
+        // system.debug('allowed domains '+ !allowedDomain.contains(recCase.SuppliedEmail));
+        Boolean isExcludedDomain = false;
+        Boolean isallowedToAddress = false;
+        for (String toAdd : allowedToAddress) {
+            if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
+                isallowedToAddress = true;
+                break;
+            }
+        }
+        for (String domain : allowedDomain) {
+            if (recCase.SuppliedEmail.contains(domain.trim())) {
+                isExcludedDomain = true;
+                break;
+            }
+        }
+        return isallowedToAddress &&
+            !isExcludedDomain &&
+            objResponseBody.ISTRAILMAIL == condition.AUTOCLOSURE_IN_RR__c &&
+            recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
+            recCase.Sub_Type_Text__c == condition.Sub_Type_Text_Lead__c  &&
             recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c ;
         
     }
@@ -240,10 +269,32 @@ public with sharing class ABFL_CaseIntegrationHelper {
 * @return - Boolean .
 * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
 *****************************************************************************************************************/
-    public static Boolean checkIsSmtAndMultipleLAN(ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
-        return objResponseBody.ISMULTIPLELAN == condition.ISMULTIPLELAN__c &&
+    public static Boolean checkIsSmtAndMultipleLAN(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig,ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
+        List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
+        List<String> allowedToAddress = condition.ToAddress__c.split(',');
+        //system.debug('SuppliedEmail == '+ recCase.SuppliedEmail);
+        Boolean isExcludedDomain = false;
+        Boolean isallowedToAddress = false;
+        for (String domain : allowedDomain) {
+            if (recCase.SuppliedEmail.contains(domain.trim())) {
+                isExcludedDomain = true;
+                break;
+            }
+        }
+        for (String toAdd : allowedToAddress) {
+            if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
+                isallowedToAddress = true;
+                break;
+            }
+        }
+        // system.debug('allowed domain '+ !recCase.SuppliedEmail.contains(condition.ExcludedDomains__c));
+        return isallowedToAddress &&
+            !isExcludedDomain &&
             objResponseBody.ISTRAILMAIL == condition.AUTOCLOSURE_IN_RR__c &&
-            objResponseBody.ISATTACHMENT == condition.ISATTACHMENTFLAG__c;
+            objResponseBody.ISATTACHMENT == condition.AUTOCLOSURE_IN_RR__c &&
+            recCaseCatConfig.EBOT_Auto_Response__c == FALSE &&
+            objResponseBody.ISMULTIPLELAN == condition.ISMULTIPLELAN__c;            
+        
     }
     
     /****************************************************************************************************************
@@ -253,9 +304,30 @@ public with sharing class ABFL_CaseIntegrationHelper {
 * @return - Boolean .
 * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
 *****************************************************************************************************************/
-    public static Boolean checkPaytmInteractionNotNull(ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
-        return objResponseBody.ISTRAILMAIL == condition.AUTOCLOSURE_IN_RR__c &&
-            objResponseBody.PAYTMINTERACTIONID == '';            
+    public static Boolean checkPaytmInteractionNull(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig,ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
+        List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
+        List<String> allowedToAddress = condition.ToAddress__c.split(',');
+        //system.debug('allowed domain '+ !allowedDomain.contains(recCase.SuppliedEmail));
+        Boolean isExcludedDomain = false;
+        Boolean isallowedToAddress = false;
+        for (String toAdd : allowedToAddress) {
+            if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
+                isallowedToAddress = true;
+                break;
+            }
+        }
+        for (String domain : allowedDomain) {
+            if (recCase.SuppliedEmail.contains(domain.trim())) {
+                isExcludedDomain = true;
+                break;
+            }
+        }
+        return isallowedToAddress &&
+            !isExcludedDomain &&
+            objResponseBody.ISTRAILMAIL == condition.AUTOCLOSURE_IN_RR__c &&
+            recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
+            recCase.Sub_Type_Text__c == condition.Sub_Type_Text_Paytm__c  &&
+            objResponseBody.PAYTMINTERACTIONID == '';
     }
     
     /****************************************************************************************************************
@@ -266,13 +338,32 @@ public with sharing class ABFL_CaseIntegrationHelper {
 * @return - Boolean .
 * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
 *****************************************************************************************************************/
-    public static Boolean checkIsRegisteredCustomerNo(ASF_Case_Category_Config__c recCaseCatConfig, ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
-        return objResponseBody.ISREGISTEREDCUSTOMER == condition.ISREGISTEREDCUSTOMER__c &&
+    public static Boolean checkIsRegisteredCustomerNo(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
+        List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
+        List<String> allowedToAddress = condition.ToAddress__c.split(',');
+        Boolean isExcludedDomain = false;
+        Boolean isallowedToAddress = false;
+        for (String toAdd : allowedToAddress) {
+            if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
+                isallowedToAddress = true;
+                break;
+            }
+        }
+        for (String domain : allowedDomain) {
+            if (recCase.SuppliedEmail.contains(domain.trim())) {
+                isExcludedDomain = true;
+                break;
+            }
+        }
+        return isallowedToAddress &&
+            !isExcludedDomain &&
             objResponseBody.ISTRAILMAIL == condition.AUTOCLOSURE_IN_RR__c &&
             recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
             recCaseCatConfig.EBOT_Unregistered_Template__c != Null &&
-            (recCaseCatConfig.Nature__c == 'Request' ||
-             recCaseCatConfig.Nature__c == 'Query');
+            recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Lead__c &&
+            recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c &&
+            objResponseBody.ISREGISTEREDCUSTOMER == condition.ISREGISTEREDCUSTOMER__c &&
+            (recCaseCatConfig.Nature__c == 'Request' || recCaseCatConfig.Nature__c == 'Query');
     }
     
     /****************************************************************************************************************
@@ -311,7 +402,8 @@ public with sharing class ABFL_CaseIntegrationHelper {
             allowedSubtype.contains(recCase.Sub_Type_Text__c) &&
             objResponseBody.ISREGISTEREDCUSTOMER != condition.ISREGISTEREDCUSTOMER__c &&
             objResponseBody.ISATTACHMENT == condition.ISATTACHMENTFLAG__c &&
-            String.valueOf(objResponseBody.CONFIDENCESCORE) >= condition.CONFIDENCESCORE__c ;
+            String.valueOf(objResponseBody.CONFIDENCESCORE) >= condition.CONFIDENCESCORE__c &&
+            (recCaseCatConfig.Nature__c == 'Request' || recCaseCatConfig.Nature__c == 'Query');
     }
     
     /****************************************************************************************************************
@@ -333,7 +425,7 @@ public with sharing class ABFL_CaseIntegrationHelper {
 * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
 *****************************************************************************************************************/
     public static Boolean checkIsAttchmentYes(ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
-        return objResponseBody.ISATTACHMENT == condition.ISATTACHMENTFLAG__c;
+        return objResponseBody.ISATTACHMENT != condition.ISATTACHMENTFLAG__c;
     }
     
     /****************************************************************************************************************
@@ -355,10 +447,34 @@ public with sharing class ABFL_CaseIntegrationHelper {
 * @return  Boolean .
 * @description - Method is used to fetch the data from custommetadata and compare it with case and ASF_Case_Category_Config__c data for calling different scenarios mentioned on user story PR970457-132
 *****************************************************************************************************************/
-    public static Boolean confidenceScoreAndSubtypeCheck(ASF_Case_Category_Config__c recCaseCatConfig, ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
-        return objResponseBody.ISREGISTEREDCUSTOMER != condition.ISREGISTEREDCUSTOMER__c &&
-            String.valueOf(objResponseBody.CONFIDENCESCORE) < condition.CONFIDENCESCORE__c &&
-            recCaseCatConfig.EBOT_Registered_Template__c != Null;
+    public static Boolean confidenceScoreAndSubtypeCheck(EmailMessage emailMessage, Case recCase,ASF_Case_Category_Config__c recCaseCatConfig, ABFL_UNFYDWrapper objResponseBody, ABFL_EBOT_Case_Email__mdt  condition) {
+        List<String> allowedSubtype = condition.Sub_Type_Text__c.split(',');
+        List<String> allowedDomain = condition.ExcludedDomains__c.split(',');
+        List<String> allowedToAddress = condition.ToAddress__c.split(',');
+        Boolean isExcludedDomain = false;
+        Boolean isallowedToAddress = false;
+        for (String toAdd : allowedToAddress) {
+            if (emailMessage.Winning_Email__c != null && emailMessage.Winning_Email__c.contains(toAdd.trim() )) {
+                isallowedToAddress = true;
+                break;
+            }
+        }
+        for (String domain : allowedDomain) {
+            if (recCase.SuppliedEmail.contains(domain.trim())) {
+                isExcludedDomain = true;
+                break;
+            }
+        }
+        return isallowedToAddress &&
+            !isExcludedDomain &&
+            objResponseBody.ISTRAILMAIL == condition.AUTOCLOSURE_IN_RR__c &&
+            recCaseCatConfig.EBOT_Auto_Response__c == TRUE &&
+            recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Lead__c &&
+            recCase.Sub_Type_Text__c != condition.Sub_Type_Text_Paytm__c &&
+            recCaseCatConfig.EBOT_Registered_Template__c != Null &&
+            !allowedSubtype.contains(recCase.Sub_Type_Text__c) &&  
+            objResponseBody.ISREGISTEREDCUSTOMER != condition.ISREGISTEREDCUSTOMER__c &&
+            objResponseBody.CONFIDENCESCORE >= condition.CONFIDENCESCORE__c ;
     }
     
     /****************************************************************************************************************
@@ -372,7 +488,7 @@ public with sharing class ABFL_CaseIntegrationHelper {
 * @param isPaytm
 * @description - Sends an email to contact and closes the case according to the flow  mentioned on user story PR970457-132
 *****************************************************************************************************************/
-    public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed, String abflCaseExtId,Boolean templateName,Boolean isPotentailComplaint,Boolean isExcludedDomain,Boolean isLead,Boolean isMultiLAN,Boolean isPaytm,Boolean isRegistered,Boolean isMultiIntent,Boolean isAttachment,Boolean isTrailMail,Boolean isConfidenceScore){
+    public static void genericSendEmailAndCaseClose(ASF_Case_Category_Config__c caseCategConfig , Case recCase,Boolean closed,String abflCaseExtId,Boolean isPotentailComplaint,Boolean isLead,Boolean isMultiLAN,Boolean isPaytm,Boolean isRegistered,Boolean isMultiIntent,Boolean isAttachment,Boolean isConfidenceScore,List<EmailMessage> emailMessages){
         List<Case> lstUpdateCase = new List<Case>();
         List<ABFL_Case_Detail__c> lstUpdateCaseExt = new List<ABFL_Case_Detail__c>();
         List<ASF_Checklist__c> lstUpdateChecklist = new List<ASF_Checklist__c>();
@@ -420,28 +536,32 @@ public with sharing class ABFL_CaseIntegrationHelper {
                 if(updateResult[0].getId() != null){
                     //createPELoggerRecords(recCase,caseCategConfig);
                     //Calling the common PE logger class which creates PE logger record and fire platform even ASF_CommnunicationLog__e for sending an email.  
-                    if(templateName){
+                    if(isMultiLAN){
                         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_Multiple_Lan_Template',null,false);
-                    }
-                    //else if(isPotentailComplaint){
-                    //else if(isExcludedDomain){
-                    else if(isLead){
-                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_LEAD',null,false);
-                    }
-                    //else if(isMultiLAN){
+                    }/**
+else if(isLead){
+ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_LEAD',null,false);
+}**/
                     else if(isPaytm){
                         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,'ABFL_PaytmAutorespon',null,false);
-                    }
-                    else if(!isRegistered){
-                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c ,null,false);
-                    }
-                    else if(isRegistered){
-                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c ,null,false);
-                    }
-                    //else if(isMultiIntent){
-                    //else if(isAttachment){
-                    //else if(isTrailMail){
-                    //else if(isConfidenceScore){
+                    }/**
+else if(!isRegistered){
+ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c ,null,false);
+
+if(recCase.Business_Unit__c == 'ABFL'){
+if(recCase.AccountId == null){
+ABFL_WealthChatGeneratedCases.sendEmailWhenNotRegisteredCustomer(emailMessages,false);
+}else{
+ABFL_WealthChatGeneratedCases.sendEmailWhenNotRegisteredCustomer(emailMessages,true);
+}
+
+}
+
+}
+else if(isRegistered){
+ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Registered_Template__c ,null,false);
+}**/
+                    
                 }
             } 
         }
@@ -458,11 +578,23 @@ public with sharing class ABFL_CaseIntegrationHelper {
                     }
                     else if(!isRegistered){
                         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
-                        
                     }
+                    /**else if(isMultiIntent){
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
+                	}
+                    else if(isAttachment){
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
+                    }
+                    else if(isTrailMail){
+                        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
+                    }
+                    else if(isConfidenceScore){
+						ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategConfig.EBOT_Unregistered_Template__c,null,false);
+                    }**/
                 }
             }
         }   
+        
     }
     
     /****************************************************************************************************************

@@ -44,7 +44,9 @@ public with sharing class ABCL_CaseIntegrationHelper {
                         //Boolean isTransferred = ABCL_IntegrationCommonUtility.transferAttachments(recordAfter);
                     }
                     else if (integrationCase.Business_Unit__c == 'ABFL'){
-                        if(System.Label.ABFL_GenAIIntegration=='UNFYD'){
+                        Case c=[Select Id,Winning_Email__c from Case where Id=:recordAfter.Case__c Limit 1];
+                        ASF_PriorityEmailAddressesByBU__mdt mdtEbotCase = ASF_PriorityEmailAddressesByBU__mdt.getInstance(c.Winning_Email__c);
+                        if(mdtEbotCase.Send_to_UNFYD__c == true){
                             if(recordAfter.Type__c == 'EMAILRESPONSE'){
                                 String unfdydResponseString = '{"Id": "8879656","response": "This is Gen AI Response","Success": "yes","Failure":"No"}';
                                 //ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDWrapper.class);

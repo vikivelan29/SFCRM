@@ -114,15 +114,11 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     String platformEvent = 'CRM_to_EBOT_Event__e';
                     
                     List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = new List<ASF_PriorityEmailAddressesByBU__mdt>();
-                    if(endpointFlag == 'UNFYD'){
-                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_UNFYD__c = true  WITH SYSTEM_MODE];
-                    }
                     
-                    else{
                         emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_ebot__c = true  WITH SYSTEM_MODE];
-                    }
+                    List<ASF_PriorityEmailAddressesByBU__mdt> metadataList = [ SELECT Business_Unit__c,Email2CaseAddress__c,Send_to_UNFYD__c FROM ASF_PriorityEmailAddressesByBU__mdt WHERE Email2CaseAddress__c =:emailMsg.Winning_Email__c];
                     
-                    if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null ){
+                    if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null && metadataList[0].Send_to_UNFYD__c==true ){
                         emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABFL' and Send_To_Ebot__c = false and send_to_UNFYD__c = true WITH SYSTEM_MODE];
                         if(emailAddressBU.size() > 0){
                             if(fileNames != null){
