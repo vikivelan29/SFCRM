@@ -15,7 +15,6 @@ public with sharing class ABHFL_EbotTriggerHelper {
 *****************************************************************************************************************/     
     public static void createExtEbotEvent(map<Id, sObject> newEvent){
         Set<Id> emailMsgIds = new Set<Id>();
-        String endpointFlag = System.Label.ABFL_GenAIIntegration;
         for(EBOT_Internal_Event__e request : (List<EBOT_Internal_Event__e>)newEvent.values()){
             emailMsgIds.add(request.Email_Message_ID__c);
         }
@@ -46,12 +45,7 @@ public with sharing class ABHFL_EbotTriggerHelper {
                 ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();    
                 caseInt.Case__c = emailMsg.ParentId;
                 caseInt.Status__c = 'Pending';
-                if(emailMsg.Parent.Business_Unit__c == 'ABFL' && endpointFlag=='UNFYD'){
-                    caseInt.Type__c = 'CATEGORIZATION';
-                }else{
-                    caseInt.Type__c = 'eBOT';
-                }
-                
+                caseInt.Type__c = 'eBOT';
                 caseIntegrationList.add(caseInt);
             }
         }
@@ -112,13 +106,13 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     Map<String, String> fieldsMap = new Map<String, String>();
                     //Added by Mrinal Tripathi (EYIN) platform event made dynamic
                     String platformEvent = 'CRM_to_EBOT_Event__e';
-                    
+                    String endpointFlag = System.Label.ABFL_GenAIIntegration;
                     List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = new List<ASF_PriorityEmailAddressesByBU__mdt>();
                     
-                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_ebot__c = true  WITH SYSTEM_MODE];
-                    List<ASF_PriorityEmailAddressesByBU__mdt> metadataList = [ SELECT Business_Unit__c,Email2CaseAddress__c,Send_to_UNFYD__c FROM ASF_PriorityEmailAddressesByBU__mdt WHERE Email2CaseAddress__c =:emailMsg.Winning_Email__c];
+                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c WITH SYSTEM_MODE];
                     
-                    if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null && metadataList[0].Send_to_UNFYD__c==true ){
+                    List<ASF_PriorityEmailAddressesByBU__mdt> metadataList = [ SELECT Business_Unit__c,Email2CaseAddress__c,Send_to_UNFYD__c FROM ASF_PriorityEmailAddressesByBU__mdt WHERE Email2CaseAddress__c =:emailMsg.Winning_Email__c];
+                    if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null && metadataList[0].Send_to_UNFYD__c== true ){
                         emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABFL' and Send_To_Ebot__c = false and send_to_UNFYD__c = true WITH SYSTEM_MODE];
                         if(emailAddressBU.size() > 0){
                             if(fileNames != null){
@@ -215,9 +209,9 @@ public with sharing class ABHFL_EbotTriggerHelper {
         }
         if(ContentDistributionsToInsert.size() > 0){
             insert ContentDistributionsToInsert;
-            for(ContentDistribution cd:[Select id, DistributionPublicUrl from ContentDistribution where id IN :ContentDistributionsToInsert]){
-                System.debug('public url after insert--->'+ cd.DistributionPublicUrl);
-                publicUrls.add(cd.DistributionPublicUrl);
+            for(ContentDistribution cd:[Select id, ContentDownloadUrl from ContentDistribution where id IN :ContentDistributionsToInsert]){
+                System.debug('public url after insert--->'+ cd.ContentDownloadUrl);
+                publicUrls.add(cd.ContentDownloadUrl);
             }
         }
         return publicUrls;
