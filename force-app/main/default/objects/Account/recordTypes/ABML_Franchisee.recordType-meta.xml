@@ -12,9 +12,28 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>ABML_Partner_Segmentation__c</picklist>
+        <values>
+            <fullName>Business</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Premium</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>ABML_Status__c</picklist>
         <values>
             <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dropped</fullName>
             <default>false</default>
         </values>
         <values>
@@ -84,8 +103,16 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABML</fullName>
             <default>true</default>
+        </values>
+        <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
         </values>
         <values>
             <fullName>ABSLI</fullName>
@@ -101,6 +128,10 @@
         </values>
         <values>
             <fullName>Payments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -306,6 +337,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABML</fullName>
             <default>true</default>
         </values>
@@ -322,7 +357,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Not Classified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
             <default>false</default>
         </values>
         <values>
@@ -330,7 +385,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>RE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail - Secured</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail - Unsecured</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Wealth</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
