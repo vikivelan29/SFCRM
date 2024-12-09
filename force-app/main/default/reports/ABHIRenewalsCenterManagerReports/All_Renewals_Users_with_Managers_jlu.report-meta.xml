@@ -14,7 +14,6 @@
             <operator>equals</operator>
             <value>RNWL Base Profile,RNWL Manager Profile</value>
         </criteriaItems>
-        <language>en_US</language>
     </filter>
     <format>Summary</format>
     <groupingsDown>
