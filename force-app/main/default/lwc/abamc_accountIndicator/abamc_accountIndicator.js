@@ -61,9 +61,6 @@ export default class Abamc_accountIndicator extends LightningElement {
         if (data) {
             this.npsData = this.processNPSData(data);
             this.error = undefined;
-            if(this.npsData.length === 0){
-                this.nonpsData = true;
-            }
         } else if (error) {
             this.error = error;
             this.npsData = undefined;
