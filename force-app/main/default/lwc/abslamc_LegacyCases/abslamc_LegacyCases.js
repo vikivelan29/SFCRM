@@ -34,8 +34,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
     customerId;
     arnNumber;
     showDropdown = false;
-    showAlert = false;
-    @track alertMessage = '';
 
     label = {
         errorMessage,
@@ -114,8 +112,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
     fetchLegacyCases() {
         this.displayTable = false;
         this.displayError = false;
-        this.showAlert = false;
-        
        
 
         this.data = null;
@@ -124,65 +120,36 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
             this.disabled = true;
              this.isLoading = true;
              console.log('inputs->>',this.customerId,this.selectedAsset,this.arnNumber,this.lob);
-            getLegacyData({
-                customerId: this.customerId,
-                lanNumber: this.selectedAsset,
-                arnNumber: this.arnNumber,
-                lob: this.lob
-            })
-            .then(result => {
+            getLegacyData({customerId: this.customerId, lanNumber: this.selectedAsset, arnNumber: this.arnNumber, lob: this.lob}).then(result=>{
                 this.leagcyCaseData = result;
-                console.log('Result1 ==> ', this.leagcyCaseData);
+                console.log('Result1 ==> ', result);
                 this.isLoading = false;
-                this.disabled = false;
-                console.log('data-->', this.leagcyCaseData.legacyCaseResponse);
-            
+                console.log('data-->',this.leagcyCaseData.legacyCaseResponse);
                 if (this.leagcyCaseData && this.leagcyCaseData.returnCode == '1' && this.leagcyCaseData.statusCode == 200) {
                     this.statusCode = this.leagcyCaseData.statusCode;
                     this.loaded = true;
                     this.displayTable = true;
                     this.data = this.leagcyCaseData.legacyCaseResponse;
                     this.disabled = false;
-            
-                    if (this.data.length === 0) {
-                        this.showAlert = true;
-                        this.alertMessage = 'No Data found';
-                        this.displayTable = false;
-                    }
-                } else if (this.leagcyCaseData.statusCode == 400) {
-                    console.log('resp-->', this.leagcyCaseData.response);
-                    this.showAlert = true;
-                    this.alertMessage = this.leagcyCaseData.response || 'Unexpected error occurred.';
-                    console.log('error->',this.alertMessage);
-                    this.displayTable = false;
-                } else if (this.leagcyCaseData && this.leagcyCaseData.statusCode != 0 && 
-                           (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
-                    console.log('@@@Error');
+                }
+                else if(this.leagcyCaseData && this.leagcyCaseData.statusCode != 0 && (this.leagcyCaseData.returnCode == '2' || this.leagcyCaseData.returnMessage != null)) {
+                    console.log('@@@Erro');
                     this.displayError = true;
                     this.loaded = true;
                     this.errorMessage = this.leagcyCaseData.returnMessage;
                     this.disabled = false;
-                } else if (this.leagcyCaseData && this.leagcyCaseData.statusCode == 0) {
+                }
+                else if(this.leagcyCaseData && this.leagcyCaseData.statusCode == 0){
                     this.disabled = false;
                     this.showNotification("Error", this.leagcyCaseData.returnMessage, 'error');
-                }
-            })
-            .catch(error => {
-                console.log('error1 ==> ', error);
+                } 
+            }).catch(error=>{
+                console.log('error ==> ', error);
+                this.showNotification("Error", this.label.errorMessage, 'error');
                 this.isLoading = false;
                 this.loaded = true;
                 this.disabled = false;
-                this.showAlert = true;
-            
-                if (error && error.message) {
-                    this.alertMessage = `Error: ${error.message}`;
-                    console.log('error->',this.alertMessage);
-                } else {
-                    this.alertMessage = 'Something went wrong, please contact your Administrator.';
-                    console.log('error->',this.alertMessage);
-                }
-            });
-            
+            })
         }
 
     }
@@ -190,7 +157,6 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
     handleChange(event) {
 
         this.selectedAsset = event.detail.value;
-        this.customerId = '';
         console.log('this.v'+JSON.stringify(event.detail));
      }
     
@@ -240,7 +206,5 @@ export default class ABSLAMC_LegacyCases extends LightningElement {
         this.arnNumber = '';
         this.lob = '';
         this.displayTable = false;
-        this.showAlert = false;
-       // this.disabled = false;
     }
 }
