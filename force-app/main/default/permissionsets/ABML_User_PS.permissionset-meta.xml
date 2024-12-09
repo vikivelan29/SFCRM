@@ -507,6 +507,26 @@
         <field>ABML_Case_Detail__c.To_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+		<editable>true</editable>
+		<field>ABML_Case_Detail__c.Cust_Service_Remarks__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
+	<fieldPermissions>
+		<editable>true</editable>
+		<field>ABML_Case_Detail__c.Value_of_Claim__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
+	<fieldPermissions>
+		<editable>true</editable>
+		<field>ABML_Case_Detail__c.Mode_of_Reply__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
+	<fieldPermissions>
+		<editable>true</editable>
+		<field>ABML_Case_Detail__c.Cause_of_Complaint_R__c</field>
+		<readable>true</readable>
+	</fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_DP__c.ABML_Client_Code__c</field>
@@ -517,7 +537,6 @@
         <field>ABML_DP__c.ABML_DP_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_DP__c.ABML_Parent_Account__c</field>
