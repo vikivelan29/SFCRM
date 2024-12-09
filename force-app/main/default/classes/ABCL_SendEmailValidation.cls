@@ -1,4 +1,3 @@
-
 /*********************************************************
 *Class        :  ABFL_SendEmailValidation
 *Author       :  Shubham Sinha 
