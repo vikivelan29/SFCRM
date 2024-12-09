@@ -8,12 +8,79 @@
 
 public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInvocable {
 	
-    /***************************************************************************************************************    
-        * @LOB - ABSLAMC
-        * @Function - getCaseRec
-        * @param caseId - Record id of Case
-        * @return - Case 
-        * @Description - get case record with the case Id with all the fields which need to be populated in the request
+/***************************************************************************************************************    
+    * @LOB - ABSLAMC
+    * @Function - getCaseRec
+    * @param caseId - Record id of Case
+    * @return - Case 
+    * @Description - get case record with the case Id with all the fields which need to be populated in the request
+*****************************************************************************************************************/
+    public Case getCaseRec(String caseId){
+        
+        Case caseRecord = [SELECT CaseNumber, CCC_External_Id__c, Source__c, Business_Unit__c, Nature__c, LAN__c,
+                           Pending_Clarification__c, Stage__c, MoveToNext__c, LOB__c, Asset.Folio__c
+                           FROM Case
+                           WHERE Id =:caseId
+        ];
+        return caseRecord;
+    }
+/****************************************************************************************************************  
+    * @LOB - ABSLAMC
+    * @Function - getCaseDetail
+    * @param caseId - Record id of Case
+    * @return - ABSLAMC_Case_Detail__c 
+    * @Description - get the ABSLAMC_Case_Detail__c record with the case Id passed as param
+*****************************************************************************************************************/
+    public ABSLAMC_Case_Detail__c getCaseDetail(String caseId){
+        
+        ABSLAMC_Case_Detail__c caseDetail =  [SELECT Id, Name, CAMS_Ticket_Reference_Number__c,CAMS_Ticket_Status__c,Additional_Remarks_for_CAMS__c,
+                                              Note_For_CAMS__c,Critical_Request__c
+                                              FROM ABSLAMC_Case_Detail__c 
+                                              WHERE Id IN (SELECT ABSLAMC_Case_Detail__c FROM CASE WHERE Id = :caseId)];
+                                              
+       return caseDetail;
+    }
+   
+/****************************************************************************************************************
+    * @LOB - ABSLAMC
+    * @Function - processResponse
+    * @param caseInteg - ASF_Case_Integration record.
+    * @return - void
+    * @Description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
+*****************************************************************************************************************/
+    
+	public void processResponse(ASF_Case_Integration__c caseInt){
+        
+    }
+    
+/****************************************************************************************************************
+    * @LOB - ABSLAMC
+    * @Function - evaluate
+    * @param caseRec - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @Description - Invoked from the ASF_IntegrationsController class, 
+    *                This method evaluates whether CAMS Integration should be fired or not.
+*****************************************************************************************************************/
+	public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
+        ABSLAMC_Case_Detail__c caseDetailRec = getCaseDetail(caseRec.Id);
+        ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
+        if(caseRec.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS && caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU 
+           && (String.isBlank(caseDetailRec.CAMS_Ticket_Reference_Number__c) || (caseRec.Pending_Clarification__c == true && caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS)))
+        {
+          result.status = 'Success';
+          result.response = 'CAMS Api - CreateWorkflow submitted successfully';            
+        }
+        return result;
+	}
+    
+    /****************************************************************************************************************
+    * @LOB - ABSLAMC
+    * @Function - run
+    * @param integ - ASF_Integration record.
+    * @param caseRec - Case record from the framework.
+    * @return - ASF_IntegrationsController.IntegrationWrapper.
+    * @Description - Invoked from the ASF_IntegrationsController class, 
+                     This method runs the CAMS Integration and creates Case Integration record.
     *****************************************************************************************************************/
         public Case getCaseRec(String caseId){
             
@@ -88,6 +155,35 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
             response.status = 'Success';
             return response;
         }
+    }
+/****************************************************************************************************************
+    * @LOB - ABSLAMC
+    * @Function - generateReqBody
+    * @param integ - ASF_Integration record
+    * @param caseRec - Case record
+    * @param caseDetail - ABSLAMC_Case_Detail__c
+    * @return - Request Body
+    * @Description - This method generates request JSON body for CAMS-CreateWorkflow Api.
+*****************************************************************************************************************/    
+    public String generateReqBody(Case caseRecord, ASF_Integration__c asfInteg, ABSLAMC_Case_Detail__c caseDetail) {
+                
+        string serviceType = (caseRecord.Nature__c == 'Request') ? 'R' : ((caseRecord.Nature__c == 'Query') ? 'Q': 'C');
+        CAMSCreateWfReqWrapper CAMSCreateWfReqWrapperObj = new CAMSCreateWfReqWrapper();      
+        CAMSCreateWfReqWrapperObj.messagefrom = ABSLAMC_Constants.CAMSWEB;
+        //CAMSCreateWfReqWrapperObj.foliono = caseRecord.LAN__c;
+        CAMSCreateWfReqWrapperObj.foliono = caseRecord.Asset.Folio__c;
+        CAMSCreateWfReqWrapperObj.source = ABSLAMC_Constants.BIRLACRM;
+        CAMSCreateWfReqWrapperObj.serviceType = serviceType;
+        CAMSCreateWfReqWrapperObj.messageType = asfInteg.CAMS_Message_Code__c; 
+        CAMSCreateWfReqWrapperObj.messageTo = asfInteg.CAMS_Target_Code__c; 
+        CAMSCreateWfReqWrapperObj.messageDesc = caseDetail.Note_For_CAMS__c; 
+        if (String.isNotBlank(caseDetail.Additional_Remarks_for_CAMS__c)){
+            CAMSCreateWfReqWrapperObj.messageDesc += ', Additional Remarks - '+caseDetail.Additional_Remarks_for_CAMS__c;
+        }
+        CAMSCreateWfReqWrapperObj.messagePriority = (caseDetail.Critical_Request__c == 'Yes') ?  '1' : '2'; 
+        CAMSCreateWfReqWrapperObj.msgCompStatus = 'N';
+        CAMSCreateWfReqWrapperObj.talismaID = caseRecord.CaseNumber;
+        CAMSCreateWfReqWrapperObj.lob = caseRecord.LOB__c;
         
     /****************************************************************************************************************
         * @LOB - ABSLAMC
