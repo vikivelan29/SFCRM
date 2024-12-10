@@ -626,7 +626,7 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
 *****************************************************************************************************************/
     public static void publishUNFYDEmailEvent(String caseId){
         Map<String, String> fieldsMap = New Map<String, String>();
-        Case caseRecord=[Select Id,CaseNumber,Type_Text__c,Sub_Type_Text__c,Nature__c,eBOT_Email_Draft__c FROM Case where Id=:caseId LIMIT 1];
+        Case caseRecord=[Select Id,CaseNumber,Type_Text__c,Sub_Type_Text__c,Nature__c FROM Case where Id=:caseId LIMIT 1];
         ABFL_Case_Detail__c caseDetails=[Select Id,Case__c From ABFL_Case_Detail__c where Case__r.Id =:caseRecord.Id LIMIT 1];
         if(caseRecord!= null && caseDetails!=null){
             
