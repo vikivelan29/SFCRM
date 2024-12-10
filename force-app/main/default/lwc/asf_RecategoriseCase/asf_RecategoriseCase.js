@@ -22,8 +22,7 @@ import CASE_ASSET_POLICY_NUMBER from '@salesforce/schema/Case.Asset.Policy_No__c
 import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
-import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
-import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
+import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 
 
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
@@ -128,7 +127,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     businessUnit = '';
 
     accountRecordType = '';
-    leadRecordType = ''; // Virendra - Added as part of Prospect Requirement.
+    leadRecordType = ''; // Virendra - Added as part of Prospept Requirement.
     caseFields = [NATURE_FIELD, SOURCE_FIELD, CHANNEL_FIELD];
     oldCaseDetails ;
     currentCCCId;
@@ -190,30 +189,36 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     selectLan;
     assetSearchPlaceholder;
     currentIssueType = '';
-    
+
     /* METHOD TO GET THE CASE RELATED INFORMATION ON LOAD.
     */
     @wire(getRecord, { recordId: '$recordId', fields: [SENTTOBOT_FIELD, CASE_BU_FIELD,CCC_FIELD,CASE_ASSET_LAN_NUMBER,BSLI_ISSUE_TYPE,CASE_ASSET_POLICY_NUMBER] })
     wiredRecord({ error, data }) {
         if (data) {
+            console.log('@@@wire'+JSON.stringify(data));
             const case_Bu = getFieldValue(data, CASE_BU_FIELD);
+            console.log('@@@case_Bu',case_Bu);
             //Show Bot Feedback checkbox if Case source is Email and for specific BU
             const email_Bot_BU = Email_Bot_BU_label.includes(';') ? Email_Bot_BU_label.split(';') : [Email_Bot_BU_label];
+            console.log('@@@email_Bot_BU',this.email_Bot_BU);
             if(getFieldValue(data, SENTTOBOT_FIELD) === true && email_Bot_BU.includes(getFieldValue(data, CASE_BU_FIELD))){
                 this.showBotFeedback = true;
             }
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
+            console.log('@@@this.businessUnit ',this.businessUnit );
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
-            //if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU || getFieldValue(data, CASE_BU_FIELD) == ABSLAMC_BU){
-            if(BU_TO_HIDE_EBOT_FEEDBACK.split(';').includes(case_Bu)){
+            // if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU){
+            if(BU_TO_HIDE_EBOT_FEEDBACK.includes(case_Bu)){    
                 this.showBotFeedbackDropdown = false;
             }
             this.originalIssueType = getFieldValue(data,BSLI_ISSUE_TYPE);
             if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
                 this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_POLICY_NUMBER);
             }
+            //if(this.businessUnit != 'ABML'){
             this.selectLan = lanLabels[this.businessUnit].SELECT_PRODUCT != null? lanLabels[this.businessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
+            console.log('@@@',this.selectLan);
             this.asstCols = lanLabels[this.businessUnit].ASSET_COLUMNS != null? lanLabels[this.businessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
             this.assetSearchPlaceholder = lanLabels[this.businessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.businessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
             this.eligibleWithNewCustomerCSTSMsg = lanLabels[this.businessUnit].CASE_ELIGIBLE_WITH_NEW_CTST_MSG != null? lanLabels[this.businessUnit].CASE_ELIGIBLE_WITH_NEW_CTST_MSG : lanLabels["DEFAULT"].CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
@@ -252,15 +257,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.getCurrentCaseRecordDetails();
     }
 
-    resetToBlank(event){
-        let formEl = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
-        let fields = formEl.querySelectorAll('lightning-input-field');
-            for (let field of fields) {
-                if (field.getAttribute('data-id') != 'bizUnit') {
-                field.value = '';
-                }
-            }
-    }
     //This Funcation will get the value from Text Input.
     handelSearchKey(event) {
         clearTimeout(this.typingTimer);
@@ -463,7 +459,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 }
             }
         }
-        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU && (selected.Nature__c === 'Query' || selected.Nature__c === 'Request')){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -631,7 +627,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     }
     
     async updateCaseHandler() {
-
+        console.log('inside updateCaseHandler: ' + this.isInputValid);
         const issueType = this.template.querySelector('[data-id="issueType"]');
         if(issueType){
             issueType.setCustomValidity("");
@@ -790,8 +786,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId == null && this.leadId == null){
             errorMsg = 'Neither Account nor Prospect is there. But type sub type is selected which require Customer or Prospect.'
             }
-            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null
-                && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId != null)){
+            else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null){
             errorMsg = 'Neither Asset nor Prospect is there. but type sub type is selected which require Asset or Prospect.'
             }
             else if(configuredCurrentCCC.Is_Prospect_Related__c == true && this.leadId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == false && configuredCurrentCCC.is_FA_Mandatory__c == false){
@@ -1124,6 +1119,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
     get showRecategorisationOptions(){
         if(this.recategorizeEnabled && !this.approvalPending){
             if(!this.isAssetChange && !this.bProceedToRecategorisation){
+
                 return true;
             }
         }

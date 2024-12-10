@@ -7,6 +7,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
+import ABML_BU from '@salesforce/label/c.ABML_BU';
 
 const getCurrentCustomer = (event, parentJS) => {
     parentJS.preSelectedRows = [];
@@ -37,9 +38,9 @@ const setSelectedAccount = async(event, parentJS) => {
     parentJS.selectedCustomerClientCode = row[0].clientCode;
     parentJS.accountRecordType = row[0].objectRecordType;
     parentJS.showLANForCustomer = false;
-    if (row[0].objectType == 'Customer') {
+    if (row[0].objectType == 'Customer') { 
         // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
-        parentJS.showLANForCustomer = true;
+        parentJS.showLANForCustomer =  parentJS.businessUnit== ABML_BU ? false: true; //Added by EY for ABML
         parentJS.accountId = row[0].recordId;
         parentJS.isasset = 'true';
         parentJS.selectedAsset = [];
@@ -48,7 +49,7 @@ const setSelectedAccount = async(event, parentJS) => {
         parentJS.selectedLoanAccNumber = '';
         parentJS.assetLOB = '';
     }
-    else if(row[0].objectType == 'Prospect'){
+    else if(row[0].objectType == 'Prospect' ){
         parentJS.leadId = row[0].recordId;
         parentJS.selectedCustomerName = row[0].name;
         parentJS.selectedCustomerClientCode = row[0].clientCode;
@@ -58,7 +59,7 @@ const setSelectedAccount = async(event, parentJS) => {
         parentJS.assetId = '';
         parentJS.selectedLoanAccNumber = '';
         parentJS.assetLOB = '';
-    }
+    }    
 
     await getAccountRelatedAssets({
         accountId: parentJS.selectedCustomer
@@ -167,9 +168,9 @@ const updateAccountAndAssetOnCase=async (event,parentJS)=>{
                             title: 'Error',
                             message: errMsg,
                             variant: 'error',
-                            mode: 'dismissible'
+                            mode: 'dismissable'
                         });
-                        parentJS.dispatchEvent(event);
+                        this.dispatchEvent(event);
                     }
                 }
             }
