@@ -423,6 +423,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.IDProofType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.KYC_Done_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
