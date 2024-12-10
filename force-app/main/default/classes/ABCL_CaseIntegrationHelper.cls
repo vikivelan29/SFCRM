@@ -54,9 +54,9 @@ public with sharing class ABCL_CaseIntegrationHelper {
                                 ABFL_CaseIntegrationHelper.unfydEmailResponseHandler(recordAfter.Case__c,unfydResponse);
                             }
                             else if(recordAfter.Type__c == 'CATEGORIZATION'){
-                                String unfdydResponseString = '{"CASENUMBER": "8879656","CUSTOMERNO": "8879656","AUTORESPONSE": "No","ISSMT":"No","ISMULTIPLEINTENT": "No", "LOB": "UNSECURED","ISREGISTEREDCUSTOMER": "YES”,"DEDUPE": "Yes","PAYTMINTERACTIONID": "PAYTM4832738","PRIORITY": "Medium","ISSUECODE": "hfl027","LAN": "ABFL-1234","MOODSTAMP": "Neutral","POTENTIALCOMPLAINT": "No","CONFIDENCESCORE": 0.90,"ISTRAILMAIL": "NO”,"ISATTACHMENT": "NO”,"ISMULTIPLELAN": "NO”,"DISPOSITION": "LOAN DETAILS/PARTNER RELATED”,"COMMENT": "","OWNERFULLNAME": "True","INTENT":"Loan Settlement","REMARKS":"In Json key value pair: Intent, Casetype, Subtype","CASE_INTEGRATION_ID":"ABWM1619"}';
-                                //ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDWrapper.class);
-                                ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(unfdydResponseString,ABFL_UNFYDWrapper.class);
+                                //String unfdydResponseString = '{"CASENUMBER": "8879656","CUSTOMERNO": "8879656","AUTORESPONSE": "No","ISSMT":"No","ISMULTIPLEINTENT": "No", "LOB": "UNSECURED","ISREGISTEREDCUSTOMER": "YES”,"DEDUPE": "Yes","PAYTMINTERACTIONID": "PAYTM4832738","PRIORITY": "Medium","ISSUECODE": "hfl027","LAN": "ABFL-1234","MOODSTAMP": "Neutral","POTENTIALCOMPLAINT": "No","CONFIDENCESCORE": 0.90,"ISTRAILMAIL": "NO”,"ISATTACHMENT": "NO”,"ISMULTIPLELAN": "NO”,"DISPOSITION": "LOAN DETAILS/PARTNER RELATED”,"COMMENT": "","OWNERFULLNAME": "True","INTENT":"Loan Settlement","REMARKS":"In Json key value pair: Intent, Casetype, Subtype","CASE_INTEGRATION_ID":"ABWM1619"}';
+                                ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDWrapper.class);
+                                //ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(unfdydResponseString,ABFL_UNFYDWrapper.class);
                                 ABFL_CaseIntegrationHelper.unfydResponseHandler(recordAfter.Case__c,unfydResponse);
                             }
                             
