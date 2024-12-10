@@ -23,9 +23,11 @@ public without sharing class ABCL_SurveyResponseHelper {
             Map<Integer,String> iHashLANVsLob = new Map<Integer,String>();
             Map<Id,Case> mCaseDetails = new Map<Id,Case>();
             
-             List<String> casenumberlst = new List<String>();
-
-            for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
+             
+            // FOR ABHFL BU, We required to update case__c field based on Case_Text__c.
+            // Changes done by Yogesh[PR970457-2195] starts here
+            List<String> casenumberlst = new List<String>();
+        for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
                 if(surveyResponse.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && surveyResponse.Case_Text__c != null){
                     casenumberlst.add(surveyResponse.Case_Text__c);
                 }
@@ -36,13 +38,13 @@ public without sharing class ABCL_SurveyResponseHelper {
                 for(Case c:[Select Id,caseNumber from Case where caseNumber=:casenumberlst]){
                     ABHFLcasemap.put(c.caseNumber,c.Id);
                 }
-            // FOR ABHFL BU, We required to update case__c field based on Case_Text__c.
             for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
                 if(surveyResponse.Case__c == null && surveyResponse.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && surveyResponse.Case_Text__c != null && !ABHFLcasemap.isEmpty()){
                    surveyResponse.Case__c =  ABHFLcasemap.get(surveyResponse.Case_Text__c);
                 } 
             }
             }
+      // code ends here[PR970457-2195].
             /* Scenario 1 - Client Code, Case # and LAN # is provided.
 * Scenario 2 - Client Code, Case # provided, LAN # not provided --> Do not map Asset.
 * Scenario 3 - Case # provided, Client Code and LAN not provided --> Map Customer from Case and do not map Asset.
