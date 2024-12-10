@@ -8,8 +8,26 @@
 @isTest
 public with sharing class ABHI_BusinessLogic_Helper_Test {
     
+    static List<ABHI_Create_Case_Validations__mdt> lstCreateCaseValidations { 
+    		get {
+        		if ( !lstCreateCaseValidations.isEmpty() )
+            		lstCreateCaseValidations = [ SELECT Id, MasterLabel,DeveloperName,Nature__c,Validation_Name__c,Public_Groups__c FROM ABHI_Create_Case_Validations__mdt ]; 
+        			return lstCreateCaseValidations;
+    		} set; 
+    }
+    
     @TestSetup
     static void setupTestData() {
+        
+        Group caseValidationGroup = new Group(Name='ABHI_BU_HLP_TEST', DeveloperName='ABHI_BU_HLP_TEST');
+		INSERT caseValidationGroup;
+
+		System.runAs(new User(Id = UserInfo.getUserId())) {
+    		GroupMember caseValidationGroupMember = new GroupMember(GroupId = caseValidationGroup.Id, UserOrGroupId = UserInfo.getUserId());
+    		INSERT caseValidationGroupMember;
+		}
+        
+        lstCreateCaseValidations = (List<ABHI_Create_Case_Validations__mdt>) JSON.deserialize('[{"MasterLabel":"ABHI_BU_HLP_MDT_TEST","DeveloperName":"ABHI_BU_HLP_MDT_TEST","Nature__c":"Complaint","Validation_Name__c":"NatureValidation","Public_Groups__c":"ABHI_BU_HLP_TEST"},{"MasterLabel":"ABHI_BU_HLP_MDT_TEST2","DeveloperName":"ABHI_BU_HLP_MDT_TEST2","Validation_Name__c":"ActiveOne","Issue_Code__c":"CCC-CC-CCLTD-01","Error_Message__c":"TEST_CLASS_MESSAGE"}]', List<ABHI_Create_Case_Validations__mdt>.class);
 
         Id recordTypeId =Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId();
         Account objAccount = new Account();
@@ -251,16 +269,33 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         
        // Opportunity oppRec = RNWL_TestDataFactory.createOpportunityRecords(objAccount.Id, asst1.Id);//RNWL
     }
+	
+    /****************************************************
+    * @description - Test Method for case validation aura enabled Method
+    *****************************************************/
+    @isTest 
+    static void abhiCaseValidationTestMethod() {
+        
+        Case caseRec = [SELECT id, Notes__c, PAY_Payment_Detail__c FROM Case LIMIT 1];
+        caseRec.Nature__c = 'Complaint';
+        
+        Test.startTest();
+        String strResponse = ABHI_BusinessLogic_Helper.abhiCaseValidation(JSON.serialize(caseRec));
 
+        System.assertNotEquals('', strResponse, 'Case validate response null');
+        Test.stopTest();
+    }
+    
     /****************************************************
     * @description - Test Method for evaluate Method
     *****************************************************/
     @isTest 
     static void abhiHandlerMethodTestMethod() {
         
-        Test.startTest();
         Case caseRec = [SELECT id, Notes__c, PAY_Payment_Detail__c FROM Case LIMIT 1];
         caseRec.Notes__c = 'Test Case 1';
+        
+        Test.startTest();
         update caseRec;
 
         System.assertEquals('Test Case 1', caseRec.Notes__c, 'Test Case 1');
@@ -273,12 +308,16 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     @isTest 
     static void sendCommTestMethod01() {
         
-        Test.startTest();
         Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
+
+        Test.startTest();
         UPDATE caseRec;
         
         System.assertEquals('In Progress', caseRec.Stage__c, 'Stage error: sendCommBHTest01');
+        String strResponse = ABHI_BusinessLogic_Helper.abhiActiveOneValidation(JSON.serialize(caseRec));
+
+        System.assertNotEquals('', strResponse, 'Case active one response null');
         
         Test.stopTest();
     }
@@ -289,9 +328,10 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     @isTest 
     static void sendCommTestMethod02() {
         
-        Test.startTest();
         Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
+
+        Test.startTest();
         UPDATE caseRec;
         
         caseRec.CCC_External_Id__c = 'CCC-CC-CCLTD-02';
@@ -307,15 +347,12 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     @isTest 
     static void sendCommTestMethod03() {
         
-        Test.startTest();
         Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
+
+        Test.startTest();   
         UPDATE caseRec;
-        
-        caseRec.Stage__c = 'Resolved';
-        UPDATE caseRec;
-        
-        System.assertEquals('Resolved', caseRec.Stage__c, 'Stage error: sendCommBHTest02');
+        System.assertEquals('In Progress', caseRec.Stage__c, 'Stage error: sendCommBHTest02');
         
         Test.stopTest();
     }
@@ -325,11 +362,12 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     *****************************************************/
     @isTest 
     static void sendCommTestMethod04() {
-        
-        Test.startTest();
+
         Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c, Status FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
         ABHI_BulkMoveNextConverterUtility.boolSkipChklstAbhiBulk = true;
+        
+        Test.startTest();
         UPDATE caseRec;
         
         caseRec.Stage__c = 'Unresolved ';
@@ -338,6 +376,21 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
         
         System.assertEquals('Unresolved ', caseRec.Stage__c, 'Stage error: sendCommBHTest02');
         
+        Test.stopTest();
+    }
+
+     /****************************************************
+    * @description - Test Method for send communication Method
+    *****************************************************/
+    @isTest 
+    static void sendCommTestMethod05() {
+        
+        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c, Status FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01']; 
+        caseRec.Stage__c = 'Resolved';
+
+        Test.startTest();
+            UPDATE caseRec;
+            System.assertEquals('Resolved', caseRec.Stage__c, 'Stage error: sendCommBHTest02'); 
         Test.stopTest();
     }
     
@@ -439,17 +492,15 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     
     @isTest
     static void searchAndAssocFieldsForAPICasesTest() { 
-        Case caseRec = [SELECT Id,ABHI_Case_Detail__c, AccountId, AssetId FROM Case where CCC_External_Id__c= 'CCC-CC-CCLTD-02' LIMIT 1];
-        
-       
+        Case caseRec = [SELECT Id,ABHI_Case_Detail__c, AccountId, AssetId FROM Case where CCC_External_Id__c= 'CCC-CC-CCLTD-02' LIMIT 1];            
         caseRec.Technical_Source__c = 'API';
         caseRec.Customer_Member_Text__c = 'Account1';
         caseRec.Cover_Code_Text__c = '12345';
         caseRec.ClaimNo_Text__c = '123456789';
-        
+        update caseRec;
       
         Test.startTest();
-          update caseRec;
+          
          /* ABHI_Case_Detail__c caseDet = [SELECT ID,Claim__c FROM ABHI_Case_Detail__c WHERE Id = :caseRec.ABHI_Case_Detail__c];
          Claim__c claim = [SELECT ID FROM Claim__c LIMIT 1];
 		  Assert.areEqual(claim.Id, caseDet.Claim__c, 'Claim name'); */
@@ -468,5 +519,4 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
           Assert.areEqual(null, caseDets.Claim__c, 'Claim name'); 
         Test.stopTest();
     }
-
 }
