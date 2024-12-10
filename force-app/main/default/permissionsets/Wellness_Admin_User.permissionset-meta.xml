@@ -373,6 +373,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.IDProofType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Constitution__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -419,11 +424,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Fraud_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.IDProofType__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1793,6 +1793,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.ResolutionReason__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Resolution_Comments__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2747,7 +2752,6 @@
     </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Wellness Admin User</label>
-    <license>Salesforce</license>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
