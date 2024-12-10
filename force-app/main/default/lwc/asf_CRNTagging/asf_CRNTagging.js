@@ -24,6 +24,8 @@ import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm'
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import createProspectAndUpdCase from '@salesforce/apex/ASF_CaseUIController.CreateProspectAndUpdateOnCase';
+import INSUFFICIENT_ACCESS_MSG from '@salesforce/label/c.Wellness_Insufficient_Access';//PR1030924-905
+import CASE_ACCESS_ERROR from '@salesforce/label/c.Wellness_CaseComment_add_Err_Msg';//PR1030924-905
 // VIRENDRA - PROSPECT TAGGING IMPORTS ENDS HERE.
 
 export default class Asf_CRNTagging extends LightningElement {
@@ -64,17 +66,20 @@ export default class Asf_CRNTagging extends LightningElement {
     ]
     asstData;
     accData;
-
+    label = {
+        CASE_ACCESS_ERROR, //PR1030924-905
+        INSUFFICIENT_ACCESS_MSG //PR1030924-905
+    };
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE != null? lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE : lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
-            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
-            this.selectLan = lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT != null? lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
-            this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
-            this.accCols = lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS : lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
+            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit]?.CUSTOMER_TAGGING_CARD_TITLE || lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
+            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit]?.PRODUCT_SEARCH_PLACEHOLDER || lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.selectLan = lanLabels[this.loggedInUserBusinessUnit]?.SELECT_PRODUCT || lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.loggedInUserBusinessUnit]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
+            this.accCols = lanLabels[this.loggedInUserBusinessUnit]?.ACCOUNT_COLUMNS || lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
         } else if (error) {
             //this.error = error; 
         }
@@ -136,7 +141,9 @@ export default class Asf_CRNTagging extends LightningElement {
             this.selectedCustomer = this.prestdAcctId;
 
             let my_ids1 = [];
+            if(this.FAId) {
                 my_ids1.push(this.FAId);
+            }
             this.preSelectedAsset = my_ids1;
             console.log('con data--'+JSON.stringify(data));
         } else if (error) {
@@ -246,6 +253,13 @@ export default class Asf_CRNTagging extends LightningElement {
                     }, 1000);
                 })
                 .catch(error => {
+                    let errorMessage = reduceErrors(error)[0];
+                    if(errorMessage) {
+                        if(errorMessage.indexOf(this.label.INSUFFICIENT_ACCESS_MSG) != -1){
+                            errorMessage = this.label.CASE_ACCESS_ERROR; //PR1030924-905
+                        }
+                        this.showError("error", "Error ", errorMessage);
+                    } else {
                         const event = new ShowToastEvent({
                             title: 'Error',
                             message: this.noUpdate,
@@ -253,6 +267,7 @@ export default class Asf_CRNTagging extends LightningElement {
                             mode: 'dismissable'
                         });
                         this.dispatchEvent(event);
+                    }
                 });
         } else {
             const event = new ShowToastEvent({

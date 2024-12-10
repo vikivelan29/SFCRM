@@ -136,5 +136,19 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-
+    <sharingCriteriaRules>
+        <fullName>Wellness_Prospect_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Lead with Business Unit with Wellness value to Wellness</description>
+        <label>Wellness Prospect Sharing</label>
+        <sharedTo>
+            <role>Wellness_Service_Agent</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Wellness</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>
