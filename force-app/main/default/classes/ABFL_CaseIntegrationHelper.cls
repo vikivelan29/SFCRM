@@ -660,4 +660,5 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
         caseRecord.eBOT_Email_Draft_initial__c = unfydResponse.response;
         update caseRecord;
     }
+
 }
