@@ -9,11 +9,10 @@
 public with sharing class ABHI_BusinessLogic_Helper_Test {
     
     static List<ABHI_Create_Case_Validations__mdt> lstCreateCaseValidations { 
-    		get {
-        		if ( !lstCreateCaseValidations.isEmpty() )
-            		lstCreateCaseValidations = [ SELECT Id, MasterLabel,DeveloperName,Nature__c,Validation_Name__c,Public_Groups__c FROM ABHI_Create_Case_Validations__mdt ]; 
-        			return lstCreateCaseValidations;
-    		} set; 
+        get;
+        set {
+            lstCreateCaseValidations = (List<ABHI_Create_Case_Validations__mdt>) JSON.deserialize('[{"MasterLabel":"ABHI_BU_HLP_MDT_TEST","DeveloperName":"ABHI_BU_HLP_MDT_TEST","Nature__c":"Complaint","Validation_Name__c":"NatureValidation","Public_Groups__c":"ABHI_BU_HLP_TEST"},{"MasterLabel":"ABHI_BU_HLP_MDT_TEST2","DeveloperName":"ABHI_BU_HLP_MDT_TEST2","Validation_Name__c":"ActiveOne","Issue_Code__c":"CCC-CC-CCLTD-01","Error_Message__c":"TEST_CLASS_MESSAGE"}]', List<ABHI_Create_Case_Validations__mdt>.class);
+        } 
     }
     
     @TestSetup
@@ -27,7 +26,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     		INSERT caseValidationGroupMember;
 		}
         
-        lstCreateCaseValidations = (List<ABHI_Create_Case_Validations__mdt>) JSON.deserialize('[{"MasterLabel":"ABHI_BU_HLP_MDT_TEST","DeveloperName":"ABHI_BU_HLP_MDT_TEST","Nature__c":"Complaint","Validation_Name__c":"NatureValidation","Public_Groups__c":"ABHI_BU_HLP_TEST"},{"MasterLabel":"ABHI_BU_HLP_MDT_TEST2","DeveloperName":"ABHI_BU_HLP_MDT_TEST2","Validation_Name__c":"ActiveOne","Issue_Code__c":"CCC-CC-CCLTD-01","Error_Message__c":"TEST_CLASS_MESSAGE"}]', List<ABHI_Create_Case_Validations__mdt>.class);
+        //lstCreateCaseValidations = (List<ABHI_Create_Case_Validations__mdt>) JSON.deserialize('[{"MasterLabel":"ABHI_BU_HLP_MDT_TEST","DeveloperName":"ABHI_BU_HLP_MDT_TEST","Nature__c":"Complaint","Validation_Name__c":"NatureValidation","Public_Groups__c":"ABHI_BU_HLP_TEST"},{"MasterLabel":"ABHI_BU_HLP_MDT_TEST2","DeveloperName":"ABHI_BU_HLP_MDT_TEST2","Validation_Name__c":"ActiveOne","Issue_Code__c":"CCC-CC-CCLTD-01","Error_Message__c":"TEST_CLASS_MESSAGE"}]', List<ABHI_Create_Case_Validations__mdt>.class);
 
         Id recordTypeId =Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId();
         Account objAccount = new Account();
@@ -308,7 +307,7 @@ public with sharing class ABHI_BusinessLogic_Helper_Test {
     @isTest 
     static void sendCommTestMethod01() {
         
-        Case caseRec = [SELECT id, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
+        Case caseRec = [SELECT id, AssetId, AccountId, Notes__c, Stage__c, PAY_Payment_Detail__c, CCC_External_Id__c, Recategorisation_Date__c FROM Case WHERE CCC_External_Id__c = 'CCC-CC-CCLTD-01'];
         caseRec.Stage__c = 'In Progress';
 
         Test.startTest();
