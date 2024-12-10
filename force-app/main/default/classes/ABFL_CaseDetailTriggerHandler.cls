@@ -8,9 +8,10 @@
  * Ver      Date           Author            Modification
  * 1.0      25-06-2024     Udit Singhal      Initial Version
 **/
+ 
 
 public without sharing class ABFL_CaseDetailTriggerHandler extends ASF_VTriggerHandler {
-
+	/*
     public override void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         try{
             //PR970457-2022 Auto-resolve that case once a UTR number is populated in Salesforce
@@ -23,4 +24,5 @@ public without sharing class ABFL_CaseDetailTriggerHandler extends ASF_VTriggerH
             ABCL_Logger.emit();
         }
     }
+    */
 }
