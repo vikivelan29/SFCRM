@@ -228,7 +228,7 @@
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABML_Bank__c.Bank_Unique__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -457,11 +457,6 @@
         <field>ABML_Case_Detail__c.Send_Notification__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>ABML_Case_Detail__c.ABML_SubSource__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_Case_Detail__c.TAT_Days__c</field>
@@ -537,11 +532,6 @@
         <field>ABML_DP__c.ABML_Client_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	<fieldPermissions>
-        <editable>true</editable>
-        <field>ABML_DP__c.ABML_DP_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>ABML_DP__c.ABML_DP_Code__c</field>
@@ -558,7 +548,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABML_DP__c.DP_Unique__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -593,7 +583,7 @@
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABML_LOA__c.LOA_Unique__c</field>
         <readable>true</readable>
     </fieldPermissions>
