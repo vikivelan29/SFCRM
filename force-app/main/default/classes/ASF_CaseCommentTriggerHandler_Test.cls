@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : rsinghnagar@salesforce.com
+ * @group             : 
+ * @last modified on  : 11-29-2024
+ * @last modified by  : rsinghnagar@salesforce.com 
+ * Modifications Log
+ * Ver   Date         Author                       Modification
+ * 1.0   11-29-2024   rsinghnagar@salesforce.com   Initial Version
+**/
 @isTest
 public class ASF_CaseCommentTriggerHandler_Test {
 
@@ -11,7 +21,7 @@ public class ASF_CaseCommentTriggerHandler_Test {
         insert objUser;
         
         System.runAs(objUser){
-        	ASF_TestDataFactory.createCaseRecords(0);
+            ASF_TestDataFactory.createCaseRecords(0);
         }
 
         CaseComment testComment = new CaseComment(
@@ -21,13 +31,11 @@ public class ASF_CaseCommentTriggerHandler_Test {
         insert testComment;
     }
     
-    static testmethod void updateCaseCommentTest() {
-        
+    static testmethod void updateCaseCommentTest() {        
         Id caseId = [select Id from case LIMIT 1].Id;
         Test.StartTest();
             CaseComment ccRec = [select id, CommentBody from CaseComment where ParentId=:caseId LIMIT 1];
-            ccRec.CommentBody = 'Test';
-            
+            ccRec.CommentBody = 'Test';            
             try{
                 update ccRec;
             }catch (DmlException e) {

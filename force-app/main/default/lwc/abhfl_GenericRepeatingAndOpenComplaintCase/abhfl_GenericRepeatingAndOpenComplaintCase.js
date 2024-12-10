@@ -9,7 +9,9 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     @api recordId;
     @api objectApiName;
-    isAbhfl;;
+    isAbhfl;
+    isWellness;
+    isOther;
     @track caseRecord;
     @track records;
     @track fieldArr = 'id';
@@ -40,12 +42,12 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             });
     }
     get showCustomerNPSbyNumber() {
-        if (this.nps == undefined) {
+        if (this.nps == undefined || this.nps == 0) {
             return "❌";
         }
-        else if(this.nps >= 0 && this.nps <= 6){
+        else if(this.nps > 0 && this.nps <= 6){
             return "🙁";
-        }
+            }
         else if(this.nps > 6 &&  this.nps <= 8){
             return "😐";
         }
@@ -64,6 +66,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
         if (data) {
             const businessUnitValue = getFieldValue(data, BUSINESS_UNIT);
             this.isAbhfl = businessUnitValue === 'ABHFL';
+            this.isWellness = businessUnitValue === 'Wellness';
+            this.isOther = (businessUnitValue !== 'ABHFL' && businessUnitValue !== 'Wellness');
         } else if (error) {
             console.error('Error occured in  retrieving business unit', error);
         }

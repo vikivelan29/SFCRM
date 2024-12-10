@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 12-06-2024
+ * @last modified by  : rsinghnagar@salesforce.com
+**/
 public class ASF_CaseTriggerBUSpecificHandler {
     public static final Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;
     
@@ -195,6 +202,10 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFields(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>) oldItems);
                     ABSLAMC_CaseAssignmentHelper.updateCaseExtensionFieldsForCams(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>) oldItems);
                     ABSLAMC_BU_CTSTHelper.checkAMCResolutionComments((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); 
+                }
+                else if(businessUnit == 'Wellness'){
+                    //PR1030924-219: calculate Billable Time on Case
+                    MCRM_CaseHelper.calculateBillableTimeOnCaseClose((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
                 }
                 
             }
