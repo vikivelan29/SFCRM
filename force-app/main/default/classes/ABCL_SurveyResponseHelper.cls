@@ -7,7 +7,7 @@
 *@description :  Helper class for ABCL_SurveyResponseTriggerHandler
 *********************************************************/
 public without sharing class ABCL_SurveyResponseHelper {
-    public static final List<String> LINE_OF_BUSINESS = new List<String>{'ABFL','ABWM','ABHFL'};
+    public static final List<String> LINE_OF_BUSINESS = new List<String>{'ABFL','ABWM', 'ABSLAMC','ABHFL'};
         /****************************************************************************************************************
          * @function - associateCustomerAndAsset
          * @description - Invoked from the ABCL_SurveyResponseTriggerHandler class to associate customer/asset with survery response
@@ -17,19 +17,21 @@ public without sharing class ABCL_SurveyResponseHelper {
             Set<String> accountsClientCode = new Set<String>();
             Map<Integer,Id> accClientCodeVsAccIds = new Map<Integer,Id>();
             Set<String> surveyLANNo = new Set<String>();
+            Set<String> amcSurveyLANNo = new Set<String>(); //for ABSLAMC Business Unit
             Map<Integer,Asset> lanNoVsAsset = new Map<Integer,Asset>();
             Map<Integer,String> iHashClientCodeVsLob = new Map<Integer,String>();
             Map<Integer,String> iHashLANVsLob = new Map<Integer,String>();
             Map<Id,Case> mCaseDetails = new Map<Id,Case>();
-            List<String> casenumberlst = new List<String>();
             
+             List<String> casenumberlst = new List<String>();
+
             for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
                 if(surveyResponse.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && surveyResponse.Case_Text__c != null){
                     casenumberlst.add(surveyResponse.Case_Text__c);
                 }
             }
             if(!casenumberlst.isEmpty()){
-                
+
                 Map<String,Id> ABHFLcasemap = new Map<String,Id>();
                 for(Case c:[Select Id,caseNumber from Case where caseNumber=:casenumberlst]){
                     ABHFLcasemap.put(c.caseNumber,c.Id);
@@ -41,7 +43,6 @@ public without sharing class ABCL_SurveyResponseHelper {
                 } 
             }
             }
-            
             /* Scenario 1 - Client Code, Case # and LAN # is provided.
 * Scenario 2 - Client Code, Case # provided, LAN # not provided --> Do not map Asset.
 * Scenario 3 - Case # provided, Client Code and LAN not provided --> Map Customer from Case and do not map Asset.
@@ -121,6 +122,15 @@ public without sharing class ABCL_SurveyResponseHelper {
                 if(accountId != null){
                     surveyResponse.Client_Code__c = accountId;
                 }
+                //Code block for ABSLAMC Business Unit to identify the Account from the Asset/LAN
+                if(surveyResponse.Client_Code__c == null && surveyResponse.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU && surveyResponse.LAN_Text__c!=null){
+                    if(surveyResponse.LAN_Text__c.contains('-')){
+                        amcSurveyLANNo.add(surveyResponse.LAN_Text__c.substringAfter('-'));
+                    }
+                    else{
+                        amcSurveyLANNo.add(surveyResponse.LAN_Text__c);
+                    }
+                }
                 if(surveyResponse.LAN_Text__c != null){
                     String tempKey = surveyResponse.Business_Unit__c+'_'+surveyResponse.LAN_Text__c;
                     integer itempKey = tempKey.hashCode();    
@@ -133,6 +143,25 @@ public without sharing class ABCL_SurveyResponseHelper {
                     }
                 }
             }
+
+            if(amcSurveyLANNo.size()>0){
+                map<String,String> folioVsAccountId = new map<string, String>();
+                for(Asset assetrec : [SELECT Id, AccountId,Folio__c from Asset where Folio__c in : amcSurveyLANNo AND Business_Unit__c=:ABSLAMC_Constants.ABSLAMCBU  WITH SYSTEM_MODE]){
+                    folioVsAccountId.put(assetrec.Folio__c, assetrec.AccountId);
+                }
+                if(folioVsAccountId.keySet().size()>0){
+                    for(Survey_Response__c surveyResponse : (List<Survey_Response__c>)newItems){
+                        String accountId = '';
+                        if(surveyResponse.Client_Code__c == null && surveyResponse.LAN_Text__c.contains('-') && surveyResponse.LAN_Text__c!=null){
+                            surveyResponse.Client_Code__c = folioVsAccountId.get(surveyResponse.LAN_Text__c.substringAfter('-'));
+                        }
+                        else if(surveyResponse.Client_Code__c == null && surveyResponse.LAN_Text__c!=null){
+                            surveyResponse.Client_Code__c = folioVsAccountId.get(surveyResponse.LAN_Text__c);
+                        }
+                    }
+                }
+            }
+
         }
     
     /****************************************************************************************************************
