@@ -45,8 +45,8 @@ public with sharing class ABCL_CaseIntegrationHelper {
                     }
                     else if (integrationCase.Business_Unit__c == 'ABFL'){
                         Case c=[Select Id,Winning_Email__c from Case where Id=:recordAfter.Case__c Limit 1];
-                        ASF_PriorityEmailAddressesByBU__mdt mdtEbotCase = ASF_PriorityEmailAddressesByBU__mdt.getInstance(c.Winning_Email__c);
-                        if(mdtEbotCase.Send_to_UNFYD__c == true){
+                        List<ASF_PriorityEmailAddressesByBU__mdt> metadataList = [ SELECT Business_Unit__c,Email2CaseAddress__c,Send_to_UNFYD__c FROM ASF_PriorityEmailAddressesByBU__mdt WHERE Email2CaseAddress__c =:c.Winning_Email__c];
+                        if(metadataList[0].Send_to_UNFYD__c == true){
                             if(recordAfter.Type__c == 'EMAILRESPONSE'){
                                 //String unfdydResponseString = '{"Id": "8879656","response": "This is Gen AI Response","Success": "yes","Failure":"No"}';
                                 ABFL_UNFYDEmailWrapper unfydResponse = (ABFL_UNFYDEmailWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDEmailWrapper.class);
@@ -54,9 +54,9 @@ public with sharing class ABCL_CaseIntegrationHelper {
                                 ABFL_CaseIntegrationHelper.unfydEmailResponseHandler(recordAfter.Case__c,unfydResponse);
                             }
                             else if(recordAfter.Type__c == 'CATEGORIZATION'){
-                                //String unfdydResponseString = '{"CASENUMBER": "8879656","CUSTOMERNO": "8879656","AUTORESPONSE": "No","ISSMT":"No","ISMULTIPLEINTENT": "No", "LOB": "UNSECURED","ISREGISTEREDCUSTOMER": "YES”,"DEDUPE": "Yes","PAYTMINTERACTIONID": "PAYTM4832738","PRIORITY": "Medium","ISSUECODE": "hfl027","LAN": "ABFL-1234","MOODSTAMP": "Neutral","POTENTIALCOMPLAINT": "No","CONFIDENCESCORE": 0.90,"ISTRAILMAIL": "NO”,"ISATTACHMENT": "NO”,"ISMULTIPLELAN": "NO”,"DISPOSITION": "LOAN DETAILS/PARTNER RELATED”,"COMMENT": "","OWNERFULLNAME": "True","INTENT":"Loan Settlement","REMARKS":"In Json key value pair: Intent, Casetype, Subtype","CASE_INTEGRATION_ID":"ABWM1619"}';
-                                ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDWrapper.class);
-                                //ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(unfdydResponseString,ABFL_UNFYDWrapper.class);
+                                String unfdydResponseString = '{"CASENUMBER": "8879656","CUSTOMERNO": "8879656","AUTORESPONSE": "No","ISSMT":"No","ISMULTIPLEINTENT": "No", "LOB": "UNSECURED","ISREGISTEREDCUSTOMER": "YES”,"DEDUPE": "Yes","PAYTMINTERACTIONID": "PAYTM4832738","PRIORITY": "Medium","ISSUECODE": "hfl027","LAN": "ABFL-1234","MOODSTAMP": "Neutral","POTENTIALCOMPLAINT": "No","CONFIDENCESCORE": 0.90,"ISTRAILMAIL": "NO”,"ISATTACHMENT": "NO”,"ISMULTIPLELAN": "NO”,"DISPOSITION": "LOAN DETAILS/PARTNER RELATED”,"COMMENT": "","OWNERFULLNAME": "True","INTENT":"Loan Settlement","REMARKS":"In Json key value pair: Intent, Casetype, Subtype","CASE_INTEGRATION_ID":"ABWM1619"}';
+                                //ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDWrapper.class);
+                                ABFL_UNFYDWrapper unfydResponse = (ABFL_UNFYDWrapper)JSON.deserialize(unfdydResponseString,ABFL_UNFYDWrapper.class);
                                 ABFL_CaseIntegrationHelper.unfydResponseHandler(recordAfter.Case__c,unfydResponse);
                             }
                             
