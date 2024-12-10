@@ -45,8 +45,8 @@ public with sharing class ABCL_CaseIntegrationHelper {
                     }
                     else if (integrationCase.Business_Unit__c == 'ABFL'){
                         Case c=[Select Id,Winning_Email__c from Case where Id=:recordAfter.Case__c Limit 1];
-                        ASF_PriorityEmailAddressesByBU__mdt mdtEbotCase = ASF_PriorityEmailAddressesByBU__mdt.getInstance(c.Winning_Email__c);
-                        if(mdtEbotCase.Send_to_UNFYD__c == true){
+                        List<ASF_PriorityEmailAddressesByBU__mdt> metadataList = [ SELECT Business_Unit__c,Email2CaseAddress__c,Send_to_UNFYD__c FROM ASF_PriorityEmailAddressesByBU__mdt WHERE Email2CaseAddress__c =:c.Winning_Email__c];
+                        if(metadataList[0].Send_to_UNFYD__c == true){
                             if(recordAfter.Type__c == 'EMAILRESPONSE'){
                                 //String unfdydResponseString = '{"Id": "8879656","response": "This is Gen AI Response","Success": "yes","Failure":"No"}';
                                 ABFL_UNFYDEmailWrapper unfydResponse = (ABFL_UNFYDEmailWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_UNFYDEmailWrapper.class);
@@ -69,7 +69,15 @@ public with sharing class ABCL_CaseIntegrationHelper {
                     else if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(integrationCase.Business_Unit__c) ){
                         ABFL_EbotWrapper.EbotResponseWrapper ebotResponse = (ABFL_EbotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABFL_EbotWrapper.EbotResponseWrapper.class);
                         ABFL_EBOTCaseLogics.updateCaseDetailExtension(recordAfter.Case__c,ebotResponse);
-                    }  
+                    }
+                    else if(integrationCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT){
+                        ABSLI_EBotWrapper.EbotResponseWrapper ebotResponse = (ABSLI_EBotWrapper.EbotResponseWrapper)JSON.deserialize(recordAfter.Response__c,ABSLI_EBotWrapper.EbotResponseWrapper.class);
+                        ABSLI_CaseIntegrationHelper.eBotResponseHandler(recordAfter.Case__c,ebotResponse,recordAfter);
+                    }
+                    else if(integrationCase.Business_Unit__c == ABHI_Constants.ABHI){
+                        ABHI_EBOTCaseLogics.UpdateCaseWrapper ebotResponse = (ABHI_EBOTCaseLogics.UpdateCaseWrapper)JSON.deserialize(recordAfter.Response__c,ABHI_EBOTCaseLogics.UpdateCaseWrapper.class);
+                        ABHI_EBOTCaseLogics.updateCaseExtension(recordAfter.Case__c,ebotResponse); 
+                    }
                 }
             }      
         }

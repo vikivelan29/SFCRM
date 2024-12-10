@@ -36,6 +36,10 @@ public with sharing class ABFL_CaseIntegrationHelper {
             if(Schema.sObjectType.ABFL_Case_Detail__c.isCreateable()) {
                 insert caseDetails;
             }
+            //Dedup Check
+            if(String.isNotBlank(caseId) && caseCatConfig!= null){
+                updateCase(caseId,unfydResponse,caseCatConfig);
+            }
             //AutoResponse Logic
             if(unfydResponse.AUTORESPONSE=='Yes'){
                 sendEmailAndCaseUpdate(caseId,caseDetails.Id ,unfydResponse);
@@ -43,10 +47,7 @@ public with sharing class ABFL_CaseIntegrationHelper {
             if(unfydResponse.AUTORESPONSE=='No'){
                 publishUNFYDEmailEvent(caseId);
             }
-            //Dedup Check
-            if(String.isNotBlank(caseId) && caseCatConfig!= null){
-                updateCase(caseId,unfydResponse,caseCatConfig);
-            }
+            
         }catch(exception ex){
             System.debug('Exception caught: ' + ex.getMessage());
         }
@@ -660,5 +661,4 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
         caseRecord.eBOT_Email_Draft_initial__c = unfydResponse.response;
         update caseRecord;
     }
-
 }

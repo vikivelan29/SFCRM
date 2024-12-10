@@ -112,10 +112,12 @@ public with sharing class ABHFL_EbotTriggerHelper {
                         emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c WITH SYSTEM_MODE];
                     
                     List<ASF_PriorityEmailAddressesByBU__mdt> metadataList = [ SELECT Business_Unit__c,Email2CaseAddress__c,Send_to_UNFYD__c FROM ASF_PriorityEmailAddressesByBU__mdt WHERE Email2CaseAddress__c =:emailMsg.Winning_Email__c];
+                    
                     if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null && metadataList[0].Send_to_UNFYD__c== true ){
+                        ASF_Case_Integration__c caseIntRecId = [Select Id from ASF_Case_Integration__c where Name=:caseIntegrationId LIMIT 1];
                         //Update ASF_Case_Integration__r.Type__c
                         ASF_Case_Integration__c caseIntRec=new ASF_Case_Integration__c();
-                        caseIntRec.Id=caseIntegrationId;
+                        caseIntRec.Id=caseIntRecId.Id;
                         caseIntRec.Type__c='CATEGORIZATION';
                         update caseIntRec;
                         emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABFL' and Send_To_Ebot__c = false and send_to_UNFYD__c = true WITH SYSTEM_MODE];
