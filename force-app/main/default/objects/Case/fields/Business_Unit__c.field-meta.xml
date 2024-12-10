@@ -52,6 +52,11 @@
                 <label>ABSLAMC</label>
             </value>
             <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
+            </value>
+            <value>
                 <fullName>Payment</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

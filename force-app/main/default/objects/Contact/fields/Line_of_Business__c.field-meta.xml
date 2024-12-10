@@ -68,21 +68,6 @@
                 <default>false</default>
                 <label>Wellness</label>
             </value>
-            <value>
-                <fullName>ABML</fullName>
-                <default>false</default>
-                <label>ABML</label>
-            </value>
-            <value>
-                <fullName>Wellness</fullName>
-                <default>false</default>
-                <label>Wellness</label>
-            </value>
-            <value>
-                <fullName>ABML</fullName>
-                <default>false</default>
-                <label>ABML</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

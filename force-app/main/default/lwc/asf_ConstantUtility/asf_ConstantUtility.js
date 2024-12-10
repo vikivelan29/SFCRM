@@ -586,10 +586,6 @@ export const lanLabels = {
   export const AUTO_COMM_BU_OPT = {
       Wellness: {
           OPTSLBLS: [{"label":"Email","value":"Email"},{"label":"SMS","value":"SMS"}]
-        },
-        // Added by Saravpreet(To remove SMS option for ABML BU)
-      ABML: {
-            OPTSLBLS: [{"label":"Email","value":"Email"}]
-          }   
+        } 
     };
     // Rajendra Singh Nagar: PR1030924-209 - End

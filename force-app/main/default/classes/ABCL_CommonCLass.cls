@@ -74,9 +74,7 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLAMC')){
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLAMC', bh);
                 }
-                else if(bussHrName.containsIgnoreCase('ABHI')) {
-                    mapOf_BusinessUnit_To_BusinessHr.put('ABHI', bh);
-                }else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
+                else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
                     mapOf_BusinessUnit_To_BusinessHr.put('Wellness', bh);
                 }
             }

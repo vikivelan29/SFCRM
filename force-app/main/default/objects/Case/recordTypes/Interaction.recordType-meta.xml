@@ -70,12 +70,12 @@
             <fullName>ABWM</fullName>
             <default>false</default>
         </values>
-	<values>
-            <fullName>ABSLAMC</fullName>
+        <values>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Payments</fullName>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
         <values>
@@ -959,6 +959,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Line_Of_Business__c</picklist>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RE</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Nature__c</picklist>
         <values>
             <fullName>Complaint</fullName>
@@ -1007,6 +1026,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLI Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -1035,15 +1058,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABHI Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Wellness Email</fullName>
-            <default>false</default>
-        </values>
-		 <values>
-            <fullName>ABML Email</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1102,27 +1117,7 @@
     </picklistValues>
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
-        <values>
-            <fullName>Additional information required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cancellation and refund%3A Bank Details are required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cancellation and refund%3A KYC Documents are required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cancellation and refund%3A a cancelled cheque is required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cancellation and refund%3A we need the transaction details</fullName>
-            <default>false</default>
-        </values>
-        <values>
+                <values>
             <fullName>Cancelled</fullName>
             <default>false</default>
         </values>
@@ -1246,151 +1241,7 @@
             <fullName>Duplicate</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Empanelment%2Ffeedback%3A we were unable to contact you</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A a valid Age Proof is required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A a valid ID Proof is required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A an Address Proof is required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A an affidavit is required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A it doesn%27t meet the policy T%26C%27s</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A the document needs a password</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A the minimum age for adding a member is 5 yrs</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A the policy has been cancelled</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A the policy is no longer active</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A the shared document is unclear</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A valid documents are required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A we need a Proposal Form as per the plan</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A we need a filled Proposal Form</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A we need additional documents</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A we received incomplete documents</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A your members consent is missing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Endorsement%3A your members consent is unclear</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Grievance%3A the call was declined</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Grievance%3A the call went unanswered</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Grievance%3A we were unable to contact you</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Grievance%3A your phone was switched off</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A Group Policies can%27t access the app</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A insufficient steps are recorded</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A the Activ Dayz criteria is not met</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A the Bonus Activ Dayz criteria is not met</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A the Healthy Heart Score criteria is not met</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A the call was declined</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A the call went unanswered</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A the steps were added manually</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A we were unable to contact you</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A your medical check-up is pending</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Health return%3A your phone was switched off</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incorrect Customer tagging</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incorrect SubType tagging</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insufficient incomplete details from customer</fullName>
-            <default>false</default>
-        </values>
-        <values>
+                <values>
             <fullName>Insufficient%2Fincomplete details from customer</fullName>
             <default>false</default>
         </values>

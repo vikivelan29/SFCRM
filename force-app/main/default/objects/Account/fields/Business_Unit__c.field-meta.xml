@@ -45,19 +45,9 @@
                 <label>ABSLAMC</label>
             </value>
             <value>
-                <fullName>ABHI</fullName>
-                <default>false</default>
-                <label>ABHI</label>
-            </value>
-            <value>
                 <fullName>Wellness</fullName>
                 <default>false</default>
                 <label>Wellness</label>
-            </value>
-            <value>
-                <fullName>ABML</fullName>
-                <default>true</default>
-                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>

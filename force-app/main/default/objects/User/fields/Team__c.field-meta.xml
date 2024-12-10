@@ -65,6 +65,11 @@
                 <label>Wellness</label>
             </value>
             <value>
+                <fullName>ABSLI_Multiple_Email</fullName>
+                <default>false</default>
+                <label>Wellness</label>
+            </value>
+            <value>
                 <fullName>Grievance</fullName>
                 <default>false</default>
                 <label>Grievance</label>

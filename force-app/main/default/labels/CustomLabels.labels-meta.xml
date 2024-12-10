@@ -2294,11 +2294,149 @@
         <value>ABSLAMC</value>
     </labels>
     <labels>
-        <fullName>ABML_LegacyPageSize</fullName>
+        <fullName>ABAMC_NonMandatoryUnresCommentsBUs</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABML_LegacyPageSize</shortDescription>
-        <value>10</value>
+        <shortDescription>ABAMC_NonMandatoryUnresCommentsBUs</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ABC_ResolvedReasonsRequired</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABC_ResolvedReasonsRequired</shortDescription>
+        <value>Wellness</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI BU</shortDescription>
+        <value>ABHI</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Track_Sources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Track Sources</shortDescription>
+        <value>Outbound Call,Outbound – NPS,Welcome,Service Assurance team,Inbound call,Phone</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC BU</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>ASF_CaseComment_edit_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF CaseComment edit Err Msg</shortDescription>
+        <value>You do not have access to update/delete this comment</value>
+    </labels>
+    <labels>
+        <fullName>ASF_List_of_BUs_To_AutoSelect_Single_Asset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_List_of_BUs_To_AutoSelect_Single_Asset</shortDescription>
+        <value>ABSLAMC</value>
+    </labels>
+    <labels>
+        <fullName>MCRMSupressCTSTs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRMSupressCTSTs</shortDescription>
+        <value>MLQRJUNK</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_GymLocationSelectPartnerCode</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_GymLocationSelectPartnerCode</shortDescription>
+        <value>Please choose a value from the Partner Code dropdown menu and click on the Result button.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_GymNameLocation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_GymNameLocation</shortDescription>
+        <value>No Partner data available for display.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_InvokeApiError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_InvokeApiError</shortDescription>
+        <value>An Error Occurred: We&apos;re experiencing an issue on our end. Please try again later. If the problem persists, please contact your administrator for assistance.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_Legacy_NoResults</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_Legacy_NoResults</shortDescription>
+        <value>There is no data present for given inputs.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_Legacy_Search</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_Legacy_Search</shortDescription>
+        <value>Please select Filter, and click on Search to view results.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_MissingDataError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_MissingDataError</shortDescription>
+        <value>We&apos;re Sorry! It looks like we couldn&apos;t find the information you were looking for. This might be due to a temporary issue or missing data. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_ResolutionRemarks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_ResolutionRemarks</shortDescription>
+        <value>Resolution reason &amp; remarks are required when changing Stage to Resolved.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_RewardsSelectPartnerBenefitCode</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_RewardsSelectPartnerBenefitCode</shortDescription>
+        <value>Please choose a value from the Partner Code and Benefit Code dropdown menu and click on the Rewards button.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_WireServiceTableMdtError</fullName>
+        <categories>wellness</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_WireServiceTableMdtError</shortDescription>
+        <value>Oops! We couldn&apos;t retrieve the table metadata right now. Please try refreshing the page to see if that resolves the issue.</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness BU</shortDescription>
+        <value>Wellness</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_CaseComment_add_Err_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness CaseComment add Err Msg</shortDescription>
+        <value>You cannot perform this action as You are not the owner of case</value>
+    </labels>
+    <labels>
+        <fullName>Wellness_Insufficient_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Wellness std access error message</shortDescription>
+        <value>insufficient access rights on object id</value>
     </labels>
     <labels>
         <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
@@ -2309,10 +2447,10 @@
         <value>No records are available for display.</value>
     </labels>
     <labels>
-        <fullName>ABML_BU</fullName>
+        <fullName>SuppressCreateCase_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABML_BU</shortDescription>
-        <value>ABML</value>
+        <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
+        <value>Wellness</value>
     </labels>
 </CustomLabels>

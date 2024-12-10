@@ -86,34 +86,9 @@
         <label>RE</label>
     </customValue>
     <customValue>
-        <fullName>ABHI</fullName>
-        <default>false</default>
-        <label>ABHI</label>
-    </customValue>
-    <customValue>
         <fullName>Wellness</fullName>
         <default>false</default>
         <label>Wellness</label>
-    </customValue>
-    <customValue>
-        <fullName>ABML</fullName>
-        <default>false</default>
-        <label>ABML</label>
-    </customValue>
-    <customValue>
-        <fullName>ABHI</fullName>
-        <default>false</default>
-        <label>ABHI</label>
-    </customValue>
-    <customValue>
-        <fullName>Wellness</fullName>
-        <default>false</default>
-        <label>Wellness</label>
-    </customValue>
-    <customValue>
-        <fullName>ABML</fullName>
-        <default>false</default>
-        <label>ABML</label>
     </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>

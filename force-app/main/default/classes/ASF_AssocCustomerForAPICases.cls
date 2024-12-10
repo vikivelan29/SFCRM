@@ -7,7 +7,7 @@
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.StdCyclomaticComplexity')
 public without sharing class ASF_AssocCustomerForAPICases {
-    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM','ABSLI', 'ABSLAMC','ABHI','Wellness'};
+    public static final List<String> LINE_OF_BUSINESS = new List<String>{'Payments','ABHFL','ABFL','ABWM','ABSLI', 'ABSLAMC','Wellness'};
         
         /**
 * @description : Associate AccountId and AssetId based on text fields.

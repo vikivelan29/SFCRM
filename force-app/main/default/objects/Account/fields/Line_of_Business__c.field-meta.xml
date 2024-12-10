@@ -56,11 +56,6 @@
                 <label>Wellness</label>
             </value>
             <value>
-                <fullName>ABHI</fullName>
-                <default>false</default>
-                <label>ABHI</label>
-            </value>
-            <value>
                 <fullName>RE</fullName>
                 <default>false</default>
                 <label>RE</label>

@@ -10,82 +10,14 @@
 **/
 @isTest
 public class ABCL_SendEmailValidation_Test {
-
-    @TestSetup
-    static void setupTestData() {
-        
-    
-        Profile adminProfile = [SELECT Id FROM Profile WHERE Name = 'ABHI Base Profile' LIMIT 1];
-        
-    
-        User testUser = new User(
-            Username = 'testuser@example.com' + System.currentTimeMillis(),
-            Alias = 'tuser321',
-            Email = 'testuser321123@example.com',
-            LastName = 'Test',
-            TimeZoneSidKey = 'America/Los_Angeles',
-            LocaleSidKey = 'en_US',
-            EmailEncodingKey = 'UTF-8',
-            ProfileId = adminProfile.Id,
-            LanguageLocaleKey = 'en_US',
-            Business_Unit__c = 'ABHI',
-            Source_Code__c = '015'
-        );
-
-        insert testUser;
-
-        List<Case> csList = new List<Case>();
-        Case testCase1 = new Case(
-            Subject = 'Test Case 1',
-            Status = 'New',
-            Origin = 'Email'
-        );
-        csList.add(testCase1);
-        insert csList;
-    }
-
-    @isTest
-    public static void validateIfGoingFromAuthorizedAddressABFL(){
-           Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='ABFL Base Profile' LIMIT 1];
-            User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
-                                    EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,Business_Unit__c = 'ABFL',
-                                    TimeZoneSidKey='America/Los_Angeles',Team__c = 'GRT', UserName='cdefghijk5657123456@gmail.com'
-                                    );
-        insert userRecord;
-        System.runAs(userRecord) {
-         Test.startTest(); 
-        insert new SLA_Threshold_Warning__c(Case_SLA_Threshold_1__c = 0.5, Case_SLA_Threshold_2__c = 0.7,
-                                           Case_SLA_Threshold_3__c = 0.8, Stage_SLA_Threshold_1__c = 0.5,
-                                           Stage_SLA_Threshold_2__c = 0.7, Stage_SLA_Threshold_3__c = 0.6);
-        
-        
-        Case c = new Case();
-        c.Subject = 'Test';
-        c.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
-        insert c;
-            try{
-            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            String[] toAddresses = new String[] {'test@test.com.invalid'}; 
-            mail.setToAddresses(toAddresses);
-            mail.setWhatId(c.Id);
-            mail.setSubject('Test Email Relay');
-            mail.setBccSender(false);
-            mail.setUseSignature(false);
-            mail.setPlainTextBody('This is test email with new name..');
-            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail }); 
-            }Catch(exception e){}
-        Test.stopTest();            
-    	}     
-    }
     
      @isTest
-    public static void validateIfGoingFromAuthorizedAddressWellness(){
+    public static void validateIfGoingFromAuthorizedAddress(){
            Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='ABFL Base Profile' LIMIT 1];
             User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,Business_Unit__c = 'Wellness',
-                                    TimeZoneSidKey='America/Los_Angeles',Team__c = 'GRT', UserName='cdefghijk5657123456@gmail.com'
+                                    TimeZoneSidKey='America/Los_Angeles',Team__c = 'GRT', UserName='cdefghijk56571234560@gmail.com'
                                     );
         insert userRecord;
         System.runAs(userRecord) {
@@ -112,36 +44,9 @@ public class ABCL_SendEmailValidation_Test {
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail }); 
             }Catch(exception e){}
         Test.stopTest();            
-    	}     
-    }
-
-    @isTest
-    public static void testRestrictUserToSendEmailMethod() {
-        
-        User abhiTestUser = [SELECT id, Business_Unit__c, Source_Code__c FROM USER WHERE email = 'testuser321123@example.com' LIMIT 1];
-        List<Case> csLst = [SELECT id FROM Case];
-        Case testCase1 = csLst[0];
-
-        System.runAs(abhiTestUser) {
-            Test.startTest();
-                EmailMessage testEmailMessage = new EmailMessage(            
-                    FromAddress = 'sender@example.com',  
-                    ToAddress = 'recipient@example.com', 
-                    Subject = 'Test Email Subject',      
-                    TextBody = 'This is a test email body.',
-                    Status = '3',                        
-                    MessageDate = System.now()           
-                );
-                insert testEmailMessage;
-            	ABCL_SendEmailValidation.restrictUserToSendEmail(new List<EmailMessage>{testEmailMessage});
-                EmailMessage insertedEmailMessage = [SELECT Id, ParentId, FromAddress, ToAddress, Subject, TextBody 
-                                                    FROM EmailMessage 
-                                                    WHERE Id = :testEmailMessage.Id];
-                
-                System.assertNotEquals(null, insertedEmailMessage, 'EmailMessage should be inserted successfully');
-            Test.stopTest();
-        }
-    }    
+    	}
+    }     
+    
     @isTest
     public static void validateUserWithNoTeam(){
     	Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='ABFL Base Profile' LIMIT 1];
@@ -163,13 +68,8 @@ public class ABCL_SendEmailValidation_Test {
             c.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
             insert c;
             try{
-                OrgWideEmailAddress owea = new OrgWideEmailAddress();
-                owea = [
-                    SELECT Id, Address, DisplayName FROM 
-					OrgWideEmailAddress LIMIT 1
-                ];
                 EmailMessage e = new EmailMessage();
-                e.FromAddress           = owea.Address;
+                e.FromAddress           = 'abfl.noreply@adityabirlacapital.com';
                 e.FromName              = 'Medhanie';
                 e.MessageDate           = datetime.now(); 
                 e.MessageIdentifier     = '';
@@ -178,12 +78,12 @@ public class ABCL_SendEmailValidation_Test {
                 e.TextBody              = 'test';
                 e.RelatedToId           = c.Id;
                 e.ToAddress             = 'bob.test@gmail.com';
-                e.ValidatedFromAddress  = owea.Address;
+                e.ValidatedFromAddress  = 'abfl.noreply@adityabirlacapital.com';
                 insert e;
             }catch(Exception ex){
                 Assert.areEqual(ex.getMessage()!=null, true, 'error message exists.');
             }
             Test.stopTest();            
-    	}     
     }
+    }   
 }

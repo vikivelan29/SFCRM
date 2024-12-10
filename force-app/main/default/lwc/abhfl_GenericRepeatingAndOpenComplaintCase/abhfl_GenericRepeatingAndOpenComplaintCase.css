@@ -1,117 +1,50 @@
-.text-5xl {
-  font-size: 1rem;
-  line-height: 1;
+.text-5xl{
+  font-size:1rem;
+  line-height:1;
   padding: 10px;
   text-align: center;
   margin-top: -7px;
 }
-
-.text-6xl {
-  font-size: 1rem;
-  line-height: 1;
-  padding: 10px;
-  text-align: center;
-  margin-top: 9px;
+.text-6xl{
+    font-size:1rem;
+    line-height:1;
+    padding: 10px;
+    text-align: center;
+    margin-top: 9px;
 }
-
-.text-8xl {
-  font-size: 2rem;
-  line-height: 1;
+.text-8xl{
+  font-size:2rem;
+  line-height:1;
   padding: 10px;
   text-align: center;
   margin-left: -8px;
 }
-
-h2 {
-  text-align: center;
+h2{
+    text-align: center;
 }
-
 .col-container {
-  display: table;
-  width: 100%;
-  padding: 1px;
-
-}
-
-.col {
-  display: table-cell;
-  table-layout: fixed;
-  padding: 16px;
-  max-width: 100px;
-  max-height: 100px;
-}
-
-.custom-card {
-  border: 1px solid black;
-  display: block;
-  border-radius: 5%
-}
-
-.custom-box {
-  height: 100px;
-  /* Set a custom height */
-  border: 1px solid #d8dde6;
-  /* Example border style */
-  border-radius: 5%;
-  padding: 20px;
-  /* Example padding */
-  box-sizing: border-box;
-  /* Ensure padding is included in box size */
-
-}
-
-.custom-modal-size .slds-modal {
-  width: 80%;
-  /* Ensure the modal takes full width */
-  max-width: none;
-  /* Remove any max-width limitations */
-  min-width: 700px;
-  /* Set minimum width */
-  height: auto;
-}
-
-/* Adjust the modal container inside */
-.custom-modal-size .slds-modal__container {
-  width: 80%;
-  /* Ensure the container is wide enough */
-  max-width: none;
-  /* Remove any max-width restrictions */
-  min-width: 700px;
-  /* Minimum width for modal */
-  height: auto;
-}
-
-.custom-modal-size .slds-modal__header {
-  width: 100%;
-  height: auto;
-  border: 1px solid black;
-  /* Add black border */
-  box-sizing: border-box;
-  /* Ensure padding doesn't affect the border */
-}
-
-.custom-modal-size .slds-modal__content {
-  width: 100% !important;
-  /* Ensure content takes up full width */
-  max-width: none !important;
-  /* Remove any max-width restrictions */
-  height: auto;
-  border: 1px solid black;
-  /* Add black border */
-  box-sizing: border-box;
-  /* Ensure padding doesn't affect the border */
-}
-
-.custom-modal-size .slds-modal__footer {
-  width: 100%;
-  height: auto;
-  border: 1px solid black;
-  /* Add black border */
-  box-sizing: border-box;
-  /* Ensure padding doesn't affect the border */
-}
-
-.buttonview {
-  margin-top: 8px;
-  margin-left: 10px;
+    display: table;
+    width: 100%;
+    padding: 1px;
+    
+  }
+  .col {
+    display: table-cell;
+    table-layout: fixed;
+    padding: 16px;
+    max-width: 100px;
+    max-height: 100px;
+  }
+  .custom-card{
+    border: 1px solid black;
+    display: block;
+    border-radius: 5%
+  }
+  .custom-box {
+    height: 100px; /* Set a custom height */
+    border: 1px solid #d8dde6; /* Example border style */
+    border-radius: 5%;
+    padding: 20px; /* Example padding */
+    box-sizing: border-box; /* Ensure padding is included in box size */
+    
 }
