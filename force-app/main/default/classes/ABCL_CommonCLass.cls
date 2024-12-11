@@ -82,6 +82,12 @@ public with sharing class ABCL_CommonCLass {
 else if(bussHrName.containsIgnoreCase('ABML')) { //Added by EY
                     mapOf_BusinessUnit_To_BusinessHr.put('ABML', bh);
                 }
+                else if(bussHrName.containsIgnoreCase('ABCD')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABCD', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ONEABC')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ONEABC', bh);
+                }
             }
             
             for(Case csRec : newCaseLst) {  
@@ -150,10 +156,10 @@ Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();         // a
     }
 
     /**
-     * @Function - populateCreatedDateRange
-     * @param newItems -  map of Case from trigger.new.
-     * @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
-    **/
+* @Function - populateCreatedDateRange
+* @param newItems -  map of Case from trigger.new.
+* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
+**/
     public void populateCreatedDateRange(List<Case> newItems) {
 
         Datetime currentDatetime = System.now();
@@ -172,11 +178,11 @@ Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();         // a
     }
 
     /**
-     * @Function - populateCreatedDateRange
-     * @param calculateMinutes -  Time in minutes.
-     * @return - String
-     * @description - Method to calculate the SLA Overwrite Identifier
-    **/
+* @Function - populateCreatedDateRange
+* @param calculateMinutes -  Time in minutes.
+* @return - String
+* @description - Method to calculate the SLA Overwrite Identifier
+**/
     @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         

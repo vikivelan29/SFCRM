@@ -4,8 +4,51 @@
         <fullName>ABSLAMC_DataSyncUser_FederationId</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ABSLAMC DataSyncUser FederationId</shortDescription>
-        <value>DataSyncUatFedId</value>
+        <shortDescription>ABHI_AllowOmniDeletion</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_PolicyRequired_ErrMsg1</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_PolicyRequired_ErrMsg1</shortDescription>
+        <value>Please enter Policy Number or Master Policy Number</value>
+    </labels>
+        <labels>
+        <fullName>ASF_SprinklrUpdateBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
+        <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_ABCD_Customer</shortDescription>
+        <value>Please select an ABCD Customer</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_LOB_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_LOB_Customer</shortDescription>
+        <value>You are not allowed to reparent this case</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_Non_ABCD_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_Non_ABCD_Customer</shortDescription>
+        <value>You cannot select an ABCD customer for this case</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_BITLY_LOB_VAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_BITLY_LOB_VAL</shortDescription>
+        <value>ABCABS</value>
     </labels>
     <labels>
         <fullName>ABFL_Manual_Sync_Threshold</fullName>
@@ -1501,8 +1544,71 @@
         <fullName>Wellness_Insufficient_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Wellness std access error message</shortDescription>
-        <value>insufficient access rights on object id</value>
+        <shortDescription>ABSLAMC_SprinklrUpdateSpecificBUs</shortDescription>
+        <value>ABSLAMC,ONEABC,ABCD</value>
+    </labels>
+    <labels>
+        <fullName>ABSLAMC_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC_LegacyPageSize</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_Callback_Number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_Callback_Number</shortDescription>
+        <value>8045860569</value>
+    </labels>
+    <labels>
+        <fullName>RNWL_PageLink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RNWL_PageLink</shortDescription>
+        <value>http://bit.ly/ABHRENEW</value>
+    </labels>
+    <labels>
+        <fullName>BU_Restrict_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BU Restrict email</shortDescription>
+        <value>ABHI:005:100,ABFL:50:200</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Case_Restriction_Creation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Case Restriction Creation</shortDescription>
+        <value>Source_Based_Case_Creation_Restriction,User_Source_Code_Based_Case_Creation_Restriction</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_Legacy_NoResults</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_Legacy_NoResults</shortDescription>
+        <value>There is no data present for given inputs.</value>
+    </labels>
+    <labels>
+        <fullName>MCRM_Legacy_Search</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MCRM_Legacy_Search</shortDescription>
+        <value>Please select Filter, and click on Search to view results.</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Create_Case_Validation_Error_1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI Create Case Validation Error 1</shortDescription>
+        <value>Current user is not allowed to create case.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
     </labels>
     <labels>
         <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
