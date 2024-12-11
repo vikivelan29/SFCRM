@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Business_Unit__c</fullName>
-    <label>Business Unit</label>
+    <fullName>Function__c</fullName>
+    <externalId>false</externalId>
+    <label>Function</label>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Payments</fullName>
+                <fullName>HI</fullName>
                 <default>false</default>
-                <label>Payments</label>
+                <label>Health Insurance</label>
             </value>
             <value>
-                <fullName>ABHFL</fullName>
+                <fullName>LI</fullName>
                 <default>false</default>
-                <label>ABHFL</label>
+                <label>Life Insurance</label>
             </value>
             <value>
-                <fullName>ABFL</fullName>
+                <fullName>MI</fullName>
                 <default>false</default>
-                <label>ABFL</label>
+                <label>Motor Insurance</label>
             </value>
             <value>
-                <fullName>ABWM</fullName>
+                <fullName>PC</fullName>
                 <default>false</default>
-                <label>ABWM</label>
+                <label>Portfolio</label>
             </value>
             <value>
-                <fullName>ABSLIG</fullName>
+                <fullName>CS</fullName>
                 <default>false</default>
-                <label>ABSLIG</label>
+                <label>Credit Score</label>
             </value>
             <value>
-                <fullName>ABSLI</fullName>
+                <fullName>MF</fullName>
                 <default>false</default>
-                <label>ABSLI</label>
+                <label>Mutual Fund</label>
             </value>
             <value>
-                <fullName>ABML</fullName>
+                <fullName>DG</fullName>
                 <default>false</default>
-                <label>ABML</label>
+                <label>Digigold</label>
             </value>
             <value>
-                <fullName>ABSLAMC</fullName>
+                <fullName>DM</fullName>
                 <default>false</default>
-                <label>ABSLAMC</label>
+                <label>Demat</label>
             </value>
             <value>
-                <fullName>ABHI</fullName>
+                <fullName>DS</fullName>
                 <default>false</default>
-                <label>ABHI</label>
+                <label>Deposit</label>
             </value>
             <value>
-                <fullName>Wellness</fullName>
+                <fullName>PL</fullName>
                 <default>false</default>
-                <label>Wellness</label>
+                <label>Personal Loan</label>
             </value>
             <value>
-                <fullName>ABCD</fullName>
+                <fullName>BL</fullName>
                 <default>false</default>
-                <label>ABCD</label>
+                <label>Buisness Loan</label>
             </value>
             <value>
-                <fullName>ONEABC</fullName>
+                <fullName>HFL</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>ONEABC</label>
+                <label>House Finance Loan</label>
+            </value>
+            <value>
+                <fullName>DHE</fullName>
+                <default>false</default>
+                <label>DHE</label>
             </value>
         </valueSetDefinition>
     </valueSet>
