@@ -1,0 +1,446 @@
+<html>
+<head><meta /><meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" /><meta content="IE=9; IE=8; IE=7; IE=EDGE" /><meta name="format-detection" content="telephone=no" /><meta name="robots" content="noindex" />
+	<title>Aditya Birla Capital</title>
+	<style type="text/css">body {
+margin: 0;
+padding: 0;
+-webkit-text-size-adjust: none;
+-ms-text-size-adjust: none;
+}
+body,
+table,
+td,
+a {
+-webkit-text-size-adjust: 100%;
+-ms-text-size-adjust: 100%;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+table,
+td {
+mso-table-lspace: 0pt;
+mso-table-rspace: 0pt;
+}
+td {
+border-collapse: collapse;
+}
+.phone_number {
+color: #000000 !important;
+}
+.phone_number a {
+color: #000000 !important;
+	text-decoration: none;
+}
+.tel_number {
+color: #2f2f31 !important;
+text-decoration: none !important;
+}
+.tel_number a {
+color: #2f2f31 !important;
+text-decoration: none !important;
+}
+@media all and (max-width: 640px) {
+body,
+table,
+td,
+p,
+a,
+li,
+blockquote {
+-webkit-text-size-adjust: none !important;
+}
+.table {
+width: 100% !important;
+clear: both!important;
+display: table!important;
+}
+.td-block {
+display: block !important;
+min-width: 100% !important;
+max-width: 100% !important;
+width: 100% !important;
+clear: both !important;
+float: left !important;
+}
+.responsive-image img {
+height: auto !important;
+max-width: 100% !important;
+width: 100% !important;
+}
+.logo-image img {
+height: auto !important;
+max-width: 75% !important;
+width: 75% !important;
+}
+.hide {
+display: none !important;
+width: 100% !important;
+}
+.pdlr {
+padding-left: 15px !important;
+padding-right: 15px !important;
+}
+.pdtb {
+padding-top: 15px !important;
+padding-bottom: 15px !important;
+}
+.pdtop15 {
+padding-top: 15px !important;
+}
+.pdnone {
+padding: 0 !important;
+}
+.pdlrno {
+padding-left: 0 !important;
+padding-right: 0 !important;
+}
+.pdtop5 {
+padding-top: 5px !important;
+}
+.pdbot15 {
+padding-bottom: 15px !important;
+}
+.head {
+font-size: 20px !important;
+line-height: 26px !important;
+letter-spacing: 1px !important;
+}
+.mtext {
+font-size: 14px !important;
+line-height: 21px !important;
+}
+.bnone {
+border: none !important;
+}
+.border-bottom {
+border-bottom: 1px solid #515c5e !important;
+border-right: none !important;
+}
+.leftalign {
+text-align: left !important;
+}
+.center {
+text-align: center !important;
+}
+.center img {
+margin: 0 auto !important;
+}
+.center table {
+margin: 0 auto !important;
+}
+.alleft {
+text-align: left !important;
+}
+.autowidth {
+max-width: fit-content !important;
+min-width: auto !important;
+width: auto !important;
+}
+.hauto {
+height: auto !important;
+}
+.mobile {
+display: block !important;
+width: 100% !important;
+max-width: 100% !important;
+height: auto !important;
+max-height: inherit !important;
+line-height: inherit !important;
+overflow: visible!important;
+visibility: visible !important;
+-webkit-box-sizing: border-box !important;
+-ms-box-sizing: border-box !important;
+box-sizing: border-box !important;
+}
+.valign {
+vertical-align: top !important;
+padding-top: 3px !important;
+}
+.timg {
+width: 15px !important;
+max-width: 15px !important;
+}
+.timg img {
+width: 15px !important;
+height: auto !important;
+}
+.himg img {
+width: 135px !important;
+height: auto !important;
+}
+.mbtext {
+font-size: 16px !important;
+line-height: 21px !important;
+}
+.number {
+font-size: 24px !important;
+line-height: 26px !important;
+color: #a31e24 !important;
+text-decoration: none !important;
+}
+.tnc {
+font-size: 14px !important;
+line-height: 21px !important;
+}
+.dtable {
+width: 239px !important;
+max-width: 239px !important;
+min-width: 239px !important;
+margin: 0 auto !important;
+}
+}
+	</style>
+</head>
+<body style="height: auto; min-height: auto;">
+<style type="text/css">body {
+margin: 0;
+padding: 0;
+-webkit-text-size-adjust: none;
+-ms-text-size-adjust: none;
+}
+body,
+table,
+td,
+a {
+-webkit-text-size-adjust: 100%;
+-ms-text-size-adjust: 100%;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+table,
+td {
+mso-table-lspace: 0pt;
+mso-table-rspace: 0pt;
+}
+td {
+border-collapse: collapse;
+}
+.phone_number {
+color: #000000 !important;
+}
+.phone_number a {
+color: #000000 !important;
+	text-decoration: none !important;
+}
+.tel_number {
+color: #2f2f31 !important;
+text-decoration: none !important;
+}
+.tel_number a {
+color: #2f2f31 !important;
+text-decoration: none !important;
+}
+@media all and (max-width: 640px) {
+body,
+table,
+td,
+p,
+a,
+li,
+blockquote {
+-webkit-text-size-adjust: none !important;
+}
+.table {
+width: 100% !important;
+clear: both!important;
+display: table!important;
+}
+.td-block {
+display: block !important;
+min-width: 100% !important;
+max-width: 100% !important;
+width: 100% !important;
+clear: both !important;
+float: left !important;
+}
+.responsive-image img {
+height: auto !important;
+max-width: 100% !important;
+width: 100% !important;
+}
+.logo-image img {
+height: auto !important;
+max-width: 75% !important;
+width: 75% !important;
+}
+.hide {
+display: none !important;
+width: 100% !important;
+}
+.pdlr {
+padding-left: 15px !important;
+padding-right: 15px !important;
+}
+.pdtb {
+padding-top: 15px !important;
+padding-bottom: 15px !important;
+}
+.pdtop15 {
+padding-top: 15px !important;
+}
+.pdnone {
+padding: 0 !important;
+}
+.pdlrno {
+padding-left: 0 !important;
+padding-right: 0 !important;
+}
+.pdtop5 {
+padding-top: 5px !important;
+}
+.pdbot15 {
+padding-bottom: 15px !important;
+}
+.head {
+font-size: 20px !important;
+line-height: 26px !important;
+letter-spacing: 1px !important;
+}
+.mtext {
+font-size: 14px !important;
+line-height: 21px !important;
+}
+.bnone {
+border: none !important;
+}
+.border-bottom {
+border-bottom: 1px solid #515c5e !important;
+border-right: none !important;
+}
+.leftalign {
+text-align: left !important;
+}
+.center {
+text-align: center !important;
+}
+.center img {
+margin: 0 auto !important;
+}
+.center table {
+margin: 0 auto !important;
+}
+.alleft {
+text-align: left !important;
+}
+.autowidth {
+max-width: fit-content !important;
+min-width: auto !important;
+width: auto !important;
+}
+.hauto {
+height: auto !important;
+}
+.mobile {
+display: block !important;
+width: 100% !important;
+max-width: 100% !important;
+height: auto !important;
+max-height: inherit !important;
+line-height: inherit !important;
+overflow: visible!important;
+visibility: visible !important;
+-webkit-box-sizing: border-box !important;
+-ms-box-sizing: border-box !important;
+box-sizing: border-box !important;
+}
+.valign {
+vertical-align: top !important;
+padding-top: 3px !important;
+}
+.timg {
+width: 15px !important;
+max-width: 15px !important;
+}
+.timg img {
+width: 15px !important;
+height: auto !important;
+}
+.himg img {
+width: 135px !important;
+height: auto !important;
+}
+.mbtext {
+font-size: 16px !important;
+line-height: 21px !important;
+}
+.number {
+font-size: 24px !important;
+line-height: 26px !important;
+color: #a31e24 !important;
+text-decoration: none !important;
+}
+.tnc {
+font-size: 14px !important;
+line-height: 21px !important;
+}
+.dtable {
+width: 239px !important;
+max-width: 239px !important;
+min-width: 239px !important;
+margin: 0 auto !important;
+}
+}
+</style>
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="table" width="100%">
+	
+		<tr>
+			<td align="center" class="mobile" style="background-color:#ffffff;" valign="middle">
+			<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table" width="650">
+				
+					<tr>
+						<td align="center">
+						<table align="center" border="0" cellpadding="0" cellspacing="0" class="table" width="100%">
+						</table>
+
+						<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table" width="650">
+							
+								<tr>
+									<td align="center" bgcolor="#bcbcbc" style="padding:1px;" valign="top">
+									<table align="center" border="0" cellpadding="0" cellspacing="0" class="table" width="650">
+										
+											<tr>
+												<td align="center" bgcolor="#ffffff" style="font-family:Calibri, Arial, 'sans-serif'; font-size:1px; color:#2f2f31; padding:0; line-height:1px;" valign="top">
+												<table border="0" cellpadding="0" cellspacing="0" width="100%">
+													
+														<tr>
+															<td align="left" class="pdtb pdlr phone_number" style="font-family:Arial, 'sans-serif'; font-size:16px; color:#000000; padding:20px 32px 15px 32px; line-height:21px; text-align: justify; font-weight: bold;" valign="middle"><strong>Dear {{{Case.Customer_name_formula__c}}},</strong></td>
+														</tr>
+														<tr>
+															<td align="left" class="pdlr phone_number" style="font-family:Arial, 'sans-serif'; font-size:16px; color:#000000; padding:0 32px; line-height:21px; text-align: justify;" valign="middle">Thank you for choosing “Aditya Birla Capital Digital” (ABCD) as your preferred financial services provider.<br />
+															<br />
+															With reference to service request number {{{Case.CaseNumber}}}, we would like to inform you that we have successfully closed said request.<br />
+															<br />
+															Should you have any further questions or require assistance in the future, please do not hesitate to reach out to us. We're here to ensure your continued satisfaction and success.<br />
+															<br />
+															Thank you once again for choosing us.<br />
+															<br />
+															Regards,<br />
+															<strong>ABCD Team Customer Service</strong></td>
+														</tr>
+														<tr>
+															<td align="left" class="pdtb pdlr phone_number" style="font-family:Arial, 'sans-serif'; font-size:12px; color:#000000; padding:20px 32px; line-height:21px; text-align: justify; border-bottom: 5px solid #cc1e35;" valign="middle">This is a system-generated email. Please don’t reply to this ID.</td>
+														</tr>
+													
+												</table>
+												</td>
+											</tr>
+										
+									</table>
+									</td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+				
+			</table>
+			</td>
+		</tr>
+	
+</table>
+</body>
+</html>
