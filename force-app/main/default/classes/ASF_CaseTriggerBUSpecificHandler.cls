@@ -205,7 +205,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
-        }
+            }
         
     }
     }
