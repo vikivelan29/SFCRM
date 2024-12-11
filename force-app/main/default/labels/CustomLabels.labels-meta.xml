@@ -1553,4 +1553,11 @@
         <shortDescription>ABCD Complaint Creation Email Template</shortDescription>
         <value>ABCD_Complaint_Creation_Internal</value>
     </labels>
+    <labels>
+        <fullName>ABCD_Business_Unit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_Business_Unit</shortDescription>
+        <value>ABCD</value>
+    </labels>
 </CustomLabels>

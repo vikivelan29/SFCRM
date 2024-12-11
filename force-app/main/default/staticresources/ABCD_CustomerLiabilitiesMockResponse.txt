@@ -1,0 +1,50 @@
+{
+    "code": 20,
+    "message": "Data Retrieved Successfully.",
+    "holdingsLiabilitiesInfo": {
+        "hflDetails": {
+            "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+            "holdingsDetails": [
+                {
+                    "loanAccountNumber": "50078798",
+                    "loanStartDate": "12-04-2001",
+                    "loanEndDate": "27-08-2024",
+                    "tenor": "24",
+                    "rateOfInterest": "12.36",
+                    "emiAmount": "12345.56"
+                }
+            ]
+        },
+        "plDetails": {
+            "addresss": "1-129, HIG Phase-2, Hyderbad, 500050",
+            "accountNo": "645747877",
+            "ifscCode": "IFSC003767",
+            "bankName": "HDFC",
+            "holdingsDetails": [
+                {
+                    "loanAccountNumber": "50078798",
+                    "loanType": "Personal",
+                    "businessLOB": "LOB",
+                    "loanStartDate": "12-04-2001",
+                    "loanEndDate": "27-08-2024",
+                    "tenor": "24",
+                    "lastDisbursedAmount": "23-01-2024"
+                }
+            ]
+        },
+        "blDetails": {
+            "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+            "holdingsDetails": [
+                {
+                    "loanAccountNumber": "50078798",
+                    "loanStartDate": "12-04-2001",
+                    "loanEndDate": "27-08-2024",
+                    "tenor": "24",
+                    "rateOfInterest": "12.36",
+                    "emiAmount": "12345.56"
+                }
+            ]
+        }
+    },
+    "status": "Success"
+}
