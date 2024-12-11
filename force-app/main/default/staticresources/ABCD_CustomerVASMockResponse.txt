@@ -1,0 +1,21 @@
+{
+  "code": 20,
+  "holdingsVASInfo": {
+    "dheDetails": {
+      "lastScanDate": "23-01-2023",
+      "dheDataId": "123"
+    },
+    "csDetails": {
+      "lastdownloadDate": "12-01-2024",
+      "customerId": "1234"
+    },
+    "loyaltyRewards": {
+      "totalLoyaltyPoints": "123",
+      "lastLoyaltyCreditPoints": "567",
+      "lastLoyaltyCreditDate": "19-02-2024",
+      "lastLoyaltyCreditTransaction": "24-03-2024"
+    }
+  },
+  "message": "Data Retrieved Successfully.",
+  "status": "Success"
+}
