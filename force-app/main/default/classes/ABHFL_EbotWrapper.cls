@@ -26,6 +26,7 @@ public class ABHFL_EbotWrapper {
         public String Template2;
         public String Template3;
         public String UNREGISTEREDCATEGORY;
+        public string ISATTACHMENTFLAG;
         public List<String> EBOTLAN;
     }
 }

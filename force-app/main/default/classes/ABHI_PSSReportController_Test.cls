@@ -1,3 +1,13 @@
+/**
+ * @description       : Test Class for ABHI_PSSReportController_Test
+ * @author            : Amrit Preet Singh
+ * @group             : 
+ * @last modified on  : 20/09/2024
+ * @last modified by  : Amrit Preet Singh
+ * Modifications Log
+ * Ver   Date         Author                            Modification
+ * 1.0   20-09-2024   amritpreet.singh@salesforce.com   Initial Version
+**/
 @isTest
  class ABHI_PSSReportController_Test {
 
@@ -20,8 +30,8 @@
             TimeZoneSidKey='America/Los_Angeles'
         );
         insert testUser; 
-        PermissionSetGroup psg = [SELECT id from PermissionSetGroup where DeveloperName = 'ABHI_Users_PSG'];
-        PermissionSetAssignment psa = new PermissionSetAssignment(AssigneeId = testUser.Id, PermissionSetGroupId = psg.Id);
+        PermissionSet psg = [SELECT id from PermissionSet where Name = 'API_Admin_User_PS'];
+        PermissionSetAssignment psa = new PermissionSetAssignment(AssigneeId = testUser.Id, PermissionSetId = psg.Id);
         insert psa;
         System.runAs(testUser){
             Account acc = new Account( 

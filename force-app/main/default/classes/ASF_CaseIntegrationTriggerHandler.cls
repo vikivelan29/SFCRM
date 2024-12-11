@@ -12,9 +12,9 @@
 public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTriggerHandler {
     public static final integer iRetryInterval = Integer.ValueOf(System.Label.ASF_RetryInterval);
     public static final integer iRetryNumbers = Integer.ValueOf(System.Label.ASF_RetryNumbers);
-    
+
     public static Boolean TriggerDisabled = false;
-    
+
     /**
     * @description 
     * @author rsinghnagar@salesforce.com | 05-13-2024 
@@ -30,10 +30,10 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
                   caseInteg.Next_Retry__c = System.now().addMinutes(iRetryInterval);  
                 }
             }
-            
+
         }
     }
-    
+
    /**
     * @description : Framework Method - to Process the Response on Case Integration, Used when Async Integrations are called, the Case Integration is updated back and status is modified
     * @author rsinghnagar@salesforce.com | 05-13-2024 
@@ -59,6 +59,10 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
                 eBotNewItems.put(caseInteg.Id, caseInteg);
                 eBotOldItems.put(caseInteg.Id, oldItems.get(caseInteg.Id));
             }
+            else if(caseInteg.Type__c == 'CATEGORIZATION'){
+                eBotNewItems.put(caseInteg.Id, caseInteg);
+                eBotOldItems.put(caseInteg.Id, oldItems.get(caseInteg.Id));
+            }
 			if(caseInteg.Status__c != null && caseInteg.Business_External_Id__c == 'ABML_Report_Integration' && caseInteg.Status__c != ((ASF_Case_Integration__c)oldItems.get(caseInteg.Id)).Status__c){
                 asfCaseRecords.add(caseInteg);                
             }
@@ -68,7 +72,7 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
         if(!eBotNewItems.isEmpty()){
             ABCL_CaseIntegrationHelper.eBotHandler(eBotNewItems,eBotOldItems);
         }
-		// added for ABML Report Integration
+		 // added for ABML Report Integration
         if(!asfCaseRecords.isEmpty()){
             ABML_ReportsIntegration.sendEmailAttachments(asfCaseRecords);
         }
@@ -99,6 +103,5 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
                 }
             }
         }
-    }    
-
-}
+	}
+ }

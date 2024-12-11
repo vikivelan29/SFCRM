@@ -108,18 +108,24 @@ public with sharing class ABHFL_EbotTriggerHelper {
                     String platformEvent = 'CRM_to_EBOT_Event__e';
                     String endpointFlag = System.Label.ABFL_GenAIIntegration;
                     List<ASF_PriorityEmailAddressesByBU__mdt> emailAddressBU = new List<ASF_PriorityEmailAddressesByBU__mdt>();
-                    if(endpointFlag == 'UNFYD'){
-                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_UNFYD__c = true  WITH SYSTEM_MODE];
-                    }
                     
-                    else{
-                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c AND send_to_ebot__c = true  WITH SYSTEM_MODE];
-                    }
+                        emailAddressBU = [Select Email2CaseAddress__c,send_to_UNFYD__c,Send_To_Ebot__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = :emailMsg.Parent.Business_Unit__c WITH SYSTEM_MODE];
                     
-                    if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null ){
+                    List<ASF_PriorityEmailAddressesByBU__mdt> metadataList = [ SELECT Business_Unit__c,Email2CaseAddress__c,Send_to_UNFYD__c FROM ASF_PriorityEmailAddressesByBU__mdt WHERE Email2CaseAddress__c =:emailMsg.Winning_Email__c];
+                    
+                    if(emailMsg.Parent.Business_Unit__c == 'ABFL' && emailAddressBU != null && emailAddressBU[0] != null && metadataList[0].Send_to_UNFYD__c== true ){
+                        ASF_Case_Integration__c caseIntRecId = [Select Id from ASF_Case_Integration__c where Name=:caseIntegrationId LIMIT 1];
+                        //Update ASF_Case_Integration__r.Type__c
+                        ASF_Case_Integration__c caseIntRec=new ASF_Case_Integration__c();
+                        caseIntRec.Id=caseIntRecId.Id;
+                        caseIntRec.Type__c='CATEGORIZATION';
+                        update caseIntRec;
                         emailAddressBU = [Select Email2CaseAddress__c from ASF_PriorityEmailAddressesByBU__mdt where Business_Unit__c = 'ABFL' and Send_To_Ebot__c = false and send_to_UNFYD__c = true WITH SYSTEM_MODE];
                         if(emailAddressBU.size() > 0){
-                            fileNamesList = generatePublicUrlsForCaseFiles(emailMsg.ParentId);
+                            if(fileNames != null){
+                                fieldsMap.put('File_Names__c',fileNames);
+                            }
+                            fileNamesList = generatePublicUrlsForCaseFiles(emailMsg.Id);
                             if(fileNamesList!= null && fileNamesList.size() > 0){
                                 fileNames = String.join(fileNamesList,',');
                             }
@@ -175,16 +181,16 @@ public with sharing class ABHFL_EbotTriggerHelper {
             }
         }
     }
-    public static List<String> generatePublicUrlsForCaseFiles(Id caseId) {
+    public static List<String> generatePublicUrlsForCaseFiles(Id emailMsgId) {
         List<String> publicUrls = new List<String>();
         
         // Query ContentDocument IDs linked to the Case
         List<ContentDocumentLink> fileLinks = [
             SELECT ContentDocumentId 
             FROM ContentDocumentLink 
-            WHERE LinkedEntityId = :caseId
+            WHERE LinkedEntityId = :emailMsgId
         ];
-        
+        List<ContentDistribution> ContentDistributionsToInsert = new List<ContentDistribution>();
         for (ContentDocumentLink link : fileLinks) {
             // Fetch the latest version of the ContentDocument
             ContentVersion contentVersion = [
@@ -203,12 +209,18 @@ public with sharing class ABHFL_EbotTriggerHelper {
             cd.PreferencesAllowOriginalDownload = true;     // Allow downloads
             cd.PreferencesNotifyOnVisit = false;    // Optional: No notifications
             cd.PreferencesLinkLatestVersion = true; // Links to the latest version
-            insert cd;
+            ContentDistributionsToInsert.add(cd);
             
             // Add the public URL to the list
-            publicUrls.add(cd.DistributionPublicUrl);
+            
         }
-        
+        if(ContentDistributionsToInsert.size() > 0){
+            insert ContentDistributionsToInsert;
+            for(ContentDistribution cd:[Select id, ContentDownloadUrl from ContentDistribution where id IN :ContentDistributionsToInsert]){
+                System.debug('public url after insert--->'+ cd.ContentDownloadUrl);
+                publicUrls.add(cd.ContentDownloadUrl);
+            }
+        }
         return publicUrls;
     }
 }

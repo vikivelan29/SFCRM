@@ -90,7 +90,7 @@ public with sharing class ABFL_WealthChatGeneratedCases {
     
     // Added By EY-Nikhil for INC000000073049
     // To send the Unregister email to customer when email is blank on case Account 
-    /*public static void sendEmailWhenNotRegisteredCustomer(List<EmailMessage> emailMessageList, Boolean isAccPresent) {
+    public static void sendEmailWhenNotRegisteredCustomer(List<EmailMessage> emailMessageList, Boolean isAccPresent) {
         Set<Id> caseIdsToSendEmail = new Set<Id>();
         Map<Id, String> mCaseEmailTemplateName = new Map<Id, String>();
         Map<String, String> mEmailAddressToTemplate = new Map<String, String>();
@@ -138,16 +138,12 @@ public with sharing class ABFL_WealthChatGeneratedCases {
                   // Send the communication
                   for(String templateDevName: templateDevList){
                         ASF_SendCustomerCommunication.sendCustomerCommunicationToSpecificEmailAndMobile(caseObj, templateDevName, caseObj.SuppliedEmail, '', '');
-                        Integer start = System.Now().millisecond();
-                        // while(System.Now().millisecond()< start+100){ 
-                        // }
                     }
-                  
                    }
                 }
             }
         }
-    }*/
+    }
 
     
     /**

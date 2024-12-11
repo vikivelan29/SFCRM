@@ -237,6 +237,7 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
                     }
                     dmlRecords.add(caseExt);
                     caseRecord.Stage__c = 'Resolved';
+                    caseRecord.Status = 'Resolved';
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, true);
                 }
@@ -268,7 +269,7 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
         ReimbursementRequest requestWrapper = new ReimbursementRequest();
         PreAuthObjWrapper patInst = new PreAuthObjWrapper();
         patInst.Policy_Number = caseRecord.Asset.Policy_No__c;
-        patInst.FamilyId = caseRecord.Account.Client_Code__c;
+        patInst.FamilyId = caseRecord.ABHI_Case_Detail__r.Member_Id__c;
         patInst.Cover_code = caseRecord.ABHI_Case_Detail__r.Cover_Name__r.Cover_Code__c;
         patInst.Cover_Name = caseRecord.ABHI_Case_Detail__r.Cover_Name__r.Cover_Name__c;
         patInst.Hospital_Name = caseRecord.ABHI_Case_Detail__r.Hospital__r.Provider_Name__c;

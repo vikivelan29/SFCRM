@@ -20,7 +20,9 @@ public with sharing class ABSLI_ClosedIGMSComplaintBatch implements Database.Bat
             'AND IRDAI_Token_Number__c != null ' +
             'AND ClosedDate < LAST_N_DAYS:' + daysForClosedCases + ' ' +
             'AND IsClosed = true ' +
-            'AND ABSLI_Case_Detail__r.Escalated__c = false';
+            'AND ABSLI_Case_Detail__r.Escalated__c = false ' +
+            'AND Business_Unit__c = \'ABSLI\' ' +
+            'AND ABSLI_Case_Detail__r.IGMS_Complaint_Status__c = \'4\' ';
 	}
 
 

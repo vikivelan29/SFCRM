@@ -21,6 +21,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
+import SUPPRESSCREATECASE_BU from '@salesforce/label/c.SuppressCreateCase_BU'; 
 import { lanLabels } from 'c/asf_ConstantUtility';
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
@@ -1092,5 +1093,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         });
     }
 
-
+    get showCreateCaseWOCustomer(){
+        return SUPPRESSCREATECASE_BU.includes(this.businessUnit)?false:this.showOnCustomerTagging;
+    }
 }

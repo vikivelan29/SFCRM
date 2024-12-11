@@ -1091,7 +1091,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments;ABHI</value>
+        <value>ABSLAMC;ABSLIG;Payments;ABHI;ABML</value>
     </labels>
         <labels>
         <fullName>ABHI_DeviceDetails</fullName>
@@ -1738,5 +1738,12 @@
         <protected>false</protected>
         <shortDescription>ABML_BU</shortDescription>
         <value>ABML</value>
+    </labels>
+    <labels>
+        <fullName>SuppressCreateCase_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
+        <value>Wellness</value>
     </labels>
 </CustomLabels>
