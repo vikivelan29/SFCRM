@@ -216,24 +216,14 @@ public without sharing class ABHI_OmniDocViewController{
 	Public static boolean templateDetails(Map<String, Object> mapRow, String strASFRecordId, String strAssetId, String strPlanName, String strAccountId, String strAccountEmail){
 
         List<ASF_Case_Integration__c> lstAsfCaseIntegration = new List<ASF_Case_Integration__c>();
-        List<String> lstString = new List<String>(); 
+        List<String> lstString = new List<String>();
+        List<EmailTemplate> lstEmailTemplate = new List<EmailTemplate>();
+        List<OrgWideEmailAddress> lstOrgWideEmailAddress = new List<OrgWideEmailAddress>();
 
         try{
-            EmailTemplate objEmailTemplate = new EmailTemplate();
+            
             String strTemplateName; 
-            String strFromAddress; 
-            String sObjName = Id.valueOf(strAssetId).getSObjectType().getDescribe().getName();
-
-            OrgWideEmailAddress objOrgWideEmailAddress = new OrgWideEmailAddress();
-
-            if(sObjName == 'Opportunity'){
-                strTemplateName = RNWL_Constants.OMNIDOC_TEMPLATE_DEVELOPER_NAME;
-                strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME;
-            } 
-            else{
-                strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
-                strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
-            }
+            String strFromAddress;
 
            if(!String.isBlank(strASFRecordId) && !String.isBlank(strAssetId) && !String.isBlank(strPlanName) && !String.isBlank(strAccountId) && mapRow != null ){
 				
@@ -242,14 +232,14 @@ public without sharing class ABHI_OmniDocViewController{
                     strFromAddress = RNWL_Constants.FROM_ADDRESS_DISPLAY_NAME; 
                 }else if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
                     strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME_CASE;
-                    strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                    strFromAddress = System.label.ABHI_OmniDocOrgWideAddressDisplayName;//ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
                 }else{
                     strTemplateName = ABHI_Constants.EMAIL_TEMPLATE_DEVELOPER_NAME;
-                    strFromAddress = ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
+                    strFromAddress = System.label.ABHI_OmniDocOrgWideAddressDisplayName;//ABHI_Constants.FROM_ADDRESS_DISPLAY_NAME;
                 }
                 
-                objOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress WITH SYSTEM_MODE LIMIT 1];
-                objEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName WITH SYSTEM_MODE LIMIT 1];
+                lstOrgWideEmailAddress = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE DisplayName = : strFromAddress WITH SYSTEM_MODE LIMIT 1];
+                lstEmailTemplate = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: strTemplateName WITH SYSTEM_MODE LIMIT 1];
                 lstAsfCaseIntegration = [SELECT Id, Business_External_Id__c, Status__c, Request__c, createdDate,
                                             (SELECT Id, ContentDocument.CreatedDate, ContentDocument.LatestPublishedVersion.FileType, ContentDocument.LatestPublishedVersion.VersionData, ContentDocument.LatestPublishedVersion.PathOnClient, ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)
                                             FROM ASF_Case_Integration__c
@@ -265,14 +255,14 @@ public without sharing class ABHI_OmniDocViewController{
                     throw callException(null,false,ABHI_Constants.ERROR_CIO_ZEROINTREC);
                 }
 
-                if(!lstString.isEmpty() && lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_SUCCESS){
+                if(!lstOrgWideEmailAddress.isEmpty() && !lstEmailTemplate.isEmpty() && !lstString.isEmpty() && lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_SUCCESS){
 
                     if(calculateDateDifference(DateTime.now(), lstAsfCaseIntegration?.iterator()?.next()?.createdDate).minutes < 1){
-                        Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId WITH SYSTEM_MODE LIMIT 1];
+                        Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId WITH SYSTEM_MODE];
 
-                        Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(objEmailTemplate.Id, objCon.Id, strAssetId);
-                        objEmail.setTemplateId(objEmailTemplate.Id);
-                        objEmail.setOrgWideEmailAddressId(objOrgWideEmailAddress.Id);
+                        Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(lstEmailTemplate.iterator().next().Id, objCon.Id, strAssetId);
+                        objEmail.setTemplateId(lstEmailTemplate.iterator().next().Id);
+                        objEmail.setOrgWideEmailAddressId(lstOrgWideEmailAddress.iterator().next().Id);
                         if(Id.valueOf(strAssetId).getSObjectType().getDescribe().getName() == 'Case'){
                             objEmail.setSubject(objEmail.getSubject().replace(strAssetId.substring(0,15), strPlanName + ' ' + String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));
                             objEmail.setHtmlBody(objEmail.getHTMLBody().replace(strAssetId.substring(0,15), strPlanName + ' '+ String.valueOf(mapRow.get(ABHI_Constants.OMNIPAYLOAD_FILENAME))));

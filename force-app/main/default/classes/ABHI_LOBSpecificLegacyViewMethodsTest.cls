@@ -93,7 +93,7 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
     *****************************************************************************************************************/
     @isTest
     static void testGetLANRelatedAccount(){
-        List<Account> acc = [SELECT ID FROM Account LIMIT 1];
+        List<Account> acc = [SELECT Id, Name, Client_Code__c FROM Account LIMIT 1];
         Test.startTest();
         List<ABFL_LegacyView.OptionsName> listLan = ABHI_LOBSpecificLegacyViewMethods.getAccountRelatedMembers(acc[0].Id);
         System.assert(!listLan.isEmpty(), 'Members list is empty');
@@ -107,7 +107,7 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethodsTest {
     *****************************************************************************************************************/
     @isTest
     static void testGetLANRelatedAccountWithCMM(){
-        List<Account> acc = [SELECT ID FROM Account LIMIT 1];
+        List<Account> acc = [SELECT Id, Name, Client_Code__c FROM Account LIMIT 1];
         Test.startTest();
         Customer_Member_Mapping__c objCMM = New Customer_Member_Mapping__c(MemberExternalId__c = acc.iterator().next().Id, Client_Id__c = acc.iterator().next().Id, MemberId__c = acc.iterator().next().Id);
         Insert objCMM;

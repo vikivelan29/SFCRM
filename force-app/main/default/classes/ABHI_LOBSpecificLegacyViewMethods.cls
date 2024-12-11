@@ -22,15 +22,17 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethods {
     @AuraEnabled(cacheable = true)
     public static List<ABFL_LegacyView.OptionsName> getAccountRelatedMembers(String strRecordId){
         set<ABFL_LegacyView.OptionsName> optionList = new set<ABFL_LegacyView.OptionsName>();
-        String strClientName;
-        String strClientCode;
         for(Customer_Member_Mapping__c objCMM : [SELECT Id, Name, Client_Id__c, Client_Id__r.Name, Client_Id__r.Client_Code__c,
                                     Policy_Number__c, Business_Unit__c, MemberExternalId__c, MemberId__c, MemberId__r.Client_Code__c, MemberId__r.Name 
                                     FROM Customer_Member_Mapping__c
                                     WHERE Client_Id__c =: strRecordId AND Client_Id__r.Business_Unit__c =: ABHI_Constants.ABHI
                                     WITH SYSTEM_MODE]) {
-            strClientName = objCMM.Client_Id__r.Name;
-            strClientCode = objCMM.Client_Id__r.Client_Code__c;
+            if(objCMM.Client_Id__r.Client_Code__c != objCMM.MemberId__r.Client_Code__c){
+                ABFL_LegacyView.OptionsName originalOption = new ABFL_LegacyView.OptionsName();
+        		originalOption.label = objCMM.Client_Id__r.Name;
+        		originalOption.value = objCMM.Client_Id__r.Client_Code__c;
+        		optionList.add(originalOption);
+            }
             ABFL_LegacyView.OptionsName option = new ABFL_LegacyView.OptionsName();
             option.label = objCMM.MemberId__r.Name;
             option.value = objCMM.MemberId__r.Client_Code__c;
@@ -42,15 +44,12 @@ public without sharing class ABHI_LOBSpecificLegacyViewMethods {
                                     FROM Account
                                     WHERE Id =: strRecordId AND Business_Unit__c =: ABHI_Constants.ABHI
                                     WITH SYSTEM_MODE]) {
-                strClientName = objAccount.Name;
-                strClientCode = objAccount.Client_Code__c;
+                ABFL_LegacyView.OptionsName originalOption = new ABFL_LegacyView.OptionsName();
+        		originalOption.label = objAccount.Name;
+        		originalOption.value = objAccount.Client_Code__c;
+        		optionList.add(originalOption);
             }
         }
-
-        ABFL_LegacyView.OptionsName originalOption = new ABFL_LegacyView.OptionsName();
-        originalOption.label = strClientName;
-        originalOption.value = strClientCode;
-        optionList.add(originalOption);
 
         return new List<ABFL_LegacyView.OptionsName>(optionList);
     }

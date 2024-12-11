@@ -1518,4 +1518,12 @@
         <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
         <value>Wellness</value>
     </labels>
+    <labels>
+        <fullName>ABHI_OmniDocOrgWideAddressDisplayName</fullName>
+        <categories>ABHI</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_OmniDocOrgWideAddressDisplayName</shortDescription>
+        <value>ABHI No Reply</value>
+    </labels>
 </CustomLabels>
