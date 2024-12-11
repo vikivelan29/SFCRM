@@ -23,14 +23,14 @@ public with sharing class ABFL_Util_Test{
         
         User userRecord1 = new User(
             Alias = 'standt', 
-            Email = 'stanrduserEmails@testorg.com', 
+            Email = 'stanrduserEmailsutr1@testorg.com', 
             EmailEncodingKey = 'UTF-8', 
-            LastName = 'Testing', 
+            LastName = 'Testing_UTR1', 
             LanguageLocaleKey = 'en_US', 
             LocaleSidKey = 'en_US', 
             ProfileId = SYSTEMADMIN_PROFILE.Id, 
             TimeZoneSidKey = 'America/Los_Angeles', 
-            UserName = 'cdefghijk567@gmail.com', 
+            UserName = 'cdefghijk567utr1@gmail.com', 
             managerGroupId__c = slaGroup.Id
         );
         insert userRecord1;
@@ -68,7 +68,7 @@ public with sharing class ABFL_Util_Test{
     static void testResolveCaseOnUTRPopulation(){
         User userRecord = [SELECT Id
                            FROM User
-                           WHERE UserName = 'cdefghijk567@gmail.com'];
+                           WHERE UserName = 'cdefghijk567utr1@gmail.com'];
         System.runAs(userRecord){
             Case caseRec = [SELECT Id, ABFL_Case_Detail__c, ABFL_Case_Detail__r.UTRNo__c, Account.Name, Technical_Source__c, LAN__c, Business_Unit__c
                             FROM Case
