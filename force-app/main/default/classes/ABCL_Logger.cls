@@ -166,4 +166,11 @@ public with sharing class ABCL_Logger {
             }
         }
     }    
+
+    public static void logException(String classOrMethod, String message){
+        ABCL_Logger.enableExceptionLogging();
+        ABCL_Logger.push(classOrMethod);
+        ABCL_Logger.message(message);
+        ABCL_Logger.emit();
+    }
 }

@@ -1,0 +1,22 @@
+{
+    "operationStatus": "SUCCESS",
+    "serviceMessages": [
+        {
+            "systemCode": "JAVASATXSRCINF001",
+            "businessCode": "SATXSRCINF001",
+            "businessDesc": "Result found",
+            "serviceMessageType": "INFORMATION",
+            "messageTime": "2022-05-17T12:26:28.918+05:30"
+        }
+    ],
+    "responseMap": {
+        "resultsList": {
+            "apps": [
+                {
+                    "name": "Device",
+                    "synced": "True"
+                }
+            ]
+        }
+    }
+}
