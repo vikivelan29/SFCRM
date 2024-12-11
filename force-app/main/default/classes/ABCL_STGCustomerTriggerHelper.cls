@@ -10,6 +10,7 @@
 **/
 public without sharing class ABCL_STGCustomerTriggerHelper {
     public static final string PAYMENT_LOB = 'Payments';
+    public static final string ABCD_LOB = 'ABCD';
     
     public static void executePlatformEvent(Map<Id,STG_Customer__c> newMap){
         List<sObject> eventsTobePublished = new List<sObject>();
@@ -18,6 +19,9 @@ public without sharing class ABCL_STGCustomerTriggerHelper {
         
         for(STG_Customer__c customer : newMap.values()){
             if(customer.Line_of_Business__c == PAYMENT_LOB){
+                eventsTobePublished.add(getPaymentPESchema(customer));
+            }
+            else if(customer.Line_of_Business__c == ABCD_LOB){
                 eventsTobePublished.add(getPaymentPESchema(customer));
             }
         }
@@ -60,8 +64,12 @@ public without sharing class ABCL_STGCustomerTriggerHelper {
         stgCustomerEvt.ABC_Cust_Id__c = customer.ABC_Cust_Id__c;
         if(customer.Customer_Since__c != null)
 	        stgCustomerEvt.Customer_Since__c = Date.ValueOf(customer.Customer_Since__c);
+        if(customer.Birthdate__c  != null)
+            stgCustomerEvt.Birthdate__c = Date.ValueOf(customer.Birthdate__c);
+        if(customer.PAN_No__c != null)
+            stgCustomerEvt.Pan_No__c = customer.PAN_No__c;
         
         
         return stgCustomerEvt;
-    }
+    }    
 }

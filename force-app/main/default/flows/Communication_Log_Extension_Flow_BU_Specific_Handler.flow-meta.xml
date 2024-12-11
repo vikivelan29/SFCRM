@@ -5,7 +5,7 @@
         <description>Placeholder to separate BU Specific Flow</description>
         <name>Check_Business_Unit</name>
         <label>Check Business Unit</label>
-        <locationX>182</locationX>
+        <locationX>314</locationX>
         <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -22,6 +22,28 @@
                 <targetReference>ABSLI_Extn_Flow</targetReference>
             </connector>
             <label>ABSLI</label>
+        </rules>
+        <rules>
+            <name>ABCD</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>cccRecord.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABCD</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CurrentRecord.Account.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABCD</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ABCD_Extn_Flow</targetReference>
+            </connector>
+            <label>ABCD</label>
         </rules>
     </decisions>
     <description>This flow extends the Communication Log - Email Flow (Record Trigger on Case) to further process BU Specific Code.</description>
@@ -48,13 +70,38 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>56</locationX>
+        <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Check_Business_Unit</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>ABCD_Extn_Flow</name>
+        <label>ABCD Extn Flow</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <flowName>ABCD_Comm_Ext_Flow</flowName>
+        <inputAssignments>
+            <name>cccRecord</name>
+            <value>
+                <elementReference>cccRecord</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>currentRecord</name>
+            <value>
+                <elementReference>CurrentRecord</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>oldRecord</name>
+            <value>
+                <elementReference>oldRecord</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
     <subflows>
         <name>ABSLI_Extn_Flow</name>
         <label>ABSLI Extn Flow</label>
