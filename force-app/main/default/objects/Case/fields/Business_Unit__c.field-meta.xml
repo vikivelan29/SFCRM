@@ -68,6 +68,16 @@
                 <default>true</default>
                 <label>ABML</label>
             </value>
+            <value>
+                <fullName>ABCD</fullName>
+                <default>false</default>
+                <label>ABCD</label>
+            </value>
+            <value>
+                <fullName>ONEABC</fullName>
+                <default>false</default>
+                <label>ONEABC</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

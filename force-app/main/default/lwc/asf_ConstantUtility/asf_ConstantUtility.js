@@ -397,10 +397,10 @@ export const lanLabels = {
         CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect Tagging",
         CTST_COLS: [
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+                        { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
         ],
-        
+
     },
     ABWM: {
         SELECT_PRODUCT: "Select LAN",
@@ -413,6 +413,15 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
+    },
+    ONEABC: {
+        CTST_COLS: [
+            { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
+            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+            { label: 'Business Unit', fieldName: 'Business_Unit__c', type: 'text' },
+            { label: 'Type', fieldName: 'Type__c', type: 'text' },
+            { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
+        ],
     },
     ABSLAMC : {
         ASSET_COLUMNS:[{
@@ -580,7 +589,7 @@ export const lanLabels = {
         FA_VALIDATION_MESSAGE: "Please select Contract Number to process Case type search",
         FA_MANDATORY_PREFRAMEWORK: "Please tag Contract to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with Contract"
-    } 
+    }      
   };
 
   // Rajendra Singh Nagar: PR1030924-209 - Start
