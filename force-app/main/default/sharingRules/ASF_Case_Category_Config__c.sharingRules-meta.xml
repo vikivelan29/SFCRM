@@ -246,4 +246,24 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABCD_CCC_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABCD CCC Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABCD_Lead</roleAndSubordinates>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABCD,ONEABC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Applicable_for_OneABC__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>
