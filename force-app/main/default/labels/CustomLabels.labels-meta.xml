@@ -1526,4 +1526,18 @@
         <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
         <value>Wellness</value>
     </labels>
+    <labels>
+        <fullName>ABCD_Complaint_Creation_Email_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD Complaint Creation Email ID</shortDescription>
+        <value>Vinay.Singh16@adityabirlacapital.com.invalid</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_Complaint_Creation_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD Complaint Creation Email Template</shortDescription>
+        <value>ABCD_Complaint_Creation_Internal</value>
+    </labels>
 </CustomLabels>
