@@ -65,6 +65,8 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLI_AfterInsertLogic.executeAfterInsertLogic(mapOfBUToCases.get(businessUnit));
                 }
                 else if(businessUnit == 'ABHI'){
+                    ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
+                    abhiBusinessLogicHlprClass.checkAndBypassValidationFromAPICaseMember(mapOfBUToCases.get(businessUnit));
                     ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit)); 
                 }
                 else if(businessUnit == 'ABHFL'){
