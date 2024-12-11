@@ -51,6 +51,10 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
                     this.isAppRegistration = false;
                     this.isHealthReturns   = true;
                 }
+                else {
+                    this.apiErrorMessage = `Error: ${respBody?.Message}`;
+                    this.policyData = null;
+                }
             } 
             
         })
