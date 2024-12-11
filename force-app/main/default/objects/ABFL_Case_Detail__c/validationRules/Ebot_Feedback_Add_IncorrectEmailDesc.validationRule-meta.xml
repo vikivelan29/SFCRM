@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ebot_Feedback_Add_IncorrectEmailDesc</fullName>
+    <active>true</active>
+    <description>If &quot;Incorrect Email Description&quot; was added manually an error has to be trigged.</description>
+    <errorConditionFormula>AND(
+    NOT(INCLUDES(PRIORVALUE(Ebot_Feedback__c), &quot;Incorrect Email Description&quot;)),
+    INCLUDES(Ebot_Feedback__c, &quot;Incorrect Email Description&quot;)
+)</errorConditionFormula>
+    <errorMessage>Incorrect Email Description cannot added.</errorMessage>
+</ValidationRule>
