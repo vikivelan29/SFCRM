@@ -24,7 +24,7 @@ public with sharing class ABHFL_LeadCreationAPI {
             leadObj = [SELECT Id, Company, Email, FirstName, LastName, Employment_Type__c, ABHFL_Prospect_Type__c, External_Lead_ID__c,
                                     MobilePhone, PANNO__c, Product__c, Prospect_Type__c,API_Response_Message__c, Preferred_Communication__c,
                                     RecordType.Name, Requested_Loan_Amount__c, Source_System_API__c, Source_Type__c,Create_Lead_To_CRM_Status__c,
-                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c
+                                    LeadSource, Sourcing_Branch__c, Sub_Source__c, Sub_Variant__c, Variant__c, SPOC_Name__c, Source_Code__c,Lead_Stage__c, Campaign_Name__c, State__c , ABHFL_Employee_Number_Owner__c, Existing_Customer__c, Is_Property_Identified__c, Distributor_Code_Text__c, Country_Code__c, LAT__c, LOG__c, Street__c, GeocodeAccuracy__c, Property_Address_City__c, Property_Address_CountryCode__c, Property_Address_PostalCode__c, Property_Address_StateCode__c 
                                 FROM Lead WHERE Id =: leadId AND Business_Unit__c = 'ABHFL'];
         }catch(Exception e){
         }
@@ -145,6 +145,25 @@ public with sharing class ABHFL_LeadCreationAPI {
         public String RecordType;
         //public string distributerName;
         public string SPOC_Name;
+
+        // Newly added parameters by Yogesh(EY) as requested by Business
+        public string Lead_Stage;
+        public string Source_Code;
+        public string Campaign_Name;
+        public string State;
+        public string ABHFL_Employee_Number_Owner;
+        public string Existing_Customer;
+        public string Is_Property_Identified;
+        public string Distributor_Code_Text;
+        public string Country_Code;
+        public string LAT;
+        public string LOG;
+        public string Street;
+        public string GeocodeAccuracy;
+        public string Property_Address_City;
+        public string Property_Address_CountryCode;
+        public string Property_Address_PostalCode;
+        public string Property_Address_StateCode;
     
         // Constructor to map Lead fields to PayloadWrapper fields
         public PayloadWrapper(Lead leadObj) {
@@ -181,6 +200,26 @@ public with sharing class ABHFL_LeadCreationAPI {
             }*/
 
             this.SPOC_Name = leadObj.FirstName + ' ' + leadObj.LastName;
+
+           //This parameters are requested by business in lead API
+           // Added by Yogesh(EY)
+            this.Lead_Stage = leadObj.Lead_Stage__c;
+            this.Source_Code = leadObj.Source_Code__c;
+            this.Campaign_Name = leadObj.Campaign_Name__c;
+            this.State = leadObj.State__c;
+            this.ABHFL_Employee_Number_Owner = leadObj.ABHFL_Employee_Number_Owner__c;
+            this.Existing_Customer = leadObj.Existing_Customer__c;
+            this.Is_Property_Identified = leadObj.Is_Property_Identified__c;
+            this.Distributor_Code_Text = leadObj.Distributor_Code_Text__c;
+            this.Country_Code = leadObj.Country_Code__c;
+            this.LAT = leadObj.LAT__c;
+            this.LOG = leadObj.LOG__c;
+            this.Street = leadObj.Street__c;
+            this.GeocodeAccuracy = leadObj.GeocodeAccuracy__c;
+            this.Property_Address_City = leadObj.Property_Address_City__c;
+            this.Property_Address_CountryCode = leadObj.Property_Address_CountryCode__c;
+            this.Property_Address_PostalCode = leadObj.Property_Address_PostalCode__c;
+            this.Property_Address_StateCode = leadObj.Property_Address_StateCode__c;
         }
     }
 

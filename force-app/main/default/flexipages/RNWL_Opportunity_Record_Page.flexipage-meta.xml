@@ -650,7 +650,7 @@
                             <value>Renewal_Payment_Mode__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Policy_Renewed_Date__c</value>
+                            <value>Renewed_Date__c</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Payment_Reference_Number__c</value>

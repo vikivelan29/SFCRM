@@ -92,7 +92,7 @@ public with sharing class ABCD_UpdatesForSprinklr implements ASF_IntegrationInvo
         Case caseRecord = getCaseRec(caseId);
         String businessUnit = caseRecord.Business_Unit__c;
         String originalLatestNotes = String.isNotBlank(caseLatestNotesMap.get(caseId)) ? caseLatestNotesMap.get(caseId) : ''; 
-        List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c 
+       /* List<ASF_Case_Integration__c> existingCaseIntRecords = [SELECT Id, Status__c 
                                                                 FROM ASF_Case_Integration__c
                                                                 WHERE  Case__c =:caseRecord.Id
                                                                 AND Integration_Ext_Id__c = 'Sprinklr-UpdateCase API' 
@@ -103,7 +103,7 @@ public with sharing class ABCD_UpdatesForSprinklr implements ASF_IntegrationInvo
                 cInt.Status__c = 'Canceled';
             }
             update existingCaseIntRecords;            
-        }
+        } */
         String jsonBody = generateReqBody(caseRecord, originalLatestNotes);
          system.debug('req body sprinklr--'+jsonBody);
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
@@ -111,6 +111,7 @@ public with sharing class ABCD_UpdatesForSprinklr implements ASF_IntegrationInvo
         caseInt.Integration_Ext_Id__c = ABSLAMC_Constants.SPRINKLRAPI;
         caseInt.Type__c = ABSLAMC_Constants.SPRINKLR;
         caseInt.Status__c = 'Pending';
+        caseInt.Retry__c = integrtn.Do_Not_Retry_Integration__c;
         insert caseInt;
         if(String.isNotBlank(jsonBody)) {
             firePlatformEvtForCallout(caseInt, jsonBody,businessUnit);

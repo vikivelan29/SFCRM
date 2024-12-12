@@ -103,6 +103,7 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                     if(String.isNotBlank(data.Combi_Flag) &&  Integer.valueof(data.Combi_Flag) > 0){
                         combiFlag = true;
                     }
+                    break;
                 }
             }
 

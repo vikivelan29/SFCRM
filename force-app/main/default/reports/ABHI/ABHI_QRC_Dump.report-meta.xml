@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_82479202</developerName>
+        <masterLabel>Ageing</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Case$Ageing_Business_Days__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>5</to>
+            </sourceValues>
+            <value>0-5 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>5</from>
+                <to>10</to>
+            </sourceValues>
+            <value>6-10 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>10</from>
+                <to>15</to>
+            </sourceValues>
+            <value>11-15 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>15</from>
+            </sourceValues>
+            <value>Above 15 Days</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_31427092</developerName>
+        <masterLabel>Ageing Bucket</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Case$Ageing_Business_Days__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>3</to>
+            </sourceValues>
+            <value>0 to 3 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>3</from>
+                <to>6</to>
+            </sourceValues>
+            <value>4 to 6 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>6</from>
+                <to>9</to>
+            </sourceValues>
+            <value>7 to 9 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>9</from>
+            </sourceValues>
+            <value>&gt;9 Days</value>
+        </values>
+    </buckets>
+    <buckets>
         <bucketType>text</bucketType>
         <developerName>BucketField_88283335</developerName>
         <masterLabel>a</masterLabel>
@@ -39,7 +107,7 @@
         <field>Case$Sub_Type_Text__c</field>
     </columns>
     <columns>
-        <field>Case$ABHI_Case_Detail__c.Concern__c</field>
+        <field>Case$Nature__c</field>
     </columns>
     <columns>
         <field>Case$Account</field>
@@ -48,26 +116,7 @@
         <field>Case$Asset.Policy_No__c</field>
     </columns>
     <columns>
-        <field>Case$ABHI_Case_Detail__c.Resolution_Comments__c</field>
-    </columns>
-    <columns>
-        <field>Case$ABHI_Case_Detail__c.Resolved_Date__c</field>
-    </columns>
-    <columns>
         <field>Case$Status</field>
-    </columns>
-    <columns>
-        <field>Case$ABHI_Case_Detail__c.Complaint_Category__c</field>
-    </columns>
-    <columns>
-        <field>Case$Asset.Channel__c</field>
-    </columns>
-    <columns>
-        <field>Case$ABHI_Case_Detail__c.Intermediary_Name__c</field>
-    </columns>
-    <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>Case$FTR__c</field>
     </columns>
     <columns>
         <field>Case$Description</field>
@@ -79,19 +128,7 @@
         <field>Case$ABHI_Case_Detail__c.Data_Information_1__c</field>
     </columns>
     <columns>
-        <field>Case$ABHI_Case_Detail__c.Data_Information_2__c</field>
-    </columns>
-    <columns>
-        <field>Case$Asset.Issue_Date__c</field>
-    </columns>
-    <columns>
         <field>Case$Account.LOB_Client_Code__c</field>
-    </columns>
-    <columns>
-        <field>Case$ABHI_Case_Detail__c.Cancellation_Date__c</field>
-    </columns>
-    <columns>
-        <field>Case$ABHI_Case_Detail__c.Cancellation_Reason__c</field>
     </columns>
     <columns>
         <field>Case$SLA_Target_1__c</field>
@@ -106,7 +143,6 @@
         <field>CDF1</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>Case$Ageing_Business_Days__c</field>
     </columns>
     <columns>
@@ -119,17 +155,9 @@
         <field>Case$Stage_SLA_3__c</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>Case$Reopened__c</field>
-    </columns>
-    <columns>
-        <field>Case$ABHI_Case_Detail__c.Case_Reopened_By__c</field>
-    </columns>
-    <columns>
         <field>Case$oldCCCIdFields__c</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>Case$Is_Duplicate__c</field>
     </columns>
     <columns>
@@ -148,7 +176,140 @@
         <field>Case$Asset.Product2</field>
     </columns>
     <columns>
-        <field>Case$Asset.Sum_Assured__c</field>
+        <field>Case$Reopened_DateTime__c</field>
+    </columns>
+    <columns>
+        <field>Case$Reopened__c</field>
+    </columns>
+    <columns>
+        <field>Case$Reopen_Reason__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Case_Closed_Resolved_By__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Case_Closed_Resolution_Comments__c</field>
+    </columns>
+    <columns>
+        <field>Case$Subject</field>
+    </columns>
+    <columns>
+        <field>Case$Customer_name_formula__c</field>
+    </columns>
+    <columns>
+        <field>Case$Last_Owner_Change_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.ProductName__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.SRMName__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Owner</field>
+    </columns>
+    <columns>
+        <field>BucketField_82479202</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.IntermediaryName__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Broker_Name__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Follow_Up_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Concern_claims__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.SRMEmail__c</field>
+    </columns>
+    <columns>
+        <field>Case$Account.Owner.Email</field>
+    </columns>
+    <columns>
+        <field>Case$Account.Owner.Contact.Phone</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Branch__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Status</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.SerialNumber</field>
+    </columns>
+    <columns>
+        <field>Case$Winning_Email__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$IsEscalated</field>
+    </columns>
+    <columns>
+        <field>Case$Escalated_Date_Time__c</field>
+    </columns>
+    <columns>
+        <field>Case$Escalated_By__c</field>
+    </columns>
+    <columns>
+        <field>Case$Parent.CaseNumber</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Cancellation_Reason__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Policy_Start_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Policy_End_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Issue_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Scheme__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.ZoneOfCover__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.PolicyType__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.ServicingBranchName__c</field>
+    </columns>
+    <columns>
+        <field>Case$Account.PersonContact.MobilePhone</field>
+    </columns>
+    <columns>
+        <field>Case$Account.PersonContact.Email</field>
+    </columns>
+    <columns>
+        <field>Case$Account.PersonContact.Birthdate</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Cancellation_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.CrossSellReferenceNumber__c</field>
+    </columns>
+    <columns>
+        <field>Case$Owner.Email</field>
+    </columns>
+    <columns>
+        <field>Case$CreatedBy.Email</field>
+    </columns>
+    <columns>
+        <field>Case$Account.Customer_Type__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_31427092</field>
     </columns>
     <customDetailFormulas>
         <calculatedFormula>CASE(Case.CCC_External_Id__c, 
@@ -194,12 +355,76 @@
     </customDetailFormulas>
     <description>ABHI MIS QRC Dump Report</description>
     <filter>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND (6 OR 7) AND 8 AND 9 AND 10</booleanFilter>
         <criteriaItems>
             <column>Case$Business_Unit__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
             <value>ABHI</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Nature__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>,Request,Query,Complaint</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Type_Text__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Sub_Type_Text__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>,New,On Hold,Closed,Escalated,Critical,In Progress,Waiting for Customer,Merged,Response Received,Resolved,Closed Duplicate,Unresolved,Soft Resolve</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Owner</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Case_Assigned_Team__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Parent</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>DUMMY</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Asset.Policy_No__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case$Parent</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
@@ -213,8 +438,6 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>Case$ABHI_Case_Detail__c.Concern__c</sortColumn>
-    <sortOrder>Desc</sortOrder>
     <timeFrameFilter>
         <dateColumn>Case$CreatedDate</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

@@ -33,11 +33,22 @@ public with sharing class ABHI_UpdatesForSprinklr  implements ASF_IntegrationInv
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
              system.debug('Source__c--> '+caseRecord);
         	system.debug(caseRecord.Sprinklr_Case_Reference_Number__c);
+            boolean bErrorOccured = false;
+            String errorMessage =''; 
             if(caseRecord.Source__c == 'Social Media' && String.isNotBlank(caseRecord.Sprinklr_Case_Reference_Number__c))
             {
               result.status = 'Success';
               result.response = 'Sprinklr API submitted successfully';            
-            }            
+            }   
+            else {
+                bErrorOccured = true;
+                errorMessage = 'This case is not eligible for Sprinklr Update flow';
+            }
+            if(bErrorOccured){
+                errorMessage = errorMessage.removeEnd(', ');
+                result.response = errorMessage;
+                resultMap.put(caseRecord.Id, result);
+            } 
             resultMap.put(caseRecord.Id, result);
         }
         

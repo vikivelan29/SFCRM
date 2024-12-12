@@ -38,9 +38,9 @@ const setSelectedAccount = async(event, parentJS) => {
     parentJS.selectedCustomerClientCode = row[0].clientCode;
     parentJS.accountRecordType = row[0].objectRecordType;
     parentJS.showLANForCustomer = false;
-    if (row[0].objectType == 'Customer' && parentJS.businessUnit != ABML_BU) {
+    if (row[0].objectType == 'Customer') {
         // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
-        parentJS.showLANForCustomer = true;
+        parentJS.showLANForCustomer =  parentJS.businessUnit== ABML_BU ? false: true; //Added by EY for ABML
         parentJS.accountId = row[0].recordId;
         parentJS.isasset = 'true';
         parentJS.selectedAsset = [];

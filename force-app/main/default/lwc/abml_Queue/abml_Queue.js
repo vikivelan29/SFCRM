@@ -36,6 +36,7 @@ export default class ABML_Queue extends LightningElement {
      @track businessHours = true;
      @track checkProfile = true;
      @track booleanValue;
+     setSelectedRows = [];
 
      columns = [
         { label: 'Name', fieldName: 'Name' },
@@ -197,14 +198,19 @@ export default class ABML_Queue extends LightningElement {
 
      handleRowSelection(event) {
         console.log('in handlerowselection');
-        var selectedRows = event.detail.selectedRows;
-        this.selectedrecordid = selectedRows[0].Id;
-        console.log('Selected rows are '+JSON.stringify(selectedRows[0]));
-        console.log('Selected rows user id is '+JSON.stringify(selectedRows[0].Id));    
+        //var selectedRows = event.detail.selectedRows;
+        //this.selectedrecordid = selectedRows[0].Id;
+        this.setSelectedRows = event.detail.selectedRows;
+        this.selectedrecordid = this.setSelectedRows[0].Id;
+        console.log('Selected rows are '+JSON.stringify(this.setSelectedRows[0].Id));
+        //console.log('Selected rows are '+JSON.stringify(selectedRows[0]));
+        //console.log('Selected rows user id is '+JSON.stringify(selectedRows[0].Id));    
     }
 
 
      handleUserSearchChange(event) {
+        this.setSelectedRows = [];
+        this.selectedrecordid=undefined;
         this.userName = event.target.value; // Update the user search string
         this.searchUsers(); // Fetch users based on the new search string
     }
