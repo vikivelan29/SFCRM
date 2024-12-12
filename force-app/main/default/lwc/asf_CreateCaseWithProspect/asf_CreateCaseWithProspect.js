@@ -1,5 +1,5 @@
 import { LightningElement, track, api, wire } from 'lwc';
-import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getAccountDataByCustomerType';
+import getAccountData from '@salesforce/apex/ASF_CreateCaseWithTypeController.getTypeSubTypeByCustomerDetails';
 import getCaseRelatedObjName from '@salesforce/apex/ASF_GetCaseRelatedDetails.getCaseRelatedObjName';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import { createRecord } from 'lightning/uiRecordApi';
@@ -42,6 +42,7 @@ import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import FTR_FIELD from '@salesforce/schema/Case.FTR__c';
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
 import * as validator from 'c/asf_CreateCaseValidations';
 
 export default class Asf_CreateCaseWithProspect extends NavigationMixin(LightningElement) {
@@ -102,6 +103,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     abhiTrackSources = ABHI_Track_Sources.includes(',') ? ABHI_Track_Sources.split(',') : ABHI_Track_Sources;
     natureVal = '';
     cols;
+    //oneabc
+    selectedCccBu = '';
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
         { label: 'Email', fieldName: 'Email', type: 'text' },
@@ -202,7 +205,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.showIssueType = false;
         this.ftrValue = false;
         
-        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null })
+        const inpArg = new Map();
+
+        inpArg['requestFrom'] = 'Lead';
+        let strInpArg = JSON.stringify(inpArg);
+
+        getAccountData({ keyword: this.searchKey, asssetProductType: "", isasset: "Prospect", accRecordType: null, assetLob : null, inpArg : strInpArg})
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;
@@ -253,6 +261,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         this.trackId = '';
         var selected = this.template.querySelector('lightning-datatable').getSelectedRows()[0];
         if (selected) {
+            this.selectedCccBu = selected.Business_Unit__c;
             this.natureVal = selected.Nature__c;
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
@@ -268,7 +277,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU || this.loggedInUserBusinessUnit == ABHI_BU)) {
+        if ((selected) && (this.loggedInUserBusinessUnit === ABSLI_BU || this.loggedInUserBusinessUnit == ABHI_BU || this.loggedInUserBusinessUnit === ABCD_BU)) {
             this.boolNoAutoComm = false;
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -284,7 +293,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
-            }
+        }
         if((selected) && selected.Allowed_Issue_Types__c && this.loggedInUserBusinessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
@@ -314,6 +323,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                 if(this.sourceFldOptions.length === 1) {
                     this.boolSourceComboboxDisabled = true;
                 }
+            }
+            if(this.loggedInUserBusinessUnit === ABCD_BU){
+                this.boolAllChannelVisible = false;
             }
             this.disbleNextBtn = false;
         }
@@ -521,7 +533,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseRecord[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
         }
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
-
+        
+        if(this.loggedInUserBusinessUnit === ABCD_BU){
+            caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.selectedCccBu;
+        }
+        
         const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
 
         caseRecord["sobjectType"] = "Case"; 
