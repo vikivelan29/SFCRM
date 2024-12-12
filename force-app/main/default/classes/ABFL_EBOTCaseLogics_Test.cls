@@ -127,7 +127,7 @@ public class ABFL_EBOTCaseLogics_Test {
             
              Case newCase = new Case();
             newCase.Subject = 'Test Case Creations';
-            newCase.CCC_External_Id__c ='' ;
+            newCase.CCC_External_Id__c ='RSTASTNTMOR' ;
           newCase.Source__c =  'Email';
           newCase.Stage__c = 'Email';
            newCase.Origin = 'ABFL Email';
@@ -145,8 +145,10 @@ public class ABFL_EBOTCaseLogics_Test {
                 eMsg.ParentId = newCase.Id;
                 eMsg.CCAddress = 'test@test.com';
                 eMsg.BCCAddress = 'test@test.com';
-                eMsg.Winning_Email__c = 'abfssl.uatcaredigitalfinance@adityabirlacapital.com';
-                insert eMsg;
+                eMsg.ToAddress = 'care.finance@adityabirlacapital.com';
+                eMsg.Winning_Email__c = 'care.finance@adityabirlacapital.com';
+                List<EmailMessage> eMsgList = new List<EmailMessage>{eMsg};
+                insert eMsgList;
                 ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();    
                 caseInt.Case__c =newCase.Id;
                 caseInt.Status__c = 'Pending';
@@ -185,12 +187,12 @@ public class ABFL_EBOTCaseLogics_Test {
                   ABFL_EBOTCaseLogics.checkIsRegisteredCustomerNo(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
                   ABFL_EBOTCaseLogics.checkIsRegisteredCustomerYes(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
                   ABFL_EBOTCaseLogics.confidenceScoreAndSubtypeCheck(eMsg,newCase,ccc1,mockResponse,mdtEbotCase);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,true,true,true,true);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,true,true);                     
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,true);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,false,false);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,false);
-                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,false,objABFL.Id,false,false,false,false);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,true,true,true,true,eMsgList);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,true,true,eMsgList);                     
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,true,eMsgList);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,true,false,false,eMsgList);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,true,objABFL.Id,false,false,false,false,eMsgList);
+                  ABFL_EBOTCaseLogics.genericSendEmailAndCaseClose(ccc1,newCase,false,objABFL.Id,false,false,false,false,eMsgList);
             System.assertEquals('Success', caseIntUpdate.Status__c,'record found');          
              Test.stopTest();            
             }
@@ -218,5 +220,74 @@ public class ABFL_EBOTCaseLogics_Test {
         Test.stopTest(); 
         }
     }
+    
+    @isTest
+    public static void testCreatePELogAndInvokeCommPEevent() {
+        Case caseRec = new Case();
+        caseRec.Subject = 'Test Wealth Chat Cases';
+        caseRec.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        caseRec.Origin = ABFL_Constants.WMCHATCASEORIGIN;
+        insert caseRec;
+
+        String emailTemplate = 'Sample_Template_Name';
+        String specificEmailId = 'test@example.com';
+
+        Test.startTest();
+        ABFL_EBOTCaseLogics.createPELogAndinvokeCommPEevent(caseRec, emailTemplate, specificEmailId);
+        Test.stopTest();
         
+        PE_Logger__c createdPELogger = [SELECT Id, AccountId__c, CCCExternalId__c, Case__c, ContactId__c, PE_Name__c, Status__c, Send_To_Specific_Emails__c, Specific_To_Address__c, Email_Template_Name__c
+                                        FROM PE_Logger__c WHERE Case__c = :caseRec.Id LIMIT 1];
+        
+        
+        System.assertNotEquals(null, createdPELogger, 'PE_Logger__c record should be created.');
+        System.assertEquals(caseRec.CCC_External_Id__c, createdPELogger.CCCExternalId__c, 'CCCExternalId__c should match.');
+        System.assertEquals('CommunicationLog', createdPELogger.PE_Name__c, 'PE_Name__c should be "CommunicationLog".');
+        System.assertEquals(true, createdPELogger.Send_To_Specific_Emails__c, 'Send_To_Specific_Emails__c should be true.');
+        System.assertEquals(specificEmailId, createdPELogger.Specific_To_Address__c, 'Specific_To_Address__c should match.');
+        System.assertEquals(emailTemplate, createdPELogger.Email_Template_Name__c, 'Email_Template_Name__c should match.');
+    }    
+    @isTest
+    public static void testUpdateCaseDetailExtension() {
+ 
+        Case testCase = new Case();
+        testCase.Subject = 'Test Wealth Chat Cases';
+        testCase.RecordTypeId = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+        testCase.Origin = ABFL_Constants.WMCHATCASEORIGIN;
+        insert testCase;
+
+        ABFL_EbotWrapper.EbotResponseWrapper mockResponse = new ABFL_EbotWrapper.EbotResponseWrapper();
+        mockResponse.CONFIDENCESCORE = '0.95';
+        mockResponse.AUTOCLOSURE_IN_RR = 'YES';
+        mockResponse.ISREGISTEREDCUSTOMER = 'Yes';
+        mockResponse.MOODSTAMP = 'Happy';
+        mockResponse.PRIORITY = 'High';
+        mockResponse.ISSMT = 'YES';
+        mockResponse.ISMULTIPLELAN = 'YES';
+        mockResponse.ISATTACHMENTFLAG = 'YES';
+        mockResponse.PAYTMINTERACTIONID = 'PT12345';
+        mockResponse.DISPOSITION = 'Resolved';
+
+        Test.startTest();
+        ABFL_EBOTCaseLogics.updateCaseDetailExtension(testCase.Id, mockResponse);
+        Test.stopTest();
+
+        ABFL_Case_Detail__c caseDetail = [SELECT Id, Case__c, ConfidenceScore__c, Autoclosure_IN_RR__c, 
+                                          IsRegisteredCustomer__c, Moodstamp__c, Priority__c, IsSMT__c, 
+                                          IsMultipleLAN__c, IsAttachmentFlag__c, PayTmInteractionId__c, Disposition__c 
+                                          FROM ABFL_Case_Detail__c WHERE Case__c = :testCase.Id LIMIT 1];
+
+        System.assertNotEquals(null, caseDetail, 'ABFL_Case_Detail__c record should be created.');
+        System.assertEquals(testCase.Id, caseDetail.Case__c, 'Case__c should match the created Case.');
+        System.assertEquals(0.95, caseDetail.ConfidenceScore__c, 'ConfidenceScore__c should match.');
+        System.assertEquals(true, caseDetail.Autoclosure_IN_RR__c, 'Autoclosure_IN_RR__c should be TRUE.');
+        System.assertEquals('Yes', caseDetail.IsRegisteredCustomer__c, 'IsRegisteredCustomer__c should be "Yes".');
+        System.assertEquals('Happy', caseDetail.Moodstamp__c, 'Moodstamp__c should be "Happy".');
+        System.assertEquals('High', caseDetail.Priority__c, 'Priority__c should be "High".');
+        System.assertEquals(true, caseDetail.IsSMT__c, 'IsSMT__c should be TRUE.');
+        System.assertEquals(true, caseDetail.IsMultipleLAN__c, 'IsMultipleLAN__c should be TRUE.');
+        System.assertEquals(true, caseDetail.IsAttachmentFlag__c, 'IsAttachmentFlag__c should be TRUE.');
+        System.assertEquals('PT12345', caseDetail.PayTmInteractionId__c, 'PayTmInteractionId__c should match.');
+        System.assertEquals('Resolved', caseDetail.Disposition__c, 'Disposition__c should match.');
+    }
 }

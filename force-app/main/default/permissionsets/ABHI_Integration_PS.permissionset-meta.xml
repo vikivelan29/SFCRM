@@ -172,6 +172,14 @@
         <apexClass>ABHI_EBOTCaseLogics</apexClass>
         <enabled>true</enabled>
     </classAccesses>  
+    <classAccesses>
+        <apexClass>ABHI_ClosedIGMSComplaintIntegration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>  
+    <classAccesses>
+        <apexClass>ABHI_EBOTCaseLogics</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>  
     <fieldPermissions>
         <editable>true</editable>
         <field>DMS_Files__c.DocumentIndex__c</field>
@@ -2205,6 +2213,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Claim__c.Patient_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Claim__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Member_Mapping__c.Policy_Number_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Policy_Nominee__c.Policy_Number_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

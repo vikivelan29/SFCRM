@@ -88,7 +88,7 @@ public class RNWL_OpportunityTriggerHelper {
                     objIntegration_Event.Business_Unit__c = 'ABHI-RNWL';
                     objIntegration_Event.ObjectApiName__c = 'Opportunity'; 
                     objIntegration_Event.Record_Id__c = objOpportunity.Id;
-                    objIntegration_Event.Request__c = '{"requestId": "' + objOpportunity.Name + '"}';
+                    objIntegration_Event.Request__c = '{"requestId": "' + objOpportunity.Name + '", "customerIdentifier": "' + objOpportunity.Policy_Number__c + '"}';
                     objIntegration_Event.ServiceName__c = 'UbonaCancelCallService_Renewal';
                     lstIntegrationEvent.add(objIntegration_Event);
             }
@@ -198,8 +198,8 @@ public class RNWL_OpportunityTriggerHelper {
         List<ABCL_Integration_Event__e> eventList = new List<ABCL_Integration_Event__e>();
         
         for(Opportunity opp : newOpps){
-            if(opp.Payment_Link_Response__c == null && oldMap.get(opp.Id).Dialer_Status__c	 == 'Schedule Call Request Submitted' &&
-              (opp.Dialer_Status__c	== 'Schedule Call Request Failed' || opp.Dialer_Status__c == 'Schedule Call Request Successful' )){
+            if(opp.Payment_Link_Response__c == null && opp.Payment_Link__c != null && oldMap.get(opp.Id).Dialer_Status__c == 'Schedule Call Request Submitted' &&
+              (opp.Dialer_Status__c == 'Schedule Call Request Failed' || opp.Dialer_Status__c == 'Schedule Call Request Successful')){
                 ABCL_Integration_Event__e evt = new ABCL_Integration_Event__e();
                 evt.Business_Unit__c = 'ABHI-RNWL';
                 evt.ObjectApiName__c = 'Opportunity';

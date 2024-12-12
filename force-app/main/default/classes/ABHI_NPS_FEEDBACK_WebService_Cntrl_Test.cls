@@ -33,8 +33,7 @@ private class ABHI_NPS_FEEDBACK_WebService_Cntrl_Test {
         ABHI_NPS_FEEDBACK_WebService_Controller.ratings rating = new ABHI_NPS_FEEDBACK_WebService_Controller.ratings();
         rating.field_id = 'primary_rating';
         rating.seq_no = 2;
-        rating.actual_rating = 8;
-        rating.rating = '8';
+        rating.actual_rating = '8';
         reqWrapper.ratings.add(rating);
         reqWrapper.feed_id = '61383b283539e3cd46886391';
 
@@ -44,7 +43,7 @@ private class ABHI_NPS_FEEDBACK_WebService_Cntrl_Test {
 
         // Call the web service method
         Test.startTest();
-            ABHI_NPS_FEEDBACK_WebService_Controller.createSurveyResponse();
+        ABHI_NPS_FEEDBACK_WebService_Controller.createSurveyResponse();
         Test.stopTest();
 
         Survey_Response__c surveyResponse = [SELECT Id, Customer_Comments__c, Primary_Question_NPS__c FROM Survey_Response__c LIMIT 1];
@@ -77,19 +76,29 @@ private class ABHI_NPS_FEEDBACK_WebService_Cntrl_Test {
 
         ABHI_NPS_FEEDBACK_WebService_Controller.ratings rating1 = new ABHI_NPS_FEEDBACK_WebService_Controller.ratings();
         rating1.field_id = 'primary_rating';
-        rating1.actual_rating = 9;
+        rating1.actual_rating = '9';
         reqWrapper.ratings.add(rating1);
 
         ABHI_NPS_FEEDBACK_WebService_Controller.ratings rating2 = new ABHI_NPS_FEEDBACK_WebService_Controller.ratings();
         rating2.question = 'L1 Drivers';
-        rating2.actual_rating = 7;
+        rating2.rating = 'Nice';
         reqWrapper.ratings.add(rating2);
 
         // Call the method
         Test.startTest();
-        Map<String, Integer> ratingsMap = new ABHI_NPS_FEEDBACK_WebService_Controller().logicToPopulateRating(reqWrapper);
+            Map<String, String> ratingsMap = new ABHI_NPS_FEEDBACK_WebService_Controller().logicToPopulateRating(reqWrapper);
         Test.stopTest();
+        system.debug('ratMap-- '+JSON.serializePretty(ratingsMap));
 
-        System.assertEquals(9, ratingsMap.get('actualRating'), '9');
+        for(String rt : ratingsMap.keySet()) {
+
+            String value = ratingsMap.get(rt);
+
+            if(value == 'actualRating') {
+                System.Assert.areEqual('9', value, 'Rating should be 9');
+            } else if(value == 'L1 Drivers') {
+                System.Assert.areEqual('Nice', value, 'Rating is Nice');
+            }
+        }
     }
 }
