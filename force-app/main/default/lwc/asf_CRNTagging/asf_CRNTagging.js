@@ -13,7 +13,13 @@ import { reduceErrors } from 'c/asf_ldsUtils';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import WellnessBU from '@salesforce/label/c.Wellness_BU';
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
+import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU';
+import ONEABC_Acc_Error_ABCD from '@salesforce/label/c.ONEABC_Acc_Error_ABCD_Customer';
+import ONEABC_Acc_Error_Non_ABCD from '@salesforce/label/c.ONEABC_Acc_Error_Non_ABCD_Customer';
+import ONEABC_Acc_Error_LOB from '@salesforce/label/c.ONEABC_Acc_Error_LOB_Customer';
 import { lanLabels } from 'c/asf_ConstantUtility';
+
 
 // VIRENDRA - BELOW IMPORTS ARE ADDED AS PART OF PROSPECT TAGGING REQUIREMENT PR970457-426
 import CUSTOMERPROSPECTSEARCH from "./asf_CRNTagging.html";
@@ -23,6 +29,8 @@ import loggedInUserId from '@salesforce/user/Id';
 import getForm from '@salesforce/apex/ASF_FieldSetController.getLOBSpecificForm';
 import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
+import CASE_BUSINESS_UNIT from '@salesforce/schema/Case.Business_Unit__c';
+import CASE_RECORDTYPE from '@salesforce/schema/Case.RecordType.Name';
 import createProspectAndUpdCase from '@salesforce/apex/ASF_CaseUIController.CreateProspectAndUpdateOnCase';
 import INSUFFICIENT_ACCESS_MSG from '@salesforce/label/c.Wellness_Insufficient_Access';//PR1030924-905
 import CASE_ACCESS_ERROR from '@salesforce/label/c.Wellness_CaseComment_add_Err_Msg';//PR1030924-905
@@ -73,6 +81,9 @@ export default class Asf_CRNTagging extends LightningElement {
         CASE_ACCESS_ERROR, //PR1030924-905
         INSUFFICIENT_ACCESS_MSG //PR1030924-905
     };
+    caseBu;
+    selectedRecBu = '';
+    caseRecType = '';
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
@@ -90,14 +101,16 @@ export default class Asf_CRNTagging extends LightningElement {
 
     @wire(getRecord, {
         recordId: "$recordId",
-        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL]
+        fields: [ACCOUNT_CRN_FIELD, ASSET_FIELD, Case_SUPPLIEDEMAIL, CASE_BUSINESS_UNIT, CASE_RECORDTYPE]
     })
     CaseData({error, data}){
         if(data){
+            this.caseBu = getFieldValue(data, CASE_BUSINESS_UNIT);
             this.accountCrn = getFieldValue(data, ACCOUNT_CRN_FIELD);
             this.FAId = getFieldValue(data, ASSET_FIELD);
             this.caseSuppliedEmail = getFieldValue(data, Case_SUPPLIEDEMAIL);
-            console.log('acc id--'+this.accountCrn);
+            this.caseRecType = getFieldValue(data, CASE_RECORDTYPE);
+            console.log('acc id--'+this.caseRecType);
         } else if(error){
             console.log(error);
         }
@@ -121,6 +134,8 @@ export default class Asf_CRNTagging extends LightningElement {
                 this.showLANForCustomer = true;
                 this.prestdAcctId = this.accData[0].recordId;
                 this.selectedCustomer = this.prestdAcctId;
+                this.selectedRecBu = this.accData[0].accBu;
+                this.asstCols = lanLabels[this.selectedRecBu]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
                 //this.getAssetOnLoad(this.accData[0].recordId);
                 console.log('acc data--'+JSON.stringify(this.accData));
             }
@@ -189,6 +204,8 @@ export default class Asf_CRNTagging extends LightningElement {
         this.isDisabledUpdateCaseButton = false;
         const row = event.detail.selectedRows;
         this.selectedCustomer = row[0].recordId;
+        this.selectedRecBu = row[0].accBu;
+        this.asstCols = lanLabels[this.selectedRecBu]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
         this.showLANForCustomer = false;
         if(row[0].objectType == 'Customer' && this.loggedInUserBusinessUnit != ABML_BU){// Added by EY for ABML business unit
             // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
@@ -238,12 +255,47 @@ export default class Asf_CRNTagging extends LightningElement {
         }
         
         if (this.selectedCustomer) {
+
+            const inpArg = new Map();
+            // VIRENDRA - ADDED CHECK TO FIND OUT IF THE CASE IF ABCD CASE AND CUSTOMER TAGGING IS DONE FOR NON-ABCD CUSTOMER.
+            /* SCENARIO 1 - WHEN AGE
+            */
+            if(this.loggedInUserBusinessUnit == ABCD_BU){
+                if(this.caseRecType != 'Framework'){
+                    if(this.caseBu == ABCD_BU && this.selectedRecBu != ABCD_BU){
+                        inpArg['customerBu'] = ONEABC_BU;
+                    }
+                    else if(this.caseBu == ONEABC_BU && this.selectedRecBu == ABCD_BU){
+                        inpArg['customerBu'] = ABCD_BU;
+                    }
+                }else if(this.caseRecType === 'Framework'){
+                    if(this.caseBu == ABCD_BU && this.selectedRecBu != ABCD_BU){
+                        this.showError('error', 'Error Occured', ONEABC_Acc_Error_ABCD);
+                        return;
+                    }
+                    else if(this.caseBu == ONEABC_BU && this.selectedRecBu == ABCD_BU){
+                        this.showError('error', 'Error Occured', ONEABC_Acc_Error_Non_ABCD);
+                        return;
+                    }
+                }
+                if(this.caseBu != ABCD_BU && this.caseBu != ONEABC_BU){
+                    this.showError('error', 'Error Occured', ONEABC_Acc_Error_LOB);
+                    return;
+                }
+                /*else if(this.caseBu != 'ABCD' && this.caseBu !='ONEABC' && this.caseBu != this.selectedRecBu){
+                    inpArg['customerBu'] = this.selectedRecBu;
+                }*/
+            }
+            //inpArg['customerBu'] = this.selectedRecBu;
+            let strInpArg = JSON.stringify(inpArg);
+
             updateCRN({
                 accountId: this.selectedCustomer,
                 assetId: selectedAsstId,
                 caseId: this.recordId,
                 faNumber: selectedFANum,
-                reqFromRecat: false
+                reqFromRecat: false,
+                inpArg: strInpArg
             })
                 .then(result => {
                     const event = new ShowToastEvent({
@@ -481,15 +533,4 @@ export default class Asf_CRNTagging extends LightningElement {
     }
 
     // VIRENDRA - PROSPECT CREATION REQUIREMENT ENDS HERE.
-
-    showError(variant, title, error) {
-        let errMsg = reduceErrors(error);
-        const event = new ShowToastEvent({
-            variant: variant,
-            title: title,
-            message: Array.isArray(errMsg) ? errMsg[0] : errMsg
-        });
-        this.dispatchEvent(event);
-    }
-
 }

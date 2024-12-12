@@ -8,6 +8,7 @@
 public class ABSLAMC_SprinklrHelper {
     public static List<CaseComment> caseCommentsToInsert = new List<CaseComment>();
     public static List<Case> callSprinklrUpdateAPICases = new List<Case>();
+    public static List<String> eligibleBUs = new List<String>(Label.ASF_SprinklrUpdateBUs.split(','));
     
     /****************************************************************************************************************
 * @param newMapCase,oldMapCase
@@ -21,8 +22,7 @@ public class ABSLAMC_SprinklrHelper {
         
         Map<Id,Case> fireNotificationCases = new Map<Id,Case>();
         for(Case caseRec:newMapCase.values()){
-            if((caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU || caseRec.Business_Unit__c == ABHI_Constants.ABHI)
-               && caseRec.Source__c == 'Social Media'){
+            if(eligibleBUs.contains(caseRec.Business_Unit__c) && caseRec.Source__c == 'Social Media'){
                    Case newCase = newMapCase.get(caseRec.Id);
                    Case oldCase = oldMapCase.get(caseRec.Id); 
                    if(String.isNotBlank(newCase.Notes_from_Sprinklr__c) && newCase.Notes_from_Sprinklr__c != oldCase.Notes_from_Sprinklr__c
@@ -33,7 +33,7 @@ public class ABSLAMC_SprinklrHelper {
                           );
                           fireNotificationCases.put(newCase.Id,newCase);
                           caseCommentsToInsert.add(cc);
-                      }
+                      }     
                    
                }
         }
@@ -75,7 +75,8 @@ public class ABSLAMC_SprinklrHelper {
                 }
             }
         }
-        List<ASF_Integration__c> asfIntegRecs = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c, C3ExternalId__c,Query_Fields__c, Processing_Class__c 
+        List<ASF_Integration__c> asfIntegRecs = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c, C3ExternalId__c,Query_Fields__c, Processing_Class__c,
+                                                 Do_Not_Retry_Integration__c
                                                  FROM ASF_Integration__c
                                                  WHERE Display_Name__c = 'Sprinklr-UpdateFlow'
                                                  AND Case_Stage_Config__c = :caseStageconfigIds
@@ -139,8 +140,7 @@ public class ABSLAMC_SprinklrHelper {
     
     public static void blankOutLatestNotes(Map<Id,Case> newMapCase,Map<Id,Case> oldMapCase){
         for(Case caseRec:newMapCase.values()){
-            if((caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU || caseRec.Business_Unit__c == ABHI_Constants.ABHI)
-               && caseRec.Source__c == 'Social Media'){
+            if(eligibleBUs.contains(caseRec.Business_Unit__c) && caseRec.Source__c == 'Social Media'){
                    case newCase = newMapCase.get(caseRec.Id);
                    case oldCase = oldMapCase.get(caseRec.Id);
                    if(String.isNotBlank(newCase.Latest_Notes__c) && newCase.Latest_Notes__c != oldCase.Latest_Notes__c){
@@ -152,7 +152,11 @@ public class ABSLAMC_SprinklrHelper {
                        if(newCase.Stage__c == oldCase.Stage__c){
                            callSprinklrUpdateAPICases.add(newCase.clone(True,True,True,True));
                        }
-					  if(caseRec.Business_Unit__c == 'ABHI'){
+                       if(caseRec.Business_Unit__c == 'ABCD' || caseRec.Business_Unit__c == 'ONEABC'){
+                           ABCD_UpdatesForSprinklr.caseLatestNotesMap.clear();
+                           ABCD_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
+                       }
+					             else if(caseRec.Business_Unit__c == 'ABHI'){
                            ABHI_UpdatesForSprinklr.caseLatestNotesMap.clear();
                            ABHI_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
                        }

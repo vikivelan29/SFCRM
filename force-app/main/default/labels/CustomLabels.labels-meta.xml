@@ -16,6 +16,34 @@
         <shortDescription>ABHI_PolicyRequired_ErrMsg1</shortDescription>
         <value>Please enter Policy Number or Master Policy Number</value>
     </labels>
+        <labels>
+        <fullName>ASF_SprinklrUpdateBUs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ASF_SprinklrUpdateBUs</shortDescription>
+        <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_ABCD_Customer</shortDescription>
+        <value>Please select an ABCD Customer</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_LOB_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_LOB_Customer</shortDescription>
+        <value>You are not allowed to reparent this case</value>
+    </labels>
+    <labels>
+        <fullName>ONEABC_Acc_Error_Non_ABCD_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ONEABC_Acc_Error_Non_ABCD_Customer</shortDescription>
+        <value>You cannot select an ABCD customer for this case</value>
+    </labels>
     <labels>
         <fullName>ABSLI_BITLY_LOB_VAL</fullName>
         <language>en_US</language>
@@ -1403,7 +1431,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABSLAMC_SprinklrUpdateSpecificBUs</shortDescription>
-        <value>ABSLAMC</value>
+        <value>ABSLAMC,ONEABC,ABCD</value>
     </labels>
     <labels>
         <fullName>ABSLAMC_LegacyPageSize</fullName>
@@ -1512,10 +1540,38 @@
         <value>You have exceeded the overall limit for sending this notification.</value>
     </labels>
     <labels>
+        <fullName>ABCD_Complaint_Creation_Email_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD Complaint Creation Email ID</shortDescription>
+        <value>Vinay.Singh16@adityabirlacapital.com.invalid</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_Complaint_Creation_Email_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD Complaint Creation Email Template</shortDescription>
+        <value>ABCD_Complaint_Creation_Internal</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_Business_Unit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_Business_Unit</shortDescription>
+        <value>ABCD</value>
+     </labels>
+     <labels>
         <fullName>SuppressCreateCase_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
         <value>Wellness</value>
+    </labels>
+    <labels>
+        <fullName>ABCD_ONEABC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_ONEABC_BU</shortDescription>
+        <value>ONEABC</value>
     </labels>
 </CustomLabels>
