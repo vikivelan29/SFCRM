@@ -129,8 +129,8 @@ public with sharing class ASF_CreateCaseWithTypeController {
         else if(loggedInUsersBU == 'Payments'){
             // BU SPECIFIC LOGIC
         }
-        else{
-            
+        else if(loggedInUsersBU == ASF_Constants.ABCD_BU){
+            returnVal.lstCCCrecords = ONEABC_CreateCaseWithTypeHelper.filterCTSTBasedOnBULogic(returnVal.lstCCCrecords,inpArg);
         }
         
         return returnVal;
@@ -169,7 +169,7 @@ public with sharing class ASF_CreateCaseWithTypeController {
         map<id,ASF_Case_Category_Config__c> searchResults;
         set<ASF_Case_Category_Config__c> cccset= new set<ASF_Case_Category_Config__c>();
         
-        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c, Validation_method_during_creation__c,Tool_Tip__c  ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
+        String dynamicQuery = 'SELECT Id, Is_FTR_Journey__c, Nature__c, Product__c, Source__c, Type__c, Sub_Type__c, Type_Synonyms__c, Business_Unit__c, CCC_External_Id__c, First_Stage__c, Is_Bulk_Creatable__c, ASF_Is_Cloneable__c,Reopen_Days__c,Is_Transaction_Related__c,LOB__c,Allowed_Issue_Types__c,Show_FTR_Flag_on_Creation__c, Validation_method_during_creation__c,Tool_Tip__c,Applicable_for_OneABC__c ' + //Functionality Clone SR - Santanu Oct27,2023 - added ASF_Is_Cloneable__c
             'FROM ASF_Case_Category_Config__c WHERE Process__c=\'Case\' AND Quick_Kill__c = false AND';  //PR1030924-46 filter out CCC records where quick_kill checkbox is checked
         
         if(accRecordType != null && accRecordType != '' && userBu == 'Payments'){
@@ -213,7 +213,6 @@ public with sharing class ASF_CreateCaseWithTypeController {
             objCaseDetailsWrapper.strErrorMessage = STRING_NORECORDERROR;
         }
         objCaseDetailsWrapper.lstCCCrecords = searchResults.values();
-        system.debug('size--'+objCaseDetailsWrapper.lstCCCrecords.size());
         
         if(objCaseDetailsWrapper.lstCCCrecords.size()>0){
             list<string> exclusionBus= objCaseDetailsWrapper.exclusionBus;
@@ -224,10 +223,14 @@ public with sharing class ASF_CreateCaseWithTypeController {
                    && ccc.Business_Unit__c.equalsIgnoreCase(userBu)){
                        cccset.add(searchResults.get(cccId));  
                    } 
+                else if((userBu.equalsIgnoreCase(ASF_Constants.ABCD_BU) && ccc.Applicable_for_OneABC__c == true) ||
+                       (userBu.equalsIgnoreCase(ASF_Constants.ABCD_BU) && String.isNotBlank(ccc.Business_Unit__c) 
+                   && ccc.Business_Unit__c.equalsIgnoreCase(ASF_Constants.ONEABC_BU))){
+                       cccset.add(searchResults.get(cccId));
+                   }
                 
             }
             objCaseDetailsWrapper.lstCCCrecords = new list<ASF_Case_Category_Config__c> (cccset);
-            system.debug('final size--'+objCaseDetailsWrapper.lstCCCrecords.size());
             
         }
         

@@ -69,13 +69,15 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
         Id frameworkRTId = ASF_Constants.RT_FRAMEWORK;        
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItemsCase.values());
         system.debug('mRecordTypeVsCasesentered '+mRecordTypeVsCases.containsKey(frameworkRTId));
+        //Method to assign the correct Business Hours whenever case BU is updated	
+        ABCD_CaseTriggerHelper.populateCaseBusinessHrs((List<Case>) newItemsCase.values(), (Map<Id, Case>)oldItems);
         
         ASF_CaseTriggerBUSpecificHandler buSpecificCls = new ASF_CaseTriggerBUSpecificHandler();
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
                 Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(frameworkRTId));
             	ASF_CaseTriggerModularHelper.setSkipperFlags(newCaseMap.values(), (Map<Id, Case>)oldItems);
-            
+
             	// VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE PRE ASF CODE 
                 buSpecificCls.executeBeforeASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
                 //Added for Ebot
@@ -86,6 +88,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
                 ASF_CaseTriggerModularHelper.validateOwnerCheckerStage(oldItems, newCaseMap);
                 ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
                 ASF_CaseTriggerModularHelper.checkisApprovalStage((Map<Id, Case>)newCaseMap, (Map<Id, Case>)oldItems);
+                //validation for oneABC Account change
+                ASF_CaseTriggerModularHelper.validateAccountChange(newCaseMap.values(), (Map<Id, Case>)oldItems);
                 
                 //Prepopulation methods 
                 ASF_CaseTriggerModularHelper.findNextStageAndSetOnTriggerNew((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
@@ -97,7 +101,6 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
                 ASF_CaseTriggerModularHelper.validateCCCOnUpdate((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
                 // VIRENDRA - EXECUTE BU SPECIFIC LOGIC LOGIC IN BELOW CODE - SEQUENCE POST ASF CODE 
                 buSpecificCls.executeAfterASFCodeInBeforeUpdate(newCaseMap,(Map<Id,Case>)oldItems);
-            	//ASF_CaseTriggerModularHelper.setSkipperFlags(newCaseMap.values(), (Map<Id, Case>)oldItems); 
         }
         else if(mRecordTypeVsCases.containsKey(interactionRTId)){
             Map<Id,Case> newCaseMap = new Map<Id,Case>(mRecordTypeVsCases.get(interactionRTId));
@@ -106,9 +109,12 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             // caseSLA.calculateSLAOnCaseUpdate(newCaseMap,(map<Id,Case>)oldItems);
             caseHelper.populateStageFields(mRecordTypeVsCases.get(interactionRTId));
             ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
+            
+            //validation for oneABC Account change
+            ASF_CaseTriggerModularHelper.validateAccountChange(newCaseMap.values(), (Map<Id, Case>)oldItems);
             //Virendra - Reject Case
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
-            ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);  
             //Anirudh - Sending Interaction Cases to ASF_CaseTriggerBUSpecificHandler so that BU specific handler methods will run
             buSpecificCls.beforeUpdateInteractionCases(newCaseMap, (Map<Id, Case>)oldItems);    
         }
@@ -142,7 +148,8 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             
             // Virendra - to Reject the Checklist and Task on Case Rejection.
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseAfterUpdate(newCaseMap,(Map<Id, Case>)oldItems);
-            
+            ASF_CaseTriggerModularHelper.runAssignmentForOneABCBackMovement(newCaseMap.values(),(map<Id,Case>)oldItems);
+                
             // EXECUTE BU SPECIFIC LOGIC IN BELOW CODE - Populate case field values before DML
             buSpecificCls.executeBeforeCaseDMLInAfterUpdate(newCaseMap, (Map<Id, Case>)oldItems);
             ASF_CaseTriggerModularHelper.updateCasesFinally((Map<Id, Case>)newItemsCase);

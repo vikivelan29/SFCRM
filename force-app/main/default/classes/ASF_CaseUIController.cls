@@ -34,7 +34,7 @@ public with sharing class  ASF_CaseUIController {
                 prospectRecord.RecordTypeId = salesProspectRTId;
             }
             
-            insert prospectRecord; 
+            insert prospectRecord;
             mObjectVsRecId.put('Lead',prospectRecord);
         }
         
@@ -84,7 +84,7 @@ public with sharing class  ASF_CaseUIController {
                     Contact (Id, AccountId, email WHERE email LIKE :userInp OR mobilePhone LIKE : userInp OR Name Like : userInp),
                     Account (Id, Name, PersonEmail WHERE Client_Code__c  LIKE : userInp OR Name LIKE : userInp OR PersonEmail LIKE : userInp OR PAN__c LIKE : userInp OR PersonMobilePhone LIKE : userInp OR Advisor_Code__c LIKE : userInp),
                     Asset (Id, AccountId WHERE Name LIKE : userInp OR LAN__c LIKE : userInp OR Policy_No__c LIKE : userInp OR ContractId__c LIKE : userInp OR Application_Number__c LIKE : userInp),
-                    Lead (Id,Name,mobilePhone,Email,PANNO__c WHERE Name LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
+                    Lead (Id,Name,mobilePhone,Email,PANNO__c,Business_Unit__c WHERE Name LIKE : userInp OR mobilePhone LIKE : userInp OR Email LIKE : userInp)
                     ];
                 
                 System.debug(searchList[3]);
@@ -106,7 +106,7 @@ public with sharing class  ASF_CaseUIController {
                 }
                 if(searchList[3].size()>0){
                     for(Lead prospect : (List<Lead>)searchList[3]){
-                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'','');
+                        searchResponse resp = new searchResponse(prospect.Id,'Prospect',prospect.Name,'-NA-',prospect.Email,prospect.mobilePhone,prospect.PANNO__c,'','',prospect.Business_Unit__c);
                         
                         lstResponse.add(resp);
                     }     
@@ -132,12 +132,12 @@ public with sharing class  ASF_CaseUIController {
                 String customerType = customer.RecordType.Name == 'ABSLI Advisor' ? 'Advisor' : 'Customer';
                 String panValue = customer.Business_Unit__c == ABHI_Constants.ABHI ? customer.PAN_Number__c : customer.PAN__c;
                 if(customer.IsPersonAccount){
-                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),panValue,customer.RecordType.Name,customer.Advisor_Code__c);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,customer.PersonEmail,String.valueOf(customer.PersonMobilePhone),panValue,customer.RecordType.Name,customer.Advisor_Code__c,customer.Business_Unit__c);
                 }else{
                     String phone = accIdConMap.containsKey(customer.Id)? String.valueOf(accIdConMap.get(customer.Id).mobilePhone) : '';
                     String email = accIdConMap.containsKey(customer.Id)? accIdConMap.get(customer.Id).email : '';
 
-                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,panValue,customer.RecordType.Name,customer.Advisor_Code__c);
+                    custResp = new searchResponse(customer.Id,customerType,customer.Name,customer.Client_Code__c,email,phone,panValue,customer.RecordType.Name,customer.Advisor_Code__c,customer.Business_Unit__c);
                 }
                 
                 lstResponse.add(custResp);
@@ -164,7 +164,7 @@ public with sharing class  ASF_CaseUIController {
                 if(mapping.LAN__c != null){
                     //Modified 19/11/2024: added equalsIgnoreCase because Relation__c can be 'Self' or 'SELF'
                     if(String.isBlank(mapping.Relation__c) || mapping.Relation__c.equalsIgnoreCase('SELF')){
-                        assetIds.add(mapping.LAN__c);
+                    assetIds.add(mapping.LAN__c);
                     }
                 }
             }
@@ -185,7 +185,7 @@ public with sharing class  ASF_CaseUIController {
     }
     
     @AuraEnabled
-    public static void updateCRN(string accountId,string assetId,String caseId, String faNumber, Boolean reqFromRecat) {
+    public static void updateCRN(string accountId,string assetId,String caseId, String faNumber, Boolean reqFromRecat, String inpArg) {
         
         Case cs = new Case();
         cs.Id = caseId;
@@ -224,6 +224,12 @@ public with sharing class  ASF_CaseUIController {
             
         if(reqFromRecat){
             cs.Recategorisation_Date__c = system.now();
+        }
+        if(String.isNotBlank(inpArg)){
+            Map<String,String> mInpArg = (Map<String,String>) JSON.deserialize(inpArg, Map<String,String>.Class);
+            if(mInpArg.containsKey('customerBu') && String.isNotBlank(mInpArg.get('customerBu'))){
+                cs.Business_Unit__c = mInpArg.get('customerBu');
+            }
         }
         update cs;
         
@@ -324,9 +330,11 @@ public with sharing class  ASF_CaseUIController {
         public string objectRecordType{get;set;}
         @AuraEnabled
         public string advisorCode{get;set;}
+        @AuraEnabled
+        public string accBu{get;set;}
         
         public searchResponse(String recId, String objType,String name,String clientCode,
-                            String emailId,String mobile,String pan,String objRecordType, String advisorCode){
+                            String emailId,String mobile,String pan,String objRecordType, String advisorCode, String accBu){
             this.recordId = recId;
             this.objectType = objType;
             this.name = name;
@@ -336,6 +344,7 @@ public with sharing class  ASF_CaseUIController {
             this.pan = pan;
             this.objectRecordType = objRecordType;
             this.advisorCode = advisorCode;
+            this.accBu = accBu;
                                 
         }        
         

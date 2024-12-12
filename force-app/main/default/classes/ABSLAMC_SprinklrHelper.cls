@@ -8,6 +8,7 @@
 public class ABSLAMC_SprinklrHelper {
     public static List<CaseComment> caseCommentsToInsert = new List<CaseComment>();
     public static List<Case> callSprinklrUpdateAPICases = new List<Case>();
+    public static List<String> eligibleBUs = new List<String>(Label.ASF_SprinklrUpdateBUs.split(','));
     
     /****************************************************************************************************************
 * @param newMapCase,oldMapCase
@@ -21,8 +22,7 @@ public class ABSLAMC_SprinklrHelper {
         
         Map<Id,Case> fireNotificationCases = new Map<Id,Case>();
         for(Case caseRec:newMapCase.values()){
-            if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU
-               && caseRec.Source__c == 'Social Media'){
+            if(eligibleBUs.contains(caseRec.Business_Unit__c) && caseRec.Source__c == 'Social Media'){
                    Case newCase = newMapCase.get(caseRec.Id);
                    Case oldCase = oldMapCase.get(caseRec.Id); 
                    if(String.isNotBlank(newCase.Notes_from_Sprinklr__c) && newCase.Notes_from_Sprinklr__c != oldCase.Notes_from_Sprinklr__c
@@ -33,7 +33,7 @@ public class ABSLAMC_SprinklrHelper {
                           );
                           fireNotificationCases.put(newCase.Id,newCase);
                           caseCommentsToInsert.add(cc);
-                      }
+                      }     
                    
                }
         }
@@ -139,8 +139,7 @@ public class ABSLAMC_SprinklrHelper {
     
     public static void blankOutLatestNotes(Map<Id,Case> newMapCase,Map<Id,Case> oldMapCase){
         for(Case caseRec:newMapCase.values()){
-            if(caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU
-               && caseRec.Source__c == 'Social Media'){
+            if(eligibleBUs.contains(caseRec.Business_Unit__c) && caseRec.Source__c == 'Social Media'){
                    case newCase = newMapCase.get(caseRec.Id);
                    case oldCase = oldMapCase.get(caseRec.Id);
                    if(String.isNotBlank(newCase.Latest_Notes__c) && newCase.Latest_Notes__c != oldCase.Latest_Notes__c){
@@ -152,8 +151,14 @@ public class ABSLAMC_SprinklrHelper {
                        if(newCase.Stage__c == oldCase.Stage__c){
                            callSprinklrUpdateAPICases.add(newCase.clone(True,True,True,True));
                        }
-                       ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.clear();
-                       ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
+                       if(caseRec.Business_Unit__c == 'ABCD' || caseRec.Business_Unit__c == 'ONEABC'){
+                           ABCD_UpdatesForSprinklr.caseLatestNotesMap.clear();
+                           ABCD_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
+                       }
+                       else{
+                           ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.clear();
+                           ABSLAMC_UpdatesForSprinklr.caseLatestNotesMap.put(newCase.Id, newCase.Latest_Notes__c);
+                       }
                        newCase.Latest_Notes__c = '';
                    }
                    

@@ -9,11 +9,11 @@
 public with sharing class ABCL_CommonCLass {
     
     /****************************************************************************************************************
-	* @Function - prepopulateCaseFlds
-	* @param newItems -  list of sobject records.
-	* @return - void .
-	* @Description - This method pre-populates fields on Case.
-	*****************************************************************************************************************/
+* @Function - prepopulateCaseFlds
+* @param newItems -  list of sobject records.
+* @return - void .
+* @Description - This method pre-populates fields on Case.
+*****************************************************************************************************************/
     public void prepopulateCaseFlds(List<Sobject> newItems) {
         
         List<Case> newCaseList = (List<Case>)newItems;
@@ -22,12 +22,12 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /****************************************************************************************************************
-	* @Function - prepopulateCaseFldsOnBasisOfBussinessUnit
-	* @param newItems -  list of case records.
-	* @return - void .
-	* @Description - This method pre-populates BusinessHoursId field on Case on the basis of Business Unit field.
-	* Note - Please use the name of Business Unit of Case in Business Hour Name field of BusinessHours object
-	*****************************************************************************************************************/
+* @Function - prepopulateCaseFldsOnBasisOfBussinessUnit
+* @param newItems -  list of case records.
+* @return - void .
+* @Description - This method pre-populates BusinessHoursId field on Case on the basis of Business Unit field.
+* Note - Please use the name of Business Unit of Case in Business Hour Name field of BusinessHours object
+*****************************************************************************************************************/
     public void prepopulateCaseFldsOnBasisOfBussinessUnit(List<Case> newCaseLst) {
         
         Map<String, BusinessHours> mapOf_BusinessUnit_To_BusinessHr = new Map<String, BusinessHours>();
@@ -55,7 +55,6 @@ public with sharing class ABCL_CommonCLass {
         if(bhList.size() > 0) {
             
             for(BusinessHours bh : bhList) {
-                system.debug('line no 58 BH-->'+bh);
                 String bussHrName = bh.Name;
                 if(bussHrName.containsIgnoreCase('ABHFL')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABHFL', bh);
@@ -69,7 +68,7 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLIG')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLIG', bh);
                 }
-                else if(bussHrName.containsIgnoreCase('ABSLI')) {
+               else if(bussHrName.containsIgnoreCase('ABSLI')) {
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLI', bh);
                 }
                 else if(bussHrName.containsIgnoreCase('ABSLAMC')){
@@ -82,6 +81,12 @@ public with sharing class ABCL_CommonCLass {
                 }
                 else if(bussHrName.containsIgnoreCase('ABML')){
                     mapOf_BusinessUnit_To_BusinessHr.put('ABML', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ABCD')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABCD', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ONEABC')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ONEABC', bh);
                 }
             }
             
@@ -101,12 +106,12 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /****************************************************************************************************************
-	* @Function - populateResolutionCommentOnCaseDetail
-	* @param newItems oldMap -  list of sobject records. map of trigger.oldMap
-	* @return - void .
-	* @Description - Updates the resolution comment/remarks field on Case Detail object 
-	* when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
-	*****************************************************************************************************************/
+* @Function - populateResolutionCommentOnCaseDetail
+* @param newItems oldMap -  list of sobject records. map of trigger.oldMap
+* @return - void .
+* @Description - Updates the resolution comment/remarks field on Case Detail object 
+* when case is being resolved from bulk screen. Copies the value from Resolution Comment field on Case.
+*****************************************************************************************************************/
     public static void populateResolutionCommentOnCaseDetail(List<Case> newItems, Map<Id, Case> oldMap) {
         
         //if not bulk processing, do nothing, return;
@@ -155,10 +160,10 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /**
-	* @Function - populateCreatedDateRange
-	* @param newItems -  map of Case from trigger.new.
-	* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
-	**/
+* @Function - populateCreatedDateRange
+* @param newItems -  map of Case from trigger.new.
+* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
+**/
     public void populateCreatedDateRange(List<Case> newItems) {
         
         Datetime currentDatetime = System.now();
@@ -177,11 +182,11 @@ public with sharing class ABCL_CommonCLass {
     }
     
     /**
-	* @Function - populateCreatedDateRange
-	* @param calculateMinutes -  Time in minutes.
-	* @return - String
-	* @description - Method to calculate the SLA Overwrite Identifier
-	**/
+* @Function - populateCreatedDateRange
+* @param calculateMinutes -  Time in minutes.
+* @return - String
+* @description - Method to calculate the SLA Overwrite Identifier
+**/
     @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         

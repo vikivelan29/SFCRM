@@ -40,6 +40,9 @@ import TRANSACTION_NUM from '@salesforce/schema/PAY_Payment_Detail__c.Txn_ref_no
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 import POLICY_NO from '@salesforce/schema/ABSLIG_Case_Detail__c.Policy_ID__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
+import ONEABC_CREATED_FIELD from '@salesforce/schema/Case.Created_by_ONEABC__c';
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
+import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU'; 
 import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 
 // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT.
@@ -61,11 +64,11 @@ export class asf_Utility {
                 if(parentJS.isTransactionRelated){
                     fields[TRANSACTION_NUM.fieldApiName] = parentJS.transactionNumber;
                 }
-                if(parentJS.policyNoValue){
-                    fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
-                }
                 if(parentJS.categoryTypeVal){
                     fields[BSLI_CATEGORY_TYPE.fieldApiName] = parentJS.categoryTypeVal;
+                }
+                if(parentJS.policyNoValue){
+                    fields[POLICY_NO.fieldApiName] = parentJS.policyNoValue;
                 }
                 let cccRecToPass = {...selected};
                 cccRecToPass['sobjectType'] = 'ASF_Case_Category_Config__c';
@@ -125,10 +128,10 @@ export class asf_Utility {
         if(parentJS.ftrValue){
             fields[FTR_FIELD.fieldApiName] = parentJS.ftrValue;
         }
-        if(parentJS.businessUnit === ABSLI_BU && parentJS.strChannelValue){
+        if((parentJS.businessUnit === ABSLI_BU || parentJS.selectedCccBu === ABSLI_BU) && parentJS.strChannelValue){
             fields[CHANNEL_FIELD.fieldApiName] = parentJS.strChannelValue;
         }
-        if(parentJS.businessUnit === ABSLI_BU && parentJS.issueTypeVal != null){
+        if((parentJS.businessUnit === ABSLI_BU || parentJS.selectedCccBu === ABSLI_BU) && parentJS.issueTypeVal != null){
             fields[BSLI_ISSUE_TYPE.fieldApiName] = parentJS.issueTypeVal;
         }
 
@@ -181,7 +184,34 @@ export class asf_Utility {
        if(contact){
            fields[CASE_CONTACT_FIELD.fieldApiName] = contact;
        }
-
+       //ONEABC CHANGE - START
+       /* SCENARIO 1 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS ABCD
+                     - THEN SET CASE BUSINESS UNIT AS ABCD
+          SCENARIO 2 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS ONEABC
+                     - THEN SET CASE BUSINESS UNIT AS ONEABC
+          SCENARIO 3 - LOGGED IN USER's BUSINESS UNIT IS ABCD, AND SELECTED CTST's BUSINESS UNIT IS NEITHER ABCD NOT ONEABC
+                     - THEN SET CASE BUSINESS UNIT AS SELECTED CUSTOMER's BUSINESS UNIT IF CUSTOMER IS NOT EMPTY.
+                     - IF CUSTOMER IS EMPTY THEN SET CASE BUSINESS UNIT AS CTST's BUSINESS UNIT.
+       */
+       if(parentJS.businessUnit === ABCD_BU && parentJS.selectedCccBu && (parentJS.selectedCccBu === ABCD_BU)){
+        fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnit;
+        }
+        else if(parentJS.businessUnit === ABCD_BU && parentJS.selectedCccBu && (parentJS.selectedCccBu === ONEABC_BU)){
+            //fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.businessUnit;
+            fields[CASE_BUSINESSUNIT.fieldApiName] = ONEABC_BU;
+        }
+        else if(parentJS.businessUnit === ABCD_BU && parentJS.selectedCccBu && (parentJS.selectedCccBu != ABCD_BU && 
+            parentJS.selectedCccBu != ONEABC_BU)){
+                if(parentJS.accountLOB !=null && parentJS.accountLOB != undefined && parentJS.accountLOB != '')
+                    fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.accountLOB;
+                else{
+                    fields[CASE_BUSINESSUNIT.fieldApiName] = parentJS.selectedCccBu;
+                }
+            }
+        if(parentJS.businessUnit === ABCD_BU){
+            fields[ONEABC_CREATED_FIELD.fieldApiName] = true;
+        }
+    ////ONEABC CHANGE - START
        // VIRENDRA - ADDED FOR PROSPECT REQUIREMENT - 
        if(parentJS.prospectRecId != undefined && parentJS.prospectRecId != null && parentJS.prospectRecId != ''){
         fields[CASE_PROSPECT_ID.fieldApiName] = parentJS.prospectRecId;

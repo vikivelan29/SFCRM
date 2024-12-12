@@ -135,7 +135,8 @@ const updateAccountAndAssetOnCase=async (event,parentJS)=>{
         assetId: assetVal,
         caseId: parentJS.recordId,
         faNumber: parentJS.selectedLoanAccNumber,
-        reqFromRecat: true
+        reqFromRecat: true,
+        inpArg: ''
     })
         .then(result => {
             parentJS.loaded = true;

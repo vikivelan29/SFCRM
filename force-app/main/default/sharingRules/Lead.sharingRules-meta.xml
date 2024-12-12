@@ -3,7 +3,7 @@
     <sharingCriteriaRules>
         <fullName>ABFL_Prospect_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Share Lead with Business Unit with ABFL value to ABFL Role Hierarchy</description>
+<description>Share Lead with Business Unit with ABFL value to ABFL Role Hierarchy</description>
         <label>ABFL Prospect Sharing</label>
         <sharedTo>
             <roleAndSubordinatesInternal>ABFL_Executive_Leadership</roleAndSubordinatesInternal>
@@ -163,6 +163,20 @@
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>Wellness</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABCD_Lead_Sharing_Rule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ABCD Lead Sharing Rule</label>
+        <sharedTo>
+            <roleAndSubordinates>ABCD_Lead</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABCD</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
