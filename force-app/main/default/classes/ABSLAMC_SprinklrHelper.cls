@@ -75,7 +75,8 @@ public class ABSLAMC_SprinklrHelper {
                 }
             }
         }
-        List<ASF_Integration__c> asfIntegRecs = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c, C3ExternalId__c,Query_Fields__c, Processing_Class__c 
+        List<ASF_Integration__c> asfIntegRecs = [SELECT Id, External_Id__c, Display_Name__c, Case_Stage_Config__c, C3ExternalId__c,Query_Fields__c, Processing_Class__c,
+                                                 Do_Not_Retry_Integration__c
                                                  FROM ASF_Integration__c
                                                  WHERE Display_Name__c = 'Sprinklr-UpdateFlow'
                                                  AND Case_Stage_Config__c = :caseStageconfigIds
