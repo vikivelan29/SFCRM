@@ -66,6 +66,14 @@
                 <behavior>Edit</behavior>
                 <field>SMT_Receiver_Address__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ISPOTENTIALCOMPLAINT__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ISMULTIPLEINTENT__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

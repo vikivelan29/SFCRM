@@ -252,8 +252,10 @@ blankSourcePresent = true;
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
-                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
-                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
+                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null){
+                    // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
+                    String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
+                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
                 }else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';
@@ -887,6 +889,15 @@ blankSourcePresent = true;
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }else{
+                    //Added to reset IsMoveToNext flag to false in case of API
+                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                    if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                        Case caseObj = new Case(Id = caseRec.Id);
+                        caseFinalDMLMap.put(caseObj.Id, caseObj);
+                    }
+                    Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                    caseRecFromMap.MoveToNext__c = false;
+                    //Added to reset IsMoveToNext flag to false in case of API
                     if(supressErrors.containsKey(caseId) && supressErrors.get(caseId)){
                         triggerEncounteredError.put(caseId, true);
                     }else{                    system.debug('as-error6');

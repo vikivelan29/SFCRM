@@ -5,6 +5,10 @@ public class ASF_CaseIntegrationTriggerHandler_Test {
     static void setUpData(){
          ASF_TestDataFactory.createC3WithPrePopulateIntegrations();
         List<Case> cases = ASF_TestDataFactory.createCaseRecords(3);
+        List<ABML_Daily_Report_Sender__c> listOfReportSender = new List<ABML_Daily_Report_Sender__c>();
+        ABML_Daily_Report_Sender__c objReportSenderTwo = new ABML_Daily_Report_Sender__c( Name = 'ordWideAddress', Email__c = 'abctsl.crmteam-noreply@adityabirlacapital.com');
+        listOfReportSender.add(objReportSenderTwo);
+        insert listOfReportSender;
     }
    
     @isTest

@@ -2,12 +2,12 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABML_Active_Customer</fullName>
     <booleanFilter>(1 OR 2) AND (3 OR 4)</booleanFilter>
-    <columns>Full_Name__pc</columns>
+    <columns>ACCOUNT.NAME</columns>
     <columns>Client_Code__c</columns>
     <columns>ABML_Primary_DP_ID__pc</columns>
     <columns>PC_PHONE3</columns>
-    <columns>ABML_PAN__pc</columns>
-    <columns>ABML_Email__c</columns>
+    <columns>PC_EMAIL</columns>
+    <columns>PAN__c</columns>
     <columns>Company_Name__c</columns>
     <columns>ABML_Dealer_Name__pc</columns>
     <columns>ABML_Activation_Date__c</columns>

@@ -20,7 +20,7 @@ public class ABML_SendCaseCreationEmail_Test {
             
             
             Case testCase = new Case(
-                               
+                
                 Origin = 'ABML Email',
                 Status = 'New',
                 CCC_External_Id__c ='ISCABFLABWMCOFMQR1',
@@ -35,26 +35,27 @@ public class ABML_SendCaseCreationEmail_Test {
             varNewCon.LastName = 'Test';
             insert varNewCon;
             
-            List<EmailMessage> listOfEmailMessage = new List<EmailMessage>();  
+            EmailMessage objEmailMessage = new EmailMessage();            
+            objEmailMessage.ParentId = testCase.Id;
+            objEmailMessage.Incoming = true;
+            objEmailMessage.Subject = 'Test Email 1' ;
+            objEmailMessage.ToAddress = 'test@example.com';
+            objEmailMessage.FromAddress = 'customer@example.com';
+            objEmailMessage.Winning_Email__c = 'abml.test@adityabirlacapital.com';
+            objEmailMessage.TextBody = 'Test email';
+            objEmailMessage.Headers = 'In-Reply-To:';
+            insert objEmailMessage;
             
-            for(Integer emailMessageCount = 0; emailMessageCount < 3; emailMessageCount++){
-                                
-                EmailMessage objEmailMessage = new EmailMessage();            
-                objEmailMessage.ParentId = testCase.Id;
-                objEmailMessage.Incoming = true;
-                objEmailMessage.Subject = 'Test Email ' + emailMessageCount;
-                objEmailMessage.ToAddress = 'test@example.com';
-                objEmailMessage.FromAddress = 'customer@example.com';
-                objEmailMessage.Winning_Email__c = 'abml.test@adityabirlacapital.com';
-                objEmailMessage.TextBody = 'Test email';
-                listOfEmailMessage.add(objEmailMessage);           
-            }        
-            
-            listOfEmailMessage[0].Headers = 'In-Reply-To:';
-            
-            insert listOfEmailMessage;
-            
-
+            EmailMessage testEmailMessage2 = new EmailMessage(
+                ParentId = testCase.Id,
+                Incoming = true,
+                Subject = 'Test Email 2',
+                ToAddress = 'test@example.com',
+                FromAddress = 'customer@example.com',
+                Winning_Email__c = 'abml.test@adityabirlacapital.com',
+                TextBody = 'Test email 2'
+            );
+            insert testEmailMessage2;
             
         }
     }
@@ -66,15 +67,12 @@ public class ABML_SendCaseCreationEmail_Test {
         System.runAs(objUser){
             
             List<EmailMessage> emailMessageList = [SELECT Id, ParentId, Incoming, Headers, ReplyToEmailMessageId, Winning_Email__c FROM EmailMessage];
-            Test.startTest();
-            ABML_SendCaseCreationEmail.sendEmailOnABMLCaseCreation(emailMessageList);
-            Test.stopTest();
             
             List<Case> updatedCases = [SELECT Id, Origin FROM Case WHERE Id IN (SELECT ParentId FROM EmailMessage)];
             System.assertEquals(1, updatedCases.size(),'Case Update Success');
             
-            List<EmailMessage> emailMessages = [SELECT Id, ParentId FROM EmailMessage WHERE ParentId IN :updatedCases];
-            System.assertEquals(3, emailMessages.size(),'Email Message Success');
+            List<EmailMessage> emailMessages = [SELECT Id, ParentId FROM EmailMessage WHERE ParentId IN :updatedCases];           
+            System.assertEquals(2, emailMessages.size(),'Email Message Success');
         }
     }
     

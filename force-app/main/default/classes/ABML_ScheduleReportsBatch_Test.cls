@@ -55,7 +55,9 @@ public class ABML_ScheduleReportsBatch_Test {
         List<ABML_Daily_Report_Sender__c> listOfReportSender = new List<ABML_Daily_Report_Sender__c>();
         
         ABML_Daily_Report_Sender__c objReportSender = new ABML_Daily_Report_Sender__c( Name = 'test1', Email__c = 'test@test.com');
+        ABML_Daily_Report_Sender__c objReportSenderTwo = new ABML_Daily_Report_Sender__c( Name = 'ordWideAddress', Email__c = 'abctsl.crmteam-noreply@adityabirlacapital.com');
         listOfReportSender.add(objReportSender);
+        listOfReportSender.add(objReportSenderTwo);
         insert listOfReportSender;
         
         //OrgWideEmailAddress[] addresses = [SELECT Id FROM OrgWideEmailAddress LIMIT 1];

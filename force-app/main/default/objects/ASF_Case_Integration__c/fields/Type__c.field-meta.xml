@@ -5,6 +5,7 @@
     <externalId>false</externalId>
     <label>Type</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -47,19 +48,19 @@
                 <label>Payment</label>
             </value>
             <value>
-                <fullName>CreateCRMPolicy</fullName>
+                <fullName>CATEGORIZATION</fullName>
                 <default>false</default>
-                <label>CreateCRMPolicy</label>
+                <label>CATEGORIZATION</label>
             </value>
             <value>
-                <fullName>OmniDoc</fullName>
+                <fullName>EMAILRESPONSE</fullName>
                 <default>false</default>
-                <label>OmniDoc</label>
+                <label>EMAILRESPONSE</label>
             </value>
             <value>
-                <fullName>NPSFEEDBACK</fullName>
+                <fullName>FEEDBACK</fullName>
                 <default>false</default>
-                <label>NPSFEEDBACK</label>
+                <label>FEEDBACK</label>
             </value>
             <value>
                 <fullName>eBOT Feedback</fullName>
@@ -68,15 +69,34 @@
                 <label>eBOT Feedback</label>
             </value>
             <value>
-                <fullName>CAMS</fullName>
-                <default>false</default>
-                <label>CAMS</label>
-            </value>
-            <value>
-                <fullName>SPRINKLR</fullName>
-                <default>false</default>
-                <label>SPRINKLR</label>
-            </value>
+<fullName>CreateCRMPolicy</fullName>
+<default>false</default>
+<label>CreateCRMPolicy</label>
+</value>
+<value>
+ 
+<fullName>CAMS</fullName>
+<default>false</default>
+<label>CAMS</label>
+</value>
+<value>
+ 
+<fullName>OmniDoc</fullName>
+<default>false</default>
+<label>OmniDoc</label>
+</value>
+<value>
+ 
+<fullName>NPSFEEDBACK</fullName>
+<default>false</default>
+<label>NPSFEEDBACK</label>
+</value>
+<value>
+ 
+<fullName>SPRINKLR</fullName>
+<default>false</default>
+<label>SPRINKLR</label>
+</value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

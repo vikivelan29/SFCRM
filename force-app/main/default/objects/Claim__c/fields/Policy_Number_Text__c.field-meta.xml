@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Claim_Sequence__c</fullName>
-    <displayFormat>CL-{00000}</displayFormat>
+    <fullName>Policy_Number_Text__c</fullName>
     <externalId>true</externalId>
-    <label>Claim Sequence</label>
+    <label>Policy Number Text</label>
+    <length>255</length>
+    <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>AutoNumber</type>
-</CustomField> 
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -26,8 +26,8 @@ public class ABHI_FALevelDetails_Controller_Test {
             TimeZoneSidKey='America/Los_Angeles'
         );
         insert testUser; 
-        PermissionSetGroup psg = [SELECT id from PermissionSetGroup where DeveloperName = 'ABHI_Users_PSG'];
-        PermissionSetAssignment psa = new PermissionSetAssignment(AssigneeId = testUser.Id, PermissionSetGroupId = psg.Id);
+        PermissionSet psg = [SELECT id from PermissionSet where Name = 'API_Admin_User_PS'];
+        PermissionSetAssignment psa = new PermissionSetAssignment(AssigneeId = testUser.Id, PermissionSetId = psg.Id);
         insert psa;
         System.runAs(testUser){
             Account acc = new Account( 
@@ -153,12 +153,5 @@ public class ABHI_FALevelDetails_Controller_Test {
             return res;
         }
     }
-    
-    
-    
-    
-    
-    
-    
 
 }
