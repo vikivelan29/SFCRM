@@ -6,6 +6,7 @@
     <queueMembers>
         <publicGroups>
             <publicGroup>Wellness_Operations_G</publicGroup>
+            <publicGroup>Wellness_LOB_Admin_G</publicGroup>
         </publicGroups>
     </queueMembers>
     <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
