@@ -223,7 +223,7 @@
         <accessLevel>Read</accessLevel>
         <label>ABCD CCC Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABCD_Lead</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABCD_Lead</roleAndSubordinatesInternal>
         </sharedTo>
         <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>

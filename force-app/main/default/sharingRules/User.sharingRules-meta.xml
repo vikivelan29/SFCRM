@@ -156,15 +156,18 @@
             <role>Wellness_Service_Agent</role>
         </sharedFrom>
     </sharingOwnerRules>
-    <sharingOwnerRules>
-        <fullName>Share_ABHI_User_with_ABHI_Users</fullName>
+    <sharingCriteriaRules>
+        <fullName>ABCD_User_Sharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>Share ABHI User with ABHI Users</label>
+        <label>ABCD User Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABCD_Lead</roleAndSubordinatesInternal>
         </sharedTo>
-        <sharedFrom>
-            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
-        </sharedFrom>
-    </sharingOwnerRules>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABCD</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>
