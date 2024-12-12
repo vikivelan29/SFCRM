@@ -1567,4 +1567,11 @@
         <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
         <value>Wellness</value>
     </labels>
+    <labels>
+        <fullName>ABCD_ONEABC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_ONEABC_BU</shortDescription>
+        <value>ONEABC</value>
+    </labels>
 </CustomLabels>
