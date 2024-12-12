@@ -171,7 +171,7 @@
         <accessLevel>Edit</accessLevel>
         <label>ABCD Lead Sharing Rule</label>
         <sharedTo>
-            <roleAndSubordinates>ABCD_Lead</roleAndSubordinates>
+            <roleAndSubordinatesInternal>ABCD_Lead</roleAndSubordinatesInternal>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>

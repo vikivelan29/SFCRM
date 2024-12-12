@@ -1759,4 +1759,11 @@
         <shortDescription>ABCD_Business_Unit</shortDescription>
         <value>ABCD</value>
     </labels>
+    <labels>
+        <fullName>ABCD_ONEABC_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_ONEABC_BU</shortDescription>
+        <value>ONEABC</value>
+    </labels>
 </CustomLabels>
