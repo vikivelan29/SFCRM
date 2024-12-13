@@ -50,7 +50,7 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
             for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
                                                                   Business_Unit__c, Email2CaseAddress__c, 
                                                                   Default_Queue_Dev_Name__c, Send_to_EBOT__c,
-                                                                  Case_Business_Unit__c, Case_Origin__c
+                                                                  Case_Business_Unit__c, Case_Origin__c,Case_LOB__c
                                                                   FROM ASF_PriorityEmailAddressesByBU__mdt
                                                                   WHERE Email2CaseAddress__c =: winningEmailAddr])
             {
@@ -71,12 +71,16 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                     if(msg.ParentId.getSObjectType() == Case.sObjectType){
                         if(mWinningEmailDetailMdt.containsKey(msg.Winning_Email__c)){
                             String defaultQueueName = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Default_Queue_Dev_Name__c;
+                            String caseLineOfBusiness = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_LOB__c;
                             if(mCases.containsKey(msg.ParentId)){
                                 Case c = new Case(Id = msg.ParentId);
                                 c.EmailMessageIdentifier__c = msg.MessageIdentifier;
                                 c.Winning_Email__c = msg.Winning_Email__c; // populationg this Id for reporting purpose. US-PR970457-1272
                                 if(mQueueDevNameVsId.containsKey(defaultQueueName)){
                                     c.OwnerId = mQueueDevNameVsId.get(defaultQueueName);
+                                    if(caseLineOfBusiness != null && caseLineOfBusiness != ''){
+                                      c.Line_Of_Business__c = caseLineOfBusiness;  
+                                    }
                                 }
                                 if(!String.isBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c)){
                                     c.Business_Unit__c = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c; 

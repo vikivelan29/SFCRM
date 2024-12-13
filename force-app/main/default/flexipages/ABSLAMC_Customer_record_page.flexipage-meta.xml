@@ -1351,6 +1351,19 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>abamc_aumDetails</componentName>
+                <identifier>c_abamc_aumDetails</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.PAN__c}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>&apos;&apos;</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
