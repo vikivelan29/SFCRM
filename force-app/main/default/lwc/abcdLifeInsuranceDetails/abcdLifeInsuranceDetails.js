@@ -1,7 +1,7 @@
 import { LightningElement,api } from 'lwc';
 const columns = [
                     {
-                        fieldName: '',
+                        fieldName: 'applicationNumber',
                         label: 'Application Number',
                         type: 'text'
                     },
@@ -23,22 +23,22 @@ const columns = [
                     {
                         fieldName: 'maturityDate',
                         label: 'Policy Maturity Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
                         fieldName: 'issueDate',
                         label: 'Policy Issuance Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
                         fieldName: 'policyPremium',
@@ -51,7 +51,7 @@ const columns = [
                         type: 'currency'
                     },
                     {
-                        fieldName: '',
+                        fieldName: 'premiumMode',
                         label: 'Premium Mode',
                         type: 'text'
                     },
@@ -66,25 +66,26 @@ const columns = [
                         type: 'text'
                     },                    
                     {
-                        fieldName: '',
+                        fieldName: 'policyQuoteNumber',
                         label: 'Policy Quote Number',
                         type: 'text'
                     },
                     {
                         fieldName: '',
                         label: 'Last Premium payment date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
+                    /* Annual Premius already present as policy premium and hence not required here.
                     {
                         fieldName: '',
                         label: 'Annual Premium',
                         type: 'currency'
-                    }
+                    }*/
                 ];
 export default class AbcdLifeInsuranceDetails extends LightningElement {
     @api lidetails;

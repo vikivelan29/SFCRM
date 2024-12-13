@@ -8,22 +8,22 @@ const columns = [
                     {
                         fieldName: 'loanStartDate',
                         label: 'Loan Start Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
                         fieldName: 'loanEndDate',
                         label: 'Loan End Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
                         fieldName: 'tenor',
@@ -33,12 +33,12 @@ const columns = [
                     {
                         fieldName: 'disbursementDate',
                         label: 'Loan Disbursement Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
                         fieldName: 'emiAmount',
@@ -48,12 +48,12 @@ const columns = [
                     {
                         fieldName: 'nextInstallmentDate',
                         label: 'Next Installment Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
                         fieldName: 'loanType',
@@ -68,22 +68,27 @@ const columns = [
                     {
                         fieldName: 'disbursementDate',
                         label: 'Disbursement Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
                         fieldName: 'sanctionDate',
                         label: 'Sanction Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
+                    },
+                    {
+                        fieldName: 'finalAmount',
+                        label: 'Final Amount',
+                        type: 'currency'
                     },
                     {
                         fieldName: 'sanctionAmount',
