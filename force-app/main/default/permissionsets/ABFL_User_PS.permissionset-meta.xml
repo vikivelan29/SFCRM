@@ -5888,6 +5888,7 @@
         <field>Opportunity.Amount</field>
         <readable>false</readable>
     </fieldPermissions>
+
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.CampaignId</field>
