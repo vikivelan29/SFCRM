@@ -96,10 +96,30 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ContractId__c</fieldItem>
+                <identifier>RecordContractId_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.ContractStartDate__c</fieldItem>
                 <identifier>RecordContractStartDate_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ContractEndDate__c</fieldItem>
+                <identifier>RecordContractEndDate_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -186,10 +206,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ContractId__c</fieldItem>
-                <identifier>RecordContractId_cField2</identifier>
+                <fieldItem>Record.AgentCode__c</fieldItem>
+                <identifier>RecordAgentCode_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -220,10 +240,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.MaximumPointsLimit__c</fieldItem>
-                <identifier>RecordMaximumPointsLimit_cField</identifier>
+                <fieldItem>Record.Source_System__c</fieldItem>
+                <identifier>RecordSource_System_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -232,8 +252,8 @@
                     <name>uiBehavior</name>
                     <value>readonly</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ContractEndDate__c</fieldItem>
-                <identifier>RecordContractEndDate_cField</identifier>
+                <fieldItem>Record.MaximumPointsLimit__c</fieldItem>
+                <identifier>RecordMaximumPointsLimit_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -250,10 +270,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.AgentCode__c</fieldItem>
-                <identifier>RecordAgentCode_cField</identifier>
+                <fieldItem>Record.ProductType__c</fieldItem>
+                <identifier>RecordProductType_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>

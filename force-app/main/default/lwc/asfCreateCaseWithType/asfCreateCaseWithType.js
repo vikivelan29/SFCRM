@@ -183,7 +183,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     user({ error, data}) {
         if (data){
            this.businessUnit = getFieldValue(data, BUSINESS_UNIT);
-           this.cols = lanLabels[this.businessUnit].CTST_COLS != null? lanLabels[this.businessUnit].CTST_COLS : lanLabels["DEFAULT"].CTST_COLS;
+           this.cols = lanLabels[this.businessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
 
            // Rajendra Singh Nagar: PR1030924-209 - adjust auto communications options after BU is determined. 
            this.adjustAutoCommunications(undefined);
@@ -434,6 +434,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
+        }
+        let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
+        if((selected) && this.sourceFldValue && this.businessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
+            this.isPhoneInbound = true;
+            this.showAniNumber = true;
         }
         if ((selected) && ((this.businessUnit === 'ABFL')|| (this.businessUnit === 'ABWM')  || (this.businessUnit === ABSLIG_BU) || (this.businessUnit === MCRM_BU))) { // PR970457-117 added MCRM_BU
             this.boolAllChannelVisible = false;

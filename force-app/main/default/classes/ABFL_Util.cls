@@ -64,5 +64,5 @@ public without sharing class ABFL_Util {
                 update casesToResolveList;
             }
         }
-    }
+    } 
 }

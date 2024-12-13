@@ -1,3 +1,10 @@
+/***************************************
+*Class        :  ABHI_RefundDetails_Test
+*Author       :  Kuldeep Mishra
+*Created Date :  09/09/2024
+*Last Modified:  09/09/2024
+*@description :  This class used as Test class for ABHI_RefundDetails.
+***************************************/
 @isTest
 public class ABHI_RefundDetails_Test {
     @isTest
@@ -38,9 +45,17 @@ public class ABHI_RefundDetails_Test {
         //System.assertEquals(01, responseObj.Code, 'Code should be 1');
        
     }
-    
-    // Mock class for the integration callout
+
+    /*********************
+     @Class -     : ABCL_IntegrationCalloutMockSuccess
+     @description : Mock class for the integration Success callout and returns http response.
+     *********************/
     private class ABCL_IntegrationCalloutMockSuccess implements HttpCalloutMock {
+        /***********
+            * @Description  HTTP response mocking
+            * @ Set all param req 
+            ** @return HTTPResponse
+            ************/
         public HTTPResponse respond(HTTPRequest req) {
             // Create a mock response
             HTTPResponse res = new HTTPResponse();

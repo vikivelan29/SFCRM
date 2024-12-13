@@ -1,3 +1,10 @@
+/**************
+*Class        :  ABHI_FALevelDetails_Controller_Test
+*Author       :  Kuldeep Mishra
+*Created Date :  06/08/2024
+*Last Modified:  06/08/2024
+*@description  :  This class used as Test class for the ABHI_FALevelDetails_Controller
+***************/
 @isTest
 public class ABHI_FALevelDetails_Controller_Test {
     @TestSetup
@@ -19,8 +26,8 @@ public class ABHI_FALevelDetails_Controller_Test {
             TimeZoneSidKey='America/Los_Angeles'
         );
         insert testUser; 
-        PermissionSetGroup psg = [SELECT id from PermissionSetGroup where DeveloperName = 'ABHI_Users_PSG'];
-        PermissionSetAssignment psa = new PermissionSetAssignment(AssigneeId = testUser.Id, PermissionSetGroupId = psg.Id);
+        PermissionSet psg = [SELECT id from PermissionSet where Name = 'API_Admin_User_PS'];
+        PermissionSetAssignment psa = new PermissionSetAssignment(AssigneeId = testUser.Id, PermissionSetId = psg.Id);
         insert psa;
         System.runAs(testUser){
             Account acc = new Account( 
@@ -29,8 +36,7 @@ public class ABHI_FALevelDetails_Controller_Test {
             insert acc;
         }
     }
-    
-    @isTest static void Success_FADetails(){
+    @isTest static void successMethod(){
          Account acc = [SELECT id from Account LIMIT 1];
         User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
         // Set mock callout class 
@@ -40,14 +46,14 @@ public class ABHI_FALevelDetails_Controller_Test {
             ABHI_FALevelDetails_Controller.IntegrationResponseWrapper resp= ABHI_FALevelDetails_Controller.GetFALevelDetails(acc.Id, '2024-01-01',
                 '2024-08-12');
             Test.stopTest();
-            //System.assertEquals(1000, res.StatusCode, 'code');
+            System.assertEquals(1000, resp.StatusCode, 'code');
         //System.assertEquals(1000, resp.StatusCode, 'StatusCode should be 1000');
         //System.assertEquals('Success', resp.Message, 'Message should be Success');
         }
         
     }
-    
-    @isTest static void Failure_FADetails() {
+
+    @isTest static void failureMethod() {
         Account acc = [SELECT id from Account LIMIT 1];
         User testUser = [SELECT id from User where LastName='User ABHI' LIMIT 1];
         // Set mock callout class 
@@ -56,7 +62,7 @@ public class ABHI_FALevelDetails_Controller_Test {
             Test.startTest();
             ABHI_FALevelDetails_Controller.IntegrationResponseWrapper resp= ABHI_FALevelDetails_Controller.GetFALevelDetails(acc.Id, '2024-01-01', '2024-08-12');
             Test.stopTest();
-            //System.assertEquals(1001, resp.StatusCode, 'StatusCode should be 1001');
+            System.assertEquals(1001, resp.StatusCode, 'StatusCode should be 1001');
 
         }
     }
@@ -65,9 +71,10 @@ public class ABHI_FALevelDetails_Controller_Test {
     
     
     
-    
+    @SuppressWarnings('PMD.ClassNamingConventions,PMD.ApexDoc') 
     public class ABHI_FALevelDetailsMockHttpResponse implements HttpCalloutMock {
         // Http Mock success response 
+         @SuppressWarnings('PMD.MethodNamingConventions,PMD.ApexDoc')
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
@@ -79,9 +86,10 @@ public class ABHI_FALevelDetails_Controller_Test {
         }
     }
     
-    
+ @SuppressWarnings('PMD.ClassNamingConventions,PMD.ApexDoc')   
  public class ABHI_FALevelDetailsFailureResponseGenerator implements HttpCalloutMock {
-       
+     
+        @SuppressWarnings('PMD.MethodNamingConventions,PMD.ApexDoc')
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json');
@@ -96,7 +104,7 @@ public class ABHI_FALevelDetails_Controller_Test {
 
 
  @isTest
-    static void TestIntegrationResponseWrapperConstructor() {
+    static void testIntegrationResponseWrapperConstructor() {
         // Create an instance of IntegrationResponseWrapper using the constructor
         Integer testStatusCode = 1000;
         String testMessage = 'Test message';
@@ -113,7 +121,7 @@ public class ABHI_FALevelDetails_Controller_Test {
     
     
     @isTest
-    static void TestNullIntegrationResponse() {
+    static void testNullIntegrationResponse() {
         Account acc = [SELECT id FROM Account LIMIT 1];
         User testUser = [SELECT id FROM User WHERE LastName = 'User ABHI' LIMIT 1];
         
@@ -128,12 +136,14 @@ public class ABHI_FALevelDetails_Controller_Test {
             Test.stopTest();
             
             // Verify that the fallback message is used
-            //System.assertEquals(1001, resp.StatusCode, 'StatusCode should be 1001');
+            System.assertEquals(null, resp.StatusCode, 'StatusCode should be null');
             //System.assertEquals('No records found', resp.Message, 'Message should be the custom metadata value');
         }
     }
-    
-    // Mock response class for null response
+     @SuppressWarnings('PMD.ClassNamingConventions,PMD.ApexDoc')
+    /**********
+     @description :  Mock response class for null response
+     ***********/
     public class ABHI_FALevelDetailsNullResponseMock implements HttpCalloutMock {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
@@ -143,12 +153,5 @@ public class ABHI_FALevelDetails_Controller_Test {
             return res;
         }
     }
-    
-    
-    
-    
-    
-    
-    
 
 }

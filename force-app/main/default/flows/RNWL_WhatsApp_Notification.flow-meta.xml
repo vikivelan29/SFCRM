@@ -213,11 +213,12 @@ AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LO
         <name>NoResponse_NoContact</name>
         <dataType>Boolean</dataType>
         <expression>OR(
-AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Ringing&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Phone Ringing&apos;)), 
-AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Phone Number Busy/ Engage Tone&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Number is busy/Engage Tone&apos;)),
-AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Switched Off/ Out of network&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Switch off/ Out of Network&apos;)),
-AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Dialer NC&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Dialer not Contacted&apos;)),
-AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message undelivered&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Short Hang Up&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Customer disconnected call - Short Hang up&apos;))
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Ringing&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Phone Ringing&apos;)), 
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Phone Number Busy/ Engage Tone&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Number is busy/Engage Tone&apos;)),
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Switched Off/ Out of network&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Switch off/ Out of Network&apos;)),
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Dialer NC&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Dialer not Contacted&apos;)),
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message undelivered&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Short Hang Up&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Customer disconnected call - Short Hang up&apos;)),
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Dialer Non Connect&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Dialer Non Connect&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Dialer Non Connect&apos;))
 )</expression>
     </formulas>
     <interviewLabel>RNWL_WhatsApp_Notification {!$Flow.CurrentDateTime}</interviewLabel>

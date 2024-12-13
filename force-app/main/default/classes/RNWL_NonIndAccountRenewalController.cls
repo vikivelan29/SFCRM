@@ -27,7 +27,6 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                 String payload = '{"lead_Id":null,"master_policy_number":null,"certificate_number":"' + policyNumber + '","dob":"","proposer_mobileNumber":""}';
                 
                 ABCL_IntegrationCallout.IntegrationResponseWrapper responseWrapper = ABCL_IntegrationCallout.executeCallout('RNWL_Non_Ind_Account', payload, null);
-                String fileName = 'Renewal Group Check-'+Date.today();
                 system.debug(responseWrapper);
                 responseBody = responseWrapper.responseBody;
                 respWrapper = (ResponseBodyWrapper)JSON.deserialize(responseBody, ResponseBodyWrapper.class);
@@ -39,7 +38,8 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                         return details;
                 }
                 else if(String.isNotBlank(responseBody)){
-                    uploadFileToOpportunity(oppList[0].Id , responseBody , fileName , 'Renewal Group Check');
+                    RNWL_StoredResponseUtility.mapOfFileNameToResponse = new Map<String,String>{'Renewal Group Check'=>responseBody};
+                    RNWL_StoredResponseUtility.uploadFileToOpportunity(oppList[0].Id);
                 }else{
                     details.hasError = true;
                     details.errorMessage = 'API Call Failed Please Retry'; 
@@ -103,6 +103,7 @@ public without sharing class RNWL_NonIndAccountRenewalController {
                     if(String.isNotBlank(data.Combi_Flag) &&  Integer.valueof(data.Combi_Flag) > 0){
                         combiFlag = true;
                     }
+                    break;
                 }
             }
 
@@ -252,25 +253,6 @@ public without sharing class RNWL_NonIndAccountRenewalController {
             }
         }
         return null;                                   
-    }
-
-    public static void uploadFileToOpportunity(Id opportunityId, String fileBody, String fileName, String fileSourceAPI) {
-        Blob fileBodyBlob = Blob.valueof(fileBody);
-        ContentVersion contentVersion = new ContentVersion();
-        contentVersion.Title = fileName;
-        contentVersion.PathOnClient = fileName;
-        contentVersion.VersionData = fileBodyBlob;
-        contentVersion.Content_Source_API__c = fileSourceAPI;
-        insert contentVersion;
-
-		contentVersion = [Select Id,ContentDocumentId From ContentVersion Where id=:contentVersion.Id LIMIT 1];
-
-        ContentDocumentLink contentDocumentLink = new ContentDocumentLink();
-        contentDocumentLink.ContentDocumentId = contentVersion.ContentDocumentId;
-        contentDocumentLink.LinkedEntityId = opportunityId;
-        contentDocumentLink.ShareType = 'V'; // V = Viewer
-        insert contentDocumentLink;
-
     }
 
     class ResponseBodyWrapper{

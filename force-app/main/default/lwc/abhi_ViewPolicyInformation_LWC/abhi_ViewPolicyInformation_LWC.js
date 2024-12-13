@@ -8,7 +8,10 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
     @track policyData;
 
     isLoadingData = true;
+    isHealthReturns = false;
+    isAppRegistration = false;
     apiErrorMessage;
+    healthAndAppRegError;
     
     connectedCallback() {
         this.fetchViewInformationPolicy_Data();
@@ -26,10 +29,30 @@ export default class Abhi_ViewPolicyInformation_LWC extends LightningElement {
             if(statusCode === 1000) {
                 let summationOfTotalBalance = this.calculateTotalBalance(respBody, 'Total_Balance');
                 this.policyData = {...respBody, totalBalance : summationOfTotalBalance};
+                this.isAppRegistration = false;
+                this.isHealthReturns   = false;
+            }
+            else if(statusCode === 1003) {
+                this.apiErrorMessage = `Error: ${respBody?.Message}`;
+                this.isAppRegistration = true;
+                this.isHealthReturns   = true;
             }
             else {
-                this.apiErrorMessage = `Error: ${respBody?.Message}`;
-            }
+                this.policyData = respBody;
+                this.healthAndAppRegError = `Error: ${respBody?.Message}`;
+
+                if(statusCode === 1001) {                   
+                    let summationOfTotalBalance = this.calculateTotalBalance(respBody, 'Total_Balance');
+                    this.policyData = {...respBody, totalBalance : summationOfTotalBalance};
+                    this.isAppRegistration = true;
+                    this.isHealthReturns   = false;
+                }    
+                else if(statusCode === 1002) {
+                    this.isAppRegistration = false;
+                    this.isHealthReturns   = true;
+                }
+            } 
+            
         })
         .catch(error => {
             console.log('Error inside fetchViewInformationPolicy_Data ' + JSON.stringify(error));

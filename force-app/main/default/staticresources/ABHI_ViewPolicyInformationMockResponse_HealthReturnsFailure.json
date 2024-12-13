@@ -1,6 +1,39 @@
 {
-  "HHSDetails": null,
-  "activeAge": null,
+  "AppRegDetails": {
+      "AddressLine1": "S/O Prakashrao Bhule HANUMAN CHAWK Thugaon Pimpri",
+      "AddressLine2": "Amravati 444723 Maharashtra India",
+      "AddressLine3": "null",
+      "AlternateMobile": "",
+      "CII_Number": "",
+      "City": "Chandur",
+      "CoreSystemId": "PT87545156",
+      "CreatedAt": "17/04/2024",
+      "DateOfBirth": "29/12/1997",
+      "Education": "",
+      "Email": "test@gmail.com",
+      "FullName": "AKSHAYPRAKASHRAOBHULE",
+      "Gender": "M",
+      "Invalid_LoginAttempts": "",
+      "IsRegistered": "No",
+      "MemberId": "PT87545156",
+      "MobilePhone": "9792479774",
+      "Occupation": "1050",
+      "PanNo": "",
+      "PartyId": "PT87545156",
+      "Pin": " 444723",
+      "Policy_Type": "Retail",
+      "State": " MAHARASHTRA",
+      "vchRelation": " ",
+      "WellnessPartyId": " 1223647",
+      "appDownloadDate": "NA",
+      "appRegiterDate": "NA",
+      "isAppDownloaded": "No",
+      "isAppRegistered": "No",
+      "lastAccessDate": "NA"
+  },
+  "HealthReturns": {
+      "@xmlns:ns0": "http://ABHI.MT.HealthCore.Schemas.PolicyInformation.PI_GetHealthReturnResponse"
+  },
   "StatusCode": 1002,
   "Message": "HealthReturns Failure"
 }

@@ -20,13 +20,13 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
             caseRecords.add(ASF_IntegrationsController.queriedCasesForIntegration.get(caseRec.Id));
         }
         for (case csRec: caseRecords ){
-        	subTypeTextSet.add(csRec.Sub_Type_Text__c);   
+            subTypeTextSet.add(csRec.Sub_Type_Text__c);   
         }
          //String subTypeTextString = String.join(subTypeTextSet, ', ');
          Map<String, ABHI_Endorsement_API__mdt> customMetaMap = new Map<String, ABHI_Endorsement_API__mdt>();
         for (ABHI_Endorsement_API__mdt metaRecord : [SELECT MasterLabel, Id, Mandatory_Fields__c FROM ABHI_Endorsement_API__mdt WHERE MasterLabel IN :subTypeTextSet]) {
-    		customMetaMap.put(metaRecord.MasterLabel, metaRecord);
-		}
+            customMetaMap.put(metaRecord.MasterLabel, metaRecord);
+        }
         system.debug('customMeta1---->'+customMetaMap.keyset());
         for (Case caseRecord : caseRecords) {
             ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
@@ -34,8 +34,8 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
             boolean bErrorOccured = false;
             String errorMessage =''; 
             system.debug('subtype---->'+caseRecord.Sub_Type_Text__c); 
-            	if(!customMetaMap.isEmpty()){
-		        	ABHI_Endorsement_API__mdt customMetaRecord = customMetaMap.get(caseRecord.Sub_Type_Text__c);
+                if(!customMetaMap.isEmpty()){
+                    ABHI_Endorsement_API__mdt customMetaRecord = customMetaMap.get(caseRecord.Sub_Type_Text__c);
                        system.debug('customMetaass---->'+ customMetaRecord.Mandatory_Fields__c ); 
                         if(customMetaRecord !=null && caseRecord.Technical_Source__c == 'LWC' && caseRecord.AssetId != null ) {
                             String strMandatFields = customMetaRecord.Mandatory_Fields__c ; 
@@ -130,7 +130,7 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
         System.debug('payloadTemplate--> '+payloadTemplate);
         //String payload = '{"CrossSaleReferenceNumber":"", "IsCombi":"Asset.IsCombi__c", "Endorsement":[{"Service_Request_Number":"000022332", "Policy_Number":"12121212121", "MemObj":[{"Member":[{"MemberNo":"", "MemberCode":"", "Member_FirstName":"", "Member_LastName":"", "Member_ContactNumber":"", "Member_AlternateNumber":"", "Member_EmailId":"", "Member_AlternateEmailId":"", "Member_AdharNumber":"", "Member_PAN":"", "Member_Height":"", "Member_Weight":"", "Member_AnnualIncome":"", "Member_Occupation":"", "Member_Education":"", "Member_PED":""}]}], "Home_Address1":"", "Home_Address2":"", "Home_Address3":"", "Home_Pincode":"", "Home_Mobile1":"", "Home_Mobile2":"", "Home_Mobile3":"", "Home_LandLine1":"", "Home_LandLine2":"", "Home_FaxNo":"", "Home_Area":"", "SameASHome":"", "Mailling_Address1":"", "Mailling_Address2":"", "Mailling_Address3":"", "Mailling_Pincode":"", "Mailling_Mobile1":"", "Mailling_Mobile2":"", "Mailling_Mobile3":"", "Mailling_LandLine1":"", "Mailling_LandLine2":"", "Mailling_FaxNo":"", "Mailling_Area":"", "Email1":"", "Email2":"", "Email3":"", "Alternateemail":"", "AADHAR_Number":"","PAN": "1212121", "Nominee_Relationship":"", "Nominee_Name":"", "Nominee_Contact_Number":"", "Height":"", "Weight":"", "Country_Code":"", "Internation_Contact_No":"", "Internation_Address":"", "Flag":"17"}]}';
         for (Case caseRecord : caseRecords) {
-           	String payload = buildPayload(payloadTemplate, caseRecord);
+            String payload = buildPayload(payloadTemplate, caseRecord);
             System.debug('requestBody--> '+payload);
             System.debug('requestBodyss--> '+integs);
             System.debug('caseRecord.Id--> '+caseRecord.Id);
@@ -262,20 +262,19 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
                 if(caseRecord.ABHI_Case_Detail__c != null){
                     ABHI_Case_Detail__c caseExt = new ABHI_Case_Detail__c(Id = caseRecord.ABHI_Case_Detail__c);
                     if(!string.isEmpty(inWardnumber)){
-                    	caseExt.Inward_Number__c  = inWardnumber;
+                        caseExt.Inward_Number__c  = inWardnumber;
                     }
                     dmlRecords.add(caseExt);
                     caseRecord.Stage__c = 'Resolved';
+                    caseRecord.Status = 'Resolved';
                     dmlRecords.add(caseRecord);
-                    Database.SaveResult[] results = Database.update(dmlRecords, true);
+                    Database.SaveResult[] results = Database.update(dmlRecords, false);
                 }
             }
              else if (caseInteg.Status__c == ABHI_Constants.FAILURE) {
-             	Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);                
+                Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);                
                 List<sObject> dmlRecords = new List<sObject>();
-                	if(caseRecord.Technical_Source__c=='LWC'){
-                    	caseRecord.MoveToNext__c  = true;
-                    }
+                    caseRecord.Stage__c ='In Progress';
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, true);     
             }
@@ -289,19 +288,19 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
         }
     }
 
-	public static String buildPayload(String jsonStructure, Case caseRecord) {        
-		String regex = '\\{(.*?)\\}';
+    public static String buildPayload(String jsonStructure, Case caseRecord) {        
+        String regex = '\\{(.*?)\\}';
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(jsonStructure);
-    	String finalJson = jsonStructure;
-		while (matcher.find()) {
+        String finalJson = jsonStructure;
+        while (matcher.find()) {
             String placeholder = matcher.group(1); // Extracting field name inside { }
             String fieldValue = getFieldValue(caseRecord, placeholder); // Getting the field value from caseRecord
             String replacement = fieldValue != null ? fieldValue : '';
             finalJson = finalJson.replace('{' + placeholder + '}', replacement);
        }
-    	return finalJson.replaceAll('\r', '').replaceAll('\n', '');  // Returning the modified JSON string
-	}
+        return finalJson.replaceAll('\r', '').replaceAll('\n', '');  // Returning the modified JSON string
+    }
     public static String getFieldValue(Object obj, String fieldName) {
     if (fieldName == null || string.isEmpty(fieldName)) {
         return null;
@@ -347,10 +346,10 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
         }
     }
     return currentValue != null ? String.valueOf(currentValue).replaceAll('\r', '').replaceAll('\n', '') : null;
-	}
+    }
     @SuppressWarnings('PMD.VariableNamingConventions,PMD.FieldNamingConventions')
     public class EndorsementResponse {
-    	public Response response { get; set; }
+        public Response response { get; set; }
     }
     public class Response {
         public String ErrorNumber { get; set; }

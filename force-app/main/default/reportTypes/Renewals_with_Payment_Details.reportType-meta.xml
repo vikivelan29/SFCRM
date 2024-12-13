@@ -135,6 +135,16 @@
             <field>Renewal_Request__c.Renewed_Policy__c.Issue_Date__c</field>
             <table>Collections__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Gross_Payment_Amount__c</field>
+            <table>Collections__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Renewed_Date__c</field>
+            <table>Collections__c</table>
+        </columns>
         <masterLabel>Collections</masterLabel>
     </sections>
 </ReportType>

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Plan_Name__c</fullName>
+    <description>Plan name formula coming from asset Plan_Name__c</description>
     <externalId>false</externalId>
-    <formula>Policy__r.Name</formula>
+    <formula>Policy__r.Plan_Name__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Plan Name</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

@@ -78,8 +78,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Product2Id</fieldItem>
-                <identifier>RecordProduct2IdField2</identifier>
+                <fieldItem>Record.ProductName__c</fieldItem>
+                <identifier>RecordProductName_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -88,8 +88,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Scheme__c</fieldItem>
-                <identifier>RecordScheme_cField</identifier>
+                <fieldItem>Record.Plan_Name__c</fieldItem>
+                <identifier>RecordPlan_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -374,16 +374,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.OwnerId</fieldItem>
                 <identifier>RecordOwnerIdField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.OwnerClientCode__c</fieldItem>
-                <identifier>RecordOwnerClientCode_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -746,6 +736,78 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>New</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Opportunity.Re_submit</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Opportunity.Upsell</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>maxRecordsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Asset.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>Opportunities__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListDisplayType</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListFieldAliases</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Renewed_Policy__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Policy_Renewal_Notice_Day__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OPPORTUNITY.CREATED_DATE</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Status__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Premium_Amount__c</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListLabel</name>
+                    <value>Renewal Policy Details</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldAlias</name>
+                    <value>__DEFAULT__</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>sortFieldOrder</name>
+                    <value>Default</value>
+                </componentInstanceProperties>
+                <componentName>lst:dynamicRelatedList</componentName>
+                <identifier>lst_dynamicRelatedList10</identifier>
             </componentInstance>
         </itemInstances>
         <name>detailTabContent</name>
@@ -1312,7 +1374,13 @@
                             <value>Age__c</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>App_Download_Status__c</value>
+                            <value>Primary_Mobile_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Alternate_Mobile_Number__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Primary_email_ID__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

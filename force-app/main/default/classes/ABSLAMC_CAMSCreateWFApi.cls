@@ -18,7 +18,7 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
     public Case getCaseRec(String caseId){
         
         Case caseRecord = [SELECT CaseNumber, CCC_External_Id__c, Source__c, Business_Unit__c, Nature__c, LAN__c,
-                           Pending_Clarification__c, Stage__c, MoveToNext__c, LOB__c
+                           Pending_Clarification__c, Stage__c, MoveToNext__c, LOB__c, Asset.Folio__c
                            FROM Case
                            WHERE Id =:caseId
         ];
@@ -33,7 +33,7 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
 *****************************************************************************************************************/
     public ABSLAMC_Case_Detail__c getCaseDetail(String caseId){
         
-        ABSLAMC_Case_Detail__c caseDetail =  [SELECT Id, Name, CAMS_Ticket_Reference_Number__c,CAMS_Ticket_Status__c,
+        ABSLAMC_Case_Detail__c caseDetail =  [SELECT Id, Name, CAMS_Ticket_Reference_Number__c,CAMS_Ticket_Status__c,Additional_Remarks_for_CAMS__c,
                                               Note_For_CAMS__c,Critical_Request__c
                                               FROM ABSLAMC_Case_Detail__c 
                                               WHERE Id IN (SELECT ABSLAMC_Case_Detail__c FROM CASE WHERE Id = :caseId)];
@@ -65,7 +65,7 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
         ABSLAMC_Case_Detail__c caseDetailRec = getCaseDetail(caseRec.Id);
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         if(caseRec.Stage__c == ABSLAMC_Constants.CAMSPENDINGSTATUS && caseRec.Business_Unit__c == ABSLAMC_Constants.ABSLAMCBU 
-           && ((caseRec.MoveToNext__c == true && String.isBlank(caseDetailRec.CAMS_Ticket_Reference_Number__c)) || (caseRec.Pending_Clarification__c == true && caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS)))
+           && (String.isBlank(caseDetailRec.CAMS_Ticket_Reference_Number__c) || (caseRec.Pending_Clarification__c == true && caseDetailRec.CAMS_Ticket_Status__c == ABSLAMC_Constants.CAMSCLOSEDSTATUS)))
         {
           result.status = 'Success';
           result.response = 'CAMS Api - CreateWorkflow submitted successfully';            
@@ -138,12 +138,16 @@ public with sharing class ABSLAMC_CAMSCreateWFApi  implements ASF_IntegrationInv
         string serviceType = (caseRecord.Nature__c == 'Request') ? 'R' : ((caseRecord.Nature__c == 'Query') ? 'Q': 'C');
         CAMSCreateWfReqWrapper CAMSCreateWfReqWrapperObj = new CAMSCreateWfReqWrapper();      
         CAMSCreateWfReqWrapperObj.messagefrom = ABSLAMC_Constants.CAMSWEB;
-        CAMSCreateWfReqWrapperObj.foliono = caseRecord.LAN__c;
+        //CAMSCreateWfReqWrapperObj.foliono = caseRecord.LAN__c;
+        CAMSCreateWfReqWrapperObj.foliono = caseRecord.Asset.Folio__c;
         CAMSCreateWfReqWrapperObj.source = ABSLAMC_Constants.BIRLACRM;
         CAMSCreateWfReqWrapperObj.serviceType = serviceType;
         CAMSCreateWfReqWrapperObj.messageType = asfInteg.CAMS_Message_Code__c; 
         CAMSCreateWfReqWrapperObj.messageTo = asfInteg.CAMS_Target_Code__c; 
         CAMSCreateWfReqWrapperObj.messageDesc = caseDetail.Note_For_CAMS__c; 
+        if (String.isNotBlank(caseDetail.Additional_Remarks_for_CAMS__c)){
+            CAMSCreateWfReqWrapperObj.messageDesc += ', Additional Remarks - '+caseDetail.Additional_Remarks_for_CAMS__c;
+        }
         CAMSCreateWfReqWrapperObj.messagePriority = (caseDetail.Critical_Request__c == 'Yes') ?  '1' : '2'; 
         CAMSCreateWfReqWrapperObj.msgCompStatus = 'N';
         CAMSCreateWfReqWrapperObj.talismaID = caseRecord.CaseNumber;

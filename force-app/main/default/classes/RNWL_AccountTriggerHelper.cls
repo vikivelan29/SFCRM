@@ -17,9 +17,13 @@ public class RNWL_AccountTriggerHelper {
             }
         }
         
+        if(updatedAccsIds.size() == 0){ return; }
+        
         for(Opportunity opp : [SELECT Id, Mobile_Number__c, AccountId FROM Opportunity WHERE AccountId IN : updatedAccsIds]){
-            opp.Mobile_Number__c = accs.get(opp.AccountId)?.Phone;
-            oppsUpdateList.add(opp);
+            if(opp.Mobile_Number__c != accs.get(opp.AccountId)?.Phone){
+                opp.Mobile_Number__c = accs.get(opp.AccountId)?.Phone;
+                oppsUpdateList.add(opp);
+            }
         }
         
         if(oppsUpdateList.size() > 0){

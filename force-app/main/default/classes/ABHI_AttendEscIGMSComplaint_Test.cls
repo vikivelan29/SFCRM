@@ -42,7 +42,7 @@ public class ABHI_AttendEscIGMSComplaint_Test {
         detailRec.New_Registration_Date__c = System.today();
         detailRec.Reopened_Date__c = System.today();
         detailRec.Next_Integration_Name__c = 'ABHI_PendingIGMSComplaintIntegration';
-		detailRec.Status_Valid_For_STP__c = true;
+        detailRec.Status_Valid_For_STP__c = true;
     detailRec.Status_Valid_For_STP__c = true;
     insert detailRec;
         
@@ -125,7 +125,7 @@ public class ABHI_AttendEscIGMSComplaint_Test {
         Status,
         OwnerId,
         CaseNumber,ABHI_Case_Detail__r.Type_of_Disposal__c,Stage__c ,
-          Description,ABHI_Case_Detail__r.Resolution_Comments__c ,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
+          Description ,ABHI_Case_Detail__r.Resolution_Comments__c,ABHI_Case_Detail__r.Claim_Received_Amount__c ,
         Client_Code_Text__c,Type_Text__c ,
         Account.Client_Code__c,ABHI_Case_Detail__r.Is_Auto_Escalated__c,
         ABHI_Case_Detail__c,
