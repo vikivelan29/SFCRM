@@ -2315,7 +2315,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Abhi_HealthReturnController</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Abhi_ViewClaimDetails_Controller</apexClass>
