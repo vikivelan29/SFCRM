@@ -16,6 +16,8 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from "lightning/navigation";
 import { reduceErrors } from 'c/asf_ldsUtils';
+import ABHI_BU from '@salesforce/label/c.ABHI_BU';
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 
 
 /* Apex method imports */
@@ -99,6 +101,15 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                     ],
                   };
                 }
+                  this.filterCm = {
+                    criteria: [
+                      {
+                        fieldPath: "Client_Id__r.Id",
+                        operator: "eq",
+                        value: this.accountId ?? '',
+                      },
+                    ],
+                };
                 if(data.fields.Asset != undefined && data.fields.Asset.value != undefined ){
 
                     this.initialValue = data.fields.Asset.value.Id;
