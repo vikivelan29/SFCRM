@@ -15,6 +15,10 @@
                 <field>DeveloperName</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Case_LOB__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Business_Unit__c</field>
             </layoutItems>
@@ -94,7 +98,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9I0000009rmf</masterLabel>
+        <masterLabel>00hNy000005tcOe</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

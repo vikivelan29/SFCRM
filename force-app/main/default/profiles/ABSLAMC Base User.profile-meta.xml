@@ -2884,6 +2884,13 @@
         <layout>PRODUCT_MASTER__c-PRODUCT_MASTER Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Lead-ABSLAMC Lead Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-ABSLAMC Lead Layout</layout>
+        <recordType>Lead.ABSLAMC_Leads</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>PersonAccount-Person Account Layout</layout>
         <recordType>PersonAccount.ABSLAMC_Individual_Distributor</recordType>
     </layoutAssignments>
