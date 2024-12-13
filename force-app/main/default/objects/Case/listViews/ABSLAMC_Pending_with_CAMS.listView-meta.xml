@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ABSLAMC_PHD_Case</fullName>
+    <fullName>ABSLAMC_Pending_with_CAMS</fullName>
     <columns>LOB__c</columns>
-    <columns>Winning_Email__c</columns>
     <columns>CASES.CASE_NUMBER</columns>
     <columns>ASSET.NAME</columns>
     <columns>ACCOUNT.NAME</columns>
@@ -12,16 +11,22 @@
     <columns>CASES.STATUS</columns>
     <columns>CASES.CREATED_DATE_DATE_ONLY</columns>
     <columns>Nature__c</columns>
+    <columns>CORE.USERS.ALIAS</columns>
     <columns>Ageing_Business_Days__c</columns>
     <columns>Stage__c</columns>
     <columns>Overall_Case_Closure_SLA__c</columns>
     <columns>SR_TAT_elapsed__c</columns>
     <filterScope>Queue</filterScope>
-    <label>ABSLAMC PHD</label>
-    <queue>ABSLAMC_PHD</queue>
+    <filters>
+        <field>Stage__c</field>
+        <operation>equals</operation>
+        <value>Pending with CAMS</value>
+    </filters>
+    <label>ABSLAMC Pending with CAMS</label>
+    <queue>ABSLAMC_MF_Call_Centre_Email</queue>
     <sharedTo>
-        <group>ABSLAMC_AIF_PHD_G</group>
-        <group>ABSLAMC_MF_PHD_G</group>
-        <group>ABSLAMC_PMS_PHD_G</group>
+        <group>ABSLAMC_AIF_CAMS_Team_G</group>
+        <group>ABSLAMC_MF_CAMS_Team_G</group>
+        <group>ABSLAMC_PMS_CAMS_Team_G</group>
     </sharedTo>
 </ListView>
