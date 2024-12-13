@@ -178,6 +178,5 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         } else {
             return null; // No match found
         }
-    }
-    
+    }   
 }
