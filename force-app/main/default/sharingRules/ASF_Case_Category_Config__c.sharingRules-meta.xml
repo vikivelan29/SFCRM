@@ -246,18 +246,4 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>Share_CCC_to_RNWL_RM</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>Share CCC to RNWL RM</label>
-        <sharedTo>
-            <roleAndSubordinatesInternal>RNWL_Reporting_Manager</roleAndSubordinatesInternal>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABHI</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
 </SharingRules>
