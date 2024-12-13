@@ -20,6 +20,29 @@
             <default>false</default>
         </values>
     </picklistValues>
+     <picklistValues>
+        <picklist>Line_Of_Business__c</picklist>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>All</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RE</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
     <picklistValues>
         <picklist>Bot_Feedback__c</picklist>
         <values>
