@@ -1,0 +1,55 @@
+<template>
+    <template if:true={response}>
+        <lightning-card title="AUM Details">
+        <div class="form">
+            <div class="form-row">
+                <div class="form-column">
+                    <div class="field">
+                        <label>PAN:</label>
+                        <span>{response.PAN}</span>
+                    </div>
+                    <div class="field">
+                        <label>PAN AUM:</label>
+                        <span>{response.PAN_AUM}</span>
+                    </div>
+                    <div class="field">
+                        <label>Customer Segment:</label>
+                        <span>{response.CUSTOMER_SEGMENT}</span>
+                    </div>
+                    <div class="field">
+                        <label>Nature of Investments:</label>
+                        <span>{response.NATURE_OF_INVESTMENTS}</span>
+                    </div>
+                </div>
+                <div class="form-column">
+                    <div class="field">
+                        <label>Last Transacted Date:</label>
+                        <span>{response.LAST_TRANSACTED_DATE}</span>
+                    </div>
+                    <div class="field">
+                        <label>Last Transacted Folio:</label>
+                        <span>{response.LAST_TRANSACTED_FOLIO}</span>
+                    </div>
+                    <div class="field">
+                        <label>Client Transaction Status:</label>
+                        <span>{response.CLIENT_TRANSACTION_STATUS}</span>
+                    </div>
+                    <div class="field">
+                        <label>Last Transacted Broker ARN Number:</label>
+                        <span>{response.LAST_TRANSACTED_BROKER_ARN_NUMBER}</span>
+                    </div>
+                    <div class="field">
+                        <label>Last Transacted Broker Name:</label>
+                        <span>{response.LAST_TRANSACTED_BROKER_NAME}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+    </template>
+    <template if:true={error}>
+        <div class="error">
+            <p>{error}</p>
+        </div>
+    </template>
+</template>
