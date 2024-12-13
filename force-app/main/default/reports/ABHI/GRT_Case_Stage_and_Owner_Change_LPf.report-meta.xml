@@ -25,10 +25,10 @@
         <field>Case$ClosedDate</field>
     </columns>
     <columns>
-        <field>Case.SR_SLA_Histories__r$Actioned_By__c</field>
+        <field>Case.SR_SLA_Histories__r$Stage_Start_Date__c</field>
     </columns>
     <columns>
-        <field>Case.SR_SLA_Histories__r$Stage_Start_Date__c</field>
+        <field>Case.SR_SLA_Histories__r$Stage__c</field>
     </columns>
     <columns>
         <field>Case.SR_SLA_Histories__r$Stage_End_Date__c</field>
@@ -37,10 +37,13 @@
         <field>Case.SR_SLA_Histories__r$Current_Owner__c</field>
     </columns>
     <columns>
-        <field>Case.SR_SLA_Histories__r$FromStage__c</field>
+        <field>Case.SR_SLA_Histories__r$Actioned_By__c</field>
     </columns>
     <columns>
-        <field>Case.SR_SLA_Histories__r$Stage__c</field>
+        <field>CDF1</field>
+    </columns>
+    <columns>
+        <field>Case.SR_SLA_Histories__r$FromStage__c</field>
     </columns>
     <columns>
         <field>Case.SR_SLA_Histories__r$Time_Taken__c</field>
@@ -51,7 +54,15 @@
     <columns>
         <field>Case$Case_Assigned_Team__c</field>
     </columns>
-    <description>ABHI Case Stage and Owner Change History</description>
+    <customDetailFormulas>
+        <calculatedFormula>
+ IF(ASF_Case_SLA_History__c.Current_Owner__c == ASF_Case_SLA_History__c.Actioned_By__c, &apos;Yes&apos;, &apos;No&apos;)</calculatedFormula>
+        <dataType>Text</dataType>
+        <developerName>CDF1</developerName>
+        <label>check</label>
+        <scale>2</scale>
+    </customDetailFormulas>
+    <description>GRT SLA</description>
     <filter>
         <criteriaItems>
             <column>Case$Business_Unit__c</column>
@@ -60,9 +71,37 @@
             <operator>equals</operator>
             <value>ABHI</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Case$Nature__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>Complaint</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.SR_SLA_Histories__r$Stage__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>contains</operator>
+            <value>In Progress,Reopened</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.SR_SLA_Histories__r$Stage_End_Date__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterThan</operator>
+            <value>4/1/2024 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CDF1</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Yes</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>ABHI Case Stage and Owner Change History</name>
+    <name>GRT Case Stage and Owner Change</name>
     <params>
         <name>co</name>
         <value>1</value>

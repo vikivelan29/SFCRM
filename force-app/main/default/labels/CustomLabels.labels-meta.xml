@@ -1640,13 +1640,6 @@
         <value>ABHI:005:100,ABFL:50:200</value>
     </labels>
     <labels>
-        <fullName>ABHI_Create_Case_Validation_Error_1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABHI Create Case Validation Error 1</shortDescription>
-        <value>Current user is not allowed to create case.</value>
-    </labels>
-    <labels>
         <fullName>MCRM_Legacy_NoResults</fullName>
         <language>en_US</language>
         <protected>false</protected>
