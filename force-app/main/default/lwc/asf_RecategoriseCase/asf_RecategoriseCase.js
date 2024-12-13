@@ -25,6 +25,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
 import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
 
+
 import Email_Bot_BU_label from '@salesforce/label/c.ASF_Email_Bot_Feedback_BU';
 import Recat_Approval_Required_BU_label from '@salesforce/label/c.ASF_Recat_Approval_Required_BU';
 
@@ -327,7 +328,6 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.loaded = true;
             })
             .catch(error => {
-                console.log('ERR: ', error);
                 this.accounts = null;
                 this.isNotSelected = true;
                 this.loaded = true;

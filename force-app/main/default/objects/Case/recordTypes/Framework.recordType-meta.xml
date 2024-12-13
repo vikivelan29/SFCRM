@@ -995,10 +995,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -1792,7 +1788,7 @@
             <fullName>Chatbot</fullName>
             <default>false</default>
         </values>
-        <values>
+                <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
@@ -1985,6 +1981,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
@@ -2098,14 +2098,6 @@
         </values>
         <values>
             <fullName>Branch walk in</fullName>
-            <default>false</default>
-        </values>
-		<values>
-            <fullName>Others</fullName>
-            <default>false</default>
-        </values>
-         <values>
-            <fullName>Seller_Portal</fullName>
             <default>false</default>
         </values>
     </picklistValues>

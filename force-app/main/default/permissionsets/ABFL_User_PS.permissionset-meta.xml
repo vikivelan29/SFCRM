@@ -394,11 +394,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ABFL_Case_Detail__c.CustomerNo__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>ABFL_Case_Detail__c.Customer_Type__c</field>
         <readable>true</readable>
@@ -669,7 +664,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ABFL_Case_Detail__c.Open_Stage_Owner_Email_Team__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1652,7 +1647,7 @@
         <editable>true</editable>
         <field>ASF_Case_Integration__c.Reason_of_STP__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>	
     <fieldPermissions>
         <editable>false</editable>
         <field>ASF_Case_Integration__c.Business_External_Id__c</field>
@@ -3405,6 +3400,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Balance_Tenure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.Bank_Branch_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3426,6 +3426,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Asset.Branch_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Branch__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3575,6 +3580,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.ECS_Mandate_Registration_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.EMI_Cycle_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3700,7 +3710,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Asset.Loan_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Asset.Loan_Disbursement_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Asset.Loan_EMI_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4975,22 +4995,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.BuyerAttributes</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.Customer_Since__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Department</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.DepartmentGroup</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5192,11 +5202,6 @@
         <editable>false</editable>
         <field>Contact.Title</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.TitleType</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5883,7 +5888,6 @@
         <field>Opportunity.Amount</field>
         <readable>false</readable>
     </fieldPermissions>
-   
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.CampaignId</field>
@@ -5899,6 +5903,7 @@
         <field>Opportunity.Description</field>
         <readable>false</readable>
     </fieldPermissions>
+   
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.ExpectedRevenue</field>
@@ -6469,10 +6474,6 @@
     </recordTypeVisibilities>
     <tabSettings>
         <tab>Customer_Prospect_Search</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>standard-Asset</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <userPermissions>

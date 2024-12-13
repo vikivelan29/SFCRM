@@ -22,6 +22,6 @@
     </filters>
     <label>All Wellness</label>
     <sharedTo>
-        <roleAndSubordinatesInternal>Wellness_Service_Agent</roleAndSubordinatesInternal>
+        <roleAndSubordinates>Wellness_Service_Agent</roleAndSubordinates>
     </sharedTo>
 </ListView>

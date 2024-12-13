@@ -43,11 +43,7 @@ private class ABFL_AccRecentCaseCommControllerTest {
         // Call the method
         Test.startTest();
         ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, 10);
-        try{
-            ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, -1);
-        }catch(Exception e){
-            
-        }
+        ABFL_AccRecentCaseCommController.getAccountCaseComments(ac.Id, -1);
         Test.stopTest();
         System.assertEquals(cs.size(), 5);
     }

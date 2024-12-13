@@ -116,8 +116,7 @@ public class RNWL_StoredResponseUtility {
     public static ABHI_ViewPolicyInformation_Controller.ResponseWrapper getAppRegDeatils(String accId){
         ABHI_ViewPolicyInformation_Controller.ResponseWrapper objWrapper = ABHI_ViewPolicyInformation_Controller.viewPolicyInformationApiCallout(accId);
        
-        if(objWrapper.StatusCode != null && 
-           (objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000)){
+        if(objWrapper.StatusCode == 200 || objWrapper.StatusCode == 201 || objWrapper.StatusCode == 1000){
             mapOfFileNameToResponse.put('AppRegDetails', JSON.serialize(objWrapper)); 
             return objWrapper;
         }else{

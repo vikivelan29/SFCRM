@@ -18,10 +18,10 @@
         <description>Rule to share all articles owned by ABHFL role to other ABHFL users</description>
         <label>ABHFL Sharing</label>
         <sharedTo>
-            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedTo>
         <sharedFrom>
-            <roleAndSubordinatesInternal>ABHFL_Leads</roleAndSubordinatesInternal>
+            <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
     <sharingOwnerRules>
