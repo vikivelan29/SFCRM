@@ -30,10 +30,9 @@ import { getRecord } from "lightning/uiRecordApi";
 import ACCOUNT_NAME from "@salesforce/schema/Case.Account.Id";
 import ASSET_NAME from "@salesforce/schema/Case.Asset.Id";
 import BUSINESS_UNIT from "@salesforce/schema/Case.Business_Unit__c";
-import ASSET_ID from "@salesforce/schema/Customer_Member_Mapping__c.Policy_Number__c";
-import CLIENT_CODE from "@salesforce/schema/Customer_Member_Mapping__c.MemberId__r.Client_Code__c";
-import SELECTED_ACCOUNT_ID from "@salesforce/schema/Customer_Member_Mapping__c.MemberId__c";
+
 import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
+
 
 export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(LightningElement) {
     /* API variables */
@@ -85,18 +84,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
         this.template.querySelector(".cmPicker").reportValidity();
     }
 
-    @wire(getRecord, { recordId: "$cmRecordId", fields: [ASSET_ID,CLIENT_CODE,SELECTED_ACCOUNT_ID] })
-    user({ error, data}) {
-        if (data){
-           this.newAssetSelected = data.fields.Policy_Number__c.value;
-           this.selectedClientCode = data.fields.MemberId__r.value.fields.Client_Code__c.value;
-           this.selectedAccountId = data.fields.MemberId__c.value;
-        } else if (error){
-            console.log('error in get CM record--'+JSON.stringify(error));
-        }
-    }
-
-    @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME,ASSET_NAME,BUSINESS_UNIT] })
+    @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME,ASSET_NAME, BUSINESS_UNIT] })
         wiredRecord({ error, data }) {
             if (error) {
                 let errMsg = reduceErrors(error);
@@ -132,16 +120,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                       },
                     ],
                   };
-                  this.filterCm = {
-                    criteria: [
-                      {
-                        fieldPath: "Client_Id__r.Id",
-                        operator: "eq",
-                        value: this.accountId ?? '',
-                      },
-                    ],
-                };
-            }
+                }
                 if(data.fields.Asset != undefined && data.fields.Asset.value != undefined ){
 
                     this.initialValue = data.fields.Asset.value.Id;
