@@ -74,4 +74,4 @@
         <dateColumn>CREATED_DATEONLY</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
-</Report>
+</Report> 
