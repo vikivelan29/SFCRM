@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-<<<<<<<< HEAD:force-app/main/default/objects/Policy_Nominee__c/fields/Nominee_Id__c.field-meta.xml
     <fullName>Nominee_Id__c</fullName>
     <displayFormat>NO-{0000}</displayFormat>
     <externalId>false</externalId>
     <label>Search Nominee</label>
-========
-    <fullName>Claim_Sequence__c</fullName>
-    <displayFormat>CL-{0000}</displayFormat>
-    <externalId>true</externalId>
-    <label>Claim Sequence</label>
->>>>>>>> UAT_V4:force-app/main/default/objects/Claim__c/fields/Claim_Sequence__c.field-meta.xml
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>AutoNumber</type>
