@@ -123,18 +123,15 @@
             <role>Wellness_Service_Agent</role>
         </sharedFrom>
     </sharingOwnerRules>
-    <sharingCriteriaRules>
-        <fullName>ABCD_User_Sharing</fullName>
+    <sharingOwnerRules>
+        <fullName>ABCD_UserSharing</fullName>
         <accessLevel>Read</accessLevel>
-        <label>ABCD User Sharing</label>
+        <label>ABCD UserSharing</label>
         <sharedTo>
             <roleAndSubordinatesInternal>ABCD_Lead</roleAndSubordinatesInternal>
         </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABCD</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>ABCD_Lead</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>
