@@ -13,17 +13,17 @@ public class ABHI_EBOTCaseLogics {
         List<ABHI_Case_Detail__c > lstInsertAbhiCaseDetail = new List<ABHI_Case_Detail__c>();
         String insertedId;
         if(String.isNotBlank(caseId) && objResponseBody!=null ){
-        	ABHI_Case_Detail__c objExt = new ABHI_Case_Detail__c();
- 			lstInsertAbhiCaseDetail.add(objExt);        
+            ABHI_Case_Detail__c objExt = new ABHI_Case_Detail__c();
+            lstInsertAbhiCaseDetail.add(objExt);        
         }
          if(lstInsertAbhiCaseDetail.size() > 0){
-         	Database.SaveResult[] insertResult = Database.insert(lstInsertAbhiCaseDetail,false); 
+            Database.SaveResult[] insertResult = Database.insert(lstInsertAbhiCaseDetail,false); 
                 for (Database.SaveResult sr : insertResult) {
                     if (sr.isSuccess()) {
                         insertedId = sr.getId();
                     }
                  }
-			updateCase(caseId,insertedId,objResponseBody);
+            updateCase(caseId,insertedId,objResponseBody);
           }
     }
    /****************************************************************************************************************
@@ -33,18 +33,18 @@ public class ABHI_EBOTCaseLogics {
     * @description - Updates the fields of  Case object according to ebot response.
     *****************************************************************************************************************/ 
     public static void updateCase(String caseId, String caseDetailId ,UpdateCaseWrapper objResponseBody){
-     	List<Case>lstCase = new List<Case>();
+        List<Case>lstCase = new List<Case>();
          string policyNumber ;
         if(String.isNotBlank(caseId) && String.isNotBlank(caseDetailId) && objResponseBody!=null ){
             List<Asset> recAsset;
-            if(String.isNotBlank(objResponseBody.UpdateCase.UpdateCaseInput.PolicyNumber)){
-                policyNumber = objResponseBody.UpdateCase.UpdateCaseInput.PolicyNumber;
+            if(String.isNotBlank(objResponseBody.UpdateCase.UpdateCaseInput.PolicyNumber)){ 
+                            policyNumber = objResponseBody.UpdateCase.UpdateCaseInput.PolicyNumber;
                 //recAsset = [SELECT ID,LAN__c ,Policy_No__c FROM ASSET WHERE LAN__c =:policyNumber OR Policy_No__c =:policyNumber WITH SYSTEM_MODE LIMIT 1];
             }
            Case objCase = new Case();
             objCase.Id = caseId;
             objCase.ABHI_Case_Detail__c = caseDetailId;
-            objCase.CCC_External_Id__c = objResponseBody.UpdateCase.UpdateCaseInput.CASETYPECODE;
+            objCase.CCC_External_Id__c = objResponseBody.UpdateCase.UpdateCaseInput.CASESUBTYPECODE;
             objCase.Sent_to_EBOT__c  = TRUE;
             objCase.LAN__c =  String.isNotBlank(policyNumber)? policyNumber : '';
             //objCase.Client_Code_Text__c = objResponseBody.CUSTOMERNO != null ? objResponseBody.CUSTOMERNO : '';
@@ -61,12 +61,13 @@ public class ABHI_EBOTCaseLogics {
         }
     }
     public class UpdateCaseWrapper {
-    	public UpdateCase UpdateCase { get; set; }
+        public UpdateCase UpdateCase { get; set; }
     }
     public class UpdateCase {
         public UpdateCaseInput UpdateCaseInput { get; set; }
-        public table  table { get; set; }
+        public Table table { get; set; }
     }
+
     public class UpdateCaseInput {
         public String CALLERCALLEE { get; set; }
         public String CASENO { get; set; }
@@ -86,15 +87,17 @@ public class ABHI_EBOTCaseLogics {
         public String InternationalContactNo { get; set; }
         public String InternationalAddress { get; set; }
         public String PolicyNumber { get; set; }
-        public Date CancellationDate { get; set; }
+        public string CancellationDate { get; set; }
         public String CancellationReason { get; set; }
         public Boolean SendEmail { get; set; }
     }
+
     public class Table {
         public List<EmailInput> EmailInput { get; set; }
     }
+
     public class EmailInput {
-        public AttachmentData AttachmentData { get; set; }
+        public List<AttachmentData> AttachmentData { get; set; }
         public String DESCRIPTION { get; set; }
         public String SUBJECT { get; set; }
         public String ToEmailId { get; set; }
