@@ -268,7 +268,7 @@ public without sharing class ABHI_OmniDocViewController{
                 if(!lstString.isEmpty() && lstAsfCaseIntegration?.iterator()?.next()?.Status__c == ABHI_Constants.OMNIRES_SUCCESS){
 
                     if(calculateDateDifference(DateTime.now(), lstAsfCaseIntegration?.iterator()?.next()?.createdDate).minutes < 1){
-                        Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId WITH SYSTEM_MODE LIMIT 1];
+                        Contact objCon = [SELECT Id, Name FROM Contact WHERE AccountId =: strAccountId WITH SYSTEM_MODE];
 
                         Messaging.SingleEmailMessage objEmail = Messaging.renderStoredEmailTemplate(objEmailTemplate.Id, objCon.Id, strAssetId);
                         objEmail.setTemplateId(objEmailTemplate.Id);

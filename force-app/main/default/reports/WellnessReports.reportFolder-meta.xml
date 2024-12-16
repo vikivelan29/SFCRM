@@ -2,7 +2,7 @@
 <ReportFolder xmlns="http://soap.sforce.com/2006/04/metadata">
     <folderShares>
         <accessLevel>Manage</accessLevel>
-        <sharedTo>zahedali.mohammed@salesforce.com</sharedTo>
+        <sharedTo>rsinghnagar@salesforce.com</sharedTo>
         <sharedToType>User</sharedToType>
     </folderShares>
     <name>Wellness Reports</name>

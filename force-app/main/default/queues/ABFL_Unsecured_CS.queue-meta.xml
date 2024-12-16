@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
-    <email>abfl_unsecured_cs@invalid.com</email>
+    <email>anemade@salesforce.com</email>
     <name>ABFL Unsecured CS</name>
     <queueMembers>
         <publicGroups>

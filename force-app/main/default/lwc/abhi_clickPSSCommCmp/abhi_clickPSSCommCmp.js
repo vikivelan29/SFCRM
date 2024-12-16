@@ -145,7 +145,7 @@ export default class Abhi_clickPSSCommCmp extends LightningElement {
 
     handleClick(event){
         let buttonLabel = event.target.label;
-        
+      
         if(buttonLabel === 'Next'){
             
             if(Object.values(this.currentSelRecord).length == 0){

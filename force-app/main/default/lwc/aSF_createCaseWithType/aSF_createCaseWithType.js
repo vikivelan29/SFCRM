@@ -1105,5 +1105,4 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     get showCreateCaseWOCustomer(){
         return SUPPRESSCREATECASE_BU.includes(this.businessUnit)?false:this.showOnCustomerTagging;
     }
-
 }
