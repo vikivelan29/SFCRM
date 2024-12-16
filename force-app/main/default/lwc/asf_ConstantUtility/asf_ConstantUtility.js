@@ -414,7 +414,7 @@ export const lanLabels = {
         FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
         CREATE_CASE_WITH_FA: "Create Case with LAN"
     },
-    ONEABC: {
+    ABCD: {
         CTST_COLS: [
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
             { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
