@@ -24,7 +24,7 @@ public class ABSLAMC_AUMAPIDetailsController {
 
         if (resMap == null || !resMap.containsKey('PAN')) {
             wrap.isSuccess = false;
-            wrap.errorMessage = 'PAN details not found for the specified case.';
+            wrap.errorMessage = 'PAN details not found for the customer.';
             return wrap;
         }
 
