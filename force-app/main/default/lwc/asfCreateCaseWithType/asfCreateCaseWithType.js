@@ -437,14 +437,14 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 this.isPhoneInbound = true;
             }
         }
-        if((selected) && (this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU) && selected.Show_FTR_Flag_on_Creation__c){
+        if((selected) && this.businessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
             this.showFtr = true;
         }
-        if((selected) && (this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU) && selected.Nature__c === 'Complaint'){
+        if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
         let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
-        if((selected) && this.sourceFldValue && (this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU) && bsliSourceList.includes(this.sourceFldValue.trim())){
+        if((selected) && this.sourceFldValue && this.businessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
             this.isPhoneInbound = true;
             this.showAniNumber = true;
         }
@@ -453,7 +453,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if((selected) && selected.Allowed_Issue_Types__c && (this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU)){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -971,7 +971,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 btnActive = false;
                 this.isPhoneInbound = true;
             }
-            if((this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU) && bsliSourceList.includes(this.sourceFldValue.trim())){
+            if(this.businessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
                 btnActive = false;
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
@@ -1202,10 +1202,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     }
     handleTrackId(event){
         this.trackId = event.target.value;
-        if((this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU) && this.aniNumber != null && this.trackId != '' && this.trackId != null){
+        if(this.businessUnit === ABSLI_BU && this.aniNumber != null && this.trackId != '' && this.trackId != null){
             this.isNotSelected = false;
         }
-        else if((this.businessUnit != ABSLI_BU || this.selectedCccBu != ABSLI_BU) && this.trackId.length != 0){
+        else if(this.businessUnit != ABSLI_BU && this.trackId.length != 0){
             this.isNotSelected = false;
         }
         else {
@@ -1215,10 +1215,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     }
     handleAniNumber(event){
         this.aniNumber = event.target.value;
-        if((this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU) && this.aniNumber != null && this.trackId != '' && this.trackId != null){
+        if(this.businessUnit === ABSLI_BU && this.aniNumber != null && this.trackId != '' && this.trackId != null){
             this.isNotSelected = false;
         }
-        else if((this.businessUnit != ABSLI_BU || this.selectedCccBu != ABSLI_BU) && this.aniNumber.length != 0){
+        else if(this.businessUnit != ABSLI_BU && this.aniNumber.length != 0){
             this.isNotSelected = false;
         }
         else {
