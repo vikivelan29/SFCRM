@@ -48,7 +48,14 @@
     "dmDeatils": {
       "leadConverted": "",
       "ekycStatus": "completed",
-      "accountOpeningDate": "22-02-2002"
+      "accountOpeningDate": "22-02-2002",
+      "stockHoldingAsonDate":"100",
+      "dematAccountNumber":"DXD000000",
+      "dematAccountStatus":"Active",
+      "stockPurchaseDate":"22-02-2002",
+      "stockPurchasePrice":"10000",
+      "stockDividends":"100"
+      
     },
     "pcDetails": {
       "maskedAccountNo": "******5767",

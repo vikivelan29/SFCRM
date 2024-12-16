@@ -17,7 +17,14 @@
                     "sumAssured": "340000",
                     "policyType": "",
                     "maturityDate": "26-08-2024",
-                    "policyPremium": "21000"
+                    "policyPremium": "21000",
+                    "applicationNumber":"ABCD1234",
+                    "policyPremium":"12000",
+                    "premiumMode":"Annual",
+                    "policyType":"My Dummy Policy Type",
+                    "planName":"My Dummy Policy Plan",
+                    "policyQuoteNumber":"ABCD_Q_1234"
+                    
                 },
                 {
                     "policyNumber": "LI102",
@@ -28,7 +35,13 @@
                     "sumAssured": "360000",
                     "policyType": "savings",
                     "maturityDate": "14-09-2025",
-                    "policyPremium": "21"
+                    "policyPremium": "21",
+                    "applicationNumber":"ABCD1234",
+                    "policyPremium":"12000",
+                    "premiumMode":"Annual",
+                    "policyType":"My Dummy Policy Type",
+                    "planName":"My Dummy Policy Plan",
+                    "policyQuoteNumber":"ABCD_Q_1234"
                 }
             ]
         },
@@ -42,7 +55,17 @@
                     "policyStatus": "active",
                     "sumInsured": "2000000",
                     "productType": "L1",
-                    "annualPremium": "18000"
+                    "annualPremium": "18000",
+                    "applicationNumber":"ABCD1234",
+                    "policyTerm":"12",
+                    "policyMaturityDate":"14-09-2025",
+                    "premiumAmount":"18000",
+                    "premiumMode":"Annual",
+                    "policyType" :"MY DUMMY POLICY TYPE",
+                    "policyPlanName":"MY DUMMY POLICY PLAN",
+                    "policyQuoteNumber":"ABCD-Q-4567",
+                    "sumAssured":"1000",
+                    "premiumMode":"Cash"                    
                 },
                 {
                     "policyNumber": "2",
@@ -51,7 +74,17 @@
                     "policyStatus": "active",
                     "sumInsured": "5600000",
                     "productType": "",
-                    "annualPremium": "34000"
+                    "annualPremium": "34000",
+                    "applicationNumber":"ABCD1234",
+                    "policyTerm":"12",
+                    "policyMaturityDate":"14-09-2025",
+                    "premiumAmount":"18000",
+                    "premiumMode":"Annual",
+                    "policyType" :"MY DUMMY POLICY TYPE",
+                    "policyPlanName":"MY DUMMY POLICY PLAN",
+                    "policyQuoteNumber":"ABCD-Q-4567",
+                    "sumAssured":"1000",
+                    "premiumMode":"Cash"
                 }
             ]
         },
@@ -62,13 +95,19 @@
                     "policyType": "1",
                     "insurerName": "ACKO/Digit",
                     "policyAmount": "2300000",
-                    "dateofPurchase": "23-03-2022"
+                    "dateofPurchase": "23-03-2022", 
+                    "vehicleNumber":"MH12ABCD1234",
+                    "premiumAmountWithGST":"1000",
+                    "vehicleType":"Bike"
                 },
                 {
                     "policyType": "2",
                     "insurerName": "ACKO/Digit",
                     "policyAmount": "3400000",
-                    "dateofPurchase": "17-07-2000"
+                    "dateofPurchase": "17-07-2000",
+                    "vehicleNumber":"MH12ABCD5678",
+                    "premiumAmountWithGST":"1000",
+                    "vehicleType":"Car"                    
                 }
             ]
         }
