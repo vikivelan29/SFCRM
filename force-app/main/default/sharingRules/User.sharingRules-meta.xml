@@ -123,4 +123,15 @@
             <role>Wellness_Service_Agent</role>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>ABCD_UserSharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABCD UserSharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ABCD_Lead</roleAndSubordinatesInternal>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>ABCD_Lead</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
 </SharingRules>
