@@ -58,7 +58,7 @@ public with sharing class ABML_ReportsIntegration_Test{
             ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c,Case__c FROM ASF_Case_Integration__c WHERE Case__c =: caseObj.Id LIMIT 1];
             
             Test.startTest();
-            ABML_ReportsIntegration.getReports(caseObj.Id, '01-01-2024', '31-12-2024', 'Contract Note', '2024-2025');
+            ABML_ReportsIntegration.getReports(caseObj.Id, '3207049', '01-01-2024', '31-12-2024', 'Contract Note', '2024-2025');
             Test.stopTest();
             System.assertEquals(updatedCaseInt.Status__c , 'Pending');
             System.assert(updatedCaseInt.Request__c.contains('StatementOfAccount')); // Validate the request payload
@@ -76,7 +76,7 @@ public with sharing class ABML_ReportsIntegration_Test{
             ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c, Case__c FROM ASF_Case_Integration__c WHERE Case__c =: caseObj.Id LIMIT 1];
             
             Test.startTest();
-            ABML_ReportsIntegration.getReports( caseObj.Id, '01-01-2024', '31-12-2024', 'Statement Of Account', '2024-2025');
+            ABML_ReportsIntegration.getReports( caseObj.Id, '3207049', '01-01-2024', '31-12-2024', 'Statement Of Account', '2024-2025');
             Test.stopTest();
             System.assertEquals(updatedCaseInt.Status__c, 'Pending');
             System.assert(updatedCaseInt.Request__c.contains('StatementOfAccount')); // Validate the request payload
@@ -94,7 +94,7 @@ public with sharing class ABML_ReportsIntegration_Test{
             ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c,Case__c FROM ASF_Case_Integration__c WHERE Case__c =: caseObj.Id LIMIT 1];
             
             Test.startTest();
-            ABML_ReportsIntegration.getReports( caseObj.Id, '01-01-2024', '31-12-2024', 'Statement Of Transaction', '2024-2025');
+            ABML_ReportsIntegration.getReports( caseObj.Id, '3207049', '01-01-2024', '31-12-2024', 'Statement Of Transaction', '2024-2025');
             Test.stopTest();
             System.assertEquals(updatedCaseInt.Status__c, 'Pending');
             System.assert(updatedCaseInt.Request__c.contains('StatementOfAccount')); // Validate the request payload

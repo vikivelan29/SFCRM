@@ -2643,7 +2643,6 @@
         <recordType>PersonAccount.Individual</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-	
     <tabVisibilities>
         <tab>standard-Account</tab>
         <visibility>DefaultOn</visibility>
@@ -2657,14 +2656,9 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
 	<tabVisibilities>
-        <tab>abml_List_View_Tab</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-	<tabVisibilities>
         <tab>standard-Lead</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-	
     <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
