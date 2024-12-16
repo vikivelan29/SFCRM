@@ -197,6 +197,12 @@ export default class Abml_Reports extends LightningElement {
                 theme: 'warning', 
                 label: 'Warning!',
             });
+        } else if(this.clientCode =='' || this.clientCode == undefined){
+            LightningAlert.open({
+                message: 'Client code required',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
         }
         else{
             
