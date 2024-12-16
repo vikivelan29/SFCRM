@@ -347,7 +347,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                           result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));
                       }
                       else if((assetRec.ProductName__c == 'Activ One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true))
-                             && !(assetRec.Plan_Name__c == 'VYTL')){
+                             && (assetRec.ProductName__c == 'Activ One' && !(assetRec.Plan_Name__c == 'VYTL'))){
                               result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));    
                       }
                       
