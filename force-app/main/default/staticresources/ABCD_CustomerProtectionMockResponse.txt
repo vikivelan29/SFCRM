@@ -1,0 +1,78 @@
+{
+    "code": 20,
+    "holdingsProtectionInfo": {
+        "liDetails": {
+            "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+            "bankName": "HDFC",
+            "accountNumber": "58899098",
+            "ifscCode": "HDFC0896",
+            "branchName": "BnjaraHilss",
+            "holdingsDetails": [
+                {
+                    "policyNumber": "LI101",
+                    "issueDate": "23-07-2003",
+                    "planName": "savings",
+                    "policyTerm": "20",
+                    "policyStatus": "active",
+                    "sumAssured": "340000",
+                    "policyType": "",
+                    "maturityDate": "26-08-2024",
+                    "policyPremium": "21000"
+                },
+                {
+                    "policyNumber": "LI102",
+                    "issueDate": "21-04-2023",
+                    "planName": "",
+                    "policyTerm": "21",
+                    "policyStatus": "active",
+                    "sumAssured": "360000",
+                    "policyType": "savings",
+                    "maturityDate": "14-09-2025",
+                    "policyPremium": "21"
+                }
+            ]
+        },
+        "hiDetails": {
+            "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+            "holdingsDetails": [
+                {
+                    "policyNumber": "1",
+                    "issueDate": "24-01-2021",
+                    "coverName": "Health",
+                    "policyStatus": "active",
+                    "sumInsured": "2000000",
+                    "productType": "L1",
+                    "annualPremium": "18000"
+                },
+                {
+                    "policyNumber": "2",
+                    "issueDate": "12-08-2022",
+                    "coverName": "Health",
+                    "policyStatus": "active",
+                    "sumInsured": "5600000",
+                    "productType": "",
+                    "annualPremium": "34000"
+                }
+            ]
+        },
+        "miDetails": {
+            "address": "",
+            "holdingsDetails": [
+                {
+                    "policyType": "1",
+                    "insurerName": "ACKO/Digit",
+                    "policyAmount": "2300000",
+                    "dateofPurchase": "23-03-2022"
+                },
+                {
+                    "policyType": "2",
+                    "insurerName": "ACKO/Digit",
+                    "policyAmount": "3400000",
+                    "dateofPurchase": "17-07-2000"
+                }
+            ]
+        }
+    },
+    "message": "Data Retrieved Successfully.",
+    "status": "Success"
+}

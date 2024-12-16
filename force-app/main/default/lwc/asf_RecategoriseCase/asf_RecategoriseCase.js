@@ -23,6 +23,8 @@ import CASE_LEAD_ID from '@salesforce/schema/Case.Lead__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU'; 
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
+import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU';
 import BU_TO_HIDE_EBOT_FEEDBACK from '@salesforce/label/c.BUsToHideEbotFeedbackInRecat';
 
 
@@ -203,6 +205,10 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
                 this.showBotFeedback = true;
             }
             this.businessUnit = getFieldValue(data, CASE_BU_FIELD);
+            if(this.businessUnit === ONEABC_BU || this.businessUnit === ABCD_BU){
+                this.bProceedToRecategorisation = true;
+                this.isAssetChange = false;
+            }
             this.originalCCCValue = getFieldValue(data,CCC_FIELD);
             this.selectedLoanAccNumber = getFieldValue(data,CASE_ASSET_LAN_NUMBER);
             //if(getFieldValue(data, CASE_BU_FIELD) === ABSLIG_BU || getFieldValue(data, CASE_BU_FIELD) == ABSLAMC_BU){
@@ -219,7 +225,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             this.eligibleWithNewCustomerCSTSMsg = lanLabels[this.businessUnit]?.CASE_ELIGIBLE_WITH_NEW_CTST_MSG || lanLabels["DEFAULT"].CASE_ELIGIBLE_WITH_NEW_CTST_MSG;
             this.noneligibleWithNewCustomerCSTMsg = lanLabels[this.businessUnit]?.CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG || lanLabels["DEFAULT"].CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG;
             this.cols = lanLabels[this.businessUnit]?.CTST_COLS || lanLabels["DEFAULT"].CTST_COLS;
-            
+
         } else if (error) {
             console.error('Error loading record', error);
         }
@@ -291,8 +297,12 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
         this.isNotSelected = true;
         this.showIssueType = false;
         let isthisNotAssetRelated = this.getIsAssetValue();
- 
-        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB })
+        const inpArg = new Map();
+
+        inpArg['accountLOB'] = this.businessUnit;
+        let strInpArg = JSON.stringify(inpArg);
+
+        getTypeSubTypeData({ keyword: this.searchKey, asssetProductType: this.cccproduct_type, isasset: isthisNotAssetRelated, accRecordType : this.accountRecordType,currentCCCId : this.currentCCCId, assetLOB : this.assetLOB, inpArg: strInpArg })
             .then(result => {
                 if (result != null && result.boolNoData == false) {
                     this.accounts = result.lstCCCrecords;

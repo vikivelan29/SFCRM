@@ -129,8 +129,8 @@ public with sharing class ASF_CreateCaseWithTypeController {
         else if(loggedInUsersBU == 'Payments'){
             // BU SPECIFIC LOGIC
         }
-        else{
-            
+        else if(loggedInUsersBU == ASF_Constants.ABCD_BU){
+            returnVal.lstCCCrecords = ONEABC_CreateCaseWithTypeHelper.filterCTSTBasedOnBULogic(returnVal.lstCCCrecords,inpArg);
         }
         
         return returnVal;
@@ -214,7 +214,6 @@ public with sharing class ASF_CreateCaseWithTypeController {
             objCaseDetailsWrapper.strErrorMessage = STRING_NORECORDERROR;
         }
         objCaseDetailsWrapper.lstCCCrecords = searchResults.values();
-        system.debug('size--'+objCaseDetailsWrapper.lstCCCrecords.size());
         
         if(objCaseDetailsWrapper.lstCCCrecords.size()>0){
             list<string> exclusionBus= objCaseDetailsWrapper.exclusionBus;
@@ -225,10 +224,14 @@ public with sharing class ASF_CreateCaseWithTypeController {
                    && ccc.Business_Unit__c.equalsIgnoreCase(userBu)){
                        cccset.add(searchResults.get(cccId));  
                    } 
+                else if((userBu.equalsIgnoreCase(ASF_Constants.ABCD_BU) && ccc.Applicable_for_OneABC__c == true) ||
+                       (userBu.equalsIgnoreCase(ASF_Constants.ABCD_BU) && String.isNotBlank(ccc.Business_Unit__c) 
+                   && ccc.Business_Unit__c.equalsIgnoreCase(ASF_Constants.ONEABC_BU))){
+                       cccset.add(searchResults.get(cccId));
+                   }
                 
             }
             objCaseDetailsWrapper.lstCCCrecords = new list<ASF_Case_Category_Config__c> (cccset);
-            system.debug('final size--'+objCaseDetailsWrapper.lstCCCrecords.size());
             
         }
         

@@ -59,6 +59,11 @@
                 <default>false</default>
                 <label>ABML</label>
             </value>
+            <value>
+                <fullName>ABCD</fullName>
+                <default>false</default>
+                <label>ABCD</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -109,6 +109,14 @@
             <fullName>ABML</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>ABCD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ONEABC</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Issue_Type__c</picklist>

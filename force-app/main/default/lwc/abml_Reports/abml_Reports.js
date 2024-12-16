@@ -22,6 +22,7 @@ export default class Abml_Reports extends LightningElement {
     @track showFinYear = false;
     @track changeYear = true;
     yrOptions = [];
+    clientCode;
 
     get options() {
         return [
@@ -116,6 +117,11 @@ export default class Abml_Reports extends LightningElement {
         this.generateYearOptions();
 
      }
+
+     handleClientCodeChange(event){
+        this.clientCode = event.target.value;
+        console.log('this.clientCode--:',this.clientCode);
+     }
      
      onSubmit(){
         var myDate = new Date(this.startDate);
@@ -183,10 +189,16 @@ export default class Abml_Reports extends LightningElement {
                 theme: 'warning', 
                 label: 'Warning!',
             });
+        } else if(this.clientCode =='' || this.clientCode == undefined){
+            LightningAlert.open({
+                message: 'Client code required',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
         }
         else{
             
-            getReports({ caseRecId: this.recordId, startDate: this.startDatePass, endDate: this.endDatePass, reportType: this.reportValue, financialYear: this.yeartoYear })
+            getReports({ caseRecId: this.recordId, clientCode: this.clientCode, startDate: this.startDatePass, endDate: this.endDatePass, reportType: this.reportValue, financialYear: this.yeartoYear })
         .then(() => {
             //this.showToast('Success','Report type sent succesfully','success');
             //this.successMessage = 'Report type sent succesfully!';
@@ -201,6 +213,7 @@ export default class Abml_Reports extends LightningElement {
             this.finValue = '';
             this.startDate = '';
             this.endDate = '';
+            this.clientCode = '';
             //window.location.reload();
             
                
