@@ -37,6 +37,18 @@
         <aggregateTypes>Sum</aggregateTypes>
         <field>Case.Ageing_Number_Of_Days__c</field>
     </columns>
+    <columns>
+        <field>Case.Recategorisation_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_1__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_2__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_3__c</field>
+    </columns>
     <description>A bar chart that shows the number of cases that have their TAT Deadline on that day.</description>
     <filter>
         <criteriaItems>
