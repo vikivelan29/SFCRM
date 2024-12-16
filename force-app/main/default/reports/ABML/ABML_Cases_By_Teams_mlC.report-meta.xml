@@ -49,6 +49,18 @@
     <columns>
         <field>DESCRIPTION</field>
     </columns>
+    <columns>
+        <field>Case.Recategorisation_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_1__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_2__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_3__c</field>
+    </columns>
     <description>A bar chart that shows the number of active cases by the teams (IT, Funds, DP Client Modification)</description>
     <filter>
         <criteriaItems>
