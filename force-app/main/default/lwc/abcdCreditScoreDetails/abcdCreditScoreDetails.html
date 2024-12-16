@@ -1,50 +1,71 @@
 <template>
-    <div class="slds-m-around_x-small" style="padding:5px;border:1px solid">
-      <article class="slds-card slds-m-bottom_medium slds-einstein-header">
-          <header class="slds-media slds-media_center slds-has-flexi-truncate">
-              <div class="slds-grid slds-grid_vertical-align-center slds-size_3-of-4 slds-medium-size_2-of-3">
-                <div class="slds-media__figure">
-                  <span class="slds-icon_container slds-icon-utility-salesforce1">
-                    <!--<lightning-icon icon-name="utility:case"
+  <div class="slds-m-around_x-small" style="padding:5px;border:1px solid">
+    <article class="slds-card slds-m-bottom_medium slds-einstein-header">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-grid slds-grid_vertical-align-center slds-size_3-of-4 slds-medium-size_2-of-3">
+          <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-salesforce1">
+              <!--<lightning-icon icon-name="utility:case"
                       alternative-text="Asset Holdings" size="small" title="large size"></lightning-icon>-->
-                  </span>
-                </div>
-                <div class="slds-media__body">
-                  <h2 class="slds-truncate">
-                    <a href="#" class="slds-card__header-link" >
-                      <span class="slds-text-heading_medium">Credit Score</span>
-                    </a>
-                  </h2>
-                </div>
-              </div>
-              <div class="slds-einstein-header__figure slds-size_1-of-4 slds-medium-size_1-of-3"></div>
-            </header>
-      </article>
-      <template if:false={csdetails}>
-          No Credit Score Details found.
-      </template>
-      <template if:true={csdetails}>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top:10px; padding-bottom:10px;" class="slds-m-around_x-small">
-              <div class="slds-form-element slds-form-element_readonly">
-                  <span class="slds-form-element__label">Last Download Date</span>
-                  <div class="slds-form-element__control">
-                      <div class="slds-form-element__static">{csdetails.lastdownloadDate}</div>
-                  </div>
-              </div>
-              <div class="slds-form-element slds-form-element_readonly">
-                <span class="slds-form-element__label">New Download Date</span>
-                <div class="slds-form-element__control">
-                    <div class="slds-form-element__static"></div>
-                </div>
-            </div>
-            <div class="slds-form-element slds-form-element_readonly">
-                <span class="slds-form-element__label">Credit Score</span>
-                <div class="slds-form-element__control">
-                    <div class="slds-form-element__static"></div>
-                </div>
-            </div>
+            </span>
           </div>
-          <!--<template if:true={midetails.holdingsDetails}>
+          <div class="slds-media__body">
+            <h2 class="slds-truncate">
+              <a href="#" class="slds-card__header-link">
+                <span class="slds-text-heading_medium">Credit Score</span>
+              </a>
+            </h2>
+          </div>
+        </div>
+        <div class="slds-einstein-header__figure slds-size_1-of-4 slds-medium-size_1-of-3"></div>
+      </header>
+    </article>
+    <template if:false={csdetails}>
+      No Credit Score Details found.
+    </template>
+    <template if:true={csdetails}>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top:10px; padding-bottom:10px;"
+        class="slds-m-around_x-small">
+        <div class="slds-form-element slds-form-element_readonly">
+          <span class="slds-form-element__label">Experian Last Download Date</span>
+          <div class="slds-form-element__control">
+            <div class="slds-form-element__static">{csdetails.experianLastDownloadedDate}</div>
+          </div>
+        </div>
+        <div class="slds-form-element slds-form-element_readonly">
+          <span class="slds-form-element__label">Equifax Last Download Date</span>
+          <div class="slds-form-element__control">
+            <div class="slds-form-element__static">{csdetails.equifaxLastDownloadedDate}</div>
+          </div>
+        </div>
+        <div class="slds-form-element slds-form-element_readonly">
+          <span class="slds-form-element__label">Experian New Download Date</span>
+          <div class="slds-form-element__control">
+            <div class="slds-form-element__static">{csdetails.experianNewDownloadedDate}</div>
+          </div>
+        </div>
+        <div class="slds-form-element slds-form-element_readonly">
+          <span class="slds-form-element__label">Equifax Last Download Date</span>
+          <div class="slds-form-element__control">
+            <div class="slds-form-element__static">{csdetails.equifaxNewDownloadedDate}</div>
+          </div>
+        </div>
+        <div class="slds-form-element slds-form-element_readonly">
+          <span class="slds-form-element__label">Experian Credit Score</span>
+          <div class="slds-form-element__control">
+            <div class="slds-form-element__static">{csdetails.experianCreditScore}</div>
+          </div>
+        </div>
+        <div class="slds-form-element slds-form-element_readonly">
+          <span class="slds-form-element__label">Equifax Credit Score</span>
+          <div class="slds-form-element__control">
+            <div class="slds-form-element__static">{csdetails.equifaxCreditScore}</div>
+          </div>
+        </div>
+
+
+      </div>
+      <!--<template if:true={midetails.holdingsDetails}>
               <div class="slds-text-heading_small slds-p-bottom_x-small">Motor Insurance - Holding Details</div>
               <lightning-datatable key-field="id" 
               data={midetails.holdingsDetails} 
@@ -53,6 +74,6 @@
               max-row-selection="1">
               </lightning-datatable>
           </template>-->
-      </template>
-    </div>
+    </template>
+  </div>
 </template>
