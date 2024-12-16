@@ -11,7 +11,27 @@
                     "loanEndDate": "27-08-2024",
                     "tenor": "24",
                     "rateOfInterest": "12.36",
-                    "emiAmount": "12345.56"
+                    "emiAmount": "12345.56",
+                    "loanType":"Home Loan",
+                    "businessLOB":"HFL",
+                    "disbursementDate":"12-04-2000",
+                    "sanctionDate":"12-04-2000",
+                    "finalAmount":"3000000",
+                    "sanctionAmount":"3300000"
+                },
+                {
+                    "loanAccountNumber": "50078799",
+                    "loanStartDate": "12-04-2001",
+                    "loanEndDate": "27-08-2024",
+                    "tenor": "24",
+                    "rateOfInterest": "12.36",
+                    "emiAmount": "12345.56",
+                    "loanType":"Home Loan",
+                    "businessLOB":"HFL",
+                    "disbursementDate":"12-04-2000",
+                    "sanctionDate":"12-04-2000",
+                    "finalAmount":"3000000",
+                    "sanctionAmount":"3300000"
                 }
             ]
         },
@@ -28,7 +48,26 @@
                     "loanStartDate": "12-04-2001",
                     "loanEndDate": "27-08-2024",
                     "tenor": "24",
-                    "lastDisbursedAmount": "23-01-2024"
+                    "lastDisbursedAmount": "23-01-2024",
+                    "emi":"3000",
+                    "sanctionDate":"12-04-2000",
+                    "offerAcceptanceDate":"12-04-2000",
+                    "sanctionAmount":"100000",
+                    "rateOfInterest":"12.8"
+                },
+                {
+                    "loanAccountNumber": "50078799",
+                    "loanType": "Personal",
+                    "businessLOB": "LOB",
+                    "loanStartDate": "12-04-2001",
+                    "loanEndDate": "27-08-2024",
+                    "tenor": "24",
+                    "lastDisbursedAmount": "23-01-2024",
+                    "emi":"3000",
+                    "sanctionDate":"12-04-2000",
+                    "offerAcceptanceDate":"12-04-2000",
+                    "sanctionAmount":"100000",
+                    "rateOfInterest":"12.8"
                 }
             ]
         },
@@ -41,7 +80,25 @@
                     "loanEndDate": "27-08-2024",
                     "tenor": "24",
                     "rateOfInterest": "12.36",
-                    "emiAmount": "12345.56"
+                    "emiAmount": "12345.56",
+                    "businessLOB":"Business Loan",
+                    "disbursementDate":"27-08-2024",
+                    "sanctionDate":"27-08-2024",
+                    "offerAcceptanceDate":"27-08-2024",
+                    "sanctionAmount":"12000000"
+                },
+                {
+                    "loanAccountNumber": "50078798",
+                    "loanStartDate": "12-04-2001",
+                    "loanEndDate": "27-08-2024",
+                    "tenor": "24",
+                    "rateOfInterest": "12.36",
+                    "emiAmount": "12345.56",
+                    "businessLOB":"Business Loan",
+                    "disbursementDate":"27-08-2024",
+                    "sanctionDate":"27-08-2024",
+                    "offerAcceptanceDate":"27-08-2024",
+                    "sanctionAmount":"12000000"
                 }
             ]
         }
