@@ -28,6 +28,7 @@ export default class AumDetails extends LightningElement {
                     this.error = null;
                     } else {
                         this.noAUMData = true;
+                        this.isLoading = false;
                     }
 
                     
