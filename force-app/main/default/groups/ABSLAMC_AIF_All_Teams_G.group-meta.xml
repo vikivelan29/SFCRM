@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Group xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesIncludeBosses>true</doesIncludeBosses>
+<<<<<<<< HEAD:force-app/main/default/groups/ABSLI_EMT_Tracking_G.group-meta.xml
+    <name>ABSLI EMT-Tracking (G)</name>
+========
     <name>ABSLAMC AIF All Teams (G)</name>
+>>>>>>>> staging:force-app/main/default/groups/ABSLAMC_AIF_All_Teams_G.group-meta.xml
 </Group>
