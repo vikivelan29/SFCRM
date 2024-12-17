@@ -6,6 +6,7 @@
     <permissionSets>ABCL_Create_Reports</permissionSets>
     <permissionSets>ABSLAMC_Omnichannel</permissionSets>
     <permissionSets>AMC_Base_User_PS</permissionSets>
+    <permissionSets>AMC_Knowledge_Users</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>List_View_Management_Access</permissionSets>
     <permissionSets>Manage_Case_Ownership</permissionSets>
