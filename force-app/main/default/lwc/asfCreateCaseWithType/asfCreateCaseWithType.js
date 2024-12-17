@@ -63,6 +63,7 @@ import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
 import ONEABC_BU from '@salesforce/label/c.ABCD_ONEABC_BU';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
 import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
+import ABCD_TrackId_Source from '@salesforce/label/c.ABCD_TrackId_Source';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 import * as validator from 'c/asf_CreateCaseValidations';
@@ -173,6 +174,8 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
     
     //ABCD
     selectedCccBu;
+    aniRequired = true;
+
     
     //utility method
     showError(variant, title, error) {
@@ -419,11 +422,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             this.boolAllChannelVisible = true;
             this.boolAllSourceVisible = true;
             this.selectedCccBu = selected.Business_Unit__c;
-            //For ONEABC
-            if(this.businessUnit != 'ABHFL' && this.selectedCccBu === 'ABHFL') {
-                this.abhfRenderedCallbacklHandler();
-            }
-            if(this.businessUnit === 'ABHFL' || this.selectedCccBu === 'ABHFL'){
+            console.log('selected bu--'+this.selectedCccBu);
+
+            if(this.businessUnit === 'ABHFL'){
                 if(this.sourceFldValue == 'Call Center'){
                     this.isNotSelected = false;
                     this.isPhoneInbound = true;
@@ -442,6 +443,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
+        }
+        if(this.businessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
+            this.aniRequired = false;
+            this.isPhoneInbound = true;
+            this.showAniNumber = true;
         }
         let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
         if((selected) && this.sourceFldValue && this.businessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
@@ -980,6 +986,12 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 btnActive = false;
                 this.isPhoneInbound = true;
             }
+            if(this.businessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
+                btnActive = false;
+                this.aniRequired = false;
+                this.isPhoneInbound = true;
+                this.showAniNumber = true;
+            }
         } else {
             btnActive = false;
         }
@@ -1151,10 +1163,13 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 isValid = false;
             }
             else if(inputField.value != null && inputField.value != undefined){
+                //added this check as ANI Number is not required for ONEABC
+                if(inputField.label != 'ANI Number' && this.aniRequired != true){
                 if(inputField.value.trim() == ''){
                     inputField.value = '';
                     inputField.reportValidity();
                     isValid = false;
+                    }
                 }
             }
         });
@@ -1218,6 +1233,9 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
         if(this.businessUnit === ABSLI_BU && this.aniNumber != null && this.trackId != '' && this.trackId != null){
             this.isNotSelected = false;
         }
+        else if(this.businessUnit === ABCD_BU && this.trackId){
+            this.isNotSelected = false;
+        }
         else if(this.businessUnit != ABSLI_BU && this.aniNumber.length != 0){
             this.isNotSelected = false;
         }
@@ -1237,4 +1255,7 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
             // setting theme would have no effect
         });
     }
+
+
+
 }
