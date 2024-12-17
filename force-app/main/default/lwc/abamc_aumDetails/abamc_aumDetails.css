@@ -30,6 +30,11 @@ label {
     margin-bottom: 0.25rem;
 }
 
+.customer-segment {
+    font-weight: bold;
+    color : #0e4bf3;
+}
+
 span {
     color: #555;
 }
