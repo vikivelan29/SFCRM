@@ -38,4 +38,8 @@
         <field>Send_to_EBOT__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
+    <values>
+        <field>Send_to_UNFYD__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
 </CustomMetadata>
