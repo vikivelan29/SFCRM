@@ -2130,12 +2130,8 @@
         <values>
             <fullName>Branch walk in</fullName>
             <default>false</default>
-      </values>
-		    <values>
-            <fullName>Others</fullName>
-            <default>false</default>
         </values>
-         <values>
+        <values>
             <fullName>Seller_Portal</fullName>
             <default>false</default>
         </values>
