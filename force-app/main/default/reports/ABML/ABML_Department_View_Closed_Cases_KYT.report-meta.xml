@@ -48,6 +48,18 @@
     <columns>
         <field>Case.Sub_Type_Text__c</field>
     </columns>
+    <columns>
+        <field>Case.Recategorisation_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_1__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_2__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_3__c</field>
+    </columns>
     <description>Visibility to users on the CTST Closed in last 1 month.</description>
     <filter>
         <criteriaItems>

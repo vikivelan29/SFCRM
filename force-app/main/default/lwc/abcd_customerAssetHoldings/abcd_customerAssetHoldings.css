@@ -1,0 +1,11 @@
+.accordion-heading{
+    --slds-c-accordion-heading-font-size:15px;
+    --slds-c-accordion-color-border : black;
+}
+.slds-card {
+    border: 3px solid #ff5733; /* Red border */
+    border-radius: 8px;         /* Optional: rounded corners */
+}
+.slds-accordion__summary{
+    background-color: #f3f3f3;
+}

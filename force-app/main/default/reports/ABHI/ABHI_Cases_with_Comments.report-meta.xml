@@ -60,4 +60,4 @@
         <dateColumn>Case$CreatedDate</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
-</Report>
+</Report> 

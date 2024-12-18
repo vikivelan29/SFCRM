@@ -2,7 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SubType_Text_1__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(LEN( Sub_Type_Text__c ) &gt; 25, LEFT(Sub_Type_Text__c, 25), Sub_Type_Text__c)</formula>
+    <formula>IF(
+LEN(Sub_Type_Text__c) &gt; 25,
+TRIM(LEFT(Sub_Type_Text__c, FIND(&quot; &quot;, Sub_Type_Text__c &amp; &quot; &quot;, 25) - 1)) &amp; &quot; &quot;,
+Sub_Type_Text__c &amp; &quot; &quot;
+)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>SubType Text 1</label>
     <required>false</required>

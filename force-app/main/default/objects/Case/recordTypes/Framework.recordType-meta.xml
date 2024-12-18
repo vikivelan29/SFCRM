@@ -20,6 +20,29 @@
             <default>false</default>
         </values>
     </picklistValues>
+     <picklistValues>
+        <picklist>Line_Of_Business__c</picklist>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>All</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RE</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
     <picklistValues>
         <picklist>Bot_Feedback__c</picklist>
         <values>
@@ -99,6 +122,14 @@
         </values>
 		<values>
             <fullName>ABML</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABCD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ONEABC</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -995,10 +1026,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG Email</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ABWM Email</fullName>
             <default>false</default>
         </values>
@@ -1792,7 +1819,7 @@
             <fullName>Chatbot</fullName>
             <default>false</default>
         </values>
-        <values>
+                <values>
             <fullName>Customer Portal</fullName>
             <default>false</default>
         </values>
@@ -1985,6 +2012,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payment Link</fullName>
             <default>false</default>
         </values>
@@ -2100,12 +2131,28 @@
             <fullName>Branch walk in</fullName>
             <default>false</default>
         </values>
-		<values>
-            <fullName>Others</fullName>
+        <values>
+            <fullName>Seller_Portal</fullName>
             <default>false</default>
         </values>
-         <values>
-            <fullName>Seller_Portal</fullName>
+        <values>
+            <fullName>Social</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GRO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Servicing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operations %26 Servicing</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -347,7 +347,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                           result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));
                       }
                       else if((assetRec.ProductName__c == 'Activ One' && !(accountRec.CMP_OPD__c == true && accountRec.Chronic_care__c == true))
-                             && !(assetRec.Plan_Name__c == 'VYTL')){
+                             && (assetRec.ProductName__c == 'Activ One' && !(assetRec.Plan_Name__c == 'VYTL'))){
                               result = issueCodeToErrorMsgMap.get(String.valueOf(jsonMap.get('CCC_External_Id__c')));    
                       }
                       
@@ -773,5 +773,56 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 }
             }  
         }
+    }
+    /**
+    * @param : List<case> newList
+    * @return : void 
+    * @description : Prepopulates Fields on Case during before insert and update
+    */
+    public void checkAndBypassValidationFromAPICaseMember(List<case> newList){
+        Set<String> caseAccountId = new Set<String>();
+        Set<Id> caseAssetId = new Set<Id>();
+        Map<Integer, boolean> mCaseMember = new Map<Integer,boolean>();
+        Map<Integer, Case> mCaseMemberVsCase = new Map<Integer,Case>();
+        
+        Map<Id, Set<String>> recIdToSkipperFlag = new Map<Id, Set<String>>();
+        
+        
+        for(Case c : newList){
+            caseAccountId.add('ABHI_'+c.Customer_Member_Text__c);
+            caseAssetId.add(c.AssetId);
+            
+            if(c.Customer_Member_Text__c != null && c.AssetId != null){
+                String temp = 'ABHI_'+c.Customer_Member_Text__c +'_'+c.AssetId;
+                integer iTemp = temp.hashCode();
+                mCaseMember.put(iTemp, false);
+                mCaseMemberVsCase.put(iTemp,c);
+            }
+        }
+        if(caseAccountId.size()>0 && caseAssetId.size()>0){
+            for(Customer_Member_Mapping__c cusMemMap : [SELECT ID, MemberId__r.LOB_Client_Code__c,Policy_Number__c FROM Customer_Member_Mapping__c WHERE
+                                                        MemberId__r.LOB_Client_Code__c IN :caseAccountId
+                                                        AND Policy_Number__c IN :caseAssetId]) 
+            {
+                String temp = cusMemMap.MemberId__r.LOB_Client_Code__c +'_'+cusMemMap.Policy_Number__c;
+                Integer itemp = temp.hashCode();
+                if(mCaseMember.containsKey(itemp)){
+                    mCaseMember.put(itemp,true);
+                }
+            }
+            
+            for(Integer iKey :mCaseMemberVsCase.keySet()){
+                Case c = mCaseMemberVsCase.get(iKey);
+                if(mCaseMember.containsKey(iKey) && mCaseMember.get(iKey) == true){
+                    recIdToSkipperFlag.put(c.ABHI_Case_Detail__c, new Set<String>{ASF_Constants.SKIP_VALIDATION_CHECKS});
+                }
+            }
+        }
+        
+        
+        if(recIdToSkipperFlag.keySet().size()>0){
+            ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, 'ABHI_Case_Detail__c');
+        }
+        
     }
 }

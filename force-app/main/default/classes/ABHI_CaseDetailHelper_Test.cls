@@ -50,8 +50,6 @@ public class ABHI_CaseDetailHelper_Test {
         abhiCaseDetHelpObj.populateABHILCaseDetailFields(caseRecList);
 
         ABHI_Case_Detail__c abhiCaseDetObj = [SELECT id, Sub_Type__c FROM ABHI_Case_Detail__c LIMIT 1];
-        
-        System.assertEquals(abhiCaseDetObj.Sub_Type__c, 'TestType:Test_SubType' ,'Value of Sub_Type__c is Test_SubType'); 
-        system.debug('---');   
+        System.assertEquals(abhiCaseDetObj.Sub_Type__c, 'TestType:Test_SubType' ,'Value of Sub_Type__c is Test_SubType');  
     }
 }

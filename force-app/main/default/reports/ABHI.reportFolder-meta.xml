@@ -5,5 +5,10 @@
         <sharedTo>ABHI_Service_Manager</sharedTo>
         <sharedToType>RoleAndSubordinatesInternal</sharedToType>
     </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>ABHI_Service_Agent</sharedTo>
+        <sharedToType>RoleAndSubordinatesInternal</sharedToType>
+    </folderShares>
     <name>ABHI</name>
 </ReportFolder>

@@ -17,6 +17,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from "lightning/navigation";
 import { reduceErrors } from 'c/asf_ldsUtils';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 
 
 /* Apex method imports */
@@ -111,6 +112,17 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                 this.accountId = data.fields.Account?.value?.id;
                 this.accountName = data.fields.Account?.displayValue;
                 this.caseBusinessUnit = data.fields.Business_Unit__c.value;
+                if(this.caseBusinessUnit && this.caseBusinessUnit === ABSLAMC_BU){
+                    this.filter = {
+                        criteria: [
+                          {
+                            fieldPath: "AccountId",
+                            operator: "eq",
+                            value: this.accountId,
+                          },
+                        ],
+                      };
+                } else {
                 this.filter = {
                     criteria: [
                       {
@@ -120,6 +132,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                       },
                     ],
                   };
+                }
                   this.filterCm = {
                     criteria: [
                       {

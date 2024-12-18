@@ -1,0 +1,117 @@
+{
+    "code": 20,
+    "holdingsProtectionInfo": {
+        "liDetails": {
+            "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+            "bankName": "HDFC",
+            "accountNumber": "58899098",
+            "ifscCode": "HDFC0896",
+            "branchName": "BnjaraHilss",
+            "holdingsDetails": [
+                {
+                    "policyNumber": "LI101",
+                    "issueDate": "23-07-2003",
+                    "planName": "savings",
+                    "policyTerm": "20",
+                    "policyStatus": "active",
+                    "sumAssured": "340000",
+                    "policyType": "",
+                    "maturityDate": "26-08-2024",
+                    "policyPremium": "21000",
+                    "applicationNumber":"ABCD1234",
+                    "policyPremium":"12000",
+                    "premiumMode":"Annual",
+                    "policyType":"My Dummy Policy Type",
+                    "planName":"My Dummy Policy Plan",
+                    "policyQuoteNumber":"ABCD_Q_1234"
+                    
+                },
+                {
+                    "policyNumber": "LI102",
+                    "issueDate": "21-04-2023",
+                    "planName": "",
+                    "policyTerm": "21",
+                    "policyStatus": "active",
+                    "sumAssured": "360000",
+                    "policyType": "savings",
+                    "maturityDate": "14-09-2025",
+                    "policyPremium": "21",
+                    "applicationNumber":"ABCD1234",
+                    "policyPremium":"12000",
+                    "premiumMode":"Annual",
+                    "policyType":"My Dummy Policy Type",
+                    "planName":"My Dummy Policy Plan",
+                    "policyQuoteNumber":"ABCD_Q_1234"
+                }
+            ]
+        },
+        "hiDetails": {
+            "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+            "holdingsDetails": [
+                {
+                    "policyNumber": "1",
+                    "issueDate": "24-01-2021",
+                    "coverName": "Health",
+                    "policyStatus": "active",
+                    "sumInsured": "2000000",
+                    "productType": "L1",
+                    "annualPremium": "18000",
+                    "applicationNumber":"ABCD1234",
+                    "policyTerm":"12",
+                    "policyMaturityDate":"14-09-2025",
+                    "premiumAmount":"18000",
+                    "premiumMode":"Annual",
+                    "policyType" :"MY DUMMY POLICY TYPE",
+                    "policyPlanName":"MY DUMMY POLICY PLAN",
+                    "policyQuoteNumber":"ABCD-Q-4567",
+                    "sumAssured":"1000",
+                    "premiumMode":"Cash"                    
+                },
+                {
+                    "policyNumber": "2",
+                    "issueDate": "12-08-2022",
+                    "coverName": "Health",
+                    "policyStatus": "active",
+                    "sumInsured": "5600000",
+                    "productType": "",
+                    "annualPremium": "34000",
+                    "applicationNumber":"ABCD1234",
+                    "policyTerm":"12",
+                    "policyMaturityDate":"14-09-2025",
+                    "premiumAmount":"18000",
+                    "premiumMode":"Annual",
+                    "policyType" :"MY DUMMY POLICY TYPE",
+                    "policyPlanName":"MY DUMMY POLICY PLAN",
+                    "policyQuoteNumber":"ABCD-Q-4567",
+                    "sumAssured":"1000",
+                    "premiumMode":"Cash"
+                }
+            ]
+        },
+        "miDetails": {
+            "address": "",
+            "holdingsDetails": [
+                {
+                    "policyType": "1",
+                    "insurerName": "ACKO/Digit",
+                    "policyAmount": "2300000",
+                    "dateofPurchase": "23-03-2022", 
+                    "vehicleNumber":"MH12ABCD1234",
+                    "premiumAmountWithGST":"1000",
+                    "vehicleType":"Bike"
+                },
+                {
+                    "policyType": "2",
+                    "insurerName": "ACKO/Digit",
+                    "policyAmount": "3400000",
+                    "dateofPurchase": "17-07-2000",
+                    "vehicleNumber":"MH12ABCD5678",
+                    "premiumAmountWithGST":"1000",
+                    "vehicleType":"Car"                    
+                }
+            ]
+        }
+    },
+    "message": "Data Retrieved Successfully.",
+    "status": "Success"
+}

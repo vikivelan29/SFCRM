@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Source__c</fullName>
-    <externalId>false</externalId>
     <label>Source</label>
+    <externalId>false</externalId>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
@@ -761,6 +761,31 @@
                 <fullName>Seller_Portal</fullName>
                 <default>false</default>
                 <label>Seller_Portal</label>
+            </value>
+            <value>
+                <fullName>Social</fullName>
+                <default>false</default>
+                <label>Social</label>
+            </value>
+            <value>
+                <fullName>Operations &amp; Servicing</fullName>
+                <default>false</default>
+                <label>Operations &amp; Servicing</label>
+            </value>
+            <value>
+                <fullName>GRO</fullName>
+                <default>false</default>
+                <label>GRO</label>
+            </value>
+            <value>
+                <fullName>Chat</fullName>
+                <default>false</default>
+                <label>Chat</label>
+            </value>
+            <value>
+                <fullName>Branch Servicing</fullName>
+                <default>false</default>
+                <label>Branch Servicing</label>
             </value>
         </valueSetDefinition>
     </valueSet>

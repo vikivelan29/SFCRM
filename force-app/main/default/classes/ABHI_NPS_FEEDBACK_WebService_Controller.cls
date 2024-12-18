@@ -72,8 +72,8 @@ global with sharing class ABHI_NPS_FEEDBACK_WebService_Controller {
     public NPS_FEEDBACK_RESPONSE_WRAPPER createSurveyResponse(NPS_FEEDBACK_REQUEST_WRAPPER npsReqWrapper) {
 
         NPS_FEEDBACK_RESPONSE_WRAPPER respWrapperObj = new NPS_FEEDBACK_RESPONSE_WRAPPER();
-
-        Account acc = new Account(Client_Code__c = npsReqWrapper?.tag_private_customer_id);
+        String lobClientCode = 'ABHI_' + npsReqWrapper?.tag_private_customer_id;
+        Account acc = new Account(LOB_Client_Code__c = lobClientCode);
 
         Survey_Response__c createSurveyResponse   = new Survey_Response__c();
         createSurveyResponse.Business_Unit__c     = ABHI_Constants.ABHI;

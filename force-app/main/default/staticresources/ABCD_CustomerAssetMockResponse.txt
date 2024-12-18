@@ -1,0 +1,67 @@
+{
+  "code": 20,
+  "message": "Data Retrieved Successfully.",
+  "status": "Success",
+  "holdingsAssetsInfo": {
+    "mfDetails": {
+      "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+      "accountNo": "5623457",
+      "ifscCode": "HDFC0001234",
+      "bankName": "HDFC",
+      "branchName": "BanjaraHills",
+      "holdingDetails": [
+        {
+          "amcNames": "amc",
+          "folioNumber": "1233",
+          "schemeNames": "",
+          "totalUnits": "5",
+          "portfolioValue": "98",
+          "lastTransactionValue": "7",
+          "lastTransactionQuantity": "3",
+          "lastTransactionNAV": "5",
+          "lastTransactionType": "savings",
+          "lastTransactionDate": "12-09-2022"
+        }
+      ]
+    },
+    "dgDetails": {
+      "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+      "accountNo": "535578",
+      "ifscCode": "HDFC0005767",
+      "bankName": "HDFC",
+      "lastTransactionDate": "09-09-2022",
+      "lastTransactionValue": "25",
+      "lastTransactionQuantity": "7",
+      "lastTransactionType": "savings",
+      "lastTransactionDeliveryDate": "12-02-2024",
+      "portfolioBalance": "23486.90"
+    },
+    "dsDetails": {
+      "accountNo": "53475446",
+      "ifscCode": "HDFC003676765",
+      "bankName": "HDFC",
+      "lastTransactionDate": "22-02-2023",
+      "lastTransactionValue": "5643",
+      "lastTransactionInterest": "10.08",
+      "totalFDHoldings": "10"
+    },
+    "dmDeatils": {
+      "leadConverted": "",
+      "ekycStatus": "completed",
+      "accountOpeningDate": "22-02-2002",
+      "stockHoldingAsonDate":"100",
+      "dematAccountNumber":"DXD000000",
+      "dematAccountStatus":"Active",
+      "stockPurchaseDate":"22-02-2002",
+      "stockPurchasePrice":"10000",
+      "stockDividends":"100"
+      
+    },
+    "pcDetails": {
+      "maskedAccountNo": "******5767",
+      "ifscCode": "HDFC00567",
+      "consentDate": "24-04-2001",
+      "consentStatus": "active"
+    }
+  }
+}

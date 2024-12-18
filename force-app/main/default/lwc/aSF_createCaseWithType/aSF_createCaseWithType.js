@@ -21,6 +21,7 @@ import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
 import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
+import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
 import SUPPRESSCREATECASE_BU from '@salesforce/label/c.SuppressCreateCase_BU'; 
 import { lanLabels } from 'c/asf_ConstantUtility';
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
@@ -36,6 +37,7 @@ import CASE_ASSET from '@salesforce/schema/Case.AssetId';
 import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Business__c';
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
 import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
+import CASE_BU from '@salesforce/schema/Case.Business_Unit__c';
 import BUSINESS_UNIT from '@salesforce/schema/User.Business_Unit__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
 
@@ -184,8 +186,11 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     lstChannelValues = [];
     strDefaultChannel = '';
     currentObj = CASE_OBJECT.objectApiName;
-
+    caseBu = '';
     UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
+
+    //ABCD
+    selectedCccBu;
 
     get stageOptions() {
         return [
@@ -277,7 +282,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         ACOUNNTRECORDTYPE, 
         CASE_ASSET_LOB,
         CASE_PROSPECT_ID,
-        NOAUTOCOMM_FIELD] })
+        NOAUTOCOMM_FIELD,
+        CASE_BU] })
     wiredRecord({ error, data }) {
         if (error) {
             let message = 'Unknown error';
@@ -308,6 +314,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             }
 
             this.sourceOnRecord = this.caseRec.fields.Source__c.value;
+            this.caseBu = this.caseRec.fields.Business_Unit__c.value;
             this.customerId = this.caseRec.fields.AccountId.value;
 
             // VIRENDRA - SHOW CUSTOMER AND LAN RELATED BUTTON IF CUSTOMER TAGGING DONE.
@@ -333,7 +340,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     get displayRejectionReason(){
-        return this.showRejetedReason && this.businessUnit != 'ABSLI';
+        return this.showRejetedReason && this.businessUnit != ABSLI_BU;
     }
 
 
@@ -424,6 +431,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     const inpArg = new Map();
     inpArg['accountLOB'] = this.accountLOB;
     inpArg['closeCaseWithoutCusButton'] = this.closeCaseWithoutCusButton;
+    inpArg['businessUnit'] = this.caseBu;
     let strInpArg = JSON.stringify(inpArg);
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
@@ -483,6 +491,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         this.transactionNumber = '';
         if(selected){
             this.showSRDescription = this.isFTRJourney = selected.Is_FTR_Journey__c;
+            this.selectedCccBu = selected.Business_Unit__c;
         }
 
         let cccExternalId = '';
@@ -496,8 +505,8 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
             this.fetchRejectionReason(cccExternalId);
         }
 
-        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU
-        && this.businessUnit != ABHI_BU){
+        if(selected && !this.isCloseCase && (this.showOnCustomerTagging || this.showOnProspectTagging) && 
+        (this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU && this.businessUnit != ABCD_BU && this.businessUnit != ABHI_BU)){
             this.showAutoComm = true;
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
@@ -505,7 +514,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         }
         if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow && selected.Show_FTR_Flag_on_Creation__c){
             this.showFtr = true;
-        } 
+        }
         if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
@@ -1096,5 +1105,4 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     get showCreateCaseWOCustomer(){
         return SUPPRESSCREATECASE_BU.includes(this.businessUnit)?false:this.showOnCustomerTagging;
     }
-
 }

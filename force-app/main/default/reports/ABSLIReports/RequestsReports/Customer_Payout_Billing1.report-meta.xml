@@ -25,9 +25,6 @@
         <field>Case$ABSLI_Case_Detail__c.Voucher_Number__c</field>
     </columns>
     <columns>
-        <field>Case$ABSLI_Case_Detail__c.Voucher_Approval_Date__c</field>
-    </columns>
-    <columns>
         <field>Case$ABSLI_Case_Detail__c.Outcome__c</field>
     </columns>
     <columns>

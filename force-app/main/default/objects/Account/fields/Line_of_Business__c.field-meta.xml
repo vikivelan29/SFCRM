@@ -108,6 +108,12 @@
                 <isActive>false</isActive>
                 <label>Retail - Unsecured</label>
             </value>
+            <value>
+                <fullName>ABCD</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ABCD</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

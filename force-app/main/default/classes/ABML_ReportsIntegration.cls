@@ -9,16 +9,17 @@
 public with sharing class ABML_ReportsIntegration{
     
     @AuraEnabled
-    public static void getReports(Id caseRecId, String startDate, String endDate, String reportType, String financialYear){ 
+    public static void getReports(Id caseRecId, String clientCode, String startDate, String endDate, String reportType, String financialYear){ 
         
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         Case caseRecord = new Case();
         
         if(caseRecId != null){
-            caseRecord = [SELECT Id, Business_Unit__c, Client_Code__c FROM Case WHERE Id =: caseRecId LIMIT 1];
+            caseRecord = [SELECT Id, Business_Unit__c FROM Case WHERE Id =: caseRecId LIMIT 1];
         }
         
-        String clientCode = caseRecord.Client_Code__c != null ? caseRecord.Client_Code__c : '';
+        //String clientCode = caseRecord.Client_Code__c != null ? caseRecord.Client_Code__c : '';
+         
         String firmNumber = 'ABM-000001';
         String userName = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Username__c;                              
         String password = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Password__c; 
@@ -30,6 +31,7 @@ public with sharing class ABML_ReportsIntegration{
         
         String startdateSpecified = startDate != null ? 'true' : '';
         String enddateSpecified = endDate != null ? 'true' : '';
+        
         
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
         caseInt.Case__c  = caseRecId != null ? caseRecId : null;
@@ -95,6 +97,7 @@ public with sharing class ABML_ReportsIntegration{
         Map<Id , ContentVersion> newContentMap = new Map<Id , ContentVersion>();
         Map<Id, Account> accountsMap = new Map<Id, Account>();
         Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+        Id personAccRecordType = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Customer').getRecordTypeId();
         
         if(!asfCaseIntList.isEmpty()){
             for(ASF_Case_Integration__c objAsfCase : asfCaseIntList){
@@ -104,7 +107,7 @@ public with sharing class ABML_ReportsIntegration{
         }        
    
         if(!caseRecordsIds.isEmpty()){
-            for(Case objCase : [Select Id, Business_Unit__c, AccountId, Customer_name_formula__c from Case where ID IN : caseRecordsIds]){
+            for(Case objCase : [Select Id, Business_Unit__c, AccountId, Customer_name_formula__c, Account.RecordTypeId from Case where ID IN : caseRecordsIds]){
                 if(objCase.Business_Unit__c == 'ABML'){
                     caseRecordsMap.put(objCase.Id , objCase);
                     accountRecords.add(objCase.AccountId);
@@ -113,9 +116,10 @@ public with sharing class ABML_ReportsIntegration{
         }
         if(!accountRecords.isEmpty()){
             for(Account accountObj : [Select Id, PersonContactId from Account where ID IN : accountRecords]){
-                if(accountObj.PersonContactId != null){
+                //if(accountObj.PersonContactId != null){
                     accountsMap.put(accountObj.Id , accountObj);
-                }
+                    system.debug('accountObj.PersonContactId >>> '+ accountObj.PersonContactId );
+                //}
             }
         }        
         if(!asfRecordIds.isEmpty()){
@@ -134,6 +138,8 @@ public with sharing class ABML_ReportsIntegration{
         Id templateId2 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_SOT_Email_Template_1733145673611' LIMIT 1].Id;
         Id templateId3 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Contract_Note_Email_Template_1733145822012' LIMIT 1].Id;
 
+        Contact contactRec = [SELECT Id FROM Contact WHERE AccountId=:accountRecords LIMIT 1];
+        
         if(!asfCaseIntList.isEmpty()){
             for (ASF_Case_Integration__c objAsfCaseRecord : asfCaseIntList) {
                 if (objAsfCaseRecord.Status__c == 'Success' && caseRecordsMap.containsKey(objAsfCaseRecord.Case__c) && newContentMap.containskey(objAsfCaseRecord.Id)){                    
@@ -151,7 +157,15 @@ public with sharing class ABML_ReportsIntegration{
                         if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Contract Note') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('Contract')){
                             email.setTemplateId(templateId3);
                         }
-                        email.setTargetObjectId(accountsMap.get(caseRecord.AccountId).PersonContactId);
+                        if(caseRecord.Account.RecordTypeId == personAccRecordType){
+                            email.setTargetObjectId(accountsMap.get(caseRecord.AccountId).PersonContactId); 
+                        }
+                        else{
+                            if(contactRec!=null){ 
+                                email.setTargetObjectId(contactRec.Id);
+                            }
+                        }
+                        
                         email.setSaveAsActivity(false);
                         email.setWhatId(caseRecord.Id);
                         

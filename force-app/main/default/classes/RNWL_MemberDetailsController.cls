@@ -160,7 +160,7 @@ public with sharing class RNWL_MemberDetailsController {
                 
                 for(object member : lstMember) { 
                     Map<String, Object> member_Map = (Map<String, Object>)member;
-                    Map<String, String> memberMap = new Map<String, String>(); 
+					Map<String, String> memberMap = new Map<String, String>(); 
                     
                     memberMap.put('Name', String.valueOf(member_Map.get('Name'))); 
                     memberMap.put('Member DOB', String.valueOf(member_Map.get('DoB')));
