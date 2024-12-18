@@ -13,7 +13,7 @@ private class ABHI_NPS_FEEDBACK_WebService_Cntrl_Test {
         // Create custom metadata records
         Account acct = new Account(
             Name = 'Test Account 1',
-            Client_Code__c = '1118038'
+            LOB_Client_Code__c = 'ABHI_1118038'
         );
         insert acct;
     }
