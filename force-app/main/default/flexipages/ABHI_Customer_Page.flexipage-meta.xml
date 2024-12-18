@@ -168,13 +168,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>ABHI Partner Base Profile</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-6e8fd545-64d0-4877-b28c-0983864f2491</name>
@@ -648,7 +641,7 @@
                 <identifier>RecordPEDWaitingPeriod_cField</identifier>
             </fieldInstance>
         </itemInstances>
-         <itemInstances>
+        <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
@@ -1788,6 +1781,5 @@
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
     </template>
-    
     <type>RecordPage</type>
 </FlexiPage>

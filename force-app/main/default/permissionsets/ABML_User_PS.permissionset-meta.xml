@@ -2264,8 +2264,4 @@
         <tab>standard-Lead</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-	 <tabSettings>
-        <tab>abml_List_View_Tab</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
 </PermissionSet>

@@ -145,10 +145,8 @@ export default class Abhi_kavach_Policies extends LightningElement {
        })
     }
     handleChange(event) {
-
-        this.selectedOption = event.detail.value;
-        console.log('this.v'+JSON.stringify(event.detail));
-     }
+        this.disabledSearch = true;
+    }
     handleChangeTargetSys(event) {
         this.selectedSystem = event.detail.value;
     }

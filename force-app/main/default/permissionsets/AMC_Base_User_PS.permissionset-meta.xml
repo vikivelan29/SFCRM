@@ -368,6 +368,10 @@
         <apexClass>ABSLAMC_HoldingsByFolioController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>ABSLAMC_AUMAPIDetailsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <customPermissions>
         <enabled>true</enabled>
         <name>HideCaseWithProspect</name>
@@ -5579,11 +5583,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Title</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.TitleType</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

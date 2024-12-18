@@ -1,0 +1,70 @@
+<template>
+    <lightning-card title="AUM Details">
+    <template if:true={isLoading}>
+        <div>
+            <lightning-spinner alternative-text="Loading" size="x-small"></lightning-spinner>
+        </div>
+    </template>
+    <template if:true={noAUMData}>
+      
+            <div class="slds-text-color_error slds-p-around_medium">
+                <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+                No AUM data found for this customer.
+            </div>
+      
+       
+    </template>
+    <template if:true={response}>
+        <div class="form">
+            <div class="form-row">
+                <div class="form-column">
+                    <div class="field">
+                        <label>PAN:</label>
+                        <span>{response.PAN}</span>
+                    </div>
+                    <div class="field">
+                        <label>PAN AUM:</label>
+                        <span>{response.PAN_AUM}</span>
+                    </div>
+                    <div class="field">
+                        <label>Customer Segment:</label>
+                        <span class="customer-segment">{response.CUSTOMER_SEGMENT}</span>
+                    </div>
+                    <div class="field">
+                        <label>Nature of Investments:</label>
+                        <span>{response.NATURE_OF_INVESTMENTS}</span>
+                    </div>
+                </div>
+                <div class="form-column">
+                    <div class="field">
+                        <label>Last Transacted Date:</label>
+                        <span>{response.LAST_TRANSACTED_DATE}</span>
+                    </div>
+                    <div class="field">
+                        <label>Last Transacted Folio:</label>
+                        <span>{response.LAST_TRANSACTED_FOLIO}</span>
+                    </div>
+                    <div class="field">
+                        <label>Client Transaction Status:</label>
+                        <span>{response.CLIENT_TRANSACTION_STATUS}</span>
+                    </div>
+                    <div class="field">
+                        <label>Last Transacted Broker ARN Number:</label>
+                        <span>{response.LAST_TRANSACTED_BROKER_ARN_NUMBER}</span>
+                    </div>
+                    <div class="field">
+                        <label>Last Transacted Broker Name:</label>
+                        <span>{response.LAST_TRANSACTED_BROKER_NAME}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={error}>
+        <div class="slds-text-color_error slds-p-around_medium">
+            <lightning-icon icon-name="utility:error" alternative-text="No data found" size="small" class="slds-m-right_x-small"></lightning-icon>
+            {error}
+        </div>
+    </template>
+</lightning-card>
+</template>

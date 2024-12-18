@@ -95,7 +95,7 @@ public class ABSLI_CaseIntegrationHelper {
                                                            ABSLI_EbotWrapper.EbotResponseWrapper ebotResponse,
                                                            ContentRelationWrapper contentRelation){
 
-		ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
+	ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
         caseDetail.From_Date__c = String.isNotBlank(ebotResponse.FromDate)?Date.valueOf(ebotResponse.FromDate):null;
         caseDetail.To_Date__c = String.isNotBlank(ebotResponse.ToDate)?Date.valueOf(ebotResponse.ToDate):null;
         caseDetail.Ebot_Email_in_Draft__c  = false;

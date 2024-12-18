@@ -27,6 +27,15 @@
     <columns>
         <field>Case.Overall_Case_Closure_SLA__c</field>
     </columns>
+    <columns>
+        <field>Case.Stage_SLA_1__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_2__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_3__c</field>
+    </columns>
     <description>A bar chart that shows the number of cases that have missed their TAT Deadline</description>
     <filter>
         <criteriaItems>
