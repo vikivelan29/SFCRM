@@ -245,7 +245,7 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
              else if (caseInteg.Status__c == ABHI_Constants.FAILURE) {
              	Case caseRecord = ABHI_IntegrationQueryHelper.getCaseInfo(caseInteg.Case__c);                
                 List<sObject> dmlRecords = new List<sObject>();
-					caseRecord.MoveToNext__c  = true;
+                    caseRecord.Stage__c ='In Progress';
                     dmlRecords.add(caseRecord);
                     Database.SaveResult[] results = Database.update(dmlRecords, true);     
             }
