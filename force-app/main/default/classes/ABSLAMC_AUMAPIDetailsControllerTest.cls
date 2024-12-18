@@ -16,7 +16,7 @@ public class ABSLAMC_AUMAPIDetailsControllerTest {
 
         ABSLAMC_AUMAPIDetailsController.ReturnWrapper result = ABSLAMC_AUMAPIDetailsController.fetchAUMDetails(acc.Id);
         System.assertEquals(false, result.isSuccess, 'The method should fail when no PAN is found.');
-        System.assertEquals('PAN details not found for the specified case.', result.errorMessage, 'The error message should indicate missing PAN.');
+        System.assertEquals('PAN details not found for the customer.', result.errorMessage, 'The error message should indicate missing PAN.');
     }
 
     @IsTest
