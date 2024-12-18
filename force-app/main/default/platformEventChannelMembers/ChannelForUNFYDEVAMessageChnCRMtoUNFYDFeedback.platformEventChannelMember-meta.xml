@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PlatformEventChannelMember xmlns="http://soap.sforce.com/2006/04/metadata">
+    <eventChannel>Channel_for_UNFYD_EVA_Message__chn</eventChannel>
+    <selectedEntity>CRM_to_UNFYD_Feedback_Event__e</selectedEntity>
+</PlatformEventChannelMember>
