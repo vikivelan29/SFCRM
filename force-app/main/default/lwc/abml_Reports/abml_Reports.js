@@ -197,9 +197,9 @@ export default class Abml_Reports extends LightningElement {
                 theme: 'warning', 
                 label: 'Warning!',
             });
-        } else if(this.clientCode =='' || this.clientCode == undefined){
+        } else if (!this.clientCode || !/^\d+$/.test(this.clientCode)) {
             LightningAlert.open({
-                message: 'Client code required',
+                message: 'Please enter a valid client Code before submitting.',
                 theme: 'warning', 
                 label: 'Warning!',
             });
