@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ebot_Feedback_Remove_IncorrectCategory</fullName>
+    <active>true</active>
+    <description>If &quot;Incorrect Categorization&quot; was already added and if the use is trying to remove it manually error would trigger</description>
+    <errorConditionFormula>AND(
+    INCLUDES(PRIORVALUE(Ebot_Feedback__c), &quot;Incorrect Categorization&quot;),
+    NOT(INCLUDES(Ebot_Feedback__c, &quot;Incorrect Categorization&quot;))
+)</errorConditionFormula>
+    <errorMessage>Incorrect Categorization cannot be removed as case categorization is done on this case.</errorMessage>
+</ValidationRule>

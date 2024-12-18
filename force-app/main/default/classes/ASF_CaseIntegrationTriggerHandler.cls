@@ -59,7 +59,7 @@ public without sharing class ASF_CaseIntegrationTriggerHandler extends ASF_VTrig
                 eBotNewItems.put(caseInteg.Id, caseInteg);
                 eBotOldItems.put(caseInteg.Id, oldItems.get(caseInteg.Id));
             }
-            else if(caseInteg.Type__c == 'CATEGORIZATION'){
+            else if(caseInteg.Type__c == 'CATEGORIZATION' || caseInteg.Type__c == 'EMAILRESPONSE' || caseInteg.Type__c == 'FEEDBACK'){
                 eBotNewItems.put(caseInteg.Id, caseInteg);
                 eBotOldItems.put(caseInteg.Id, oldItems.get(caseInteg.Id));
             }
