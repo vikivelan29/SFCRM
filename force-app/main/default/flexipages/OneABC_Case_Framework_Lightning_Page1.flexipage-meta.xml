@@ -1243,7 +1243,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>displayType</name>
-                    <value>Timer</value>
+                    <value>Date</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>primarySLA</name>
+                    <value>sla1</value>
                 </componentInstanceProperties>
                 <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
