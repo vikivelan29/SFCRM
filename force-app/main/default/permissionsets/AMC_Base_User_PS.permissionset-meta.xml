@@ -60,7 +60,7 @@
         <apexClass>ABFL_AccRecentCaseCommController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
+        <classAccesses>
         <apexClass>ABFL_Constants</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -70,6 +70,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ABFL_CreateCaseWithTypeControllerHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ABSLAMC_AUMAPIDetailsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4862,7 +4866,7 @@
         <field>Case.Line_Of_Business__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+        <fieldPermissions>
         <editable>false</editable>
         <field>Case.Masked_LAN__c</field>
         <readable>true</readable>
@@ -5322,7 +5326,7 @@
         <field>Case.typeSubTypeMismatch__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+<fieldPermissions>
         <editable>true</editable>
         <field>Case.Escalation_Comments__c</field>
         <readable>true</readable>
@@ -6607,7 +6611,7 @@
         <tab>standard-report</tab>
         <visibility>Visible</visibility>
     </tabSettings>
-    <tabSettings>
+<tabSettings>
         <tab>standard-dashboard</tab>
         <visibility>Visible</visibility>
     </tabSettings>
