@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-11-2024
+ * @last modified on  : 12-18-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
 public class ASF_CaseTriggerBUSpecificHandler {
@@ -180,6 +180,9 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 }
                 else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }
+                if(businessUnit == 'ONEABC'){
+                    ABCD_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
             }
         }
