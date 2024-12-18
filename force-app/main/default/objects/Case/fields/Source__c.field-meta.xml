@@ -762,6 +762,31 @@
                 <default>false</default>
                 <label>Seller_Portal</label>
             </value>
+            <value>
+                <fullName>Social</fullName>
+                <default>false</default>
+                <label>Social</label>
+            </value>
+            <value>
+                <fullName>Operations &amp; Servicing</fullName>
+                <default>false</default>
+                <label>Operations &amp; Servicing</label>
+            </value>
+            <value>
+                <fullName>GRO</fullName>
+                <default>false</default>
+                <label>GRO</label>
+            </value>
+            <value>
+                <fullName>Chat</fullName>
+                <default>false</default>
+                <label>Chat</label>
+            </value>
+            <value>
+                <fullName>Branch Servicing</fullName>
+                <default>false</default>
+                <label>Branch Servicing</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

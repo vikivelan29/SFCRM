@@ -1,7 +1,7 @@
 import { LightningElement,api } from 'lwc';
 const columns = [
                     {
-                        fieldName: '',
+                        fieldName: 'applicationNumber',
                         label: 'Application Number',
                         type: 'text'
                     },
@@ -21,27 +21,27 @@ const columns = [
                         type: 'text'
                     },
                     {
-                        fieldName: '',
+                        fieldName: 'policyMaturityDate',
                         label: 'Policy Maturity Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
                         fieldName: 'issueDate',
                         label: 'Policy Issuance Date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
-                        fieldName: 'policyPremium',
+                        fieldName: 'premiumAmount',
                         label: 'Premium Amount',
                         type: 'currency'
                     },
@@ -56,7 +56,7 @@ const columns = [
                         type: 'currency'
                     },
                     {
-                        fieldName: '',
+                        fieldName: 'premiumMode',
                         label: 'Premium Mode',
                         type: 'text'
                     },
@@ -66,25 +66,26 @@ const columns = [
                         type: 'text'
                     },
                     {
-                        fieldName: '',
+                        fieldName: 'policyPlanName',
                         label: 'Policy Plan Name',
                         type: 'text'
                     },                    
                     {
-                        fieldName: '',
+                        fieldName: 'policyQuoteNumber',
                         label: 'Policy Quote Number',
                         type: 'text'
                     },
+                    /* Last Premium Payment Date not present from ABCD, and hence commenting.
                     {
                         fieldName: '',
                         label: 'Last Premium payment date',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
                         }
-                    },
+                    },*/
                     {
                         fieldName: 'annualPremium',
                         label: 'Annual Premium',
