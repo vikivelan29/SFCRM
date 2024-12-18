@@ -49,6 +49,7 @@ public without sharing class ASF_CaseTriggerModularHelper {
         for(Case caseRec : newList){
             system.debug('set flag--'+caseRec.Feature_Skipper_Flag__c);
             if(String.isNotBlank(caseRec.Feature_Skipper_Flag__c) 
+            if(String.isNotBlank(caseRec.Feature_Skipper_Flag__c) 
                && (oldMap == null || caseRec.Feature_Skipper_Flag__c != oldMap.get(caseRec.Id).Feature_Skipper_Flag__c)){
                    //if insert or the flag field is updated
                    Set<String> skippedItems = new Set<String>(caseRec.Feature_Skipper_Flag__c.split(';'));

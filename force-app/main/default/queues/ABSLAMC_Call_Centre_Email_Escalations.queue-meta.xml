@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Queue xmlns="http://soap.sforce.com/2006/04/metadata">
     <doesSendEmailToMembers>false</doesSendEmailToMembers>
+<<<<<<<< HEAD:force-app/main/default/queues/ABSLI_EMT_Tracking.queue-meta.xml
+    <name>ABSLI EMT-Tracking</name>
+========
     <name>ABSLAMC Call Centre Email Escalations</name>
     <queueMembers>
         <publicGroups>
@@ -8,6 +11,7 @@
         </publicGroups>
     </queueMembers>
     <queueRoutingConfig>cases_Routing_config</queueRoutingConfig>
+>>>>>>>> staging:force-app/main/default/queues/ABSLAMC_Call_Centre_Email_Escalations.queue-meta.xml
     <queueSobject>
         <sobjectType>Case</sobjectType>
     </queueSobject>

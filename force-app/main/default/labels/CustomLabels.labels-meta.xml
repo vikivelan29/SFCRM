@@ -111,7 +111,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABCL Integration UserName</shortDescription>
-        <value>ABCL AWS API User</value>
+        <value>ABFSGSFDC User</value>
     </labels>
     <labels>
         <fullName>ABCL_Integration_User_Nickname</fullName>

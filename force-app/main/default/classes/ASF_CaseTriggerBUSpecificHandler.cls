@@ -110,6 +110,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
             for(String businessUnit : mapOfBUToCases.keySet()){
                 if(businessUnit == 'ABFL'){
                     //ABFL_OwnerChangeWithLocation.updateSpocWrtLocation(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
+                    //ABFL_OwnerChangeWithLocation.updateSpocWrtLocation(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
                 }
                 else if(businessUnit =='ABSLI'){
                     ABSLI_BeforeUpdateTriggerLogic.executeBeforeLogic(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
