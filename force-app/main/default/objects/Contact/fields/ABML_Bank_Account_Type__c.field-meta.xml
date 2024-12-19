@@ -3,23 +3,9 @@
     <fullName>ABML_Bank_Account_Type__c</fullName>
     <externalId>false</externalId>
     <label>Bank Account Type</label>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <type>Picklist</type>
-    <valueSet>
-        <restricted>true</restricted>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>Savings</fullName>
-                <default>false</default>
-                <label>Savings</label>
-            </value>
-            <value>
-                <fullName>Current</fullName>
-                <default>false</default>
-                <label>Current</label>
-            </value>
-        </valueSetDefinition>
-    </valueSet>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

@@ -194,7 +194,7 @@
                 <componentName>asf_FetchAssetsRelatedToAccount</componentName>
                 <identifier>c_asf_FetchAssetsRelatedToAccount</identifier>
                 <visibilityRule>
-                    <booleanFilter>(1 OR 3) AND (2 OR 4)</booleanFilter>
+                    <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>NE</operator>
@@ -6436,7 +6436,7 @@
         <name>Facet-fp7kp04mpjr</name>
         <type>Facet</type>
     </flexiPageRegions>
-     <flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
