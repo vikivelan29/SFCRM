@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ABSLAMC_DataSyncUser_FederationId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC DataSyncUser FederationId</shortDescription>
+        <value>DataSyncUatFedId</value>
+    </labels>
+    <labels>
         <fullName>ABFL_Manual_Sync_Threshold</fullName>
         <categories>ABFL DMS</categories>
         <language>en_US</language>
