@@ -1022,6 +1022,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Line_Of_Business__c</picklist>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RE</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Nature__c</picklist>
         <values>
             <fullName>Complaint</fullName>
@@ -1105,7 +1124,7 @@
             <fullName>Wellness Email</fullName>
             <default>false</default>
         </values>
-		<values>
+		    <values>
             <fullName>ABML Email</fullName>
             <default>false</default>
         </values>
@@ -1250,6 +1269,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Complaint Withdrawn</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Counter offer%3A Medical Documents are required</fullName>
             <default>false</default>
         </values>
@@ -1271,6 +1294,10 @@
         </values>
         <values>
             <fullName>Customer Not Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Denied</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1454,6 +1481,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Interaction wrongly created</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Invalid information</fullName>
             <default>false</default>
         </values>
@@ -1498,6 +1529,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>No Action Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Others</fullName>
             <default>false</default>
         </values>
@@ -1511,6 +1546,10 @@
         </values>
         <values>
             <fullName>Partially Resolved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1582,6 +1621,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Resolution Provided</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reversal Processed</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SAT%3A the call was declined</fullName>
             <default>false</default>
         </values>
@@ -1598,7 +1645,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Pending Customer Confirmation%2Fdocumentation</fullName>
+            <fullName>Settled %26 Recovery not initiated</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1617,7 +1664,7 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <picklistValues>
+<picklistValues>
         <picklist>Source__c</picklist>
         <values>
             <fullName>Escalations</fullName>
@@ -1625,10 +1672,6 @@
         </values>
         <values>
             <fullName>Phone</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Web (Mobile App)</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1824,6 +1867,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Call Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Call- in</fullName>
             <default>false</default>
         </values>
@@ -1869,6 +1916,10 @@
         </values>
         <values>
             <fullName>Email- IRDAI Escalation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Escalations</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2036,6 +2087,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Phone - Branch</fullName>
             <default>false</default>
         </values>
@@ -2132,10 +2187,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Call Centre</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Digital</fullName>
             <default>false</default>
         </values>
@@ -2148,7 +2199,7 @@
             <default>false</default>
         </values>
 		<values>
-            <fullName>Others</fullName>
+            <fullName>Web %28Mobile App%29</fullName>
             <default>false</default>
         </values>
     </picklistValues>
