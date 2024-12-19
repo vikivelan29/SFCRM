@@ -51,7 +51,7 @@ const columns = [
                         type: 'text'
                     },
                     {
-                        fieldName: 'sumAssured',
+                        fieldName: 'sumInsured',
                         label: 'Insured Amount',
                         type: 'currency'
                     },

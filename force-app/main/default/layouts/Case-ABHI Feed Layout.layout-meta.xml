@@ -7,8 +7,7 @@
         <compactFeed>true</compactFeed>
         <feedFilterPosition>LeftFixed</feedFilterPosition>
         <feedFilters>
-            <feedFilterName>Case.All</feedFilterName>
-            <feedFilterType>Custom</feedFilterType>
+            <feedFilterType>AllUpdates</feedFilterType>
         </feedFilters>
         <feedFilters>
             <feedFilterType>FeedItemType</feedFilterType>
@@ -17,6 +16,10 @@
         <feedFilters>
             <feedFilterName>Case.Posts</feedFilterName>
             <feedFilterType>Custom</feedFilterType>
+        </feedFilters>
+        <feedFilters>
+            <feedFilterType>FeedItemType</feedFilterType>
+            <feedItemType>CallLogPost</feedItemType>
         </feedFilters>
         <fullWidthFeed>true</fullWidthFeed>
         <hideSidebar>true</hideSidebar>
@@ -433,6 +436,10 @@
                 <behavior>Edit</behavior>
                 <field>Closure_reason__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Latest_Notes__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
@@ -532,7 +539,26 @@
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
         </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Case.SocialPublisher</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>3</sortOrder>
+        </platformActionListItems>
     </platformActionList>
+    <quickActionList>
+        <quickActionListItems>
+            <quickActionName>FeedItem.TextPost</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>Case.SendEmail</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>LogACall</quickActionName>
+        </quickActionListItems>
+        <quickActionListItems>
+            <quickActionName>Case.SocialPublisher</quickActionName>
+        </quickActionListItems>
+    </quickActionList>
     <relatedContent>
         <relatedContentItems>
             <layoutItem>
