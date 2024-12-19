@@ -140,18 +140,12 @@
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Send_Canned_Email</value>
+                            <value>Case.Customer_Tagging</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
-                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <leftValue>{!Record.CCC_External_Id__c}</leftValue>
                                     <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Activity__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
+                                    <rightValue>ONEABC_Sprinklr_01</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -2130,7 +2124,7 @@
                 <componentName>force:relatedListSingleContainer</componentName>
                 <identifier>force_relatedListSingleContainer</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7</booleanFilter>
+                    <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -2165,6 +2159,11 @@
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>ABSLAMC</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ONEABC</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
