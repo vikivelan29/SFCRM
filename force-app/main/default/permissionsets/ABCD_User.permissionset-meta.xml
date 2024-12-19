@@ -228,6 +228,11 @@
         <field>Lead.SFLMS_Status_Change_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.Product_Category__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABCD User</label>
     <license>Salesforce</license>
