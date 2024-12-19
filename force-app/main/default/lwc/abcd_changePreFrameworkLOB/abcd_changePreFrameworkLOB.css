@@ -1,0 +1,48 @@
+/* Remove top padding for the first and second layout items */
+.search-container .slds-form-element__control,
+.table-container {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+
+.title-container {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.title-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #16325c; 
+}
+
+
+.search-label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #5e5e5e;
+}
+
+.search-input {
+    border: 2px solid #1589ee; 
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 0.9rem;
+}
+
+.table-container {
+    height: 380px;
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+    background-color: #f3f2f2;
+    border-top: 1px solid #d8dde6;
+}
