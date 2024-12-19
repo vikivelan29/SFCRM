@@ -3,7 +3,7 @@
   @author            : rsinghnagar@salesforce.com
   @group             : 
   @last modified on  : 12-02-2024
-  @last modified by  : rsinghnagar@salesforce.com
+  @last modified by  : rsinghnagar@salesforce.com 
   Modifications Log
   Ver   Date         Author                       Modification
   1.0   08-16-2024   rsinghnagar@salesforce.com   Initial Version
@@ -94,7 +94,7 @@
                             </div>
                             <div class="slds-col slds-size_2-of-8">
                                 <template if:true={showAniNumber}>
-                                    <lightning-input class="validate" type="text" label="ANI Number" value={aniNumber} onchange={handleAniNumber} pattern="[0-9]*" required ></lightning-input>
+                                    <lightning-input class="validate" type="text" label="ANI Number" value={aniNumber} onchange={handleAniNumber} pattern="[0-9]*" required={aniRequired}></lightning-input>
                                 </template>
                             </div>
                             <div class="slds-col slds-size_2-of-8">
