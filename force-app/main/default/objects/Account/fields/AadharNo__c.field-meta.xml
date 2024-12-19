@@ -3,10 +3,11 @@
     <fullName>AadharNo__c</fullName>
     <description>Used for Wellness</description>
     <externalId>false</externalId>
-    <label>Aadhar No</label>
+    <label>ID Number</label>
     <length>20</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

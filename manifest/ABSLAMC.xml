@@ -122,6 +122,11 @@
         <members>ASF_CreateFTRCaseTest</members>
         <members>ABCL_CaseDuplicateCheck</members>
         <members>ASF_AssocCustomerForAPICases</members>
+        <members>ABSLAMC_OmniSerResSchedulerTest</members>
+		<members>ABSLAMC_OmniServResBatchScheduler</members>
+        <members>ASF_Email2CaseHandler</members>
+		<members>ASF_Email2CaseHandler_Test</members>
+		
 		<name>ApexClass</name>
     </types>
 
@@ -1913,6 +1918,7 @@
         <members>Survey_Response__c.Journey__c</members>
         <members>Account.Handle_With_Care_Indicator__c</members>
         <members>Case.Escalation_Comments__c</members>
+        <members>ASF_PriorityEmailAddressesByBU__mdt.Case_LOB__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -1983,6 +1989,7 @@
     <members>ASF_BUs_Eligible_For_IDAM_Processing</members>
     <members>ABSLAMC_LegacyPageSize</members>
 	<members>ABSLAMC_Case_Dedupe_Active</members>
+    <members>ABSLAMC_DataSyncUser_FederationId</members>
     <name>CustomLabel</name>
 	</types>
 
@@ -3819,6 +3826,7 @@
 <members>ASF_Checklist__c.ABSLAMC_AIF_Checklist_Share_to_AIF_Users</members>
 <members>ASF_Checklist__c.ABSLAMC_PMS_Checklist_Share_to_PMS_Users</members>
 <members>ASF_Checklist__c.ABSLAMC_RE_Checklist_Share_to_RE_Users</members>
+<members>Case.AMC_PHD_Sharing_Rule</members>
         <name>SharingCriteriaRule</name>
     </types>
 

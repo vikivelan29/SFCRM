@@ -70,6 +70,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLAMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABSLI</fullName>
             <default>false</default>
         </values>
@@ -85,8 +89,8 @@
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
-    <values>
-            <fullName>ABSLAMC</fullName>
+        <values>
+            <fullName>Wellness</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1073,6 +1077,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Line_Of_Business__c</picklist>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RE</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Nature__c</picklist>
         <values>
             <fullName>Complaint</fullName>
@@ -1152,6 +1175,10 @@
             <fullName>Web</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Wellness Email</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Priority</picklist>
@@ -1208,7 +1235,7 @@
     </picklistValues>
     <picklistValues>
         <picklist>Rejection_Reason__c</picklist>
-        <values>
+                <values>
             <fullName>Cancelled</fullName>
             <default>false</default>
         </values>
@@ -1220,12 +1247,32 @@
             <fullName>Complaint Rejected</fullName>
             <default>false</default>
         </values>
-        <values>
+                <values>
             <fullName>Customer Non Contactable</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Customer Not Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect Customer tagging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incorrect SubType tagging</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insufficient incomplete details from customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insufficient%2FIncomplete details from Ops%2FCustomer</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1241,6 +1288,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Out-of-Scope Request</fullName>
             <default>false</default>
         </values>
@@ -1253,17 +1304,9 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Insufficient%2FIncomplete details from Ops%2FCustomer</fullName>
+            <fullName>Rejected</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Incorrect Customer tagging</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incorrect SubType tagging</fullName>
-            <default>false</default>
-        </values> 
     </picklistValues>
     <picklistValues>
         <picklist>Reopen_Style__c</picklist>
@@ -1339,6 +1382,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Call Centre</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Call- in</fullName>
             <default>false</default>
         </values>
@@ -1384,6 +1431,10 @@
         </values>
         <values>
             <fullName>Email- IRDAI Escalation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Escalations</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1543,6 +1594,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Phone - Branch</fullName>
             <default>false</default>
         </values>
@@ -1639,10 +1694,10 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Escalations</fullName>
+            <fullName>Web %28Mobile App%29</fullName>
             <default>false</default>
         </values>
-     </picklistValues>
+    </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>
         <values>

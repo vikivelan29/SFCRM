@@ -85,6 +85,11 @@
         <default>false</default>
         <label>RE</label>
     </customValue>
+    <customValue>
+        <fullName>Wellness</fullName>
+        <default>false</default>
+        <label>Wellness</label>
+    </customValue>
     <masterLabel>LOB</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>
