@@ -71,7 +71,7 @@ const columns = [
                         type: 'text'
                     },
                     {
-                        fieldName: '',
+                        fieldName: 'lastPremiumPaymentDate',
                         label: 'Last Premium payment date',
                         type: 'text',
                         /*typeAttributes: {
