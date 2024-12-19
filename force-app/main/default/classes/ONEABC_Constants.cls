@@ -16,5 +16,8 @@ public without sharing class ONEABC_Constants {
         'lastLoyaltyCreditPoints'=>'Last Loyalty Credit Points','lastLoyaltyCreditTransaction'=>'Last Loyalty Credit Transaction',
         'lastLoyaltyCreditDate'=>'Last Loyalty Credit Date','lastScanDate'=>'Last Scan Date','dheDataId'=>'DHE Data Id','lastdownloadDate'=>'Last Download Date',
         'customerId'=>'Customer Id'};
+    public static string REQUEST_NATURE = 'Request'; 
+    public static string COMPLAINT_NATURE = 'Complaint';
+    public static string ONEABC_BU = 'ONEABC';
 
 }

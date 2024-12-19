@@ -90,7 +90,7 @@
                         <valueListItems>
                             <value>Case.ReCategorize</value>
                             <visibilityRule>
-                                <booleanFilter>1 OR 2 OR 3</booleanFilter>
+                                <booleanFilter>1 AND 2 AND (3 OR 4)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.AmIOwner__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -102,8 +102,14 @@
                                     <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
+                                    <leftValue>{!Record.CCC_External_Id__c}</leftValue>
                                     <operator>EQUAL</operator>
+                                    <rightValue>ONEABC_Sprinklr_01</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.CCC_External_Id__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ABCD_Sprinklr_01</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -134,46 +140,16 @@
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>Case.Reopen</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Nature__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Complaint</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Is_Reopen_Allowed__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
                             <value>Case.Send_Canned_Email</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Customer_Tagging</value>
-                            <visibilityRule>
-                                <booleanFilter>1 OR 2 OR 3</booleanFilter>
                                 <criteria>
-                                    <leftValue>{!Record.IRDAI_Token_Number__c}</leftValue>
-                                    <operator>NE</operator>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Stage__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>In Progress with SA</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.AmIOwner__c}</leftValue>
+                                    <leftValue>{!Record.Activity__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
                                 </criteria>
@@ -1267,7 +1243,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>displayType</name>
-                    <value>Timer</value>
+                    <value>Date</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>primarySLA</name>
+                    <value>sla1</value>
                 </componentInstanceProperties>
                 <componentName>aSF_caseClosureandMilestonePath</componentName>
                 <identifier>c_aSF_caseClosureandMilestonePath</identifier>
