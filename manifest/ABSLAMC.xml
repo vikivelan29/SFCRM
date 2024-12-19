@@ -1989,6 +1989,7 @@
     <members>ASF_BUs_Eligible_For_IDAM_Processing</members>
     <members>ABSLAMC_LegacyPageSize</members>
 	<members>ABSLAMC_Case_Dedupe_Active</members>
+    <members>ABSLAMC_DataSyncUser_FederationId</members>
     <name>CustomLabel</name>
 	</types>
 
