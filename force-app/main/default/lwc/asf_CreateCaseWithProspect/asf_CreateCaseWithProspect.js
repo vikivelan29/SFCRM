@@ -38,6 +38,7 @@ import PROSPECT_BUSINESS_UNIT from '@salesforce/schema/Lead.Business_Unit__c';
 import { lanLabels } from 'c/asf_ConstantUtility';
 import ABSLI_Track_Sources from '@salesforce/label/c.ABSLI_Track_Sources';
 import ABHI_Track_Sources from '@salesforce/label/c.ABHI_Track_Sources';
+import ABCD_TrackId_Source from '@salesforce/label/c.ABCD_TrackId_Source';
 import ANI_NUMBER from '@salesforce/schema/Case.ANI_Number__c';
 import BSLI_ISSUE_TYPE from '@salesforce/schema/Case.Issue_Type__c';
 import BSLI_CATEGORY_TYPE from '@salesforce/schema/ABSLI_Case_Detail__c.Complaint_Category__c';
@@ -105,6 +106,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     cols;
     //oneabc
     selectedCccBu = '';
+    aniRequired = true;
     dupeLeadCols = [
         { label: 'Name', fieldName: 'redirectLink', type: 'url', typeAttributes: { label: { fieldName: 'Name' } } },
         { label: 'Email', fieldName: 'Email', type: 'text' },
@@ -286,13 +288,18 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
+        if(this.loggedInUserBusinessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
+            this.aniRequired = false;
+            this.isPhoneInbound = true;
+            this.showAniNumber = true;
+        }
         if((selected) && this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
             this.isPhoneInbound = true;
         }
         let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
             if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
-                this.isPhoneInbound = true;
-                this.showAniNumber = true;
+            this.isPhoneInbound = true;
+            this.showAniNumber = true;
         }
         if((selected) && selected.Allowed_Issue_Types__c && this.loggedInUserBusinessUnit === ABSLI_BU){
             
@@ -381,7 +388,7 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         inputFields.forEach(inputField => {
             //if (inputField.value != null && inputField.value != undefined) {
 
-            if (inputField.required == true) {
+            if (inputField.required == true) { 
                 if (inputField.value != null && inputField != undefined) {
                     if (inputField.value.trim() == '') {
                         inputField.value = '';
@@ -405,10 +412,12 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
                     isValid = false;
                 }
                 else if(inputField.value != null && inputField.value != undefined){
-                    if(inputField.value.trim() == ''){
-                        inputField.value = '';
-                        inputField.reportValidity();
-                        isValid = false;
+                    if(inputField.label != 'ANI Number' && this.aniRequired != true){
+                        if(inputField.value.trim() == ''){
+                            inputField.value = '';
+                            inputField.reportValidity();
+                            isValid = false;
+                        }
                     }
                 }
             });
@@ -649,6 +658,11 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             }
             if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
                 this.isPhoneInbound = true;
+            }
+            if(this.loggedInUserBusinessUnit === ABCD_BU && this.sourceFldValue.trim() === ABCD_TrackId_Source){
+                this.aniRequired = false;
+                this.isPhoneInbound = true;
+                this.showAniNumber = true;
             }
         }
         //code added by sunil - 03/09/2024

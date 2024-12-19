@@ -4,7 +4,7 @@
     <assignments>
         <name>Customer_Record</name>
         <label>Customer Record</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>customerRecord</assignToReference>
@@ -14,35 +14,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>BU_Specific_Flow</targetReference>
+            <targetReference>Running_User_Business_Unit</targetReference>
         </connector>
     </assignments>
     <decisions>
-        <name>BU_Specific_Flow</name>
-        <label>BU Specific Flow</label>
-        <locationX>50</locationX>
-        <locationY>458</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>ABSLI</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Account_Record.Business_Unit__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>ABSLI</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>ABSLI_Lead_Flow</targetReference>
-            </connector>
-            <label>ABSLI</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>RecordId_Not_Null</name>
         <label>RecordId</label>
-        <locationX>270</locationX>
+        <locationX>314</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>Running_User_Business_Unit</targetReference>
@@ -67,8 +45,8 @@
     <decisions>
         <name>Running_User_Business_Unit</name>
         <label>Running User Business Unit</label>
-        <locationX>490</locationX>
-        <locationY>242</locationY>
+        <locationX>314</locationX>
+        <locationY>542</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>ABSLI_RU_BU</name>
@@ -81,9 +59,24 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>ABSLI_Lead_Flow</targetReference>
+                <targetReference>ABSLI_Lead_Creation_Flow</targetReference>
             </connector>
             <label>ABSLI</label>
+        </rules>
+        <rules>
+            <name>ABCD_BU</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$User.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABCD</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ABCD_Lead_Creation_Flow</targetReference>
+            </connector>
+            <label>ABCD</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -111,7 +104,7 @@
     <recordLookups>
         <name>Get_Account_Record</name>
         <label>Get Account Record</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -130,7 +123,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>144</locationX>
+        <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>RecordId_Not_Null</targetReference>
@@ -138,10 +131,29 @@
     </start>
     <status>Active</status>
     <subflows>
-        <name>ABSLI_Lead_Flow</name>
-        <label>ABSLI Lead Flow</label>
-        <locationX>270</locationX>
-        <locationY>842</locationY>
+        <name>ABCD_Lead_Creation_Flow</name>
+        <label>ABCD Lead Creation Flow</label>
+        <locationX>314</locationX>
+        <locationY>650</locationY>
+        <flowName>ABCD_Lead_Creation_Flow</flowName>
+        <inputAssignments>
+            <name>customerRecord</name>
+            <value>
+                <elementReference>customerRecord</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>ABSLI_Lead_Creation_Flow</name>
+        <label>ABSLI Lead Creation Flow</label>
+        <locationX>50</locationX>
+        <locationY>650</locationY>
         <flowName>ABSLI_Lead_Creation_Flow</flowName>
         <inputAssignments>
             <name>customerRecord</name>
