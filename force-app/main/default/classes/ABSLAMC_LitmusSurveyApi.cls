@@ -31,7 +31,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         retriving the case whose status is not 
     *****************************************************************************************************************/
 
-    public boolean isAllCasesClosedFallBack(String caseId, String accountId){
+    public boolean isAllCasesClosed(String caseId, String accountId){
         List<Account> accountWithCases = [SELECT id, 
                                         (SELECT id, CaseNumber, Status,CCC_External_Id__c, Source__c
                                         FROM Cases 
@@ -330,10 +330,6 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationWrapperMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
         List<Case> newList = new List<Case>();
         Set<Id> userIds = new Set<Id>();
-        Set<Id> accountIds = new Set<Id>();
-        Set<String> cccExternalIds = new Set<String>();
-        Set<Id> caseIds = new Set<Id>();
-
         for(Case cs : caseRecs){
             userIds.add(cs.CreatedById);
         }
@@ -344,23 +340,8 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
         for(Case cs : caseRecs){
             if(!(cs.OnCreateCloseSR__c == true && String.isNotBlank(userMap.get(cs.CreatedById).FederationIdentifier) && userMap.get(cs.CreatedById).FederationIdentifier == dataSyncUsrFedId)){
                 newList.add(cs);
-                if(cs.AccountId!= null){
-                    accountIds.add(cs.AccountId);
-                    
-                }
-                if(cs.CCC_External_Id__c!= null){
-                    cccExternalIds.add(cs.CCC_External_Id__c);
-                }
-                if(cs.Id!= null){
-                    caseIds.add(cs.Id);
-                }
             }
         }
-
-        getRelatedAccounts(accountIds);
-        getCCCMapHelper(cccExternalIds);
-        getCaseMapHelper(caseIds);
-
         for(case cs : newList){
             integrationWrapperMap.put(cs.Id,evaluate(cs));   
         }
