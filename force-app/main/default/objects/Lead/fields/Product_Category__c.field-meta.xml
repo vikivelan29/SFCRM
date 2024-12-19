@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Product Category</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Function__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Business Loan</fullName>
+                <default>false</default>
+                <label>Business Loan</label>
+            </value>
+            <value>
+                <fullName>Personal Loan</fullName>
+                <default>false</default>
+                <label>Personal Loan</label>
+            </value>
+            <value>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+                <label>Credit Card</label>
+            </value>
+            <value>
+                <fullName>Loan Against property</fullName>
+                <default>false</default>
+                <label>Loan Against property</label>
+            </value>
+            <value>
+                <fullName>Commercial property</fullName>
+                <default>false</default>
+                <label>Commercial property</label>
+            </value>
+            <value>
+                <fullName>Home improvement/ Home Construction</fullName>
+                <default>false</default>
+                <label>Home improvement/ Home Construction</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>ABFL</controllingFieldValue>
+            <valueName>Business Loan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABFL</controllingFieldValue>
+            <valueName>Personal Loan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABFL</controllingFieldValue>
+            <valueName>Credit Card</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABHFL</controllingFieldValue>
+            <valueName>Loan Against property</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABHFL</controllingFieldValue>
+            <valueName>Commercial property</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABHFL</controllingFieldValue>
+            <valueName>Home improvement/ Home Construction</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>
