@@ -2131,6 +2131,30 @@
             <fullName>Branch walk in</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Seller_Portal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GRO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch Servicing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operations %26 Servicing</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Stage__c</picklist>

@@ -340,7 +340,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
 
     get displayRejectionReason(){
-        return this.showRejetedReason && (this.businessUnit != ABSLI_BU || (this.selectedCccBu && this.selectedCccBu != ABSLI_BU));
+        return this.showRejetedReason && this.businessUnit != ABSLI_BU;
     }
 
 
@@ -509,13 +509,13 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         (this.businessUnit != ABSLI_BU && this.businessUnit != ABSLIG_BU && this.businessUnit != ABCD_BU && this.businessUnit != ABHI_BU)){
             this.showAutoComm = true;
         }
-        if((selected) && (this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU) && selected.Nature__c === 'Complaint'){
+        if((selected) && this.businessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
         }
-        if(selected && (this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU) && !this.isCloseWithoutCRNFlow && selected.Show_FTR_Flag_on_Creation__c){
+        if(selected && this.businessUnit === ABSLI_BU && !this.isCloseWithoutCRNFlow && selected.Show_FTR_Flag_on_Creation__c){
             this.showFtr = true;
         }
-        if((selected) && selected.Allowed_Issue_Types__c && (this.businessUnit === ABSLI_BU || this.selectedCccBu === ABSLI_BU)){
+        if((selected) && selected.Allowed_Issue_Types__c && this.businessUnit === ABSLI_BU){
             if(!selected.Allowed_Issue_Types__c.includes(';')){
                 this.issueTypeOptions = [{label: selected.Allowed_Issue_Types__c, value: selected.Allowed_Issue_Types__c }];
             }else{
@@ -865,7 +865,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     }
     saveRejection(event) {
         console.log('this.rejectedDetails.length' + this.rejectedDetails.length);
-        if (this.rejectedDetails.length == 0 && (this.businessUnit != ABSLI_BU || this.selectedCccBu != ABSLI_BU) && this.optionalResComment) {//Added for ABSLAMC Bug195, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
+        if (this.rejectedDetails.length == 0 && this.businessUnit != ABSLI_BU && this.optionalResComment) {//Added for ABSLAMC Bug195, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -873,7 +873,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                     variant: 'Error',
                 }),
             );
-        } else if (this.selectedReason == '' && (this.businessUnit != ABSLI_BU || this.selectedCccBu != ABSLI_BU)) {
+        } else if (this.selectedReason == '' && this.businessUnit != ABSLI_BU) {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',

@@ -39,6 +39,9 @@ public class ABSLI_ReinstatementIntegration_Test {
         detailRec.State__c = 'MH';
         detailRec.Pincode__c = '400010';
         detailRec.COI_Signed_Date__c = Date.today();
+        detailRec.COI_Covid_Quest__c = 'test';
+        detailRec.Reinstatement_Amount__c = 500;
+        detailRec.PX_Response__c = 'clean';
 		insert detailRec;
         
         List<Case> caseRecList = ASF_TestDataFactory.createCaseRecords(1);
@@ -52,6 +55,9 @@ public class ABSLI_ReinstatementIntegration_Test {
         update caseRecList[0];
         
         ASF_TestDataFactory.createCaseIntegration(caseRecList[0].Id, 'PNFT007');
+        
+        ASF_Checklist__c chk1 = new ASF_Checklist__c(Case__c = caseRecList[0].Id, Status__c ='Completed', Label__c= 'New Ceck Label');
+        insert chk1;
     }
     
     @IsTest
@@ -64,7 +70,7 @@ public class ABSLI_ReinstatementIntegration_Test {
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulEvaluate = reInt.evaluate(caseRecord);
-        System.assertEquals('Error', successfulEvaluate.status);
+        System.assertEquals('Success', successfulEvaluate.status);
         Test.stopTest();
     }
     
@@ -81,6 +87,7 @@ public class ABSLI_ReinstatementIntegration_Test {
         ASF_IntegrationsController.queriedCasesForIntegration = new Map<Id, Case>{ caseRecord.Id => caseRecord };
         Test.startTest();
         ASF_IntegrationsController.IntegrationWrapper successfulRun = reInt.run(integ,caseRecord);
+        
         System.assertEquals('Success', successfulRun.status);
         Test.stopTest();
     }
