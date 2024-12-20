@@ -14,5 +14,5 @@
   )
 )</errorConditionFormula>
     <errorDisplayField>International_Contact_Number__c</errorDisplayField>
-    <errorMessage>Incorrect Contact Number</errorMessage>
+    <errorMessage>International Contact Number must be valid 15 digit</errorMessage>
 </ValidationRule>
