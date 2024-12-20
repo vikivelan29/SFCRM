@@ -287,7 +287,8 @@
             <value>
                 <fullName>MAULISANKUL#AHMEDNAGAR</fullName>
                 <default>false</default>
-                <label>MAULI SANKUL # AHMEDNAGAR</label>
+                <isActive>false</isActive>
+                <label>MAULISANKUL#AHMEDNAGAR</label>
             </value>
             <value>
                 <fullName>NA</fullName>
