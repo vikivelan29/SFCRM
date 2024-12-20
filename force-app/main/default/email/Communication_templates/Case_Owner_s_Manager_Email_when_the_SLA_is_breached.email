@@ -7,6 +7,7 @@ Case Nature: {!Case.Nature__c}<br/>
 Case Type : {!Case.Type_Text__c}<br/>
 Created Date/Time: {!Case.CreatedDate}<br/>
 Created By: {!Case.CreatedBy}<br/>
+Overall Case Closure SLA: {!Case.Overall_Case_Closure_SLA__c}<br/>
 =============================================================================<br/>
 Case Assignment Details<br/>
 =============================================================================<br/>

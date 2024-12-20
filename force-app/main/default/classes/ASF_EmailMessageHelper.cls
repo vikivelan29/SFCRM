@@ -153,7 +153,7 @@ public without sharing class ASF_EmailMessageHelper {
                               }else{
                                   // else create new case and reparent EmailMessage
                                   Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
-                                  String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
+                                   String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
                                    newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
                                    if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
                                        ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
@@ -236,7 +236,15 @@ public without sharing class ASF_EmailMessageHelper {
             newCase.OwnerId = mQueueDevNameVsId.get(queueDevNameToEmail.get(caseIdToEmailMessageMap.get(closedCase.Id).Winning_Email__c));
         }
         newCase.Subject = caseIdToEmailMessageMap.get(closedCase.Id).Subject;
-        newCase.Description = caseIdToEmailMessageMap.get(closedCase.Id).TextBody;
+       //Added by EY - Start
+        string emailBody = caseIdToEmailMessageMap.get(closedCase.Id).TextBody;
+        if(emailBody.length() >= 32000){
+            newCase.Description = emailBody.substring(0,31999);
+        }
+        else{
+            newCase.Description = emailBody;
+        }
+        //Added by EY - End
         newCase.AccountId = closedCase.AccountId;
         newCase.ContactId = closedCase.ContactId;
         newCase.Origin = closedCase.Origin;
@@ -246,16 +254,16 @@ public without sharing class ASF_EmailMessageHelper {
         newCase.SuppliedName = closedCase.SuppliedName;
         //newCase.Business_Unit__c = closedCase.Business_Unit__c;
         return newCase;
-    }  
-
+    }   
+    
     private static boolean buSpecificReopenCheck(Case caseRec){
         boolean returnVal = caseRec.Is_Reopen_Allowed__c; // default value
-
-        if((caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint')){
+        
+        if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint'){
             return false;
         }
         return returnVal;
-
+        
     }
     
 }

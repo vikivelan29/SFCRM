@@ -37,7 +37,8 @@ public class ABSLI_QuickKillController_Test {
         	Contact testContact = new Contact(
             	LastName = 'Test Contact',
             	AccountId = testAccount.Id,
-            	MobilePhone = '1234567890'
+            	MobilePhone = '1234567890',
+                Email = 'test@test.com.invalid'
         	);
         	insert testContact;
             
@@ -70,6 +71,7 @@ public class ABSLI_QuickKillController_Test {
             cLog.Policy_No__c = asset1.Name;
             cLog.LOB__c = 'ABSLI';
             cLog.Encrypted_URL__c = 'http://bit.ly/mockurl';
+            cLog.Email_template_Name__c = 'ABSLI_Non_Retention_Template_Quick_Kill';
             insert cLog;
             System.debug('record Inserted...'+cLog.Id);
 		}
@@ -103,7 +105,8 @@ public class ABSLI_QuickKillController_Test {
         ABSLI_QuickKillController.generateBitlyLink(log.Id,'ADDRU');
         ABSLI_QuickKillController.generateLink('ADDRU',testAccount.Id,testAsset.Id);
         ABSLI_QuickKillController.sendCommunication(log.Id,'text','123456');
-        ABSLI_QuickKillController.deleteDraftLogs(log.Id);
+        ASF_AccountCommPETriggerHelper.responseWrapper cls = new ASF_AccountCommPETriggerHelper.responseWrapper('lId','st','msg','comId','body');
+        //ABSLI_QuickKillController.deleteDraftLogs(log.Id);
         ABSLI_QuickKillController.getPolicyColumns();
         ABSLI_QuickKillController.getAllRelatedAssets(testAccount.Id);
         //ABSLI_QuickKillController.getTemplateBody(null,'ADDRU');
@@ -111,6 +114,29 @@ public class ABSLI_QuickKillController_Test {
         Test.stopTest();
         
 	}
+    @isTest
+    static void testSendCommunicationDeletion() {
+        // Query the test account and branch created in the test setup
+        Account testAccount = [SELECT Id FROM Account WHERE Name = 'Test Account' LIMIT 1];
+        Asset testAsset = [SELECT Id FROM Asset LIMIT 1];
+        Contact testContact = [SELECT Id, MobilePhone FROM Contact WHERE AccountId = :testAccount.Id LIMIT 1];
+		EmailTemplate template = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'TestVf_un' LIMIT 1];
+        // Verify that the ASF_Communication_Log__c was created
+        ASF_Communication_Log__c[] logs = [SELECT Id, Account__c, Contact__c, Phone__c, Status__c FROM ASF_Communication_Log__c WHERE Account__c = :testAccount.Id];
+        System.assertEquals(1, logs.size(), 'One communication log should be created.');
+        ASF_Communication_Log__c log = logs[0];
+        System.assertEquals(testAccount.Id, log.Account__c, 'Account ID should match.');
+        System.assertEquals(testContact.Id, log.Contact__c, 'Contact ID should match.');
+        Test.setMock(HttpCalloutMock.class, new BitlyApiMock());
+        // Call the method and verify the results
+        Test.startTest();
+        ABSLI_QuickKillController.generateBitlyLink(log.Id,'ADDRU');
+        ABSLI_QuickKillController.generateLink('ADDRU',testAccount.Id,testAsset.Id);
+        ABSLI_QuickKillController.deleteDraftLogs(log.Id);
+        Test.stopTest();
+        
+	}
+    
     public class BitlyApiMock implements HttpCalloutMock {
     public HTTPResponse respond(HTTPRequest req) {
         // Create a fake response

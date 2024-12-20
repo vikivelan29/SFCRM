@@ -2,8 +2,7 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-09-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @last modified on  : 11-25-2024
 **/
 public class ASF_CaseMovementHelper {
     
@@ -295,8 +294,8 @@ public class ASF_CaseMovementHelper {
                             String nextStageName = nextStage.StageName__c;
                             //Update assignment, and other case fields
                             Case updatedCase = new Case(Id = caseId);
-                            updatedCase.Stage__c = nextStageName;
-                            updatedCase.Status = nextStage.Status_Mapping__c;  
+                            // updatedCase.Stage__c = nextStageName;
+                            // updatedCase.Status = nextStage.Status_Mapping__c;  
                             updatedCase.is_Manual_Approval__c = nextStage.Manual_Approval__c;
                             updatedCase.MoveToNext__c = false;
                             // If Before Apex Class Run returned any fields on Case, append the same
@@ -1371,7 +1370,8 @@ public class ASF_CaseMovementHelper {
             for(Case caseRec : casesFromBackward){
                 CaseAdditionalData resultWrapper = resultWrapperMap.get(caseRec.Id);
                 resultWrapper.slaCaseAndStageOverrideValues = slaCaseAndStageOverrideValues.get(caseRec.Id);
-                                resultWrapper.status = 'Success';
+                resultWrapper.allIntegrations = (caseIdToNextStageConfigMap.containsKey(caseRec.Id) && caseIdToNextStageConfigMap.get(caseRec.Id).Save_Data_On_Back__c) ? caseIdToNextStageConfigMap.get(caseRec.Id).ASF_Integrations__r:null;
+                resultWrapper.status = 'Success';
                 resultWrapperMap.put(caseRec.Id, resultWrapper);
         	}
         }

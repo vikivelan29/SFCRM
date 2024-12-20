@@ -37,7 +37,8 @@ import executeValidation from '@salesforce/apex/ASF_Case360ParaTamperingHelper.e
 import { NavigationMixin } from 'lightning/navigation';
 //import saveReassign from '@salesforce/apex/CaseProcessingHelper.performCaseAssignments';
 import asf_CaseEndStatus from '@salesforce/label/c.ASF_CaseEndStatuses';
-import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+// import getSrRejectReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getRejectionReasons';
+import getSrBUReasons from '@salesforce/apex/ASF_GetCaseRelatedDetails.getBUReasons';//PR1030924-224 - Zahed
 
 
 //Code optimization imports - Nov 2023 - Santanu
@@ -55,7 +56,9 @@ import { registerRefreshContainer, unregisterRefreshContainer, REFRESH_COMPLETE,
 import { setPicklistFieldValue, conditionalRenderingPicklist, renderingPicklistOnStageAdjustment, hideReadOnlyFields } from './searchPicklistController';
 //Virendra : Ends Here.
 import {BUSpecificCloseCasePopupHandler} from 'c/asf_Case360JSUtility';
-
+//Label added for PR1030924-43
+import UnresolvedCommentsNotReqBUs from '@salesforce/label/c.ABAMC_NonMandatoryUnresCommentsBUs';
+import ResolvedReasonsRequired from '@salesforce/label/c.ABC_ResolvedReasonsRequired';
 
 export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -201,11 +204,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     isReadOnly = false;
     selectedReason = '';
     reasonLOV = [];
+    
+    @track resolveReasonLOV = [];//PR1030924-224: ZAHED 
+    isLoading = true;//PR1030924-224: ZAHED 
     isOnComplaintReject = false;
     //RejMsg = Rejection_Warning;
     accessState;
     isReadOnly = false;
     selectedReason = '';
+    resolutionReason = '';
     isOnComplaintReject = false;
     //RejMsg = Rejection_Warning;
 
@@ -253,8 +260,34 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             { label: 'Close Unresolved', value: 'unresolved' }
         ];
     }
+
+    UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
+    isNoActionStage = false;
+    saveDataOnBack = false;
+    ResolvedReasonsRequired = ResolvedReasonsRequired;  
+
     get eligibleForBU(){
         return !(this.caseBusinessUnit == 'ABSLI');
+    }
+
+    get showResolvedReasons(){
+        const listOfBUs = this.ResolvedReasonsRequired.split(',');
+        if(listOfBUs.includes(this.caseBusinessUnit)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //added for PR1030924-43, checking if BU is ABSLAMC, then make the Unresolved remarks field non mandatory
+    get optionalResComment(){
+        const listOfBUs = this.UnresolvedCommentsNotReqBUs.split(',');
+        if(listOfBUs.includes(this.caseBusinessUnit)){
+            return false;
+        } else{
+            return true;
+        }
+        
     }
     get showRejectPanel() {
         return this.closureTypeSelected == 'unresolved';
@@ -335,7 +368,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
         // * User clicked on Edit Details button
         // * Case is not pending for approval
         return this.loadReady && this.userClickedEditDetails && !this.caseObj.IsClosed
-            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c;
+            && this.isCurrentUserOwner && !this.isPendingForApproval && !this.caseObj.Is_Approval_Pending__c && !this.isNoActionStage;
     }
 
     get displayBackButton() {
@@ -799,6 +832,9 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
             return;
         }
         this.loading = true;
+        if(this.saveDataOnBack){
+           this.saveDataOnBackStage();
+        }else{
             let caseRecord;
             caseRecord = Object.fromEntries([['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
             caseRecord['Stage__c'] = this.selectedStage;
@@ -809,6 +845,37 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                 caseRecord['Technical_Source__c'] = 'LWC';
             }
             this.saveCase(caseRecord);
+            }
+       
+    }
+
+    saveDataOnBackStage(){
+        //get case record as object from lightning-record-edit-form
+        let caseRecord;
+        let caseElement = this.template.querySelector('lightning-record-edit-form[data-id="caseEditForm"]');
+        if (caseElement) {
+            let inputFields = [...caseElement.querySelectorAll('lightning-input-field')];
+            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
+            caseRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseObj.Id], ['sobjectType', 'Case']]);
+            caseRecord['Stage__c'] = this.selectedStage;
+            caseRecord['Pending_Clarification__c'] = true;
+            caseRecord['moved_back__c'] = true;
+            caseRecord['Is_Manual_Moved__c'] = false;
+            if (this.caseObj.Technical_Source__c == 'API') {
+                caseRecord['Technical_Source__c'] = 'LWC';
+            }
+        }
+
+        //get case extn record as object from lightning-record-edit-form
+        let caseExtnRecord;
+        let caseExtnElement = this.template.querySelector('lightning-record-edit-form[data-id="caseRelObjEditForm"]');
+        if (caseExtnElement) {
+            let inputFields = [...caseExtnElement.querySelectorAll('lightning-input-field')];
+            let fieldsVar = inputFields.map((field) => [field.fieldName, field.value]);
+            caseExtnRecord = Object.fromEntries([...fieldsVar, ['Id', this.caseExtensionRecord.Id]]);
+            caseExtnRecord["sobjectType"] = caseExtnElement.objectApiName;
+        }
+        this.saveCaseWithExtension(caseRecord, caseExtnRecord);
     }
 
     saveManualCaseStage(event) {
@@ -865,6 +932,15 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
                             else {
                                 this.boolSaveReassignButton = false;
                             }
+                            if(this.stagesData[i].hasOwnProperty('No_Action_stage__c')
+                            && this.stagesData[i].No_Action_stage__c == true){
+                        console.log('inside hide actions')
+                        this.isNoActionStage = true;
+                        }
+                        if(this.stagesData[i].hasOwnProperty('Save_Data_On_Back__c')
+                            && this.stagesData[i].Save_Data_On_Back__c == true){
+                        this.saveDataOnBack = true;
+                        }
                         }
                     }
                 }
@@ -886,7 +962,7 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     handleClose(event) {
         this.fetchRejectionReason();
-
+        //this.showRejectModal();
         /* ADDED BELOW CODE TO SET RESOLUTION COMMENT FIELDS VALUE IF IT IS ALREADY POPULATED ON PARENT FORM BEFORE OPENING POP-UP */
         this.template.querySelectorAll('lightning-input-field').forEach(ele => {
             //Resolution_Remarks__c - ABHFL
@@ -2550,18 +2626,44 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
 
     showRejectModal() {
-        getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
-            result.forEach(reason => {
-                const optionVal = {
-                    label: reason,
-                    value: reason
-                };
-                this.reasonLOV.push(optionVal);
-            });
+        getSrBUReasons({ cccExternalId: this.cccExternalId }).then(result => {
+            this.processReasons(result); //PR1030924-224 - Zahed/Raj: Added method to unify response processing
             this.showRejModal = true;
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });
+    }
+
+    processReasons(records){
+        if(this.showResolvedReasons){           
+            records.forEach(item => {
+                if(item.Type__c == 'Reject'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.reasonLOV.push(optionVal);
+                }else if(item.Type__c == 'Resolve'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.resolveReasonLOV.push(optionVal);
+                }                   
+            });
+            this.isLoading=false;
+        }else{
+            this.reasonLOV = [];
+            records.forEach(item => {
+                if(item.Type__c != 'Resolve'){
+                    const optionVal = {
+                        label: item.Reason__c,
+                        value: item.Reason__c
+                    };
+                    this.reasonLOV.push(optionVal);
+                }                  
+            });
+        }
     }
 
     handleSuccessRejection(event) {
@@ -2626,15 +2728,8 @@ export default class Asf_Case360 extends NavigationMixin(LightningElement) {
     }
     //To get Rejection Reason:
     fetchRejectionReason() {
-        getSrRejectReasons({ cccExternalId: this.cccExternalId }).then(result => {
-            this.reasonLOV = [];
-            result.forEach(reason => {
-                const optionVal = {
-                    label: reason,
-                    value: reason
-                };
-                this.reasonLOV.push(optionVal);
-            });
+        getSrBUReasons({ cccExternalId: this.cccExternalId }).then(result => {
+            this.processReasons(result); //PR1030924-224 - Zahed/Raj: Added method to unify response processing
         }).catch(error => {
             console.log('Error: ' + JSON.stringify(error));
         });

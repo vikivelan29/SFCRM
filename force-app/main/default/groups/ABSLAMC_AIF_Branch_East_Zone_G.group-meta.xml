@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Group xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesIncludeBosses>true</doesIncludeBosses>
+<<<<<<<< HEAD:force-app/main/default/groups/ABSLI_Green_Channel_CE_Team_G.group-meta.xml
+    <name>ABSLI Green Channel CE Team (G)</name>
+========
+    <name>ABSLAMC AIF Branch_East Zone (G)</name>
+>>>>>>>> staging:force-app/main/default/groups/ABSLAMC_AIF_Branch_East_Zone_G.group-meta.xml
+</Group>

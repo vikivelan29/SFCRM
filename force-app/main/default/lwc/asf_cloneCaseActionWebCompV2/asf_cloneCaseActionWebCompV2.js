@@ -28,6 +28,10 @@ import { getRecord } from "lightning/uiRecordApi";
 
 import ACCOUNT_NAME from "@salesforce/schema/Case.Account.Id";
 import ASSET_NAME from "@salesforce/schema/Case.Asset.Id";
+import BUSINESS_UNIT from "@salesforce/schema/Case.Business_Unit__c";
+
+import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
+
 
 export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(LightningElement) {
     /* API variables */
@@ -55,9 +59,10 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
     handleChange(event) {
         this.newAssetSelected = event.detail.recordId;
         console.log(`Selected record: ${event.detail.recordId}`);
+        this.template.querySelector("lightning-record-picker").reportValidity();
     }
 
-    @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME,ASSET_NAME] })
+    @wire(getRecord, { recordId: "$recordId", fields: [ACCOUNT_NAME,ASSET_NAME, BUSINESS_UNIT] })
         wiredRecord({ error, data }) {
             if (error) {
                 let errMsg = reduceErrors(error);
@@ -70,8 +75,20 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             } 
             else if (data) {
                 console.log('data', JSON.stringify(data));
-                this.accountId = data.fields.Account.value.Id;
-                this.accountName = data.fields.Account.displayValue;
+                this.accountId = data.fields.Account?.value?.id;
+                this.accountName = data.fields.Account?.displayValue;
+                this.caseBusinessUnit = data.fields.Business_Unit__c.value;
+                if(this.caseBusinessUnit && this.caseBusinessUnit === ABSLAMC_BU){
+                    this.filter = {
+                        criteria: [
+                          {
+                            fieldPath: "AccountId",
+                            operator: "eq",
+                            value: this.accountId,
+                          },
+                        ],
+                      };
+                } else {
                 this.filter = {
                     criteria: [
                       {
@@ -81,6 +98,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                       },
                     ],
                   };
+                }
                 if(data.fields.Asset != undefined && data.fields.Asset.value != undefined ){
 
                     this.initialValue = data.fields.Asset.value.Id;
@@ -115,8 +133,8 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
         let fieldsToCopy = [];
         let clonedCaseRecord = {};
         let clonedCaseExtnRecords = {}; //Its a map of objectapiname to cloned record
-
-        if(!this.template.querySelector("lightning-record-picker").reportValidity()){
+        let isFAMandatory = false;
+        if(!this.template.querySelector('lightning-record-picker').reportValidity()){
             const event = new ShowToastEvent({
                 variant: 'error',
                 title: 'Error on asset selector',
@@ -164,7 +182,18 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
                 && specificFields.fieldList.length > 0) {
                 fieldsToCopy = [...fieldsToCopy, ...specificFields.fieldList];
             }
+            //checks whether folio is mandatory on CCC, throws error when user proceeds to cloning the case without selecting folio
+            isFAMandatory = specificFields.isFAMandatory;
+            if(isFAMandatory && (this.newAssetSelected == 'NA' || !this.newAssetSelected)){
+               let recpicker = this.template.querySelector('lightning-record-picker');
+               recpicker.setCustomValidity('Please select an asset');
+               recpicker.reportValidity();
+               recpicker.setCustomValidity('');
+               this.isLoading = false;
+               return;
+            }
             console.log(JSON.stringify(fieldsToCopy), fieldsToCopy.length);
+
 
             //fetch existing case with clonable fields with case extension objects
             let caseWrapper = await fetchCaseDetailsWithExtension({
@@ -229,7 +258,7 @@ export default class Asf_CloneCaseActionWebCompV2 extends NavigationMixin(Lightn
             const successevent = new ShowToastEvent({
                 variant: 'success',
                 title: 'Cloning successful',
-                message: 'Successfully cloned the SR!'
+                message: 'Successfully cloned the Case'
             });
             this.dispatchEvent(successevent);
 
