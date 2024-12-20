@@ -28,9 +28,9 @@
                 <label>Insufficient/incomplete details from customer</label>
             </value>
             <value>
-                <fullName>Other</fullName>
+                <fullName>Others</fullName>
                 <default>false</default>
-                <label>Other</label>
+                <label>Others</label>
             </value>
             <value>
                 <fullName>Pending Customer Confirmation/documentation</fullName>
@@ -58,14 +58,555 @@
                 <label>Complaint Rejected</label>
             </value>
             <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Additional information required</fullName>
+                <default>false</default>
+                <label>Additional information required</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
                 <fullName>Cancelled</fullName>
                 <default>false</default>
                 <label>Cancelled</label>
             </value>
             <value>
-                <fullName>Duplicate</fullName>
+                <fullName>Claim: we stand by our prior decision</fullName>
                 <default>false</default>
-                <label>Duplicate</label>
+                <label>Claim: we stand by our prior decision</label>
+            </value>
+            <value>
+                <fullName>Claim: we require additional documents</fullName>
+                <default>false</default>
+                <label>Claim: we require additional documents</label>
+            </value>
+            <value>
+                <fullName>Claim: the documents cannot be traced</fullName>
+                <default>false</default>
+                <label>Claim: the documents cannot be traced</label>
+            </value>
+            <value>
+                <fullName>Claim: we received incomplete documents</fullName>
+                <default>false</default>
+                <label>Claim: we received incomplete documents</label>
+            </value>
+            <value>
+                <fullName>Claim: proof of delivery is required</fullName>
+                <default>false</default>
+                <label>Claim: proof of delivery is required</label>
+            </value>
+            <value>
+                <fullName>Claim: an acknowledgment receipt is needed</fullName>
+                <default>false</default>
+                <label>Claim: an acknowledgment receipt is needed</label>
+            </value>
+            <value>
+                <fullName>Claim: the shared document is unclear</fullName>
+                <default>false</default>
+                <label>Claim: the shared document is unclear</label>
+            </value>
+            <value>
+                <fullName>Claim: the bills could not be found</fullName>
+                <default>false</default>
+                <label>Claim: the bills could not be found</label>
+            </value>
+            <value>
+                <fullName>Claim: mandatory claim documents are pending</fullName>
+                <default>false</default>
+                <label>Claim: mandatory claim documents are pending</label>
+            </value>
+            <value>
+                <fullName>Claim: we were unable to contact you</fullName>
+                <default>false</default>
+                <label>Claim: we were unable to contact you</label>
+            </value>
+            <value>
+                <fullName>Claim: email from the hospital cannot be traced</fullName>
+                <default>false</default>
+                <label>Claim: email from the hospital cannot be traced</label>
+            </value>
+            <value>
+                <fullName>Digital: the call went unanswered</fullName>
+                <default>false</default>
+                <label>Digital: the call went unanswered</label>
+            </value>
+            <value>
+                <fullName>Digital: the call was declined</fullName>
+                <default>false</default>
+                <label>Digital: the call was declined</label>
+            </value>
+            <value>
+                <fullName>Digital: we were unable to contact you</fullName>
+                <default>false</default>
+                <label>Digital: we were unable to contact you</label>
+            </value>
+            <value>
+                <fullName>Digital: your phone was switched off</fullName>
+                <default>false</default>
+                <label>Digital: your phone was switched off</label>
+            </value>
+            <value>
+                <fullName>Digital: the steps were added manually</fullName>
+                <default>false</default>
+                <label>Digital: the steps were added manually</label>
+            </value>
+            <value>
+                <fullName>Digital: insufficient steps were recorded</fullName>
+                <default>false</default>
+                <label>Digital: insufficient steps were recorded</label>
+            </value>
+            <value>
+                <fullName>Digital: Group Policies can&apos;t access the app</fullName>
+                <default>false</default>
+                <label>Digital: Group Policies can&apos;t access the app</label>
+            </value>
+            <value>
+                <fullName>Endorsement: we need a filled Proposal Form</fullName>
+                <default>false</default>
+                <label>Endorsement: we need a filled Proposal Form</label>
+            </value>
+            <value>
+                <fullName>Endorsement: a valid ID Proof is required</fullName>
+                <default>false</default>
+                <label>Endorsement: a valid ID Proof is required</label>
+            </value>
+            <value>
+                <fullName>Endorsement: a valid Age Proof is required</fullName>
+                <default>false</default>
+                <label>Endorsement: a valid Age Proof is required</label>
+            </value>
+            <value>
+                <fullName>Endorsement: valid documents are required</fullName>
+                <default>false</default>
+                <label>Endorsement: valid documents are required</label>
+            </value>
+            <value>
+                <fullName>Endorsement: we need additional documents</fullName>
+                <default>false</default>
+                <label>Endorsement: we need additional documents</label>
+            </value>
+            <value>
+                <fullName>Endorsement: we received incomplete documents</fullName>
+                <default>false</default>
+                <label>Endorsement: we received incomplete documents</label>
+            </value>
+            <value>
+                <fullName>Endorsement: an Address Proof is required</fullName>
+                <default>false</default>
+                <label>Endorsement: an Address Proof is required</label>
+            </value>
+            <value>
+                <fullName>Endorsement: the shared document is unclear</fullName>
+                <default>false</default>
+                <label>Endorsement: the shared document is unclear</label>
+            </value>
+            <value>
+                <fullName>Endorsement: an affidavit is required</fullName>
+                <default>false</default>
+                <label>Endorsement: an affidavit is required</label>
+            </value>
+            <value>
+                <fullName>Endorsement: the minimum age for adding a member is 5 yrs</fullName>
+                <default>false</default>
+                <label>Endorsement: the minimum age for adding a member is 5 yrs</label>
+            </value>
+            <value>
+                <fullName>Endorsement: it doesn&apos;t meet the policy T&amp;C&apos;s</fullName>
+                <default>false</default>
+                <label>Endorsement: it doesn&apos;t meet the policy T&amp;C&apos;s</label>
+            </value>
+            <value>
+                <fullName>Endorsement: we need a Proposal Form as per the plan</fullName>
+                <default>false</default>
+                <label>Endorsement: we need a Proposal Form as per the plan</label>
+            </value>
+            <value>
+                <fullName>Endorsement: the document needs a password</fullName>
+                <default>false</default>
+                <label>Endorsement: the document needs a password</label>
+            </value>
+            <value>
+                <fullName>Endorsement: your members consent is missing</fullName>
+                <default>false</default>
+                <label>Endorsement: your members consent is missing</label>
+            </value>
+            <value>
+                <fullName>Endorsement: your members consent is unclear</fullName>
+                <default>false</default>
+                <label>Endorsement: your members consent is unclear</label>
+            </value>
+            <value>
+                <fullName>Endorsement: the policy is no longer active</fullName>
+                <default>false</default>
+                <label>Endorsement: the policy is no longer active</label>
+            </value>
+            <value>
+                <fullName>Endorsement: the policy has been cancelled</fullName>
+                <default>false</default>
+                <label>Endorsement: the policy has been cancelled</label>
+            </value>
+            <value>
+                <fullName>Medical check-up: we were unable to contact you</fullName>
+                <default>false</default>
+                <label>Medical check-up: we were unable to contact you</label>
+            </value>
+            <value>
+                <fullName>Medical check-up: a Diagnostic Center is unavailable in your location</fullName>
+                <default>false</default>
+                <label>Medical check-up: a Diagnostic Center is unavailable in your location</label>
+            </value>
+            <value>
+                <fullName>Medical check-up: your preferred Diagnostic Center is unavailable</fullName>
+                <default>false</default>
+                <label>Medical check-up: your preferred Diagnostic Center is unavailable</label>
+            </value>
+            <value>
+                <fullName>Medical check-up: home visits are not available</fullName>
+                <default>false</default>
+                <label>Medical check-up: home visits are not available</label>
+            </value>
+            <value>
+                <fullName>Medical check-up: the Member was not available</fullName>
+                <default>false</default>
+                <label>Medical check-up: the Member was not available</label>
+            </value>
+            <value>
+                <fullName>Reports: we need your appointment details</fullName>
+                <default>false</default>
+                <label>Reports: we need your appointment details</label>
+            </value>
+            <value>
+                <fullName>Reports: we cannot trace the reports</fullName>
+                <default>false</default>
+                <label>Reports: we cannot trace the reports</label>
+            </value>
+            <value>
+                <fullName>Health return: the call went unanswered</fullName>
+                <default>false</default>
+                <label>Health return: the call went unanswered</label>
+            </value>
+            <value>
+                <fullName>Health return: the call was declined</fullName>
+                <default>false</default>
+                <label>Health return: the call was declined</label>
+            </value>
+            <value>
+                <fullName>Health return: we were unable to contact you</fullName>
+                <default>false</default>
+                <label>Health return: we were unable to contact you</label>
+            </value>
+            <value>
+                <fullName>Health return: your phone was switched off</fullName>
+                <default>false</default>
+                <label>Health return: your phone was switched off</label>
+            </value>
+            <value>
+                <fullName>Health return: the steps were added manually</fullName>
+                <default>false</default>
+                <label>Health return: the steps were added manually</label>
+            </value>
+            <value>
+                <fullName>Health return: insufficient steps are recorded</fullName>
+                <default>false</default>
+                <label>Health return: insufficient steps are recorded</label>
+            </value>
+            <value>
+                <fullName>Health return: Group Policies can&apos;t access the app</fullName>
+                <default>false</default>
+                <label>Health return: Group Policies can&apos;t access the app</label>
+            </value>
+            <value>
+                <fullName>Health return: your medical check-up is pending</fullName>
+                <default>false</default>
+                <label>Health return: your medical check-up is pending</label>
+            </value>
+            <value>
+                <fullName>Health return: the Healthy Heart Score criteria is not met</fullName>
+                <default>false</default>
+                <label>Health return: the Healthy Heart Score criteria is not met</label>
+            </value>
+            <value>
+                <fullName>Health return: the Bonus Activ Dayz criteria is not met</fullName>
+                <default>false</default>
+                <label>Health return: the Bonus Activ Dayz criteria is not met</label>
+            </value>
+            <value>
+                <fullName>Health return: the Activ Dayz criteria is not met</fullName>
+                <default>false</default>
+                <label>Health return: the Activ Dayz criteria is not met</label>
+            </value>
+            <value>
+                <fullName>Empanelment/feedback: we were unable to contact you</fullName>
+                <default>false</default>
+                <label>Empanelment/feedback: we were unable to contact you</label>
+            </value>
+            <value>
+                <fullName>Cancellation and refund: we need the transaction details</fullName>
+                <default>false</default>
+                <label>Cancellation and refund: we need the transaction details</label>
+            </value>
+            <value>
+                <fullName>Cancellation and refund: Bank Details are required</fullName>
+                <default>false</default>
+                <label>Cancellation and refund: Bank Details are required</label>
+            </value>
+            <value>
+                <fullName>Cancellation and refund: a cancelled cheque is required</fullName>
+                <default>false</default>
+                <label>Cancellation and refund: a cancelled cheque is required</label>
+            </value>
+            <value>
+                <fullName>Cancellation and refund: KYC Documents are required</fullName>
+                <default>false</default>
+                <label>Cancellation and refund: KYC Documents are required</label>
+            </value>
+            <value>
+                <fullName>SAT: the call went unanswered</fullName>
+                <default>false</default>
+                <label>SAT: the call went unanswered</label>
+            </value>
+            <value>
+                <fullName>SAT: the call was declined</fullName>
+                <default>false</default>
+                <label>SAT: the call was declined</label>
+            </value>
+            <value>
+                <fullName>SAT: we were unable to reach you</fullName>
+                <default>false</default>
+                <label>SAT: we were unable to reach you</label>
+            </value>
+            <value>
+                <fullName>SAT: your phone was switched off</fullName>
+                <default>false</default>
+                <label>SAT: your phone was switched off</label>
+            </value>
+            <value>
+                <fullName>Grievance: the call went unanswered</fullName>
+                <default>false</default>
+                <label>Grievance: the call went unanswered</label>
+            </value>
+            <value>
+                <fullName>Grievance: the call was declined</fullName>
+                <default>false</default>
+                <label>Grievance: the call was declined</label>
+            </value>
+            <value>
+                <fullName>Grievance: we were unable to contact you</fullName>
+                <default>false</default>
+                <label>Grievance: we were unable to contact you</label>
+            </value>
+            <value>
+                <fullName>Grievance: your phone was switched off</fullName>
+                <default>false</default>
+                <label>Grievance: your phone was switched off</label>
+            </value>
+            <value>
+                <fullName>Policy Document: we need the transaction details</fullName>
+                <default>false</default>
+                <label>Policy Document: we need the transaction details</label>
+            </value>
+            <value>
+                <fullName>Policy Document: Address Details are required</fullName>
+                <default>false</default>
+                <label>Policy Document: Address Details are required</label>
+            </value>
+            <value>
+                <fullName>Policy Document: the shared document is unclear</fullName>
+                <default>false</default>
+                <label>Policy Document: the shared document is unclear</label>
+            </value>
+            <value>
+                <fullName>Counter offer: Medical Documents are required</fullName>
+                <default>false</default>
+                <label>Counter offer: Medical Documents are required</label>
+            </value>
+            <value>
+                <fullName>Counter offer: we received incomplete documents</fullName>
+                <default>false</default>
+                <label>Counter offer: we received incomplete documents</label>
+            </value>
+            <value>
+                <fullName>Counter offer: the shared document is unclear</fullName>
+                <default>false</default>
+                <label>Counter offer: the shared document is unclear</label>
+            </value>
+            <value>
+                <fullName>Counter offer: the document needs a password</fullName>
+                <default>false</default>
+                <label>Counter offer: the document needs a password</label>
+            </value>
+            <value>
+                <fullName>Counter offer: we stand by our prior decision</fullName>
+                <default>false</default>
+                <label>Counter offer: we stand by our prior decision</label>
+            </value>
+            <value>
+                <fullName>Renewal: we require additional documents</fullName>
+                <default>false</default>
+                <label>Renewal: we require additional documents</label>
+            </value>
+            <value>
+                <fullName>Renewal: we need the transaction details</fullName>
+                <default>false</default>
+                <label>Renewal: we need the transaction details</label>
+            </value>
+            <value>
+                <fullName>Renewal: the shared document is unclear</fullName>
+                <default>false</default>
+                <label>Renewal: the shared document is unclear</label>
+            </value>
+            <value>
+                <fullName>Renewal: we cannot trace the policy</fullName>
+                <default>false</default>
+                <label>Renewal: we cannot trace the policy</label>
+            </value>
+            <value>
+                <fullName>Renewal: Auto Debit is Inactive</fullName>
+                <default>false</default>
+                <label>Renewal: Auto Debit is Inactive</label>
+            </value>
+            <value>
+                <fullName>Renewal: it doesn&apos;t meet the policy T&amp;C&apos;s</fullName>
+                <default>false</default>
+                <label>Renewal: it doesn&apos;t meet the policy T&amp;C&apos;s</label>
+            </value>
+            <value>
+                <fullName>Renewal: DND is already activated</fullName>
+                <default>false</default>
+                <label>Renewal: DND is already activated</label>
+            </value>
+            <value>
+                <fullName>Renewal: we were unable to contact you</fullName>
+                <default>false</default>
+                <label>Renewal: we were unable to contact you</label>
+            </value>
+            <value>
+                <fullName>Medical decision: Medical Documents are required</fullName>
+                <default>false</default>
+                <label>Medical decision: Medical Documents are required</label>
+            </value>
+            <value>
+                <fullName>Medical decision: we received incomplete documents</fullName>
+                <default>false</default>
+                <label>Medical decision: we received incomplete documents</label>
+            </value>
+            <value>
+                <fullName>Medical decision: the shared document is unclear</fullName>
+                <default>false</default>
+                <label>Medical decision: the shared document is unclear</label>
+            </value>
+            <value>
+                <fullName>Medical decision: the document needs a password</fullName>
+                <default>false</default>
+                <label>Medical decision: the document needs a password</label>
+            </value>
+            <value>
+                <fullName>Medical decision: we stand by our prior decision</fullName>
+                <default>false</default>
+                <label>Medical decision: we stand by our prior decision</label>
+            </value>
+            <value>
+                <fullName>Policy issuance: we require additional documents</fullName>
+                <default>false</default>
+                <label>Policy issuance: we require additional documents</label>
+            </value>
+            <value>
+                <fullName>Policy issuance: we need the transaction details</fullName>
+                <default>false</default>
+                <label>Policy issuance: we need the transaction details</label>
+            </value>
+            <value>
+                <fullName>Policy issuance: the shared document is unclear</fullName>
+                <default>false</default>
+                <label>Policy issuance: the shared document is unclear</label>
+            </value>
+            <value>
+                <fullName>Claim: a withdrawal letter is required</fullName>
+                <default>false</default>
+                <label>Claim: a withdrawal letter is required</label>
+            </value>
+            <value>
+                <fullName>Claim: the policy has been cancelled</fullName>
+                <default>false</default>
+                <label>Claim: the policy has been cancelled</label>
+            </value>
+            <value>
+                <fullName>Incorrect Customer tagging</fullName>
+                <default>false</default>
+                <label>Incorrect Customer tagging</label>
+            </value>
+            <value>
+                <fullName>Incorrect SubType tagging</fullName>
+                <default>false</default>
+                <label>Incorrect SubType tagging</label>
+            </value>
+            <value>
+                <fullName>Out of Scope Request</fullName>
+                <default>false</default>
+                <label>Out of Scope Request</label>
+            </value>
+            <value>
+                <fullName>Customer Not Contactable</fullName>
+                <default>false</default>
+                <label>Customer Not Contactable</label>
+            </value>
+            <value>
+                <fullName>Resolution Provided</fullName>
+                <default>false</default>
+                <label>Resolution Provided</label>
+            </value>
+            <value>
+                <fullName>No Action Required</fullName>
+                <default>false</default>
+                <label>No Action Required</label>
+            </value>
+            <value>
+                <fullName>Complaint Withdrawn</fullName>
+                <default>false</default>
+                <label>Complaint Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Reversal Processed</fullName>
+                <default>false</default>
+                <label>Reversal Processed</label>
+            </value>
+            <value>
+                <fullName>Denied</fullName>
+                <default>false</default>
+                <label>Denied</label>
+            </value>
+            <value>
+                <fullName>Settled &amp; Recovery not initiated</fullName>
+                <default>false</default>
+                <label>Settled &amp; Recovery not initiated</label>
+            </value>
+            <value>
+                <fullName>Interaction wrongly created</fullName>
+                <default>false</default>
+                <label>Interaction wrongly created</label>
+            </value>
+            <value>
+                <fullName>Insufficient incomplete details from customer</fullName>
+                <default>false</default>
+                <label>Insufficient incomplete details from customer</label>
+            </value>
+            <value>
+                <fullName>Insufficient/Incomplete details from Ops/Customer</fullName>
+                <default>false</default>
+                <label>Insufficient/Incomplete details from Ops/Customer</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other</label>
             </value>
         </valueSetDefinition>
     </valueSet>
