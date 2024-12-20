@@ -285,9 +285,20 @@
                 <label>HARIDWAR_ PARGANA</label>
             </value>
             <value>
-                <fullName>MAULISANKUL#AHMEDNAGAR</fullName>
+                <fullName>ABHFL_414003_AHMMH44_MAULISANKUL#AHMEDNAGAR</fullName>
                 <default>false</default>
                 <label>MAULI SANKUL # AHMEDNAGAR</label>
+            </value>
+			<value>
+                <fullName>ABHFL_221010_Varanas_VARANASI</fullName>
+                <default>false</default>
+                <label>VARANASI</label>
+            </value>
+			<value>
+                <fullName>MAULISANKUL#AHMEDNAGAR</fullName>
+                <default>false</default>
+		<isActive>false</isActive>
+                <label>MAULISANKUL#AHMEDNAGAR</label>
             </value>
             <value>
                 <fullName>NA</fullName>
