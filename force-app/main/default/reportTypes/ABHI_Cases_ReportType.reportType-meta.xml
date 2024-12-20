@@ -796,6 +796,26 @@
             <field>Account.PersonContact.Birthdate</field>
             <table>Case</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account.CMP_OPD__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account.Is_Chronic__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account.Chronic_care__c</field>
+            <table>Case</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Asset.Source__c</field>
+            <table>Case</table>
+        </columns>
         <masterLabel>Cases</masterLabel>
     </sections>
     <sections>
