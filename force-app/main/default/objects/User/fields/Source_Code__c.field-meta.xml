@@ -194,6 +194,12 @@
                 <default>false</default>
                 <label>016</label>
             </value>
+            <value>
+                <fullName>16</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>16</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
