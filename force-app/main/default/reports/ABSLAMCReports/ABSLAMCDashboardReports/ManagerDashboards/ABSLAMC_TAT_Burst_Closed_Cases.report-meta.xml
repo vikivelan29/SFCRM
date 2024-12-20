@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_36203878</developerName>
+        <masterLabel>TAT Status</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Case.SR_TAT_elapsed__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>&lt;=33%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>&lt;= 33%</sourceValue>
+            </sourceValues>
+            <value>Less than 33%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>btw 33% to 66%</sourceValue>
+            </sourceValues>
+            <value>Between 33% &amp; 66%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>&gt; 66%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>66%</sourceValue>
+            </sourceValues>
+            <value>Greater than 66%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>&gt;100%</sourceValue>
+            </sourceValues>
+            <value>TAT Burst</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>CASE_NUMBER</field>
+    </columns>
+    <columns>
+        <field>CREATED_DATE</field>
+    </columns>
+    <columns>
+        <field>Case.Stage__c</field>
+    </columns>
+    <columns>
+        <field>STATUS</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
+    </columns>
+    <columns>
+        <field>CREATED</field>
+    </columns>
+    <columns>
+        <field>Case.Case_Assigned_Team__c</field>
+    </columns>
+    <columns>
+        <field>Case.Branch_Name__c</field>
+    </columns>
+    <columns>
+        <field>Case.Owner_Zone__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_36203878</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Case.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.SLA_Broken__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>Closed,Merged,Resolved,Closed Duplicate,Unresolved,Soft Resolve</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case.Source__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case.Channel__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>ABSLAMC TAT Burst Closed Cases</name>
+    <params>
+        <name>units</name>
+        <value>h</value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CaseList@Case.ABSLAMC_Case_Detail__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>CREATED_DATE</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATEONLY</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
