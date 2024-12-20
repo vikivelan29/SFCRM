@@ -2902,7 +2902,6 @@
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
     <tabs>abml_List_View_Tab</tabs>
-	<tabs>Bulk_Case_Close</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ABCL_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -2935,9 +2934,6 @@
         </mappings>
         <mappings>
             <tab>abml_List_View_Tab</tab>
-        </mappings>
-		<mappings>
-            <tab>Bulk_Case_Close</tab>
         </mappings>
         <mappings>
             <tab>standard-Account</tab>
