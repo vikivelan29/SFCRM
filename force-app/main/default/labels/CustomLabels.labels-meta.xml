@@ -1346,6 +1346,20 @@
         <value>ABSLAMC</value>
     </labels>
     <labels>
+        <fullName>ABML_E2C</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML E2C</shortDescription>
+        <value>bhc.test-v@adityabirlacapital.com:ABML_ack_1733892391736</value>
+    </labels>
+    <labels>
+        <fullName>ABML_LegacyPageSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_LegacyPageSize</shortDescription>
+        <value>10</value>
+  </labels>
+  <labels>
         <fullName>ABAMC_NonMandatoryUnresCommentsBUs</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1499,6 +1513,13 @@
         <value>No records are available for display.</value>
     </labels>
     <labels>
+        <fullName>ABML_BU</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_BU</shortDescription>
+        <value>ABML</value>
+  </labels>
+  <labels>
         <fullName>SuppressCreateCase_BU</fullName>
         <language>en_US</language>
         <protected>false</protected>
