@@ -1,12 +1,12 @@
 /**
 * @description       : 
- * @author            : rsinghnagar@salesforce.com
+* @author            : Salesforce
 * @group             : 
-* @last modified on  : 10-10-2024
-* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @last modified on  : 12-06-2024
+* @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+* 1.0   04-24-2024   Salesforce   Initial Version
 **/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public without sharing class ASF_CaseTriggerModularHelper {
@@ -216,6 +216,9 @@ blankSourcePresent = true;
                     caseRec.ASF_Is_Cloneable__c = appliedCCC.ASF_Is_Cloneable__c;
                     caseRec.Reopen_Days__c = appliedCCC.Reopen_Days__c;
                     caseRec.Reopen_Style__c = appliedCCC.Reopen_Style__c;
+                    caseRec.Activity__c = appliedCCC.Activity__c;
+                    //mapping Line_of_Business__c on caseRec
+                    caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
                     // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
                     if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
                         caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
@@ -248,8 +251,10 @@ blankSourcePresent = true;
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
-                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
-                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
+                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null){
+                    // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
+                    String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
+                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
                 }else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';
@@ -391,7 +396,7 @@ blankSourcePresent = true;
     //Creates extension record for Case, if case is created from Bulk page
     public static void createCaseExtnRecordForBulk(List<Case> newList) {
         
-        if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
+        
                 
         Map<String, Integer> cccExtIdToCaseIndex = new Map<String, Integer>();
         Integer index = 0;
@@ -414,11 +419,16 @@ blankSourcePresent = true;
         for(Case caseRec : newList){
             if(cccExtIdToExtnObjectAPI.containsKey(caseRec.CCC_External_Id__c)){
                 String sObjectType = cccExtIdToExtnObjectAPI.get(caseRec.CCC_External_Id__c);
+                if (caseRec.get(sObjectType) == null) {
                 SObject newInstance = createObject(sObjectType);
                 if(newInstance != null){
+                    if(!String.isEmpty(caseRec.Case_Details_JSON__c)){
+                       newInstance = (sObject)JSON.deserialize(caseRec.Case_Details_JSON__c.replace('\'','"'), Type.forName(sObjectType));
+                    }
                     extnRecords.put(index, newInstance);
                 }
               }
+            }
             index++;
         }
         
@@ -783,6 +793,8 @@ blankSourcePresent = true;
                             caseREcFromMap.Case_Assigned_Team__c = resultWrap.ownerName != null ? resultWrap.ownerName : '';
                         // VIRENDRA - ENDS HERE.
                         caseRecFromMap.MoveToNext__c = false;
+                        caseRecFromMap.Stage__c = resultWrap.nextStageConfig.StageName__c;
+                        caseRecFromMap.Status = resultWrap.nextStageConfig.Status_Mapping__c;
                         caseRecFromMap.Previous_Stage__c = caseRec.Stage__c;//Current new stage becomes previous stage
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
@@ -1043,6 +1055,13 @@ blankSourcePresent = true;
                     addlDataFromStageMovementMethods.get(caseRec.Id).manualApprovalStage = dataWrapper.get(caseRec.Id).manualApprovalStage;
                     addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
                 }
+            for(Case caseRec : caseListForSla){
+                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
+                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
+            }
+                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
+                addlDataFromStageMovementMethods.get(caseRec.Id).allIntegrations = dataWrapper.get(caseRec.Id).allIntegrations;
+                }
             List<Case> integCaseList = new List<Case>();
             Map<Id, List<ASF_Integration__c>> runIntegrationMap = new Map<Id, List<ASF_Integration__c>>();
             
@@ -1092,12 +1111,7 @@ blankSourcePresent = true;
                     }
                 }
             }
-            for(Case caseRec : caseListForSla){
-                if(!addlDataFromStageMovementMethods.containsKey(caseRec.Id)){
-                    addlDataFromStageMovementMethods.put(caseRec.Id, new ASF_CaseMovementHelper.CaseAdditionalData());
-                }
-                addlDataFromStageMovementMethods.get(caseRec.Id).slaCaseAndStageOverrideValues = dataWrapper.get(caseRec.Id).slaCaseAndStageOverrideValues;
-            }
+
         }
     }
     //Creates Checklist, Tasks, Approvals

@@ -1,7 +1,8 @@
 <!-- sldsValidatorIgnore -->
 <template>
 
-    <lightning-quick-action-panel header={headerTitle} class="slds-modal_large">
+    <lightning-quick-action-panel header={headerTitle} class="slds-is-relative">
+        <div style="min-height:500px; height:auto">
             <template if:false={loaded}>
                 <lightning-spinner alternative-text="Processing" size="medium"></lightning-spinner>
             </template>
@@ -75,10 +76,19 @@
                                             variant="label-hidden"></lightning-radio-group>
                                     </template>
                                     <template if:true={infoField.displayType.input}>
+                                        <template if:true={infoField.defaulSelectedOption}>
                                         <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
                                             variant="label-stacked" onchange={handleInputFieldChange}
                                             required={infoField.requiredField}
+                                            value={infoField.defaulSelectedOption} disabled={infoField.readOnly}
                                             class={infoField.fieldClassList}></lightning-input-field>
+                                        </template>
+                                        <template if:false={infoField.defaulSelectedOption}>
+                                            <lightning-input-field field-name={infoField.fieldAPIName} id={infoField.id}
+                                            variant="label-stacked" onchange={handleInputFieldChange}
+                                            required={infoField.requiredField} disabled={infoField.readOnly}
+                                            class={infoField.fieldClassList}></lightning-input-field>
+                                        </template>
                                         <div class="slds-form-element__help slds-text-color_destructive"
                                         data-error-help-for-field={infoField.fieldAPIName}></div>
 
@@ -104,19 +114,21 @@
                             variant="brand"></lightning-button>
                     </template>
                 </div>
-            <div class="custom-footer" >
-                <!--style="height: 100%;width:100%;position:sticky;" -->
-                <div class="slds-m-around_medium slds-float_right">
-                    <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}
-                        class="slds-p-around_xx-small"></lightning-button>
-                    <lightning-button class="slds-p-around_xx-small" type="submit" label="Send" disabled={isClicked}
+                <lightning-button class="hiddenSubmit" type="submit" label="Send" style="display: none;"
                         variant="brand"></lightning-button>
+            </lightning-record-edit-form>
             
         </div>
+        <div slot="footer">
+            <!--style="height: 100%;width:100%;position:sticky;" -->
+            <div class="slds-m-around_medium slds-float_right">
+                <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}
+                    ></lightning-button>
+                
+                <lightning-button label="Send" disabled={isClicked} class="slds-m-left_medium"
+                    variant="brand" onclick={submitForm}></lightning-button>
             </div>
-
-        </lightning-record-edit-form>
-
+        </div>
     </lightning-quick-action-panel>
 
 </template>

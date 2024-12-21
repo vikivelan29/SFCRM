@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Wellness - Email template used when case is created</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CASE CREATE EMAIL TEMPLATE</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Acknowledgement of Your Request | Case number: {{{Case.CaseNumber}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

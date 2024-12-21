@@ -12,14 +12,18 @@ public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
      */
     public Database.QueryLocator start(Database.BatchableContext bc) {
         // Fetch the configurable number of days from Custom Label
-        Integer numberOfDays = Integer.valueOf(System.Label.ABFL_Reassign_Case_Days);
+        Integer numberOfDays = Integer.valueOf(System.Label.ABFL_Reassign_Case_Days); // 360 days
         Date startDate = Date.today().addDays(-numberOfDays);
         // Query for cases where Business_Unit__c is 'ABFL' and SuppliedEmail is not null
         return Database.getQueryLocator([
-            SELECT Id, Subject, Lead__c, SuppliedEmail,Business_Unit__c 
+            SELECT Id, Subject, Lead__c, Lead__r.Email, SuppliedEmail,Business_Unit__c 
             FROM Case 
-            WHERE Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT
-            AND SuppliedEmail != null 
+            WHERE 
+            (
+                (Business_Unit__c IN :ABFL_Constants.ABFL_ABWM_BUSINESSUNIT AND SuppliedEmail != null) 
+                OR 
+                Business_Unit__c = :System.label.Wellness_BU
+            )
             AND AccountId = null 
             AND CreatedDate >= :startDate
         ]);
@@ -39,17 +43,21 @@ public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
             Map<Id, Case> casesToUpdate = new Map<Id, Case>();
             
             for (Case caseRecord : scope) {
-                String caseBusinessUnit = caseRecord.Business_Unit__c;
-                String caseEmailSupplied = caseRecord.SuppliedEmail;
-                String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
-                integer iCompositeKey = compositeKey.hashCode();
-                if(!mHashkeyVsCase.containsKey(iCompositeKey)){
-                    mHashkeyVsCase.put(iCompositeKey, new List<Case>());
+                String caseEmailSupplied = caseRecord.Business_Unit__c==System.label.Wellness_BU?caseRecord.Lead__r.Email:caseRecord.SuppliedEmail;
+                if(!String.isBlank(caseEmailSupplied)){
+                    String caseBusinessUnit = caseRecord.Business_Unit__c;
+                    // for ABFL supplied email will be always there as we are considering only email-2-case cases
+                    // for Wellness it should pick Leads email 
+                    String compositeKey = caseBusinessUnit+'_'+caseEmailSupplied;
+                    integer iCompositeKey = compositeKey.hashCode();
+                    if(!mHashkeyVsCase.containsKey(iCompositeKey)){
+                        mHashkeyVsCase.put(iCompositeKey, new List<Case>());
+                    }
+                    mHashkeyVsCase.get(iCompositeKey).add(caseRecord);
+                    
+                    setEmailID.add(caseEmailSupplied);  
+                    setBusinessUnit.add(caseRecord.Business_Unit__c); 
                 }
-                mHashkeyVsCase.get(iCompositeKey).add(caseRecord);
-                
-                setEmailID.add(caseRecord.SuppliedEmail);  
-                setBusinessUnit.add(caseRecord.Business_Unit__c);             
             }
             
             for(Contact con : [SELECT ID,Email,Account.Office_Email__c,IsPersonAccount,Account.Business_Unit__c,AccountId FROM Contact WHERE AccountId != null AND (Email IN : setEmailID OR Account.Office_Email__c IN : setEmailId)
@@ -80,11 +88,7 @@ public class ABFL_ReassignProspectsBatch implements Database.Batchable<sObject>,
             }
         }catch (Exception e) {
             // Handle exceptions
-            ABCL_Logger.enableExceptionLogging();
-            ABCL_Logger.push('ABFL_ReassignProspectsBatch.execute');
-            ABCL_Logger.message(e.getMessage());
-            ABCL_Logger.message(e.getStackTraceString());
-            ABCL_Logger.emit();
+            ABCL_Logger.logException('ABFL_ReassignProspectsBatch.execute',e.getMessage());
         }
     }
     

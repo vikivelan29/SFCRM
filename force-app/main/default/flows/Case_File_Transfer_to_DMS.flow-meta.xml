@@ -114,6 +114,20 @@
                 <stringValue>Payments</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>ABSLAMC</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Wellness</stringValue>
+            </value>
+        </filters>
         <object>Case</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <scheduledPaths>

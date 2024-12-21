@@ -1,0 +1,33 @@
+<template>
+   
+    <div class="slds-p-vertical_small slds-p-left_small">
+        <lightning-button label="Refresh" onclick={handleRefresh} class="refresh-button"></lightning-button>
+        <lightning-spinner alternative-text="Loading" size="small" if:true={isLoading}></lightning-spinner>
+    </div>
+    <lightning-card title="Cases by Stage" icon-name="standard:case">
+        <lightning-accordion allow-multiple-sections-open="false" 
+                             active-section-name={activeSectionName}
+                             onsectiontoggle={handleSectionToggle}>
+            <template for:each={casesByStage} for:item="stageGroup">
+                <lightning-accordion-section label={stageGroup.stage} key={stageGroup.stage} name={stageGroup.stage}>
+           
+                    <div class="header-row">
+                        <span class="header-cell">Case Number</span>
+                        <span class="header-cell">Account Name</span>
+                    </div>
+
+                    <template for:each={stageGroup.cases} for:item="caseItem">
+                        <div key={caseItem.Id} class="case-row">
+                            <span class="case-cell">
+                                <a href="javascript:void(0);" data-id={caseItem.Id} onclick={navigateToCase}>
+                                    {caseItem.CaseNumber}
+                                </a>
+                            </span>
+                            <span class="case-cell">{caseItem.Account.Name}</span>
+                        </div>
+                    </template>
+                </lightning-accordion-section>
+            </template>
+        </lightning-accordion>
+    </lightning-card>
+</template>
