@@ -2298,7 +2298,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ABML E2C</shortDescription>
-        <value></value>
+        <value>Test</value>
     </labels>
     <labels>
         <fullName>ABML_LegacyPageSize</fullName>
