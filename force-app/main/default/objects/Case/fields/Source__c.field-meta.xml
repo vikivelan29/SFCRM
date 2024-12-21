@@ -257,6 +257,11 @@
                 <label>MOBILEAPP</label>
             </value>
             <value>
+                <fullName>Mobile</fullName>
+                <default>false</default>
+                <label>Mobile</label>
+            </value>
+            <value>
                 <fullName>IVR-No Email</fullName>
                 <default>false</default>
                 <label>IVR-No Email</label>
@@ -617,6 +622,11 @@
                 <label>ABC_Servicing_App</label>
             </value>
             <value>
+                <fullName>Web (Mobile App)</fullName>
+                <default>false</default>
+                <label>Web (Mobile App)</label>
+            </value>
+            <value>
                 <fullName>Inbound / Outbound</fullName>
                 <default>false</default>
                 <label>Inbound / Outbound</label>
@@ -630,6 +640,116 @@
                 <fullName>Call Centre</fullName>
                 <default>false</default>
                 <label>Call Centre</label>
+            </value>
+            <value>
+                <fullName>Ubona_RenewalBOT</fullName>
+                <default>false</default>
+                <label>Ubona_RenewalBOT</label>
+            </value>
+            <value>
+                <fullName>Ubona_IVRVoiceBOT</fullName>
+                <default>false</default>
+                <label>Ubona_IVRVoiceBOT</label>
+            </value>
+            <value>
+                <fullName>Abcd_app</fullName>
+                <default>false</default>
+                <label>Abcd_app</label>
+            </value>
+            <value>
+                <fullName>Distributor_WA_Bot</fullName>
+                <default>false</default>
+                <label>Distributor_WA_Bot</label>
+            </value>
+            <value>
+                <fullName>Ubona_WelcomeBOT</fullName>
+                <default>false</default>
+                <label>Ubona_WelcomeBOT</label>
+            </value>
+            <value>
+                <fullName>Provider Network</fullName>
+                <default>false</default>
+                <label>Provider Network</label>
+            </value>
+            <value>
+                <fullName>OneABC_Phone</fullName>
+                <default>false</default>
+                <label>OneABC_Phone</label>
+            </value>
+            <value>
+                <fullName>DRM</fullName>
+                <default>false</default>
+                <label>DRM</label>
+            </value>
+            <value>
+                <fullName>Renewal - Persistency</fullName>
+                <default>false</default>
+                <label>Renewal - Persistency</label>
+            </value>
+            <value>
+                <fullName>Operation</fullName>
+                <default>false</default>
+                <label>Operation</label>
+            </value>
+            <value>
+                <fullName>Customer_Portal</fullName>
+                <default>false</default>
+                <label>Customer_Portal</label>
+            </value>
+            <value>
+                <fullName>Customer_App</fullName>
+                <default>false</default>
+                <label>Customer_App</label>
+            </value>
+            <value>
+                <fullName>Customer_WA_Bot</fullName>
+                <default>false</default>
+                <label>Customer_WA_Bot</label>
+            </value>
+            <value>
+                <fullName>Customer_Chatbot</fullName>
+                <default>false</default>
+                <label>Customer_Chatbot</label>
+            </value>
+            <value>
+                <fullName>Unified_SalesPortal</fullName>
+                <default>false</default>
+                <label>Unified_SalesPortal</label>
+            </value>
+            <value>
+                <fullName>Unified_WA_Bot</fullName>
+                <default>false</default>
+                <label>Unified_WA_Bot</label>
+            </value>
+            <value>
+                <fullName>Unified_Chatbot</fullName>
+                <default>false</default>
+                <label>Unified_Chatbot</label>
+            </value>
+            <value>
+                <fullName>Unified_SalesApp</fullName>
+                <default>false</default>
+                <label>Unified_SalesApp</label>
+            </value>
+            <value>
+                <fullName>Sprinkler</fullName>
+                <default>false</default>
+                <label>Sprinkler</label>
+            </value>
+            <value>
+                <fullName>Digital</fullName>
+                <default>false</default>
+                <label>Digital</label>
+            </value>
+            <value>
+                <fullName>ATS</fullName>
+                <default>false</default>
+                <label>ATS</label>
+            </value>
+            <value>
+                <fullName>Letters</fullName>
+                <default>false</default>
+                <label>Letters</label>
             </value>
             <value>
                 <fullName>Escalations</fullName>
@@ -678,7 +798,6 @@
                 <isActive>false</isActive>
                 <label>Call</label>
             </value>
-            
             <value>
                 <fullName>Customer
 Portal</fullName>
