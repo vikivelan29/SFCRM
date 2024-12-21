@@ -67,7 +67,32 @@
             <value>
                 <fullName>ABSLI_Multiple_Email</fullName>
                 <default>false</default>
-                <label>ABSLI Multiple Email</label>
+                <label>ABSLI_Multiple_Email</label>
+            </value>
+            <value>
+                <fullName>Grievance</fullName>
+                <default>false</default>
+                <label>Grievance</label>
+            </value>
+            <value>
+                <fullName>Claims</fullName>
+                <default>false</default>
+                <label>Claims</label>
+            </value>
+            <value>
+                <fullName>Care</fullName>
+                <default>false</default>
+                <label>Care</label>
+            </value>
+            <value>
+                <fullName>ABHI Team 1</fullName>
+                <default>false</default>
+                <label>ABHI Team 1</label>
+            </value>
+            <value>
+                <fullName>ABML</fullName>
+                <default>false</default>
+                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>
