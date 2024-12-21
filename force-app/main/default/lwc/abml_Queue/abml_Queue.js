@@ -1,5 +1,5 @@
 import { LightningElement,api,track } from 'lwc';
-import getQueues1 from "@salesforce/apex/ABML_QueueController.getQueueNames";
+import getQueues from "@salesforce/apex/ABML_QueueController.getQueueNames";
 import getUsersByQueue from "@salesforce/apex/ABML_QueueController.getUsersByQueue";
 import getUsersInQueue from "@salesforce/apex/ABML_QueueController.getUsersInQueue";
 import UpdateCaseOwner from "@salesforce/apex/ABML_QueueController.updateCaseOwner";
@@ -8,7 +8,6 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import dt_colors from '@salesforce/resourceUrl/ABML_Datatable_Css';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import checkBusinessHours from "@salesforce/apex/ABML_QueueController.checkBusinessHours";
-import checkProfileMethod from "@salesforce/apex/ABML_QueueController.checkProfile";
 import LightningAlert from 'lightning/alert';
 
 
@@ -37,6 +36,7 @@ export default class ABML_Queue extends LightningElement {
      @track businessHours = true;
      @track checkProfile = true;
      @track booleanValue;
+     setSelectedRows = [];
 
      columns = [
         { label: 'Name', fieldName: 'Name' },
@@ -72,33 +72,6 @@ export default class ABML_Queue extends LightningElement {
                         theme: 'warning', // a red theme intended for error states
                         label: 'Warning!', // this is the header text
                     });
-                }else if(this.businessHours==true){
-
-                    //Profile Validation starts--
-            checkProfileMethod()
-            .then(result => {
-                this.checkProfile = result;
-                console.log('im here checkProfile ');
-                console.log('--checkProfile value:',this.checkProfile);
-                if(this.checkProfile==false){ //this.businessHours==true &&
-                    this.businessHours = false;
-                    //alert('You dont have access to this component!');
-                    LightningAlert.open({
-                        message: 'This is specific to ABML team assignment. You do not have access to this functionality',
-                        theme: 'warning', 
-                        label: 'Warning!', 
-                    });
-                }else{
-                    this.businessHours = true;
-                }
-                
-                this.error = undefined;
-            })
-            .catch(error => {
-                this.error = error;
-            });
-            //Profile Validation ends--
-
                 }
                 
                 this.error = undefined;
@@ -109,16 +82,16 @@ export default class ABML_Queue extends LightningElement {
             
             
 
-        getQueues1().then((result) => {
+        getQueues().then((result) => {
             this.pickListOrdered = result.sort((a, b) =>
                 a.label.localeCompare(b.label)
             );
         });
 
-        getCaseDetails({ caseid: this.recordId })
+        getCaseDetails({ caseIdList: this.recordId })
             .then(result => {
                 this.cases = result;
-                if(result.length >= 2){
+                if(result.length >= 1){
                     this.hideCases = true;
                     this.checkLength = result.length;
                 }else{
@@ -155,34 +128,6 @@ export default class ABML_Queue extends LightningElement {
         }).catch(error=>{ 
             console.error("Error in loading the colors")
         })
-    }
-
-    validProfile(){
-        //--------
-            //Profile Validation starts--
-            checkProfile()
-            .then(resultvalue => {
-                this.checkProfile = resultvalue;
-                console.log('im here checkProfile ')
-                console.log('--checkProfile value:',resultvalue);
-                if(this.checkProfile==false){ //this.businessHours==true &&
-                    this.businessHours = false;
-                    //alert('You dont have access to this component!');
-                    LightningAlert.open({
-                        message: 'You dont have access to this component',
-                        theme: 'warning', 
-                        label: 'Warning!', 
-                    });
-                }else{
-                    this.businessHours = true;
-                }
-                
-                this.error = undefined;
-            })
-            .catch(error => {
-                this.error = error;
-            });
-            //Profile Validation ends--
     }
 
 
@@ -253,14 +198,19 @@ export default class ABML_Queue extends LightningElement {
 
      handleRowSelection(event) {
         console.log('in handlerowselection');
-        var selectedRows = event.detail.selectedRows;
-        this.selectedrecordid = selectedRows[0].Id;
-        console.log('Selected rows are '+JSON.stringify(selectedRows[0]));
-        console.log('Selected rows user id is '+JSON.stringify(selectedRows[0].Id));    
+        //var selectedRows = event.detail.selectedRows;
+        //this.selectedrecordid = selectedRows[0].Id;
+        this.setSelectedRows = event.detail.selectedRows;
+        this.selectedrecordid = this.setSelectedRows[0].Id;
+        console.log('Selected rows are '+JSON.stringify(this.setSelectedRows[0].Id));
+        //console.log('Selected rows are '+JSON.stringify(selectedRows[0]));
+        //console.log('Selected rows user id is '+JSON.stringify(selectedRows[0].Id));    
     }
 
 
      handleUserSearchChange(event) {
+        this.setSelectedRows = [];
+        this.selectedrecordid=undefined;
         this.userName = event.target.value; // Update the user search string
         this.searchUsers(); // Fetch users based on the new search string
     }
@@ -298,27 +248,37 @@ export default class ABML_Queue extends LightningElement {
 
      updateRecordStatus() {
 
-        if(this.selectedrecordid==undefined){
+        if(this.recordId.length==0){
             LightningAlert.open({
-                message: 'Select user from the list',
+                message: 'Please select a case to assign',
                 theme: 'warning', 
                 label: 'Warning!', 
             });
-        }else{
+        }else if(this.selectedrecordid==undefined){
+            LightningAlert.open({
+                message: 'Please select user from the list',
+                theme: 'warning', 
+                label: 'Warning!', 
+            });
+        } else{
 
         
-        UpdateCaseOwner({ caseid: this.recordId, ownerids: this.selectedrecordid })
+        UpdateCaseOwner({ caseIdList: this.recordId, ownerId: this.selectedrecordid })
         .then(() => {
             this.showToast('Success','Records updated succesfully','success');
             this.successMessage = 'Record updated successfully!';
             this.errorMessage = '';
             console.log('im here ');
             //window.location.reload();
-            if(this.checkLength >= 2){
-                window.history.back();
-            }else{
+            console.log('this.checkLength',this.checkLength);
+            console.log('this.recordId.length',this.recordId.length);
+            if(this.recordId.length >= 1){
+                //window.history.back();
                 window.location.reload();
-            }
+                console.log('im here 2');
+            }/*else{
+                window.location.reload();
+            }*/
             
                
         })
