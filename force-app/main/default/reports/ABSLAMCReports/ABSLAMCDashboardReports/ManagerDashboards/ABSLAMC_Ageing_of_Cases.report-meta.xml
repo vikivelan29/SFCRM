@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_69629987</developerName>
+        <masterLabel>Ageing in Business Days</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Case.Ageing_Business_Days__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>0</to>
+            </sourceValues>
+            <value>0 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>0</from>
+                <to>5</to>
+            </sourceValues>
+            <value>1 - 5 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>5</from>
+                <to>10</to>
+            </sourceValues>
+            <value>6 - 10 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>10</from>
+                <to>20</to>
+            </sourceValues>
+            <value>11 to 20 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>20</from>
+                <to>30</to>
+            </sourceValues>
+            <value>21 to 30 Days</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>30</from>
+            </sourceValues>
+            <value>More than 30 Days</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_81864649</developerName>
+        <masterLabel>TAT Status</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Case.SR_TAT_elapsed__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>&lt;=33%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>&lt;= 33%</sourceValue>
+            </sourceValues>
+            <value>Less than 33%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>btw 33% to 66%</sourceValue>
+            </sourceValues>
+            <value>Between 33% &amp; 66%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>&gt; 66%</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>66%</sourceValue>
+            </sourceValues>
+            <value>Greater than 66%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>&gt;100%</sourceValue>
+            </sourceValues>
+            <value>TAT Burst</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>CASE_NUMBER</field>
+    </columns>
+    <columns>
+        <field>CREATED_DATE</field>
+    </columns>
+    <columns>
+        <field>Case.Stage__c</field>
+    </columns>
+    <columns>
+        <field>STATUS</field>
+    </columns>
+    <columns>
+        <field>OWNER</field>
+    </columns>
+    <columns>
+        <field>CREATED</field>
+    </columns>
+    <columns>
+        <field>Case.Case_Assigned_Team__c</field>
+    </columns>
+    <columns>
+        <field>Case.Branch_Name__c</field>
+    </columns>
+    <columns>
+        <field>Case.Owner_Zone__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_81864649</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Case.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case.Nature__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_69629987</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>ABSLAMC Ageing of Cases</name>
+    <params>
+        <name>units</name>
+        <value>h</value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CaseList@Case.ABSLAMC_Case_Detail__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATEONLY</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
