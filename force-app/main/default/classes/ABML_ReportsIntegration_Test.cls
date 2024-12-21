@@ -16,7 +16,7 @@ public with sharing class ABML_ReportsIntegration_Test{
                                    ProfileId = SYSTEMADMIN_PROFILE.Id, TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testAbmlUser1@gmail.com', Business_Unit__c = 'ABML');
         insert userRecord;
         List<ABML_Daily_Report_Sender__c> listOfReportSender = new List<ABML_Daily_Report_Sender__c>();
-        ABML_Daily_Report_Sender__c objReportSenderTwo = new ABML_Daily_Report_Sender__c( Name = 'ordWideAddress', Email__c = 'abctsl.crmteam-noreply@adityabirlacapital.com');
+        ABML_Daily_Report_Sender__c objReportSenderTwo = new ABML_Daily_Report_Sender__c( Name = 'ordWideAddress', Email__c = 'care.digital@adityabirlacapital.com');
         listOfReportSender.add(objReportSenderTwo);
         insert listOfReportSender;
         System.runAs(userRecord) {            
