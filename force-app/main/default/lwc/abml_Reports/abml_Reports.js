@@ -22,6 +22,7 @@ export default class Abml_Reports extends LightningElement {
     @track showFinYear = false;
     @track changeYear = true;
     yrOptions = [];
+    clientCode;
 
     get options() {
         return [
@@ -64,7 +65,7 @@ export default class Abml_Reports extends LightningElement {
         this.startDate = event.target.value;
         console.log('this.startDate--:',this.startDate);
 
-        if(this.startDate < this.finacialStart){
+        if(this.startDate < this.finacialStart || this.startDate > this.financialEnd){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The start date for the report must fall within the selected financial year date range',
@@ -77,7 +78,7 @@ export default class Abml_Reports extends LightningElement {
 
     endChange(event){
         this.endDate = event.target.value;
-        if(this.endDate > this.financialEnd){
+        if(this.endDate > this.financialEnd || this.endDate < this.finacialStart){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The end date for the report must fall within the selected financial year date range',
@@ -94,8 +95,8 @@ export default class Abml_Reports extends LightningElement {
     }*/
     generateYearOptions() {
         const currentYear = new Date().getFullYear();
-        const startYear = currentYear - 5;
-        const endYear = startYear + 5;
+        const startYear = 2011;
+        const endYear = currentYear;
         console.log('currentYear--:',currentYear);
         console.log('startYear--:',startYear);
         console.log('endYear--:',endYear);
@@ -116,6 +117,11 @@ export default class Abml_Reports extends LightningElement {
         this.generateYearOptions();
 
      }
+
+     handleClientCodeChange(event){
+        this.clientCode = event.target.value;
+        console.log('this.clientCode--:',this.clientCode);
+     }
      
      onSubmit(){
         var myDate = new Date(this.startDate);
@@ -126,6 +132,7 @@ export default class Abml_Reports extends LightningElement {
         //console.log('year',myDate.getFullYear());
         //console.log('month',myDate.getMonth()+1);
         //console.log('day',myDate.getDate());
+
         if (monthVal.toString().length < 2){
             monthVal = '0' + monthVal;}
         if (dateVal.toString().length < 2){
@@ -150,7 +157,14 @@ export default class Abml_Reports extends LightningElement {
         this.endDatePass = dttt;
         console.log('this.startDatePass',this.startDatePass);
         console.log('this.endDatePass',this.endDatePass);
-        if(this.reportValue==undefined || this.reportValue ==''){
+
+        if(this.clientCode =='' || this.clientCode == undefined){
+            LightningAlert.open({
+                message: 'Client code required',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        } else if(this.reportValue==undefined || this.reportValue ==''){
             LightningAlert.open({
                 message: 'Select Report type',
                 theme: 'warning', 
@@ -162,7 +176,7 @@ export default class Abml_Reports extends LightningElement {
                 theme: 'warning', 
                 label: 'Warning!',
             });
-        }else if(this.startDate < this.finacialStart){
+        }else if(this.startDate < this.finacialStart || this.startDate > this.financialEnd){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The start date for the report must fall within the selected financial year date range',
@@ -170,17 +184,29 @@ export default class Abml_Reports extends LightningElement {
                 label: 'Warning!',
             });
             //this.startDate = this.finacialStart;
-        } else if(this.endDate > this.financialEnd){
+        } else if(this.endDate > this.financialEnd || this.endDate < this.finacialStart){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The end date for the report must fall within the selected financial year date range',
                 theme: 'warning', 
                 label: 'Warning!',
             });
+        } else if(this.startDate > this.endDate){
+            LightningAlert.open({
+                message: 'The start date cannot be greater than end date',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        } else if (!this.clientCode || !/^\d+$/.test(this.clientCode)) {
+            LightningAlert.open({
+                message: 'Please enter a valid client Code before submitting.',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
         }
         else{
             
-            getReports({ caseRecId: this.recordId, startDate: this.startDatePass, endDate: this.endDatePass, reportType: this.reportValue, financialYear: this.yeartoYear })
+            getReports({ caseRecId: this.recordId, clientCode: this.clientCode, startDate: this.startDatePass, endDate: this.endDatePass, reportType: this.reportValue, financialYear: this.yeartoYear })
         .then(() => {
             //this.showToast('Success','Report type sent succesfully','success');
             //this.successMessage = 'Report type sent succesfully!';
@@ -195,6 +221,7 @@ export default class Abml_Reports extends LightningElement {
             this.finValue = '';
             this.startDate = '';
             this.endDate = '';
+            this.clientCode = '';
             //window.location.reload();
             
                
@@ -214,5 +241,5 @@ export default class Abml_Reports extends LightningElement {
         });
         }
 
-     }
+    }
 }
