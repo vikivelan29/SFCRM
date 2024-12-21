@@ -349,7 +349,7 @@ export const lanLabels = {
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
         CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
         CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and LAN combination. We recommend selecting the right Case Type Sub Type for the case ?',
-        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/LAN Tagging",
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect Tagging",
         CTST_COLS: [
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
