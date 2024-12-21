@@ -1294,6 +1294,56 @@
                 <default>false</default>
                 <label>Policy related</label>
             </value>
+            <value>
+                <fullName>New Ulip Premium holiday facility</fullName>
+                <default>false</default>
+                <label>New Ulip Premium holiday facility</label>
+            </value>
+            <value>
+                <fullName>Interest waived revival pending</fullName>
+                <default>false</default>
+                <label>Interest waived revival pending</label>
+            </value>
+            <value>
+                <fullName>loan outstanding waived</fullName>
+                <default>false</default>
+                <label>loan outstanding waived</label>
+            </value>
+            <value>
+                <fullName>Fund transfer done for Reinstatement/Renewal</fullName>
+                <default>false</default>
+                <label>Fund transfer done for Reinstatement/Renewal</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Quotation related</fullName>
+                <default>false</default>
+                <label>Reinstatement Quotation related</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Interest Waiver related</fullName>
+                <default>false</default>
+                <label>Reinstatement Interest Waiver related</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Pending Requirement completed</fullName>
+                <default>false</default>
+                <label>Reinstatement Pending Requirement completed</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Premium Paid OR not generated</fullName>
+                <default>false</default>
+                <label>Reinstatement Premium Paid OR not generated</label>
+            </value>
+            <value>
+                <fullName>Underwriting waived revival pending</fullName>
+                <default>false</default>
+                <label>Underwriting waived revival pending</label>
+            </value>
+            <value>
+                <fullName>Revival Payment Stop</fullName>
+                <default>false</default>
+                <label>Revival Payment Stop</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
