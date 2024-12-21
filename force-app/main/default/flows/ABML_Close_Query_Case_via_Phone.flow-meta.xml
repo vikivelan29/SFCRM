@@ -37,25 +37,6 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordUpdates>
-        <name>Close_Case</name>
-        <label>Close Case</label>
-        <locationX>176</locationX>
-        <locationY>323</locationY>
-        <inputAssignments>
-            <field>Stage__c</field>
-            <value>
-                <stringValue>Resolved</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value>
-                <stringValue>Resolved</stringValue>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
     <start>
         <locationX>50</locationX>
         <locationY>0</locationY>
@@ -63,13 +44,6 @@
             <targetReference>Close_Case</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
-        <filters>
-            <field>Channel__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Inbound Call</stringValue>
-            </value>
-        </filters>
         <filters>
             <field>Nature__c</field>
             <operator>EqualTo</operator>
@@ -86,7 +60,7 @@
         </filters>
         <object>Case</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Obsolete</status>
 </Flow>
