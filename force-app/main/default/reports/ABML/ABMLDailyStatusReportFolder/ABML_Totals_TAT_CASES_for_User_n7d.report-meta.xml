@@ -13,19 +13,13 @@
         <field>PC_$Contact.ABML_Agent_Code__c</field>
     </columns>
     <columns>
-        <field>FK_NAME</field>
-    </columns>
-    <columns>
         <field>Account.ABML_Franchisee_Code__c</field>
-    </columns>
-    <columns>
-        <field>SUBJECT</field>
     </columns>
     <columns>
         <field>Case.Nature__c</field>
     </columns>
     <columns>
-        <field>TYPE</field>
+        <field>Case.Type_Text__c</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
@@ -34,19 +28,42 @@
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
-        <field>ACCOUNT.NAME</field>
+        <field>DESCRIPTION</field>
     </columns>
     <columns>
-        <field>CREATED_DATE</field>
+        <field>Case.Created_Date__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case.Ageing_Number_Of_Days__c</field>
+    </columns>
+    <columns>
+        <field>Case.Recategorisation_Date__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_1__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_2__c</field>
+    </columns>
+    <columns>
+        <field>Case.Stage_SLA_3__c</field>
     </columns>
     <description>A bar chart that shows the number of cases that have their TAT Deadline on that day.</description>
     <filter>
         <criteriaItems>
-            <column>FK_$ABML_Case_Detail__c.TAT_Deadline__c</column>
+            <column>Case.Overall_Case_Closure_SLA__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>TODAY</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Case.Business_Unit__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ABML</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
@@ -55,7 +72,7 @@
         <field>OWNER</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>ABML Cases With Today&apos;s TAT Dealine</name>
+    <name>ABML Cases With Today&apos;s TAT Deadline</name>
     <params>
         <name>units</name>
         <value>h</value>
