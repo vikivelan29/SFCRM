@@ -18,6 +18,10 @@
     <picklistValues>
         <picklist>ABSLI_Lead_Type__c</picklist>
         <values>
+            <fullName>Agency Winback</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Contact Centre</fullName>
             <default>false</default>
         </values>
@@ -38,7 +42,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>SEND AN ADVISOR</fullName>
+            <fullName>Send an Advisor</fullName>
             <default>false</default>
         </values>
         <values>
@@ -47,10 +51,6 @@
         </values>
         <values>
             <fullName>Service to Sales- NBO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Agency Winback</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -62,6 +62,14 @@
         </values>
         <values>
             <fullName>ABHFL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABHI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABML</fullName>
             <default>false</default>
         </values>
         <values>
@@ -358,6 +366,68 @@
         <picklist>Lead_Sub_Stage__c</picklist>
         <values>
             <fullName>Fresh</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lead_Subtype__c</picklist>
+        <values>
+            <fullName>Activity - Client Interested To Invest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Distributor Interested To Get Empanelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - POST- Redemption Saved by SRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - PRE-Redemption Saved by SRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - Redemption Saved by Sales RM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - SIP Cancellation Saved Winback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - TRO Cheque Bounce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - TRO Purchase</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - TRO SIP Expiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Activity - TRO Systematic Transaction</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Lead_Type__c</picklist>
+        <values>
+            <fullName>MF Service To Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF Transaction Related Outcall</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS Client Leads</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PMS Distributor Leads</fullName>
             <default>false</default>
         </values>
     </picklistValues>
