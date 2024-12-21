@@ -2,6 +2,16 @@
     <!--name="progress"-->
     <div class="mainComp">
         <div class="inputs">
+
+            <lightning-input
+            label="Client Code"
+            placeholder="Enter Client Code"
+            value={clientCode}
+            required
+            pattern="[0-9]*"
+            onchange={handleClientCodeChange}>
+        </lightning-input>
+        
     <lightning-combobox
             label="Select Report"
             value={reportValue}
@@ -37,19 +47,13 @@
                     onchange={endChange}
                 >
                 </lightning-input>
-
-                <!--<lightning-combobox
-            label="Select Year"
-            value={selectedYear}
-            placeholder="Select Year"
-            options={yrOptions}
-            required
-            onchange={handleYChange} ></lightning-combobox>-->
+               
 
                 <div class="slds-grid slds-grid_align-end slds-p-around_medium">
                     <div class="btnSubmit">
                     <lightning-button variant="brand" label="Submit" title="Submit" onclick={onSubmit} ></lightning-button>
                     </div>
+                    
                 </div>
             </div>
             
