@@ -12,7 +12,6 @@ import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
-import WellnessBU from '@salesforce/label/c.Wellness_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
 
 
@@ -49,9 +48,7 @@ export default class Asf_CRNTagging extends LightningElement {
     @track loggedInUserBusinessUnit = '';
     @track dupeLead=[];
     @track showDupeList=false;
-    @track selectedCustomerData;
     disableCreateBtn = false;
-    isDisabledUpdateCaseButton = true;
     accountCrn;
     FAId;
     caseSuppliedEmail;
@@ -156,7 +153,6 @@ export default class Asf_CRNTagging extends LightningElement {
     }
 
     valChange(event) {
-        this.isDisabledUpdateCaseButton = true;
         this.inpValue = event.target.value;
         if (this.inpValue && this.inpValue.length >= 2) {
             this.preSelectedRows = [];
@@ -186,7 +182,6 @@ export default class Asf_CRNTagging extends LightningElement {
     }
 
     handleAccAction(event) {
-        this.isDisabledUpdateCaseButton = false;
         const row = event.detail.selectedRows;
         this.selectedCustomer = row[0].recordId;
         this.showLANForCustomer = false;
@@ -211,9 +206,7 @@ export default class Asf_CRNTagging extends LightningElement {
         this.selectedAsset = row[0];
         console.log('sekectd asset--'+JSON.stringify(this.selectedAsset));
         
-        if(this.selectedAsset) {
-            this.isDisabledUpdateCaseButton = false;
-        }
+    
     }
 
     handleclick(event) {
