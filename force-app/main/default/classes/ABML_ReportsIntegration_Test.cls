@@ -54,11 +54,11 @@ public with sharing class ABML_ReportsIntegration_Test{
         User objUser = [SELECT Id, Name, UserName FROM User WHERE Business_Unit__c = 'ABML' and LastName = 'Test' LIMIT 1];
         System.runAs(objUser){
             
-            Case caseObj = [SELECT Id, Business_Unit__c, Mapped_Email__c, Source__c,Stage__c FROM Case Limit 1];
+            Case caseObj = [SELECT Id, Business_Unit__c, Source__c,Stage__c FROM Case Limit 1];
             ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c,Case__c FROM ASF_Case_Integration__c WHERE Case__c =: caseObj.Id LIMIT 1];
             
             Test.startTest();
-            ABML_ReportsIntegration.getReports(caseObj.Id, '01-01-2024', '31-12-2024', 'Contract Note', '2024-2025');
+            ABML_ReportsIntegration.getReports(caseObj.Id, '3207049', '01-01-2024', '31-12-2024', 'Contract Note', '2024-2025');
             Test.stopTest();
             System.assertEquals(updatedCaseInt.Status__c , 'Pending');
             System.assert(updatedCaseInt.Request__c.contains('StatementOfAccount')); // Validate the request payload
@@ -72,11 +72,11 @@ public with sharing class ABML_ReportsIntegration_Test{
         
         User objUser = [SELECT Id, Name, UserName FROM User WHERE Business_Unit__c = 'ABML' and LastName = 'Test' LIMIT 1];
         System.runAs(objUser){           
-            Case caseObj = [SELECT Id, Business_Unit__c, Mapped_Email__c, Source__c, Stage__c FROM Case Limit 1];
+            Case caseObj = [SELECT Id, Business_Unit__c, Source__c, Stage__c FROM Case Limit 1];
             ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c, Case__c FROM ASF_Case_Integration__c WHERE Case__c =: caseObj.Id LIMIT 1];
             
             Test.startTest();
-            ABML_ReportsIntegration.getReports( caseObj.Id, '01-01-2024', '31-12-2024', 'Statement Of Account', '2024-2025');
+            ABML_ReportsIntegration.getReports( caseObj.Id, '3207049', '01-01-2024', '31-12-2024', 'Statement Of Account', '2024-2025');
             Test.stopTest();
             System.assertEquals(updatedCaseInt.Status__c, 'Pending');
             System.assert(updatedCaseInt.Request__c.contains('StatementOfAccount')); // Validate the request payload
@@ -90,11 +90,11 @@ public with sharing class ABML_ReportsIntegration_Test{
         
         User objUser = [SELECT Id, Name, UserName FROM User WHERE Business_Unit__c = 'ABML' and LastName = 'Test' LIMIT 1];
         System.runAs(objUser){           
-            Case caseObj = [SELECT Id, Business_Unit__c, Mapped_Email__c, Source__c, Stage__c FROM Case Limit 1];
+            Case caseObj = [SELECT Id, Business_Unit__c, Source__c, Stage__c FROM Case Limit 1];
             ASF_Case_Integration__c updatedCaseInt = [SELECT Status__c, Request__c, Response__c,Case__c FROM ASF_Case_Integration__c WHERE Case__c =: caseObj.Id LIMIT 1];
             
             Test.startTest();
-            ABML_ReportsIntegration.getReports( caseObj.Id, '01-01-2024', '31-12-2024', 'Statement Of Transaction', '2024-2025');
+            ABML_ReportsIntegration.getReports( caseObj.Id, '3207049', '01-01-2024', '31-12-2024', 'Statement Of Transaction', '2024-2025');
             Test.stopTest();
             System.assertEquals(updatedCaseInt.Status__c, 'Pending');
             System.assert(updatedCaseInt.Request__c.contains('StatementOfAccount')); // Validate the request payload
@@ -106,7 +106,7 @@ public with sharing class ABML_ReportsIntegration_Test{
     static void sendEmailAttachmentsTestMethod(){
         User objUser = [SELECT Id, Name, UserName FROM User WHERE Business_Unit__c = 'ABML' and LastName = 'Test' LIMIT 1];
         System.runAs(objUser){    
-            Case caseObj = [SELECT Id, Business_Unit__c, Mapped_Email__c, Source__c, Stage__c, AccountId FROM Case Where AccountId != null LIMIT 1];
+            Case caseObj = [SELECT Id, Business_Unit__c, Source__c, Stage__c, AccountId FROM Case Where AccountId != null LIMIT 1];
             ASF_Case_Integration__c updatedCaseInt = [SELECT Id, Status__c, Request__c, Response__c, Case__c FROM ASF_Case_Integration__c WHERE Status__c = 'Success' LIMIT 1];
             ContentVersion sentContent = [SELECT Id, Title, VersionData, FirstPublishLocationId FROM ContentVersion WHERE FirstPublishLocationId =: updatedCaseInt.Id];
             Test.startTest();
