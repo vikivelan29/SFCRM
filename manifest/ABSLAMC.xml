@@ -1989,6 +1989,7 @@
     <members>ASF_BUs_Eligible_For_IDAM_Processing</members>
     <members>ABSLAMC_LegacyPageSize</members>
 	<members>ABSLAMC_Case_Dedupe_Active</members>
+    <members>ABSLAMC_DataSyncUser_FederationId</members>
     <name>CustomLabel</name>
 	</types>
 
@@ -2303,7 +2304,31 @@
     </types>
 
     <types>
-        <members>ABSLAMCReports</members>
+    		<members>ABSLAMCDashboardReports</members>
+		<members>ManagerDashboards</members>
+		<members>AgentDashboards</members>
+		<members>AgentDashboards/ABSLAMC_Month_Wise_Cases</members>
+		<members>AgentDashboards/ABSLAMC_My_Open_Cases</members>
+		<members>AgentDashboards/ABSLAMC_Stage_Wise_Cases</members>
+		<members>AgentDashboards/My_Open_Cases_Across_Channels</members>
+		<members>AgentDashboards/My_Open_Cases_Nearing_TAT_Burst</members>
+		<members>AgentDashboards/My_TAT_Burst_Open_Cases</members>
+		<members>AgentDashboards/Open_Cases_In_my_Queues</members>
+		<members>ManagerDashboards/ABSLAMC_Ageing_of_Cases</members>
+		<members>ManagerDashboards/ABSLAMC_All_Cases_Count</members>
+		<members>ManagerDashboards/ABSLAMC_Awaiting_Customer_Response</members>
+		<members>ManagerDashboards/ABSLAMC_Cases_Nearing_TAT_Burst_at_Stage</members>
+		<members>ManagerDashboards/ABSLAMC_Category_wise_Tagging</members>
+		<members>ManagerDashboards/ABSLAMC_Closed_TAT_Burst_CAMS_Cases</members>
+		<members>ManagerDashboards/ABSLAMC_Escalated_Cases</members>
+		<members>ManagerDashboards/ABSLAMC_NPS_Report</members>
+		<members>ManagerDashboards/ABSLAMC_Open_CAMS_Cases</members>
+		<members>ManagerDashboards/ABSLAMC_Open_Cases</members>
+		<members>ManagerDashboards/ABSLAMC_Open_Cases_CTST</members>
+		<members>ManagerDashboards/ABSLAMC_Open_Cases_Monthly</members>
+		<members>ManagerDashboards/ABSLAMC_Open_Cases_TAT_Breached</members>
+		<members>ManagerDashboards/ABSLAMC_TAT_Burst_Closed_Cases</members>
+		<members>ABSLAMCReports</members>
         <members>ABSLAMCReports/My_Current_Month_Cases_EcD</members>
         <members>ABSLAMCReports/Active_Cases_Reply_Received_from_CAMS_dpm</members>
         <members>ABSLAMCReports/Zone_Current_Month_Productivity_Uyr</members>
@@ -2494,6 +2519,7 @@
         <members>ABSLAMC_PMS_RTA_Investor_Relations_G</members>
         <members>ABSLAMC_PMS_Redemption_Acct_Team_G</members>
         <members>ABSLAMC_PMS_Sales_Team_G</members>
+        <members>ABSLAMC_Managers</members>
        <!-- Add more groups as needed -->
        <name>Group</name>
     </types>
@@ -3866,6 +3892,14 @@
 		<members>ABSLAMC_Call_Centre_Team</members>
 		<members>ABSLAMC_Presence_Config</members>
 		<name>PresenceUserConfig</name>
+	</types>
+
+    <types>
+		<members>ABSLAMCAgentDashboard</members>	
+		<members>ABSLAMCManagerDashboards</members>	
+		<members>ABSLAMCAgentDashboard/GGHiyApkcGtJwZSkmdCtePwunHdIAP</members>
+		<members>ABSLAMCManagerDashboards/TFqEDpwxhcBhFiZFZiNCCmNPgtjDXG</members>
+		<name>Dashboard</name>
 	</types>
    
     <version>61.0</version>
