@@ -512,10 +512,6 @@
             <fullName>ABML</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Wellness</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Line_of_Business__pc</picklist>
