@@ -4,7 +4,6 @@
     <label>Business Unit</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
@@ -45,6 +44,21 @@
                 <default>false</default>
                 <label>ABSLAMC</label>
             </value>
-            </valueSetDefinition>
+            <value>
+                <fullName>ABHI</fullName>
+                <default>false</default>
+                <label>ABHI</label>
+            </value>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
+            </value>
+            <value>
+                <fullName>ABML</fullName>
+                <default>true</default>
+                <label>ABML</label>
+            </value>
+        </valueSetDefinition>
     </valueSet>
 </CustomField>

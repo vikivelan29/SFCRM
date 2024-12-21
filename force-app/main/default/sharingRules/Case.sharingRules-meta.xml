@@ -76,4 +76,37 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Wellness_Case_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Wellness Case Sharing</label>
+        <sharedTo>
+            <role>Wellness_Service_Agent</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>Wellness</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_PHD_Sharing_Rule</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC PHD Sharing Rule</label>
+        <sharedTo>
+            <group>ABSLAMC_ALL_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>All</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>

@@ -1209,6 +1209,141 @@
                 <isActive>false</isActive>
                 <label>post call- complain</label>
             </value>
+                        <value>
+                <fullName>Refund status</fullName>
+                <default>false</default>
+                <label>Refund status</label>
+            </value>
+            <value>
+                <fullName>Reject Refund Status</fullName>
+                <default>false</default>
+                <label>Reject Refund Status</label>
+            </value>
+            <value>
+                <fullName>Bank details updation</fullName>
+                <default>false</default>
+                <label>Bank details updation</label>
+            </value>
+            <value>
+                <fullName>Policy status</fullName>
+                <default>false</default>
+                <label>Policy status</label>
+            </value>
+            <value>
+                <fullName>Pending requirements</fullName>
+                <default>false</default>
+                <label>Pending requirements</label>
+            </value>
+            <value>
+                <fullName>Clarification</fullName>
+                <default>false</default>
+                <label>Clarification</label>
+            </value>
+            <value>
+                <fullName>Holding Reply</fullName>
+                <default>false</default>
+                <label>Holding Reply</label>
+            </value>
+            <value>
+                <fullName>Duplicate</fullName>
+                <default>false</default>
+                <label>Duplicate</label>
+            </value>
+            <value>
+                <fullName>Death Claim refund</fullName>
+                <default>false</default>
+                <label>Death Claim refund</label>
+            </value>
+            <value>
+                <fullName>Health claim related</fullName>
+                <default>false</default>
+                <label>Health claim related</label>
+            </value>
+            <value>
+                <fullName>Health policy</fullName>
+                <default>false</default>
+                <label>Health policy</label>
+            </value>
+            <value>
+                <fullName>GST invoice related</fullName>
+                <default>false</default>
+                <label>GST invoice related</label>
+            </value>
+            <value>
+                <fullName>Communication not received</fullName>
+                <default>false</default>
+                <label>Communication not received</label>
+            </value>
+            <value>
+                <fullName>Line Disconnect</fullName>
+                <default>false</default>
+                <label>Line Disconnect</label>
+            </value>
+            <value>
+                <fullName>Line not Clear</fullName>
+                <default>false</default>
+                <label>Line not Clear</label>
+            </value>
+            <value>
+                <fullName>Junk</fullName>
+                <default>false</default>
+                <label>Junk</label>
+            </value>
+            <value>
+                <fullName>Policy related</fullName>
+                <default>false</default>
+                <label>Policy related</label>
+            </value>
+            <value>
+                <fullName>New Ulip Premium holiday facility</fullName>
+                <default>false</default>
+                <label>New Ulip Premium holiday facility</label>
+            </value>
+            <value>
+                <fullName>Interest waived revival pending</fullName>
+                <default>false</default>
+                <label>Interest waived revival pending</label>
+            </value>
+            <value>
+                <fullName>loan outstanding waived</fullName>
+                <default>false</default>
+                <label>loan outstanding waived</label>
+            </value>
+            <value>
+                <fullName>Fund transfer done for Reinstatement/Renewal</fullName>
+                <default>false</default>
+                <label>Fund transfer done for Reinstatement/Renewal</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Quotation related</fullName>
+                <default>false</default>
+                <label>Reinstatement Quotation related</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Interest Waiver related</fullName>
+                <default>false</default>
+                <label>Reinstatement Interest Waiver related</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Pending Requirement completed</fullName>
+                <default>false</default>
+                <label>Reinstatement Pending Requirement completed</label>
+            </value>
+            <value>
+                <fullName>Reinstatement Premium Paid OR not generated</fullName>
+                <default>false</default>
+                <label>Reinstatement Premium Paid OR not generated</label>
+            </value>
+            <value>
+                <fullName>Underwriting waived revival pending</fullName>
+                <default>false</default>
+                <label>Underwriting waived revival pending</label>
+            </value>
+            <value>
+                <fullName>Revival Payment Stop</fullName>
+                <default>false</default>
+                <label>Revival Payment Stop</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
