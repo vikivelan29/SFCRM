@@ -96,18 +96,6 @@ public without sharing class ABML_QueueController { //Without sharing is added f
         return isWithin;
     }
     
-    @AuraEnabled(cacheable=true)
-    public static Boolean checkProfile(){ //added by Dinoy, To show the abml_Queue component based on the permission set ABML_Bulk_Assignment_PS
-     
-        Boolean isCheck;
-        User usr = [SELECT Id,ProfileId FROM User WHERE Id=:UserInfo.getUserId()];
-        
-        List<PermissionSetAssignment> lstcurrentUserPerSet =    [   SELECT Id, PermissionSet.Name,AssigneeId
-                                                                FROM PermissionSetAssignment
-                                                                WHERE AssigneeId = :usr.Id and PermissionSet.Name =:System.Label.ABML_Bulk_Assignment_PS];
-        isCheck = lstcurrentUserPerSet.size()>0 ? true : false;
-        
-        return isCheck;
-    }
+ 
 
 }
