@@ -38,14 +38,14 @@ public with sharing class ABCL_CommonCLass {
                 if(csRec.Business_Unit__c == 'ABWM'){
                     String bussUnit = 'ABFL'; 
                     if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                    	setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                	} 
+                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                    } 
                 }
                 else{
-                	String bussUnit = csRec.Business_Unit__c; 
-                	if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                    setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                	} 
+                    String bussUnit = csRec.Business_Unit__c; 
+                    if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                    } 
                 }
             }
         }
@@ -74,8 +74,13 @@ public with sharing class ABCL_CommonCLass {
                 else if(bussHrName.containsIgnoreCase('ABSLAMC')){
                     mapOf_BusinessUnit_To_BusinessHr.put('ABSLAMC', bh);
                 }
-                else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
+                else if(bussHrName.containsIgnoreCase('ABHI')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABHI', bh);
+                }else if(bussHrName.containsIgnoreCase('Wellness')) { //PR1030924-213 : Zahed added wellness condition
                     mapOf_BusinessUnit_To_BusinessHr.put('Wellness', bh);
+                }
+		else if(bussHrName.containsIgnoreCase('ABML')) { //Added by EY
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABML', bh);
                 }
             }
             
@@ -107,6 +112,7 @@ public with sharing class ABCL_CommonCLass {
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
         
         List<SObject> recordsToUpdate = new List<SObject>();
+       Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();         // added by vikas
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
                 if(caseRec.ABFL_Case_Detail__c != null){
@@ -202,6 +208,28 @@ public with sharing class ABCL_CommonCLass {
         else if(calculateMinutes > 1320 && calculateMinutes <= 1440) {
             slaOverwriteIdentifier = '1';
         }
+        else if(calculateMinutes > 900 && calculateMinutes <= 960) {
+            slaOverwriteIdentifier = '2';
+        }
+        else if(calculateMinutes > 960 && calculateMinutes <= 1020) {
+            slaOverwriteIdentifier = '3';
+        }
+        else if(calculateMinutes > 1020 && calculateMinutes <= 1080) {
+            slaOverwriteIdentifier = '4';
+        }
+        else if(calculateMinutes > 1080 && calculateMinutes <= 1140) {
+            slaOverwriteIdentifier = '5';
+        }
+        else if(calculateMinutes > 1140 && calculateMinutes <= 1200) {
+            slaOverwriteIdentifier = '6';
+        }
+        else if(calculateMinutes > 1200 && calculateMinutes <= 1260) {
+            slaOverwriteIdentifier = '7';
+        }
+        else if(calculateMinutes > 1260 && calculateMinutes <= 1320) {
+            slaOverwriteIdentifier = '8';
+        }
+        
         return slaOverwriteIdentifier;
     }
 }
