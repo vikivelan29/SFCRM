@@ -491,11 +491,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ABML_Daily_Report_Sender_Mail__mdt.Email__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>ABML_LOA__c.ABML_Client_Id__c</field>
         <readable>true</readable>
@@ -2483,9 +2478,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>ABML_DP__c-DP Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ABML_Daily_Report_Sender_Mail__mdt-ABML Daily Report Sender Mail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ABML_LOA__c-LOA Layout</layout>
