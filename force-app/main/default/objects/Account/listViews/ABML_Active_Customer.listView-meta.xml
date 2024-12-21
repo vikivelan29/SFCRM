@@ -3,7 +3,7 @@
     <fullName>ABML_Active_Customer</fullName>
     <booleanFilter>(1 OR 2) AND (3 OR 4)</booleanFilter>
     <columns>Full_Name__pc</columns>
-    <columns>ABML_Client_ID__pc</columns>
+    <columns>Client_Code__c</columns>
     <columns>ABML_Primary_DP_ID__pc</columns>
     <columns>PC_PHONE3</columns>
     <columns>ABML_PAN__pc</columns>
