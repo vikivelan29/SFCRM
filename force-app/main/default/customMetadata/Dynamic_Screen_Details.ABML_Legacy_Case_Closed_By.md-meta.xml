@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Attribute_Mapping__c</field>
-        <value xsi:type="xsd:string">Case_Closed_By</value>
+        <value xsi:type="xsd:string">ResolvedBy</value>
     </values>
     <values>
         <field>DynamicScreenHeader__c</field>

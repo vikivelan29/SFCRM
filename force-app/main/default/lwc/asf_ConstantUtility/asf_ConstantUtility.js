@@ -323,33 +323,78 @@ export const lanLabels = {
     ABHI: {
         CTST_COLS: [
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
-            { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
+           // { label: 'LOB', fieldName: 'LOB__c', type: 'text' },
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
             { label: 'Sub Type', fieldName: 'Sub_Type__c', type: 'text' }
         ],
-        
-        SELECT_PRODUCT: "Select LAN",
-        PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
-        CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
-        CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and LAN combination. We recommend selecting the right Case Type Sub Type for the case ?',
-        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/LAN Tagging",
-        RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same LAN as current case",
-        CREATE_SR_WITH_FA: "Create Case with LAN",
-        FA_VALIDATION_MESSAGE: "Please select Loan Account Number to process Case type search",
-        FA_MANDATORY_PREFRAMEWORK: "Please tag LAN to customer to process Case Type Search",
-        CREATE_CASE_WITH_FA: "Create Case with LAN",
+        ASSET_COLUMNS:[{
+            label: 'Id',
+            fieldName: 'Id',
+            type: 'text',
+            fixedWidth: 1,
+            hideLabel: true,
+            hideDefaultActions: true
+        },
+        {
+            label: 'Name',
+            fieldName: 'Name',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Policy Status',
+            fieldName: 'Status',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Plan Name',
+            fieldName: 'Plan_Name__c',
+            type: 'currency',
+            initialWidth: 180
+        },
+        {
+            label: 'Policy Number',
+            fieldName: 'LAN__c',
+            type: 'text',
+            initialWidth: 180
+        },
+        {
+            label: 'Policy Type',
+            fieldName: 'PolicyType__c',
+            type: 'date',
+            initialWidth: 180
+        },
+        {
+            label: 'Start Date',
+            fieldName: 'Issue_Date__c',
+            type: 'date',
+            initialWidth: 180
+        }
+        ],
+        SELECT_PRODUCT: "Select Policy",
+        PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /Policy# /PAN#",
+        CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and Policy combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
+        CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and Policy combination. We recommend selecting the right Case Type Sub Type for the case ?',
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/Policy Tagging",
+        RELATE_DUP_LAN_ERRORMSG: "Parent case should belong to same Policy as current case",
+        CREATE_SR_WITH_FA: "Create Case with Policy",
+        FA_VALIDATION_MESSAGE: "Please select Policy to process Case type search",
+        FA_MANDATORY_PREFRAMEWORK: "Please tag Policy to customer to process Case Type Search",
+        CREATE_CASE_WITH_FA: "Create Case with Policy",
         CLAIMDETAILS_FAILURE_MESSAGE: "No Claims Found",
         ABHI_BUSINESS_UNIT: "ABHI",
         CREATE_SALES_PROSPECT: 'Create Service Prospect',
 
     },
-      //Added by Praneeth for CTST columns of Case Category for ABML
-      ABML: {
+	//Added by Praneeth for CTST columns of Case Category for ABML
+    ABML: {
+        
         CREATE_CASE_WITH_FA: "Products not available for ABML",
         PRODUCT_SEARCH_PLACEHOLDER: "Enter Customer Name /Client Code /Email /Mobile /LAN# /PAN#",
         CASE_ELIGIBLE_WITH_NEW_CTST_MSG: "Current Case Type for this case, is eligible for this Customer and LAN combination. Do you want to proceed with existing Case Type Sub Type or Re-Categorize Type Subtype?",
         CASE_NOT_ELIGIBLE_WITH_EXISING_CST_MSG : 'Current Case Type for this case, is not eligible for this Customer and LAN combination. We recommend selecting the right Case Type Sub Type for the case ?',
-        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect/LAN Tagging",
+        CUSTOMER_TAGGING_CARD_TITLE: "Customer/Prospect Tagging",
         CTST_COLS: [
             { label: 'Nature', fieldName: 'Nature__c', type: 'text' },
             { label: 'Type', fieldName: 'Type__c', type: 'text' },
@@ -543,9 +588,9 @@ export const lanLabels = {
       Wellness: {
           OPTSLBLS: [{"label":"Email","value":"Email"},{"label":"SMS","value":"SMS"}]
         },
-        // Added by Saravpreet(To remove SMS option for ABML BU)
+		// Added by Saravpreet(To remove SMS option for ABML BU)
       ABML: {
             OPTSLBLS: [{"label":"Email","value":"Email"}]
-          }   
+          }
     };
     // Rajendra Singh Nagar: PR1030924-209 - End
