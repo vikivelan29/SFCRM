@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_link_required__c</fullName>
+    <label>Payment link required</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>With Modification</fullName>
+                <default>false</default>
+                <label>With Modification</label>
+            </value>
+            <value>
+                <fullName>Without Modification</fullName>
+                <default>false</default>
+                <label>Without Modification</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
