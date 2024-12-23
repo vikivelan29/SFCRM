@@ -134,7 +134,7 @@
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
-                <groupingColumn>FK_$ABML_Case_Detail__c.TAT_Deadline__c</groupingColumn>
+                <groupingColumn>Case.Overall_Case_Closure_SLA__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>

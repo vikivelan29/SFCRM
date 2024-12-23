@@ -3,9 +3,47 @@
     <fullName>ABML_WelcomeCallStatus__c</fullName>
     <externalId>false</externalId>
     <label>Welcome Call Status</label>
-    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>OPEN</fullName>
+                <default>false</default>
+                <label>OPEN</label>
+            </value>
+            <value>
+                <fullName>CALLBACK-FOLLOWUP</fullName>
+                <default>false</default>
+                <label>CALLBACK-FOLLOWUP</label>
+            </value>
+            <value>
+                <fullName>DEMO RESCHEDULED</fullName>
+                <default>false</default>
+                <label>DEMO RESCHEDULED</label>
+            </value>
+            <value>
+                <fullName>NULL</fullName>
+                <default>false</default>
+                <label>NULL</label>
+            </value>
+            <value>
+                <fullName>CLOSED</fullName>
+                <default>false</default>
+                <label>CLOSED</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>
