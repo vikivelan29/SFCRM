@@ -2937,8 +2937,8 @@
             <tab>abml_List_View_Tab</tab>
         </mappings>
 	<mappings>
-	    <tab>Bulk_Case_Close</tab>
-	</mappings>
+            <tab>Bulk_Case_Close</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>
