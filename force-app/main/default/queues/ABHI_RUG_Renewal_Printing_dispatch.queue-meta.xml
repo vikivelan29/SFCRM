@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>prasad.yadav3@adityabirlacapital.com</email>
+    <name>ABHI RUG Renewal Printing &amp; dispatch</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABHI_RUG_Renewal_Printing_dispatch</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>
