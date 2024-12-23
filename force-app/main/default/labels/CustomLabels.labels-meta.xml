@@ -24,6 +24,13 @@
         <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
     </labels>
     <labels>
+        <fullName>ABSLAMC_DataSyncUser_FederationId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLAMC DataSyncUser FederationId</shortDescription>
+        <value>DataSyncUatFedId</value>
+    </labels>
+    <labels>
         <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>
         <language>en_US</language>
         <protected>false</protected>

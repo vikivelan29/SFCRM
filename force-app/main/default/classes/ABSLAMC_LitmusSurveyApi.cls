@@ -11,6 +11,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
     Boolean isRecursive = true;
     String allowedSources = System.label.ABSLAMC_Litmus_Allowed_Sources;
     String allowedCallertType = System.label.ABSLAMC_Litmus_Allowed_CallerTypes;
+    String dataSyncUsrFedId = System.label.ABSLAMC_DataSyncUser_FederationId;
 
     list<String> litmusAllowedSourcesList =  allowedSources.split(';');
     list<String> litmusAllowedCallerTypesList = allowedCallertType.split(';');
@@ -26,14 +27,14 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
     *****************************************************************************************************************/
 
     public boolean isAllCasesClosed(String caseId, String accountId){
-        Account accountWithCases = [SELECT id, 
+        List<Account> accountWithCases = [SELECT id, 
                                         (SELECT id, CaseNumber, Status,CCC_External_Id__c, Source__c
                                         FROM Cases 
                                         WHERE Stage__c NOT IN (:ABSLAMC_Constants.RESOLVED_STAGE, :ABSLAMC_Constants.UNRESOLVED_STAGE) AND Id != :caseId) 
                                     FROM Account 
                                     WHERE Id=:accountId
                                     WITH SECURITY_ENFORCED];
-        if(accountWithCases.cases.isEmpty()){
+        if(!accountWithCases.isEmpty() && accountWithCases[0].cases.isEmpty()){
             return true;
         }
         return false;
@@ -44,7 +45,7 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
             SELECT AccountId, Account.Name, Account.RecordType.Name, Account.PersonMobilePhone, Account.Phone, Account.PersonEmail, Account.Office_Email__c, Account.isPersonAccount,
                     Account.PAN__c, Account.ARN_Number__c,
                     CaseNumber, ABSLAMC_Case_Detail__r.Caller_Type__c, CCC_External_Id__c, Type_Text__c, Sub_Type_Text__c, Source__c, Business_Unit__c, Nature__c,
-                    createdBy.Name, createdDate, ClosedDate, owner.name, LAN__c, FTR__c, Ageing_Number_Of_Days__c, Status, Stage__c, isClosed,LOB__c,Channel__c
+                    createdBy.Name, createdDate, ClosedDate, owner.name, LAN__c, FTR__c, Ageing_Number_Of_Days__c, Status, Stage__c, isClosed,LOB__c,Channel__c, CreatedById, OnCreateCloseSR__c
             FROM Case
             WHERE Id =:caseId
         ];
@@ -239,7 +240,21 @@ public with sharing class ABSLAMC_LitmusSurveyApi implements ASF_IntegrationInvo
 
     public Map<Id, ASF_IntegrationsController.IntegrationWrapper> evaluate(List<Case> caseRecs){
         Map<Id, ASF_IntegrationsController.IntegrationWrapper> integrationWrapperMap = new Map<Id, ASF_IntegrationsController.IntegrationWrapper>();
-        for(case cs : caseRecs){
+        List<Case> newList = new List<Case>();
+        Set<Id> userIds = new Set<Id>();
+        for(Case cs : caseRecs){
+            userIds.add(cs.CreatedById);
+        }
+        Map<Id, User> userMap = new Map<Id,User>();
+        for(User u : [SELECT Id, FederationIdentifier FROM User where Id IN: userIds]){
+            userMap.put(u.Id, u);
+        }
+        for(Case cs : caseRecs){
+            if(!(cs.OnCreateCloseSR__c == true && String.isNotBlank(userMap.get(cs.CreatedById).FederationIdentifier) && userMap.get(cs.CreatedById).FederationIdentifier == dataSyncUsrFedId)){
+                newList.add(cs);
+            }
+        }
+        for(case cs : newList){
             integrationWrapperMap.put(cs.Id,evaluate(cs));   
         }
         return integrationWrapperMap;
