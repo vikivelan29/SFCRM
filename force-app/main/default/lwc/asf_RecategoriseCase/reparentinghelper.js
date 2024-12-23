@@ -40,7 +40,8 @@ const setSelectedAccount = async(event, parentJS) => {
     parentJS.showLANForCustomer = false;
     if (row[0].objectType == 'Customer') {
         // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
-        parentJS.showLANForCustomer =  parentJS.businessUnit== ABML_BU ? false: true; //Added by EY for ABML
+        parentJS.showLANForCustomer = parentJS.businessUnit == ABML_BU ? false: true; //Added by EY for ABML
+
         parentJS.accountId = row[0].recordId;
         parentJS.isasset = 'true';
         parentJS.selectedAsset = [];

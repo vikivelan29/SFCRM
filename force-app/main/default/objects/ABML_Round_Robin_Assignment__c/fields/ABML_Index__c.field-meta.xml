@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ABML_Index__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>This field stores the index of the next user of the queue to which Case needs to be assigned.</description>
+    <externalId>false</externalId>
+    <label>ABML Index</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
