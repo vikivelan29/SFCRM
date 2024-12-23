@@ -1,44 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
-        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
-        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Health_Intent_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
-        <pageOrSobjectType>Health_Intent__c</pageOrSobjectType>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Health_Intent_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
-        <pageOrSobjectType>Health_Intent__c</pageOrSobjectType>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>SR_Request_Record_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
@@ -125,6 +89,42 @@
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
         <pageOrSobjectType>Asset</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Health_Intent_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Health_Intent__c</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Health_Intent_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Health_Intent__c</pageOrSobjectType>
     </actionOverrides>
     <brand>
         <headerColor>#0070D2</headerColor>
@@ -136,27 +136,10 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>ABCL Service Console</label>
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Case_Detail_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>WellnessCaseDetail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Wellness CRM Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Case_Detail_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>WellnessCaseDetail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Wellness CRM Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Wellness_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
@@ -245,355 +228,127 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Wellness_Lead_Lightning_Page</content>
+        <content>ABSLAMC_Folio_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Service</recordType>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Wellness CRM Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Wellness_Lead_Lightning_Page</content>
+        <content>ABSLAMC_Folio_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Service</recordType>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Wellness CRM Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHFL_Asset_Detail_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHFL Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHFL_Asset_Detail_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHFL Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHFL_Asset_Detail_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHFL_Asset_Detail_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABHFL_Asset_Detail__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_IGMS_Document_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_IGMS_Document_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_IGMS_Document_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
-        <recordType>ABSLI_IGMS_Document__c.Upload</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_IGMS_Document_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
-        <recordType>ABSLI_IGMS_Document__c.Upload</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_IGMS_Document_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
-        <recordType>ABSLI_IGMS_Document__c.Download</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_IGMS_Document_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
-        <recordType>ABSLI_IGMS_Document__c.Download</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHI_Customer_Member_Mapping_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Customer_Member_Mapping__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
+        <content>ABSLAMC_Account_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
+        <recordType>PersonAccount.ABSLAMC_Individual_Distributor</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
+        <content>ABSLAMC_Account_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
+        <recordType>PersonAccount.ABSLAMC_Individual_Distributor</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Case_Framework_Lightning_Page</content>
+        <content>ABSLAMC_Account_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABSLAMC_Non_Individual_Distributor</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Case_Framework_Lightning_Page</content>
+        <content>ABSLAMC_Account_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABSLAMC_Non_Individual_Distributor</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Case_Framework_Lightning_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Case_Framework_Lightning_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Case_Framework_Lightning_Page</content>
+        <content>ABSLAMC_Case_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Framework</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Case_Framework_Lightning_Page</content>
+        <content>ABSLAMC_Case_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Framework</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Case_Pre_Framework_Lightning_Page</content>
+        <content>ABSLAMC_Customer_record_page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Interaction</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Case_Pre_Framework_Lightning_Page</content>
+        <content>ABSLAMC_Customer_record_page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Interaction</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Lead_Record_Page</content>
+        <content>ABSLAMC_Customer_record_page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>ABSLAMC Base User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABSLAMC_Customer_record_page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
+        <type>Flexipage</type>
+        <profile>ABSLAMC Base User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABSLAMC_Lead_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Sales</recordType>
+        <recordType>Lead.ABSLAMC_Leads</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Lead_Record_Page</content>
+        <content>ABSLAMC_Lead_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Sales</recordType>
+        <recordType>Lead.ABSLAMC_Leads</recordType>
         <type>Flexipage</type>
-        <profile>ABSLI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABSLI_Advisor</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Account_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABSLI_Advisor</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Case_Pre_Framework_Lightning_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Interaction</recordType>
-        <type>Flexipage</type>
-        <profile>ABHI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Case_Pre_Framework_Lightning_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Interaction</recordType>
-        <type>Flexipage</type>
-        <profile>ABHI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Claim_Record_Page5</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Claim__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Claim_Record_Page5</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Claim__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABHI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Claim_Record_Page5</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Claim__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Claim_Record_Page5</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Claim__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -853,22 +608,6 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABSLI_Asset_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Asset</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLI_Asset_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Asset</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABSLI RPA Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Case_Pre_Framework_Lightning_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
@@ -911,40 +650,6 @@
         <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
         <profile>ABHFL Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Folio_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Asset</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Folio_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Asset</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Lead_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.ABSLAMC_Leads</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Lead_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.ABSLAMC_Leads</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -1423,6 +1128,78 @@
         <type>Flexipage</type>
         <profile>ABHFL RPA Base Profile</profile>
     </profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Small</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Sales</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Base Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Large</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Sales</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Base Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Small</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Sales</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Manager Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Large</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Sales</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Manager Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Small</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Service</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Base Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Large</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Service</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Base Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Small</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Service</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Manager Profile</profile>
+	</profileActionOverrides>
+	<profileActionOverrides>
+              <actionName>View</actionName>
+              <content>ABML_Lead_Record_Page</content>
+              <formFactor>Large</formFactor>
+              <pageOrSobjectType>Lead</pageOrSobjectType>
+              <recordType>Lead.Service</recordType>
+              <type>Flexipage</type>
+              <profile>ABML Manager Profile</profile>
+	</profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Case_Pre_Framework_Lightning_Page</content>
@@ -1565,6 +1342,24 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Wellness_Lead_Lightning_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Service</recordType>
+        <type>Flexipage</type>
+        <profile>Wellness CRM Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Wellness_Lead_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Service</recordType>
+        <type>Flexipage</type>
+        <profile>Wellness CRM Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>ABSLI_IGMS_Document_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>ABSLI_IGMS_Document__c</pageOrSobjectType>
@@ -1614,114 +1409,6 @@
         <recordType>ABSLI_IGMS_Document__c.Upload</recordType>
         <type>Flexipage</type>
         <profile>ABSLI Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Case_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Framework</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Case_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Framework</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Pre_Framework_Lightning_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Interaction</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Pre_Framework_Lightning_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Interaction</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Account_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABSLAMC_Individual_Distributor</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Account_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABSLAMC_Individual_Distributor</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Account_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABSLAMC_Non_Individual_Distributor</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Account_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABSLAMC_Non_Individual_Distributor</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Customer_record_page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Customer_record_page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Customer_record_page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABSLAMC_Customer_record_page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
-        <type>Flexipage</type>
-        <profile>ABSLAMC Base User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2024,6 +1711,24 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>ABSLAMC_Pre_Framework_Lightning_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Interaction</recordType>
+        <type>Flexipage</type>
+        <profile>ABSLAMC Base User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABSLAMC_Pre_Framework_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Interaction</recordType>
+        <type>Flexipage</type>
+        <profile>ABSLAMC Base User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Dispositions_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Dispositions__c</pageOrSobjectType>
@@ -2126,81 +1831,667 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>RNWL Base Profile</profile>
+        <profile>***System Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>RNWL Base Profile</profile>
+        <profile>***System Admin</profile>
     </profileActionOverrides>
-    <profileActionOverrides>
+              <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>RNWL Manager Profile</profile>
+        <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.Individual</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>RNWL Manager Profile</profile>
+        <profile>Admin</profile>
     </profileActionOverrides>
-    <profileActionOverrides>
+              <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>RNWL Base Profile</profile>
+        <profile>ABML Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>RNWL Base Profile</profile>
+        <profile>ABML Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>RNWL Manager Profile</profile>
+        <profile>ABML Manager Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABHI_Customer_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Non_Individual</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>RNWL Manager Profile</profile>
+        <profile>ABML Manager Profile</profile>
     </profileActionOverrides>
-	
-	
-	
-	
-	<profileActionOverrides>
+    
+               <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DSA_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DSA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DSA_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DSA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DSA_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DSA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DSA_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DSA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Customer_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Customer_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+              <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Customer_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Customer_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+<profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Customer_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Customer_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Customer_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Customer_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+              
+              <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_BSB_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_BSB_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+              <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_BSB_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_BSB_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+              <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_BSB_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_BSB_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_BSB_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_BSB_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+
+              <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Employee_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Employee_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+              <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Employee_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Employee_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+              <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Employee_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Employee_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Employee_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Employee_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+
+              <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABML_Branch</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABML_Branch</recordType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+                  <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABML_Branch</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABML_Branch</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+                  <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABML_Branch</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABML_Branch</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABML_Branch</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Branch_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.ABML_Branch</recordType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+              
+                  <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Bank_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Bank_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Bank_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Bank_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Bank_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Bank_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Bank_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_Bank_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DP_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DP_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DP_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DP_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DP_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DP_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DP_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_DP_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_LOA_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_LOA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>***System Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_LOA_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_LOA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Manager Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_LOA_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_LOA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABML Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_LOA_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ABML_LOA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Health_Provider_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Health_Provider_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>ABHI Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Health_Provider_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Health_Provider_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Health_Provider__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
         <actionName>View</actionName>
         <content>ABML_Case_Pre_Framework_Lightning_Page</content>
         <formFactor>Small</formFactor>
@@ -2253,8 +2544,8 @@
         <recordType>Case.Interaction</recordType>
         <type>Flexipage</type>
         <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
+    </profileActionOverrides>     
+     <profileActionOverrides>
         <actionName>View</actionName>
         <content>ABML_Case_Framework_Lightning_Page</content>
         <formFactor>Small</formFactor>
@@ -2310,365 +2601,75 @@
     </profileActionOverrides>
 	<profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Lead_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Sales</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Lead_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Sales</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Lead_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Sales</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Lead_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Sales</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Lead_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Service</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Lead_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Service</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Lead_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Service</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Lead_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Lead</pageOrSobjectType>
-        <recordType>Lead.Service</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-	
-	
-	<profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Franchisee_Record_Page</content>
+        <content>ABHI_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Franchisee</recordType>
+        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>RNWL Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Franchisee_Record_Page</content>
+        <content>ABHI_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Franchisee</recordType>
+        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>RNWL Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Franchisee_Record_Page</content>
+        <content>ABHI_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Franchisee</recordType>
+        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>RNWL Manager Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Franchisee_Record_Page</content>
+        <content>ABHI_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Franchisee</recordType>
+        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>RNWL Manager Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Franchisee_Record_Page</content>
+        <content>ABHI_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Franchisee</recordType>
+        <recordType>Account.Non_Individual</recordType>
         <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
+        <profile>RNWL Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Franchisee_Record_Page</content>
+        <content>ABHI_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Franchisee</recordType>
+        <recordType>Account.Non_Individual</recordType>
         <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
+        <profile>RNWL Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Franchisee_Record_Page</content>
+        <content>ABHI_Customer_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Franchisee</recordType>
+        <recordType>Account.Non_Individual</recordType>
         <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>RNWL Manager Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Franchisee_Record_Page</content>
+        <content>ABHI_Customer_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Franchisee</recordType>
+        <recordType>Account.Non_Individual</recordType>
         <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DSA_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_DSA</recordType>
-        <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DSA_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_DSA</recordType>
-        <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DSA_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_DSA</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DSA_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_DSA</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DSA_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_DSA</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DSA_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_DSA</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DSA_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_DSA</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DSA_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_DSA</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Customer_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Customer</recordType>
-        <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Customer_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Customer</recordType>
-        <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Customer_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Customer</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Customer_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Customer</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Customer_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Customer</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Customer_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Customer</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Customer_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Customer</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Customer_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Customer</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_BSB_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_BSB</recordType>
-        <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_BSB_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_BSB</recordType>
-        <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_BSB_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_BSB</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_BSB_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_BSB</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_BSB_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_BSB</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_BSB_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_BSB</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_BSB_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_BSB</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_BSB_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_BSB</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>RNWL Manager Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2677,7 +2678,7 @@
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>PersonAccount.ABML_Branch_Employee</recordType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2686,61 +2687,7 @@
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>PersonAccount.ABML_Branch_Employee</recordType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Branch_Employee_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Branch_Employee_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Branch_Employee_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Branch_Employee_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Branch_Employee_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_Branch_Employee_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>PersonAccount.ABML_Branch_Employee</recordType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2749,7 +2696,7 @@
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.ABML_Branch</recordType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2758,255 +2705,186 @@
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.ABML_Branch</recordType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Branch_Record_Page</content>
+        <content>ABML_BSB_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Branch</recordType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Branch_Record_Page</content>
+        <content>ABML_BSB_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Branch</recordType>
+        <recordType>PersonAccount.ABML_BSB</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Branch_Record_Page</content>
+        <content>ABML_DSA_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Branch</recordType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
         <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Branch_Record_Page</content>
+        <content>ABML_DSA_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Branch</recordType>
+        <recordType>PersonAccount.ABML_DSA</recordType>
         <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Branch_Record_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Branch</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Branch_Record_Page</content>
+        <content>ABML_Franchisee_Record_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.ABML_Branch</recordType>
+        <recordType>Account.ABML_Franchisee</recordType>
         <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Bank_Record_Page</content>
+        <content>ABML_Customer_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Bank_Record_Page</content>
+        <content>ABML_Customer_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABML_Customer</recordType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Bank_Record_Page</content>
+        <content>OneABC_Account_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABSLI_Advisor</recordType>
         <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Bank_Record_Page</content>
+        <content>OneABC_Account_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.ABSLI_Advisor</recordType>
         <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Bank_Record_Page</content>
+        <content>OneABC_Account_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Bank_Record_Page</content>
+        <content>OneABC_Account_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>PersonAccount.Individual</recordType>
         <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Bank_Record_Page</content>
+        <content>OneABC_Account_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_Bank_Record_Page</content>
+        <content>OneABC_Account_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_Bank__c</pageOrSobjectType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Non_Individual</recordType>
         <type>Flexipage</type>
-        <profile>Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_DP_Record_Page</content>
+        <content>OneABC_Asset_Record_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_DP_Record_Page</content>
+        <content>OneABC_Asset_Record_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <pageOrSobjectType>Asset</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>***System Admin</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_DP_Record_Page</content>
+        <content>OneABC_Case_Framework_Lightning_Page1</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Framework</recordType>
         <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_DP_Record_Page</content>
+        <content>OneABC_Case_Framework_Lightning_Page1</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Framework</recordType>
         <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_DP_Record_Page</content>
+        <content>OneABC_Case_Pre_Framework_Lightning_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Interaction</recordType>
         <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>ABML_DP_Record_Page</content>
+        <content>OneABC_Case_Pre_Framework_Lightning_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Interaction</recordType>
         <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
+        <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DP_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_DP_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_DP__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_LOA_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_LOA_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>***System Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_LOA_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_LOA_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABML Manager Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_LOA_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_LOA_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>ABML Base Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_LOA_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>ABML_LOA_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>ABML_LOA__c</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-		
     <tabs>Health_Provider__c</tabs>
     <tabs>Claim__c</tabs>
     <tabs>Health_Intent__c</tabs>
@@ -3015,6 +2893,7 @@
     <tabs>Customer_Prospect_Search</tabs>
     <tabs>standard-Case</tabs>
     <tabs>Payment_Customer_Search</tabs>
+    <tabs>Search_Kavach_Customer_Policy_details</tabs>
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Asset</tabs>
@@ -3022,8 +2901,7 @@
     <tabs>Bulk_Upload</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
-	<tabs>abml_List_View_Tab</tabs>
-    <tabs>Bulk_Case_Close</tabs>
+    <tabs>abml_List_View_Tab</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ABCL_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -3040,6 +2918,9 @@
             <tab>Customer_Prospect_Search</tab>
         </mappings>
         <mappings>
+            <tab>Search_Kavach_Customer_Policy_details</tab>
+        </mappings>
+        <mappings>
             <tab>Health_Intent__c</tab>
         </mappings>
         <mappings>
@@ -3052,10 +2933,13 @@
             <tab>Payment_Customer_Search</tab>
         </mappings>
         <mappings>
-            <tab>standard-Account</tab>
+            <tab>abml_List_View_Tab</tab>
         </mappings>
+	<mappings>
+	    <tab>Bulk_Case_Close</tab>
+	</mappings>
         <mappings>
-            <tab>standard-Asset</tab>
+            <tab>standard-Account</tab>
         </mappings>
         <mappings>
             <fieldName>AccountId</fieldName>
@@ -3068,15 +2952,15 @@
             <tab>standard-Lead</tab>
         </mappings>
         <mappings>
+            <tab>standard-Asset</tab>
+        </mappings>
+	<mappings>
             <tab>standard-Opportunity</tab>
         </mappings>
         <mappings>
             <tab>standard-report</tab>
         </mappings>
-		<mappings>
-            <tab>abml_List_View_Tab</tab>
-        </mappings>
-        <mappings>
+	<mappings>
             <tab>Bulk_Case_Close</tab>
         </mappings>
     </workspaceConfig>
