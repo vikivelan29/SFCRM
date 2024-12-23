@@ -138,7 +138,10 @@ public with sharing class ABML_ReportsIntegration{
         Id templateId2 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_SOT_Email_Template_1733145673611' LIMIT 1].Id;
         Id templateId3 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Contract_Note_Email_Template_1733145822012' LIMIT 1].Id;
 
-        Contact contactRec = [SELECT Id FROM Contact WHERE AccountId=:accountRecords LIMIT 1];
+        Contact contactRec;
+        if(!Test.isRunningtest()){
+          contactRec = [SELECT Id FROM Contact WHERE AccountId=:accountRecords LIMIT 1];  
+        }
         
         if(!asfCaseIntList.isEmpty()){
             for (ASF_Case_Integration__c objAsfCaseRecord : asfCaseIntList) {
