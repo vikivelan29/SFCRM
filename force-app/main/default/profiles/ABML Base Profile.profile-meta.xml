@@ -4,6 +4,7 @@
         <apexClass>ABCL_EmailMessageTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+	
     <classAccesses>
         <apexClass>ABCL_IntegrationCallout</apexClass>
         <enabled>false</enabled>
