@@ -95,8 +95,8 @@ export default class Abml_Reports extends LightningElement {
     }*/
     generateYearOptions() {
         const currentYear = new Date().getFullYear();
-        const startYear = currentYear - 5;
-        const endYear = startYear + 5;
+        const startYear = 2011;
+        const endYear = currentYear;
         console.log('currentYear--:',currentYear);
         console.log('startYear--:',startYear);
         console.log('endYear--:',endYear);
@@ -132,6 +132,7 @@ export default class Abml_Reports extends LightningElement {
         //console.log('year',myDate.getFullYear());
         //console.log('month',myDate.getMonth()+1);
         //console.log('day',myDate.getDate());
+
         if (monthVal.toString().length < 2){
             monthVal = '0' + monthVal;}
         if (dateVal.toString().length < 2){
@@ -156,7 +157,14 @@ export default class Abml_Reports extends LightningElement {
         this.endDatePass = dttt;
         console.log('this.startDatePass',this.startDatePass);
         console.log('this.endDatePass',this.endDatePass);
-        if(this.reportValue==undefined || this.reportValue ==''){
+
+        if(this.clientCode =='' || this.clientCode == undefined){
+            LightningAlert.open({
+                message: 'Client code required',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        } else if(this.reportValue==undefined || this.reportValue ==''){
             LightningAlert.open({
                 message: 'Select Report type',
                 theme: 'warning', 
@@ -189,9 +197,9 @@ export default class Abml_Reports extends LightningElement {
                 theme: 'warning', 
                 label: 'Warning!',
             });
-        } else if(this.clientCode =='' || this.clientCode == undefined){
+        } else if (!this.clientCode || !/^\d+$/.test(this.clientCode)) {
             LightningAlert.open({
-                message: 'Client code required',
+                message: 'Please enter a valid client Code before submitting.',
                 theme: 'warning', 
                 label: 'Warning!',
             });
@@ -233,5 +241,5 @@ export default class Abml_Reports extends LightningElement {
         });
         }
 
-     }
+    }
 }

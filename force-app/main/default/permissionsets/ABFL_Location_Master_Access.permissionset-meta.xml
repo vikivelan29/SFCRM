@@ -7,6 +7,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+    <editable>true</editable>
+        <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
+        <readable>true</readable>
+        </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ABCLLogRecording__c.Data__c</field>
         <readable>false</readable>
@@ -5648,11 +5653,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity.Budget_Confirmed__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Opportunity.CampaignId</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5664,11 +5664,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Description</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opportunity.Discovery_Completed__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5688,22 +5683,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Opportunity.Loss_Reason__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Opportunity.NextStep</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Probability</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opportunity.ROI_Analysis_Completed__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

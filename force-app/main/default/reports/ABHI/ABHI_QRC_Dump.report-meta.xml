@@ -311,6 +311,24 @@
     <columns>
         <field>BucketField_31427092</field>
     </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Account.Is_Chronic__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Account.Chronic_care__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Account.CMP_OPD__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Source__c</field>
+    </columns>
+    <columns>
+        <field>Case$ABHI_Case_Detail__c.Inward_Number__c</field>
+    </columns>
     <customDetailFormulas>
         <calculatedFormula>CASE(Case.CCC_External_Id__c, 
 &apos;ABHI_Endorsement_Request17&apos;, &apos;F&apos;,
