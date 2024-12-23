@@ -7677,11 +7677,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Lead.ONEABC_Lead_Source__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Lead.Function__c</field>
         <readable>true</readable>
     </fieldPermissions>
