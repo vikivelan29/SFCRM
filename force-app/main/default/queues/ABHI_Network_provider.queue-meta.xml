@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>dolly.asopa@adityabirlacapital.com</email>
+    <name>ABHI Network provider</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABHI_Network_provider_G</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>
