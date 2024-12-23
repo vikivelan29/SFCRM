@@ -14,6 +14,7 @@
             </value>
         </assignmentItems>
     </assignments>
+    <description>Flow To Close Query Cases</description>
     <environments>Default</environments>
     <interviewLabel>ABML Close {!$Flow.CurrentDateTime}</interviewLabel>
     <label>ABML Close Query Case via Phone</label>
@@ -61,5 +62,5 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
 </Flow>
