@@ -38,14 +38,14 @@ public with sharing class ABCL_CommonCLass {
                 if(csRec.Business_Unit__c == 'ABWM'){
                     String bussUnit = 'ABFL'; 
                     if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                    } 
+                    	setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                	} 
                 }
                 else{
-                    String bussUnit = csRec.Business_Unit__c; 
-                    if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                    } 
+                	String bussUnit = csRec.Business_Unit__c; 
+                	if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                    setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                	} 
                 }
             }
         }
