@@ -5,7 +5,7 @@
     <label>Upfront Good Health Discount</label>
     <length>10</length>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
+    <trackFeedHistory>true</trackFeedHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>
