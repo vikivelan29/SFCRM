@@ -21,6 +21,115 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ABHI_Case_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABHI Case Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_AIF_Cases_Share_to_AIF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC AIF Cases Share to AIF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_AIF_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>AIF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_MF_Case_Share_to_MF_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC MF Case Share to MF Users</label>
+        <sharedTo>
+            <group>ABSLAMC_MF_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>MF</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_PHD_Sharing_Rule</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC PHD Sharing Rule</label>
+        <sharedTo>
+            <group>ABSLAMC_ALL_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>All</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_PMS_Cases_Share_to_PMS_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC PMS Cases Share to PMS Users</label>
+        <sharedTo>
+            <group>ABSLAMC_PMS_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>PMS</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLAMC_RE_Cases_Share_to_RE_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABSLAMC RE Cases Share to RE Users</label>
+        <sharedTo>
+            <group>ABSLAMC_RE_All_Teams_G</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLAMC</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Line_Of_Business__c</field>
+            <operation>equals</operation>
+            <value>RE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>ABSLIG_Case_Sharing</fullName>
         <accessLevel>Read</accessLevel>
         <label>ABSLIG Case Sharing</label>
@@ -45,6 +154,34 @@
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>RNWL_Internal_Users</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>RNWL Internal Users</label>
+        <sharedTo>
+            <group>RNWL_Internal_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABHI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>RNWL_TeamLeader_ATS</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>RNWL_TeamLeader_ATS</label>
+        <sharedTo>
+            <roleAndSubordinates>RNWL_Team_Leader_ATS</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Calling_Source__c</field>
+            <operation>equals</operation>
+            <value>ATS</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -87,25 +224,6 @@
             <field>Business_Unit__c</field>
             <operation>equals</operation>
             <value>Wellness</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLAMC_PHD_Sharing_Rule</fullName>
-        <accessLevel>Read</accessLevel>
-        <label>ABSLAMC PHD Sharing Rule</label>
-        <sharedTo>
-            <group>ABSLAMC_ALL_Users</group>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLAMC</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Line_Of_Business__c</field>
-            <operation>equals</operation>
-            <value>All</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

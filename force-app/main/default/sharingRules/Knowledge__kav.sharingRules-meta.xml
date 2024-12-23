@@ -24,7 +24,17 @@
             <roleAndSubordinates>ABHFL_Leads</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
-
+    <sharingOwnerRules>
+        <fullName>ABHI_Knowledge_Sharing_Rule</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABHI Knowledge Sharing Rule</label>
+        <sharedTo>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
+        </sharedFrom>
+    </sharingOwnerRules>
     <sharingOwnerRules>
         <fullName>ABSLAMC_All_User</fullName>
         <accessLevel>Edit</accessLevel>
@@ -36,5 +46,4 @@
             <group>ABSLAMC_ALL_Users</group>
         </sharedFrom>
     </sharingOwnerRules>
-
 </SharingRules>

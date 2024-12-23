@@ -3,7 +3,7 @@
     <fullName>LOB__c</fullName>
     <description>This field will get LOB value from related Asset or Account.</description>
     <externalId>false</externalId>
-    <formula>IF( ISBLANK( AssetId ), Text( Account.Line_of_Business__c ),  TEXT(Asset.LOB__c ))</formula>
+    <formula>IF( ISBLANK( AssetId ) || ISBlank(TEXT(Asset.LOB__c )) , Text( Account.Line_of_Business__c ),  TEXT(Asset.LOB__c ))</formula>
     <label>LOB</label>
     <required>false</required>
     <trackHistory>false</trackHistory>

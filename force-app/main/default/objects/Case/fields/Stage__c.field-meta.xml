@@ -21,6 +21,16 @@
                 <label>Closed</label>
             </value>
             <value>
+                <fullName>In Progress with Operations</fullName>
+                <default>false</default>
+                <label>In Progress with Operations</label>
+            </value>
+            <value>
+                <fullName>In Progress with Contact Center</fullName>
+                <default>false</default>
+                <label>In Progress with Contact Center</label>
+            </value>
+            <value>
                 <fullName>In Progress with Ops</fullName>
                 <default>false</default>
                 <label>In Progress with Ops</label>
@@ -264,11 +274,6 @@
                 <fullName>In Progress with SA</fullName>
                 <default>false</default>
                 <label>In Progress with SA</label>
-            </value>
-            <value>
-                <fullName>In Progress with UW</fullName>
-                <default>false</default>
-                <label>In Progress with UW</label>
             </value>
         </valueSetDefinition>
     </valueSet>
