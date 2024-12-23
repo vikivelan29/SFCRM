@@ -215,7 +215,7 @@ public without sharing class ASF_CommPETriggerHelper {
                      msg.setToAddresses(toAddressesForPayments);
                  }
             }else{
-                 msg.setToAddresses(new String[]{prospect.Email});
+                 msg.setToAddresses(new String[]{cRec.SuppliedEmail});
             }
         }
         //Start - Calling the function to add files to the email as attachments - Aditya Mehrotra
