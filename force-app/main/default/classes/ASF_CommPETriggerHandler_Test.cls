@@ -29,6 +29,12 @@ private class ASF_CommPETriggerHandler_Test {
         con.MobilePhone = '9100091000';
         insert con;
         
+       /* Lead leaRec = new Lead();
+        leaRec.FirstName = 'Test';
+        leaRec.LastName = 'Doe';
+        leaRec.Company = 'Test Company';
+        insert leaRec;*/
+        
         ASF_Case_Category_Config__c config = new ASF_Case_Category_Config__c();
         config.Send_Closed_stage_communications__c  = true;
         config.Send_open_stage_communications__c  = true;
@@ -38,6 +44,16 @@ private class ASF_CommPETriggerHandler_Test {
         config.Sub_Type__c = 'TDS Related';
         config.Process__c='Case';
         insert config;
+        
+        /*ASF_Case_Category_Config__c configPay = new ASF_Case_Category_Config__c();
+        configPay.Send_Closed_stage_communications__c  = true;
+        configPay.Send_open_stage_communications__c  = true;
+        configPay.Send_Rejected_stage_communications__c  = true;
+        configPay.CCC_External_Id__c = '45678';
+        configPay.Type__c = 'Report Fraud';
+        configPay.Sub_Type__c = 'Reporting of fraudulent transaction';
+        configPay.Process__c='Case';
+        insert configPay;*/
         
         List<Case> cases = new List<Case>();
         
@@ -63,7 +79,35 @@ private class ASF_CommPETriggerHandler_Test {
             cs2.Sub_Type_Text__c ='Aqua Card Cancel - liquidate TD'; 
             cs2.Business_Unit__c = 'Payments';
             cases.add(cs2);
+        }//For Payments
+         for(integer i=0;i<1;i++){
+            Case cs3 = new Case();
+            cs3.CCC_External_Id__c = '12345';
+            cs3.AccountId = a.Id;
+            cs3.Status = 'Resolved';
+            cs3.Stage__c='Resolved'; 
+            cs3.Type_Text__c ='Report Fraud'; 
+            cs3.Sub_Type_Text__c ='Reporting of fraudulent transaction'; 
+            cs3.Business_Unit__c = 'Payments';
+            cases.add(cs3);
         }
+        //For Payments
+         /*for(integer i=0;i<1;i++){
+            Case cs4 = new Case();
+            cs4.CCC_External_Id__c = '12345';
+            cs4.AccountId = a.Id;
+            cs4.Status = 'Resolved';
+            cs4.Stage__c='Resolved'; 
+            cs4.Type_Text__c ='Report Fraud'; 
+            cs4.Sub_Type_Text__c ='Reporting of fraudulent transaction'; 
+            cs4.Business_Unit__c = 'Payments';
+            cs4.Lead__c = leaRec.Id;
+            cases.add(cs4);
+        }*/
+        
+        
+       
+        
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
         insert cases;
         System.assertNotEquals(0, cases.size() , 'case list should not be zero');
@@ -292,7 +336,8 @@ private class ASF_CommPETriggerHandler_Test {
         if(peLoggers.size()>0){
             insert peLoggers;
         }
-        System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch('SELECT ID,RecordID__c,CustomMetadataName__c,Lead__c FROM PE_Logger__c WHERE Status__c=\'Processing\' AND CreatedDate = Today ORDER BY CreatedDate DESC'));
+        //System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch('SELECT ID,RecordID__c,CustomMetadataName__c,Lead__c FROM PE_Logger__c WHERE Status__c=\'Processing\' AND CreatedDate = Today ORDER BY CreatedDate DESC'));
+        System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch('SELECT ID,RecordID__c,CustomMetadataName__c,Case__c,AccountId__c,ContactId__c,Email_Template_Name__c,SMS_Template_Dev_Name__c ,WhatsApp_Template_Dev_Name__c,Status__c,No_Auto_Communication__c,Lead__c,Specific_To_MobilePhone__c,Send_To_Specific_Mobile__c  FROM PE_Logger__c WHERE Status__c=\'Processing\' AND CreatedDate = Today ORDER BY CreatedDate DESC'));
         Test.stopTest();
     }
  @isTest
@@ -337,4 +382,62 @@ private class ASF_CommPETriggerHandler_Test {
         Test.stopTest();
         
     }    
+    
+   @isTest
+    private static void executeAfterInsert_errorPayments(){
+        List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case where Type_Text__c ='Report Fraud' AND Status ='Resolved'];
+        List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
+        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
+        Test.startTest();
+        boolean errorCase = false;
+        for(Integer i=0;i<1;i++){
+            PE_Logger__c peLogger = new PE_Logger__c();
+            peLogger.PE_Name__c = 'CommnunicationLog';
+            peLogger.Retry_PE__c = false;
+            peLogger.Status__c = 'Pending';
+            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
+            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
+            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
+            peLogger.RecordID__c = cList[i].Id;
+            peLogger.Case__c = cList[i].Id;
+            peLogger.AccountId__c = cList[i].AccountId;
+            peLogger.ContactId__c = cList[i].ContactId;
+            peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
+            peLogger.Is_Attachment__c = true;
+            peLoggers.add(peLogger);
+            
+            ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
+            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
+            if(!errorCase){
+                evt.CustomMetadataName__c = 'XXXXXXXX';
+            }
+            else{
+                evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
+            }
+            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
+            evt.RecordID__c = cList[i].Id;
+            commEvts.add(evt);
+        }
+        
+        if(peLoggers.size()>0){
+            insert peLoggers;
+        }
+        for(Integer i=0;i<1;i++){
+            ASF_CommnunicationLog__e evt = commEvts[i];
+            evt.PELoggerId__c = peLoggers[i].id;
+        }
+        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
+        if(commEvts.size()>0){
+            
+            Database.SaveResult[] results = EventBus.publish(commEvts);
+            Test.getEventBus().deliver();
+            System.assertNotEquals(null, results, 'save result should not be null');
+        }
+        Test.stopTest();
+        
+    }
+    
+    
+    
+    
 }
