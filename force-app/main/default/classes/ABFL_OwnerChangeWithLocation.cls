@@ -114,7 +114,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                                     updateCase.OwnerId = locationRecord.Alternate_SPOC__c;
                                     lanMatchRan = true;
                                 }
-                              else{
+                            else{
                                     updateCase.OwnerId = locationRecord.SPOC__c;
                                     lanMatchRan = true;
                                 }
@@ -124,14 +124,14 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                                 updateCase.OwnerId = locationRecord.SPOC__c;
                                 lanMatchRan = true;
                             }
-                             else if(Trigger.isAfter && updateCase.OwnerId != locationRecord.SPOC__c){
+                            else if(Trigger.isAfter && updateCase.OwnerId != locationRecord.SPOC__c){
                                 // PR970457-2729 FC and non FC cases - start here
                                 if(updateCase.CCC_External_Id__c==fcCtstExternalId){
                                     if(locationRecord.Alternate_SPOC__c!=null && alternateSpocMap.containskey(locationRecord.Alternate_SPOC__c)){
                                         Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.Alternate_SPOC__c); 
                                         insertFinalUpdateCase.add(origCaseUpdate); 
                                     }
-                                    else{
+                                 else{
                                         Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c); 
                                         insertFinalUpdateCase.add(origCaseUpdate);
                                         }
@@ -141,7 +141,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                                    Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c);  
                               insertFinalUpdateCase.add(origCaseUpdate);  
                                 }
-                            }     
+                            }               
                     }
                  }
               }
@@ -295,7 +295,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            Map<Id, User> alternateSpocMap = new Map<Id, User>();
+             Map<Id, User> alternateSpocMap = new Map<Id, User>();
             List<Id> alternateSpoc = new List<Id>();
             for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c, Alternate_SPOC__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);
@@ -312,13 +312,13 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                 if (extractedSubstring.contains(updateCase.LAN__c.substring(4, 7))) {
                     ABFL_Location_Master__c locationRecord = codeToLocationMap.get(updateCase.LAN__c.substring(4, 7));
                     if (locationRecord != null && locationRecord.SPOC__c != null && updateCase.OwnerId != locationRecord.SPOC__c) {
-                          // PR970457-2729 FC and non FC cases - start here
+                        // PR970457-2729 FC and non FC cases - start here
                             if(updateCase.CCC_External_Id__c==fcCtstExternalId){
                                 if(locationRecord.Alternate_SPOC__c!=null && alternateSpocMap.containskey(locationRecord.Alternate_SPOC__c)){
                                     Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.Alternate_SPOC__c); 
                                     insertFinalUpdateCase.add(origCaseUpdate); 
                                 }
-                             else{
+                            else{
                                     Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c); 
                                     insertFinalUpdateCase.add(origCaseUpdate);  
                                 }
