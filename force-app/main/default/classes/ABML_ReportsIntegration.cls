@@ -115,10 +115,53 @@ public with sharing class ABML_ReportsIntegration{
         OrgWideEmailAddress[] owea = [select Id,DisplayName,Address from OrgWideEmailAddress where DisplayName =:System.Label.ASF_default_no_reply_email_address];
         Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
         
-        if(!owea.isEmpty() && !asfCaseIntList.isEmpty()){
-            for (ASF_Case_Integration__c asfCaseRec2 : asfCaseIntList) {
-                if (asfCaseRec2.Status__c == 'Success' && caserecordsMap.containsKey(asfCaseRec2.Case__c) && newContentMap.containskey(asfCaseRec2.Id)) {
-                    
+        if(!asfCaseIntList.isEmpty()){
+            for(ASF_Case_Integration__c objAsfCase : asfCaseIntList){
+                caseRecordsIds.add(objAsfCase.Case__c);
+                asfRecordIds.add(objAsfCase.Id);
+            }
+        }        
+   
+        if(!caseRecordsIds.isEmpty()){
+            for(Case objCase : [Select Id, Business_Unit__c, AccountId, Customer_name_formula__c, Account.RecordTypeId from Case where ID IN : caseRecordsIds]){
+                if(objCase.Business_Unit__c == 'ABML'){
+                    caseRecordsMap.put(objCase.Id , objCase);
+                    accountRecords.add(objCase.AccountId);
+                }
+            }
+        }
+        if(!accountRecords.isEmpty()){
+            for(Account accountObj : [Select Id, PersonContactId from Account where ID IN : accountRecords]){
+                //if(accountObj.PersonContactId != null){
+                    accountsMap.put(accountObj.Id , accountObj);
+                    system.debug('accountObj.PersonContactId >>> '+ accountObj.PersonContactId );
+                //}
+            }
+        }        
+        if(!asfRecordIds.isEmpty()){
+            for(ContentVersion objContentVersion : [Select Id, FirstPublishLocationId, Title, VersionData From ContentVersion Where FirstPublishLocationId IN : asfRecordIds]){
+                if(objContentVersion.FirstPublishLocationId != null && objContentVersion.Title != null){
+                    newContentMap.put(objContentVersion.FirstPublishLocationId , objContentVersion);  
+                }
+            }
+        }
+        //BUSpecificAutoEmailMapping__mdt mdt = [Select Business_Unit__c,Default_Automated_Email_From_Address__c from BUSpecificAutoEmailMapping__mdt where Business_Unit__c=:System.Label.ABML_BU LIMIT 1];
+        //OrgWideEmailAddress[] objOrgWideAddresses = [Select Id, DisplayName,Address from OrgWideEmailAddress where DisplayName =: System.Label.ASF_default_no_reply_email_address];//    where Address =:mdt.Default_Automated_Email_From_Address__c
+        ABML_Daily_Report_Sender__c objReportSender = [SELECT Email__c from ABML_Daily_Report_Sender__c WHERE Name = 'ordWideAddress' LIMIT 1];
+        OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address =:objReportSender.Email__c  LIMIT 1]; 
+        // Added for template
+        Id templateId1 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Report_Integration_Email_Template_1733123089274' LIMIT 1].Id;
+        Id templateId2 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_SOT_Email_Template_1733145673611' LIMIT 1].Id;
+        Id templateId3 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Contract_Note_Email_Template_1733145822012' LIMIT 1].Id;
+
+        Contact contactRec;
+        if(!Test.isRunningtest()){
+        	contactRec = [SELECT Id FROM Contact WHERE AccountId=:accountRecords LIMIT 1];
+        }
+        
+        if(!asfCaseIntList.isEmpty()){
+            for (ASF_Case_Integration__c objAsfCaseRecord : asfCaseIntList) {
+                if (objAsfCaseRecord.Status__c == 'Success' && caseRecordsMap.containsKey(objAsfCaseRecord.Case__c) && newContentMap.containskey(objAsfCaseRecord.Id)){                    
                     // Get the associated case record
                     Case caseRecord = caserecordsMap.get(asfCaseRec2.Case__c);
                     

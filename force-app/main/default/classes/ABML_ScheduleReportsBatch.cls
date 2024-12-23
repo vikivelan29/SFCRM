@@ -109,9 +109,27 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         message.setPlainTextBody('Please find the reports attached.');    
         message.setToAddresses(toAddress);
        
-        emailList.add(message);
-     
-        //message.setToAddresses( new String[] { 'dinoypauly8@gmail.com' } );
+        Messaging.EmailFileAttachment firstAttachment = createAttachment(departmentPendency, firstCsvContent);
+        Messaging.EmailFileAttachment secondAttachment = createAttachment(totalTat, secondCsvContent);
+        Messaging.EmailFileAttachment thirdAttachment = createAttachment(missedTat, thirdCsvContent);
+        Messaging.EmailFileAttachment fourthAttachment = createAttachment(agingCases, fourthCsvContent);
+        listOfAttachment.add(firstAttachment);
+        listOfAttachment.add(secondAttachment);
+        listOfAttachment.add(thirdAttachment);
+        listOfAttachment.add(fourthAttachment);
+        
+        Id templateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Daily_Reports_Template_1734689602486' LIMIT 1].Id;
+        
+        Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
+        emailMessage.setTemplateId(templateId);
+        emailMessage.setFileAttachments(listOfAttachment);  
+        emailMessage.setSubject('Daily Status Report - ' + System.Today());
+        emailMessage.setorgWideEmailAddressId(orgWideEmail.Id);
+        emailMessage.setPlainTextBody('Please find the reports attached.');    
+        emailMessage.setToAddresses(listOfToAddress);
+       
+        emailList.add(emailMessage);
+        
         Messaging.SendEmailResult[] res;
         if (!emailList.isEmpty()) {
             res = Messaging.sendEmail(emailList);

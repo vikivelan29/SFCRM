@@ -56,8 +56,10 @@ public class ABML_LegacyView_Test {
         psa.add(new PermissionSetAssignment(AssigneeId = superManagerUser.Id, PermissionSetId = ps.Id));
         
         
-        insert psa;
-        Test.stopTest();
+        User userRecord = new User(Alias = 'standt', Email='stantarduserEmails@testorg.com', EmailEncodingKey = 'UTF-8', LastName = 'Testing', LanguageLocaleKey = 'en_US', 
+                                   LocaleSidKey = 'en_US', ProfileId = SYSTEMADMIN_PROFILE.Id, TimeZoneSidKey = 'America/Los_Angeles', UserName = 'testUserAbml@gmail.com',Business_Unit__c = 'ABML');
+        insert userRecord; 
+        
         System.runAs(userRecord) {
            
             Account testAccount = new Account(
