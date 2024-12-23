@@ -158,10 +158,10 @@
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
     <isGridLayout>true</isGridLayout>
-    <owner>abhijeet.ambwade-v@adityabirlacapital.com.abclprod.abcpreprod</owner>
-    <runningUser>abhijeet.ambwade-v@adityabirlacapital.com.abclprod.abcpreprod</runningUser>
+    <owner>ekta.bist1@in.ey.com</owner>
+    <runningUser>ekta.bist1@in.ey.com</runningUser>
     <textColor>#000000</textColor>
-    <title>Department Cases: (Department pending cases)</title>
+    <title>Agent Pending Cases (Source wise)</title>
     <titleColor>#000000</titleColor>
     <titleSize>12</titleSize>
 </Dashboard>
