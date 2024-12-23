@@ -22,6 +22,7 @@ public with sharing class ABML_ReportsIntegration{
         //String clientCode = caseRecord.Client_Code__c != null ? caseRecord.Client_Code__c : '';
          
         String firmNumber = 'ABM-000001';
+
         String userName = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Username__c;                              
         String password = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Password__c; 
         String dataString = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').DataString__c; 
