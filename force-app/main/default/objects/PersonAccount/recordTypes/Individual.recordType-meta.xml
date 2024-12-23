@@ -9,6 +9,7 @@
             <fullName>Advertisement</fullName>
             <default>false</default>
         </values>
+	    
         <values>
             <fullName>Customer Event</fullName>
             <default>false</default>
