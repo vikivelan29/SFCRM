@@ -4,7 +4,6 @@
     <label>Line of Business</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
@@ -50,7 +49,17 @@
                 <default>false</default>
                 <label>ABSLIG</label>
             </value>
-           <value>
+            <value>
+                <fullName>Wellness</fullName>
+                <default>false</default>
+                <label>Wellness</label>
+            </value>
+            <value>
+                <fullName>ABHI</fullName>
+                <default>false</default>
+                <label>ABHI</label>
+            </value>
+            <value>
                 <fullName>RE</fullName>
                 <default>false</default>
                 <label>RE</label>
@@ -69,6 +78,11 @@
                 <fullName>MF</fullName>
                 <default>false</default>
                 <label>MF</label>
+            </value>
+            <value>
+                <fullName>ABML</fullName>
+                <default>false</default>
+                <label>ABML</label>
             </value>
             <value>
                 <fullName>Corporate</fullName>

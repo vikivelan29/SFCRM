@@ -1,0 +1,28 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;"><span style="font-family:Verdana,Arial,Helvetica,sans-serif;">Dear&nbsp;<strong>{{{Case.Customer_name_formula__c}}}</strong><span style="font-size:12pt"><b> <span lang="EN-US" style="font-size:11.0pt">,</span>&nbsp;</b></span><br />
+<br />
+This is with reference to your request raised with us on&nbsp;{{{Case.CreatedDate}}}<br />
+<br />
+Please find attached the&nbsp;<b><span style="font-size:11.0pt">SOT&nbsp;</span></b><br />
+<br />
+Further, we would also like to advise that the said reports from 1 March 2011 can also be accessed online by following the below mentioned steps:&nbsp;<br />
+<br />
+<span style="font-size:12pt"><b><span style="font-size:11.0pt">For Online Accounts:</span></b></span></span><br />
+<br />
+<span style="font-family:Verdana,Arial,Helvetica,sans-serif;">Step 1: Log on to&nbsp;<span style="font-size:12pt"><b><span style="font-size:11.0pt"><a href="https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fetrade.adityabirlamoney.com%2F&amp;data=05%7C02%7CSutanu.Bose%40in.ey.com%7C85455d55fd91446d4d3e08dd12aff866%7C5b973f9977df4bebb27daa0c70b8482c%7C0%7C0%7C638687269381338470%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=PyEXQYjG2mzCGmElX2vyobKG%2BIIIUTH5BcGL9GJjUUM%3D&amp;reserved=0" style="color:#467886; text-decoration:underline">https://abmtrade.adityabirlamoney.com/PlatformWeb/Platform/Account/LogIn</a></span></b></span><br />
+<br />
+Step 2: Click the “Reports” option in the Menu Bar<br />
+<br />
+Step 3: Select the nature / type of report which you want to generate&nbsp;<br />
+<br />
+If you have any further queries, kindly address these to&nbsp;<span style="font-size:12pt"><b><span lang="EN-US" style="font-size:11.0pt"><u><a href="mailto:care.stocksandsecurities@adityabirlacapital.com" style="color:#467886; text-decoration:underline">care.stocksandsecurities@adityabirlacapital.com</a></u>&nbsp;</span></b></span>or call us on our Toll-Free Number 1800-270-7000.<br />
+<br />
+Assuring you of our best services at all times,</span><br />
+<span style="font-size:12pt"><span style="font-family:Aptos,sans-serif"><b>&nbsp;</b></span></span><br />
+<span style="font-family:Verdana,Arial,Helvetica,sans-serif;"><span style="font-size:12pt"><b><span lang="EN-US" style="font-size:11.0pt">Thanks &amp; Regards,</span></b></span><br />
+<span style="font-size:12pt"><b><span lang="EN-US" style="font-size:11.0pt">Customer Relationship Manager</span></b></span><br />
+<span style="font-size:12pt"><b><span lang="EN-US" style="font-size:11.0pt">Aditya Birla Money Ltd &nbsp;</span></b></span></span></body>
+</html>
