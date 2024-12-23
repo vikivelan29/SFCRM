@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>supriya.bansode@adityabirlacapital.com</email>
+    <name>ABHI Renewal Telesales Persistency</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABHI_Renewal_Telesales_Persistency_G</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

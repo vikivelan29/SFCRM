@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <assignments>
+        <name>customerContacted</name>
+        <label>customerContacted</label>
+        <locationX>642</locationX>
+        <locationY>478</locationY>
+        <assignmentItems>
+            <assignToReference>integrationMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>RNWL_Customer_Contacted</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getPELoggerForMetadata</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>existingPELoggerCount</name>
+        <label>existingPELoggerCount</label>
+        <locationX>501</locationX>
+        <locationY>723</locationY>
+        <assignmentItems>
+            <assignToReference>existingPELoggerForMetadata</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>getPELoggerForMetadata</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>isPELoggerNeeded</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>notContactable</name>
+        <label>notContactable</label>
+        <locationX>370</locationX>
+        <locationY>480</locationY>
+        <assignmentItems>
+            <assignToReference>integrationMetadataName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>RNWL_Customer_not_contactable</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getPELoggerForMetadata</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>decide_Template</name>
+        <label>decide_Template</label>
+        <locationX>509</locationX>
+        <locationY>353</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>NoResponse_NotContactable</name>
+            <conditionLogic>1 AND 2</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Renewal_Request__r.Calling_Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CRM (In-House)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>NoResponse_NoContact</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>notContactable</targetReference>
+            </connector>
+            <label>NoResponse_NotContactable</label>
+        </rules>
+        <rules>
+            <name>NoPTP_Contactable</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Renewal_Request__r.Calling_Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CRM (In-House)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>NoPTP_Contacted</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>customerContacted</targetReference>
+            </connector>
+            <label>NoPTP_Contactable</label>
+        </rules>
+        <rules>
+            <name>Winback_Whatsapp</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Renewal_Request__r.Calling_Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CRM (In-House)</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Disposition_L1__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Disposition_L2__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Disposition_L3__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <label>Winback_Whatsapp</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_CRM_In_House_Disposition</name>
+        <label>Is CRM In House Disposition</label>
+        <locationX>898</locationX>
+        <locationY>299</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Check_Calling_Source</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Renewal_Request__r.Calling_Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CRM (In-House)</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>decide_Template</targetReference>
+            </connector>
+            <label>Check Calling Source</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>isPELoggerNeeded</name>
+        <label>isPELoggerNeeded</label>
+        <locationX>643</locationX>
+        <locationY>698</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>dontCreatePELogger</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getContact</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>dontCreatePELogger</name>
+        <dataType>Boolean</dataType>
+        <expression>IF( {!existingPELoggerForMetadata} &gt;= 1, true, false )</expression>
+    </formulas>
+    <formulas>
+        <name>NoPTP_Contacted</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message undelivered&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Hung up during discussion&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Customer disconnected call during discussion&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Call Back&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Schedule Call Back&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Call back scheduled for later&apos;)),
+
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Local Agent/ RM service Issue&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Engagement missing during policy tenure&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Local Agent/ RM service Issue&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Local Agent/RM was non contactable&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Local Agent/ RM service Issue&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Behaviour Issue / Unprofessional&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Local Agent/ RM service Issue&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Lack of Service &amp; Assistance&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Premium Concern&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;High Premium Concern&apos;)),
+
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Competitor Loss / Interested in Competition&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Competitor offering better premium / coverage in comparison&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Competitor Loss / Interested in Competition&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Competitor offering better plan or services&apos;)),
+
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Has sufficient coverage&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Already has existing policy in ABHI&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Has sufficient coverage&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Already is covered in other non ABHI policy&apos;)),
+
+
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Service Issue&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Renewal notice or renewal call not received&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Service Issue&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Policy document not received&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Short of funds&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Shortage of funds&apos;)),
+AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Interested&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Not Interested - Other Reason&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Not Interested - Other Reason&apos;))
+)</expression>
+    </formulas>
+    <formulas>
+        <name>NoResponse_NoContact</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Ringing&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Phone Ringing&apos;)), 
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Phone Number Busy/ Engage Tone&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Number is busy/Engage Tone&apos;)),
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Switched Off/ Out of network&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Switch off/ Out of Network&apos;)),
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Not Contacted&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Dialer NC&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Dialer not Contacted&apos;)),
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Connected but Message undelivered&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Short Hang Up&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Customer disconnected call - Short Hang up&apos;)),
+	AND(LOWER({!$Record.Disposition_L1__c}) == LOWER(&apos;Dialer Non Connect&apos;), LOWER({!$Record.Disposition_L2__c}) == LOWER(&apos;Dialer Non Connect&apos;), LOWER({!$Record.Disposition_L3__c}) == LOWER(&apos;Dialer Non Connect&apos;))
+)</expression>
+    </formulas>
+    <interviewLabel>RNWL_WhatsApp_Notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>RNWL_WhatsApp_Notification</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>createASFLogger</name>
+        <label>createASFLogger</label>
+        <locationX>956</locationX>
+        <locationY>836</locationY>
+        <inputAssignments>
+            <field>CustomMetadataName__c</field>
+            <value>
+                <elementReference>integrationMetadataName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PELoggerId__c</field>
+            <value>
+                <elementReference>createPELogger</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordID__c</field>
+            <value>
+                <elementReference>$Record.Renewal_Request__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>ASF_CommnunicationLog__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>createPELogger</name>
+        <label>createPELogger</label>
+        <locationX>963</locationX>
+        <locationY>677</locationY>
+        <connector>
+            <targetReference>createASFLogger</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>AccountId__c</field>
+            <value>
+                <elementReference>$Record.Renewal_Request__r.AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ContactId__c</field>
+            <value>
+                <elementReference>getContact.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CustomMetadataName__c</field>
+            <value>
+                <elementReference>integrationMetadataName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LOB__c</field>
+            <value>
+                <stringValue>ABHI</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Opportunity_ID__c</field>
+            <value>
+                <elementReference>$Record.Renewal_Request__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PE_Name__c</field>
+            <value>
+                <stringValue>&apos;Communication Log&apos;</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordID__c</field>
+            <value>
+                <elementReference>$Record.Renewal_Request__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Send_To_Specific_Emails__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Send_To_Specific_Mobile__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Pending</stringValue>
+            </value>
+        </inputAssignments>
+        <object>PE_Logger__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>getContact</name>
+        <label>getContact</label>
+        <locationX>817</locationX>
+        <locationY>690</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>createPELogger</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Renewal_Request__r.AccountId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getPELoggerForMetadata</name>
+        <label>getPELoggerForMetadata</label>
+        <locationX>503</locationX>
+        <locationY>561</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>existingPELoggerCount</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Opportunity_ID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Renewal_Request__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>CustomMetadataName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>integrationMetadataName</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>PE_Logger__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>401</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Is_CRM_In_House_Disposition</targetReference>
+        </connector>
+        <object>Dispositions__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>existingPELoggerForMetadata</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>existingTodayPELoggers</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>integrationMetadataName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

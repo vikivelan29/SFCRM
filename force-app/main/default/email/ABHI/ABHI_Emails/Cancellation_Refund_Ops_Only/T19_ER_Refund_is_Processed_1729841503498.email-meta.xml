@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>T20 to T23__T24 to T27__T28 &amp; T29__T30 &amp; T31__ER_Refund not Processed_KYC or Bank Rejection.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>T20 to T23__T24 to T27__T28 &amp; T29__T30 &amp; T31__ER_Refund not Processed_KYC or Ban</name>
+    <relatedEntityType>Case</relatedEntityType>
+    <style>none</style>
+    <subject>Additional Information / Documents needed for initiating Refund for Application / Proposal No. {{{Case.Proposal_Number__c}}}</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

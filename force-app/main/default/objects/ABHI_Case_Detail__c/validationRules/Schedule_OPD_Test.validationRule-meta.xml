@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Schedule_OPD_Test</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(Schedule_OPD_Test_1st_Preference__c &gt; (Now()+7),Schedule_OPD_Test_2nd_Preference__c &gt; (Now()+7))</errorConditionFormula>
+    <errorMessage>Schedule OPD Test should be within 7 days of case creation.</errorMessage>
+</ValidationRule>

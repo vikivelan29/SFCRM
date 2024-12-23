@@ -172,7 +172,7 @@
             <value>
                 <fullName>16</fullName>
                 <default>false</default>
-                <isActive>true</isActive>
+                <isActive>false</isActive>
                 <label>16</label>
             </value>
         </valueSetDefinition>
