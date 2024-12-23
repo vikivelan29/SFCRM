@@ -2432,11 +2432,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Case.Created_by_ONEABC__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABHFL_Asset_Detail__c.ARR__c</field>
         <readable>true</readable>
     </fieldPermissions>
