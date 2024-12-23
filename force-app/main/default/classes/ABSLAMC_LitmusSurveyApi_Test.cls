@@ -51,7 +51,7 @@ public class ABSLAMC_LitmusSurveyApi_Test {
         
         ABSLAMC_LitmusSurveyApi litmusApiObj = new ABSLAMC_LitmusSurveyApi();
         
-        list<case> caseRecs = [SELECT id, AccountId  from Case where ccc_external_Id__c='MF01'];
+        list<case> caseRecs = [SELECT id, AccountId, CreatedById ,OnCreateCloseSR__c from Case where ccc_external_Id__c='MF01'];
         list<ASF_Integration__c> intList = [SELECT id,External_Id__c,Type__c,Processing_Class__c,Display_Name__c,Query_Fields__c from ASF_Integration__c];
         
         Map<Id, List<ASF_Integration__c>> integs = new Map<Id, List<ASF_Integration__c>>();

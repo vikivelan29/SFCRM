@@ -20,6 +20,32 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
     public void execute(Database.BatchableContext bc, List<Case> scope)
     {
         
+        //Query ABML User record to check for their OOO
+        
+        Set<Id> setOfUnAvailableUserIds = new Set<Id>();
+        Map<Id, Boolean> mapOfTUserAvailability = new Map<Id, Boolean>();
+        for(OutOfOffice objOutOffice : [Select Id, UserId, StartDate, Enddate from OutOfOffice where StartDate <= Today AND Enddate >= today]){
+            
+            Date startDate = Date.valueOf(objOutOffice.StartDate);
+            Date endDate = Date.valueOf(objOutOffice.Enddate);
+            startDate = startDate.addDays(1);
+            if(startDate == System.today() && endDate == System.today()){
+                mapOfTUserAvailability.put(objOutOffice.UserId, true);
+            }
+            else if(startDate == System.today() && endDate > System.today()){
+                mapOfTUserAvailability.put(objOutOffice.UserId, false);
+            }
+            else if(startDate < System.today() && endDate == System.today()){
+                mapOfTUserAvailability.put(objOutOffice.UserId, true);
+            }
+            else if(startDate < System.today() && endDate > System.today()){//
+                mapOfTUserAvailability.put(objOutOffice.UserId, false);
+            }
+            setOfUnAvailableUserIds.add(objOutOffice.UserId);
+        }
+        
+        BusinessHours bh = [SELECT Id, Name, MondayStartTime, MondayEndTime FROM BusinessHours WHERE Name = 'ABML'LIMIT 1];        
+        
         // Query all records from the custom setting
         List<ABML_Round_Robin_Assignment__c> customSettingRecords = [SELECT Name, ABML_Queue_Name__c, ABML_Index__c FROM ABML_Round_Robin_Assignment__c];
         Map<String, Integer> customSettingMap = new Map<String, Integer>();
@@ -41,7 +67,7 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
         {
             String caseIdCheck = String.valueOf(obCase.OwnerId);
             if(caseIdCheck.startsWith('00G')){ 
-                setOfGroupId.add(obCase.OwnerId);              
+                setOfGroupId.add(obCase.OwnerId);            
             }
         }        
         
@@ -55,17 +81,28 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
         }        
         
         if(setOfPublicGroupId != null){
-            for (GroupMember objGroupMember : [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN: setOfPublicGroupId]) {
+            DateTime currentDateTime = System.now();  
+            Time currentTime = currentDateTime.time();
+            for (GroupMember objGroupMember : [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN: setOfPublicGroupId]){
                 String gId = String.valueOf(objGroupMember.GroupId);
                 String uId = String.valueOf(objGroupMember.UserOrGroupId);
-                if(uId.startsWith('005')){
+                
+                if(uId.startsWith('005') && mapOfTUserAvailability.containsKey(uId)){
+                    if(mapOfTUserAvailability.get(uId) && (bh.MondayEndTime < currentTime || bh.MondayStartTime > currentTime)){
+                        if (!metaQueuedataMap.containsKey(gId)) {
+                            metaQueuedataMap.put(gId, new List<String>());
+                        }
+                        metaQueuedataMap.get(gId).add(uId); 
+                    }
+                    
+                }  
+                else if(uId.startsWith('005') && !mapOfTUserAvailability.containsKey(uId)){
                     if (!metaQueuedataMap.containsKey(gId)) {
                         metaQueuedataMap.put(gId, new List<String>());
                     }
-                    metaQueuedataMap.get(gId).add(uId); 
                     
-                }          
-            }  
+                }  
+            }
         }
         
         for (Case objCase : scope) {            
