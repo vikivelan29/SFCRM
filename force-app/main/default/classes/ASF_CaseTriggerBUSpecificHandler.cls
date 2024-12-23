@@ -17,7 +17,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 if(businessUnit == 'ABFL'){
                     ABFL_OwnerChangeWithLocation.checkCCCExternalIdAndAddRTId(mapOfBUToCases.get(businessUnit));
                     ABFL_CreateCaseProspectHelper.beforeInsertMethod(mapOfBUToCases.get(businessUnit));
-                }
+                                }
                 else if(businessUnit == 'ABSLI'){
                     ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert(mapOfBUToCases.get(businessUnit));
                     ABSLI_BeforeInsertTriggerLogic.executeBeforeInsertLogic(mapOfBUToCases.get(businessUnit));
@@ -26,6 +26,8 @@ public class ASF_CaseTriggerBUSpecificHandler {
         }
     }
     public void executeAfterASFCodeInBeforeInsert(List<SObject> newItems){
+
+        ABHI_BusinessLogic_Helper abhiBusLogicHelperObj = new ABHI_BusinessLogic_Helper();
         Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems);
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems);
         
@@ -48,15 +50,15 @@ public class ASF_CaseTriggerBUSpecificHandler {
                         if(Label.ABHI_Case_Dedupe_Active == 'Active'){ // Story No: PR1030924-30
                             abhiBusLogicHelperObj.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInBeforeInsert');
                         }
-                         ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit));
-                         ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber(mapOfBUToCases.get(businessUnit));
+                        ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit));
+                        ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber(mapOfBUToCases.get(businessUnit));
                     }      
                 }
                 ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
-                commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));
+                commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));               
             }
         }
-        
+
     }
     
     public void executeBeforeASFCodeInAfterInsert(Map<Id, SObject> newItems){
@@ -68,6 +70,11 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 if(businessUnit == 'ABSLI'){
                     ABSLI_AfterInsertLogic.checkCreateCaseValidations(mapOfBUToCases.get(businessUnit)); 
                     ABSLI_AfterInsertLogic.executeAfterInsertLogic(mapOfBUToCases.get(businessUnit));
+                }
+                else if(businessUnit == 'ABHI'){
+                    ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
+                    abhiBusinessLogicHlprClass.checkAndBypassValidationFromAPICaseMember(mapOfBUToCases.get(businessUnit));
+                   // ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit)); 
                 }
                 else if(businessUnit == 'ABHFL'){
                     ABHFL_CTSTHelper ctstHelperObj = new ABHFL_CTSTHelper();
@@ -98,6 +105,13 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLIG_CaseDetailHelperClass absligCaseDetHelperObj = new ABSLIG_CaseDetailHelperClass();
                     absligCaseDetHelperObj.populateABSLIGCaseDetailFields(mapOfBUToCases.get(businessUnit));
                 }
+                else if(businessUnit == 'ABHI'){
+                    ABHI_CaseDetailHelper abhilCaseDetailHelperObj = new ABHI_CaseDetailHelper();
+                    ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
+                    abhilCaseDetailHelperObj.populateABHILCaseDetailFields(mapOfBUToCases.get(businessUnit));
+                    abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInAfterInsert');
+                    abhiBusinessLogicHlprClass.searchAndAssocFieldsForAPICases((List<Case>)newItems.values(), null);
+                }
                 else if(businessUnit == 'ABFL'){
                     ABFL_OwnerChangeWithLocation.afterInsertupdateSpoc((List<Case>)newItems.values());
                     ABFL_OwnerChangeWithLocation.createCaseCommentWhenClosedAfterInsert((List<Case>)newItems.values());
@@ -116,11 +130,14 @@ public class ASF_CaseTriggerBUSpecificHandler {
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             for(String businessUnit : mapOfBUToCases.keySet()){
                 if(businessUnit == 'ABFL'){
-                    //ABFL_OwnerChangeWithLocation.updateSpocWrtLocation(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
+                   //ABFL_OwnerChangeWithLocation.updateSpocWrtLocation(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
                 }
                 else if(businessUnit =='ABSLI'){
                     ABSLI_BeforeUpdateTriggerLogic.executeBeforeLogic(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLI_BeforeUpdateTriggerLogic.checkCreateCaseValidations(mapOfBUToCases.get(businessUnit), (Map<Id, Case>)oldItems);
+                }else if(businessUnit == 'ABHI'){
+                    ABHI_BusinessLogic_Helper objHelper = new ABHI_BusinessLogic_Helper();
+                    objHelper.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'BeforeASFCodeInBeforeUpdate');
                 }
             }
         }
@@ -134,7 +151,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
             for(String businessUnit : mapOfBUToCases.keySet()){
                 if(businessUnit == 'ABHFL'){
                     if(Label.ABHFL_Case_Dedupe_Active=='Active'){
-                        ABHFL_CTSTHelper.runDuplicateCheckForUpdate(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);    
+                                                ABHFL_CTSTHelper.runDuplicateCheckForUpdate(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);    
                     }
                     ABHFL_CTSTHelper.preClosureStopAtCPUBanking(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
                     ABHFL_CTSTHelper.updateSlaBrokenCheckOnStageMovement(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
@@ -154,6 +171,11 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                     ABSLAMC_BU_CTSTHelper.CheckQueueAssignementSpecificToLOB((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems); // PMS Cases should not assign to MF queue                
                 }
+                else if(businessUnit == 'ABHI'){
+                    ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
+                    abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate'); 
+                    ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }
             }
         }
         
@@ -165,18 +187,20 @@ public class ASF_CaseTriggerBUSpecificHandler {
         
         if(mRecordTypeVsCases.containsKey(frameworkRTId)){
             ABCL_CommonCLass.populateResolutionCommentOnCaseDetail((List<Case>)mRecordTypeVsCases.get(frameworkRTId), (Map<Id, Case>)oldItems);
-            for(String businessUnit : mapOfBUToCases.keySet()){
-                if(businessUnit == 'ABFL'){
+                        for(String businessUnit : mapOfBUToCases.keySet()){
+if(businessUnit == 'ABFL'){
                     ABFL_OwnerChangeWithLocation.updateSpocWrtLocation(mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
                 }
                 if(businessUnit == 'ABSLAMC'){
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }else if(businessUnit == 'ABHI'){
+                    ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
-            }
         }
         
     }
-    
+}
+
     public void executeAfterASFCodeInAfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems){
         Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems.values());
         Map<ID,List<Case>> mRecordTypeVsCases = ASF_CaseDistributionBasedOnRT.getCaseByRecordType((List<Case>)newItems.values());
@@ -189,7 +213,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ctstHelperObj.callLitmusApi((List<Case>) mapOfBUToCases.get(businessUnit), (Map<Id, Case>) oldItems);
                     ABHFL_CTSTHelper.OpenStageOwnershipChange((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
                     ABHFL_CTSTHelper.backwardMovementEmail((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
-                    //AM-PR970457-1295
+                                        //AM-PR970457-1295
                     ABHFL_CTSTHelper.sendGrievanceDetailsEmail((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
                     //AM-call method to delete existing asset detail records on customer change
                     ABHFL_CTSTHelper.deleteExistingAssetDetails((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id, Case>)oldItems);
@@ -197,6 +221,13 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 else if(businessUnit == 'ABSLIG'){
                     ABSLIG_CaseDetailHelperClass absligCaseDetaHelpObj = new ABSLIG_CaseDetailHelperClass();
                     absligCaseDetaHelpObj.populateABSLIGCaseDetailFieldsAfterCaseUpdate((List<Case>)mapOfBUToCases.get(businessUnit));
+                }
+                else if(businessUnit == 'ABHI'){
+                    ABHI_CaseDetailHelper abhilCaseDetailHelperObj = new ABHI_CaseDetailHelper();
+                    ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
+                    abhilCaseDetailHelperObj.populateABHILCaseDetailFields((List<Case>)mapOfBUToCases.get(businessUnit));
+                    abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'AfterASFCodeInAfterUpdate');
+                    abhiBusinessLogicHlprClass.searchAndAssocFieldsForAPICases((List<Case>)newItems.values(), (Map<Id, Case>)oldItems);
                 }
                 else if(businessUnit == 'ABFL'){
                     ABFL_InvokeLitmusProcess invokeLitmusProcessObj = new ABFL_InvokeLitmusProcess();
@@ -214,7 +245,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     //PR1030924-219: calculate Billable Time on Case
                     MCRM_CaseHelper.calculateBillableTimeOnCaseClose((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
                 }
-                
+
             }
             ABCL_InvokeOneABC.evaluateCasesForOneABC(new Map<Id, Case>(mRecordTypeVsCases.get(frameworkRTId)), (Map<Id, Case>) oldItems);
         }
@@ -231,6 +262,16 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id,Case>)oldItems);  
                 }
             }
+        }
+        
+    }
+    
+    public void beforeUpdateInteractionCases(Map<Id,Case> newItems, Map<Id, Case> oldItems){
+        
+        Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems.values());
+        for(String businessUnit : mapOfBUToCases.keySet()){
+            ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
+            abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, oldItems, 'AfterASFCodeBeforeUpdate');  
         }
         
     }

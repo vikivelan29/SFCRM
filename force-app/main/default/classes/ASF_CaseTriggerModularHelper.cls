@@ -220,7 +220,7 @@ blankSourcePresent = true;
                     //mapping Line_of_Business__c on caseRec
                     caseRec.Line_Of_Business__c = appliedCCC.LOB__c;
                     // BYPASS THE LOGIC TO STAMP STP FLAG FROM CCC FOR ABSLI BU.
-                    if(!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU){
+                    if((!caseRec.Is_STP__c && caseRec.Technical_Source__c == 'API' && caseRec.Business_Unit__c != ASF_Constants.ABSLI_BU)||(caseRec.Business_Unit__c == 'ABHI' && appliedCCC.Is_STP__c == true)){
                         caseRec.Is_STP__c = appliedCCC.Is_STP__c;   
                     }
                     caseRec.Multiple_Child_Details__c = appliedCCC.Multiple_Child_Details__c;
@@ -799,6 +799,15 @@ blankSourcePresent = true;
                         caseFinalDMLMap.put(caseRecFromMap.Id, caseRecFromMap);
                     }
                 }else{
+                    //Added to reset IsMoveToNext flag to false in case of API
+                    caseFinalDMLMap = caseFinalDMLMap == null ? new Map<Id, Case>() : caseFinalDMLMap;
+                    if(!caseFinalDMLMap.containsKey(caseRec.Id)){
+                        Case caseObj = new Case(Id = caseRec.Id);
+                        caseFinalDMLMap.put(caseObj.Id, caseObj);
+                    }
+                    Case caseRecFromMap = caseFinalDMLMap.get(caseRec.Id);
+                    caseRecFromMap.MoveToNext__c = false;
+                    //Added to reset IsMoveToNext flag to false in case of API
                     if(supressErrors.containsKey(caseId) && supressErrors.get(caseId)){
                         triggerEncounteredError.put(caseId, true);
                     }else{                    system.debug('as-error6');
@@ -1773,7 +1782,7 @@ User will now be forced to go recategorize.
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Account is Not there. But type sub type is selected which required Customer';
                     } 
                     if(caseRec.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && caseRec.Lead__c == null && caseRec.Business_Unit__c != ASF_Constants.ABSLIG_BU
-                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null && caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU)){
+                      && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && caseRec.accountId != null) && !(caseRec.Business_Unit__c == 'ABHI' && caseRec.Source__c == 'IGMS')){
                         caseRec.typeSubTypeMismatch__c = true;
                         caseRec.Type_Sub_Type_Mismatch_Reason__c = 'Asset is Not there. But type sub type is selected which required Asset';
                     }  
