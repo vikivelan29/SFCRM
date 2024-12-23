@@ -2427,6 +2427,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ABCD_Case_Detail__c.Account_Holding__c</field>
         <readable>true</readable>
     </fieldPermissions>
