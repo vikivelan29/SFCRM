@@ -63,8 +63,8 @@ private class ASF_CommPETriggerHandler_Test {
             cs2.Sub_Type_Text__c ='Aqua Card Cancel - liquidate TD'; 
             cs2.Business_Unit__c = 'Payments';
             cases.add(cs2);
-        }
-      for(integer i=0;i<1;i++){
+        }//For Payments
+         for(integer i=0;i<1;i++){
             Case cs3 = new Case();
             cs3.CCC_External_Id__c = '12345';
             cs3.AccountId = a.Id;
@@ -75,6 +75,7 @@ private class ASF_CommPETriggerHandler_Test {
             cs3.Business_Unit__c = 'Payments';
             cases.add(cs3);
         }
+          
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
         insert cases;
         System.assertNotEquals(0, cases.size() , 'case list should not be zero');
@@ -347,9 +348,9 @@ private class ASF_CommPETriggerHandler_Test {
         }
         Test.stopTest();
         
-    }    
- @isTest
-    private static void executeAfterInsert_errorPayments(){
+    }     
+   @isTest
+    private static void executeAfterInsert_errorPaymentsRelated(){
         List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case where Type_Text__c ='Report Fraud' AND Status ='Resolved'];
         List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
         List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
@@ -370,7 +371,7 @@ private class ASF_CommPETriggerHandler_Test {
             peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
             peLogger.Is_Attachment__c = true;
             peLoggers.add(peLogger);
-
+            
             ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
             evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
             if(!errorCase){
@@ -383,7 +384,7 @@ private class ASF_CommPETriggerHandler_Test {
             evt.RecordID__c = cList[i].Id;
             commEvts.add(evt);
         }
-
+        
         if(peLoggers.size()>0){
             insert peLoggers;
         }
@@ -393,13 +394,16 @@ private class ASF_CommPETriggerHandler_Test {
         }
         System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
         if(commEvts.size()>0){
-
+            
             Database.SaveResult[] results = EventBus.publish(commEvts);
             Test.getEventBus().deliver();
             System.assertNotEquals(null, results, 'save result should not be null');
         }
         Test.stopTest();
-
+        
     }
-
+    
+    
+    
+    
 }
