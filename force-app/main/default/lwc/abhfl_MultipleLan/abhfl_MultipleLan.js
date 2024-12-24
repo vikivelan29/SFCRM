@@ -15,7 +15,6 @@ export default class Abhfl_MultipleLan extends LightningElement {
     searchResult;
     bureaucolumns 
     bureaurows;
-    processedRows;
     totalNoOfRecordsInDatatable;
     pageSize = 5; //No.of records to be displayed per page
     totalPages; //Total no.of pages
@@ -58,10 +57,8 @@ export default class Abhfl_MultipleLan extends LightningElement {
                     this.columns = result.columnData;
                     this.childColumns = result.childColumnData;
                     this.bureaucolumns = result.bureauHistoryColumns;
-                    console.log('bureaucolumns-->'+JSON.stringify(this.bureaucolumns));
                     this.searchResult = result.assetDetailRecords;
                     this.bureaurows = result.bureauHistoryRecords;
-                    console.log('bureaurows-->'+JSON.stringify(this.bureaurows));
                     this.totalNoOfRecordsInDatatable = result.assetDetailRecords.length;
                     this.paginationHelper(); // call helper menthod to update pagination logic
                     this.displayMultipleLan = true;
