@@ -1816,4 +1816,11 @@
         <shortDescription>ABCD_ONEABC_BU</shortDescription>
         <value>ONEABC</value>
     </labels>
+    <labels>
+        <fullName>Payments_Critical_Alerts_Group</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payments Critical Alerts Group</shortDescription>
+        <value>shagunsingh223@gmail.com,pavan.jami@in.ey.com,tanmay.s.metkar@in.ey.com</value>
+    </labels>
 </CustomLabels>
