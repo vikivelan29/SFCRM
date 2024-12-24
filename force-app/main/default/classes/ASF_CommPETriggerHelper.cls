@@ -231,7 +231,6 @@ public without sharing class ASF_CommPETriggerHelper {
         /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
         if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
             OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
-            msg.setOrgWideEmailAddressId(OWDId);
         }
         if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
             String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
@@ -253,9 +252,7 @@ public without sharing class ASF_CommPETriggerHelper {
         msg.SetHTMLBody(emailBody);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
-        if(msg.getOrgWideEmailAddressId() == null){
-           msg.setOrgWideEmailAddressId(owdID); 
-        }
+        msg.setOrgWideEmailAddressId(owdID);     
         msg.setEntityAttachments(contentId);        
         return msg;
  
@@ -276,9 +273,7 @@ public without sharing class ASF_CommPETriggerHelper {
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
-        if(msg.getOrgWideEmailAddressId() == null){
-          msg.setOrgWideEmailAddressId(owdID);          
-        }
+        msg.setOrgWideEmailAddressId(owdID);     
         return msg;
     }
     /**
