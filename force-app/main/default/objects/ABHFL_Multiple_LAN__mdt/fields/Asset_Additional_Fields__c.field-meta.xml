@@ -3,7 +3,7 @@
     <fullName>Asset_Additional_Fields__c</fullName>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Asset Additional Fields</label>
+    <label>Bureau History Fields</label>
     <length>32768</length>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

@@ -20,3 +20,10 @@
 .deleteCol{
     width: 3.5%;
 }
+
+.custom-small-button{
+    font-size: 15px;  /* Smaller font size */
+    padding: 5px 10px;  /* Smaller padding */
+    min-width: 50px;   /* Minimum width */
+    height: 15px;
+}
