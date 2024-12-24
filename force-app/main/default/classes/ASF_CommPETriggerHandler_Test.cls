@@ -351,7 +351,7 @@ private class ASF_CommPETriggerHandler_Test {
         
     }     
    @isTest
-    private static void executeAfterInsert_errorPayments(){
+    private static void executeAfterInsert_errorPaymentsRelated(){
         List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case where Type_Text__c ='Report Fraud' AND Status ='Resolved'];
         List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
         List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
