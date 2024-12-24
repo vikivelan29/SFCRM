@@ -19,10 +19,6 @@
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Impact_Option_Logic__c</field>
-        <value xsi:type="xsd:boolean">false</value>
-    </values>
-    <values>
         <field>Stages_Allowing_Add_Rows__c</field>
         <value xsi:nil="true"/>
     </values>
