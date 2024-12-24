@@ -344,8 +344,10 @@ public without sharing class ASF_CommPETriggerHelper {
                             iCounter++;
                         }
                     }
+		    System.debug('pLog.Email_Template_Name__c --> '+pLog.Email_Template_Name__c);
+                    System.debug('pLog.Email_Template_Name__c --> '+templateIDMap.keySet());
                     if(templateIDMap.containsKey(pLog.Email_Template_Name__c)){
-                        Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c);d);
+                        Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c);
                         // VIRENDRA - ADDED ANOTHER LOGIC TO SEND EMAIL TO SPECIFIC EMAIL ADDRESS - 
                         if(pLog.Send_To_Specific_Emails__c){
                             if(pLog.Specific_To_Address__c != null){
