@@ -108,8 +108,9 @@ public without sharing class ASF_CaseTriggerHandler2 extends ASF_VTriggerHandler
             ASF_CaseTriggerModularHelper.caseOwnerChangeValidation(newCaseMap.values(), (Map<Id, Case>)oldItems);
             //Virendra - Reject Case
             ASF_CaseTriggerModularHelper.rejectFrameworkCaseBeforeUpdate(newCaseMap.values(),(map<Id,Case>)oldItems);
-            ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);  
-                
+            ASF_CaseTriggerModularHelper.populateFrameworkFieldsForCase((List<Case>)newCaseMap.values(), (Map<Id, Case>)oldItems);
+            //Anirudh - Sending Interaction Cases to ASF_CaseTriggerBUSpecificHandler so that BU specific handler methods will run
+            buSpecificCls.beforeUpdateInteractionCases(newCaseMap, (Map<Id, Case>)oldItems);    
         }
         
         

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Sub_Type2__c</fullName>
+    <label>Sub Sub Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mismatch of premium in renewal notice and website</fullName>
+                <default>false</default>
+                <label>Mismatch of premium in renewal notice and website</label>
+            </value>
+            <value>
+                <fullName>Hike in premium amount</fullName>
+                <default>false</default>
+                <label>Hike in premium amount</label>
+            </value>
+            <value>
+                <fullName>Premium breakup required</fullName>
+                <default>false</default>
+                <label>Premium breakup required</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
