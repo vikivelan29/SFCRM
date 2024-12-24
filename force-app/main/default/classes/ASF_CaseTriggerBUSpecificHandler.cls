@@ -53,9 +53,9 @@ public class ASF_CaseTriggerBUSpecificHandler {
                         if(Label.ABHI_Case_Dedupe_Active == 'Active'){ // Story No: PR1030924-30
                             abhiBusLogicHelperObj.abhiHandlerMethod(mapOfBUToCases, new Map<Id, Case>(), 'AfterASFCodeInBeforeInsert');  
                         }
-                        ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit));
-                        ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber(mapOfBUToCases.get(businessUnit));
-                    }
+                         ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit));
+                         ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber(mapOfBUToCases.get(businessUnit));
+                    }  
                     if(businessUnit == 'ONEABC'){
                         ABCD_CaseDeDupeCheck.runDuplicateCheck(mRecordTypeVsCases.get(frameworkRTId), new List<Case>());
                     }
