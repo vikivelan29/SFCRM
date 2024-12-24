@@ -669,10 +669,12 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
             if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
                 insert caseInt;
             }
-            
+            ASF_Case_Integration__c newCaseIntRec = [Select Id, Name from ASF_Case_Integration__c where id=:caseInt.Id Limit 1];
             fieldsMap.put('Case_Number__c',caseRecord.CaseNumber);
-            fieldsMap.put('Case_Integration_ID__c',caseInt.Name);
-            fieldsMap.put('Business_Unit__c','ABFL');
+            fieldsMap.put('Case_Integration_ID__c',newCaseIntRec.Name);
+            fieldsMap.put('Business_Unit__c',caseRecord.Business_Unit__c);
+            fieldsMap.put('Integration_Name__c','EmailResponse API');
+            
             //Publish the platform event
             Database.SaveResult eventResult = ABHFL_CasePlatformEventHandler.publishPlatformEvent('CRM_to_UNFYD_Email_Event__e', fieldsMap);
         }
@@ -687,7 +689,7 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
 *****************************************************************************************************************/
     public static void unfydEmailResponseHandler(String caseId, ABFL_UNFYDEmailWrapper unfydResponse){
         Case caseRecord = [Select id, eBOT_Email_Draft_initial__c from case where id = :caseId];
-        caseRecord.eBOT_Email_Draft_initial__c = unfydResponse.response;
+        caseRecord.eBOT_Email_Draft_initial__c = unfydResponse.emailResponse;
         update caseRecord;
     }
 }
