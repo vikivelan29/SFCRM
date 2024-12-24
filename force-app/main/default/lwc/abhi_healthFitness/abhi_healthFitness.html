@@ -1,0 +1,40 @@
+<template>
+    <lightning-tabset>
+        <!--<lightning-button-icon icon-name="action:refresh" class="slds-m-left_xx-small slds-float_right slds-m-bottom_large refresh-button-icon-css"
+        variant="brand" alternative-text="Refresh" onclick={refreshTab}></lightning-button-icon> -->
+        <lightning-tab label = {label.fitLevel} onactive = {handleActive}>
+            <!--<c-abfl_-legacy-cases></c-abfl_-legacy-cases>-->
+            <c-abhi_-f-a-level-details record-id={recordId}></c-abhi_-f-a-level-details>
+        </lightning-tab>
+        <lightning-tab label = {label.fitAppointment}  onactive = {handleActive}>
+           
+            <c-abhi_-f-a-history-details record-id={recordId}></c-abhi_-f-a-history-details>
+        </lightning-tab>
+        <lightning-tab label = {label.activeDays}  onactive = {handleActive}>
+            <c-abhi_-Active-Days-Dashboard record-id={recordId}></c-abhi_-Active-Days-Dashboard>
+        </lightning-tab>
+        <lightning-tab label = {label.activeEvent}  onactive = {handleActive}>
+            <c-abhi_-Active-Day-Events-Detail record-id={recordId}></c-abhi_-Active-Day-Events-Detail>
+        </lightning-tab>
+        <lightning-tab label = {label.activeAge}  onactive = {handleActive}>
+            <!--<c-abfl_-legacy-cases lwc:ref="legacy"></c-abfl_-legacy-cases>-->
+            <c-abhi_-h-h-s_-active record-id={recordId}></c-abhi_-h-h-s_-active>
+        </lightning-tab>
+        <lightning-tab label = {label.appReg} onactive = {handleActive}>
+            <c-abhi_-view-policy-information_-l-w-c acc-rec-id={recordId}></c-abhi_-view-policy-information_-l-w-c>
+        </lightning-tab>
+        <lightning-tab label = {label.devices} onactive = {handleActive}>
+            <c-abhi_device-details-cmp record-id={recordId}></c-abhi_device-details-cmp>
+        </lightning-tab>
+        <!-- <lightning-tab label = 'Fitness App Level' onactive = {handleActive}>
+            <c-abhil_-f-a-level-details record-id={recordId}></c-abhil_-f-a-level-details>
+        </lightning-tab>
+        <lightning-tab label = 'HHS Details' onactive = {handleActive}>
+            <c-abhi_-hhs-active-age-details record-id={recordId}></c-abhi_-hhs-active-age-details>
+        </lightning-tab>
+        <lightning-tab label = 'Active Age' onactive = {handleActive}>
+            <c-abhi_-active-age record-id={recordId}></c-abhi_-active-age>
+        </lightning-tab> -->
+    </lightning-tabset>
+
+</template>

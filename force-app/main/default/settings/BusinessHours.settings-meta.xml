@@ -36,19 +36,19 @@
     </businessHours>
     <businessHours>
         <active>true</active>
-        <default>true</default>
+        <default>false</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
-        <fridayStartTime>09:00:00.000Z</fridayStartTime>
+        <fridayStartTime>09:30:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
-        <mondayStartTime>09:00:00.000Z</mondayStartTime>
-        <name>ABCL</name>
+        <mondayStartTime>09:30:00.000Z</mondayStartTime>
+        <name>ABFL</name>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
-        <thursdayStartTime>09:00:00.000Z</thursdayStartTime>
+        <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
         <timeZoneId>Asia/Kolkata</timeZoneId>
         <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
-        <tuesdayStartTime>09:00:00.000Z</tuesdayStartTime>
+        <tuesdayStartTime>09:30:00.000Z</tuesdayStartTime>
         <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
-        <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
+        <wednesdayStartTime>09:30:00.000Z</wednesdayStartTime>
     </businessHours>
     <businessHours>
         <active>true</active>
@@ -70,17 +70,17 @@
         <active>true</active>
         <default>false</default>
         <fridayEndTime>18:30:00.000Z</fridayEndTime>
-        <fridayStartTime>09:30:00.000Z</fridayStartTime>
+        <fridayStartTime>09:00:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
-        <mondayStartTime>09:30:00.000Z</mondayStartTime>
-        <name>ABFL</name>
+        <mondayStartTime>09:00:00.000Z</mondayStartTime>
+        <name>Default</name>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
-        <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
+        <thursdayStartTime>09:00:00.000Z</thursdayStartTime>
         <timeZoneId>Asia/Kolkata</timeZoneId>
         <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
-        <tuesdayStartTime>09:30:00.000Z</tuesdayStartTime>
+        <tuesdayStartTime>09:00:00.000Z</tuesdayStartTime>
         <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
-        <wednesdayStartTime>09:30:00.000Z</wednesdayStartTime>
+        <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
     </businessHours>
     <businessHours>
         <active>true</active>
@@ -137,9 +137,7 @@
         <fridayStartTime>09:30:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
         <mondayStartTime>09:30:00.000Z</mondayStartTime>
-        <name>Wellness</name>
-        <saturdayEndTime>18:30:00.000Z</saturdayEndTime>
-        <saturdayStartTime>09:30:00.000Z</saturdayStartTime>
+        <name>ABHI</name>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
         <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
         <timeZoneId>Asia/Kolkata</timeZoneId>
@@ -155,7 +153,9 @@
         <fridayStartTime>09:30:00.000Z</fridayStartTime>
         <mondayEndTime>18:30:00.000Z</mondayEndTime>
         <mondayStartTime>09:30:00.000Z</mondayStartTime>
-        <name>ABHI</name>
+        <name>Wellness</name>
+        <saturdayEndTime>18:30:00.000Z</saturdayEndTime>
+        <saturdayStartTime>09:30:00.000Z</saturdayStartTime>
         <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
         <thursdayStartTime>09:30:00.000Z</thursdayStartTime>
         <timeZoneId>Asia/Kolkata</timeZoneId>
@@ -178,6 +178,22 @@
         <tuesdayEndTime>18:00:00.000Z</tuesdayEndTime>
         <tuesdayStartTime>09:00:00.000Z</tuesdayStartTime>
         <wednesdayEndTime>18:00:00.000Z</wednesdayEndTime>
+        <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
+    </businessHours>
+    <businessHours>
+        <active>true</active>
+        <default>true</default>
+        <fridayEndTime>18:30:00.000Z</fridayEndTime>
+        <fridayStartTime>09:00:00.000Z</fridayStartTime>
+        <mondayEndTime>18:30:00.000Z</mondayEndTime>
+        <mondayStartTime>09:00:00.000Z</mondayStartTime>
+        <name>ABCL</name>
+        <thursdayEndTime>18:30:00.000Z</thursdayEndTime>
+        <thursdayStartTime>09:00:00.000Z</thursdayStartTime>
+        <timeZoneId>Asia/Kolkata</timeZoneId>
+        <tuesdayEndTime>18:30:00.000Z</tuesdayEndTime>
+        <tuesdayStartTime>09:00:00.000Z</tuesdayStartTime>
+        <wednesdayEndTime>18:30:00.000Z</wednesdayEndTime>
         <wednesdayStartTime>09:00:00.000Z</wednesdayStartTime>
     </businessHours>
     <holidays>
