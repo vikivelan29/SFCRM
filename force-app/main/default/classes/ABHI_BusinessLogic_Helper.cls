@@ -253,7 +253,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
     public void policyIsMandatory(){
         
         for(Case cs : abhiNewCaseList) {
-            if(String.isNotBlank(cs.AccountId) && String.isBlank(cs.AssetId)&& cs.Source__c != 'IGMS' && cs.Technical_Source__c != 'API') {
+            if(String.isNotBlank(cs.AccountId) && String.isBlank(cs.AssetId)&& cs.Source__c != 'IGMS' && cs.Technical_Source__c != 'API' && cs.Technical_Source__c != 'Email') {
                 cs.addError(ABHI_Constants.POLICY_IS_MANDATORY_ON_CUSTOMER);
             }
         }
@@ -647,7 +647,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
         Map<String, Map<String, ABHI_Create_Case_Validations__mdt>> issueSourceMap = new Map<String, Map<String, ABHI_Create_Case_Validations__mdt>>();
         String caseBusinessUnit = caseRecord.Business_Unit__c ?? '';
         String caseCCCExtId = caseRecord.CCC_External_Id__c ?? '';
-        String caseSource = caseRecord.Source__c.toLowerCase() ?? '';
+        String caseSource = caseRecord.Source__c!=null?caseRecord.Source__c.toLowerCase(): '';
         List<String> caseCreationRestrictionLabelList = System.label.ABHI_Case_Restriction_Creation.split(',');
         String userSourceCode = getCurrentUserInfo()?.Source_Code__c;
         String result = 'Success';
