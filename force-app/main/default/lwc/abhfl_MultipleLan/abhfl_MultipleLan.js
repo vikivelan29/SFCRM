@@ -12,7 +12,10 @@ import { getRecord } from "lightning/uiRecordApi";
 const CASEFIELDS = ["Case.Stage__c", "Case.OwnerId"];
 export default class Abhfl_MultipleLan extends LightningElement {
     @api recordId;
-    searchResult; 
+    searchResult;
+    bureaucolumns 
+    bureaurows;
+    processedRows;
     totalNoOfRecordsInDatatable;
     pageSize = 5; //No.of records to be displayed per page
     totalPages; //Total no.of pages
@@ -41,6 +44,7 @@ export default class Abhfl_MultipleLan extends LightningElement {
     amIOwner;
     sizeClass = 'multiColumnTable';
     impctLogic;
+    bureauHist = false;
 
     @wire(getRecord, { recordId: "$recordId", fields: CASEFIELDS })
     case;
@@ -53,7 +57,11 @@ export default class Abhfl_MultipleLan extends LightningElement {
                     this.impctLogic = result.impactLogic;
                     this.columns = result.columnData;
                     this.childColumns = result.childColumnData;
+                    this.bureaucolumns = result.bureauHistoryColumns;
+                    console.log('bureaucolumns-->'+JSON.stringify(this.bureaucolumns));
                     this.searchResult = result.assetDetailRecords;
+                    this.bureaurows = result.bureauHistoryRecords;
+                    console.log('bureaurows-->'+JSON.stringify(this.bureaurows));
                     this.totalNoOfRecordsInDatatable = result.assetDetailRecords.length;
                     this.paginationHelper(); // call helper menthod to update pagination logic
                     this.displayMultipleLan = true;
@@ -87,6 +95,14 @@ export default class Abhfl_MultipleLan extends LightningElement {
         }
     }
 
+    showbureauHistory(){
+        if(this.bureauHist){
+            this.bureauHist = false;
+        }else {
+            this.bureauHist = true;
+        }
+    }
+    
     childTableDisplay(){
         for (let record in this.searchResult) {
             if(this.searchResult[record].detail.Id){
