@@ -316,8 +316,6 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                         ABFL_Location_Master__c locationRecord = codeToLocationMap.get(updateCase.LAN__c.substring(4, 7));
                         if (locationRecord != null && locationRecord.SPOC__c != null && updateCase.OwnerId != locationRecord.SPOC__c) {
                             // PR970457-2729 FC and non FC cases - start here
-                            system.debug('@@@@ '+updateCase.CCC_External_Id__c);
-                            system.debug('@@@@1 '+fcSecExtId);
                             if(updateCase.CCC_External_Id__c == fcSecExtId  || updateCase.CCC_External_Id__c == fcUnsecExtId){
                                 if(locationRecord.Alternate_SPOC__c!=null && alternateSpocMap.containskey(locationRecord.Alternate_SPOC__c)){
                                     Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.Alternate_SPOC__c); 
