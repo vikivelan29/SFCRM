@@ -31,13 +31,6 @@
         <value>ABSLAMC,ABHI,ONEABC,ABCD</value>
     </labels>
     <labels>
-        <fullName>ABSLAMC_DataSyncUser_FederationId</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABSLAMC DataSyncUser FederationId</shortDescription>
-        <value>DataSyncUatFedId</value>
-    </labels>
-    <labels>
         <fullName>ONEABC_Acc_Error_ABCD_Customer</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1815,5 +1808,19 @@
         <protected>false</protected>
         <shortDescription>ABCD_ONEABC_BU</shortDescription>
         <value>ONEABC</value>
+    </labels>
+    <labels>	
+        <fullName>Payments_Critical_Alerts_Group</fullName>	
+        <language>en_US</language>	
+        <protected>false</protected>	
+        <shortDescription>Payments Critical Alerts Group</shortDescription>	
+        <value>shagunsingh223@gmail.com,pavan.jami@in.ey.com,tanmay.s.metkar@in.ey.com</value>	
+    </labels>
+    <labels>	
+        <fullName>ABSLAMC_DataSyncUser_FederationId</fullName>	
+        <language>en_US</language>	
+        <protected>false</protected>	
+        <shortDescription>ABSLAMC DataSyncUser FederationId</shortDescription>	
+        <value>DataSyncUatFedId</value>	
     </labels>
 </CustomLabels>
