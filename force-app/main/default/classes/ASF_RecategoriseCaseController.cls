@@ -100,6 +100,7 @@ public with sharing class ASF_RecategoriseCaseController {
                                 Priority,
                                 Is_Recategorise_Allowed__c,
                                 oldCCCIdFields__c,
+                                Overall_Case_Closure_SLA__c,
                                 Type_Text__c,
                                 Sub_Type_Text__c,
                                 Issue_Type__c,

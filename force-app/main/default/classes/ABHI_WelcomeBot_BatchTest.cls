@@ -26,7 +26,7 @@ public class ABHI_WelcomeBot_BatchTest {
         update astRec; 
         
         Dispositions__c dis = new Dispositions__c(Disposition_L1__c = 'L1', Policy_Number__c = astRec.Id,
-							Status__c = 'Failure');
+							Status__c = 'Failure', Call_Type__c = Label.ABHI_WelcomeBot);
         insert dis;
     }   
     @isTest

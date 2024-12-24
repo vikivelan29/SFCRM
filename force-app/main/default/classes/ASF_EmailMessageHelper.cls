@@ -153,6 +153,13 @@ public without sharing class ASF_EmailMessageHelper {
                               }else{
                                   // else create new case and reparent EmailMessage
                                   Case newCase = createNewCaseInstance(caseRec, caseIdToEmailMessageMap);
+                                   String winningEmailAddrOnEmail = caseIdToEmailMessageMap.get(caseRec.Id).Winning_Email__c;
+                                   newCase.SuppliedEmail = caseIdToEmailMessageMap.get(caseRec.Id).FromAddress;
+                                   if(mWinningEmailDetails.containsKey(winningEmailAddrOnEmail)){
+                                       ASF_PriorityEmailAddressesByBU__mdt onEmailMdt = mWinningEmailDetails.get(winningEmailAddrOnEmail);
+                                       //newCase.Sent_to_EBOT__c = onEmailMdt.Send_to_EBOT__c;
+                                       newCase.Origin = onEmailMdt.Case_Origin__c ;
+                                   }
                                   oldCaseIdToNewCaseMap.put(caseRec.Id, newCase);
                                   //firstOwnerToOldCases = populateMap(caseRec, firstOwnerToOldCases);
                                   // VIRENDRA - 10 April 2024 - ADDED STATIC VARIABLE TO SET TO TRUE.
@@ -252,7 +259,7 @@ public without sharing class ASF_EmailMessageHelper {
     private static boolean buSpecificReopenCheck(Case caseRec){
         boolean returnVal = caseRec.Is_Reopen_Allowed__c; // default value
         
-        if(caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU && caseRec.Nature__c == 'Complaint'){
+        if((caseRec.Business_Unit__c == ASF_Constants.ABSLI_BU || caseRec.Business_Unit__c == ABHI_Constants.ABHI )&& caseRec.Nature__c == 'Complaint'){
             return false;
         }
         return returnVal;

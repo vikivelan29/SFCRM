@@ -236,6 +236,7 @@ public without sharing class ABHI_CreatePolicy {
                     
                 } 
                 cusMemMapping.Policy_Number__r = refPolicy;
+                cusMemMapping.Policy_Number_Text__c = policyMap.get('PolicyNumber').toString();
                 cusMemMapping.Business_Unit__c = ABHI_Constants.ABHI;
                 cusMemMapping.RecordTypeId = memberRecordTypeId;
                 //External ID = MemberId+ProposalNo, Also remove REcord from Field Mapping
@@ -369,7 +370,7 @@ public without sharing class ABHI_CreatePolicy {
             } 
             policyNominee.put(ABHI_Constants.BUSINESS_UNIT_API, ABHI_Constants.ABHI);
             //NomineeExternalId__c = <NomineeId><ProposalNumber>
-            //policyNominee.put('NomineeExternalId__c', nominee.get('NomineeId').toString()+ policy.LAN__c);
+            policyNominee.put('Policy_Number_Text__c', policy.LAN__c);
             listPolicyNominee.add(policyNominee);
         }
         
