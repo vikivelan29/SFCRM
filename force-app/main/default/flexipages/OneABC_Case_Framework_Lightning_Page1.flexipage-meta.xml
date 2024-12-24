@@ -253,19 +253,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>abhfl_MultipleLan</componentName>
-                <identifier>c_abhfl_MultipleLan</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Business_Unit__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>ABHFL</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
                 </componentInstanceProperties>
