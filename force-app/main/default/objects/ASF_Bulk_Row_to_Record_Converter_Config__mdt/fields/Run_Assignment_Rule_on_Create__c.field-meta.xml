@@ -4,6 +4,8 @@
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Run Assignment Rule on Create?</label>
-    <type>Checkbox</type>
+    <label>Bureau History Fields</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>
