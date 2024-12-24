@@ -133,7 +133,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
                                         Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.Alternate_SPOC__c); 
                                         insertFinalUpdateCase.add(origCaseUpdate); 
                                     }
-                                    else{
+                                 else{
                                         Case origCaseUpdate = new Case(Id=updateCase.Id, OwnerId = locationRecord.SPOC__c); 
                                         insertFinalUpdateCase.add(origCaseUpdate);  
                                     }
@@ -298,7 +298,7 @@ public with sharing class ABFL_OwnerChangeWithLocation {
         }  
         if(!extractedSubstring.isEmpty()){
             Map<String, ABFL_Location_Master__c> codeToLocationMap = new Map<String, ABFL_Location_Master__c>();
-            Map<Id, User> alternateSpocMap = new Map<Id, User>();
+             Map<Id, User> alternateSpocMap = new Map<Id, User>();
             List<Id> alternateSpoc = new List<Id>();
             for (ABFL_Location_Master__c locationRecord : [SELECT Id, SPOC__c,Location__c, Code__c, Alternate_SPOC__c FROM ABFL_Location_Master__c WHERE Code__c IN :extractedSubstring WITH SYSTEM_MODE]) {
                 codeToLocationMap.put(locationRecord.Code__c, locationRecord);

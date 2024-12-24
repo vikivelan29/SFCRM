@@ -689,7 +689,7 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
 *****************************************************************************************************************/
     public static void unfydEmailResponseHandler(String caseId, ABFL_UNFYDEmailWrapper unfydResponse){
         Case caseRecord = [Select id, eBOT_Email_Draft_initial__c from case where id = :caseId];
-        caseRecord.eBOT_Email_Draft_initial__c = unfydResponse.response;
+        caseRecord.eBOT_Email_Draft_initial__c = unfydResponse.emailResponse;
         update caseRecord;
     }
 }
