@@ -310,8 +310,7 @@ private class ASF_CommPETriggerHandler_Test {
         if(peLoggers.size()>0){
             insert peLoggers;
         }
-        //System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch('SELECT ID,RecordID__c,CustomMetadataName__c,Lead__c FROM PE_Logger__c WHERE Status__c=\'Processing\' AND CreatedDate = Today ORDER BY CreatedDate DESC'));
-        System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch('SELECT ID,RecordID__c,CustomMetadataName__c,Case__c,AccountId__c,ContactId__c,Email_Template_Name__c,SMS_Template_Dev_Name__c ,WhatsApp_Template_Dev_Name__c,Status__c,No_Auto_Communication__c,Lead__c,Specific_To_MobilePhone__c,Send_To_Specific_Mobile__c  FROM PE_Logger__c WHERE Status__c=\'Processing\' AND CreatedDate = Today ORDER BY CreatedDate DESC'));
+        System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch('SELECT ID,RecordID__c,CustomMetadataName__c,Lead__c FROM PE_Logger__c WHERE Status__c=\'Processing\' AND CreatedDate = Today ORDER BY CreatedDate DESC'));
         Test.stopTest();
     }
  @isTest
