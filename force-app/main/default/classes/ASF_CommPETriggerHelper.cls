@@ -176,7 +176,6 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                           Boolean isAttachment,
                                                                           Id owdID){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-		msg.setOrgWideEmailAddressId(owdID);
         if(con != null){
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
@@ -225,9 +224,7 @@ public without sharing class ASF_CommPETriggerHelper {
         msg.SetHTMLBody(emailBody);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
-        if(msg.getOrgWideEmailAddressId() == null){
-           msg.setOrgWideEmailAddressId(owdID); 
-        }
+        msg.setOrgWideEmailAddressId(owdID);
         msg.setEntityAttachments(contentId);        
         return msg;
  
@@ -249,9 +246,7 @@ public without sharing class ASF_CommPETriggerHelper {
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
-        if(msg.getOrgWideEmailAddressId() == null){
-          msg.setOrgWideEmailAddressId(owdID);          
-        }
+        msg.setOrgWideEmailAddressId(owdID);        
         return msg;
     }
     /**
