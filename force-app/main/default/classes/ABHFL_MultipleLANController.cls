@@ -126,10 +126,9 @@ public with sharing class ABHFL_MultipleLANController {
         sfFieldList = String.isNotBlank(lanMetadata.Asset_Additional_Fields__c) ? lanMetadata.Asset_Additional_Fields__c.split(',') : sfFieldList;
         Map<String,Schema.SObjectField> fieldSchemaMap = new Map<String,Schema.SObjectField>();
         fieldSchemaMap = Schema.Bureau_History__c.SObjectType.getDescribe().fields.getMap();
-        system.debug('fieldSchemaMap-->'+fieldSchemaMap);
-        if(sfFieldList != null && sfFieldList.size() > 0){
+    if(sfFieldList != null && sfFieldList.size() > 0){
             for(String field : sfFieldList){
-                system.debug('field-->'+field);
+
                 ColumnWrapper column = new ColumnWrapper();
                 Schema.DescribeFieldResult fieldResult = fieldSchemaMap.get(field).getDescribe();
                 column.label = fieldResult.getLabel();
@@ -153,15 +152,13 @@ public with sharing class ABHFL_MultipleLANController {
             }
         }
         string queryStr = 'Select id, '+String.escapeSingleQuotes(lanMetadata.Asset_Additional_Fields__c) + ' from Bureau_History__c where LAN_Text__c in: lanIds';
-        system.debug('queryStr--->'+queryStr);
+        
         List<sObject> bureauHistoryRecords = Database.Query(queryStr);
-        //bureauHistoryWrapper burohist = new bureauHistoryWrapper();
         for(Bureau_History__c bureau : (List<Bureau_History__c>)bureauHistoryRecords){
             //burohist.bureauHistory = bureau;
            // bureauHistoryRec.add(burohist);
                bureauHistoryRec.add(bureau);
         }
-        system.debug('bureauHistoryRec--->'+bureauHistoryRec);
         return bureauHistoryRec;
     }
     /****************************************************************************************************************
