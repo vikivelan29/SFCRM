@@ -126,6 +126,24 @@
         <type>Flexipage</type>
         <pageOrSobjectType>Asset</pageOrSobjectType>
     </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Case_Framework_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Case_Framework_Lightning_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+    </actionOverrides>
     <brand>
         <headerColor>#0070D2</headerColor>
         <logo>X231204_ABC_Primary_Identity_CMYK_Wh</logo>
@@ -137,10 +155,29 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>ABCL Service Console</label>
     <navType>Console</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Case_Pre_Framework_Lightning_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Interaction</recordType>
+        <type>Flexipage</type>
+        <profile>ABFSSL_Support_Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Pre_Framework_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Interaction</recordType>
+        <type>Flexipage</type>
+        <profile>ABFSSL_Support_Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Case_Detail_Record_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>WellnessCaseDetail__c</pageOrSobjectType>
@@ -345,7 +382,7 @@
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
-    <profileActionOverrides>
+     <profileActionOverrides>
         <actionName>View</actionName>
         <content>ABHI_Customer_Member_Mapping_Record_Page</content>
         <formFactor>Small</formFactor>
@@ -2196,7 +2233,7 @@
         <type>Flexipage</type>
         <profile>RNWL Manager Profile</profile>
     </profileActionOverrides>
-	
+
 	
 	
 	
@@ -3007,7 +3044,7 @@
         <profile>Admin</profile>
     </profileActionOverrides>
 		
-    <tabs>Health_Provider__c</tabs>
+     <tabs>Health_Provider__c</tabs>
     <tabs>Claim__c</tabs>
     <tabs>Health_Intent__c</tabs>
     <tabs>Customer_Member_Mapping__c</tabs>
@@ -3015,6 +3052,7 @@
     <tabs>Customer_Prospect_Search</tabs>
     <tabs>standard-Case</tabs>
     <tabs>Payment_Customer_Search</tabs>
+    <tabs>Search_Kavach_Customer_Policy_details</tabs>
     <tabs>Knowledge__kav</tabs>
     <tabs>standard-Lead</tabs>
     <tabs>standard-Asset</tabs>
@@ -3022,7 +3060,7 @@
     <tabs>Bulk_Upload</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
-	<tabs>abml_List_View_Tab</tabs>
+    <tabs>abml_List_View_Tab</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>ABCL_Service_Console_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -3051,6 +3089,12 @@
             <tab>Payment_Customer_Search</tab>
         </mappings>
         <mappings>
+            <tab>Search_Kavach_Customer_Policy_details</tab>
+        </mappings>
+        <!--mappings>
+            <tab>abml_List_View_Tab</tab>
+        </mappings-->
+        <mappings>
             <tab>standard-Account</tab>
         </mappings>
         <mappings>
@@ -3072,7 +3116,7 @@
         <mappings>
             <tab>standard-report</tab>
         </mappings>
-		<mappings>
+<mappings>
             <tab>abml_List_View_Tab</tab>
         </mappings>
     </workspaceConfig>

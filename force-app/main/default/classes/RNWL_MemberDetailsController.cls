@@ -160,7 +160,7 @@ public with sharing class RNWL_MemberDetailsController {
                 
                 for(object member : lstMember) { 
                     Map<String, Object> member_Map = (Map<String, Object>)member;
-                    Map<String, String> memberMap = new Map<String, String>(); 
+					Map<String, String> memberMap = new Map<String, String>(); 
                     
                     memberMap.put('Name', String.valueOf(member_Map.get('Name'))); 
                     memberMap.put('Member DOB', String.valueOf(member_Map.get('DoB')));
@@ -282,7 +282,7 @@ public with sharing class RNWL_MemberDetailsController {
                         }
                         
                         activeDays = objResponse.TotalActiveDays;
-                        Decimal balance = Decimal.valueOf(objResponse.TotalHealthReturnsTM) - Decimal.valueOf(objResponse.TotalHealthReturnsTMBurnt);
+                        integer balance = Integer.valueOf(objResponse.TotalHealthReturnsTM) - Integer.valueOf(objResponse.TotalHealthReturnsTMBurnt);
                         objResponse.HRBalance = balance;
                         objResponse.HRCFRenewal = balance; 
                         objResponse.MonthName = RNWL_Constants.MONTH_MAP.get(objResponse.Month);
@@ -357,7 +357,7 @@ public with sharing class RNWL_MemberDetailsController {
         @AuraEnabled public String HR_Expiry_Date{get;set;}   
         @AuraEnabled public String HHS_Start_Date{get;set;}   
         @AuraEnabled public String HHS_End_Date{get;set;} 
-        @AuraEnabled public Decimal HRBalance{get;set;}
-        @AuraEnabled public Decimal HRCFRenewal{get;set;}
+        @AuraEnabled public Integer HRBalance{get;set;}
+        @AuraEnabled public Integer HRCFRenewal{get;set;}
     }
 }
