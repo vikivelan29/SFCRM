@@ -55,7 +55,7 @@ public with sharing class ABHFL_MultipleLANController {
                 }
                 lanWrapper.displayMultipleLan = true;
                 lanWrapper.columnData = getColumnData(lanMetadata,false);
-                lanWrapper.bureauHistoryColumns = getBureauHistoryColumnData(lanMetadata,false);
+                lanWrapper.bureauHistoryColumns = getBureauHistoryColumnData(lanMetadata);
                 if(validLoggedInUser){
                     if(String.isNotBlank(lanMetadata.Stages_Allowing_Field_Edit__c)){
                         List<String> stagesAllowed = lanMetadata.Stages_Allowing_Field_Edit__c.split(',');
@@ -119,7 +119,7 @@ public with sharing class ABHFL_MultipleLANController {
         }
     }
 
-    public static List<ColumnWrapper> getBureauHistoryColumnData(ABHFL_Multiple_LAN__mdt lanMetadata, Boolean isChildTable){
+    public static List<ColumnWrapper> getBureauHistoryColumnData(ABHFL_Multiple_LAN__mdt lanMetadata){
     
         list<ColumnWrapper> columnList = new List<ColumnWrapper>();
         list<String> sfFieldList = new List<String>();
