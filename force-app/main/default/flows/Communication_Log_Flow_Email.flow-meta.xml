@@ -697,20 +697,6 @@
                 <leftValueReference>$Record.Business_Unit__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Payments</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Type</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Report Fraud</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
                     <stringValue>ABCD</stringValue>
                 </rightValue>
             </conditions>
