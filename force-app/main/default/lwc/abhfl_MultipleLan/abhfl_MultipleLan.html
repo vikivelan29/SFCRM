@@ -14,6 +14,7 @@
             </div>
         </div>
         <lightning-card title="Multiple LAN">
+            <!-- Bureau history button added by Yogesh for [PR970457-2144]-->
             <lightning-button slot="actions" class="custom-small-button" label="Bureau History" variant="Brand" onclick={showbureauHistory}></lightning-button>
             <template lwc:if={recordsToDisplay}>
                 <div class="slds-p-around_x-small slds-scrollable_x">
@@ -65,6 +66,7 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- code started here by Yogesh [PR970457-2144]-->
                 <template if:true={bureauHist}>
                   <div>
                   <lightning-card title="Bureau History">
@@ -75,7 +77,7 @@
                 </lightning-card>
                 </div>  
                 </template>
-                <!-- Code ends here-->
+                <!-- Code ends here by Yogesh-->
                 <div class="slds-align_absolute-center" style="height:3rem">
                     <template lwc:if={enableRowSelection}>
                         <lightning-button onclick={addRecords} label="Add" variant="brand" disabled={disableAdd}>
