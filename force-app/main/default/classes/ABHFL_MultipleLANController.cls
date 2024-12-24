@@ -119,6 +119,10 @@ public with sharing class ABHFL_MultipleLANController {
         }
     }
 
+// This change in regarding [PR970457-2144] done by Yogesh EY
+// Added method to fetach column data 
+// Method name: getBureauHistoryColumnData,getBureauHistoryRecords
+
     public static List<ColumnWrapper> getBureauHistoryColumnData(ABHFL_Multiple_LAN__mdt lanMetadata){
     
         list<ColumnWrapper> columnList = new List<ColumnWrapper>();
