@@ -21,7 +21,7 @@ public with sharing class ABHFL_MultipleLANController {
             //ABHFL_Multiple_LAN__mdt lanMetadata = ABHFL_Multiple_LAN__mdt.getInstance(caseRecord.CCC_External_Id__c);
             List<ABHFL_Multiple_LAN__mdt> lanMetadataList = [ SELECT Id, DeveloperName, MasterLabel, Language, NamespacePrefix, Label,Impact_Option_Logic__c, QualifiedApiName, SystemModstamp, 
                                                     Asset_Fields__c, Asset_Detail_Fields__c, Asset_Detail_Editable_Fields__c, Stages_Allowing_Field_Edit__c, 
-                                                    Stages_Allowing_Fetch_All__c, Stages_Allowing_Add_Rows__c, Stages_Allowing_Delete_Rows__c, Stages_Allowing_File_Upload__c 
+                                                    Stages_Allowing_Fetch_All__c, Stages_Allowing_Add_Rows__c, Stages_Allowing_Delete_Rows__c, Stages_Allowing_File_Upload__c,Asset_Additional_Fields__c 
                                                     FROM ABHFL_Multiple_LAN__mdt where DeveloperName =: caseRecord.CCC_External_Id__c];
 
             ABHFL_Multiple_LAN__mdt lanMetadata = new ABHFL_Multiple_LAN__mdt();
@@ -55,6 +55,7 @@ public with sharing class ABHFL_MultipleLANController {
                 }
                 lanWrapper.displayMultipleLan = true;
                 lanWrapper.columnData = getColumnData(lanMetadata,false);
+                lanWrapper.bureauHistoryColumns = getBureauHistoryColumnData(lanMetadata,false);
                 if(validLoggedInUser){
                     if(String.isNotBlank(lanMetadata.Stages_Allowing_Field_Edit__c)){
                         List<String> stagesAllowed = lanMetadata.Stages_Allowing_Field_Edit__c.split(',');
@@ -111,10 +112,57 @@ public with sharing class ABHFL_MultipleLANController {
                 }
                 lanWrapper.assetDetailRecords = getAssetDetailRecords(lanMetadata,childLanMetadata,recId);
             }
+            lanWrapper.bureauHistoryRecords = getBureauHistoryRecords(lanMetadata,recId);
             return lanWrapper;
         } catch (Exception e) {
             throw e;//throw new AuraHandledException(e.getMessage());
         }
+    }
+
+    public static List<ColumnWrapper> getBureauHistoryColumnData(ABHFL_Multiple_LAN__mdt lanMetadata, Boolean isChildTable){
+    
+        list<ColumnWrapper> columnList = new List<ColumnWrapper>();
+        list<String> sfFieldList = new List<String>();
+        sfFieldList = String.isNotBlank(lanMetadata.Asset_Additional_Fields__c) ? lanMetadata.Asset_Additional_Fields__c.split(',') : sfFieldList;
+        Map<String,Schema.SObjectField> fieldSchemaMap = new Map<String,Schema.SObjectField>();
+        fieldSchemaMap = Schema.Bureau_History__c.SObjectType.getDescribe().fields.getMap();
+        system.debug('fieldSchemaMap-->'+fieldSchemaMap);
+        if(sfFieldList != null && sfFieldList.size() > 0){
+            for(String field : sfFieldList){
+                system.debug('field-->'+field);
+                ColumnWrapper column = new ColumnWrapper();
+                Schema.DescribeFieldResult fieldResult = fieldSchemaMap.get(field).getDescribe();
+                column.label = fieldResult.getLabel();
+                column.fieldName = field;
+                column.type = String.valueof(fieldResult.getType());
+                column.isEditable = false;
+                columnList.add(column);         
+            }
+        }
+        return columnList;
+    }
+
+    public static List<Bureau_History__c> getBureauHistoryRecords(ABHFL_Multiple_LAN__mdt lanMetadata,String recId){
+        
+        List<Bureau_History__c> bureauHistoryRec = new List<Bureau_History__c>();
+        List<LAN_Mapping__c> lanMappingList = [	Select Id,LAN__c,LAN__r.LAN__c from LAN_Mapping__c where Customer__c in (Select AccountId from Case where id =: recId) ];
+        Set<String> lanIds = new Set<String>();
+        if(lanMappingList.size() > 0){
+            for(LAN_Mapping__c lanMap : lanMappingList){
+                lanIds.add(lanMap.LAN__r.LAN__c);
+            }
+        }
+        string queryStr = 'Select id, '+String.escapeSingleQuotes(lanMetadata.Asset_Additional_Fields__c) + ' from Bureau_History__c where LAN_Text__c in: lanIds';
+        system.debug('queryStr--->'+queryStr);
+        List<sObject> bureauHistoryRecords = Database.Query(queryStr);
+        //bureauHistoryWrapper burohist = new bureauHistoryWrapper();
+        for(Bureau_History__c bureau : (List<Bureau_History__c>)bureauHistoryRecords){
+            //burohist.bureauHistory = bureau;
+           // bureauHistoryRec.add(burohist);
+               bureauHistoryRec.add(bureau);
+        }
+        system.debug('bureauHistoryRec--->'+bureauHistoryRec);
+        return bureauHistoryRec;
     }
     /****************************************************************************************************************
     * @LOB - ABHFL
@@ -650,6 +698,10 @@ public with sharing class ABHFL_MultipleLANController {
         public List<String> stagesAllowingDeleteRows;
         @AuraEnabled
         public Boolean impactLogic;
+        @AuraEnabled
+        public List<ColumnWrapper> bureauHistoryColumns;
+        @AuraEnabled
+        public List<Bureau_History__c> bureauHistoryRecords;
 
         public MultipleLanWrapper(){
             this.displayMultipleLan = false;
@@ -665,6 +717,8 @@ public with sharing class ABHFL_MultipleLANController {
     public class ColumnWrapper{
         @AuraEnabled
         public string label;
+        @AuraEnabled
+        public string fieldName;
         @AuraEnabled
         public string name;
         @AuraEnabled
@@ -682,6 +736,11 @@ public with sharing class ABHFL_MultipleLANController {
         public ABHFL_Asset_Detail__c detail; 
         @AuraEnabled
         public Boolean attachmentStatus;
+    }
+
+    public class bureauHistoryWrapper{
+        @AuraEnabled
+        public Bureau_History__c bureauHistory;
     }
 
     public class PicklistWrapper{
