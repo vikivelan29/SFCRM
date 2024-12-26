@@ -1823,4 +1823,11 @@
         <shortDescription>ABSLAMC DataSyncUser FederationId</shortDescription>	
         <value>DataSyncUatFedId</value>	
     </labels>
+    <labels>
+        <fullName>Exclude_subtype</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Exclude subtype</shortDescription>
+        <value>Re Kyc</value>
+    </labels>
 </CustomLabels>
