@@ -22,9 +22,6 @@
         <field>Lead.Function__c</field>
     </columns>
     <columns>
-        <field>Lead.City__c</field>
-    </columns>
-    <columns>
         <field>Lead.Product_Category__c</field>
     </columns>
     <columns>
