@@ -686,13 +686,6 @@
                     <stringValue>ABML</stringValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Wellness</stringValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Get_case_config</targetReference>
             </connector>
