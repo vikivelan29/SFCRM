@@ -19,7 +19,6 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         
         RNWL_EmailMessageTriggerHandler.validateEmailCount(newItems);
 
-
 //  for(EmailMessage em : (List<EmailMessage>)newItems){
             //System.debug('ASF - emailmessage before'+em);
         //}
