@@ -71,6 +71,11 @@
                 <label>SPRINKLR</label>
             </value>
             <value>
+                <fullName>Kavach</fullName>
+                <default>false</default>
+                <label>Kavach</label>
+            </value>
+            <value>
                 <fullName>eBOT Feedback</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
