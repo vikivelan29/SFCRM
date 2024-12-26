@@ -1,5 +1,5 @@
 /**
- * @description       : Batch Class to make callout to call Welcome Bot
+ * @description       : Batch Class to make callout to call Welcome Bot pending records
  * @author            : Achuriwala@salesforce.com,
  * @group             : 
  * @last modified on  : 01-10-2024
@@ -9,7 +9,7 @@
  * 1.0   01-10-2024   Achuriwala@salesforce.com,   Initial Version
 **/
 
-global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Schedulable {  
+global class ABHI_WelcomeBotPending_Batch implements Database.Batchable<sObject>,  Schedulable {  
     List<sObject> scope = new List<sObject>();
      /****************************************************************************************************************
      * @LOB - ABHI
@@ -18,17 +18,8 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
      * @return Database.getQueryLocator
      * @description - Method to get asset records  
      *****************************************************************************************************************/
-    global List<sObject> start(Database.BatchableContext bC) {  
-        List<sObject> scope = new List<sObject>();
-        scope.addAll([select id, Account.Name, Account.IsPersonAccount, Account.Phone,
-                      Account.PersonMobilePhone,Account.Client_Code__c,
-                      Account.Is_Chronic__c, Account.CMP_OPD__c, Account.Chronic_care__c,
-                      PolicyType__c, Policy_No__c, ProductName__c, Plan_Name__c,  
-                      Account.State__c, Channel__c, Source__c, LAN__c
-                      FROM Asset 
-                      WHERE CreatedDate = N_DAYS_AGO:2 AND Business_Unit__c = :ABHI_Constants.ABHI
-                      AND BusinessType__c IN ('New Business','Portability')
-                      AND CreatedBy.Username != 'abcdatasyncautomationuser@abc.com.abcprod']);
+    global List<sObject> start(Database.BatchableContext bC) { 
+        List<sObject> scope = new List<sObject>();        
         scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username, ABHI_Retry__c,
                       Policy_Number__r.Account.Name, Policy_Number__r.Account.IsPersonAccount,
                       Policy_Number__r.Account.Phone, Policy_Number__r.Account.PersonMobilePhone,
@@ -38,8 +29,8 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Policy_Number__r.Plan_Name__c, Policy_Number__r.LAN__c, 
                       Policy_Number__r.Account.State__c, Policy_Number__r.Channel__c, Policy_Number__r.Source__c
                       from Dispositions__c  
-                      WHERE Status__c = :ABHI_Constants.FAILURE AND Call_Type__c = :Label.ABHI_WelcomeBot 
-                      AND ABHI_Retry__c <= :Integer.valueOf(Label.ABHI_Retry)]);
+                      WHERE Status__c = 'Pending' AND Call_Type__c = :Label.ABHI_WelcomeBot
+                      AND CreatedDate < N_DAYS_AGO:2 ]);
         return scope;
 	}
     
@@ -82,41 +73,6 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
             disposition = new Dispositions__c();
             switch on obj
             {
-                when Asset asset
-                {
-                    if(mapProductNameService.containsKey(asset.Plan_Name__c + asset.ProductName__c)) {
-                        botRequest.serviceId = mapProductNameService.get(asset.Plan_Name__c + asset.ProductName__c);
-                    }
-                    else {
-                        key = asset.Plan_Name__c + asset.ProductName__c + asset.Account.CMP_OPD__c + asset.Account.Chronic_care__c + asset.Account.Is_Chronic__c;         
-                        System.debug('@@@key'+key);
-                        botRequest.serviceId = mapProductDetService.get(key); 
-                    }
-                    System.debug('@@@serviceId'+botRequest.serviceId);
-                    if(botRequest.serviceId == null || botRequest.serviceId == '') continue;
-
-                    botRequest.msisdn = asset.Account.IsPersonAccount?asset.Account.PersonMobilePhone:asset.Account.Phone;
-                    botRequest.language = 'en';
-                    botRequest.group_or_retail = asset.PolicyType__c;
-                    botRequest.policy_holder_name = asset.Account.Name;
-                    botRequest.policy_type = asset.PolicyType__c;
-                    botRequest.policy_number = asset.Policy_No__c;
-                    botRequest.policy_name = asset.ProductName__c+asset.Plan_Name__c;
-                    botRequest.customer_id = asset.Account.Client_Code__c;
-                    botRequest.State = asset.Account.State__c;
-                    botRequest.Policy_Channel = asset.Channel__c;
-                    botRequest.Policy_Source = asset.Source__c;
-
-                    mapWelcome.put(asset.LAN__c, botRequest);
-                    
-                    //Create Disposition record for all the asset record
-                    disposition.Policy_Number__r = new Asset(LAN__c = asset.LAN__c);
-                    disposition.Status__c = ABHI_Constants.PENDING;
-                    disposition.Remarks__c = ABHI_Constants.SUCCESS;
-                    disposition.Call_Type__c = Label.ABHI_WelcomeBot;
-                    
-                    mapDisposition.put(asset.LAN__c, disposition);
-                }
                 when Dispositions__c dispositions
                 {
                     //Do Disposition stuff
@@ -127,8 +83,6 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                         key = dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c +dispositions.Policy_Number__r.Account.CMP_OPD__c+dispositions.Policy_Number__r.Account.Chronic_care__c+ dispositions.Policy_Number__r.Account.Is_Chronic__c;         
                     	botRequest.serviceId = mapProductDetService.get(key); 
                     }
-                    if(botRequest.serviceId == null || botRequest.serviceId == '') continue;
-                    
                     botRequest.msisdn = dispositions.Policy_Number__r.Account.IsPersonAccount?dispositions.Policy_Number__r.Account.PersonMobilePhone:dispositions.Policy_Number__r.Account.Phone;
                     botRequest.language = 'en';
                     botRequest.group_or_retail = dispositions.Policy_Number__r.PolicyType__c;

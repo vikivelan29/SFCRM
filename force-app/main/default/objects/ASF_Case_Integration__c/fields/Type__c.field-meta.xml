@@ -5,7 +5,6 @@
     <externalId>false</externalId>
     <label>Type</label>
     <required>false</required>
-    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -48,19 +47,34 @@
                 <label>Payment</label>
             </value>
             <value>
-                <fullName>CATEGORIZATION</fullName>
+                <fullName>CreateCRMPolicy</fullName>
                 <default>false</default>
-                <label>CATEGORIZATION</label>
+                <label>CreateCRMPolicy</label>
             </value>
             <value>
-                <fullName>EMAILRESPONSE</fullName>
+                <fullName>OmniDoc</fullName>
                 <default>false</default>
-                <label>EMAILRESPONSE</label>
+                <label>OmniDoc</label>
             </value>
             <value>
-                <fullName>FEEDBACK</fullName>
+                <fullName>NPSFEEDBACK</fullName>
                 <default>false</default>
-                <label>FEEDBACK</label>
+                <label>NPSFEEDBACK</label>
+            </value>
+            <value>
+                <fullName>CAMS</fullName>
+                <default>false</default>
+                <label>CAMS</label>
+            </value>
+            <value>
+                <fullName>SPRINKLR</fullName>
+                <default>false</default>
+                <label>SPRINKLR</label>
+            </value>
+            <value>
+                <fullName>Kavach</fullName>
+                <default>false</default>
+                <label>Kavach</label>
             </value>
             <value>
                 <fullName>eBOT Feedback</fullName>
@@ -68,35 +82,6 @@
                 <isActive>false</isActive>
                 <label>eBOT Feedback</label>
             </value>
-            <value>
-<fullName>CreateCRMPolicy</fullName>
-<default>false</default>
-<label>CreateCRMPolicy</label>
-</value>
-<value>
- 
-<fullName>CAMS</fullName>
-<default>false</default>
-<label>CAMS</label>
-</value>
-<value>
- 
-<fullName>OmniDoc</fullName>
-<default>false</default>
-<label>OmniDoc</label>
-</value>
-<value>
- 
-<fullName>NPSFEEDBACK</fullName>
-<default>false</default>
-<label>NPSFEEDBACK</label>
-</value>
-<value>
- 
-<fullName>SPRINKLR</fullName>
-<default>false</default>
-<label>SPRINKLR</label>
-</value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
