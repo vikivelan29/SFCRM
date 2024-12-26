@@ -95,6 +95,27 @@
         <value>200</value>
     </labels>
     <labels>
+        <fullName>ABHI_WelcomeBot</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_WelcomeBot</shortDescription>
+        <value>Welcome Bot</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Kavach_Policy_RequestMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Kavach_Policy_RequestMessage</shortDescription>
+        <value>Please click on &apos;Retrieve Detail&apos; button to reinitiate the request.</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Kavach_Policy_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Kavach_Policy_Status</shortDescription>
+        <value>Request is sent. Please come back after some time to get the policy.</value>
+    </labels>
+    <labels>
         <fullName>ABSLI_Update_CCC_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
