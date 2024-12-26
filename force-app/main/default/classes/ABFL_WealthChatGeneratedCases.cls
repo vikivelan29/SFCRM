@@ -88,8 +88,6 @@ public with sharing class ABFL_WealthChatGeneratedCases {
         }*/
     }
 
-
-
     
     /**
     * @param inputText - String text (Email body)
