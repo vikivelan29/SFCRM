@@ -11,6 +11,7 @@
 public with sharing class ABFL_SOQL_Case {
     private static Case caseRec;
     private static List<Case> caseDetailRecs;
+    Private static ASF_Case_Stage_Config__c stageConfig;
 
     /****************************************************************************************************************
      * @function - getCaseInfo
@@ -32,7 +33,7 @@ public with sharing class ABFL_SOQL_Case {
              Technical_Source__c, AccountId, AssetId, Source__c, MoveToNext__c,
              CaseNumber,Business_Unit__c,ContactEmail,ContactMobile,
              ABFL_Case_Detail__r.From_Date__c, ABFL_Case_Detail__r.To_Date__c,
-             BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c
+             BRE_Source__c, SuppliedEmail, Origin, ABFL_Case_Detail__r.IsSMT__c,Created_by_ONEABC__c,OwnerId
              FROM Case
              WHERE Id =: caseid];
         }
@@ -114,5 +115,28 @@ public with sharing class ABFL_SOQL_Case {
                     WHERE Id = :idSet WITH SECURITY_ENFORCED];
         }
         return caseDetailRecs;
-    } 
+    }
+    
+    /**
+    * @description : Fetch case stage info
+    * @author dhinesh.t@salesforce.com | 12-24-2024 
+    * @param idSet 
+    * @return List<Case> 
+    **/
+    public static ASF_Case_Stage_Config__c getStageConfig(String CCC_ExternalID){
+        if(stageConfig==null){
+            stageConfig = [SELECT Default_Queue__c
+                    FROM ASF_Case_Stage_Config__c 
+                    WHERE Case_Category_Config__r.CCC_External_Id__c =: CCC_ExternalID AND StageName__c = 'Open' WITH SECURITY_ENFORCED];
+        }
+        return stageConfig;
+    }
+    
+    public static String getOnwerBU(Id ownerID){
+        User UserRecord = new User();
+        UserRecord = [SELECT Business_Unit__c
+                    FROM User 
+                    WHERE Id = : ownerID];
+        return UserRecord.Business_Unit__c;
+    }
 }
