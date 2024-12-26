@@ -50,7 +50,6 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         // IF EVERYTHING IS SUCCESSFUL THEN ONLY TRIGGER EBOT CODE.
         // VIRENDRA - TRIGGER EBOT WHEN EMAIL-TO-CASE ROUTING ADDRESS IS CONFIGURED TO SENDTOEBOT = TRUE
         ABCL_SendEmailValidation.validateUsersTeam(newEmails.values());
-        ABCL_SendEmailValidation.restrictUserToSendEmail(newEmails.values());
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newEmails.values());
         ABCL_EmailMessageHelper.ebotHandler(newEmails);
         // invoke ABFL E2C Case creation checks
@@ -77,7 +76,6 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
     } 
     public override void beforeUpdate(Map<Id, SObject> newItemsCase, Map<Id, SObject> oldItems) {
         ABCL_SendEmailValidation.validateUsersTeam(newItemsCase.values());
-        ABCL_SendEmailValidation.restrictUserToSendEmail(newItemsCase.values());
         ASF_EmailMessageHelper.validateIfGoingFromAuthorizedAddress(newItemsCase.values());
     }
 }
