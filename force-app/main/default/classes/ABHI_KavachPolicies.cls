@@ -16,7 +16,7 @@ public without sharing class ABHI_KavachPolicies {
     * @return  ResponseWrapper 
     * @description  This method will get legacy date and display in SF
     *****************************************************************************************************************/
-    @AuraEnabled(cacheable = true)
+    @AuraEnabled
     public static List<KavachResponseWrapper> getPolicyData(String policyNo){
        List<KavachResponseWrapper> listKavachResponse = new List<KavachResponseWrapper>();
        try{
@@ -29,6 +29,18 @@ public without sharing class ABHI_KavachPolicies {
                                               System.debug('@@@kavach'+kavach);
 
                                       listKavachResponse.add(kavach);
+           }
+           //Check on Integration record if request to Jarvis is in pending stage
+           if(listKavachResponse.isEmpty()) {
+               System.debug('@@@kavach1'+kavach);
+              for(ASF_Case_Integration__c caseIntg: [SELECT Policy_Number__c, Status__c,Response__c  FROM ASF_Case_Integration__c
+                                                     WHERE Policy_Number__c = :policyNo AND Type__c = 'Kavach'
+                                                     ORDER BY CreatedDate DESC LIMIT 1]) {
+                                                      	 System.debug('@@@kavach1'+kavach);
+                                                         kavach = new KavachResponseWrapper(caseIntg.Response__c, caseIntg.Status__c);
+                                                         
+                                                         listKavachResponse.add(kavach);
+                                                     }
            }
            
         }
@@ -48,30 +60,57 @@ public without sharing class ABHI_KavachPolicies {
     * @description  This method will get legacy date and display in SF
     *****************************************************************************************************************/
     @AuraEnabled
-    public static List<KavachResponseWrapper> getPolicyExternalData(String policyNo, String selectedSystem){
+    public static void getPolicyExternalData(String policyNo, String selectedSystem){
        List<KavachResponseWrapper> listKavachResponse = new List<KavachResponseWrapper>();
        ABHI_CreatePolicyWrapper.ResponseWrapper response = null;
-      // try{
-           String integrationName = 'ABHI_Kavach_Policy';
-           String conPayload =  JSON.serialize(new KavachRequest(policyNo, null , selectedSystem));
-           ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
-           System.debug('@@@@response.integrationResponse'+integrationResponse);
-           KavachResponse kavchResponse = (KavachResponse)JSON.deserialize(integrationResponse.responseBody, KavachResponse.class);
-           Map<String, Object> kavchResponses = (Map<String, Object>)JSON.deserializeUntyped(integrationResponse.responseBody);
-           if(kavchResponse.StatusCode.equals('1002')) {
-                throw new AuraHandledException(kavchResponse.Message);
+       try{
+           String integrationName = 'JARVIS_KAVACH';
+         //  String conPayload =  JSON.serialize(new KavachRequest(policyNo, null , selectedSystem));
+         //  ABCL_IntegrationCallout.IntegrationResponseWrapper integrationResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
+           List<ASF_Case_Integration__c> aciPending = new List<ASF_Case_Integration__c>();
+           aciPending = [SELECT Policy_Number__c, Status__c,Response__c  
+                                                           FROM ASF_Case_Integration__c
+                                                           WHERE Policy_Number__c = :policyNo AND Type__c = 'Kavach'
+                                                           AND Status__c = 'Pending'];
+
+           for(ASF_Case_Integration__c aci: aciPending){
+                aci.Status__c = 'Canceled';
            }
-           String createPolicyWrapper = JSON.serialize(kavchResponse.CustomerDetails[0]);
-           System.debug('@@@@response.createPolicyWrapper'+createPolicyWrapper);
-           response = ABHI_CreatePolicy.createPolicy(createPolicyWrapper);
-           listKavachResponse = getPolicyData(policyNo);
-           return listKavachResponse;
-       // }
-       /* catch(Exception e) {
+           
+           ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
+           caseInt.Policy_Number__c  = policyNo;
+           caseInt.Integration_Ext_Id__c = integrationName;
+           caseInt.Status__c = ABFL_Constants.PENDING;
+           caseInt.Type__c = 'Kavach';
+           caseInt.Response__c = ABFL_Constants.WAITING_API_RESPONSE;
+
+           aciPending.add(caseInt);
+           
+           upsert aciPending;
+           Map<String, Object> payloadWrap = new Map<String, Object>{ 
+                                                                'PolicyNumber' => policyNo, 
+                                                                'MasterPolicyNumber' => null,
+                                                                'TargetSystem' => selectedSystem
+                                                            };
+
+            // publish event
+           EventBus.publish(
+               new Case_Integration_Outbound__e (
+                   Business_Unit__c  = ABHI_Constants.ABHI,
+                   Case_Integration_ID__c = caseInt.Name,
+                   ServiceName__c = integrationName,
+                   Integration_Name__c  = integrationName,
+                   Request_Payload__c  =  JSON.serialize(payloadWrap)
+               ) 
+           );
+        }
+        catch(Exception e) {
             System.debug('@@ec'+e.getMessage()+e.getLineNumber());
-           //throw new AuraHandledException(response.StatusMessage); 
-        }*/
+            //throw new AuraHandledException(response.StatusMessage); 
+        }
     }
+    
+    
     /*********************************************************
     * @Class           KavachRequest
     * @Author          Aditee Churiwala 
@@ -112,6 +151,12 @@ public without sharing class ABHI_KavachPolicies {
         @AuraEnabled public String phone {get;set;}
         @AuraEnabled public String email {get;set;}
         @AuraEnabled public String policyNo {get;set;}
+        @AuraEnabled public String message {get;set;}
+        @AuraEnabled public String status {get;set;}
+        public KavachResponseWrapper(String message, String status) {
+            this.message = message;
+            this.status = status;
+        }
         public KavachResponseWrapper(Asset policy) {
             accountName = policy.Account.Name;
             name = policy.LAN__c;
