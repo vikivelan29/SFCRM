@@ -70,20 +70,47 @@
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Created_by_ONEABC__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ABCD</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ONEABC</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Case.Relate_Duplicate</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND (2 OR 3)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ABCD</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ONEABC</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
