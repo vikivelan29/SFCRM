@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_of_Admission</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT(ISBLANK(Date_of_Discharge__c)),
+NOT(ISBLANK(Date_of_Admission__c)),
+Date_of_Admission__c &gt; Date_of_Discharge__c
+)</errorConditionFormula>
+    <errorMessage>Date of Discharge cannot be less than Date of Admission</errorMessage>
+</ValidationRule>

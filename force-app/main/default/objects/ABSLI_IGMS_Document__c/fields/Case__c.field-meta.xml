@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Case__c</fullName>
     <description>This Field to store the Master Detail relation between Case and IGMS Document</description>
-    <externalId>false</externalId>
     <label>Case</label>
     <referenceTo>Case</referenceTo>
     <relationshipLabel>ABSLI IGMS Docuements</relationshipLabel>

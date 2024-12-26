@@ -1,0 +1,17 @@
+.custom-datatable {
+	white-space: normal;
+	word-wrap: break-word;
+	height: auto;
+	overflow-wrap: anywhere
+}
+.THIS .slds-truncate {
+
+    overflow:  visible !important;
+
+}
+
+.slds-th__action{
+
+    overflow:  visible !important;
+
+}

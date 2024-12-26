@@ -1,0 +1,16 @@
+<template>
+    <lightning-quick-action-panel header="Razor Pay Details">
+        <lightning-layout>
+            <lightning-layout-item size="6" padding="horizontal-large">
+                <lightning-input type="number" formatter="currency" label="Razor Pay Amount" name="razorPayAmount" value={razorPayAmount} onchange={handleChange}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="horizontal-large">
+                <lightning-input type="url" label="Razor Pay Link" name="razorPayLink" value={razorPayLink} onchange={handleChange}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <div slot="footer">
+            <lightning-button class="slds-button" variant="brand" label="Cancel" onclick={handleCancel}></lightning-button>
+            <lightning-button class="slds-button slds-m-left_x-small" variant="brand" label="Save" onclick={updateOppRecord}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>
