@@ -27,6 +27,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Account.State__c, Channel__c, Source__c, LAN__c
                       FROM Asset 
                       WHERE CreatedDate = N_DAYS_AGO:2 AND Business_Unit__c = :ABHI_Constants.ABHI
+                      AND BusinessType__c IN ('New Business','Portability')
                       AND CreatedBy.Username != 'abcdatasyncautomationuser@abc.com.abcprod']);
         scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username, ABHI_Retry__c,
                       Policy_Number__r.Account.Name, Policy_Number__r.Account.IsPersonAccount,
@@ -92,6 +93,8 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                         botRequest.serviceId = mapProductDetService.get(key); 
                     }
                     System.debug('@@@serviceId'+botRequest.serviceId);
+                    if(botRequest.serviceId == null || botRequest.serviceId == '') continue;
+
                     botRequest.msisdn = asset.Account.IsPersonAccount?asset.Account.PersonMobilePhone:asset.Account.Phone;
                     botRequest.language = 'en';
                     botRequest.group_or_retail = asset.PolicyType__c;
@@ -124,6 +127,8 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                         key = dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c +dispositions.Policy_Number__r.Account.CMP_OPD__c+dispositions.Policy_Number__r.Account.Chronic_care__c+ dispositions.Policy_Number__r.Account.Is_Chronic__c;         
                     	botRequest.serviceId = mapProductDetService.get(key); 
                     }
+                    if(botRequest.serviceId == null || botRequest.serviceId == '') continue;
+                    
                     botRequest.msisdn = dispositions.Policy_Number__r.Account.IsPersonAccount?dispositions.Policy_Number__r.Account.PersonMobilePhone:dispositions.Policy_Number__r.Account.Phone;
                     botRequest.language = 'en';
                     botRequest.group_or_retail = dispositions.Policy_Number__r.PolicyType__c;
