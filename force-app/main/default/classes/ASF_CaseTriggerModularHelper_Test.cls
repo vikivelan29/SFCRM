@@ -332,6 +332,26 @@ public class ASF_CaseTriggerModularHelper_Test {
         Test.stopTest();
         
     }
+    @IsTest
+    static void testManualSkipper(){
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsert();
+        ABSLI_Case_Detail__c caseDet = new ABSLI_Case_Detail__c(Address_Line_1__c = 'Test');
+        insert caseDet;
+        casesList[0].Technical_Source__c = 'LWC';
+        casesList[0].ABSLI_Case_Detail__c = caseDet.Id;
+        insert casesList;
+        ASF_TestDataFactory.createCaseCategoryConfigWithSTP();
+        Test.startTest();
+         Map<Id, Set<String>> recIdToSkipperFlag = new Map<Id, Set<String>>();
+        recIdToSkipperFlag.put(casesList[0].Id, new Set<String>{ASF_Constants.SKIP_VALIDATE_CHECKLISTS,ASF_Constants.SKIP_VALIDATE_TASKS});
+        ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, null);
+        ASF_BulkCaseProcessorUtility.isBulkProcessing = true;
+        casesList[0].Bulk_CaseDetail_JSON__c = '{"attributes":{"type":"ABSLI_Case_Detail__c"},"Address_Line_1__c":"Test"}';
+        update casesList;
+        Test.stopTest();
+        
+    }
 
     /*
     @IsTest
