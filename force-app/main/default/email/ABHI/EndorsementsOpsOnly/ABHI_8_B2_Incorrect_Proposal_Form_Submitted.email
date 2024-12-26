@@ -1,0 +1,41 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear Customer / </span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}},<br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Greetings from Aditya Birla Health Insurance Company Limited!!</span></span></span></span></span></span><br />
+<br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve;">Thank You for trusting Us with your Health Insurance needs and we assure you the best of our services.<br />
+<br />
+We appreciate your decision of adding your family to your existing Aditya Birla Health Insurance Policy No. {{{Case.LAN__c}}}. Insurance cover helps safeguard them from the financial burden of medical expenses.</span><br />
+<br />
+<span style="font-size: 10pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; white-space-collapse: preserve;"><span style="font-family:Calibri,sans-serif">In this regard, you are required to pay an additional premium of </span></span><span style="font-size: 10pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; white-space-collapse: preserve;"><span style="font-family:Calibri,sans-serif"><span style="font-weight:700">INR { Gross Additional Premium required }</span></span></span><span style="font-size: 10pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; white-space-collapse: preserve;"><span style="font-family:Calibri,sans-serif"> for </span></span><span style="font-size: 10pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; white-space-collapse: preserve;"><span style="font-family:Calibri,sans-serif"><span style="font-weight:700">'Member Addition'</span> request received under Service Request No. </span></span>{{{Case.CaseNumber}}}<span style="font-size: 10pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; white-space-collapse: preserve;"><span style="font-family:Calibri,sans-serif">.</span></span><br />
+<br />
+<span style="font-size: 10pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; white-space-collapse: preserve;"><span style="font-family:Calibri,sans-serif">Please visit </span></span><span style="font-size: 10pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; white-space-collapse: preserve;"><span style="font-family:Calibri,sans-serif"><span style="font-weight:700">{ Premium Payment link }</span></span></span><span style="font-size: 10pt; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; font-variant-position: normal; white-space-collapse: preserve;"><span style="font-family:Calibri,sans-serif"> to pay your additional premium or you may visit any of our branches nearest to your location.</span></span><br />
+<br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve;">We are unable to process your request until we receive the additional premium. Be rest assured, your request will be processed once we receive the premium payment.</span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">Please Note:</span></span></span></span></span></span></p>
+
+<ul>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">All Service Requests are tracked by the SR Number. It is advised to quote the same in the subject line for all future communications and to avoid raising duplicate or multiple requests of similar nature.</span></span></span></span></span></span></li>
+</ul>
+
+<div style="list-style-type:disc"><br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve; text-align: justify;">Regards,</span><br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Bilal</span></span></span></span></span></span><br />
+<span style="font-family: Calibri, sans-serif; font-size: 10pt; white-space-collapse: preserve;">Aditya Birla Health Insurance Co. Ltd.</span></div>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:center"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:Calibri,sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:italic"><span style="text-decoration:none">This is an auto-generated email.</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:center">&nbsp;</p>
+
+<p style="line-height:1.3800000000000001; text-align:center">&nbsp;</p>
+
+<p style="line-height:1.3800000000000001; text-align:center">&nbsp;</p>
+<br />
+&nbsp;</body>
+</html>

@@ -5,6 +5,7 @@ import getRecords from '@salesforce/apex/Abhfl_GenericRepeatingAndOpenComplntCla
 import getCaseCounts from '@salesforce/apex/Asf_NpsIndicatiorController.getCaseCounts';
 import getNpsScore from '@salesforce/apex/Asf_NpsIndicatiorController.getNpsScore';
 import BUSINESS_UNIT from '@salesforce/schema/Account.Business_Unit__c';
+import { lanLabels } from 'c/asf_ConstantUtility';
 export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends LightningElement {
 
     @api recordId;
@@ -31,33 +32,70 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     showEscalatedCases=0;
     nps = undefined;
     isAccount = false;
+    showCustomerNPSbyNumber;
+    customerBU = '';
+
     loadNpsScore() {
         getNpsScore({ customerId: this.recordId })
             .then(result => {
                 this.nps = result;
                 console.log('NPS record', this.nps); 
+                this.claculateNPSRating();
             })
             .catch(error => {
                 console.error('Error loading NPS record', error);
             });
     }
-    get showCustomerNPSbyNumber() {
-        if (this.nps == undefined || this.nps == 0) {
-            return "❌";
-        }
-        else if(this.nps > 0 && this.nps <= 6){
-            return "🙁";
-            }
-        else if(this.nps > 6 &&  this.nps <= 8){
-            return "😐";
-        }
-        else if(this.nps > 8 && this.nps <= 10){
-            return "😁";
+
+    claculateNPSRating() {
+
+        this.showCustomerNPSbyNumber = undefined;
+
+        if(JSON.stringify(this.nps) !== "{}") {
+            this.businessUnit = Object.keys(this.nps)[0];
+            this.showCustomerNPSbyNumber = this.nps[this.businessUnit];
         }
         else {
-            return this.nps;
+            this.businessUnit = this.customerBU;
+        }
+
+        if(this.businessUnit && (this.businessUnit !== lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
+            if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined) {
+                this.showCustomerNPSbyNumber =  "❌";
+        }
+            else if(this.showCustomerNPSbyNumber > 0 && this.showCustomerNPSbyNumber <= 3){
+                this.showCustomerNPSbyNumber =  "🙁";
+            }
+            else if(this.showCustomerNPSbyNumber > 3 &&  this.showCustomerNPSbyNumber <= 6){
+                this.showCustomerNPSbyNumber =  "😐";
+        }
+            else if(this.showCustomerNPSbyNumber > 6 && this.showCustomerNPSbyNumber <= 10){
+                this.showCustomerNPSbyNumber =  "😁";
+            }
+            else {
+                this.showCustomerNPSbyNumber = '';
+            }
+        }
+        else if(this.businessUnit && (this.businessUnit === lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
+            this.logicToShowEmoji();
         }
     }
+
+    logicToShowEmoji() {
+        if(this.showCustomerNPSbyNumber <= 6){
+            this.showCustomerNPSbyNumber =  "🙁";
+        }
+        else if(this.showCustomerNPSbyNumber <= 8){
+            this.showCustomerNPSbyNumber =  "😐";
+        }
+        else if(this.showCustomerNPSbyNumber <= 10){
+            this.showCustomerNPSbyNumber =  "😁";
+        }
+        else {
+            this.showCustomerNPSbyNumber = '';
+        }
+    }
+
     @wire(getRecord, {
         recordId: '$recordId',
         fields: [BUSINESS_UNIT]
@@ -68,6 +106,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             this.isAbhfl = businessUnitValue === 'ABHFL';
             this.isWellness = businessUnitValue === 'Wellness';
             this.isOther = (businessUnitValue !== 'ABHFL' && businessUnitValue !== 'Wellness');
+            this.customerBU = businessUnitValue ?? '';
+            this.loadNpsScore();
         } else if (error) {
             console.error('Error occured in  retrieving business unit', error);
         }
@@ -86,7 +126,6 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
     connectedCallback() {
         this.getCaseRecord();
         this.getCaseRecordNps();
-        this.loadNpsScore();
     }
 
     async getCaseRecord() {
@@ -184,7 +223,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     addAndChangeAttributes(attrbObj) {
         let getLightningIcon = this.template.querySelector(attrbObj.dataId);
-        //getLightningIcon.variant = attrbObj.variant;
+        getLightningIcon.variant = attrbObj.variant;
     }
 
     addIconClass(dataId, iconClass) {

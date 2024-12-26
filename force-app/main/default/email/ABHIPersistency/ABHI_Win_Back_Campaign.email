@@ -1,0 +1,57 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="margin-right: 4px; margin-left: 4px; text-align:justify">Dear {{{Case.Customer_name_formula__c}}},<br />
+&nbsp;
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Greetings from Aditya Birla Health Insurance!</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In line with our recent conversation, we are happy to offer you the opportunity to renew your policy even though it's past the grace period.&nbsp;</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">On renewing you will receive the following benefits:</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">Continuity Benefits:</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> Your current policy benefits remain intact, as per the terms and conditions outlined in your policy document. For more details, visit our website: {link to website}.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:700"><span style="font-style:normal"><span style="text-decoration:none">Uninterrupted Coverage</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">: Upon renewing, your coverage will resume seamlessly without any interruptions.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">However, it's important to note:</span></span></span></span></span></span></p>
+&nbsp;
+
+<ul>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">The period between your policy lapse date and renewal date is not covered. Any medical conditions arising during this time will need to be declared in the Good Health Declaration (GHD) form.</span></span></span></span></span></span></li>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Based on your GHD information, the underwriter may accept or reject your renewal request.</span></span></span></span></span></span></li>
+</ul>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">To renew your policy:</span></span></span></span></span></span></p>
+&nbsp;
+
+<ul>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Please confirm your acceptance of these terms by replying to this email.</span></span></span></span></span></span></li>
+	<li aria-level="1" style="list-style-type:disc"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Attach the completed Good Health Declaration (GHD) form to this email.</span></span></span></span></span></span></li>
+</ul>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Once we receive your confirmation and the completed GHD, we'll process your renewal request promptly.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In case of any further queries or assistance, feel free to reach out to us.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Wishing you good health and prosperity.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Stay Active, Stay Healthy</span></span></span></span></span></span></p>
+<br />
+<br />
+<br />
+Regards,<br />
+Aditya Birla Health Insurance Co. Limited</div>
+</body>
+</html>
