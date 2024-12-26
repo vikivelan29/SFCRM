@@ -143,25 +143,25 @@ export default class ABHI_OmniDocView extends LightningElement {
                             if(Array.isArray(response.SearchResponse[i].DataClassParam)){
                                 for(let k=0; k < response.SearchResponse[i].DataClassParam.length; k++){
                                     switch(response.SearchResponse[i].DataClassParam[k].DocSearchParamId) {
-                                        case 2:
+                                        case '2':
                                             response.SearchResponse[i].policyNumber = response.SearchResponse[i].DataClassParam[k].Value;
                                         break;
-                                        case 1:
+                                        case '1':
                                             response.SearchResponse[i].claimNumber = response.SearchResponse[i].DataClassParam[k].Value;
                                         break;
-                                        case 17:
+                                        case '17':
                                             response.SearchResponse[i].caseNumber = response.SearchResponse[i].DataClassParam[k].Value;
                                         break;
-                                        case 5:
+                                        case '5':
                                             response.SearchResponse[i].sourceSystem = response.SearchResponse[i].DataClassParam[k].Value;
                                         break;
-                                        case 6:
+                                        case '6':
                                             response.SearchResponse[i].documentType = response.SearchResponse[i].DataClassParam[k].Value;
                                         break;
-                                        case 16:
+                                        case '16':
                                             response.SearchResponse[i].templateId = response.SearchResponse[i].DataClassParam[k].Value;
                                         break;
-                                        case 15:
+                                        case '15':
                                             response.SearchResponse[i].Description = response.SearchResponse[i].DataClassParam[k].Value;
                                         break;
                                         default:
