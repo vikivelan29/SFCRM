@@ -140,6 +140,36 @@ export default class ABHI_OmniDocView extends LightningElement {
                                 }
                             }
                         }
+                        if(response.SearchResponse[i].DataClassParam){
+                            if(Array.isArray(response.SearchResponse[i].DataClassParam)){
+                                for(let k=0; k < response.SearchResponse[i].DataClassParam.length; k++){
+                                    switch(response.SearchResponse[i].DataClassParam[k].DocSearchParamId) {
+                                        case '2':
+                                            response.SearchResponse[i].policyNumber = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '1':
+                                            response.SearchResponse[i].claimNumber = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '17':
+                                            response.SearchResponse[i].caseNumber = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '5':
+                                            response.SearchResponse[i].sourceSystem = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '6':
+                                            response.SearchResponse[i].documentType = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '16':
+                                            response.SearchResponse[i].templateId = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '15':
+                                            response.SearchResponse[i].Description = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        default:
+                                    }
+                                }
+                            }
+                        }
                     }
                     this.data = response.SearchResponse;
                     resolve(response);
