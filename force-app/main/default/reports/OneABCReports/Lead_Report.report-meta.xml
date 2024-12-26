@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
+        <field>Lead.SFLMS_Lead_ID__c</field>
+    </columns>
+    <columns>
+        <field>Lead.ONEABC_Lead_Source__c</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
         <field>MOBILE_PHONE</field>
     </columns>
     <columns>
@@ -8,6 +20,9 @@
     </columns>
     <columns>
         <field>Lead.Function__c</field>
+    </columns>
+    <columns>
+        <field>Lead.City__c</field>
     </columns>
     <columns>
         <field>Lead.Product_Category__c</field>
@@ -23,6 +38,9 @@
     </columns>
     <columns>
         <field>CREATED</field>
+    </columns>
+    <columns>
+        <field>Lead.Comments__c</field>
     </columns>
     <format>Tabular</format>
     <name>Lead Report</name>
