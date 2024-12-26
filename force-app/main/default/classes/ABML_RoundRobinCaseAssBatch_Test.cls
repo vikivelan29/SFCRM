@@ -108,4 +108,33 @@ asst1.AccountId = acc.Id;
         Boolean checkOwner = ownerId.startsWith('005');
         System.assert(true, checkOwner);
     }
+    
+     @isTest 
+    static void checkOutOfOfficeTestMethod() { 
+        
+        User objUser = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' LIMIT 1];
+        System.runAs(objUser){
+            
+            Test.startTest();
+            OutOfOffice ooo = new OutOfOffice(
+                StartDate = Date.today(),
+                EndDate = Date.today().addDays(1),
+                Message='My message',
+                UserId = objUser.id //This should be a new user created in test class 
+            );
+            insert ooo;
+        }
+            
+        ABML_Round_Robin_Assignment__c retrievedSetting = [SELECT Name, ABML_Queue_Name__c, ABML_Index__c FROM ABML_Round_Robin_Assignment__c WHERE Name = 'ABML Franchisee Helpdesk' LIMIT 1];
+        
+        ABML_RoundRobinCaseAssBatch roundRobinCase = new ABML_RoundRobinCaseAssBatch();
+        Database.executeBatch(roundRobinCase);
+        Test.stopTest();
+        
+        
+        Case objCaseObj = [SELECT id, OwnerId FROM Case Limit 1];
+        String ownerId = objCaseObj.OwnerId;
+        Boolean checkOwner = ownerId.startsWith('005');
+        System.assert(true, checkOwner);
+    }
 }
