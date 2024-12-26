@@ -39,6 +39,15 @@
     <columns>
         <field>Lead.Comments__c</field>
     </columns>
+    <filter>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Lead.Sales</value>
+        </criteriaItems>
+    </filter>
     <format>Tabular</format>
     <name>Lead Report</name>
     <params>
