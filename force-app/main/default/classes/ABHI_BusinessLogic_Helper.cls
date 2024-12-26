@@ -825,32 +825,4 @@ public with sharing class ABHI_BusinessLogic_Helper {
         }
         
     }
-     /**
-    * @param : newCases, oldCaseMap - 
-    * @return : void 
-    * @description : populate CustomerText field OnManual Cases
-    */
-    public void populateCustomerTextOnManualCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
-        Set<Id> caseIdsWithAccountUpdate = new Set<Id>();
-        for (Case c : newCases) {
-            Case oldCase = oldCaseMap.get(c.Id);
-            if ( c.Business_Unit__c  == 'ABHI' && c.Technical_Source__c == 'LWC' && c.Stage__c == 'Open') {
-                caseIdsWithAccountUpdate.add(c.ABHI_Case_Detail__c);
-            }
-        }
-    
-        if (!caseIdsWithAccountUpdate.isEmpty()) {
-            Map<Id, ABHI_Case_Detail__c> detailMap = new Map<Id, ABHI_Case_Detail__c>(
-                [SELECT Id, Member__r.Member_Client_Code__c FROM ABHI_Case_Detail__c WHERE Id IN :caseIdsWithAccountUpdate]
-            );
-    
-            for (Case c : newCases) {
-        		Case oldCase = oldCaseMap.get(c.Id);
-                ABHI_Case_Detail__c relatedDetail = detailMap.get(c.ABHI_Case_Detail__c);
-                if (relatedDetail != null && relatedDetail.Member__r.Member_Client_Code__c != null &&  relatedDetail.Member__r.Member_Client_Code__c !=  c.Customer_Member_Text__c  ) {
-                    c.Customer_Member_Text__c = relatedDetail.Member__r.Member_Client_Code__c;
-                } 
-            }
-        }
-    }
 }
