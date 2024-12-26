@@ -275,7 +275,9 @@ public without sharing class ASF_CommPETriggerHelper {
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
-        msg.setOrgWideEmailAddressId(owdID);        
+        if(msg.getOrgWideEmailAddressId() == null){
+           msg.setOrgWideEmailAddressId(owdID); 
+        }        
         return msg;
     }
     /**
