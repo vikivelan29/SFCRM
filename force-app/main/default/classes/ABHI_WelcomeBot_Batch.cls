@@ -27,7 +27,8 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Account.State__c, Channel__c, Source__c, LAN__c
                       FROM Asset 
                       WHERE CreatedDate = N_DAYS_AGO:2 AND Business_Unit__c = :ABHI_Constants.ABHI
-                      AND CreatedBy.name != 'Data Sync Automation User']);
+                      AND BusinessType__c IN ('New Business','Portability')
+                      AND CreatedBy.Username != 'abcdatasyncautomationuser@abc.com.abcprod']);
         scope.addAll([SELECT id, Policy_Number__c, CreatedBy.username, ABHI_Retry__c,
                       Policy_Number__r.Account.Name, Policy_Number__r.Account.IsPersonAccount,
                       Policy_Number__r.Account.Phone, Policy_Number__r.Account.PersonMobilePhone,
@@ -37,7 +38,8 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                       Policy_Number__r.Plan_Name__c, Policy_Number__r.LAN__c, 
                       Policy_Number__r.Account.State__c, Policy_Number__r.Channel__c, Policy_Number__r.Source__c
                       from Dispositions__c  
-                      WHERE Status__c = :ABHI_Constants.FAILURE AND ABHI_Retry__c <= :Integer.valueOf(Label.ABHI_Retry)]);
+                      WHERE Status__c = :ABHI_Constants.FAILURE AND Call_Type__c = :Label.ABHI_WelcomeBot 
+                      AND ABHI_Retry__c <= :Integer.valueOf(Label.ABHI_Retry)]);
         return scope;
 	}
     
@@ -69,6 +71,8 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                                                   }
                                                   if(!mapProductDetService.containskey(key)) {
                                                       mapProductDetService.put(key, welcome.Service_Id__c);
+                                                     System.debug('@@@mapkey'+key);
+
                                                   }
                                               }
         System.debug('@@@mapProductDetService'+mapProductDetService);
@@ -88,6 +92,9 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                         System.debug('@@@key'+key);
                         botRequest.serviceId = mapProductDetService.get(key); 
                     }
+                    System.debug('@@@serviceId'+botRequest.serviceId);
+                    if(botRequest.serviceId == null || botRequest.serviceId == '') continue;
+
                     botRequest.msisdn = asset.Account.IsPersonAccount?asset.Account.PersonMobilePhone:asset.Account.Phone;
                     botRequest.language = 'en';
                     botRequest.group_or_retail = asset.PolicyType__c;
@@ -106,6 +113,7 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                     disposition.Policy_Number__r = new Asset(LAN__c = asset.LAN__c);
                     disposition.Status__c = ABHI_Constants.PENDING;
                     disposition.Remarks__c = ABHI_Constants.SUCCESS;
+                    disposition.Call_Type__c = Label.ABHI_WelcomeBot;
                     
                     mapDisposition.put(asset.LAN__c, disposition);
                 }
@@ -116,9 +124,11 @@ global class ABHI_WelcomeBot_Batch implements Database.Batchable<sObject>,  Sche
                         botRequest.serviceId = mapProductNameService.get(dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c);
                     }
                     else {
-                        key = dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c /*+ welcome.CMP_OPD__c + welcome.Chronic_care__c */+ dispositions.Policy_Number__r.Account.Is_Chronic__c;         
+                        key = dispositions.Policy_Number__r.Plan_Name__c + dispositions.Policy_Number__r.ProductName__c +dispositions.Policy_Number__r.Account.CMP_OPD__c+dispositions.Policy_Number__r.Account.Chronic_care__c+ dispositions.Policy_Number__r.Account.Is_Chronic__c;         
                     	botRequest.serviceId = mapProductDetService.get(key); 
                     }
+                    if(botRequest.serviceId == null || botRequest.serviceId == '') continue;
+                    
                     botRequest.msisdn = dispositions.Policy_Number__r.Account.IsPersonAccount?dispositions.Policy_Number__r.Account.PersonMobilePhone:dispositions.Policy_Number__r.Account.Phone;
                     botRequest.language = 'en';
                     botRequest.group_or_retail = dispositions.Policy_Number__r.PolicyType__c;
