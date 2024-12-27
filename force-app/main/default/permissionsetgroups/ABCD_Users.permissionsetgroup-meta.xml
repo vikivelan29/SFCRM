@@ -2,6 +2,7 @@
 <PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
     <hasActivationRequired>false</hasActivationRequired>
     <label>ABCD Users</label>
+    <mutingPermissionSets>ABCD_Users_Muted</mutingPermissionSets>
     <permissionSets>ABCD_User</permissionSets>
     <permissionSets>ABFL_User_PS</permissionSets>
     <permissionSets>ABHFL_User_PS</permissionSets>
@@ -11,7 +12,6 @@
     <permissionSets>AMC_Base_User_PS</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>Payment_User_PS</permissionSets>
-    <permissionSets>RNWL_Base_User_Agent</permissionSets>
     <permissionSets>Wellness_CRM_User_PS</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>

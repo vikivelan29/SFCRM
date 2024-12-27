@@ -287,8 +287,8 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInteg){
         try {
+            Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
             if(caseInteg.Status__c == ABFL_Constants.SUCCESS) {
-                Case caseRecord = ABFL_SOQL_Case.getCaseInfo(caseInteg.Case__c);
                 ASF_Integration__c intg = ABFL_SOQL_Integration.getIntegrationInfo(caseInteg.Integration_Ext_Id__c);
                 Map<Id, ASF_CaseMovementHelper.StageWrapper> resultWrap = new Map<Id, ASF_CaseMovementHelper.StageWrapper>();
                 //Update Case Int from Response
@@ -343,7 +343,16 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 /*User us = [SELECT Id FROM User where username = 'admin-dev@example.com.dev'];
                 caseRecord.OwnerId = us.Id;
                 update caseRecord;*/
-            }
+                }
+            	if(caseInteg.Status__c == ABFL_Constants.FAILURE) {
+                    String ownerBU = ABFL_SOQL_Case.getOnwerBU(caseRecord.OwnerId);
+                    if(ownerBU == 'ABCD' && ABFL_Constants.STP_FAILURE_ASSIGNMENT_CTST.contains(caseRecord.CCC_External_Id__c) && caseRecord.Created_by_ONEABC__c == TRUE && Schema.sObjectType.Case.isUpdateable()){
+                          ASF_Case_Stage_Config__c stageConfig = ABFL_SOQL_Case.getStageConfig(caseRecord.CCC_External_Id__c);
+                          caseRecord.OwnerId = stageConfig.Default_Queue__c;
+                          update caseRecord;
+                    }
+               }
+           
         }
         catch(Exception e) {
             ABCL_Logger.enableExceptionLogging();
