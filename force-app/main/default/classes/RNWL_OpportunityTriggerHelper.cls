@@ -156,7 +156,8 @@ public class RNWL_OpportunityTriggerHelper {
                     recordsAdded.add(opp.AccountId);
                 }
             }
-            ASF_TriggerSkipperUtility.markTriggerRun('Case'); 
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            ABCL_AssetTriggerHandler.TriggerDisabled = true;
             if(assetRecordsToUpdate.size() > 0) update assetRecordsToUpdate;
             if(caseRecordsToUpdate.size() > 0) update caseRecordsToUpdate;
             if(accountRecordsToUpdate.size() > 0) update accountRecordsToUpdate;
