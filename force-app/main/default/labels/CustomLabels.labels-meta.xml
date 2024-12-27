@@ -1865,4 +1865,11 @@
         <shortDescription>ABML_Report_Message1</shortDescription>
         <value>You cannot enter year before the Present Activate date on Account</value>
     </labels>
+    <labels>
+        <fullName>ABCD_LitmusAppId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABCD_LitmusAppId</shortDescription>
+        <value>ll4w_touchpoint</value>
+    </labels>
 </CustomLabels>
