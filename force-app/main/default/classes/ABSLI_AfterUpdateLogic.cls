@@ -16,8 +16,12 @@ public with sharing class ABSLI_AfterUpdateLogic {
         Map<Id,Case> litmusInvocableCases = new Map<Id,Case>();
         Map<Id,Case> oldMaplitmusInvocableCases = new Map<Id,Case>();
         Map<Id, Case> mAbsliSurrenderWithdrawalCases = new Map<Id, Case>();
-        
         Map<Id,Case> absliOldCasesMap = new Map<Id,Case>();
+        // PR970457-2746 Start
+        String ctstPIVCIntegration = Label.ABSLI_PIVC_Integration_CTST;
+        List<String> listofCTSTforIntegration = ctstPIVCIntegration.split(',');
+        Set<Id> absliPivcCases = new Set<Id>();
+        // PR970457-2746 End
         for(Case currentCase : newCases){
             if(currentCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT){
                 absliCases.add(currentCase);
@@ -35,13 +39,23 @@ public with sharing class ABSLI_AfterUpdateLogic {
 	    if (currentCase.Business_Unit__c == ASF_Constants.ABSLI_BU && ABSLI_Constants.SURRENDER_WITHDRAWAL_CCC_IDs.contains(currentCase.CCC_External_Id__c) && currentCase.Source__c == 'Email' && currentCase.Stage__c == 'Open') {
                 mAbsliSurrenderWithdrawalCases.put(currentCase.Id, currentCase);
             }
+            // PR970457-2746 Start 
+            if(listofCTSTforIntegration.contains(currentCase.CCC_External_Id__c) && ((currentCase.Status=='Resolved' && oldCasesMap.get(currentCase.Id).Status !='Resolved') || (currentCase.Status=='Unresolved' && oldCasesMap.get(currentCase.Id).Status!='Unresolved'))){
+                absliPivcCases.add(currentCase.Id);
+            }
+            // PR970457-2746 End
+            
         }
-        
+        //  PR970457-2746 - start 
+        if(absliPivcCases.size()>0){
+         ABSLI_PIVCModernization.executeSendCaseToCRM(absliPivcCases);
+        }
+        // PR970457-2746 End 
         if(absliCases.size()>0){
             updateTeamResolutionStatus(absliCases,absliOldCasesMap);
         }
         if(litmusInvocableCases.keySet().size()>0){
-            ABSLI_LitmusIntegration.evaluateCasesForLitmus(litmusInvocableCases, oldMaplitmusInvocableCases);
+          //  ABSLI_LitmusIntegration.evaluateCasesForLitmus(litmusInvocableCases, oldMaplitmusInvocableCases);
         }
 	if(mAbsliSurrenderWithdrawalCases.keySet().size()>0){
             ABSLI_AfterInsertLogic.populateTDSPAN(mAbsliSurrenderWithdrawalCases.values());
@@ -64,10 +78,10 @@ public with sharing class ABSLI_AfterUpdateLogic {
             }
         }
         if(absliCaseExtnIds.size()>0){
-            Map<String, List<ASF_customPicklistUtility.picklistValues>> mResolutionVal = ASF_customPicklistUtility.getDependentPicklistValues('ABSLI_Case_Detail__c', 'Resolution__c');
+          //  Map<String, List<ASF_customPicklistUtility.picklistValues>> mResolutionVal = ASF_customPicklistUtility.getDependentPicklistValues('ABSLI_Case_Detail__c', 'Resolution__c');
             Map<String,Set<String>> mControlValVsDependentVal = new Map<String,Set<String>>();
             
-            for(String controlVal : mResolutionVal.keySet()){
+          /*  for(String controlVal : mResolutionVal.keySet()){
                 if(!mControlValVsDependentVal.containsKey(controlVal)){
                     mControlValVsDependentVal.put(controlVal,new Set<String>());
                 }
@@ -75,7 +89,7 @@ public with sharing class ABSLI_AfterUpdateLogic {
                     mControlValVsDependentVal.get(controlVal).add(dependentVal.label);
                 }
             }
-            Map<Id,ABSLI_Case_Detail__c> mCaseExtn = new Map<Id,ABSLI_Case_Detail__c>([SELECT ID,Outcome__c,Resolution__c FROM ABSLI_Case_Detail__c WHERE Id=:absliCaseExtnIds]);
+           Map<Id,ABSLI_Case_Detail__c> mCaseExtn = new Map<Id,ABSLI_Case_Detail__c>([SELECT ID,Outcome__c,Resolution__c FROM ABSLI_Case_Detail__c WHERE Id=:absliCaseExtnIds]);
             for(Case currentCase : newCases){
                 if(mCaseExtn.containsKey(currentCase.ABSLI_Case_Detail__c)){
                     ABSLI_Case_Detail__c absliCaseExtn = mCaseExtn.get(currentCase.ABSLI_Case_Detail__c);
@@ -96,13 +110,13 @@ public with sharing class ABSLI_AfterUpdateLogic {
                                     }
                                 }
                                 if(!allValuesValid){
-                                    absliCaseExtn.Resolution__c = '';
+                                   // absliCaseExtn.Resolution__c = '';
                                 }
                             }
                         }
                     caseExtnList.add(absliCaseExtn);
                 }
-            }
+            }*/
             if(caseExtnList.size()>0){
                 update caseExtnList;
             }
@@ -118,11 +132,11 @@ public with sharing class ABSLI_AfterUpdateLogic {
      public static void changeOwnerOnAutoResolve(List<Case> newCases, Map<Id, Case> oldMap){
         List<Case> eligibleCases = new List<Case>();
         for(Case caseRec : newCases){
-            if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && String.isBlank(caseRec.IRDAI_Token_Number__c) 
+        /*    if(caseRec.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT && String.isBlank(caseRec.IRDAI_Token_Number__c) 
                && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c 
                && (caseRec.Stage__c == ABSLI_Constants.RESOLVED_TEAM_RES_STATUS || caseRec.Stage__c == ABSLI_Constants.UNRESOLVED_TEAM_RES_STATUS) && UserInfo.getName() == System.Label.ABCL_Integration_UserName){
                    eligibleCases.add(caseRec);
-               }
+               }*/
         }
         if(!eligibleCases.isEmpty()){
             Map<Id, Case> caseFinalDMLMap = ASF_CaseTriggerModularHelper.getCaseFinalDMLMap();
