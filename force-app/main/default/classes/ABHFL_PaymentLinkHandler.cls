@@ -27,7 +27,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
 
         //Dhinesh - to check for approvals 
         List<ASF_Case_Approv__c> approvals = [SELECT Id,Approval_Status__c FROM ASF_Case_Approv__c WHERE SR__c =: caseRecord.Id];
-        List<String> approvalSubTypes = new List<String>{'hfl069', 'RLOAPRONHFC','REFCL001'};
+        List<String> approvalSubTypes = new List<String>{'hfl069', 'RLOAPRONHFC'}; // Issuecode:REFCL001 has been removed for PR970457-2649
         Boolean approvalPending = true;
         if(approvalSubTypes.contains(caseRecord.CCC_External_Id__c) && approvals.isEmpty()){
             result.status = ABHFL_Constants.ERROR;
