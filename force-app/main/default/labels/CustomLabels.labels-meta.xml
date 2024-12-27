@@ -1865,4 +1865,11 @@
         <shortDescription>ABML_Report_Message1</shortDescription>
         <value>You cannot enter year before the Present Activate date on Account</value>
     </labels>
+    <labels>
+        <fullName>ABSLI_PIVC_Integration_CTST</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_PIVC_Integration_CTST</shortDescription>
+        <value>NBPC009,NBPC007,NBPC006,NBPC008,NBPC010,RPR001,NBRC004,NBPC012</value>
+    </labels>
 </CustomLabels>
