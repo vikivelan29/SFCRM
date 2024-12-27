@@ -2660,6 +2660,10 @@
         <tab>abml_List_View_Tab</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+    <tabVisibilities>
+        <tab>Bulk_Case_Close</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
 	<tabVisibilities>
         <tab>standard-Lead</tab>
         <visibility>DefaultOn</visibility>
@@ -2830,4 +2834,5 @@
         <enabled>true</enabled>
         <name>ViewTrustMeasures</name>
     </userPermissions>
+    
 </Profile>

@@ -10,8 +10,8 @@ public class ABHI_WelcomeBot_BatchTest {
     static void setUpData(){
         
         Account accRec = ASF_TestDataFactory.insertBusinessAccount('Test_Cmp','Test_1');
-        accRec.Is_Chronic__c = true;
-        accRec.CMP_OPD__c = true;
+        accRec.Is_Chronic__c = false;
+        accRec.CMP_OPD__c = false;
         accRec.Chronic_care__c = false;
         update accRec;
         
@@ -21,12 +21,13 @@ public class ABHI_WelcomeBot_BatchTest {
         
         astRec.LAN__c = '657644354';
         astRec.Business_Unit__c = ABHI_Constants.ABHI;
-        astRec.Plan_Name__c = 'Max+';
-        astRec.ProductName__c = 'Active One';
+        astRec.Plan_Name__c = 'Diamond';
+        astRec.ProductName__c = 'Activ Assure';
+        astRec.BusinessType__c = 'New Business';
         update astRec; 
         
         Dispositions__c dis = new Dispositions__c(Disposition_L1__c = 'L1', Policy_Number__c = astRec.Id,
-							Status__c = 'Failure');
+							Status__c = 'Failure', Call_Type__c = Label.ABHI_WelcomeBot);
         insert dis;
     }   
     @isTest
