@@ -16,7 +16,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     public ASF_IntegrationsController.IntegrationWrapper evaluate(Case caseRec){
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
         Case caseRecord = [SELECT Id,AccountId, Account.Phone,Account.PersonMobilePhone,Asset.Loan_ID__c,Account.Office_Email__c,Account.PersonEmail,Account.RecordType.Name,
-                            ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c
+                            ABHFL_Case_Detail__r.Payable_Charges__c, ABHFL_Case_Detail__r.Send_Payment_Link__c, CCC_External_Id__c, Stage__c,ABHFL_Case_Detail__r.Last_Retention_Approval__c
                            FROM Case WHERE Id =: caseRec.Id];
 		List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
         List<Doc_Charge__mdt> docChargMdtLst = [SELECT id, CCC_External_Id__c FROM Doc_Charge__mdt WHERE Payment_Required__c = true];
@@ -33,13 +33,19 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             result.status = ABHFL_Constants.ERROR;
             result.response = 'Case is not Approved, Please create an Approval';
         }
+        //Condition added for PR970457-2649
+        if(caseRecord.CCC_External_Id__c =='REFCL001' && approvals.isEmpty() && caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c=='Yes' && caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c=='more than 3 months' && caseRecord.Stage__c=='Open'){
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('ABHFL_No_Payment_Link_REFCL001_Open_Stag').Message__c;
+        }
         for(ASF_Case_Approv__c approval : approvals) {
                 if (approval.Approval_Status__c == 'Approved') {
                     approvalPending = false;
                     break; // No need to continue checking once one is found
             }
         }
-        if(approvalSubTypes.contains(caseRecord.CCC_External_Id__c) && approvalPending && !approvals.isEmpty()){
+        // OR condition has been added for PR970457-2649
+        if((approvalSubTypes.contains(caseRecord.CCC_External_Id__c) || caseRecord.CCC_External_Id__c=='REFCL001') && approvalPending && !approvals.isEmpty()){
             result.status = ABHFL_Constants.ERROR;
             result.response = 'Case is not Approved, cannot generate payment link';
         }
@@ -66,6 +72,13 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             result.status = ABHFL_Constants.ERROR;
             result.response = Custom_Messages__mdt.getInstance('PaymentLink_PayableChargeMissing').Message__c;              
         }
+        
+        /**
+        //Condition added for PR970457-2649
+        if(caseRecord.Stage__c=='Open' && caseRecord.CCC_External_Id__c =='REFCL001' && caseRecord.ABHFL_Case_Detail__r.Send_Payment_Link__c == 'No' && caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_INDIVIDUAL && (caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='less than 3 months' || caseRecord.ABHFL_Case_Detail__r.Last_Retention_Approval__c =='more than 3 months') ){
+            result.status = ABHFL_Constants.ERROR;
+            result.response = Custom_Messages__mdt.getInstance('ABHFL_No_Payment_Link_REFCL001_Open_Stag').Message__c;              
+        }**/
 
         if(String.isBlank(caseRecord.Asset.Loan_ID__c)) {
             result.status = ABHFL_Constants.ERROR;
@@ -121,23 +134,21 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
                            Account.RecordType.Name,ABHFL_Case_Detail__r.Payable_Charges__c,ABHFL_Case_Detail__r.EMI_Tenure__c,Case.ContactId, No_Auto_Communication__c FROM Case where Id =: caseRec.Id];
 
         String cccExternalId = caseRecord.CCC_External_Id__c;
-        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c,GST__c 
+        List<Doc_Charge__mdt> docChargeMdtLst = [SELECT id, Charges__c, Charge_Code__c,Call_Payment_Link__c,Payment_Code__c	,Email_Template__c,SMS_Template__c 
                                                 FROM Doc_Charge__mdt WHERE CCC_External_Id__c =:cccExternalId];
         Boolean callPaymentLink = false;        
         string smsTemplate = '';    
         String emailTemplate = '';   
-        String paymentCode = '';
-        Decimal GST;
+        String paymentCode = '';           
         if(docChargeMdtLst.size() > 0){
             emailTemplate = docChargeMdtLst[0].Email_Template__c;
             smsTemplate = docChargeMdtLst[0].SMS_Template__c;
             callPaymentLink = docChargeMdtLst[0].Call_Payment_Link__c;
             paymentCode = docChargeMdtLst[0].Payment_Code__c;
-            GST= docChargeMdtLst[0].GST__c;
         }         
         String integrationResponse = ABHFL_Constants.FAILURE;
 
-        PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord,GST);
+        PaytmRequestWrapper paytmRequestWrapper = new PaytmRequestWrapper(caseRecord);
         paytmRequestWrapper.paymentCode = paymentCode;
         paytmRequestWrapper.ParentcaseID = caseRecord.Id;
         string paytmRequestBody = JSON.serialize(paytmRequestWrapper);
@@ -247,7 +258,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
     * @Description - Invoked from the Case Integration trigger, this method processes the response of the integration received.
     *****************************************************************************************************************/
     public void processResponse(ASF_Case_Integration__c caseInt){} 
-    /*
+ /*
         Ticket: PR970457-1883
         Modified By: Ishan Khichadia 
         Description: Added 2 new variables called as impactType and salesId and populated it with caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c and caseRecord.Asset.Loan_Id__c respectively. Also the LAN is now populated with caseRecord.Asset.LAN__c and not with caseRecord.Asset.Loan_Id__c
@@ -264,7 +275,7 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
         public Integer impactType;
         public string salesId;
 
-        public PaytmRequestWrapper(Case caseRecord,Decimal GST){
+        public PaytmRequestWrapper(Case caseRecord){
             List<Contact> con = [SELECT Id, Email FROM Contact WHERE AccountId=:caseRecord.AccountId LIMIT 1];
             this.custname = caseRecord.Customer_name_formula__c;
             this.LAN = caseRecord.Asset.LAN__c;
@@ -272,10 +283,8 @@ public with sharing class ABHFL_PaymentLinkHandler implements ASF_IntegrationInv
             this.emailId = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?/*caseRecord.Account.Office_Email__c*/(con.size()>0?con[0].Email:''):caseRecord.Account.PersonEmail;
             this.mobileNumber = caseRecord.Account.RecordType.Name == ABHFL_Constants.ACCOUNT_RECORDTYPE_NON_INDIVIDUAL?caseRecord.Account.Phone:caseRecord.Account.PersonMobilePhone;
             this.type = ABHFL_Constants.PAYTM_REQUEST_TYPE;
-            // GST calculation for PR970457-2177
-            Decimal amountWithGST = caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c * (1 + (GST / 100));
-            Decimal formattedAmount = amountWithGST.setScale(2, System.RoundingMode.HALF_UP);
-            this.Amount = String.valueof(formattedAmount);
+            this.Amount = String.valueof(caseRecord.ABHFL_Case_Detail__r.Payable_Charges__c);
+            
             String emiTenure = caseRecord.ABHFL_Case_Detail__r.EMI_Tenure__c;
             System.debug('emiTenure: ' + emiTenure);
             if(emiTenure == 'EMI'){
