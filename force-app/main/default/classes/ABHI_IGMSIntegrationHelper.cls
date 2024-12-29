@@ -1,4 +1,6 @@
 public with sharing class ABHI_IGMSIntegrationHelper {
+
+public static string todayString = date.today().format();
     
       public static void createRegisterComplaintRequest(List<Case> caseRecords,
                                                       Map<Id, List<ASF_Integration__c>> integs,
@@ -38,8 +40,9 @@ public with sharing class ABHI_IGMSIntegrationHelper {
             requestJSON.Date_Of_Birth = birthDate != null ? ABCL_IntegrationCommonUtility.dateFormat(birthDate, 'dd-MM-YYYY') : null;
             requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
             requestJSON.Complaint_Details = caseRecord.Description.left(4000);
-            requestJSON.Complaint_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
-            requestJSON.Complaint_Receipt_Date = ABCL_IntegrationCommonUtility.dateFormat(Date.ValueOf(caseRecord.CreatedDate), 'dd-MM-YYYY');
+            system.debug('System.today()-- '+System.today());
+            requestJSON.Complaint_Date = todayString;
+            requestJSON.Complaint_Receipt_Date = todayString;
             //requestJSON.Policy_Type_Id = caseRecord.ABHI_Case_Detail__r.IGMS_type_of_policy__c;
             requestJSON.Policy_Type_Id = '5';
             requestJSON.Complaint_Type_Id = caseRecord.IGMS_Complaint_Type_Code__c;
@@ -365,7 +368,7 @@ public with sharing class ABHI_IGMSIntegrationHelper {
                 String policyNumberText = '';
               ABHI_EscalatedIGMSComplaintIntegration.objReq requestJSON = new ABHI_EscalatedIGMSComplaintIntegration.objReq();
                 
-              	requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
+                requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
                 requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
                 requestJSON.Escalated_Remark = caseRecord.Escalation_Comment__c;
 
@@ -402,7 +405,7 @@ public with sharing class ABHI_IGMSIntegrationHelper {
             if(newCaseIntegrations.size()>0){
                 List<Database.SaveResult> results = Database.insert(newCaseIntegrations, false, AccessLevel.SYSTEM_MODE);
                 Map<Id, ASF_Case_Integration__c> caseIntegrations = new Map<Id, ASF_Case_Integration__c>(
-                	ABHI_IntegrationQueryHelper.getCaseIntegrations(newCaseIntegrations)
+                    ABHI_IntegrationQueryHelper.getCaseIntegrations(newCaseIntegrations)
                 );
                 for (Database.SaveResult sr : results) {
                     if (sr.isSuccess()) {
@@ -437,7 +440,7 @@ public with sharing class ABHI_IGMSIntegrationHelper {
                         resultMap.put(indexToCaseId.values()[index], wrap);
                     }
                     index++;
-				} 
+                } 
             }
     }
     public static void createReopenedComplaintRequest(List<Case> caseRecords,
@@ -454,7 +457,7 @@ public with sharing class ABHI_IGMSIntegrationHelper {
                 String policyNumberText = '';
                 ABHI_ReopenedIGMSComplaintIntegration.objReq requestJSON = new ABHI_ReopenedIGMSComplaintIntegration.objReq();
                 
-               	requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
+                requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
                 requestJSON.IRDA_Token_Number = caseRecord.IRDAI_Token_Number__c;
 
                 string requestBody = JSON.serialize(requestJSON);

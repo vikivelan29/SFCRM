@@ -104,7 +104,7 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
             }
                 requestJSON.Final_Resolution_Remark = caseRecord.ABHI_Case_Detail__r.Final_Resolution_Remark__c;
                 requestJSON.Remarks = caseRecord.ABHI_Case_Detail__r.Final_Resolution_Remark__c;
-                requestJSON.Final_Resolution_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+                requestJSON.Final_Resolution_Date = ABHI_IGMSIntegrationHelper.todayString;
             if(caseRecord.ABHI_Case_Detail__r.Is_Auto_Escalated__c == 'Y'){
                 requestJSON.TAT_Crossed_Remark = caseRecord.ABHI_Case_Detail__r.TAT_Crossed_Remark__c;
             }
@@ -301,8 +301,8 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '4';
-            this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
-            this.Date_Of_Honoring_Service  = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Status_Change_Date = ABHI_IGMSIntegrationHelper.todayString;
+            this.Date_Of_Honoring_Service  = ABHI_IGMSIntegrationHelper.todayString;
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
             this.Trans_Login_Id = 'ABHICADMIN1';
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
