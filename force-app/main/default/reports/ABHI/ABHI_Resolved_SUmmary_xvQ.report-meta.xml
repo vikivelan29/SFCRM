@@ -14,7 +14,7 @@
         <groupingColumn>Case.Case_Assigned_Team__c</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_BOTTOM</location>
-        <showAxisLabels>true</showAxisLabels>
+        <showAxisLabels>false</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>true</showTotal>
         <showValues>false</showValues>
@@ -59,20 +59,13 @@
         <field>Case.Ageing_Business_Days__c</field>
     </columns>
     <customDetailFormulas>
-        <calculatedFormula>IF(Case.Overall_Case_Closure_SLA__c - CLOSED_DATE &gt;= 1,&quot;Within TAT&quot;,IF(Case.Overall_Case_Closure_SLA__c - CLOSED_DATE &lt; -2,&quot;L3 Outside TAT&quot;,If(Case.Overall_Case_Closure_SLA__c - CLOSED_DATE &lt; -1,&quot;L2 Outside TAT&quot;,IF(Case.Overall_Case_Closure_SLA__c - CLOSED_DATE &lt;= 0,&quot;L1 Outside TAT&quot;,&quot;About to Breach&quot;))))</calculatedFormula>
+        <calculatedFormula>IF(Case.Overall_Case_Closure_SLA__c - (NOW()+1) &gt; 0,&quot;Within TAT&quot;,IF(Case.Overall_Case_Closure_SLA__c - NOW() &lt; -2,&quot;L3 Outside TAT&quot;,If(Case.Overall_Case_Closure_SLA__c - NOW() &lt; -1,&quot;L2 Outside TAT&quot;,IF(Case.Overall_Case_Closure_SLA__c - NOW() &lt;= 0,&quot;L1 Outside TAT&quot;,&quot;About to Breach&quot;))))</calculatedFormula>
         <dataType>Text</dataType>
         <developerName>CDF1</developerName>
         <label>TAT formula</label>
         <scale>2</scale>
     </customDetailFormulas>
     <filter>
-        <criteriaItems>
-            <column>RECORDTYPE</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>Case.Framework</value>
-        </criteriaItems>
         <criteriaItems>
             <column>Case.Business_Unit__c</column>
             <columnToColumn>false</columnToColumn>
@@ -81,18 +74,11 @@
             <value>ABHI</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OWNER</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value>ABFSGSFDC User</value>
-        </criteriaItems>
-        <criteriaItems>
             <column>STATUS</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>Resolved,Closed Duplicate,Unresolved</value>
+            <value>Closed,Resolved,Closed Duplicate,Unresolved</value>
         </criteriaItems>
     </filter>
     <format>Matrix</format>
