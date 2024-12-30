@@ -1,18 +1,23 @@
 import { LightningElement,wire,api } from 'lwc';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
-import ACCOUNT_RECORDTYPE from '@salesforce/schema/Opportunity.Account.RecordType.DeveloperName';   
-const fields = [ACCOUNT_RECORDTYPE];
+import POLICY_TYPE from '@salesforce/schema/Opportunity.Policy__r.PolicyType__c';  
+const fields = [POLICY_TYPE];
 
 export default class RNWL_GetRenewalDetails extends LightningElement {
     @api recordId;
-    isIndividalAccount; 
+    isIndividalAccount = false;  
+    isNonIndividalAccount = false; 
 
     @wire(getRecord, { recordId: '$recordId', fields }) 
     record({ error, data }){
         if (data) {
-            let accType = getFieldValue(data, ACCOUNT_RECORDTYPE); 
-            if(accType){ 
-                this.isIndividalAccount = accType == 'Individual'; 
+            let policyType = getFieldValue(data,POLICY_TYPE);
+            if(policyType){  
+                if(policyType.toUpperCase() == 'RETAIL'){
+                    this.isIndividalAccount = true;
+                }else{
+                    this.isNonIndividalAccount = true;
+                } 
             }
         }
     } 
