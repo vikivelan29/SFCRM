@@ -11,11 +11,11 @@
     <columns>CASES.SUBJECT</columns>
     <columns>Type_Text__c</columns>
     <columns>Sub_Type_Text__c</columns>
+    <columns>CASES.STATUS</columns>
     <columns>Overall_Case_Closure_SLA__c</columns>
     <columns>Assigned_Team__c</columns>
     <columns>Source__c</columns>
     <columns>CASES.CLOSED_DATE</columns>
-    <columns>CASES.PRIORITY</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CASES.STATUS</field>
