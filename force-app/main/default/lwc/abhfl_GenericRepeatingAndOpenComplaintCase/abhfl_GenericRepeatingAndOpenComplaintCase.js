@@ -53,7 +53,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Navigati
     showCustomerNPSbyNumber;
     customerBU = '';
 
-
+     @wire(EnclosingTabId) tabId;
+     @wire(CurrentPageReference) pageRef;
      @wire(getRecord, {
         recordId: loggedInUserId,
         fields: [UserBusinessUnit]
