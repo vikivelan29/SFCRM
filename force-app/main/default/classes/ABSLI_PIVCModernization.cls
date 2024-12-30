@@ -12,6 +12,7 @@ public with sharing class ABSLI_PIVCModernization {
         String integrationName = ABCL_Integrations__mdt.getInstance('ABSLI_PIVC_Integration').DeveloperName; 
         system.debug('integration Name '+integrationName);
         String message;
+        String errorCode;
         Case caseObj = new Case();
         ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c();
         //try {
@@ -34,7 +35,7 @@ public with sharing class ABSLI_PIVCModernization {
             //ABCL_IntegrationCallout.IntegrationResponseWrapper caseSendingWrp = new ABCL_IntegrationCallout.IntegrationResponseWrapper();
             //caseSendingWrp.responseBody = '{"message": "error", "ErrorCode":"Er0012", "Status":"400"}';
             //caseSendingWrp.responseBody = '{"message": "Success", "Status":"200"}';
-            //system.debug('check 28 Line '+caseSendingWrp);
+            system.debug('check 28 Line '+caseSendingWrp);
             if (!Test.isRunningTest()) {
                 responseWrapperObj = responseWrapperObj.parse(caseSendingWrp.responseBody);
             }
@@ -49,12 +50,21 @@ public with sharing class ABSLI_PIVCModernization {
                     system.debug('Error==' + e.getMessage());
                 }
             } else {
-                message = responseWrapperObj.Message;
-                if (responseWrapperObj.Message != null) {
-                    caseDetail.API_Response_Message__c = responseWrapperObj.Message.substring(0, Math.min(responseWrapperObj.Message.length(), 255));
+                
+                if(responseWrapperObj.Fault != null){
+                    message = responseWrapperObj.Fault.FaultMessage;
+                    errorCode = responseWrapperObj.Fault.FaultCode;
+                }
+                else{
+                    message = responseWrapperObj.Message;
+                    errorCode = responseWrapperObj.code;
+                }
+                
+                if (message != null) {
+                    caseDetail.API_Response_Message__c = message.substring(0, Math.min(message.length(), 255));
                 }
                 //caseObj.ABSLI_Case_Detail__r.API_Response_Message__c  = responseWrapperObj.status;
-                caseDetail.API_Error_Code__c = responseWrapperObj.ErrorCode;
+                caseDetail.API_Error_Code__c = errorCode;
                 try {
                     update caseDetail;
                 } catch (Exception e) {
@@ -96,11 +106,18 @@ public with sharing class ABSLI_PIVCModernization {
         public String ErrorCode;
         public String Status;
         public String Message;
+        public String code;
         public String id;
         public List < String > Fileds;
-        
+        public FaultWrapper fault;
         public ResponseWrapper parse(String json) {
             return (ResponseWrapper) System.JSON.deserialize(json, ResponseWrapper.class);
         }
+    }
+    public class FaultWrapper {
+        public String FaultCode;
+        public String FaultMessage;
+        
+        
     }
 }
