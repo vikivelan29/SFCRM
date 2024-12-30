@@ -61,7 +61,6 @@ public with sharing class ABCL_EmailMessageTriggerHandler extends ASF_VTriggerHa
         ABSLIG_SendCaseCreationEmail.sendEmailOnCaseCreation(newEmails.values());
         //EY ABML Code Add
         ABML_SendCaseCreationEmail.sendEmailOnABMLCaseCreation((List<EmailMessage>)newEmails.values());
-        ABFL_WealthChatGeneratedCases.sendEmailWhenNotRegisteredCustomer(newEmails.values()); // Added by EY-Nikhil
         // ABFL_EmailCase_Logic.updateIncomingEmailCount(sEMIds);
         if(sEMIds.size()>0){
             Async_Transaction_Event__e ate = new Async_Transaction_Event__e(
