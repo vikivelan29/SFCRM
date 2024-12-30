@@ -12,7 +12,6 @@ import noUpdate from '@salesforce/label/c.ASF_No_DML_Access';
 import { reduceErrors } from 'c/asf_ldsUtils';
 import ABSLI_BU from '@salesforce/label/c.ABSLI_BU';
 import ABSLIG_BU from '@salesforce/label/c.ABSLIG_BU';
-import WellnessBU from '@salesforce/label/c.Wellness_BU';
 import { lanLabels } from 'c/asf_ConstantUtility';
 
 
@@ -27,7 +26,6 @@ import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import createProspectAndUpdCase from '@salesforce/apex/ASF_CaseUIController.CreateProspectAndUpdateOnCase';
 import INSUFFICIENT_ACCESS_MSG from '@salesforce/label/c.Wellness_Insufficient_Access';//PR1030924-905
 import CASE_ACCESS_ERROR from '@salesforce/label/c.Wellness_CaseComment_add_Err_Msg';//PR1030924-905
-import ABML_BU from '@salesforce/label/c.ABML_BU'; //Added by EY
 // VIRENDRA - PROSPECT TAGGING IMPORTS ENDS HERE.
 
 export default class Asf_CRNTagging extends LightningElement {
@@ -50,9 +48,7 @@ export default class Asf_CRNTagging extends LightningElement {
     @track loggedInUserBusinessUnit = '';
     @track dupeLead=[];
     @track showDupeList=false;
-    @track selectedCustomerData;
     disableCreateBtn = false;
-    isDisabledUpdateCaseButton = true;
     accountCrn;
     FAId;
     caseSuppliedEmail;
@@ -79,11 +75,11 @@ export default class Asf_CRNTagging extends LightningElement {
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE != null? lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE : lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
-            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
-            this.selectLan = lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT != null? lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
-            this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
-            this.accCols = lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS : lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
+            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit]?.CUSTOMER_TAGGING_CARD_TITLE || lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
+            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit]?.PRODUCT_SEARCH_PLACEHOLDER || lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.selectLan = lanLabels[this.loggedInUserBusinessUnit]?.SELECT_PRODUCT || lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.loggedInUserBusinessUnit]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
+            this.accCols = lanLabels[this.loggedInUserBusinessUnit]?.ACCOUNT_COLUMNS || lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
         } else if (error) {
             //this.error = error; 
         }
@@ -157,7 +153,6 @@ export default class Asf_CRNTagging extends LightningElement {
     }
 
     valChange(event) {
-        this.isDisabledUpdateCaseButton = true;
         this.inpValue = event.target.value;
         if (this.inpValue && this.inpValue.length >= 2) {
             this.preSelectedRows = [];
@@ -187,11 +182,10 @@ export default class Asf_CRNTagging extends LightningElement {
     }
 
     handleAccAction(event) {
-        this.isDisabledUpdateCaseButton = false;
         const row = event.detail.selectedRows;
         this.selectedCustomer = row[0].recordId;
         this.showLANForCustomer = false;
-        if(row[0].objectType == 'Customer' && this.loggedInUserBusinessUnit != ABML_BU){// Added by EY for ABML business unit
+        if(row[0].objectType == 'Customer'){
             // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
             this.showLANForCustomer = true;
         }
@@ -211,10 +205,6 @@ export default class Asf_CRNTagging extends LightningElement {
         const row = event.detail.selectedRows;
         this.selectedAsset = row[0];
         console.log('sekectd asset--'+JSON.stringify(this.selectedAsset));
-        
-        if(this.selectedAsset) {
-            this.isDisabledUpdateCaseButton = false;
-        }
     }
 
     handleclick(event) {
@@ -290,7 +280,6 @@ export default class Asf_CRNTagging extends LightningElement {
         }
 
     }
-
     closeQuickAction() {
         this.dispatchEvent(new CloseActionScreenEvent());
     }
