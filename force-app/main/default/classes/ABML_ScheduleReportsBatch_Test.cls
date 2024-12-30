@@ -20,6 +20,43 @@ public class ABML_ScheduleReportsBatch_Test {
         System.runAs(userRecord) {
             
             Id accRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Franchisee').getRecordTypeId();
+            
+            Account objAccount = new Account(Name = 'Test Account', ABML_Branch_Code__c = 'Branch001', ABML_Franchisee_Code__c = 'Franchisee001', Line_of_Business__c = 'ABML', RecordTypeId = accRecordTypeId);
+            insert objAccount;
+            List<Case> listOfCases = new List<Case>();
+            
+            for(Integer caseCount = 0 ; caseCount < 2 ; caseCount++){
+                Case objCase = new Case();
+                objCase.Business_Unit__c = 'ABML';
+                objCase.SuppliedEmail = 'testuser' + caseCount + '@example.com';
+                objCase.AccountId = objAccount.Id;
+                objCase.Source__c = 'Email';
+                objCase.Stage__c = 'Resolved';
+                objCase.Status = 'New';
+                objCase.Subject = 'Test Subject';
+                objCase.Type_Text__c = 'Type Test ' + caseCount;
+                objCase.Sub_Type_Text__c = 'Sub Type Test';
+                objCase.Origin = 'ABML Email'; 
+                objCase.Stage_SLA_1__c = System.Today();
+                
+                listOfCases.add(objCase);
+            }
+            insert listOfCases;
+            
+            listOfCases[0].Stage_SLA_1__c = System.Today().addDays(-1);
+            update listOfCases[0];
+            
+            List<ABML_Case_Detail__c> listCaseDetails = new List<ABML_Case_Detail__c>();
+            
+            for(Case objCase : listOfCases){
+                ABML_Case_Detail__c objCaseDetail = new ABML_Case_Detail__c();
+                objCaseDetail.Case__c = objCase.Id;
+                objCaseDetail.Assigned_User__c = userRecord.Id;
+              //  objCase.Stage_SLA_1__c = System.Today().addDays(-1) ;
+                listCaseDetails.add(objCaseDetail);            
+            }            
+            insert listCaseDetails;
+        }        
         
             Account acc = new Account(
                Name = 'Test Account',
