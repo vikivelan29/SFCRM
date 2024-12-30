@@ -25,6 +25,7 @@ public with sharing class RNWL_RenewalCustomerPolicyInfo {
 					Account.Alternatemobile__c,
 					Account.Phone,
 					Account.Office_Email__c,
+					Account.PersonEmail,
 					Account.BillingStreet,
 					Account.BillingCity,
 					Account.BillingState,
