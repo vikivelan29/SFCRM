@@ -123,7 +123,7 @@ public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
         }
         String clientcodetxt=[Select Id,Client_Code__c from Account where Id =:accountId].Client_Code__c;
         updatedval = updatedval.substring(0, updatedval.length() - 1);
-        String respQuery = String respQuery = 'Select Id,' + String.escapeSingleQuotes(survrespmetadata.Field_To_Display__c) + updatedval + ' From Survey_Response__c WHERE Client_Code__c = :accountId AND Journey__c = : journey Order by Responded_on__c DESC LIMIT 5';
+        String respQuery = 'Select Id,' + String.escapeSingleQuotes(survrespmetadata.Field_To_Display__c) + updatedval + ' From Survey_Response__c WHERE Client_Code__c = :accountId AND Journey__c = : journey Order by Responded_on__c DESC LIMIT 5';
         system.debug('Queryy-->' + respQuery);
         List < sObject > Surveyresplst = Database.Query(respQuery);
         return (List < Survey_Response__c > ) Surveyresplst;
