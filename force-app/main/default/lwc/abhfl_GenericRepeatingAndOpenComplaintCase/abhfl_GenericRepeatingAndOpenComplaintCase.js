@@ -9,7 +9,10 @@ import { lanLabels } from 'c/asf_ConstantUtility';
 import loggedInUserId from '@salesforce/user/Id';
 import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import getSurveyResponseFieldsByAccountId from '@salesforce/apex/Abhfl_GenericRepeatingAndOpenComplntClas.getSurveyResponseFieldsByAccountId';
-export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends LightningElement {
+import { CurrentPageReference } from 'lightning/navigation';
+import { EnclosingTabId, getTabInfo, openSubtab } from 'lightning/platformWorkspaceApi';
+import { NavigationMixin} from 'lightning/navigation';
+export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends NavigationMixin(LightningElement) {
 
     @api recordId;
     @api objectApiName;
@@ -63,7 +66,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             console.log('dataaa-->' + JSON.stringify(data));
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
             console.log('loggedInUserBusinessUnit--->' + this.loggedInUserBusinessUnit);
-            if (this.loggedInUserBusinessUnit == 'ABHFL') {
+            if (this.loggedInUserBusinessUnit == 'ABHFL' && this.objectApiName == 'Account') {
                 this.showdetailsbuttonhide = true;
             }
         } else if (error) {
@@ -379,5 +382,95 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
 
     closeresp() {
         this.isrespdataaval = false;
+    }
+	
+	// Added By Yogesh start[PR970457-2195]
+        async handleClick() {
+        try {
+            // Get tab info to find the primary tab
+            const tabInfo = await getTabInfo(this.tabId);
+            const primaryTabId = tabInfo.isSubtab ? tabInfo.parentTabId : tabInfo.tabId;
+            this.navigateToFA()
+            // Open a new subtab
+            /*const newSubtabId = await openSubtab(primaryTabId, {
+                pageReference: {
+                    type: 'standard__component',
+                    attributes: {
+                        componentName: 'c:abhfl_NavigationAura'
+                    },
+                    state: {
+                        c__accountId: this.recordId
+                    }
+                },
+                focus: true,
+            });
+
+            console.log('Subtab opened with tabId:', newSubtabId);
+
+            // Set the label for the new subtab
+            await setTabLabel({
+                tabId: newSubtabId,
+                label: 'Survey details', // Replace with your desired label
+            });
+
+            console.log('Subtab label set successfully.');
+            */
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        
+    }
+    navigateToFA() {
+        this.invokeWorkspaceAPI('getFocusedTabInfo').then(focusedTab => {
+        var strtabId;
+        if(focusedTab.tabId){strtabId=focusedTab.tabId}
+        if(focusedTab.parentTabId){strtabId=focusedTab.parentTabId}
+        this.invokeWorkspaceAPI('openSubtab', {
+            parentTabId: strtabId,
+            pageReference: {
+            type: "standard__component",
+            attributes: {
+                componentName: "c__abhfl_NavigationAura",
+            },
+            state: {
+                c__accountId: this.recordId
+            }
+            },
+            focus: true
+        }).then(response => {
+            this.invokeWorkspaceAPI('setTabLabel', {
+            tabId: response,
+            label: 'Survey Details'
+            }),
+            this.invokeWorkspaceAPI('setTabIcon', {
+                tabId: response,
+                icon: "utility:product_transfer",
+                iconAlt: "apex_plugin"
+            })
+        });
+        });
+    }
+    invokeWorkspaceAPI(methodName, methodArgs) {
+        return new Promise((resolve, reject) => {
+        const apiEvent = new CustomEvent("internalapievent", {
+            bubbles: true,
+            composed: true,
+            cancelable: false,
+ 
+            detail: {
+            category: "workspaceAPI",
+            methodName: methodName,
+            methodArgs: methodArgs,
+            callback: (err, response) => {
+                if (err) {
+                return reject(err);
+                } else {
+                return resolve(response);
+                }
+            }
+            }
+        });
+        window.dispatchEvent(apiEvent);
+        });
     }
 }
