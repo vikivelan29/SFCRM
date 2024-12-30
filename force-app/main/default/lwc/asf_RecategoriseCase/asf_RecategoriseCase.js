@@ -755,7 +755,7 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             notifyRecordUpdateAvailable(changeArray);
             this.isNotSelected = true;
             this.createCaseWithAll = false; 
-            //window.location.reload();
+            window.location.reload(); //PR970457-2762 fix
         })
         .catch(error => {
             console.log(error);
