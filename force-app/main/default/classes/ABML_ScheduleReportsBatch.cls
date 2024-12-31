@@ -69,9 +69,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
                 + (objCase.Stage_SLA_1__c != null ? String.valueOf(objCase.Stage_SLA_1__c) : '') + '","'
                 + (objCase.OwnerId != null ? objCase.Owner.Name : '') + '","'
                 + (objCase.Assigned_Team__c != null ? objCase.Assigned_Team__c : '') + '","'
-                 + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '","'
-                + (objCase.Description != null ? objCase.Description : '') + '"\n';
-            
+                 + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '"\n';            
             Date tatDate = Date.valueOf(objCase.Stage_SLA_1__c);
             
             //today tat
@@ -96,8 +94,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
                 + (objCase.Stage_SLA_1__c != null ? String.valueOf(objCase.Stage_SLA_1__c) : '') + '","'
                 + (objCase.OwnerId != null ? objCase.Owner.Name : '') + '","'
                 + (objCase.Assigned_Team__c != null ? objCase.Assigned_Team__c : '') + '","'
-                 + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '","'
-                + (objCase.Description != null ? objCase.Description : '') + '"\n';
+                 + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '"\n';
             }
             
           //missed tat
@@ -122,8 +119,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
                 + (objCase.Stage_SLA_1__c != null ? String.valueOf(objCase.Stage_SLA_1__c) : '') + '","'
                 + (objCase.OwnerId != null ? objCase.Owner.Name : '') + '","'
                 + (objCase.Assigned_Team__c != null ? objCase.Assigned_Team__c : '') + '","'
-                 + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '","'
-                + (objCase.Description != null ? objCase.Description : '') + '"\n';
+                 + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '"\n';
             }
             
             //ageing
@@ -147,8 +143,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
                 + (objCase.Stage_SLA_1__c != null ? String.valueOf(objCase.Stage_SLA_1__c) : '') + '","'
                 + (objCase.OwnerId != null ? objCase.Owner.Name : '') + '","'
                 + (objCase.Assigned_Team__c != null ? objCase.Assigned_Team__c : '') + '","'
-                 + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '","'
-                + (objCase.Description != null ? objCase.Description : '') + '"\n';
+                 + (objCase.Ageing_Number_Of_Days__c != null ? String.valueOf(objCase.Ageing_Number_Of_Days__c) : '') + '"\n';
         }
     }
     
@@ -167,7 +162,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         String missedTat = 'ABML Missed TAT.csv';
         String agingCases = 'ABML Aging Cases of the Day Per Agent.csv';
         List<Messaging.EmailFileAttachment> listOfAttachment = new List<Messaging.EmailFileAttachment>();   
-        String csvHeader = 'Case Number,Client Code,Client Name,Branch/Franchisee code,Branch/Franchisee Name,Contact Type,Created on,Categorized on,Created By,Source,Sub-Source,Nature,Subject,Case Type,Sub Type,Status,TAT HRS SLA 1,TAT Date SLA 1,Case Owner,Assigned Team,Ageing(No of Days),Description\n';
+        String csvHeader = 'Case Number,Client Code,Client Name,Branch/Franchisee code,Branch/Franchisee Name,Contact Type,Created on,Categorized on,Created By,Source,Sub-Source,Nature,Subject,Case Type,Sub Type,Status,TAT HRS SLA 1,TAT Date SLA 1,Case Owner,Assigned Team,Ageing(No of Days)\n';
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         List<String> listOfToAddress = new List<String>();
         for(ABML_Daily_Report_Sender__c objReportSender : [Select Email__c from ABML_Daily_Report_Sender__c where Name!='ordWideAddress'])
