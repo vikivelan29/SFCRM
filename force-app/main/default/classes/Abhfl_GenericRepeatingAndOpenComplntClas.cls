@@ -71,7 +71,13 @@ public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
             for (String field: survrespFldLst) {
                 ColumnWrapper column = new ColumnWrapper();
                 Schema.DescribeFieldResult fieldResult = fieldSchemaMap.get(field).getDescribe();
-                column.label = fieldResult.getLabel();
+                if(fieldResult.getLabel()=='Primary Question: NPS')
+                {
+                    column.label = 'Rating';
+                }else
+                {
+                    column.label = fieldResult.getLabel();
+                }
                 column.fieldName = field;
                 column.type = String.valueof(fieldResult.getType());
                  if (column.type == 'PICKLIST') {
