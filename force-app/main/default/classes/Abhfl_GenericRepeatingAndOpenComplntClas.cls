@@ -27,7 +27,66 @@ public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
         return sobjList;
     }
 
-   
+    @AuraEnabled
+    public static Map<String, Object> fetchLatestFiveCases(String accountId) {
+        // Query to get the account details
+        Account acc = [SELECT Id, Business_Unit__c FROM Account WHERE Id = :accountId LIMIT 1];
+        String businessUnit = acc.Business_Unit__c;
+
+        // Retrieve metadata for columns based on Line_Of_Business__c and Journey
+        List<NPSColumn__mdt> columnMetaList = [
+            SELECT Line_Of_Business__c, Journey__c, Fields__c
+            FROM NPSColumn__mdt
+            WHERE Line_Of_Business__c = :businessUnit
+        ];
+
+        Map<String, List<String>> journeyFieldsMap = new Map<String, List<String>>();
+        Map<String, Map<String, String>> journeyLabelsMap = new Map<String, Map<String, String>>();
+
+        // Process each metadata record
+        for (NPSColumn__mdt meta : columnMetaList) {
+            String journey = meta.Journey__c;
+            String rawFields = meta.Fields__c;
+            List<String> fieldNames = rawFields.split(',');
+            
+            if (!journeyFieldsMap.containsKey(journey)) {
+                journeyFieldsMap.put(journey, new List<String>());
+                journeyLabelsMap.put(journey, new Map<String, String>());
+            }
+
+            for (String FN : fieldNames) {
+                if (FN.startsWith('Case.')) {
+                    String fieldApiName = FN.substring(5);
+                    journeyFieldsMap.get(journey).add('Case__r.' + fieldApiName);
+                    journeyLabelsMap.get(journey).put('Case.' + fieldApiName, Schema.Case.SObjectType.getDescribe().fields.getMap().get(fieldApiName).getDescribe().getLabel());
+                } else if (FN.startsWith('Survey_Response__c.')) {
+                    String fieldApiName = FN.substring(19);
+                    journeyFieldsMap.get(journey).add(fieldApiName);
+                    journeyLabelsMap.get(journey).put('Survey_Response__c.' + fieldApiName, Schema.Survey_Response__c.SObjectType.getDescribe().fields.getMap().get(fieldApiName).getDescribe().getLabel());
+                }
+            }
+        }
+
+        // Construct the SOQL queries
+        Map<String, List<Survey_Response__c>> journeyResponsesMap = new Map<String, List<Survey_Response__c>>();
+        for (String journey : journeyFieldsMap.keySet()) {
+            List<String> fields = journeyFieldsMap.get(journey);
+            String parentQuery = String.join(fields, ', ');
+            String soqlQuery = 'SELECT Id, ' + parentQuery + ' FROM Survey_Response__c ' +
+                               'WHERE Case__c IN (SELECT Id FROM Case WHERE AccountId = :accountId) AND Journey__c = :journey ' +
+                               'ORDER BY Responded_on__c DESC LIMIT 5';
+            List<Survey_Response__c> responses = Database.query(soqlQuery);
+            journeyResponsesMap.put(journey, responses);
+        }
+
+        // Return results and metadata
+        Map<String, Object> result = new Map<String, Object>();
+        result.put('journeyGroups', journeyResponsesMap);
+        result.put('fieldLabels', journeyLabelsMap);
+        
+        return result;
+    }
+    
     // Added By Yogesh start[PR970457-2195]
     @AuraEnabled
     public static Survrespwrapper getSurveyResponseFieldsByAccountId(Id accountId) {
@@ -123,7 +182,7 @@ public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
         }
         String clientcodetxt=[Select Id,Client_Code__c from Account where Id =:accountId].Client_Code__c;
         updatedval = updatedval.substring(0, updatedval.length() - 1);
-        String respQuery = 'Select Id,' + String.escapeSingleQuotes(survrespmetadata.Field_To_Display__c) + updatedval + ' From Survey_Response__c WHERE Client_Code__c = :accountId AND Journey__c = : journey Order by RespondedOn__c DESC LIMIT 5';
+        String respQuery = 'Select Id,' + String.escapeSingleQuotes(survrespmetadata.Field_To_Display__c)  + updatedval + ' From Survey_Response__c WHERE Client_Code__c = :accountId AND Journey__c = : journey Order by Responded_on__c DESC LIMIT 5';
         system.debug('Queryy-->' + respQuery);
         List < sObject > Surveyresplst = Database.Query(respQuery);
         return (List < Survey_Response__c > ) Surveyresplst;
