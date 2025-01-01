@@ -41,6 +41,21 @@
                 <default>false</default>
                 <label>Enach</label>
             </value>
+                 <value>
+                <fullName>CATEGORIZATION</fullName>
+                <default>false</default>
+                <label>CATEGORIZATION</label>
+            </value>
+            <value>
+                <fullName>EMAILRESPONSE</fullName>
+                <default>false</default>
+                <label>EMAILRESPONSE</label>
+            </value>
+            <value>
+                <fullName>FEEDBACK</fullName>
+                <default>false</default>
+                <label>FEEDBACK</label>
+            </value>
             <value>
                 <fullName>Payment</fullName>
                 <default>false</default>
