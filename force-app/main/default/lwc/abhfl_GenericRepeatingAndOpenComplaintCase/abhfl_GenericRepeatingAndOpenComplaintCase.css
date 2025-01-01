@@ -60,57 +60,6 @@ h2 {
 
 }
 
-.custom-modal-size .slds-modal {
-  width: 80%;
-  /* Ensure the modal takes full width */
-  max-width: none;
-  /* Remove any max-width limitations */
-  min-width: 700px;
-  /* Set minimum width */
-  height: auto;
-}
-
-/* Adjust the modal container inside */
-.custom-modal-size .slds-modal__container {
-  width: 80%;
-  /* Ensure the container is wide enough */
-  max-width: none;
-  /* Remove any max-width restrictions */
-  min-width: 700px;
-  /* Minimum width for modal */
-  height: auto;
-}
-
-.custom-modal-size .slds-modal__header {
-  width: 100%;
-  height: auto;
-  border: 1px solid black;
-  /* Add black border */
-  box-sizing: border-box;
-  /* Ensure padding doesn't affect the border */
-}
-
-.custom-modal-size .slds-modal__content {
-  width: 100% !important;
-  /* Ensure content takes up full width */
-  max-width: none !important;
-  /* Remove any max-width restrictions */
-  height: auto;
-  border: 1px solid black;
-  /* Add black border */
-  box-sizing: border-box;
-  /* Ensure padding doesn't affect the border */
-}
-
-.custom-modal-size .slds-modal__footer {
-  width: 100%;
-  height: auto;
-  border: 1px solid black;
-  /* Add black border */
-  box-sizing: border-box;
-  /* Ensure padding doesn't affect the border */
-}
-
 .buttonview {
   margin-top: 8px;
   margin-left: 10px;
