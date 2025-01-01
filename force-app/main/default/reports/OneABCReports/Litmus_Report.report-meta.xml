@@ -29,6 +29,9 @@
         <field>FK_$Contact.Line_of_Business__c</field>
     </columns>
     <columns>
+        <field>FK_$Case.Source__c</field>
+    </columns>
+    <columns>
         <field>FK_$Case.Type_Text__c</field>
     </columns>
     <columns>
