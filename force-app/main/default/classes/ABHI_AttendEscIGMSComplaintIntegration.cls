@@ -91,12 +91,12 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
         requestJSON.Original_IRDA_Token_Num = caseRecord.ABHI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
             }
             if(caseRecord.IGMS_Complaint_Type_Code__c == '14'){
-                requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c, 'dd-MM-YYYY'):null;
+                requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ?(caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c).format():null;
                //requestJSON.Claim_Received_Amount = String.valueOf(caseRecord.ABHI_Case_Detail__r.Claim_Received_Amount__c);
               //requestJSON.Claim_Received_Amount = '32233';
                 if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c != '3'){
-                    requestJSON.Claim_Payment_Date = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABHI_Case_Detail__r.Claim_Payment_Date__c, 'dd-MM-YYYY'):null;
-                    requestJSON.Claim_Payment_Cheque_Date = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Date__c, 'dd-MM-YYYY'):null;
+                    requestJSON.Claim_Payment_Date = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Date__c != null ? (caseRecord.ABHI_Case_Detail__r.Claim_Payment_Date__c).format():null;
+                    requestJSON.Claim_Payment_Cheque_Date = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Date__c != null ?  (caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Date__c).format():null;
                 }
                 requestJSON.Claim_Payment_Cheque_Number = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Number__c;
                 requestJSON.Additional_Closure_Information  = caseRecord.ABHI_Case_Detail__r.Additional_Closure_Information__c ;
