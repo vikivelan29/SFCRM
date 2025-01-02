@@ -29,7 +29,7 @@ public with sharing class Asf_NpsIndicatiorController {
         Map<String,String> mapOfBusinessUnitToNpsScore = new Map<String,String>();
         List<Survey_Response__c> surveyResp;
         if(acc.Business_Unit__c==ABHFL_Constants.BUSINESS_UNIT_ABHFL){
-            surveyResp = [SELECT ID,Primary_Question_NPS__c,Business_Unit__c,RespondedOn__c FROM Survey_Response__c WHERE Client_Code__c =: customerId ORDER BY RespondedOn__c DESC LIMIT 1];
+            surveyResp = [SELECT ID,Primary_Question_NPS__c,Business_Unit__c,Responded_on__c FROM Survey_Response__c WHERE Client_Code__c =: customerId ORDER BY Responded_on__c DESC LIMIT 1];
         }else{
         	surveyResp = [SELECT ID,Primary_Question_NPS__c,Business_Unit__c FROM Survey_Response__c WHERE Client_Code__c =: customerId ORDER BY CreatedDate DESC LIMIT 1];    
         }
