@@ -25,7 +25,7 @@ public with sharing class Asf_NpsIndicatiorController {
     }
     @AuraEnabled
     public static Map<String,String> getNpsScore(string customerId) {
-
+        Account acc=[Select Id, Business_Unit__c FROM Account Where Id=:customerId];
         Map<String,String> mapOfBusinessUnitToNpsScore = new Map<String,String>();
         List<Survey_Response__c> surveyResp;
         if(acc.Business_Unit__c==ABHFL_Constants.BUSINESS_UNIT_ABHFL){
