@@ -17,7 +17,7 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
         
         User userRecord = new User(Alias = 'standt', Email='stantarduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-                                    LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
+                                    LocaleSidKey='en_US', Business_Unit__c = 'ABML' ,ProfileId = SYSTEMADMIN_PROFILE.Id,
                                     TimeZoneSidKey='America/Los_Angeles', UserName='Testcdefghijk567@gmail.com'
                                     );
         insert userRecord; 
@@ -123,4 +123,7 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
         Boolean checkOwner = ownerId.startsWith('005');
         System.assert(true, checkOwner);
     }
+
+  
 }
+
