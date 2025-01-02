@@ -58,7 +58,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     }
                     if(businessUnit == 'ONEABC'){
                         ABCD_CaseDeDupeCheck.runDuplicateCheck(mRecordTypeVsCases.get(frameworkRTId), new List<Case>());
-                    } 
+                    }
                 }
                 ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
                 commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));
