@@ -37,7 +37,7 @@ public static string todayString = date.today().format();
             requestJSON.Address1 = (addr != null && addr != '')?addr : 'Not Available';
             
             Date birthDate = caseRecord.Account?.PersonBirthdate;
-            requestJSON.Date_Of_Birth = birthDate != null ? ABCL_IntegrationCommonUtility.dateFormat(birthDate, 'dd-MM-YYYY') : null;
+            requestJSON.Date_Of_Birth = birthDate != null ? (caseRecord.Account?.PersonBirthdate).format(): null;
             requestJSON.Entity_Complaint_Ref_Number = 'ABHI'+caseRecord.CaseNumber;
             requestJSON.Complaint_Details = caseRecord.Description.left(4000);
             system.debug('System.today()-- '+System.today());

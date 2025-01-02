@@ -3901,6 +3901,11 @@
 		<members>ABSLAMCManagerDashboards/TFqEDpwxhcBhFiZFZiNCCmNPgtjDXG</members>
 		<name>Dashboard</name>
 	</types>
+
+    <types>
+		<members>BusinessHours</members>
+		<name>Settings</name>
+	</types>
    
     <version>61.0</version>
 </Package>
