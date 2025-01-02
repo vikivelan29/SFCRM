@@ -65,7 +65,7 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
         {
             String caseIdCheck = String.valueOf(obCase.OwnerId);
             if(caseIdCheck.startsWith('00G')){ 
-                setOfGroupId.add(obCase.OwnerId);              
+                setOfGroupId.add(obCase.OwnerId);            
             }
         }        
         
@@ -79,10 +79,22 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
         }        
         
         if(setOfPublicGroupId != null){
-            for (GroupMember objGroupMember : [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN: setOfPublicGroupId]) {
+            DateTime currentDateTime = System.now();  
+            Time currentTime = currentDateTime.time();
+            for (GroupMember objGroupMember : [SELECT Id, GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN: setOfPublicGroupId]){
                 String gId = String.valueOf(objGroupMember.GroupId);
                 String uId = String.valueOf(objGroupMember.UserOrGroupId);
-                if(uId.startsWith('005')){
+                
+                if(uId.startsWith('005') && mapOfTUserAvailability.containsKey(uId)){
+                    if(mapOfTUserAvailability.get(uId) && (bh.MondayEndTime < currentTime || bh.MondayStartTime > currentTime)){
+                        if (!metaQueuedataMap.containsKey(gId)) {
+                            metaQueuedataMap.put(gId, new List<String>());
+                        }
+                        metaQueuedataMap.get(gId).add(uId); 
+                    }
+                    
+                }  
+                else if(uId.startsWith('005') && !mapOfTUserAvailability.containsKey(uId)){
                     if (!metaQueuedataMap.containsKey(gId)) {
                         metaQueuedataMap.put(gId, new List<String>());
                     }
@@ -142,4 +154,5 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
     public void execute(SchedulableContext sc) {
         Database.executeBatch(new ABML_RoundRobinCaseAssBatch(),50);
     }
+
 }
