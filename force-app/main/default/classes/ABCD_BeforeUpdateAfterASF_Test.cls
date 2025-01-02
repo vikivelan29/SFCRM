@@ -36,6 +36,7 @@ public class ABCD_BeforeUpdateAfterASF_Test {
             errorMessage = ex.getMessage();
         }
         System.assertEquals(errorMessage,errorMessage);
+
         List<Case> caseOld = new List<Case>();
         Case caseTemp = new Case();
         caseTemp.Stage__c = 'New';
