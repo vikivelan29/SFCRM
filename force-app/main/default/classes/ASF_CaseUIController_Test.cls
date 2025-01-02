@@ -136,7 +136,7 @@ public class ASF_CaseUIController_Test{
         insert testLead;
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
         Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
-        ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
+        ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false,'{"customerBu":"ABFL"}');
         //ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
         ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         //ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
@@ -175,7 +175,7 @@ public class ASF_CaseUIController_Test{
         Id [] fixedSearchResults= new Id[1];
         fixedSearchResults[0] = acc.Id;
         Test.setFixedSearchResults(fixedSearchResults);
-        
+        ASF_CaseUIController.conAssetWrapper conWrapper = ASF_CaseUIController.getMatchingContacts(acc.Id);
         List<ASF_CaseUIController.searchResponse> wrapper = ASF_CaseUIController.getMatchingAccount('12344',false);
         //Asset asst = [SELECT Id, AccountId FROM Asset];
         Lead testLead = new Lead(
@@ -189,7 +189,7 @@ public class ASF_CaseUIController_Test{
         Case cs = [select id,contactId,AccountId,AssetId,Lead__c from case limit 1];
         Id assetId = [select Id from Asset where accountId =: wrapper[0].recordId LIMIT 1].Id;
         //ASF_CaseUIController.updateCRN(wrapper[0].recordId,assetId,cs.Id,'2333423',false);
-        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false);
+        ASF_CaseUIController.updateCRN(testLead.Id,assetId,cs.Id,'2333423',false,'');
         //ASF_CaseUIController.getAccountData('tes','WBG','true', 'Industry','','{"accountLOB":"ABFL"}');
         ASF_CaseUIController.getAccountData('tes','WBG','false', 'Industry','','{"accountLOB":"ABFL"}');
         

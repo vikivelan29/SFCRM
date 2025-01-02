@@ -55,7 +55,10 @@ public class ASF_CaseTriggerBUSpecificHandler {
                         }
                          ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit));
                          ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber(mapOfBUToCases.get(businessUnit));
-                    } 
+                    }
+                    if(businessUnit == 'ONEABC'){
+                        ABCD_CaseDeDupeCheck.runDuplicateCheck(mRecordTypeVsCases.get(frameworkRTId), new List<Case>());
+                    }
                 }
                 ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
                 commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));
@@ -179,6 +182,13 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
                     abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate'); 
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }
+                else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
+                    ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                }
+                if(businessUnit == 'ONEABC'){
+                    ABCD_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    ABCD_CaseDeDupeCheck.runDuplicateCheck(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
             }
         }

@@ -70,10 +70,26 @@
                         <valueListItems>
                             <value>ChangeOwnerOne</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Created_by_ONEABC__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ABCD</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Business_Unit__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ONEABC</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -152,6 +168,16 @@
                                     <leftValue>{!Record.IsClosed}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Case.Customer_Tagging</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.CCC_External_Id__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>ONEABC_Sprinklr_01</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -249,19 +275,6 @@
                         <operator>CONTAINS</operator>
                         <rightValue>Payments</rightValue>
                     </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Business_Unit__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>ABHFL</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>abhfl_MultipleLan</componentName>
-                <identifier>c_abhfl_MultipleLan</identifier>
-                <visibilityRule>
                     <criteria>
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -1269,6 +1282,68 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SuppliedName</fieldItem>
+                <identifier>RecordSuppliedNameField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SuppliedPhone</fieldItem>
+                <identifier>RecordSuppliedPhoneField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SuppliedEmail</fieldItem>
+                <identifier>RecordSuppliedEmailField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-ee86d7f7-6638-4a6b-a979-8d7d92f0bf22</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <name>Facet-3458b0c4-78f2-465f-9288-74ef7d38b674</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ee86d7f7-6638-4a6b-a979-8d7d92f0bf22</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-3458b0c4-78f2-465f-9288-74ef7d38b674</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-8c0810eb-796e-49c9-a76e-b6b74ddece5b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
                 <fieldItem>Record.ABSLAMC_Case_Detail__r.CAMS_Ticket_Reference_Number__c</fieldItem>
                 <identifier>RecordABSLAMC_Case_Detail_rCAMS_Ticket_Reference_Number_cField</identifier>
             </fieldInstance>
@@ -1555,6 +1630,31 @@
                 </componentInstanceProperties>
                 <componentName>console:relatedRecord</componentName>
                 <identifier>console_relatedRecord4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-8c0810eb-796e-49c9-a76e-b6b74ddece5b</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Sprinklr Details</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection7</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Source__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Social Media</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>

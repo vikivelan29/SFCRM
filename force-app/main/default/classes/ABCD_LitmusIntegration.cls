@@ -91,7 +91,7 @@ public with sharing class ABCD_LitmusIntegration {
        
             for (Case litmusCase : litmusApiCasesList) {
                 if (litmusCase.ABCD_Case_Detail__c != null) {
-                    caseDetailIds.add(litmusCase.ABCD_Case_Detail__c);
+                    caseDetailIds.add(litmusCase.ABCD_Case_Detail__c); 
                 }
             }
    
@@ -254,5 +254,6 @@ public with sharing class ABCD_LitmusIntegration {
 		public String UDP4;
 		public String UDP5;
 		public String LogRefId;
+        public String tag_business_unit;
     }
 }
