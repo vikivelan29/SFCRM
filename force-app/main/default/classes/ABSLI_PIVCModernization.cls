@@ -18,7 +18,7 @@ public with sharing class ABSLI_PIVCModernization {
         //try {
             system.debug('inside try '+caseObj);
             
-            caseObj = [SELECT Id, CaseNumber, ABSLI_Case_Detail__r.API_Error_Code__c, ABSLI_Case_Detail__r.API_Response_Message__c, Asset.Policy_No__c
+            caseObj = [SELECT Id, CaseNumber, ABSLI_Case_Detail__r.API_Error_Code__c, ABSLI_Case_Detail__r.API_Response_Message__c, Asset.Application_Number__c
                       ,ABSLI_Case_Detail__c FROM Case WHERE Id =: caseId
                       ];
             caseDetail = [Select Id, API_Request__c,API_Name__c,API_Response_Message__c,API_Error_Code__c from ABSLI_Case_Detail__c where Id = :caseObj.ABSLI_Case_Detail__c];
@@ -26,7 +26,7 @@ public with sharing class ABSLI_PIVCModernization {
         //} catch (Exception e) {
          //   system.debug('Error==' + e.getMessage());
         //}
-        If( caseObj != null && caseObj.Asset.Policy_No__c != null ) {
+        If( caseObj != null && caseObj.Asset.Application_Number__c != null ) {
             PayloadWrapper payloadWrp = new PayloadWrapper(caseObj);
             String payload = JSON.serialize(payloadWrp);
             
@@ -99,7 +99,7 @@ public with sharing class ABSLI_PIVCModernization {
         
         // Constructor to map Lead fields to PayloadWrapper fields
         public PayloadWrapper(Case caseObj) {
-            this.App_No = caseObj.Asset.Policy_No__c;
+            this.App_No = caseObj.Asset.Application_Number__c;
             this.Interaction_ID = caseObj.CaseNumber;
         }
     }
