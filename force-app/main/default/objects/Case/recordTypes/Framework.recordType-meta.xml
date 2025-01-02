@@ -1884,6 +1884,142 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Claims</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Claim Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR Voice BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Inbound</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BRANCH EMAIL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OneABC_Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Provider Network</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Renewal - Persistency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Assurance team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sprinkler</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Outbound – NPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Underwriting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona_IVRVoiceBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona_RenewalBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ubona_WelcomeBOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Abcd_app</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distributor_WA_Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_App</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_Portal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer_WA_Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_Chatbot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_SalesApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_SalesPortal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unified_WA_Bot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Policy_Bazaar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PolicyBazar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BFL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DRM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome Call BOT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Branch %28walk-in %2F phone%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Branch Walk-In</fullName>
             <default>false</default>
         </values>
