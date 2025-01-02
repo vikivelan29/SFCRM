@@ -21,7 +21,7 @@ public with sharing class ABSLI_PIVCModernization {
             caseObj = [SELECT Id, CaseNumber, ABSLI_Case_Detail__r.API_Error_Code__c, ABSLI_Case_Detail__r.API_Response_Message__c, Asset.Policy_No__c
                       ,ABSLI_Case_Detail__c FROM Case WHERE Id =: caseId
                       ];
-            caseDetail = [Select Id, API_Response_Message__c,API_Error_Code__c from ABSLI_Case_Detail__c where Id = :caseObj.ABSLI_Case_Detail__c];
+            caseDetail = [Select Id, API_Request__c,API_Name__c,API_Response_Message__c,API_Error_Code__c from ABSLI_Case_Detail__c where Id = :caseObj.ABSLI_Case_Detail__c];
             //system.debug('chk case'+caseObj);
         //} catch (Exception e) {
          //   system.debug('Error==' + e.getMessage());
@@ -39,6 +39,8 @@ public with sharing class ABSLI_PIVCModernization {
             if (!Test.isRunningTest()) {
                 responseWrapperObj = responseWrapperObj.parse(caseSendingWrp.responseBody);
             }
+            caseDetail.API_Name__c='PIVC Verisafe';
+            caseDetail.API_Request__c=payload;
             caseDetail.API_Response_Message__c = '';
             caseDetail.API_Error_Code__c = '';
             if (responseWrapperObj.Status == '200') {
