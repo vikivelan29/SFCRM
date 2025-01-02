@@ -158,10 +158,16 @@
                         <valueListItems>
                             <value>Case.Customer_Tagging</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.CCC_External_Id__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>ONEABC_Sprinklr_01</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsClosed}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -2028,7 +2034,7 @@
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection3</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND (2 OR 3 OR 4 OR 5 OR 6)</booleanFilter>
+                    <booleanFilter>1 AND (2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8)</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Recategorisation_Reason__c}</leftValue>
                         <operator>NE</operator>
@@ -2057,6 +2063,16 @@
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Wellness</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ONEABC</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABCD</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>

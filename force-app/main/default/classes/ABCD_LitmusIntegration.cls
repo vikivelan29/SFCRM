@@ -174,7 +174,7 @@ public with sharing class ABCD_LitmusIntegration {
                 objRequest.tag_case_category = caseRecord.Nature__c;
                 objRequest.tag_lobuid = caseRecord.Account.PAN__c != null ? caseRecord.Account.PAN__c :'';
                 objRequest.tag_agent_name = caseRecord.CreatedBy.Name;
-                objRequest.app_id = 'll4w_touchpoint';
+                objRequest.app_id = System.Label.ABCD_LitmusAppId;
                 objRequest.tag_business_unit = caseRecord.Business_Unit__c;
                 wrapper.objRequest = objRequest;
                 
