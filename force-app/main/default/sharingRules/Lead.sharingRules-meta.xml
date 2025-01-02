@@ -31,32 +31,17 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
-        <fullName>ABSLIG</fullName>
+        <fullName>ABHI_Prospect_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
-        <description>Sharing rule for ABSLIG BU</description>
-        <label>ABSLIG</label>
+        <description>Share Lead with Business Unit with ABHI value to ABHI Role Hierarchy</description>
+        <label>ABHI Prospect Sharing</label>
         <sharedTo>
-            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+            <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
         </sharedTo>
         <criteriaItems>
             <field>Business_Unit__c</field>
             <operation>equals</operation>
-            <value>ABSLIG</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-    <sharingCriteriaRules>
-        <fullName>ABSLI_Prospect_Sharing</fullName>
-        <accessLevel>Edit</accessLevel>
-        <description>Share Lead with Business Unit ABSLI to ABSLI Role Hierarchy</description>
-        <label>ABSLI Prospect Sharing</label>
-        <sharedTo>
-            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
-        </sharedTo>
-        <criteriaItems>
-            <field>Business_Unit__c</field>
-            <operation>equals</operation>
-            <value>ABSLI</value>
+            <value>ABHI</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
@@ -133,6 +118,36 @@
             <field>Line_Of_Business__c</field>
             <operation>equals</operation>
             <value>RE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLIG</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule for ABSLIG BU</description>
+        <label>ABSLIG</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLIG</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLI_Prospect_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Lead with Business Unit ABSLI to ABSLI Role Hierarchy</description>
+        <label>ABSLI Prospect Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>

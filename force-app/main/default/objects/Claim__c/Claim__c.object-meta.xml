@@ -165,13 +165,13 @@
         <fields>NAME</fields>
         <fields>Policy_Number_Text__c</fields>
         <fields>Claim_Status__c</fields>
-        <profileName>ABHI Base Profile</profileName>
+        <profileName>ABHI Partner Base Profile</profileName>
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>NAME</fields>
         <fields>Policy_Number_Text__c</fields>
         <fields>Claim_Status__c</fields>
-        <profileName>ABHI Partner Base Profile</profileName>
+        <profileName>ABHI Base Profile</profileName>
     </profileSearchLayouts>
     <searchLayouts>
         <searchResultsAdditionalFields>Policy_Number_Text__c</searchResultsAdditionalFields>

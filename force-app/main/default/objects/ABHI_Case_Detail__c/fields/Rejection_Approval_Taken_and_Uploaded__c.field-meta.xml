@@ -23,16 +23,16 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
+            <controllingFieldValue>9</controllingFieldValue>
             <controllingFieldValue>1</controllingFieldValue>
             <controllingFieldValue>2</controllingFieldValue>
             <controllingFieldValue>3</controllingFieldValue>
-            <controllingFieldValue>9</controllingFieldValue>
             <valueName>Yes</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>9</controllingFieldValue>
             <controllingFieldValue>1</controllingFieldValue>
             <controllingFieldValue>2</controllingFieldValue>
-            <controllingFieldValue>9</controllingFieldValue>
             <valueName>No</valueName>
         </valueSettings>
     </valueSet>
