@@ -62,11 +62,10 @@ public without sharing class ASF_CommPETriggerHelper {
         // 7. Go back and update the PE Logger Record, in case of Success --> Completed, in Case of Error --> Error with Error Message
         // 8. Set retry flag to true, if the error is because of the resources unavailability like email limit reached, Platform Events Publisher limit reached etc.
         
-        
+        System.debug('Inside execute');
         channelFieldNamesSMS = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.SMS);
         channelFieldNamesEmail = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.Email);
         channelFieldNamesWA = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.WhatsApp);
-        
         
         casefieldInfo = Schema.SObjectType.Case.fields.getMap();
         
@@ -88,6 +87,7 @@ public without sharing class ASF_CommPETriggerHelper {
                 }
             }
         }
+       
         /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
         
         /* Account Contact Related Operations */
@@ -106,7 +106,6 @@ public without sharing class ASF_CommPETriggerHelper {
         
         
         List<Customer_Notification_Config__mdt> custMetaList = ASF_CommPETriggerQueryHandler.getCustomMetadataList(customMetadataName);
-        
         for(Customer_Notification_Config__mdt custMeta : custMetaList){
             if(!mCommConfigMetaName.containsKey(custMeta.developerName)){
                 mCommConfigMetaName.put(custMeta.developerName, custMeta);
@@ -117,12 +116,11 @@ public without sharing class ASF_CommPETriggerHelper {
         for(PE_Logger__c pLog : peLogs){
             try{
                 String strMetadataName = pLog.CustomMetadataName__c;
-                
                 if(pLog.TakeBodyFromContentDoc__c == true){
                     peLogBodyInCV.add(pLog.Id);
                 }
                 if(strMetadataName != null){
-                    getTemplateNamesFromConfig(strMetadataName); 
+                    getTemplateNamesFromConfig(strMetadataName);         
                 }
                 if(pLog.Email_Template_Name__c != null){
                     setTemplates.add(pLog.Email_Template_Name__c);
@@ -137,7 +135,6 @@ public without sharing class ASF_CommPETriggerHelper {
         
         if(setTemplates.size()>0 && peLogBodyInCV.size() == 0){
             emailTemplates = ASF_CommPETriggerQueryHandler.getEmailTemplates(setTemplates); 
-            System.debug('emailTemplates --> '+emailTemplates);
             getEmailTempDevNameVsId();
         }
         /* SMS And WhatsApp Related Template Information from Custom Metadata Related Operations */
@@ -153,6 +150,7 @@ public without sharing class ASF_CommPETriggerHelper {
      * @description Updates the communication log records.
      */
     public static void updateLog(){
+      
         List<ASF_Communication_Log__c> updLogs = new List<ASF_Communication_Log__c>();
         for(ASF_Communication_Log__c log : logs){
             if(log.Id != null){
@@ -175,17 +173,40 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                           Case cRec,
                                                                           Boolean isAttachment,
                                                                           Id owdID){
+                                                                              
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-		msg.setOrgWideEmailAddressId(owdID);
+        //Added by Shagun
+        String emailToBeSentForPayment = Label.Payments_Critical_Alerts_Group;
+        List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');                                                                   
+	List<String> toAddressesForPayments = new List<String>();                                                                                                                                            
+	msg.setOrgWideEmailAddressId(owdID);                                                       
         if(con != null){
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
-            msg.setToAddresses(new String[]{con.Email});
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && cRec.Type_Text__c=='Report Fraud'){
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                    toAddressesForCriticalGrp.add(con.Email);
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                     msg.setToAddresses(toAddressesForPayments);
+                 }
+            }else{
+                  msg.setToAddresses(new String[]{con.Email});
+            }
+                
         }
         else if(prospect != null){
             msg.setTargetObjectId(defaultContactId);
             msg.setTreatTargetObjectAsRecipient(false);	
-            msg.setToAddresses(new String[]{prospect.Email});
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && cRec.Type_Text__c=='Report Fraud'){      
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                    toAddressesForCriticalGrp.add(prospect.Email);
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                     msg.setToAddresses(toAddressesForPayments);
+                 }
+            }else{
+                 msg.setToAddresses(new String[]{prospect.Email});
+            }
+           
         }
         else{
             msg.setTargetObjectId(defaultContactId);
@@ -203,7 +224,6 @@ public without sharing class ASF_CommPETriggerHelper {
         /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
         if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
             OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
-            msg.setOrgWideEmailAddressId(OWDId);
         }
         if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
             String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
@@ -225,9 +245,7 @@ public without sharing class ASF_CommPETriggerHelper {
         msg.SetHTMLBody(emailBody);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
-        if(msg.getOrgWideEmailAddressId() == null){
-           msg.setOrgWideEmailAddressId(owdID); 
-        }
+        msg.setOrgWideEmailAddressId(owdID);     
         msg.setEntityAttachments(contentId);        
         return msg;
  
@@ -245,13 +263,10 @@ public without sharing class ASF_CommPETriggerHelper {
      */
     private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
         Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
-
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
-        if(msg.getOrgWideEmailAddressId() == null){
-          msg.setOrgWideEmailAddressId(owdID);          
-        }
+        msg.setOrgWideEmailAddressId(owdID);     
         return msg;
     }
     /**
@@ -289,16 +304,14 @@ public without sharing class ASF_CommPETriggerHelper {
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
         //OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE Purpose = 'DefaultNoreply' order by lastmodifiedDate desc  limit 1];
         OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE DisplayName=:System.Label.ASF_default_no_reply_email_address limit 1];
-        
         for(PE_Logger__c pLog : peLogs){
             //Bypass sending Email when user manually blocks it during case creation
             if(mCases.containsKey(pLog.Case__c) &&
                (pLog.No_Auto_Communication__c == null || 
-                (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('Email')))){
-                    
+                (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('Email')))){    
                     Case cRec = mCases.get(pLog.Case__c);
-                    if(templateIDMap.containsKey(pLog.Email_Template_Name__c) && !peLogBodyInCV.contains(pLog.Id)){
-                        if(templateIDMap.get(pLog.Email_Template_Name__c) == null){
+                    if(templateIDMap.containsKey(pLog.Email_Template_Name__c) && !peLogBodyInCV.contains(pLog.Id)){       
+                        if(templateIDMap.get(pLog.Email_Template_Name__c) == null){   
                             continue;
                         }
                     }
@@ -312,7 +325,6 @@ public without sharing class ASF_CommPETriggerHelper {
                                 ccSpecificAddresses = pLog.Specific_Cc_Addresses__c.deleteWhitespace().split(';');
                             }
                             List<Id> attachmentIds = String.isNotBlank(pLog.Content_Version_Ids__c)?(List<Id>)pLog.Content_Version_Ids__c.split(','): new List<Id>();
-                            system.debug('attachmentIds---->'+attachmentIds);
                             Messaging.SingleEmailMessage msg = getMessageGeneratedFromCV(pLog.HTMLBody_Con_Doc_Id__c,null,cRec, attachmentIds, owAddress.Id, pLog.Is_Attachment__c,null);
                             msg.setToAddresses(toSpecificAddresses);
                             if(ccSpecificAddresses.size()>0){
@@ -324,12 +336,10 @@ public without sharing class ASF_CommPETriggerHelper {
                             iCounter++;
                         }
                     }
-                    
-                    System.debug('pLog.Email_Template_Name__c --> '+pLog.Email_Template_Name__c);
+		    System.debug('pLog.Email_Template_Name__c --> '+pLog.Email_Template_Name__c);
                     System.debug('pLog.Email_Template_Name__c --> '+templateIDMap.keySet());
                     if(templateIDMap.containsKey(pLog.Email_Template_Name__c)){
                         Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c);
-                        
                         // VIRENDRA - ADDED ANOTHER LOGIC TO SEND EMAIL TO SPECIFIC EMAIL ADDRESS - 
                         if(pLog.Send_To_Specific_Emails__c){
                             if(pLog.Specific_To_Address__c != null){
@@ -355,7 +365,7 @@ public without sharing class ASF_CommPETriggerHelper {
                                 if(con.Email != null){
                                     //Added another parameter pLog.Is_Attachment__c to check if attachment needs to be sent or not
                                     Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
-                                    emails.add(msg); 
+                                    emails.add(msg);
                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
                                     iCounter++;
                                 }
@@ -384,7 +394,6 @@ public without sharing class ASF_CommPETriggerHelper {
         if(emails.size()>0){
             Messaging.SendEmailResult[] msgResults= Messaging.sendEmail(emails,false);
             List<Messaging.SingleEmailMessage> retryEmailSend = new List<Messaging.SingleEmailMessage>();
-            
             for(integer i=0;i<msgResults.size();i++){
                 if(!msgResults[i].IsSuccess()){
                     retryEmailSend.add(emails[i]);
@@ -396,7 +405,7 @@ public without sharing class ASF_CommPETriggerHelper {
                 
                 for(integer i=0;i<msgRetryResults.size();i++){
                     if(!msgRetryResults[i].IsSuccess()){
-                        String errMsg = msgRetryResults[i].getErrors().get(0).getMessage();                        
+                        String errMsg = msgRetryResults[i].getErrors().get(0).getMessage();  
                     }
                 }
             }
@@ -561,13 +570,13 @@ public without sharing class ASF_CommPETriggerHelper {
                      }
                  }
         }
-        String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c';
+        String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,status,Type_Text__c';//Added Status by Shagun
         query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';
         if(setCaseFields !=null && setCaseFields.size()>0){
             List<string> temp = new List<String>();
             temp.addAll(setCaseFields);
             Set<Id> tempCaseIds = caseIds;
-            query = 'SELECT ID,Business_Unit__c,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,'+String.escapeSingleQuotes(String.join(temp, ','));
+            query = 'SELECT ID,Business_Unit__c,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,status,Type_Text__c,'+String.escapeSingleQuotes(String.join(temp, ','));//Added Status, Type_Text__c by Shagun
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :tempCaseIds FOR UPDATE';
         }
