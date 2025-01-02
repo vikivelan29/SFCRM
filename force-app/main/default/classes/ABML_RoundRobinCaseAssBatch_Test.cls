@@ -109,17 +109,18 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
                 UserId = objUser.id //This should be a new user created in test class 
             );
             insert ooo;
-            
-            ABML_Round_Robin_Assignment__c retrievedSetting = [SELECT Name, ABML_Queue_Name__c, ABML_Index__c FROM ABML_Round_Robin_Assignment__c WHERE Name = 'ABML Franchisee Helpdesk' LIMIT 1];
-            
-            ABML_RoundRobinCaseAssBatch roundRobinCase = new ABML_RoundRobinCaseAssBatch();
-            Database.executeBatch(roundRobinCase);
-            Test.stopTest();
-            
-            Case objCaseObj = [SELECT id, OwnerId FROM Case Limit 1];
-            String ownerId = objCaseObj.OwnerId;
-            Boolean checkOwner = ownerId.startsWith('005');
-            System.assert(true, checkOwner);
         }
+            
+        ABML_Round_Robin_Assignment__c retrievedSetting = [SELECT Name, ABML_Queue_Name__c, ABML_Index__c FROM ABML_Round_Robin_Assignment__c WHERE Name = 'ABML Franchisee Helpdesk' LIMIT 1];
+        
+        ABML_RoundRobinCaseAssBatch roundRobinCase = new ABML_RoundRobinCaseAssBatch();
+        Database.executeBatch(roundRobinCase);
+        Test.stopTest();
+        
+        
+        Case objCaseObj = [SELECT id, OwnerId FROM Case Limit 1];
+        String ownerId = objCaseObj.OwnerId;
+        Boolean checkOwner = ownerId.startsWith('005');
+        System.assert(true, checkOwner);
     }
 }
