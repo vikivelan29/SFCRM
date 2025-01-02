@@ -363,9 +363,9 @@
                 <label>PolicyBazar</label>
             </value>
               <value>
-                <fullName>Policy_Bazar</fullName>
+                <fullName>Policy_Bazaar</fullName>
                 <default>false</default>
-                <label>Policy_Bazar</label>
+                <label>Policy_Bazaar</label>
             </value>
             <value>
                 <fullName>Courier</fullName>
