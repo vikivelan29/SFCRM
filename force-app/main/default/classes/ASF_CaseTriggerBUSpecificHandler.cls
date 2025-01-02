@@ -188,7 +188,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 }
                 if(businessUnit == 'ONEABC'){
                     ABCD_BeforeUpdateAfterASFTriggerLogic.executeBeforeLogic(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
-                    ABCD_CaseDeDupeCheck.runDuplicateCheck(mRecordTypeVsCases.get(frameworkRTId), new List<Case>());
+                    ABCD_CaseDeDupeCheck.runDuplicateCheck(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
             }
         }
