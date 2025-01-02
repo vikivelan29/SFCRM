@@ -55,7 +55,10 @@ public class ASF_CaseTriggerBUSpecificHandler {
                         }
                          ABHI_IGMSHelperMethods.associateAssetIgms(mapOfBUToCases.get(businessUnit));
                          ABHI_IGMSHelperMethods.associateCustomerForAPIFromPhoneNumber(mapOfBUToCases.get(businessUnit));
-                    } 
+                    }
+                    if(businessUnit == 'ONEABC'){
+                        ABCD_CaseDeDupeCheck.runDuplicateCheck(mRecordTypeVsCases.get(frameworkRTId), new List<Case>());
+                    }
                 }
                 ABCL_CommonCLass commonCLssObj = new ABCL_CommonCLass();
                 commonCLssObj.prepopulateCaseFlds(mRecordTypeVsCases.get(frameworkRTId));

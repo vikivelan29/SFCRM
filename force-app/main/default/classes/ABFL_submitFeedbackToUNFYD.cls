@@ -6,6 +6,7 @@
 *@description  :  Feedback will be sent to UNFYD via platform event
 *********************************************************/
 public with sharing class ABFL_submitFeedbackToUNFYD {
+    @AuraEnabled
     public static void sendUNFYDFeedback(String caseId){
         Map<String, String> fieldsMap = New Map<String, String>();
         List<ASF_Case_Integration__c> caseIntegrationList= New List<ASF_Case_Integration__c>();

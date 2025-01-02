@@ -6,10 +6,15 @@
     <permissionSets>ABCD_User</permissionSets>
     <permissionSets>ABFL_User_PS</permissionSets>
     <permissionSets>ABHFL_User_PS</permissionSets>
-    <permissionSets>ABHI_User_PS</permissionSets>
     <permissionSets>ABSLIG_User</permissionSets>
     <permissionSets>ABSLI_User</permissionSets>
-    <permissionSets>AMC_Base_User_PS</permissionSets>
+    <permissionSets>ABSLI_User</permissionSets>
+    <permissionSets>ABHI_User_PS</permissionSets>
+    <permissionSets>ABHI_User_PS</permissionSets>
+    <permissionSets>ABSLAMC_HO_Access</permissionSets>
+    <permissionSets>ABSLAMC_Call_Centre_Agent_Access</permissionSets>
+    <permissionSets>ABSLAMC_Branch_CRE_Access</permissionSets>
+    <permissionSets>Wellness_User</permissionSets>
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>Payment_User_PS</permissionSets>
     <permissionSets>Wellness_CRM_User_PS</permissionSets>

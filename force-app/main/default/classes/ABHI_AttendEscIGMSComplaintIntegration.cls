@@ -91,12 +91,12 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
         requestJSON.Original_IRDA_Token_Num = caseRecord.ABHI_Case_Detail__r.Original_IRDAI_Token_Number__c;                
             }
             if(caseRecord.IGMS_Complaint_Type_Code__c == '14'){
-                requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c, 'dd-MM-YYYY'):null;
+                requestJSON.Insurer_Resolution_Letter_date = caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c != null ?(caseRecord.ABHI_Case_Detail__r.Insurer_Resolution_Letter_date__c).format():null;
                //requestJSON.Claim_Received_Amount = String.valueOf(caseRecord.ABHI_Case_Detail__r.Claim_Received_Amount__c);
               //requestJSON.Claim_Received_Amount = '32233';
                 if(caseRecord.ABHI_Case_Detail__r.Type_of_Disposal__c != '3'){
-                    requestJSON.Claim_Payment_Date = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABHI_Case_Detail__r.Claim_Payment_Date__c, 'dd-MM-YYYY'):null;
-                    requestJSON.Claim_Payment_Cheque_Date = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Date__c != null ? ABCL_IntegrationCommonUtility.dateFormat(caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Date__c, 'dd-MM-YYYY'):null;
+                    requestJSON.Claim_Payment_Date = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Date__c != null ? (caseRecord.ABHI_Case_Detail__r.Claim_Payment_Date__c).format():null;
+                    requestJSON.Claim_Payment_Cheque_Date = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Date__c != null ?  (caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Date__c).format():null;
                 }
                 requestJSON.Claim_Payment_Cheque_Number = caseRecord.ABHI_Case_Detail__r.Claim_Payment_Cheque_Number__c;
                 requestJSON.Additional_Closure_Information  = caseRecord.ABHI_Case_Detail__r.Additional_Closure_Information__c ;
@@ -104,7 +104,7 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
             }
                 requestJSON.Final_Resolution_Remark = caseRecord.ABHI_Case_Detail__r.Final_Resolution_Remark__c;
                 requestJSON.Remarks = caseRecord.ABHI_Case_Detail__r.Final_Resolution_Remark__c;
-                requestJSON.Final_Resolution_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+                requestJSON.Final_Resolution_Date = ABHI_IGMSIntegrationHelper.todayString;
             if(caseRecord.ABHI_Case_Detail__r.Is_Auto_Escalated__c == 'Y'){
                 requestJSON.TAT_Crossed_Remark = caseRecord.ABHI_Case_Detail__r.TAT_Crossed_Remark__c;
             }
@@ -301,8 +301,8 @@ public with sharing class ABHI_AttendEscIGMSComplaintIntegration  implements ASF
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '4';
-            this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
-            this.Date_Of_Honoring_Service  = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Status_Change_Date = ABHI_IGMSIntegrationHelper.todayString;
+            this.Date_Of_Honoring_Service  = ABHI_IGMSIntegrationHelper.todayString;
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
             this.Trans_Login_Id = 'ABHICADMIN1';
             this.Option = ABSLI_Constants.ABSLI_IGMS_OPTION;
