@@ -3,9 +3,9 @@
     <fullName>Self_Declaration_status__c</fullName>
     <externalId>false</externalId>
     <label>Self Declaration status</label>
-    <length>255</length>
-    <required>false</required>
+    <length>31072</length>
     <trackFeedHistory>false</trackFeedHistory>
-    <type>Text</type>
-    <unique>false</unique>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>

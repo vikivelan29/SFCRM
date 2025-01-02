@@ -222,6 +222,21 @@
     <columns>
         <field>Case$Escalated_By__c</field>
     </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Account.Is_Chronic__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Account.Chronic_care__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Case$Account.CMP_OPD__c</field>
+    </columns>
+    <columns>
+        <field>Case$Asset.Source__c</field>
+    </columns>
     <filter>
         <booleanFilter>(1 OR 2) AND 3</booleanFilter>
         <criteriaItems>

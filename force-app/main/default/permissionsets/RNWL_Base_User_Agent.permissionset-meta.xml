@@ -557,11 +557,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Riders_Opted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Opportunity.Payment_Link__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4127,11 +4122,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Claim__c.Claim_Sequence__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Claim__c.Claim_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5193,6 +5183,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Product2.Description</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

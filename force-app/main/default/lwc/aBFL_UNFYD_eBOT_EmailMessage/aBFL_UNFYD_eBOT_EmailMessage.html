@@ -1,0 +1,40 @@
+<template>
+    <section role="dialog" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium">Email Draft</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium">
+                <template if:true={isEditable}>
+                    <!-- Editable Textarea -->
+                    <lightning-textarea
+                        label="Email Content"
+                        value={emailDraft}
+                        onchange={handleEmailContentChange}
+                    ></lightning-textarea>
+                </template>
+                <template if:false={isEditable}>
+                    <!-- Read-Only Output -->
+                    <lightning-record-view-form
+                        record-id={recordId}
+                        object-api-name="Case"
+                    >
+                        <lightning-output-field
+                            field-name="eBOT_Email_Draft__c"
+                        ></lightning-output-field>
+                    </lightning-record-view-form>
+                </template>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+                <template if:false={isEditable}>
+                    <lightning-button label="Modify" onclick={handleModify}></lightning-button>
+                </template>
+                <template if:true={isEditable}>
+                    <lightning-button variant="brand" label="Save" onclick={handleSave}></lightning-button>
+                </template>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

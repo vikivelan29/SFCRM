@@ -17,13 +17,13 @@ public class ABHI_IGMSHelperMethods_Test {
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='shubcdefghijk567@gmail.com',
                                     managerGroupId__c=slaGroup.Id);
         insert userRecord;
         User userRecord1 = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,Business_Unit__c = 'ABHI',
-                                    TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk5657@gmail.com'
+                                    TimeZoneSidKey='America/Los_Angeles', UserName='shubcdefghijk5657@gmail.com'
                                     );
         insert userRecord1;
     

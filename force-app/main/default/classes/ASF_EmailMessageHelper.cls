@@ -143,7 +143,7 @@ public without sharing class ASF_EmailMessageHelper {
                        //if closed, check if reopen allowed or not
                        if(buSpecificReopenCheck(caseRec)){
                            // if allowed, check if reopen days expired or not
-                           if(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null 
+                           if(caseRec.ClosedDate != null && caseRec.Reopen_Days__c != null && caseRec.Business_Unit__c != 'ABHI' 
                               && System.today().daysBetween(caseRec.ClosedDate.date()) <= caseRec.Reopen_Days__c){
                                   // if not expired, reopen
                                   caseRec.Reopen_Reason__c = Label.ASF_Default_Reopen_Reason;

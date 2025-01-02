@@ -3,6 +3,10 @@
     <label>RRESROONHFC_Detail</label>
     <protected>false</protected>
     <values>
+        <field>Asset_Additional_Fields__c</field>
+        <value xsi:type="xsd:string">LAN_Text__c,Decile__c,Difference_in_bucket__c,Offer_discount__c,Bureau_Enquiry_Date_1__c,Bureau_Enquiry_Type_1__c,Bureau_Enquiry_Date_2__c,Bureau_Enquiry_Type_2__c,Bureau_Enquiry_Date_3__c,Bureau_Enquiry_Type_3__c,Bureau_Enquiry_Date_4__c,Bureau_Enquiry_Type_4__c,Bureau_Enquiry_Date_5__c,Bureau_Enquiry_Type_5__c,Current_Interest_rate__c,LAN_Diff_with_floor_rate__c,Offer_for_FL_Agent__c,Offer_for_TL_Retention__c,Offer_for_TL_Retention_limited_to_200bps__c,Business_Unit__c</value>
+    </values>
+    <values>
         <field>Asset_Detail_Editable_Fields__c</field>
         <value xsi:type="xsd:string">Revised_ROI__c,Impact__c,Cycle_Date__c</value>
     </values>
