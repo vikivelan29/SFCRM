@@ -40,6 +40,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation(triggerContext);
                 populateFieldsOnCase(abhiNewCaseList, null);//RNWL
+                ABHI_CaseCreationValidation.checkCreateCaseValidations(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
@@ -50,7 +51,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 abhiCsDetHelperObj.updateAccountFieldsonCaseDetail(abhiNewCaseList);
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
                 abhiCsDetHelperObj.captureReopenFieldsOnCaseReopen(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
-                ABHI_CaseCreationValidation.checkCreateCaseValidations(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }
         }
     }

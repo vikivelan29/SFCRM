@@ -3225,6 +3225,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Customer_Member_Mapping__c.Member_Client_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Customer_Member_Mapping__c.Member_First_Inception_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
