@@ -2,6 +2,14 @@ import { LightningElement, api, track } from 'lwc';
 import LightningAlert from 'lightning/alert';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getReports from "@salesforce/apex/ABML_ReportsIntegration.getReports";
+import { getRecord } from 'lightning/uiRecordApi';
+import ERRORYEARMESSAGE from '@salesforce/label/c.ABML_Report_Message1';
+import SUBMITMESSAGE from '@salesforce/label/c.ABML_ReportMessage2';
+import getAccountActiveDate from "@salesforce/apex/ABML_ReportsIntegration.getAccountActiveDate";
+
+const FIELDS = [
+    'Case.Account.Active_Date__c'
+];
 
 export default class Abml_Reports extends LightningElement {
 
@@ -21,6 +29,10 @@ export default class Abml_Reports extends LightningElement {
     yeartoYear;
     @track showFinYear = false;
     @track changeYear = true;
+    yrOptions = [];
+    clientCode;
+    activeDate;
+    checkAccDate;
 
     get options() {
         return [
@@ -30,15 +42,17 @@ export default class Abml_Reports extends LightningElement {
         ];
     }
 
-    get financeYears() {
-        console.log('--financeYears--',this.yearOptions);
-        return this.yearOptions;
-        /*return [
-            { label: '2022', value: '2022' },
-            { label: '2023', value: '2023' },
-            { label: '2024', value: '2024' },
-        ];*/
-    }
+    /*@wire(getRecord, { recordId: '$recordId', fields: FIELDS })
+    wiredCase({ error, data }) {
+        if (data) {
+            this.datecheck = data.fields.Account.value?.fields.Active_Date__c.value;
+            console.log('chk date >>>>  ',this.datecheck);
+            this.error = undefined;
+        } else if (error) {
+            this.error = error;
+            this.datecheck = undefined;
+        }
+    }*/
 
     handleChange(event) {
         this.reportValue = event.detail.value;
@@ -151,6 +165,18 @@ export default class Abml_Reports extends LightningElement {
 
         this.minEndDate = endDate.toISOString().slice(0,10);*/
 
+     handleClientCodeChange(event){
+        this.clientCode = event.target.value;
+        console.log('this.clientCode--:',this.clientCode);
+        //fetchActiveDate();
+        getAccountActiveDate({ clientCode: this.clientCode })
+        .then((result) => {
+             this.datecheck = result;
+             console.log('Active Date--:',this.datecheck);
+        })
+        .catch((error) => {
+            console.log('the error message is ',error);
+        });
      }
      
      onSubmit(){
@@ -186,7 +212,22 @@ export default class Abml_Reports extends LightningElement {
         this.endDatePass = dttt;
         console.log('this.startDatePass',this.startDatePass);
         console.log('this.endDatePass',this.endDatePass);
-        if(this.reportValue==undefined){
+
+        // Changes for the Active field check on related Account
+        var newCheckSub = new Date(this.datecheck);
+        var newCheckSubval1 = newCheckSub.getDate();
+        var newCheckSubval2 = newCheckSub.getMonth()+1;
+        var newCheckSubval3 = newCheckSub.getFullYear();
+        this.checkAccDate = newCheckSub.getFullYear();
+        console.log('this.this.checkAccDate--',this.checkAccDate);
+
+        if(this.clientCode =='' || this.clientCode == undefined){
+            LightningAlert.open({
+                message: 'Client code required',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        } else if(this.reportValue==undefined || this.reportValue ==''){
             LightningAlert.open({
                 message: 'Select Report type',
                 theme: 'warning', 
@@ -213,6 +254,25 @@ export default class Abml_Reports extends LightningElement {
                 theme: 'warning', 
                 label: 'Warning!',
             });
+        } else if(this.startDate > this.endDate){
+            LightningAlert.open({
+                message: 'The start date cannot be greater than end date',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        }  else if (this.finValue < this.checkAccDate) {
+                LightningAlert.open({
+                    message: ERRORYEARMESSAGE,
+                    theme: 'warning', 
+                    label: 'Warning!',
+                });
+        }
+        else if(this.datecheck == null){
+            LightningAlert.open({
+                message: 'Account active date does not exist.',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
         }
         else{
             
@@ -231,6 +291,9 @@ export default class Abml_Reports extends LightningElement {
             this.finValue = '';
             this.startDate = '';
             this.endDate = '';
+            this.clientCode = '';
+            this.checkAccDate = null;
+            this.datecheck = null;
             //window.location.reload();
             
                
