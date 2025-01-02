@@ -1286,8 +1286,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.SuppliedPhone</fieldItem>
-                <identifier>RecordSuppliedPhoneField</identifier>
+                <fieldItem>Record.SuppliedEmail</fieldItem>
+                <identifier>RecordSuppliedEmailField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -1296,15 +1296,47 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.SuppliedEmail</fieldItem>
-                <identifier>RecordSuppliedEmailField</identifier>
+                <fieldItem>Record.SuppliedPhone</fieldItem>
+                <identifier>RecordSuppliedPhoneField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-ee86d7f7-6638-4a6b-a979-8d7d92f0bf22</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABCD_Case_Detail__r.Social_Media__c</fieldItem>
+                <identifier>RecordABCD_Case_Detail_rSocial_Media_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-54a0ccfa-d695-459a-8d63-10c92d336fb1</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <name>Facet-3458b0c4-78f2-465f-9288-74ef7d38b674</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sprinklr_Case_Reference_Number__c</fieldItem>
+                <identifier>RecordSprinklr_Case_Reference_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Notes_from_Sprinklr__c</fieldItem>
+                <identifier>RecordNotes_from_Sprinklr_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.ABCD_Case_Detail__r.Other__c</fieldItem>
+                <identifier>RecordABCD_Case_Detail_rOther_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-e47a0c84-34eb-46d1-832c-1547039c1a8b</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1312,23 +1344,23 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-ee86d7f7-6638-4a6b-a979-8d7d92f0bf22</value>
+                    <value>Facet-54a0ccfa-d695-459a-8d63-10c92d336fb1</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-e47a0c84-34eb-46d1-832c-1547039c1a8b</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
                 <identifier>flexipage_column8</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-3458b0c4-78f2-465f-9288-74ef7d38b674</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column9</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-8c0810eb-796e-49c9-a76e-b6b74ddece5b</name>
+        <name>Facet-4a2b9871-261a-4511-9d5a-1bc94a42f2a1</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1395,44 +1427,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-7d1260be-1a4f-4951-902c-1edb11559ef9</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Sprinklr_Case_Reference_Number__c</fieldItem>
-                <identifier>RecordSprinklr_Case_Reference_Number_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Notes_from_Sprinklr__c</fieldItem>
-                <identifier>RecordNotes_from_Sprinklr_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-54a0ccfa-d695-459a-8d63-10c92d336fb1</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-54a0ccfa-d695-459a-8d63-10c92d336fb1</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column7</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-4a2b9871-261a-4511-9d5a-1bc94a42f2a1</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1624,31 +1618,6 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-8c0810eb-796e-49c9-a76e-b6b74ddece5b</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Sprinklr Details</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection7</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.Source__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Social Media</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentName>absli_caseEbotIndicator</componentName>
                 <identifier>c_absli_caseEbotIndicator</identifier>
                 <visibilityRule>
@@ -1725,6 +1694,47 @@
                         <leftValue>{!$User.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>ABHFL</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-4a2b9871-261a-4511-9d5a-1bc94a42f2a1</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Sprinklr Fields</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection6</identifier>
+                <visibilityRule>
+                    <booleanFilter>1 AND (2 OR 3 OR 4)</booleanFilter>
+                    <criteria>
+                        <leftValue>{!Record.Source__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Social Media</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABSLAMC</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ONEABC</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.Business_Unit__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>ABCD</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -1824,37 +1834,6 @@
                         <leftValue>{!Record.Business_Unit__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Wellness</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-4a2b9871-261a-4511-9d5a-1bc94a42f2a1</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Sprinklr Fields</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection6</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.Source__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Social Media</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.Business_Unit__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>ABSLAMC</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
