@@ -3,7 +3,7 @@
     <fullName>LAN_Text__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>true</externalId>
-    <label>LAN Text</label>
+    <label>Loan Account Number</label>
     <length>255</length>
     <required>false</required>
     <trackHistory>false</trackHistory>

@@ -95,6 +95,27 @@
         <value>200</value>
     </labels>
     <labels>
+        <fullName>ABHI_WelcomeBot</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_WelcomeBot</shortDescription>
+        <value>Welcome Bot</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Kavach_Policy_RequestMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Kavach_Policy_RequestMessage</shortDescription>
+        <value>Please click on &apos;Retrieve Detail&apos; button to reinitiate the request.</value>
+    </labels>
+    <labels>
+        <fullName>ABHI_Kavach_Policy_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHI_Kavach_Policy_Status</shortDescription>
+        <value>Request is sent. Please come back after some time to get the policy.</value>
+    </labels>
+    <labels>
         <fullName>ABSLI_Update_CCC_ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1772,35 +1793,6 @@
         <protected>false</protected>
         <shortDescription>ABCD_Business_Unit</shortDescription>
         <value>ABCD</value>
-     </labels>
-     <labels>
-        <fullName>ABML_LegacyPageSize</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_LegacyPageSize</shortDescription>
-        <value>10</value>
-    </labels>
-    <labels>
-        <fullName>MCRM_NoRecordsGetPolicyDetails</fullName>
-        <categories>Wellness</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MCRM No Records Get Policy Details</shortDescription>
-        <value>No records are available for display.</value>
-    </labels>
-    <labels>
-        <fullName>ABML_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ABML_BU</shortDescription>
-        <value>ABML</value>
-    </labels>
-    <labels>
-        <fullName>SuppressCreateCase_BU</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Used to Suppress Create Case button for BUs</shortDescription>
-        <value>Wellness</value>
     </labels>
     <labels>
         <fullName>ABCD_ONEABC_BU</fullName>
@@ -1808,5 +1800,47 @@
         <protected>false</protected>
         <shortDescription>ABCD_ONEABC_BU</shortDescription>
         <value>ONEABC</value>
+    </labels>
+    <labels>	
+        <fullName>Payments_Critical_Alerts_Group</fullName>	
+        <language>en_US</language>	
+        <protected>false</protected>	
+        <shortDescription>Payments Critical Alerts Group</shortDescription>	
+        <value>shagunsingh223@gmail.com,pavan.jami@in.ey.com,tanmay.s.metkar@in.ey.com</value>	
+    </labels>
+    <labels>	
+        <fullName>ABSLAMC_DataSyncUser_FederationId</fullName>	
+        <language>en_US</language>	
+        <protected>false</protected>	
+        <shortDescription>ABSLAMC DataSyncUser FederationId</shortDescription>	
+        <value>DataSyncUatFedId</value>	
+    </labels>
+    <labels>
+        <fullName>Exclude_subtype</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Exclude subtype</shortDescription>
+        <value>Re Kyc</value>
+    </labels>
+     <labels>
+        <fullName>ABML_ReportMessage2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_ReportMessage2</shortDescription>
+        <value>You have submitted the Request for the Report.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_Report_Message1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_Report_Message1</shortDescription>
+        <value>You cannot enter year before the Present Activate date on Account</value>
+    </labels>
+    <labels>
+        <fullName>ABSLI_PIVC_Integration_CTST</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABSLI_PIVC_Integration_CTST</shortDescription>
+        <value>NBPC009,NBPC007,NBPC006,NBPC008,NBPC010,RPR001,NBRC004,NBPC012</value>
     </labels>
 </CustomLabels>

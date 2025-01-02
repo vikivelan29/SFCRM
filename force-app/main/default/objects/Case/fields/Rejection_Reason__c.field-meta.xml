@@ -607,5 +607,11 @@
                 <isActive>true</isActive>
                 <label>Insufficient/Incomplete details from Ops/Customer</label>
             </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
