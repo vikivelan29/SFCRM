@@ -2,64 +2,112 @@
     "code": 20,
     "holdingsProtectionInfo": {
         "liDetails": {
-            "address": "trsr, Mumbai, Maharashtra, 400065",
-            "bankName": "ICICI BANK",
-            "accountNumber": "002201520766",
-            "ifscCode": "ICIC0000022",
-            "branchName": "THANEVASAI",
+            "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+            "bankName": "HDFC",
+            "accountNumber": "58899098",
+            "ifscCode": "HDFC0896",
+            "branchName": "BnjaraHilss",
             "holdingsDetails": [
                 {
-                    "policyNumber": "null",
-                    "issueDate": "null",
-                    "planName": "ABSLI Digishield Plan",
-                    "policyTerm": "33",
-                    "policyStatus": "Pending",
-                    "sumAssured": "23000000",
-                    "policyType": "Level Cover Option",
-                    "maturityDate": null,
-                    "policyPremium": "24009",
-                    "applicationNumber": "ABC0001856",
-                    "premiumMode": "Year",
-                    "policyQuoteNumber": null,
-                    "lastPremiumPaymentDate": null,
-                    "annualPremium": null
+                    "policyNumber": "LI101",
+                    "issueDate": "23-07-2003",
+                    "planName": "savings",
+                    "policyTerm": "20",
+                    "policyStatus": "active",
+                    "sumAssured": "340000",
+                    "policyType": "",
+                    "maturityDate": "26-08-2024",
+                    "policyPremium": "21000",
+                    "applicationNumber":"ABCD1234",
+                    "policyPremium":"12000",
+                    "premiumMode":"Annual",
+                    "policyType":"My Dummy Policy Type",
+                    "planName":"My Dummy Policy Plan",
+                    "policyQuoteNumber":"ABCD_Q_1234"
+                    
+                },
+                {
+                    "policyNumber": "LI102",
+                    "issueDate": "21-04-2023",
+                    "planName": "",
+                    "policyTerm": "21",
+                    "policyStatus": "active",
+                    "sumAssured": "360000",
+                    "policyType": "savings",
+                    "maturityDate": "14-09-2025",
+                    "policyPremium": "21",
+                    "applicationNumber":"ABCD1234",
+                    "policyPremium":"12000",
+                    "premiumMode":"Annual",
+                    "policyType":"My Dummy Policy Type",
+                    "planName":"My Dummy Policy Plan",
+                    "policyQuoteNumber":"ABCD_Q_1234"
                 }
             ]
         },
         "hiDetails": {
-            "address": "SO Kanagaraj 419 SOUTH LOCK STREET KOTTUR PRKA Kotturpuram Kotturpuram Chennai Tamil Nadu 600085 , Chennai, Tamil Nadu, 600085",
+            "address": "1-129, HIG Phase-2, Hyderbad, 500050",
             "holdingsDetails": [
                 {
-                    "policyNumber": "40-24-0000019-00",
-                    "issueDate": "2024-04-02",
-                    "policyPlanName": "Activ Fit Plus",
-                    "coverName": null,
-                    "policyStatus": "IF",
-                    "sumInsured": "1000000.0",
-                    "productType": "Base",
-                    "annualPremium": "21238.089108",
-                    "premiumMode": "emandate",
-                    "applicationNumber": "P-e60e10b1-276b-42fc-8e92-e4d9ca6f2c85",
-                    "policyMaturityDate": "2025-04-01",
-                    "policyTerm": "",
-                    "policyType": "Family Floater",
-                    "policyQuoteNumber": "240000013123",
-                    "premiumAmount": null,
-                    "lastPremiumPaymentDate": null
+                    "policyNumber": "1",
+                    "issueDate": "24-01-2021",
+                    "coverName": "Health",
+                    "policyStatus": "active",
+                    "sumInsured": "2000000",
+                    "productType": "L1",
+                    "annualPremium": "18000",
+                    "applicationNumber":"ABCD1234",
+                    "policyTerm":"12",
+                    "policyMaturityDate":"14-09-2025",
+                    "premiumAmount":"18000",
+                    "premiumMode":"Annual",
+                    "policyType" :"MY DUMMY POLICY TYPE",
+                    "policyPlanName":"MY DUMMY POLICY PLAN",
+                    "policyQuoteNumber":"ABCD-Q-4567",
+                    "sumAssured":"1000",
+                    "premiumMode":"Cash"                    
+                },
+                {
+                    "policyNumber": "2",
+                    "issueDate": "12-08-2022",
+                    "coverName": "Health",
+                    "policyStatus": "active",
+                    "sumInsured": "5600000",
+                    "productType": "",
+                    "annualPremium": "34000",
+                    "applicationNumber":"ABCD1234",
+                    "policyTerm":"12",
+                    "policyMaturityDate":"14-09-2025",
+                    "premiumAmount":"18000",
+                    "premiumMode":"Annual",
+                    "policyType" :"MY DUMMY POLICY TYPE",
+                    "policyPlanName":"MY DUMMY POLICY PLAN",
+                    "policyQuoteNumber":"ABCD-Q-4567",
+                    "sumAssured":"1000",
+                    "premiumMode":"Cash"
                 }
             ]
         },
         "miDetails": {
-            "address": "PLOT NO 88C SWATHIKA FLATS,1ST MAIN ROAD BALAMURUGAN GARDEN,THURAIPAKKAM, OGGIAM THORAIPAKKAM, TAMIL NADU, KANCHIPURAM, 600097",
+            "address": "",
             "holdingsDetails": [
                 {
-                    "policyType": "Comprehensive",
-                    "insurerName": "ACKO",
-                    "policyAmount": "6049.0",
-                    "dateofPurchase": "2024-05-31 00:00:00",
-                    "premiumAmountWithGST": "4661.0",
-                    "vehicleNumber": "TN14Q9561",
-                    "vehicleType": "LMV"
+                    "policyType": "1",
+                    "insurerName": "ACKO/Digit",
+                    "policyAmount": "2300000",
+                    "dateofPurchase": "23-03-2022", 
+                    "vehicleNumber":"MH12ABCD1234",
+                    "premiumAmountWithGST":"1000",
+                    "vehicleType":"Bike"
+                },
+                {
+                    "policyType": "2",
+                    "insurerName": "ACKO/Digit",
+                    "policyAmount": "3400000",
+                    "dateofPurchase": "17-07-2000",
+                    "vehicleNumber":"MH12ABCD5678",
+                    "premiumAmountWithGST":"1000",
+                    "vehicleType":"Car"                    
                 }
             ]
         }

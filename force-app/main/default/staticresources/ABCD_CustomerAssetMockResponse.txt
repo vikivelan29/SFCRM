@@ -4,166 +4,64 @@
   "status": "Success",
   "holdingsAssetsInfo": {
     "mfDetails": {
-            "address": "fwhwh5262, gwhh5272, vwheh2627, Mumbai, 400077",
-            "accountNo": "25804561196",
-            "ifscCode": "SBIN0001508",
-            "bankName": "STATE BANK OF INDIA",
-            "branchName": "INDUSTRIAL ESTATE, CHANDIGARH",
-            "holdingDetails": [
-                {
-                    "amcNames": "MF1",
-                    "folioNumber": "10XOOZHCMPJUP",
-                    "schemeNames": [
-                        "INF209K01140"
-                    ],
-                    "totalUnits": "47.132099999999994",
-                    "portfolioValue": "28525.0",
-                    "lastTransactionValue": "1000.0",
-                    "lastTransactionQuantity": "5.2538",
-                    "lastTransactionNAV": "190.34",
-                    "lastTransactionType": "purchase",
-                    "lastTransactionDate": "17 September 2024"
-                },
-                {
-                    "amcNames": "MF2",
-                    "folioNumber": "10XOOZHCMPJUP",
-                    "schemeNames": [
-                        "INF209K01140"
-                    ],
-                    "totalUnits": "47.132099999999994",
-                    "portfolioValue": "28525.0",
-                    "lastTransactionValue": "1000.0",
-                    "lastTransactionQuantity": "5.2538",
-                    "lastTransactionNAV": "190.34",
-                    "lastTransactionType": "purchase",
-                    "lastTransactionDate": "17 September 2024"
-                },
-                {
-                    "amcNames": "MF3",
-                    "folioNumber": "10XOOZHCMPJUP",
-                    "schemeNames": [
-                        "INF209K01140"
-                    ],
-                    "totalUnits": "47.132099999999994",
-                    "portfolioValue": "28525.0",
-                    "lastTransactionValue": "1000.0",
-                    "lastTransactionQuantity": "5.2538",
-                    "lastTransactionNAV": "190.34",
-                    "lastTransactionType": "purchase",
-                    "lastTransactionDate": "17 September 2024"
-                },
-                {
-                    "amcNames": "MF4",
-                    "folioNumber": "10XOOZHCMPJUP",
-                    "schemeNames": [
-                        "INF209K01140"
-                    ],
-                    "totalUnits": "47.132099999999994",
-                    "portfolioValue": "28525.0",
-                    "lastTransactionValue": "1000.0",
-                    "lastTransactionQuantity": "5.2538",
-                    "lastTransactionNAV": "190.34",
-                    "lastTransactionType": "purchase",
-                    "lastTransactionDate": "17 September 2024"
-                },
-                {
-                    "amcNames": "MF5",
-                    "folioNumber": "10XOOZHCMPJUP",
-                    "schemeNames": [
-                        "INF209K01140"
-                    ],
-                    "totalUnits": "47.132099999999994",
-                    "portfolioValue": "28525.0",
-                    "lastTransactionValue": "1000.0",
-                    "lastTransactionQuantity": "5.2538",
-                    "lastTransactionNAV": "190.34",
-                    "lastTransactionType": "purchase",
-                    "lastTransactionDate": "17 September 2024"
-                },
-                {
-                    "amcNames": "MF6",
-                    "folioNumber": "10XOOZHCMPJUP",
-                    "schemeNames": [
-                        "INF209K01140"
-                    ],
-                    "totalUnits": "47.132099999999994",
-                    "portfolioValue": "28525.0",
-                    "lastTransactionValue": "1000.0",
-                    "lastTransactionQuantity": "5.2538",
-                    "lastTransactionNAV": "190.34",
-                    "lastTransactionType": "purchase",
-                    "lastTransactionDate": "17 September 2024"
-                },
-                {
-                    "amcNames": "MF7",
-                    "folioNumber": "10XOOZHCMPJUP",
-                    "schemeNames": [
-                        "INF209K01140"
-                    ],
-                    "totalUnits": "47.132099999999994",
-                    "portfolioValue": "28525.0",
-                    "lastTransactionValue": "1000.0",
-                    "lastTransactionQuantity": "5.2538",
-                    "lastTransactionNAV": "190.34",
-                    "lastTransactionType": "purchase",
-                    "lastTransactionDate": "17 September 2024"
-                },
-                {
-                    "amcNames": "MF8",
-                    "folioNumber": "10XOOZHCMPJUP",
-                    "schemeNames": [
-                        "INF209K01140"
-                    ],
-                    "totalUnits": "47.132099999999994",
-                    "portfolioValue": "28525.0",
-                    "lastTransactionValue": "1000.0",
-                    "lastTransactionQuantity": "5.2538",
-                    "lastTransactionNAV": "190.34",
-                    "lastTransactionType": "purchase",
-                    "lastTransactionDate": "17 September 2024"
-                }
-            ]
-        },
-    "dgDetails": {
-            "address": "15th Floor , Gcorp, Thane, Mh, 400601",
-            "accountNo": "4545374053",
-            "ifscCode": "KKBK0000631",
-            "bankName": "KOTAK MAHINDRA BANK LIMITED",
-            "lastTransactionDate": "2024-12-12 17:08:10",
-            "lastTransactionValue": "160921.84",
-            "lastTransactionQuantity": "0.0",
-            "lastTransactionType": "Redeem",
-            "lastTransactionDeliveryDate": "2024-12-12",
-            "portfolioBalance": "1249.3024",
-            "appVersion": "1.0.16",
-            "unitsReversed": "100"
-        },
-    "dsDetails": {
-            "accountNo": "",
-            "bankName": "",
-            "ifscCode": "",
-            "lastTransactionDate": null,
-            "lastTransactionValue": "0.0",
-            "lastTransactionInterest": "0.0",
-            "totalFDHoldings": "0.0",
-            "withdrawalDate": null
-        },
-        "dmDeatils": {
-            "leadConverted": "4000194",
-            "ekycStatus": "CKYCUploaded",
-            "accountOpeningDate": null,
-            "stockHoldingAsonDate": null,
-            "dematAccountNumber": null,
-            "dematAccountStatus": null,
-            "stockPurchaseDate": null,
-            "stockPurchasePrice": null,
-            "stockDividends": null
-        },
-        "pcDetails": {
-            "maskedAccountNo": "XXXXXXXXXXXXXXXX28d2",
-            "ifscCode": "UTIB0003137",
-            "consentDate": "2024-12-07 00:14:14",
-            "consentStatus": "EXPIRED"
+      "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+      "accountNo": "5623457",
+      "ifscCode": "HDFC0001234",
+      "bankName": "HDFC",
+      "branchName": "BanjaraHills",
+      "holdingDetails": [
+        {
+          "amcNames": "amc",
+          "folioNumber": "1233",
+          "schemeNames": "",
+          "totalUnits": "5",
+          "portfolioValue": "98",
+          "lastTransactionValue": "7",
+          "lastTransactionQuantity": "3",
+          "lastTransactionNAV": "5",
+          "lastTransactionType": "savings",
+          "lastTransactionDate": "12-09-2022"
         }
+      ]
+    },
+    "dgDetails": {
+      "address": "1-129, HIG Phase-2, Hyderbad, 500050",
+      "accountNo": "535578",
+      "ifscCode": "HDFC0005767",
+      "bankName": "HDFC",
+      "lastTransactionDate": "09-09-2022",
+      "lastTransactionValue": "25",
+      "lastTransactionQuantity": "7",
+      "lastTransactionType": "savings",
+      "lastTransactionDeliveryDate": "12-02-2024",
+      "portfolioBalance": "23486.90"
+    },
+    "dsDetails": {
+      "accountNo": "53475446",
+      "ifscCode": "HDFC003676765",
+      "bankName": "HDFC",
+      "lastTransactionDate": "22-02-2023",
+      "lastTransactionValue": "5643",
+      "lastTransactionInterest": "10.08",
+      "totalFDHoldings": "10"
+    },
+    "dmDeatils": {
+      "leadConverted": "",
+      "ekycStatus": "completed",
+      "accountOpeningDate": "22-02-2002",
+      "stockHoldingAsonDate":"100",
+      "dematAccountNumber":"DXD000000",
+      "dematAccountStatus":"Active",
+      "stockPurchaseDate":"22-02-2002",
+      "stockPurchasePrice":"10000",
+      "stockDividends":"100"
+      
+    },
+    "pcDetails": {
+      "maskedAccountNo": "******5767",
+      "ifscCode": "HDFC00567",
+      "consentDate": "24-04-2001",
+      "consentStatus": "active"
+    }
   }
 }
