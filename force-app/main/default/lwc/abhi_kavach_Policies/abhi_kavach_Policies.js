@@ -1,20 +1,21 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import getPolicyExternalData from "@salesforce/apex/ABHI_KavachPolicies.getPolicyExternalData";
+
+import LightningModal from 'lightning/modal';
 import getPolicyData from "@salesforce/apex/ABHI_KavachPolicies.getPolicyData";
 import errorMessage from '@salesforce/label/c.ASF_ErrorMessage';
 import pageSize from '@salesforce/label/c.ABFL_LegacyPageSize';
 import buttonInfo from '@salesforce/label/c.ABHI_Kavach_Policy_Info';
 import policyValidation from '@salesforce/label/c.ABHI_PolicyRequired_ErrMsg1';
+import policyCreationStatus from '@salesforce/label/c.ABHI_Kavach_Policy_Status';
+import policyCreationStatusMessage from '@salesforce/label/c.ABHI_Kavach_Policy_RequestMessage';
+
 
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getColumns from '@salesforce/apex/Asf_DmsViewDataTableController.getColumns';
-import { getRecord, getFieldValue } from "lightning/uiRecordApi";
+import { getRecord, getFieldValue,notifyRecordUpdateAvailable } from "lightning/uiRecordApi";
 
-/*import CLIENT_CODE_FIELD from "@salesforce/schema/Account.Client_Code__c";
-import LOB_FIELD from "@salesforce/schema/Account.Business_Unit__c";
-const fields = [CLIENT_CODE_FIELD, LOB_FIELD];   */
-
-export default class Abhi_kavach_Policies extends LightningElement {
+export default class Abhi_kavach_Policies extends LightningModal {
    
     displayTable = false;
     displayError = false;
@@ -22,6 +23,7 @@ export default class Abhi_kavach_Policies extends LightningElement {
     loaded = false;
     disabled = false;
     disabledSearch = true;
+    isModalOpen = false;
     //data;
     @track data = [];
     selectedOption;
@@ -29,6 +31,7 @@ export default class Abhi_kavach_Policies extends LightningElement {
     targetSysOptions;
     columns;
     errorMessage;
+    modalBody;
    
     searchPolicy;
 
@@ -36,7 +39,9 @@ export default class Abhi_kavach_Policies extends LightningElement {
         errorMessage,
         pageSize,
         buttonInfo,
-        policyValidation
+        policyValidation,
+        policyCreationStatus,
+        policyCreationStatusMessage
     };
     
     connectedCallback() {
@@ -86,16 +91,29 @@ export default class Abhi_kavach_Policies extends LightningElement {
         this.data=[];
         this.displayTable = false;
         this.searchPolicy = this.template.querySelector('lightning-input[data-name="policy"]').value;
-       /* this.searchMasterPolicy = this.template.querySelector('lightning-input[data-name="masterpolicy"]').value;
-        console.log('Result1 ==> ', this.searchMasterPolicy);*/
-        if(this.searchPolicy /*|| this.searchMasterPolicy*/) {
+        console.log('Result1 ==> ', this.searchPolicy);
+        if(this.searchPolicy) {
             //this.disabled = true;
             this.isLoading = true;
             getPolicyData({policyNo: this.searchPolicy}).then(result=>{
                 this.data = result;
-                if(this.data.length > 0) {
+                console.log('Result2 ==> ', this.searchPolicy);
+                if(this.data.length > 0 && !this.data[0].hasOwnProperty('status')) {
                     this.displayTable = true;
                     console.log('Result1 ==> ', this.data);
+                    
+                }
+                else if(this.data.length > 0 && this.data[0].status == 'Pending') {
+                    this.disabledSearch = false;
+                    this.isModalOpen = true;
+                    this.modalBody = this.data[0].message+'\n'+policyCreationStatusMessage;
+                    
+                }
+                else if(this.data.length > 0 && this.data[0].status == 'Failure') {
+                    this.disabledSearch = false;
+                    //Show popup
+                    this.isModalOpen = true;
+                    this.modalBody = this.data[0].message+'\n'+policyCreationStatusMessage;
                     
                 }
                 else{
@@ -123,18 +141,15 @@ export default class Abhi_kavach_Policies extends LightningElement {
         this.isLoading = true;
         console.log('Result1 @@ ==> '+ this.searchPolicy);
         getPolicyExternalData({policyNo: this.searchPolicy, selectedSystem : this.selectedSystem}).then(result=>{
-           this.data = result;
-           if(this.data.length > 0) {
-               this.displayTable = true;
-               console.log('Result1 ==> ', this.data);
-               
-           }
-           else{
-               this.disabledSearch = false;
-               this.showNotification("", 'Data doesn\'t exist', 'info');
-           }
-           this.isLoading = false;
-           this.disabledSearch = true;
+
+
+            setTimeout(() => {
+                this.showNotification("", policyCreationStatus, 'info');
+                this.isLoading = false;
+                this.disabledSearch = true;
+              }, 3000);
+            
+            
            
        }).catch(error=>{
            console.log('error ==> ', error);
@@ -144,6 +159,7 @@ export default class Abhi_kavach_Policies extends LightningElement {
            this.disabled = false;
        })
     }
+   
     handleChange(event) {
         this.disabledSearch = true;
     }
@@ -160,13 +176,6 @@ export default class Abhi_kavach_Policies extends LightningElement {
 
         ];
     }
-   /* get targetSysOptions() {
-        return [
-            { label: 'Kavach', value: 'Kavach' },
-            { label: 'Jarvis', value: 'Jarvis' },
-
-        ];
-    }*/
     
     showNotification(title, message, variant) {
         const evt = new ShowToastEvent({
@@ -175,5 +184,9 @@ export default class Abhi_kavach_Policies extends LightningElement {
             variant: variant,
         });
     this.dispatchEvent(evt);
+    }
+
+    closeModal() {
+        this.isModalOpen = false;
     }
 }

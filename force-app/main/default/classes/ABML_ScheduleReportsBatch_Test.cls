@@ -35,11 +35,15 @@ public class ABML_ScheduleReportsBatch_Test {
                 objCase.Subject = 'Test Subject';
                 objCase.Type_Text__c = 'Type Test ' + caseCount;
                 objCase.Sub_Type_Text__c = 'Sub Type Test';
-                objCase.Origin = 'ABML Email';        
+                objCase.Origin = 'ABML Email'; 
+                objCase.Stage_SLA_1__c = System.Today();
                 
                 listOfCases.add(objCase);
             }
             insert listOfCases;
+            
+            listOfCases[0].Stage_SLA_1__c = System.Today().addDays(-1);
+            update listOfCases[0];
             
             List<ABML_Case_Detail__c> listCaseDetails = new List<ABML_Case_Detail__c>();
             
@@ -47,6 +51,7 @@ public class ABML_ScheduleReportsBatch_Test {
                 ABML_Case_Detail__c objCaseDetail = new ABML_Case_Detail__c();
                 objCaseDetail.Case__c = objCase.Id;
                 objCaseDetail.Assigned_User__c = userRecord.Id;
+              //  objCase.Stage_SLA_1__c = System.Today().addDays(-1) ;
                 listCaseDetails.add(objCaseDetail);            
             }            
             insert listCaseDetails;

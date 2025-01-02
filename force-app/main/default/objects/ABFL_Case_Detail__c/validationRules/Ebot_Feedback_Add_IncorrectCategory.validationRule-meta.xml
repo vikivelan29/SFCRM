@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ebot_Feedback_Add_IncorrectCategory</fullName>
+    <active>true</active>
+    <description>If &quot;Incorrect Categorization&quot; was manually added an error will be triggered</description>
+    <errorConditionFormula>AND(
+    NOT(INCLUDES(PRIORVALUE(Ebot_Feedback__c), &quot;Incorrect Categorization&quot;)),
+    INCLUDES(Ebot_Feedback__c, &quot;Incorrect Categorization&quot;)
+)</errorConditionFormula>
+    <errorMessage>Incorrect Categorization cannot be added.</errorMessage>
+</ValidationRule>

@@ -34,37 +34,37 @@
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Stock Holding As On Date</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static"></div>
+                    <div class="slds-form-element__static">{dmdetails.stockHoldingAsonDate}</div>
                 </div>
               </div>
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Demat Account Number</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static"></div>
+                    <div class="slds-form-element__static">{dmdetails.dematAccountNumber}</div>
                 </div>
               </div>
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Demat Account Status</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static"></div>
+                    <div class="slds-form-element__static">{dmdetails.dematAccountStatus}</div>
                 </div>
               </div>
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Stock Purchase Date</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static"></div>
+                    <div class="slds-form-element__static">{dmdetails.stockPurchaseDate}</div>
                 </div>
               </div>
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Stock Purchase Price</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static"><lightning-formatted-number value="" format-style="currency"></lightning-formatted-number></div>
+                    <div class="slds-form-element__static"><lightning-formatted-number value={dmdetails.stockPurchasePrice} format-style="currency"></lightning-formatted-number></div>
                 </div>
               </div>
               <div class="slds-form-element slds-form-element_readonly">
                 <span class="slds-form-element__label">Stock Dividends</span>
                 <div class="slds-form-element__control">
-                    <div class="slds-form-element__static"><lightning-formatted-number value="" format-style="currency"></lightning-formatted-number></div>
+                    <div class="slds-form-element__static"><lightning-formatted-number value={dmdetails.stockDividends} format-style="currency"></lightning-formatted-number></div>
                 </div>
               </div>
           </div>

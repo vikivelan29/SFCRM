@@ -18,28 +18,28 @@ const columns = [
                     {
                         fieldName: 'dateofPurchase',
                         label: 'Date of Purchase',
-                        type: 'date',
-                        typeAttributes: {
+                        type: 'text',
+                        /*typeAttributes: {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric"
-                        }
+                        }*/
                     },
                     {
-                        fieldName: '',
+                        fieldName: 'vehicleNumber',
                         label: 'Vehicle No',
                         type: 'text'
                     },
                     {
-                        fieldName: '',
+                        fieldName: 'premiumAmountWithGST',
                         label: 'Premium Amount',
                         type: 'currency'
                     },
                     {
-                        fieldName: '',
+                        fieldName: 'vehicleType',
                         label: 'Vehicle Type',
                         type: 'text'
-                    },
+                    }
                 ];
 export default class AbcdMotorInsuranceDetails extends LightningElement {
     @api midetails;

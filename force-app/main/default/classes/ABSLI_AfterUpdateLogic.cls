@@ -18,6 +18,11 @@ public with sharing class ABSLI_AfterUpdateLogic {
         Map<Id, Case> mAbsliSurrenderWithdrawalCases = new Map<Id, Case>();
         
         Map<Id,Case> absliOldCasesMap = new Map<Id,Case>();
+        // PR970457-2746 Start
+        String ctstPIVCIntegration = Label.ABSLI_PIVC_Integration_CTST;
+        List<String> listofCTSTforIntegration = ctstPIVCIntegration.split(',');
+        Set<Id> absliPivcCases = new Set<Id>();
+        // PR970457-2746 End
         for(Case currentCase : newCases){
             if(currentCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT){
                 absliCases.add(currentCase);
@@ -35,7 +40,17 @@ public with sharing class ABSLI_AfterUpdateLogic {
 	    if (currentCase.Business_Unit__c == ASF_Constants.ABSLI_BU && ABSLI_Constants.SURRENDER_WITHDRAWAL_CCC_IDs.contains(currentCase.CCC_External_Id__c) && currentCase.Source__c == 'Email' && currentCase.Stage__c == 'Open') {
                 mAbsliSurrenderWithdrawalCases.put(currentCase.Id, currentCase);
             }
+            // PR970457-2746 Start 
+            if(listofCTSTforIntegration.contains(currentCase.CCC_External_Id__c) && ((currentCase.Status=='Resolved' && oldCasesMap.get(currentCase.Id).Status !='Resolved') || (currentCase.Status=='Unresolved' && oldCasesMap.get(currentCase.Id).Status!='Unresolved'))){
+                absliPivcCases.add(currentCase.Id);
+            }
+            // PR970457-2746 End
         }
+        //  PR970457-2746 - start 
+        if(absliPivcCases.size()>0){
+         ABSLI_PIVCModernization.executeSendCaseToCRM(absliPivcCases);
+        }
+        // PR970457-2746 End
         
         if(absliCases.size()>0){
             updateTeamResolutionStatus(absliCases,absliOldCasesMap);

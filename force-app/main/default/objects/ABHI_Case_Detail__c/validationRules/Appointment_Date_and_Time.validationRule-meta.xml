@@ -3,6 +3,7 @@
     <fullName>Appointment_Date_and_Time</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
+				ISCHANGED(Appointment_Date_and_Time__c),
 				NOT(ISBLANK(Appointment_Date_and_Time__c)),
 				OR(Appointment_Date_and_Time__c &lt; (NOW()+1),
 				Appointment_Date_and_Time__c &gt; (NOW()+7))

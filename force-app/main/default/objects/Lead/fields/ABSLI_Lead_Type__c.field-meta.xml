@@ -57,6 +57,11 @@
                 <default>false</default>
                 <label>Agency Winback</label>
             </value>
+            <value>
+                <fullName>Service Assurance S2S</fullName>
+                <default>false</default>
+                <label>Service Assurance S2S</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>ABSLI</controllingFieldValue>
