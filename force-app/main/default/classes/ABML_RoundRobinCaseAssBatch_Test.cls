@@ -123,4 +123,7 @@ public with sharing class ABML_RoundRobinCaseAssBatch_Test {
         Boolean checkOwner = ownerId.startsWith('005');
         System.assert(true, checkOwner);
     }
+
+  
 }
+
