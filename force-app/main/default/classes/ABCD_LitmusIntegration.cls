@@ -70,8 +70,10 @@ public with sharing class ABCD_LitmusIntegration {
                 // CONDITION 3 - CHECK FOR MOBILE NUMBER
                 string phone = '';
                 if(c.AccountID != null){
-                    Contact accountPrimaryContact = mAccountPrimaryContact.get(c.AccountId);
-                    phone = accountPrimaryContact.MobilePhone;
+                    if(mAccountPrimaryContact.containsKey(c.AccountId)){
+                        Contact accountPrimaryContact = mAccountPrimaryContact.get(c.AccountId);
+                        phone = accountPrimaryContact.MobilePhone;
+                    }
                 } else if(c.Lead__c != null){
                     Lead prospect = prospectMap.get(c.Lead__c);
                     phone = prospect.MobilePhone;
@@ -128,7 +130,7 @@ public with sharing class ABCD_LitmusIntegration {
             List<Case_Integration_Outbound__e> caseOutEvntList = new List<Case_Integration_Outbound__e>();
             
             Map<Id, ASF_Case_Integration__c> caseIdToCaseIntMap = new Map<Id, ASF_Case_Integration__c>();
-            Map<Id,ABCD_LitmusWrapper> caseIdLitmusWrapper = new Map<Id,ABCD_LitmusWrapper>();
+            Map<Id,ABCD_ObjectRequest> caseIdLitmusWrapper = new Map<Id,ABCD_ObjectRequest>();
 
             for (Case caseRecord : caseList){
                 string phone = '';
@@ -136,11 +138,13 @@ public with sharing class ABCD_LitmusIntegration {
                 string name = 'Customer';
                 ASF_Case_Category_Config__c cccRecord = cccIdToRecordsMap.get(caseRecord.CCC_External_Id__c);
                 if(caseRecord.AccountID != null){
-                    Contact accountPrimaryContact = mAccountPrimaryContact.get(caseRecord.AccountId);
-                    if(accountPrimaryContact != null){
-                        name = accountPrimaryContact.Name;
-                        phone = accountPrimaryContact.MobilePhone;
-                        email = accountPrimaryContact.Email;
+                    if(mAccountPrimaryContact.containsKey(caseRecord.AccountId)){
+                        Contact accountPrimaryContact = mAccountPrimaryContact.get(caseRecord.AccountId);
+                        if(accountPrimaryContact != null){
+                            name = accountPrimaryContact.Name;
+                            phone = accountPrimaryContact.MobilePhone;
+                            email = accountPrimaryContact.Email;
+                        }
                     }
                 } else if(caseRecord.Lead__c != null){
                     Lead prospect = prospectMap.get(caseRecord.Lead__c);
@@ -170,9 +174,10 @@ public with sharing class ABCD_LitmusIntegration {
                 objRequest.tag_case_category = caseRecord.Nature__c;
                 objRequest.tag_lobuid = caseRecord.Account.PAN__c != null ? caseRecord.Account.PAN__c :'';
                 objRequest.tag_agent_name = caseRecord.CreatedBy.Name;
+                objRequest.app_id = 'll4w_touchpoint';
                 wrapper.objRequest = objRequest;
                 
-                caseIdLitmusWrapper.put(caseRecord.Id,wrapper);
+                caseIdLitmusWrapper.put(caseRecord.Id,objRequest);
             }
 
             for (Case caseRecord : caseList){

@@ -150,6 +150,13 @@
                 <elementReference>$Record.Member__r.MemberId__r.PersonBirthdate</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Existing_Primary_Number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Member__r.MemberId__r.PersonMobilePhone</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <name>UpdateNomineeFields</name>
@@ -351,6 +358,14 @@
         <connector>
             <targetReference>CheckIfPolicyOrNomineeUpdated</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>IGMS_Complaint_Status__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
         <object>ABHI_Case_Detail__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>

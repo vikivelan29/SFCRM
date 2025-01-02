@@ -3,9 +3,10 @@
     <fullName>AUM_at_ARN_level__c</fullName>
     <externalId>false</externalId>
     <label>AUM at ARN level</label>
-    <length>255</length>
+    <precision>18</precision>
     <required>false</required>
+    <scale>2</scale>
     <trackFeedHistory>false</trackFeedHistory>
-    <type>Text</type>
+    <type>Number</type>
     <unique>false</unique>
 </CustomField>
