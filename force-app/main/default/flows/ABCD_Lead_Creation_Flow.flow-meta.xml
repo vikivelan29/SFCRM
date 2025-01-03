@@ -128,6 +128,13 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>recordId</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_Account_Record</targetReference>
             </connector>
@@ -336,6 +343,12 @@
             <field>Prospect_Type__c</field>
             <value>
                 <stringValue>Sales</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Push_To_LMS_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

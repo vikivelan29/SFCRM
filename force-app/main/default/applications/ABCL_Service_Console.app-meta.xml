@@ -3340,6 +3340,42 @@
         <type>Flexipage</type>
         <profile>ABCD Base Profile</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ONEABC_Lead_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Sales</recordType>
+        <type>Flexipage</type>
+        <profile>ABCD Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ONEABC_Lead_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Sales</recordType>
+        <type>Flexipage</type>
+        <profile>ABCD Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ONEABC_Lead_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Service</recordType>
+        <type>Flexipage</type>
+        <profile>ABCD Base Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>ONEABC_Lead_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Lead</pageOrSobjectType>
+        <recordType>Lead.Service</recordType>
+        <type>Flexipage</type>
+        <profile>ABCD Base Profile</profile>
+    </profileActionOverrides>
     <tabs>Health_Provider__c</tabs>
     <tabs>Claim__c</tabs>
     <tabs>Health_Intent__c</tabs>
