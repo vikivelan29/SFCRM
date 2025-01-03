@@ -116,7 +116,7 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Navigati
                     this.showCustomerNPSbyNumber = '';
                 }
             }else{
-                if (this.showCustomerNPSbyNumber = 0 || this.showCustomerNPSbyNumber == undefined) {
+                if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined) {
                     this.showCustomerNPSbyNumber =  "❌";
                 }
                 else if(this.showCustomerNPSbyNumber > 0 && this.showCustomerNPSbyNumber <= 3){
