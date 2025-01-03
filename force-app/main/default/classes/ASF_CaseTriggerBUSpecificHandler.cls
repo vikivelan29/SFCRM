@@ -182,6 +182,8 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABHI_BusinessLogic_Helper abhiBusinessLogicHlprClass = new ABHI_BusinessLogic_Helper();
                     abhiBusinessLogicHlprClass.abhiHandlerMethod(mapOfBUToCases, (Map<Id, Case>)oldItems, 'AfterASFCodeBeforeUpdate'); 
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
+                    abhiBusinessLogicHlprClass.populateCustomerTextOnManualCase(mapOfBUToCases.get(businessUnit), (Map<Id, Case>)oldItems); 
+
                 }
                 else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
                     ABSLAMC_SprinklrHelper.blankOutLatestNotes(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
@@ -211,6 +213,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
             }      
+
         }
     }
     
