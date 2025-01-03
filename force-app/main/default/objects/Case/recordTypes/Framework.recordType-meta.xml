@@ -427,6 +427,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Fund transfer done for Reinstatement%2FRenewal</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>GST invoice</fullName>
             <default>false</default>
         </values>
@@ -476,6 +480,10 @@
         </values>
         <values>
             <fullName>Insurance related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interest waived revival pending</fullName>
             <default>false</default>
         </values>
         <values>
@@ -616,6 +624,10 @@
         </values>
         <values>
             <fullName>Name Change%2FCorrection Related</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Ulip Premium holiday facility</fullName>
             <default>false</default>
         </values>
         <values>
@@ -851,6 +863,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Reinstatement Interest Waiver related</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Reinstatement Not Possible</fullName>
             <default>false</default>
         </values>
@@ -863,7 +879,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Reinstatement Pending Requirement completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Reinstatement Premium Paid Not Receipted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reinstatement Premium Paid OR not generated</fullName>
             <default>false</default>
         </values>
         <values>
@@ -872,6 +896,10 @@
         </values>
         <values>
             <fullName>Reinstatement Quotation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reinstatement Quotation related</fullName>
             <default>false</default>
         </values>
         <values>
@@ -952,6 +980,10 @@
         </values>
         <values>
             <fullName>Restricted SA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revival Payment Stop</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1131,6 +1163,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Underwriting waived revival pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Unregistered Email</fullName>
             <default>false</default>
         </values>
@@ -1164,6 +1200,10 @@
         </values>
         <values>
             <fullName>eIA opening</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>loan outstanding waived</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1443,6 +1483,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Customer Non Contactable</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Customer Not Contactable</fullName>
             <default>false</default>
         </values>
@@ -1680,6 +1724,10 @@
         </values>
         <values>
             <fullName>No Action Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2224,6 +2272,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Policy_Bazar</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Provider Network</fullName>
             <default>false</default>
         </values>
@@ -2371,6 +2423,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>In Progress with Contact Center</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress with Operations</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>In Progress with SA</fullName>
             <default>false</default>
         </values>
@@ -2395,6 +2455,10 @@
         </values>
         <values>
             <fullName>Incoming</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal</fullName>
             <default>false</default>
         </values>
         <values>
