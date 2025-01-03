@@ -48,8 +48,13 @@ public with sharing class ABCD_LitmusIntegration {
                 if(cccIdToRecordsMap.containsKey(caseRecord.CCC_External_Id__c)){
                     ASF_Case_Category_Config__c cccRecord = cccIdToRecordsMap.get(caseRecord.CCC_External_Id__c);
                     if(cccRecord.Litmus_Trigger__c == true){
-                        accountIds.add(caseRecord.AccountId);
-                        prospectIds.add(caseRecord.Lead__c);
+                        if(caseRecord.AccountId != null){
+                            accountIds.add(caseRecord.AccountId);
+                        }
+                        if(caseRecord.Lead__c != null){
+                            prospectIds.add(caseRecord.Lead__c);
+                        }
+                        
                         eligibleCases.add(caseRecord);
                     }
                 }
