@@ -176,16 +176,6 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
-                        <valueListItems>
-                            <value>Case.Customer_Tagging</value>
-                            <visibilityRule>
-                                <criteria>
-                                    <leftValue>{!Record.CCC_External_Id__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>ONEABC_Sprinklr_01</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
