@@ -56,7 +56,7 @@
             </value>
             <value>
                 <fullName>ABML</fullName>
-                <default>true</default>
+                <default>false</default>
                 <label>ABML</label>
             </value>
         </valueSetDefinition>
