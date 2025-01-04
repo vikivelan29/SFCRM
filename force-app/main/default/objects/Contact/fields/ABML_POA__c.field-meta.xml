@@ -3,22 +3,9 @@
     <fullName>ABML_POA__c</fullName>
     <externalId>false</externalId>
     <label>POA</label>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <type>Picklist</type>
-    <valueSet>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>Yes</fullName>
-                <default>false</default>
-                <label>Yes</label>
-            </value>
-            <value>
-                <fullName>No</fullName>
-                <default>false</default>
-                <label>No</label>
-            </value>
-        </valueSetDefinition>
-    </valueSet>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

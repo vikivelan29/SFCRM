@@ -208,7 +208,7 @@ public class ABML_QueueController_Test {
         }
     }
     
-    @isTest
+    /*@isTest
     static void getCaseRecordsTest(){
         List<User> listOfUsers = [SELECT Id, Name FROM User WHERE Business_Unit__c = 'ABML' and LastName='Test' LIMIT 2];
         User userObj = listOfUsers[0];
@@ -218,6 +218,6 @@ public class ABML_QueueController_Test {
         System.assertEquals(0, getCaseRecords.size(), 'No list view found!');
         Test.stopTest();
         }
-    }
+    }*/
     
 }

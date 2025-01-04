@@ -589,7 +589,7 @@ export const lanLabels = {
       Wellness: {
           OPTSLBLS: [{"label":"Email","value":"Email"},{"label":"SMS","value":"SMS"}]
         },
-		// Added by Saravpreet(To remove SMS option for ABML BU)
+	  // Added by Saravpreet(To remove SMS option for ABML BU)
       ABML: {
             OPTSLBLS: [{"label":"Email","value":"Email"}]
           }

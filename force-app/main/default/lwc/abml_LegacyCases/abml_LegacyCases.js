@@ -22,8 +22,6 @@ export default class Abml_LegacyCases extends LightningElement {
     endDate;
     code;
     lob;
-    agentCode;
-    brokerCode;
     loaded = false;
     disabled = false;
     @track displayResult = [];
@@ -84,6 +82,9 @@ export default class Abml_LegacyCases extends LightningElement {
         this.displayTable = false;
         this.displayError = false;
         this.data = null;
+        // this.clientId=null;
+        // this.pan=null;
+       //this.code=null;
         this.lob=this.personAccountData.lob;
         if(this.personAccountData.branchCode){
             this.code = this.personAccountData.branchCode;
@@ -91,24 +92,17 @@ export default class Abml_LegacyCases extends LightningElement {
         else if(this.personAccountData.franchiseeCode){
             this.code = this.personAccountData.franchiseeCode;
         }
-        else if(this.personAccountData.agentCode || this.personAccountData.brokerCode){
-            this.agentCode = this.personAccountData.agentCode;
-            this.brokerCode = this.personAccountData.brokerCode;
-        }
-        else{
-        this.clientId=this.personAccountData.clientCode;      
+        this.clientId=this.personAccountData.clientId;      
         this.pan=this.personAccountData.pan;   
-        }
+   
         console.log('Client ID '+this.clientId);
         console.log('PAN No '+this.pan);
         console.log('Code '+this.code);
-        console.log('Agent Code '+this.agentCode);
-        console.log('Broker Code '+this.brokerCode);
         console.log('LOB '+this.lob);
         if(this.checkFieldValidity()) {
             this.disabled = true;
              this.isLoading = true;
-            getLegacyData({clientCode: this.clientId, pan: this.pan, code: this.code, agentCode: this.agentCode, brokerCode: this.brokerCode, startDate: this.startDate,
+            getLegacyData({clientId: this.clientId, pan: this.pan, code: this.code, startDate: this.startDate,
                 endDate: this.endDate, lob : this.lob}).then(result=>{
                 this.leagcyCaseData = result;
                 console.log('Result1 ==> ', result);

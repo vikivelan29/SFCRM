@@ -31,6 +31,22 @@
         <field>SUBJECT</field>
     </columns>
     <columns>
+        <field>CREATED_DATE</field>
+    </columns>
+    <columns>
+        <field>FK_NAME</field>
+    </columns>
+    <columns>
+        <field>CASE_ID</field>
+    </columns>
+    <columns>
+        <field>CLOSED_DATEONLY</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>AGE</field>
+    </columns>
+    <columns>
         <field>Case.Nature__c</field>
     </columns>
     <columns>
@@ -43,22 +59,7 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>Case.Type_Text__c</field>
-    </columns>
-    <columns>
-        <field>Case.Sub_Type_Text__c</field>
-    </columns>
-    <columns>
-        <field>Case.Recategorisation_Date__c</field>
-    </columns>
-    <columns>
-        <field>Case.Stage_SLA_1__c</field>
-    </columns>
-    <columns>
-        <field>Case.Stage_SLA_2__c</field>
-    </columns>
-    <columns>
-        <field>Case.Stage_SLA_3__c</field>
+        <field>FK_$ABML_Case_Detail__c.Assigned_On__c</field>
     </columns>
     <description>Visibility to users on the CTST Closed in last 1 month.</description>
     <filter>
@@ -76,18 +77,21 @@
             <operator>equals</operator>
             <value>,Resolved</value>
         </criteriaItems>
-        <criteriaItems>
-            <column>Contact.Business_Unit__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>ABML</value>
-        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>Case.Assigned_Team__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>TYPE</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Case.Sub_Type_Text__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>ABML Department View Closed Cases</name>

@@ -19,7 +19,7 @@ public with sharing class ABCL_CommonCLass_Test {
         caseList.add(new Case(Business_Unit__c = 'ABWM', Stage__c = 'Open'));
         caseList.add(new Case(Business_Unit__c = 'Payments', Stage__c = 'Open'));
         caseList.add(new Case(Business_Unit__c = 'ABSLIG', Stage__c = 'Open'));
-        caseList.add(new Case(Business_Unit__c = 'ABML', Stage__c = 'Open'));//Added by EY
+		caseList.add(new Case(Business_Unit__c = 'ABML', Stage__c = 'Open'));
         insert caseList;
     }
 
