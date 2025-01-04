@@ -122,6 +122,36 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>ABSLIG</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Sharing rule for ABSLIG BU</description>
+        <label>ABSLIG</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLIG_Leadership</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLIG</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ABSLI_Prospect_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share Lead with Business Unit ABSLI to ABSLI Role Hierarchy</description>
+        <label>ABSLI Prospect Sharing</label>
+        <sharedTo>
+            <roleAndSubordinates>ABSLI_Service_Manager</roleAndSubordinates>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABSLI</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Wellness_Prospect_Sharing</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share Lead with Business Unit with Wellness value to Wellness</description>
