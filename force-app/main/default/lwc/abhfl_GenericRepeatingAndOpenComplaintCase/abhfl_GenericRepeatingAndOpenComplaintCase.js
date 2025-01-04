@@ -46,18 +46,14 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
                 console.error('Error loading NPS record', error);
             });
     }
-    get showCustomerNPSbyNumber() {
-        if (this.nps == undefined || this.nps == 0) {
-            return "❌";
-        }
-        else if(this.nps > 0 && this.nps <= 6){
-            return "🙁";
-            }
-        else if(this.nps > 6 &&  this.nps <= 8){
-            return "😐";
-        }
-        else if(this.nps > 8 && this.nps <= 10){
-            return "😁";
+
+    claculateNPSRating() {
+
+        this.showCustomerNPSbyNumber = undefined;
+
+        if(JSON.stringify(this.nps) !== "{}") {
+            this.businessUnit = Object.keys(this.nps)[0];
+            this.showCustomerNPSbyNumber = this.nps[this.businessUnit];
         }
         else {
             this.businessUnit = this.customerBU;
@@ -110,6 +106,8 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Lightnin
             this.isAbhfl = businessUnitValue === 'ABHFL';
             this.isWellness = businessUnitValue === 'Wellness';
             this.isOther = (businessUnitValue !== 'ABHFL' && businessUnitValue !== 'Wellness');
+            this.customerBU = businessUnitValue ?? '';
+            this.loadNpsScore();
         } else if (error) {
             console.error('Error occured in  retrieving business unit', error);
         }
