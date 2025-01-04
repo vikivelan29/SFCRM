@@ -84,6 +84,11 @@
                 <default>false</default>
                 <label>Wellness Email</label>
             </value>
+              <value>
+                <fullName>ABML Email</fullName>
+                <default>false</default>
+                <label>ABML Email</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
