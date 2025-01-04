@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>ABHI Byte Refund</name>
+    <queueMembers>
+        <publicGroups>
+            <publicGroup>ABHI_Byte_Refund_G</publicGroup>
+        </publicGroups>
+    </queueMembers>
+    <queueRoutingConfig>ABHI_Routing_Config</queueRoutingConfig>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

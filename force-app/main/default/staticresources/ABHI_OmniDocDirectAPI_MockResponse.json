@@ -1,0 +1,29 @@
+
+{
+    "CategoryId": "1009",
+    "DocumentId":null,
+    "ReferenceId": null,
+    "SearchResponse": [
+      {
+        "GlobalId": null,
+        "OmniDocImageIndex": "37214593",
+        "OmniDocIndex": "36409800",
+        "VID": "-1167017705",
+        "FileName": "PT86388901-21-22-3527158-00.PDF",
+        "Description": "Health Assessment",
+        "UploadedDate": "2022-12-13 22:27:24.797"
+      },
+      {
+        "GlobalId": null,
+        "OmniDocImageIndex": "37214593",
+        "OmniDocIndex": "36409800",
+        "VID": "-1167017705",
+        "FileName": "PT86388901-21-22-3527158-00.PDF",
+        "Description": "Health Assessment",
+        "UploadedDate": "2022-12-13 22:27:24.797"
+      }
+    ],
+    "Code": "0",
+    "Description": "SUCCESS"
+  }
+  

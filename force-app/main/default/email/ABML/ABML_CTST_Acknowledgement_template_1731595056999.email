@@ -1,0 +1,57 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	
+		<tr>
+			<td align="center" valign="top">
+			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+				
+					<tr>
+						<td align="left" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							
+								<tr>
+									<td bgcolor="#ffffff" valign="top">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										
+											<tr>
+												<td valign="top">&nbsp;</td>
+											</tr>
+											<tr>
+												<td valign="top">Dear&nbsp; {{{Case.Customer_name_formula__c}}}<br />
+												&nbsp;<br />
+												Thank you for reaching out to us.<br />
+												<br />
+												This is an automated response to your&nbsp;Request  &nbsp;for&nbsp;Bank Details-CRC  . Please note your interaction id is&nbsp;{{{Case.CaseNumber}}}   with respect to trading account no:{{{Case.Client_Code__c}}}&nbsp;The same will be responded on :<br />
+												{{{Case.Overall_Case_Closure_SLA__c}}}.<br />
+												<br />
+												<br />
+												We request you not to reply on this system generated mail.<br />
+												<br />
+												If you have any further queries, kindly address these at&nbsp;<u><a href="mailto:care.stocksandsecurities@adityabirlacapital.com">care.stocksandsecurities@adityabirlacapital.com</a></u>&nbsp;or call us on our Toll Free Number&nbsp;1800-270-7000.<br />
+												Our Business WhatsApp number is +91 88288 00038.<br />
+												Assuring you of our best services at all times,<br />
+												<br />
+												Best Regards,<br />
+												Customer Relationship Manager<br />
+												Aditya Birla Money Ltd.</td>
+											</tr>
+										
+									</table>
+									</td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+				
+			</table>
+			</td>
+		</tr>
+	
+</table>
+</body>
+</html>

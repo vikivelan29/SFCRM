@@ -87,6 +87,7 @@ public with sharing class ABFL_WealthChatGeneratedCases {
             ABCL_Logger.emit();
         }*/
     }
+
     
     /**
     * @param inputText - String text (Email body)

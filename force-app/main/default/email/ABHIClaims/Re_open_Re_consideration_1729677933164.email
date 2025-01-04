@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<p style="line-height:1.2; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Dear </span></span></span></span></span></span>{{{Case.Customer_name_formula__c}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">,<br />
+<br />
+We deeply appreciate your trust in Aditya Birla Health Insurance as your chosen Health-First partner, especially during what we understand to be a difficult time for you as you focus on your recovery and manage various responsibilities simultaneously. As your Health-First partner, your well-being is our utmost priority, and we genuinely hope you are making steady progress on the path to recovery.<br />
+<br />
+We understand that you may not be feeling your best at this moment. Unfortunately, after conducting a thorough review of the above-mentioned Service Request received on </span></span></span></span></span></span>{{{Case.CreatedDate}}}<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">, we identified certain discrepancies that have led to its rejection.<br />
+<br />
+Upon meticulous examination by our team, it was noted that &lt;</span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="background-color:#ffff00"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Reason for Rejection / Denial</span></span></span></span></span></span></span><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none"> &gt;.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Considering the above, we are closing your service request.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We hope you always stay in the best of health, however in case of any exigency in the future, you can opt for our Cashless Anywhere facility for a seamless and hassle-free claim experience.</span></span></span></span></span></span><br />
+<br />
+<span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">If you have any questions or need further assistance, please don't hesitate to reach out. We are here to support you.</span></span></span></span></span></span></p>
+<br />
+<br />
+&nbsp;</body>
+</html>

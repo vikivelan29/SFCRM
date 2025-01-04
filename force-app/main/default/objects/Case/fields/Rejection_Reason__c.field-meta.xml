@@ -1081,7 +1081,7 @@
                 <fullName>Incorrect SubType tagging</fullName>
                 <default>false</default>
                 <label>Incorrect SubType tagging</label>
-            </value>
+            </value> 
             <value>
                 <fullName>Out of Scope Request</fullName>
                 <default>false</default>

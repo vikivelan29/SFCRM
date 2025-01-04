@@ -1,0 +1,25 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<div style="margin-right: 4px; margin-left: 4px; text-align:justify">Dear {{{Case.Customer_name_formula__c}}},
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">Greetings from Aditya Birla Health Insurance Company Limited.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In reference to our last telephonic conversation, we regret to inform you that your request for an enhanced Sum Insured has been declined by the Underwriting Team.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We advise you to renew your policy with the existing Sum Insured to stay protected at all times. Thus, we request your consent to renew your policy with existing Sum Insured. The excess amount would be refunded to the source account.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">In case of any further assistance, please feel free to reach out to us on our toll-free number 1800-270-7000 or email us at&nbsp;care.healthinsurance@adityabirlacapital.com. We advise you to download the Activ Health App – a one stop solution for all your health needs. You may also use our self-service options on our WhatsApp number +91 882800035.</span></span></span></span></span></span></p>
+&nbsp;
+
+<p style="line-height:1.3800000000000001; text-align:justify"><span style="font-size:10pt; font-variant:normal; white-space:pre-wrap"><span style="font-family:'Anek Latin',sans-serif"><span style="color:#000000"><span style="font-weight:400"><span style="font-style:normal"><span style="text-decoration:none">We wish you the best of health at all times!</span></span></span></span></span></span></p>
+
+<p style="line-height:1.3800000000000001; text-align:justify">&nbsp;</p>
+Regards,<br />
+Aditya Birla Health Insurance Co. Limited</div>
+</body>
+</html>

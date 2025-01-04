@@ -1,0 +1,72 @@
+<template>
+<lightning-card>
+    <div class="box1 slds-box">
+    <h1 class="slds-align--absolute-center slds-text-heading_medium">File Upload</h1>
+    <div class="slds-grid slds-gutters"> 
+    <div class="box2 slds-col slds-size_1-of-2 slds-p-around_medium slds-align--absolute-right">
+             <div class="slds-box">
+                <p class="slds-text-heading_small">Instructions for Upload - </p><br/>
+                <p>1. Please ensure that the file you upload follows <a href={label.template} target="_blank">this template</a></p>
+                <p>2. File types supported are (xls,xlsx).</p> 
+                <p>3. Maximum allowed file size / record count is 1000.</p> 
+                <p>4. Cautions: multiple upload of same data causes override.</p> 
+                <p>5. Policy number is the key field in the opportunity data to update and need to be kept unique.</p> 
+                <p>6. If the upload fails:
+                   Download the error file
+                   Review the final column of the file this will determine what the cause of the error is, Rectify the lines containing errors as per the error message.
+                   Remove the Error column, save the file in xls/xlsx FORMAT and upload the corrected file.
+                </p>
+            </div>
+
+    </div>
+    <div class="slds-flex">
+	<div class="file slds-size_1-of-2 ">
+        
+        <br/>
+    <lightning-layout  multiple-rows="true" class="slds-p-around_small slds-flex">
+    
+        <lightning-layout-item size="12"  class="slds-p-horizontal_small slds-align--absolute-center"
+            flexibility="auto">
+
+            <lightning-input type="file" label="Select file in the format .xls or .xlsx" name="fileUploader" accept={acceptedFormats}
+                onchange={handleUploadFinished}></lightning-input> 
+
+        </lightning-layout-item>
+                    <div class="slds-align--absolute-center">{fileName}</div>
+  
+   <div class="buttons slds-grid">
+    <lightning-layout-item size="6" class="slds-p-horizontal_small">
+                    <lightning-button class="slds-m-top--medium" label='Submit File' onclick={handleSave} variant="brand"></lightning-button>
+    </lightning-layout-item>
+    
+    <lightning-layout-item  size="6" class="submit slds-p-horizontal_small">
+                    <lightning-button class="slds-m-top--medium" label='Reset' onclick={handleReset} variant="brand"></lightning-button>
+    </lightning-layout-item>
+    </div>
+    </lightning-layout>
+</div>
+</div>
+</div>
+</div>
+<div class="box3 slds-box">
+<h1 class="slds-align--absolute-center slds-text-heading_medium">Upload Status</h1>
+<div class="upload ">
+   <div>
+
+    <template if:true={recordStatus}>
+
+            <strong>Here's the status of your file upload - </strong><br/><br/>
+             <div style="height: 300px;">
+                <lightning-datatable
+                key-field="policyNumber"
+                data={data}
+                columns={columns}>
+                </lightning-datatable>
+    </div>
+        
+    </template>
+   </div>
+</div>
+</div>
+</lightning-card>
+</template>

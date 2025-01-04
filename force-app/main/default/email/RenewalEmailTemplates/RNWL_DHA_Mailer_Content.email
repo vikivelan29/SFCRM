@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto; font-family: Times New Roman;font-size: 10pt;">
+<p>Dear {{{Opportunity.Customer_Name__c}}},</p>
+
+<p>Did you know your face can tell the story of your health?</p>
+
+<p>Introducing our <b>Face Scan</b> technology that gives you vital information about your health in just a few seconds.</p>
+
+<p>Know your:</p>
+
+<ul>
+	<li>Blood pressure</li>
+	<li>Oxygen Saturation</li>
+	<li>Heart Rate</li>
+	<li>Respiration Rate</li>
+	<li>Body Mass Index(BMI)</li>
+</ul>
+
+<p><br />
+Also, the Face Scan is the first step to start earning your policy premium back with HealthReturns<sup>TM</sup>.</p>
+
+<p><br />
+Digital Health Assessment #ABHIkaro</p>
+
+<p>CTA: Scan Now</p>
+</body>
+</html>
