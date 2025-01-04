@@ -358,6 +358,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
     handleFieldChange(event){ 
         this.disableCreateBtn = false;
+        this.dupeLead = [];
+        this.showDupeList = false;
     }
     isInputValid() {
         let isValid = true;
