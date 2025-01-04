@@ -421,8 +421,11 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 }
                 this.populateSubSourceFld();
             }
-            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU){
+            if(this.businessUnit === ABSLI_BU || this.businessUnit === ABSLIG_BU || this.businessUnit === ABHI_BU){
                 this.showAutoCommunication = false;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         if((selected) && this.businessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -936,6 +939,10 @@ export default class AsfCreateCaseWithType extends NavigationMixin(LightningElem
                 btnActive = false;
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
+            }
+            if(this.businessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                btnActive = false;
+                this.isPhoneInbound = true;
             }
         } else {
             btnActive = false;

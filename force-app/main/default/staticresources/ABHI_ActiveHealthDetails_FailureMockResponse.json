@@ -1,0 +1,18 @@
+{
+  "HHSDetails": {
+      "operationStatus": "SUCCESS",
+      "serviceMessages": [
+          {
+              "systemCode": "JAVAFSTXSERINF002",
+              "businessCode": "FSTXSERINF002",
+              "businessDesc": "No Result found",
+              "serviceMessageType": "INFORMATION",
+              "messageTime": "09/09/2024 09:08:10"
+          }
+      ],
+      "responseMap": {}
+  },
+  "activeAge": null,
+  "StatusCode": 1002,
+  "Message": "ActiveAge Details Failure"
+}

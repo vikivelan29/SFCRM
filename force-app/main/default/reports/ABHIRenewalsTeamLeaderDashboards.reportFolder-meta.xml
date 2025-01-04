@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportFolder xmlns="http://soap.sforce.com/2006/04/metadata">
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>RNWL_Admin</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>RNWL_Team_Leader_In_House</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <folderShares>
+        <accessLevel>View</accessLevel>
+        <sharedTo>RNWL_Team_Leader_ATS</sharedTo>
+        <sharedToType>Role</sharedToType>
+    </folderShares>
+    <name>ABHI - Renewals Team Leader Dashboards</name>
+</ReportFolder>
