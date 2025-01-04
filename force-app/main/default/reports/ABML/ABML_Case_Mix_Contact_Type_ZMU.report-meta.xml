@@ -29,10 +29,17 @@
         <field>ACCOUNT.NAME</field>
     </columns>
     <columns>
-        <field>Case.Type_Text__c</field>
+        <field>TYPE</field>
     </columns>
     <columns>
         <field>Case.Sub_Type_Text__c</field>
+    </columns>
+    <columns>
+        <field>CREATED</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>AGE</field>
     </columns>
     <columns>
         <field>Case.Nature__c</field>
@@ -44,25 +51,13 @@
         <field>Case.Assigned_Team__c</field>
     </columns>
     <columns>
+        <field>FK_$ABML_Case_Detail__c.Assigned_On__c</field>
+    </columns>
+    <columns>
         <field>CASE_NUMBER</field>
     </columns>
     <columns>
         <field>OWNER</field>
-    </columns>
-    <columns>
-        <field>SUBJECT</field>
-    </columns>
-    <columns>
-        <field>Case.Recategorisation_Date__c</field>
-    </columns>
-    <columns>
-        <field>Case.Stage_SLA_1__c</field>
-    </columns>
-    <columns>
-        <field>Case.Stage_SLA_2__c</field>
-    </columns>
-    <columns>
-        <field>Case.Stage_SLA_3__c</field>
     </columns>
     <description>A bar chart that shows number of active cases and the contact type (Branch Employee, BSB, Customer, Franchisee, Prospect</description>
     <filter>
@@ -72,13 +67,6 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>,Open</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Case.Business_Unit__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>ABML</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

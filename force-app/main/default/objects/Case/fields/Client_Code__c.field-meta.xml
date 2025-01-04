@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Client_Code__c</fullName>
     <externalId>false</externalId>
-      <formula>IF(
+    <formula>IF(
     ISPICKVAL(Business_Unit__c, &apos;ABML&apos;),
     IF(
         ISPICKVAL(Account.ABML_Contact_Type__c, &apos;Branch&apos;),
@@ -10,7 +10,7 @@
         IF(
             ISPICKVAL(Account.ABML_Contact_Type__c, &apos;Franchisee&apos;),
             Account.ABML_Franchisee_Code__c,
-            Account.Client_Code__c
+            Account.ABML_Client_ID__pc
         )
     ),
     Account.Client_Code__c

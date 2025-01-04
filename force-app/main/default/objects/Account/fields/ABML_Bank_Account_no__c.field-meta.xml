@@ -3,10 +3,11 @@
     <fullName>ABML_Bank_Account_no__c</fullName>
     <externalId>false</externalId>
     <label>Bank Account no</label>
-    <length>255</length>
+    <precision>18</precision>
     <required>false</required>
+    <scale>0</scale>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
-    <type>Text</type>
+    <type>Number</type>
     <unique>false</unique>
 </CustomField>
