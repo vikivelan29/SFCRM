@@ -260,12 +260,15 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if(this.showFromGlobalSearch == false){
                 this.disableCreateBtn = false;
             }
+            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
+            }
         }
         if ((selected) && (this.loggedInUserBusinessUnit == 'ABFL')) {
             this.boolAllChannelVisible = false;
             this.boolAllSourceVisible = true;
         }
-        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU)) {
+        if ((selected) && (this.loggedInUserBusinessUnit == ABSLI_BU || this.loggedInUserBusinessUnit == ABHI_BU)) {
             this.boolNoAutoComm = false;
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Show_FTR_Flag_on_Creation__c){
@@ -273,6 +276,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
         }
         if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && selected.Nature__c === 'Complaint'){
             this.showCategoryType = true;
+        }
+        if((selected) && this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+            this.isPhoneInbound = true;
         }
         let bsliSourceList = ABSLI_Track_Sources.includes(',') ? ABSLI_Track_Sources.split(',') : ABSLI_Track_Sources;
             if((selected) && this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
@@ -352,6 +358,8 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
     }
     handleFieldChange(event){ 
         this.disableCreateBtn = false;
+        this.dupeLead = [];
+        this.showDupeList = false;
     }
     isInputValid() {
         let isValid = true;
@@ -513,8 +521,30 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             caseRecord[BSLI_ISSUE_TYPE.fieldApiName] = this.issueTypeVal;
         }
         caseRecord[CASE_BUSINESS_UNIT_FIELD.fieldApiName] = this.loggedInUserBusinessUnit;
+
+        const caseRecordforVal = { apiName: CASE_OBJECT.objectApiName, fields: caseRecord };
+
         caseRecord["sobjectType"] = "Case"; 
         this.noAutoCommValue = [];
+
+        this.loaded = false;
+        console.log('validation--'+selected.Validation_method_during_creation__c);
+        if(selected.Validation_method_during_creation__c){
+            console.log('invoking validator');
+            let methodName = selected.Validation_method_during_creation__c;
+            let validationResult = await validator[methodName](caseRecordforVal,'prospect');
+            console.log('returned with dynamic method '+JSON.stringify(validationResult));
+            if(validationResult.isSuccess == false){
+                this.showError('error', 'Oops! Validation error occured', validationResult.errorMessageForUser);
+                this.loaded = true;
+                this.disableCreateBtn = true;
+                this.selectedCTSTFromProspect = null;
+                this.resetFields();
+                return;
+            }
+            console.log('ending validator');
+        }
+        this.loaded = false;
         
         createProspectCase({ caseToInsert: caseRecord, caseExtnRecord: caseExtnRecord, prospectRecord: leadRecord })
             .then(result => {
@@ -598,6 +628,9 @@ export default class Asf_CreateCaseWithProspect extends NavigationMixin(Lightnin
             if(this.loggedInUserBusinessUnit === ABSLI_BU && bsliSourceList.includes(this.sourceFldValue.trim())){
                 this.isPhoneInbound = true;
                 this.showAniNumber = true;
+            }
+            if(this.loggedInUserBusinessUnit === ABHI_BU && this.abhiTrackSources.includes(this.sourceFldValue.trim())){
+                this.isPhoneInbound = true;
             }
         }
         //code added by sunil - 03/09/2024

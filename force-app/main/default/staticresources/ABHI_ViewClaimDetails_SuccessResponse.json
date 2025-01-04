@@ -1,0 +1,42 @@
+{
+  "ResponseObj": {
+      "Code": "200",
+      "Message": "Result fetched successfully."
+  },
+  "Response": [
+    {
+      "PolicyNumber": "11-21-5005668-00",
+      "MemberName": "Tushar S Wani",
+      "ClaimNumber": "1122100655598",
+      "ClaimType": "Reimbursement",
+      "ClaimDate": "",
+      "ClaimStatus": "Denial Calling",
+      "ReserveAmount": "",
+      "PaidAmount": "",
+      "mnyHealthReturnAmnt": "",
+      "Claim_Status": "Denial Calling",
+      "Claim_SubStatus": "Denial Calling",
+      "Claim_Amount": "1000",
+      "ApprovedAmount": "1000",
+      "DeductionAmount": ""
+    },
+    {
+      "PolicyNumber": "11-21-5005668-00",
+      "MemberName": "Tushar S Wani",
+      "ClaimNumber": "1112100655730",
+      "ClaimType": "Cashless",
+      "ClaimDate": "",
+      "ClaimStatus": "FWA Vendor Investigation",
+      "ReserveAmount": "",
+      "PaidAmount": "",
+      "mnyHealthReturnAmnt": "",
+      "Claim_Status": "FWA Vendor Investigation",
+      "Claim_SubStatus": "FWA Vendor Investigation",
+      "Claim_Amount": "111",
+      "ApprovedAmount": "12000",
+      "DeductionAmount": ""
+    }
+  ],
+  "StatusCode": 1000,
+  "Message": "Success"
+}
