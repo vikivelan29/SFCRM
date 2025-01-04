@@ -142,7 +142,7 @@ public with sharing class ABML_ReportsIntegration{
 
         Contact contactRec;
         if(!Test.isRunningtest()){
-          contactRec = [SELECT Id FROM Contact WHERE AccountId=:accountRecords LIMIT 1];  
+        	contactRec = [SELECT Id FROM Contact WHERE AccountId=:accountRecords LIMIT 1];
         }
         
         if(!asfCaseIntList.isEmpty()){

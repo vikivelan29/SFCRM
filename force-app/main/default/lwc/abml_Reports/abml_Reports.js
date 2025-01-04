@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import LightningAlert from 'lightning/alert';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getReports from "@salesforce/apex/ABML_ReportsIntegration.getReports";
@@ -23,6 +23,7 @@ export default class Abml_Reports extends LightningElement {
     financialEnd;
     finValue;
     @track yearOptions = [];
+    datecheck;
 
     startDatePass;
     endDatePass;
@@ -63,6 +64,22 @@ export default class Abml_Reports extends LightningElement {
     handleYearChange(event){
         this.finValue = event.detail.value;
         console.log('this.finValue--:' , this.finValue);
+
+        // Changes for the Active field check on related Account
+        var newCheck = new Date(this.datecheck);
+        var newCheckval1 = newCheck.getDate();
+        var newCheckval2 = newCheck.getMonth()+1;
+        var newCheckval3 = newCheck.getFullYear();
+
+        if(this.finValue < newCheckval3){
+            console.log('this.finacialStart--:',this.finValue);
+
+            LightningAlert.open({
+                message: ERRORYEARMESSAGE,
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        }
 
         var yearVal = this.finValue;
         var dateVal = '01';
@@ -251,6 +268,13 @@ export default class Abml_Reports extends LightningElement {
                 label: 'Warning!',
             });
         }
+            else if (this.finValue < newCheckSubval3) {
+                LightningAlert.open({
+                    message: ERRORYEARMESSAGE,
+                    theme: 'warning', 
+                    label: 'Warning!',
+                });
+        }
         else{
             
             getReports({ caseRecId: this.recordId, clientCode: this.clientCode, startDate: this.startDatePass, endDate: this.endDatePass, reportType: this.reportValue, financialYear: this.yeartoYear })
@@ -259,7 +283,7 @@ export default class Abml_Reports extends LightningElement {
             //this.successMessage = 'Report type sent succesfully!';
             //this.errorMessage = '';
             LightningAlert.open({
-                message: 'Report details sent successfully',
+                message: SUBMITMESSAGE,
                 theme: 'success', 
                 label: 'Success!',
             });
