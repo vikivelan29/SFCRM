@@ -1,0 +1,8 @@
+<apex:component access="global" controller="RNWL_DocumentImagePreviewVfcController">
+    <apex:attribute name="strDocDeveloperName" type="String" description="This is the DeveloperName of the Document Record (Image)" assignTo="{!strDocumentName}" access="global" />
+    
+    <apex:attribute name="width" description="Width of Image" type="String" access="global" />
+    <apex:attribute name="height" description="Height of Image" type="String" access="global" />
+    <img src="{!strImageURL}" width="{!width}" height="{!height}"/>    
+    
+</apex:component>

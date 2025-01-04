@@ -2,7 +2,7 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
 
     public Database.QueryLocator start(Database.BatchableContext bc){
         string queryForContentLink = 'Select id,ContentDocumentid,LinkedEntityId from ContentDocumentLink where LinkedEntityId in'+
-            						 '(Select id from Case where IsClosed = true and ClosedDate <= today and Business_Unit__c IN (\'ABHFL\',\'ABSLI\'))';
+            '(Select id from Case where IsClosed = true and ClosedDate <= today and Business_Unit__c IN (\'ABHFL\',\'ABSLI\',\'ABHI\'))';
         return Database.getQueryLocator(queryForContentLink);
     }
 
@@ -101,6 +101,7 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             // Custom Logic handling for ABSLI Business Unit
             String dmsFolderId = '', businessFileName = '', policyNumber = '', applicationId = '';
             Boolean isABSLIBusiness = false;
+            Boolean isABHI = (relatedCase.Business_Unit__c == ABHI_Constants.ABHI) ? true : false;
             if (relatedCase.Business_Unit__c == ABSLI_Constants.BUSINESS_UNIT) {
                 isABSLIBusiness = true;
                 policyNumber = relatedCase.Asset.Policy_No__c != '' ? relatedCase.Asset.Policy_No__c : relatedCase.LAN__c;
@@ -130,8 +131,12 @@ public class ABCL_DMSRetryBatch implements Database.Batchable<sObject>, Database
             fileRec.DMS_External_ID__c = fileVersion.Id + '' + currentDateTime.getTime();
             fileRec.File_Extension__c = fileVersion.FileExtension;
             if(String.isBlank(leadId) && !isABSLIBusiness){
-                fileRec.Status__c = ABHFL_Constants.CANCELED;
-                fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
+                if(!isABHI){
+                    fileRec.Status__c = ABHFL_Constants.CANCELED;
+                    fileRec.Error_Description__c = ABHFL_Constants.ERROR_DESC_FOR_CANCELLED_DMS;
+                }else{
+                    fileRec.Status__c = ABHFL_Constants.PENDING;	
+                }
             } else {
                 fileRec.Status__c = ABHFL_Constants.PENDING;
             }
