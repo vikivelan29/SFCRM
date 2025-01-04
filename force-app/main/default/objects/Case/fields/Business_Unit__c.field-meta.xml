@@ -52,15 +52,20 @@
                 <label>ABSLAMC</label>
             </value>
             <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Payment</label>
+            </value>
+            <value>
                 <fullName>Wellness</fullName>
                 <default>false</default>
                 <label>Wellness</label>
             </value>
             <value>
-                <fullName>Payment</fullName>
+                <fullName>ABML</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Payment</label>
+                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>
