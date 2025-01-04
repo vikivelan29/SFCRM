@@ -113,21 +113,21 @@ public without sharing class ABML_QueueController { //Without sharing is added f
         return [SELECT Id, Name, DeveloperName, SobjectType FROM ListView WHERE SobjectType = 'Case' AND Name LIKE '%ABML%'];
     }
     
-    /*@AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=true)
     public static List<Case> getCaseRecords(String listViewId) {
         if (String.isEmpty(listViewId)) {
             return new List<Case>();
         } 
         String query = ABML_Listviewcallout.doCallout(listViewId);
         return Database.query(query);
-    } */
+    } 
     
     @AuraEnabled(cacheable=true)
     public static List<Case> getSearchRecords(String searchText) {
         if (String.isEmpty(searchText)) {
             return new List<Case>();
         }        
-        return [ SELECT Id, CaseNumber, Subject, Status, CreatedDate, Owner.Name, OwnerText__c, Description FROM Case WHERE Subject!=null and Status!='Resolved' and Business_Unit__c=:System.Label.ABML_BU and (Subject LIKE :('%' + searchText + '%') OR CaseNumber LIKE :('%' + searchText + '%') OR OwnerText__c LIKE :('%' + searchText + '%')) ORDER BY Subject LIMIT 200 ];
+return [ SELECT Id, CaseNumber, Subject, Status, CreatedDate, Owner.Name, OwnerText__c, Description FROM Case WHERE Subject!=null and Status!='Resolved' and Business_Unit__c=:System.Label.ABML_BU and (Subject LIKE :('%' + searchText + '%') OR CaseNumber LIKE :('%' + searchText + '%') OR OwnerText__c LIKE :('%' + searchText + '%')) ORDER BY Subject LIMIT 200 ];
     }
     
 }

@@ -40,6 +40,11 @@
                 <label>ABSLI</label>
             </value>
             <value>
+                <fullName>ABML</fullName>
+                <default>false</default>
+                <label>ABML</label>
+            </value>
+            <value>
                 <fullName>ABSLAMC</fullName>
                 <default>false</default>
                 <label>ABSLAMC</label>
@@ -53,11 +58,6 @@
                 <fullName>Wellness</fullName>
                 <default>false</default>
                 <label>Wellness</label>
-            </value>
-            <value>
-                <fullName>ABML</fullName>
-                <default>false</default>
-                <label>ABML</label>
             </value>
         </valueSetDefinition>
     </valueSet>
