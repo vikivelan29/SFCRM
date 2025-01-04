@@ -26,6 +26,7 @@ import UserBusinessUnit from '@salesforce/schema/User.Business_Unit__c';
 import createProspectAndUpdCase from '@salesforce/apex/ASF_CaseUIController.CreateProspectAndUpdateOnCase';
 import INSUFFICIENT_ACCESS_MSG from '@salesforce/label/c.Wellness_Insufficient_Access';//PR1030924-905
 import CASE_ACCESS_ERROR from '@salesforce/label/c.Wellness_CaseComment_add_Err_Msg';//PR1030924-905
+import ABML_BU from '@salesforce/label/c.ABML_BU'; //Added by EY
 // VIRENDRA - PROSPECT TAGGING IMPORTS ENDS HERE.
 
 export default class Asf_CRNTagging extends LightningElement {
