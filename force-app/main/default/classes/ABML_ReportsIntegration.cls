@@ -136,9 +136,9 @@ public with sharing class ABML_ReportsIntegration{
         ABML_Daily_Report_Sender__c objReportSender = [SELECT Email__c from ABML_Daily_Report_Sender__c WHERE Name = 'ordWideAddress' LIMIT 1];
         OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address =:objReportSender.Email__c  LIMIT 1]; 
         // Added for template
-        Id templateId1 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Report_Integration_Email_Template_1733123089274' LIMIT 1].Id;
-        Id templateId2 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_SOT_Email_Template_1733145673611' LIMIT 1].Id;
-        Id templateId3 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Contract_Note_Email_Template_1733145822012' LIMIT 1].Id;
+        Id templateId1 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML SOA Email Template' LIMIT 1].Id;
+        Id templateId2 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML SOT Email Template' LIMIT 1].Id;
+        Id templateId3 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML Contract Note Email Template' LIMIT 1].Id;
 
         Contact contactRec;
         if(!Test.isRunningtest()){
