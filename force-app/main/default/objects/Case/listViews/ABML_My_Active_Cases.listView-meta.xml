@@ -3,8 +3,10 @@
     <fullName>ABML_My_Active_Cases</fullName>
     <booleanFilter>1 AND 2</booleanFilter>
     <columns>CASES.CASE_NUMBER</columns>
-    <columns>Customer_name_formula__c</columns>
     <columns>Client_Code__c</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Created_Date__c</columns>
+    <columns>Categorization_Date__c</columns>
     <columns>Nature__c</columns>
     <columns>OWNER_NAME</columns>
     <columns>CASES.SUBJECT</columns>
