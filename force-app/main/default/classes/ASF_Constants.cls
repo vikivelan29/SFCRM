@@ -118,7 +118,6 @@ public with sharing class ASF_Constants {
     /* Added For Loans Search API BU Logic */
     public static final String STRING_IS_API_LOAD = 'API_LOANS';
     
-    
     public static final List<String> BU_SHOWCHECKLISTS_ONREJECTION = new List<String>{'ABSLI'};
     public static final String REJECTIONSTATUS = 'Unresolved';
     public static final String DUPLICATESTATUS = 'Closed Duplicate';
@@ -131,13 +130,12 @@ public with sharing class ASF_Constants {
     public static final String ABFL_BU = 'ABFL';
     public static final String ABSLI_BU = 'ABSLI';
     public static final String ABSLIG_BU = 'ABSLIG';
-
-    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API','Email'};
+    public static final List<String> RESOLUTIONCOMMENT_REQ_TECHSRC = new List<String>{'LWC','API'};
 
     public static final List<String> ABFL_LOB_COMPLAINT_RCA = new List<String>{'Retail - Secured','Retail - Unsecured','Corporate','Digital','Not classified'};    
         
     /* Map to Store Case Origin Vs Business Unit */
-    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG','ABHI Email' => 'ABHI', 'ABSLAMC Email' => 'ABSLAMC', 'Wellness Email' => 'Wellness'};
+    public static final Map<String,String> mCaseOriginVsBusinessUnit= new Map<String,String>{'Payments Email' => 'Payments', 'ABFL Email' => 'ABFL', 'ABHFL Email' => 'ABHFL','ABFL WM CHAT' =>'ABWM', 'ABWM Email' => 'ABWM', 'ABSLI Email' => 'ABSLI','ABSLIG Email' => 'ABSLIG','ABHI Email' => 'ABHI', 'ABSLAMC Email' => 'ABSLAMC', 'Wellness Email' => 'Wellness','ABML Email' => 'ABML'};//Added for ABML
     
     /* Map to Store Case Origin Vs Source */
     public static final Map<String,String> mCaseOriginVsSource= new Map<String,String>{'ABFL WM CHAT' =>'Chatbot'};
@@ -163,6 +161,7 @@ public with sharing class ASF_Constants {
     public static final List<String> completeChecklistStatus = new List<String>{'Completed','Rejected','Yes','Signature Matched','No','Cancelled','Signature Mismatched','Signature Not Cropped'};
 
     public static final string CASE_ORIGIN = 'ABSLIG Email';
+    
     public static final String ABSLI_CASE_EXTENSION_OBJ_NAME = 'ABSLI_Case_Detail__c';
     public static final String ABSLI_CASE_ORIGIN_EMAIL = 'ABSLI Email';
     //Add all the Case Detail fields here in lowercase. It's used for the skipper functionality in case the field is not present in Case Stage Config for query
