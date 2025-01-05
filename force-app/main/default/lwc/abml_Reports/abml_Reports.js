@@ -5,6 +5,7 @@ import getReports from "@salesforce/apex/ABML_ReportsIntegration.getReports";
 import { getRecord } from 'lightning/uiRecordApi';
 import ERRORYEARMESSAGE from '@salesforce/label/c.ABML_Report_Message1';
 import SUBMITMESSAGE from '@salesforce/label/c.ABML_ReportMessage2';
+import getAccountActiveDate from "@salesforce/apex/ABML_ReportsIntegration.getAccountActiveDate";
 
 const FIELDS = [
     'Case.Account.Active_Date__c'
@@ -29,6 +30,10 @@ export default class Abml_Reports extends LightningElement {
     yeartoYear;
     @track showFinYear = false;
     @track changeYear = true;
+    yrOptions = [];
+    clientCode;
+    activeDate;
+    checkAccDate;
 
     get options() {
         return [
@@ -38,7 +43,7 @@ export default class Abml_Reports extends LightningElement {
         ];
     }
 
-    @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
+    /*@wire(getRecord, { recordId: '$recordId', fields: FIELDS })
     wiredCase({ error, data }) {
         if (data) {
             this.datecheck = data.fields.Account.value?.fields.Active_Date__c.value;
@@ -48,7 +53,7 @@ export default class Abml_Reports extends LightningElement {
             this.error = error;
             this.datecheck = undefined;
         }
-    }
+    }*/
 
 
     handleChange(event) {
@@ -59,10 +64,6 @@ export default class Abml_Reports extends LightningElement {
     handleYearChange(event){
         this.finValue = event.detail.value;
         console.log('this.finValue--:' , this.finValue);
-        this.showFinYear = true;
-        this.changeYear = false;
-        //const selectedOption = event.detail.value;
-        //console.log('selectedOption=' + selectedOption);
 
         // Changes for the Active field check on related Account
         var newCheck = new Date(this.datecheck);
@@ -100,16 +101,11 @@ export default class Abml_Reports extends LightningElement {
         
     }
 
-    changeFinYear(){
-        this.showFinYear = false;
-        this.changeYear = true;
-    }
-
     startChange(event){
         this.startDate = event.target.value;
         console.log('this.startDate--:',this.startDate);
 
-        if(this.startDate < this.finacialStart){
+        if(this.startDate < this.finacialStart || this.startDate > this.financialEnd){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The start date for the report must fall within the selected financial year date range',
@@ -118,21 +114,11 @@ export default class Abml_Reports extends LightningElement {
             });
             //this.startDate = this.finacialStart;
         }
-
-        /*console.log('this.startDate--:',this.startDate);
-        var someDate = new Date(this.startDate);
-        var yearVal = someDate.getFullYear();
-        console.log('yearVal--:',yearVal);
-        var dateVal = '01';
-        var monthVal = '04';
-        var dtt = yearVal+'-'+monthVal+'-'+dateVal;
-        console.log('finacial year start--:',dtt);
-        this.finacialStart = dtt;*/
     }
 
     endChange(event){
         this.endDate = event.target.value;
-        if(this.endDate > this.financialEnd){
+        if(this.endDate > this.financialEnd || this.endDate < this.finacialStart){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The end date for the report must fall within the selected financial year date range',
@@ -140,44 +126,50 @@ export default class Abml_Reports extends LightningElement {
                 label: 'Warning!',
             });
         }
+    }
 
-        /*var someDate = new Date(this.endDate);
-        var yearVal = someDate.getFullYear();
-        console.log('yearVal--:',yearVal);
-        var dateVal = '31';
-        var monthVal = '03';
-        var dtt = yearVal+'-'+monthVal+'-'+dateVal;
-        console.log('finacial year end--:',dtt);
-        this.financialEnd = dtt;*/
+    // Constructor to generate the year options
+    /*constructor() {
+        super();
+        this.generateYearOptions();
+    }*/
+    generateYearOptions() {
+        const currentYear = new Date().getFullYear();
+        const startYear = 2011;
+        const endYear = currentYear;
+        console.log('currentYear--:',currentYear);
+        console.log('startYear--:',startYear);
+        console.log('endYear--:',endYear);
+
+        //this.yearOptions = [];
+        for (let year = startYear; year <= endYear; year++) {
+            this.yrOptions.push({ label: year.toString(), value: year.toString() });
+        }
+    }
+    handleYChange(event) {
+        this.selectedYear = event.detail.value;
+        console.log('this.selectedYear--:',this.selectedYear);
     }
 
     connectedCallback(){
-        var someDate = new Date();
-        var yearVal = someDate.getFullYear() - 6;
-        console.log('yearVal--:',yearVal);
-        //let arr = [];
-        for(let i=0;i<6;i++){
-            yearVal = yearVal+1;
-            //this.yearOptions.push(yearVal); 
-            //arr.push({label: yearVal, value: yearVal});
-            this.yearOptions = [...this.yearOptions ,{value: yearVal , label: yearVal}];   
-            console.log('yearVal123--:',yearVal);
-        }
-        //this.yearOptions = arr;
-        console.log('yearOptions--:',this.yearOptions);
        
         console.log('--recordId--:',this.recordId);
-        /*var date = new Date();//.toISOString().slice(0,10);
-        var endDate = new Date();
-        
-        date.setFullYear( date.getFullYear() - 5 );
-        this.minDate = date.toISOString().slice(0,10);
-        
-        console.log('Past 5 Years--:',this.minDate);
-        console.log('reportValue--:',this.reportValue);
+        this.generateYearOptions();
 
-        this.minEndDate = endDate.toISOString().slice(0,10);*/
+     }
 
+     handleClientCodeChange(event){
+        this.clientCode = event.target.value;
+        console.log('this.clientCode--:',this.clientCode);
+        //fetchActiveDate();
+        getAccountActiveDate({ clientCode: this.clientCode })
+        .then((result) => {
+             this.datecheck = result;
+             console.log('Active Date--:',this.datecheck);
+        })
+        .catch((error) => {
+            console.log('the error message is ',error);
+        });
      }
      
      onSubmit(){
@@ -189,11 +181,12 @@ export default class Abml_Reports extends LightningElement {
         //console.log('year',myDate.getFullYear());
         //console.log('month',myDate.getMonth()+1);
         //console.log('day',myDate.getDate());
+
         if (monthVal.toString().length < 2){
             monthVal = '0' + monthVal;}
         if (dateVal.toString().length < 2){
             dateVal = '0' + dateVal;}
-        var dtt = dateVal+'-'+monthVal+'-'+yearVal;
+        var dtt = yearVal+'-'+monthVal+'-'+dateVal;
         
         var endDate = new Date(this.endDate);
         var endDateVal = endDate.getDate();
@@ -204,7 +197,7 @@ export default class Abml_Reports extends LightningElement {
             endMonthVal = '0' + endMonthVal;}
         if (endDateVal.toString().length < 2){
             endDateVal = '0' + endDateVal;}
-        var dttt = endDateVal+'-'+endMonthVal+'-'+endYearVal;
+        var dttt = endYearVal+'-'+endMonthVal+'-'+endDateVal;
         var yr = yearVal+'-'+endYearVal;
         this.yeartoYear = yr;
         console.log('this.yeartoYear',this.yeartoYear);
@@ -219,6 +212,8 @@ export default class Abml_Reports extends LightningElement {
         var newCheckSubval1 = newCheckSub.getDate();
         var newCheckSubval2 = newCheckSub.getMonth()+1;
         var newCheckSubval3 = newCheckSub.getFullYear();
+        this.checkAccDate = newCheckSub.getFullYear();
+        console.log('this.this.checkAccDate--',this.checkAccDate);
 
         if(this.clientCode =='' || this.clientCode == undefined){
             LightningAlert.open({
@@ -232,13 +227,13 @@ export default class Abml_Reports extends LightningElement {
                 theme: 'warning', 
                 label: 'Warning!',
             });
-        }else if(this.finValue==undefined){
+        }else if(this.finValue==undefined || this.finValue ==''){
             LightningAlert.open({
                 message: 'Select financial year',
                 theme: 'warning', 
                 label: 'Warning!',
             });
-        }else if(this.startDate < this.finacialStart){
+        }else if(this.startDate < this.finacialStart || this.startDate > this.financialEnd){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The start date for the report must fall within the selected financial year date range',
@@ -246,10 +241,29 @@ export default class Abml_Reports extends LightningElement {
                 label: 'Warning!',
             });
             //this.startDate = this.finacialStart;
-        } else if(this.endDate > this.financialEnd){
+        } else if(this.endDate > this.financialEnd || this.endDate < this.finacialStart){
             console.log('this.finacialStart--:',this.finacialStart);
             LightningAlert.open({
                 message: 'The end date for the report must fall within the selected financial year date range',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        } else if(this.startDate > this.endDate){
+            LightningAlert.open({
+                message: 'The start date cannot be greater than end date',
+                theme: 'warning', 
+                label: 'Warning!',
+            });
+        }  else if (this.finValue < this.checkAccDate) {
+                LightningAlert.open({
+                    message: ERRORYEARMESSAGE,
+                    theme: 'warning', 
+                    label: 'Warning!',
+                });
+        }
+        else if(this.datecheck == null){
+            LightningAlert.open({
+                message: 'Account active date does not exist.',
                 theme: 'warning', 
                 label: 'Warning!',
             });
@@ -263,7 +277,7 @@ export default class Abml_Reports extends LightningElement {
         }
         else{
             
-            getReports({ caseRecId: this.recordId, startDate: this.startDatePass, endDate: this.endDatePass, reportType: this.reportValue, financialYear: this.yeartoYear })
+            getReports({ caseRecId: this.recordId, clientCode: this.clientCode, startDate: this.startDatePass, endDate: this.endDatePass, reportType: this.reportValue, financialYear: this.yeartoYear })
         .then(() => {
             //this.showToast('Success','Report type sent succesfully','success');
             //this.successMessage = 'Report type sent succesfully!';
@@ -278,6 +292,9 @@ export default class Abml_Reports extends LightningElement {
             this.finValue = '';
             this.startDate = '';
             this.endDate = '';
+            this.clientCode = '';
+            this.checkAccDate = null;
+            this.datecheck = null;
             //window.location.reload();
             
                
@@ -297,5 +314,5 @@ export default class Abml_Reports extends LightningElement {
         });
         }
 
-     }
+    }
 }
