@@ -17,12 +17,12 @@ public with sharing class ABML_LegacyView {
     *****************************************************************************************************************/
     @AuraEnabled(cacheable=true)
     public static AbmlPersonAccountWrapper abmlGetPersonAccountData(Id recordId) {
-        // Query the Account (Person Account) fields and related Contact fields
-     
-        Account personAccount = [Select Id,RecordType.Name, Client_Code__c,Line_of_Business__c,ABML_Client_Branch_Franchisee__pr.ABML_Franchisee_Code__c,ABML_Client_Branch_Franchisee__pr.ABML_Branch_Code__c, PAN__c,ABML_Franchisee_Code__c,ABML_Branch_Code__c
+        Account personAccount = new Account();
+        if(recordId != null){
+        personAccount = [Select Id,RecordType.Name, Client_Code__c,Line_of_Business__c,ABML_Client_Branch_Franchisee__pr.ABML_Franchisee_Code__c,ABML_Client_Branch_Franchisee__pr.ABML_Branch_Code__c, PAN__c,ABML_Franchisee_Code__c,ABML_Branch_Code__c,ABML_Agent_Code__pc,ABML_Broker_Code__pc
                              From Account
                              Where Id =: recordId];
-							 
+        }					 
 		AbmlPersonAccountWrapper result = new AbmlPersonAccountWrapper();
         result.lob= personAccount.Line_of_Business__c != null ? personAccount.Line_of_Business__c : '';
         If(personAccount.RecordType.Name == 'ABML Franchisee' || personAccount.RecordType.Name == 'ABML Branch'){
@@ -33,15 +33,17 @@ public with sharing class ABML_LegacyView {
             result.branchCode = personAccount.ABML_Client_Branch_Franchisee__pr.ABML_Branch_Code__c  != null ? personAccount.ABML_Client_Branch_Franchisee__pr.ABML_Branch_Code__c : '';
             result.franchiseeCode = personAccount.ABML_Client_Branch_Franchisee__pr.ABML_Franchisee_Code__c  != null ? personAccount.ABML_Client_Branch_Franchisee__pr.ABML_Franchisee_Code__c : '';
         }
+        else if(personAccount.RecordType.Name == 'ABML BSB' || personAccount.RecordType.Name == 'ABML DSA'){
+            result.agentCode = personAccount.ABML_Agent_Code__pc;
+            result.brokerCode = personAccount.ABML_Broker_Code__pc;
+        }
         else{
             result.clientCode = personAccount.Client_Code__c;
             result.pan = personAccount.PAN__c;
         }
 			return result;
-        
-                
-        
     }
+    
     /*********************************************************
     * @Class           AbmlPersonAccountWrapper
     * @Author          Saravpreet Arora
@@ -54,8 +56,9 @@ public with sharing class ABML_LegacyView {
         @AuraEnabled public String branchCode;
         @AuraEnabled public String franchiseeCode;
         @AuraEnabled public String lob;
+        @AuraEnabled public String agentCode;
+        @AuraEnabled public String brokerCode;
     }
-
 
     /* @LOB - ABML
     * @Function - abmlGetLegacyData
@@ -68,7 +71,7 @@ public with sharing class ABML_LegacyView {
     * @description  This method will get legacy date and display in SF
     *****************************************************************************************************************/
     @AuraEnabled
-    public static AbmlResponseWrapper abmlGetLegacyData(String clientCode, String pan, String code, String startDate, String endDate, String lob){
+    public static AbmlResponseWrapper abmlGetLegacyData(String clientCode, String pan, String code, String agentCode, String brokerCode, String startDate, String endDate, String lob){
         try{
             AbmlResponseWrapper response = null;
             AbmlLegacyCaseResponseBodyWrapper legacyCaseResponseWrapper;
@@ -79,7 +82,9 @@ public with sharing class ABML_LegacyView {
             pan = pan != null ? pan : '';
             code = code != null ? code : '';
             lob = lob != null ? lob : '';
-            String conPayload =  JSON.serialize(new AbmlLegacyViewRequest(clientCode, pan, code, startDate, endDate, lob));
+            agentCode = agentCode != null ? agentCode : '';
+            brokerCode = brokerCode != null ? brokerCode : '';
+            String conPayload =  JSON.serialize(new AbmlLegacyViewRequest(clientCode, pan, code, agentCode, brokerCode,  startDate, endDate, lob));
             System.debug('Data Request-->'+conPayload);
             ABCL_IntegrationCallout.IntegrationResponseWrapper legacyCaseResponse = ABCL_IntegrationCallout.executeCallout(integrationName,conPayload,null);
 
@@ -105,6 +110,7 @@ public with sharing class ABML_LegacyView {
             throw new AuraHandledException('Error : '+e.getMessage()+' '+e.getLineNumber());
         }
     }
+
     /*********************************************************
     * @Class           AbmlLegacyViewRequest
     * @Author          Saravpreet Arora
@@ -119,16 +125,20 @@ public with sharing class ABML_LegacyView {
         String FromDate;
         String ToDate;
         String LOB;
-        AbmlLegacyViewRequest(String clientId, String pan, String code, String fromDate, String toDate, String lob){
+        String AgentCode;
+        String BrokerCode;
+        AbmlLegacyViewRequest(String clientId, String pan, String code,String agentCode, String brokerCode, String fromDate, String toDate, String lob){
             this.ClientId = clientId;
             this.PAN = pan;
             this.Branch_franchisee_code = code;
             this.FromDate = fromDate;
             this.ToDate = toDate;
             this.LOB= lob;
-            
+            this.AgentCode = agentCode;
+            this.BrokerCode = brokerCode;
         }
     }
+
      /*********************************************************
     * @Class           AbmlResponseWrapper
     * @Author          Saravpreet Arora
@@ -158,22 +168,22 @@ public with sharing class ABML_LegacyView {
     * @Last Modified   06/11/2024 
     * @description     AbmlLegacyCaseResponseWrapper */
     public class AbmlLegacyCaseResponseWrapper{
-        @AuraEnabled public String CaseID;
+        @AuraEnabled public String Ticketnumber;
         @AuraEnabled public String Category;
         @AuraEnabled public String CaseType;
-        @AuraEnabled public String SubType;
+        @AuraEnabled public String CaseSubType;
         @AuraEnabled public String Source;
-        @AuraEnabled public String ClientID;
+        @AuraEnabled public String ClientId;
         @AuraEnabled public String CreatedOn;
-        @AuraEnabled public String CaseStatus;
-        @AuraEnabled public String LastUpdatedOn;
+        @AuraEnabled public String Status;
+        @AuraEnabled public String ModifiedOn;
         @AuraEnabled public String Owner;
-        @AuraEnabled public String ResolvedDate;
-        @AuraEnabled public String Case_TAT;
-        @AuraEnabled public String Ageing_by_working_days;
-        @AuraEnabled public String Assign_to_dept;
-        @AuraEnabled public String Case_Closed_By;
-	    @AuraEnabled public String Created_By;	
+        @AuraEnabled public String ResolvedOn;
+        @AuraEnabled public String TATDeadline;
+        @AuraEnabled public String AgeingDays;
+        @AuraEnabled public String AssignedTeam;
+        @AuraEnabled public String ResolvedBy;
+	    @AuraEnabled public String CreatedBy;	
 	
     }
      /*********************************************************

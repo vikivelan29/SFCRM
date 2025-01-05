@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;"><span style="font-size:10px;"><span style="font-family:Times New Roman,Times New Roman,Times,serif;">Dear&nbsp;{{{Case.Customer_name_formula__c}}},<br />
+Greetings from Aditya Birla Money Limited!<br />
+This is with reference to your email dated {{{Case.CreatedDate}}}.<br />
+&nbsp;<br />
+Thank you for reaching Aditya Birla Money Limited. Have a nice day.<br />
+Our Business WhatsApp number is +91 88288 00038.<br />
+&nbsp;<br />
+Please get in touch with your designated Branch for further clarification (or) Write to us&nbsp;at&nbsp;<a href="mailto:care.stocksandsecurities@adityabirlacapital.com" target="_blank"><b>care.stocksandsecurities@adityabirlacapital.com</b></a>&nbsp;(or) Call us on our Toll Free Number&nbsp;<b>1800-270-7000</b>&nbsp;(For quick IVR connect,&nbsp;<b>Press 1</b>&nbsp;- Service related to existing solutions -&gt;&nbsp;<b>Press 2</b>&nbsp;- Investing Solutions -&gt;&nbsp;<b>Press 3</b>&nbsp;- Stocks &amp; Securities Solutions).<br />
+&nbsp;<br />
+For Call and Trade, call us on 1800-108-9999.<br />
+&nbsp;<br />
+
+Regards,<br />
+<br />
+Customer Care Team<br />
+Aditya Birla Money Limited</span></span><br />
+&nbsp;</body>
+</html>
