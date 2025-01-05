@@ -147,15 +147,12 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         }
     }
     
-    public Messaging.EmailFileAttachment attachFile(String fileName,String csvContent){
-        //Messaging.EmailFileAttachment attach=new Messaging.EmailFileAttachment();
+    public Messaging.EmailFileAttachment createAttachment(String fileName, String csvContent){
         Messaging.EmailFileAttachment csvAttachment = new Messaging.EmailFileAttachment();
         csvAttachment.setFileName(fileName);
         csvAttachment.setBody(Blob.valueOf(csvContent));
         csvAttachment.setContentType('text/csv');
-        //attach.add(csvAttachment);
         return csvAttachment;
-        
     }
     
     global void finish(DataBase.BatchableContext context){
@@ -186,7 +183,9 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
         listOfAttachment.add(secondAttachment);
         listOfAttachment.add(thirdAttachment);
         listOfAttachment.add(fourthAttachment);
+        
         Id templateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Daily_Reports_Template_1734689602486' LIMIT 1].Id;
+        
         Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
         emailMessage.setTemplateId(templateId);
         emailMessage.setFileAttachments(listOfAttachment);  
