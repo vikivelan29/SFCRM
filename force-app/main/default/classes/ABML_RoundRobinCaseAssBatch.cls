@@ -22,7 +22,6 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
         
         //Query ABML User record to check for their OOO
         
-        Set<Id> setOfUnAvailableUserIds = new Set<Id>();
         Map<Id, Boolean> mapOfTUserAvailability = new Map<Id, Boolean>();
         for(OutOfOffice objOutOffice : [Select Id, UserId, StartDate, Enddate from OutOfOffice where StartDate <= Today AND Enddate >= today]){
             
@@ -41,7 +40,6 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
             else if(startDate < System.today() && endDate > System.today()){//
                 mapOfTUserAvailability.put(objOutOffice.UserId, false);
             }
-            setOfUnAvailableUserIds.add(objOutOffice.UserId);
         }
         
         BusinessHours bh = [SELECT Id, Name, MondayStartTime, MondayEndTime FROM BusinessHours WHERE Name = 'ABML'LIMIT 1];        
@@ -100,7 +98,7 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
                     if (!metaQueuedataMap.containsKey(gId)) {
                         metaQueuedataMap.put(gId, new List<String>());
                     }
-                    
+                    metaQueuedataMap.get(gId).add(uId);
                 }  
             }
         }
@@ -156,4 +154,5 @@ public with Sharing class ABML_RoundRobinCaseAssBatch implements Database.Batcha
     public void execute(SchedulableContext sc) {
         Database.executeBatch(new ABML_RoundRobinCaseAssBatch(),50);
     }
+
 }

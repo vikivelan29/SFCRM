@@ -1,119 +1,105 @@
+
 /*********************************************************
 *@Class        :  ABML_ReportsIntegration
-*@Author       :  
-*@Created Date :  
-*@Last Modified:  
+*@Author       :  Tanmay Metkar
+*@Created Date :  25-October-2024
+*@Last Modified:  25-November-2024
 *@description  :  Class for ABML SOA,SOT and Contract Note Report Integration
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABML_ReportsIntegration{
+    
     @AuraEnabled
-    public static void getReports(Id caseRecId, string startDate, string endDate, string reportType,string financialYear){ 
+    public static void getReports(Id caseRecId, String clientCode, String startDate, String endDate, String reportType, String financialYear){ 
+        
         ASF_IntegrationsController.IntegrationWrapper result = new ASF_IntegrationsController.IntegrationWrapper();
-        Case caseRecord = [
-            SELECT Id,Business_Unit__c,Mapped_Email__c,Client_Code__c FROM Case WHERE Id =: caseRecId];
-        string clientCode = caseRecord.Client_Code__c;
-        string firmNumber = 'ABM-000001';
-        string userName = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Username__c;                               // 'cllvl';
-        string password = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Password__c; // 'cllvl';
-        string startdateSpecified;
-        string enddateSpecified;
-        string dataString = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').DataString__c; // '192.168.90.21:1822/abm2223';
+        Case caseRecord = new Case();
+        
+        if(caseRecId != null){
+            caseRecord = [SELECT Id, Business_Unit__c FROM Case WHERE Id =: caseRecId LIMIT 1];
+        }
+        
+        //String clientCode = caseRecord.Client_Code__c != null ? caseRecord.Client_Code__c : '';
+         
+        String firmNumber = 'ABM-000001';
+
+        String userName = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Username__c;                              
+        String password = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').Password__c; 
+        String dataString = ABML_Report_Integration__mdt.getInstance('ABML_Report_Credentials').DataString__c; 
         String waitingApiResponse  = 'Waiting for API response';
         String pending = 'Pending';
         String success = 'Success';
         String error = 'Error';
         
-        if(startDate!=null){
-            startdateSpecified = 'true';
-        }
-        if(endDate!=null){
-            enddateSpecified = 'true';
-        }
+        String startdateSpecified = startDate != null ? 'true' : '';
+        String enddateSpecified = endDate != null ? 'true' : '';
+        
         
         ASF_Case_Integration__c caseInt = new ASF_Case_Integration__c();
-        caseInt.Case__c  = caseRecId;
+        caseInt.Case__c  = caseRecId != null ? caseRecId : null;
         caseInt.Business_External_Id__c = 'ABML_Report_Integration';
         caseInt.Status__c = pending; 
-        if(reportType=='Statement Of Account'){
+        if(reportType == 'Statement Of Account'){
             caseInt.Request__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfAccounts'));
         }
-        if(reportType=='Statement Of Transaction'){
+        if(reportType == 'Statement Of Transaction'){
             caseInt.Request__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfTransaction'));
         }
-        if(reportType=='Contract Note'){
+        if(reportType == 'Contract Note'){
             caseInt.Request__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'ContractNote','0','false'));
         }
+        
         caseInt.Response__c = waitingApiResponse;
-        if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
-            insert caseInt;
+        
+        if(!Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
+            return; 
         }
         
-        ASF_Case_Integration__c caseInt1 = [Select id, name,Status__c from ASF_Case_Integration__c where id =: caseInt.Id ];
+        insert caseInt;        
         
-        Case_Integration_Outbound__e caseIntOut = new Case_Integration_Outbound__e ();
-        caseIntOut.Business_Unit__c  = caseRecord.Business_Unit__c;
-        caseIntOut.Case_Integration_ID__c = caseInt1.Name;
-        if(reportType=='Statement Of Account'){
-            caseIntOut.Integration_Name__c  ='StatementOfAccount';
+        String strAsfName = [Select Id, Name from ASF_Case_Integration__c Where Id =: caseInt.Id].Name;
+        Case_Integration_Outbound__e outboundEvent = new Case_Integration_Outbound__e ();
+        outboundEvent.Case_Integration_ID__c = strAsfName;        
+       
+        if(caseRecord.Business_Unit__c != ''){
+            outboundEvent.Business_Unit__c  = caseRecord.Business_Unit__c;
         }
-        if(reportType=='Statement Of Transaction'){
-            caseIntOut.Integration_Name__c  ='StatementOfTransaction';
+        
+        if(reportType == 'Statement Of Account'){
+            outboundEvent.Integration_Name__c  ='StatementOfAccounts';
+            outboundEvent.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfAccounts'));
         }
-        if(reportType=='Contract Note'){
-            caseIntOut.Integration_Name__c  ='ContractNote';
+        
+        if(reportType == 'Statement Of Transaction'){
+            outboundEvent.Integration_Name__c  ='StatementOfTransaction';
+            outboundEvent.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfTransaction'));
         }
-        if(reportType=='Statement Of Account'){
-            caseIntOut.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfAccounts'));
+        
+        if(reportType == 'Contract Note'){
+            outboundEvent.Integration_Name__c  ='ContractNote';
+            outboundEvent.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'ContractNote','0','false'));
         }
-        if(reportType=='Statement Of Transaction'){
-            caseIntOut.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'StatementOfTransaction'));
-        }
-        if(reportType=='Contract Note'){
-            caseIntOut.Request_Payload__c  =  JSON.serialize(new ReportRequestWrapper(clientCode,startDate,startdateSpecified,endDate,enddateSpecified,userName,password,dataString,firmNumber,financialYear,'ContractNote','0','false'));
-        }
-        Database.SaveResult publishResult = EventBus.publish(caseIntOut);
+        
+        Database.SaveResult publishResult = EventBus.publish(outboundEvent);
+        
         if(publishResult.isSuccess()){
             result.status = success;
-            system.debug('status >>> '+result.status);
             result.response = Custom_Messages__mdt.getInstance('SOA_RUN_SUCCESS').Message__c;
-            system.debug('response >>> '+result.response);
-            system.debug('publishResult >>> '+publishResult);
-        }else{
+        }
+        else{
             result.status = error;
         }   
     }
     
-    public static void sendEmailAttachments(List<ASF_Case_Integration__c> asfCaseIntList){
-        set<Id> caserecords = new set<Id>();
-        set<Id> asfRecordsIDs = new set<Id>();
-        if(!asfCaseIntList.isEmpty()){
-            for(ASF_Case_Integration__c aCase : asfCaseIntList){
-                caserecords.add(aCase.Case__c);
-                asfRecordsIDs.add(aCase.Id);
-            }
-        }
-        
-        Map<Id,Case> caserecordsMap = new Map<Id,Case>();
-        List<Case> caseRecordList = [Select Id,Business_Unit__c,Mapped_Email__c from Case where ID IN :caserecords];
-        if(!caseRecordList.isEmpty()){
-            for(Case caserec :caseRecordList){
-                if(caserec.Business_Unit__c=='ABML' && caserec.Mapped_Email__c != null){
-                    caserecordsMap.put(caserec.Id,caserec);
-                }
-            }
-        }
-        Map<Id,ContentVersion> newContentMap = new Map<Id,ContentVersion>();
-        List<ContentVersion> contRecords = [select Id,FirstPublishLocationId,Title,VersionData from ContentVersion where FirstPublishLocationId IN :asfRecordsIDs];
-        if(!contRecords.isEmpty()){
-            for(ContentVersion c2:contRecords){
-                if(c2.FirstPublishLocationId != null && c2.Title != null){
-                    newContentMap.put(c2.FirstPublishLocationId,c2);  
-                }
-            }
-        }
-        OrgWideEmailAddress[] owea = [select Id,DisplayName,Address from OrgWideEmailAddress where DisplayName =:System.Label.ASF_default_no_reply_email_address];
+    public static void sendEmailAttachments(List<ASF_Case_Integration__c> asfCaseIntList){    
+        Set<Id> caseRecordsIds = new Set<Id>();
+        Set<Id> asfRecordIds = new Set<Id>();
+        Set<Id> accountRecords = new Set<Id>();
+        Map<Id , Case> caseRecordsMap = new Map<Id , Case>();
+        Map<Id , ContentVersion> newContentMap = new Map<Id , ContentVersion>();
+        Map<Id, Account> accountsMap = new Map<Id, Account>();
         Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+        Id personAccRecordType = Schema.SObjectType.Account.getRecordTypeInfosByName().get('ABML Customer').getRecordTypeId();
         
         if(!asfCaseIntList.isEmpty()){
             for(ASF_Case_Integration__c objAsfCase : asfCaseIntList){
@@ -150,9 +136,9 @@ public with sharing class ABML_ReportsIntegration{
         ABML_Daily_Report_Sender__c objReportSender = [SELECT Email__c from ABML_Daily_Report_Sender__c WHERE Name = 'ordWideAddress' LIMIT 1];
         OrgWideEmailAddress orgWideEmail = [SELECT Id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address =:objReportSender.Email__c  LIMIT 1]; 
         // Added for template
-        Id templateId1 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Report_Integration_Email_Template_1733123089274' LIMIT 1].Id;
-        Id templateId2 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_SOT_Email_Template_1733145673611' LIMIT 1].Id;
-        Id templateId3 = [SELECT Id FROM EmailTemplate WHERE DeveloperName = 'ABML_Contract_Note_Email_Template_1733145822012' LIMIT 1].Id;
+        Id templateId1 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML SOA Email Template' LIMIT 1].Id;
+        Id templateId2 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML SOT Email Template' LIMIT 1].Id;
+        Id templateId3 = [SELECT Id FROM EmailTemplate WHERE Name = 'ABML Contract Note Email Template' LIMIT 1].Id;
 
         Contact contactRec;
         if(!Test.isRunningtest()){
@@ -163,40 +149,54 @@ public with sharing class ABML_ReportsIntegration{
             for (ASF_Case_Integration__c objAsfCaseRecord : asfCaseIntList) {
                 if (objAsfCaseRecord.Status__c == 'Success' && caseRecordsMap.containsKey(objAsfCaseRecord.Case__c) && newContentMap.containskey(objAsfCaseRecord.Id)){                    
                     // Get the associated case record
-                    Case caseRecord = caserecordsMap.get(asfCaseRec2.Case__c);
-                    
+                    Case caseRecord = caseRecordsMap.get(objAsfCaseRecord.Case__c);                    
                     // Check if the case record and email are not null
-                    if (caseRecord != null && caseRecord.Mapped_Email__c != null) {
-                        email.setToAddresses(new String[] { caseRecord.Mapped_Email__c });
-                        email.setSubject('Email with File Attachment');
-                        email.setPlainTextBody('Please find the attached file.');
-                        email.setOrgWideEmailAddressId(owea.get(0).Id);
+                    if (caseRecord != null) {
+                        email.setOrgWideEmailAddressId(orgWideEmail.Id);
+                        if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Statement of Accounts') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('SOA')){
+                            email.setTemplateId(templateId1);
+                        }
+                        if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Statement of Transaction') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('SOT')){
+                            email.setTemplateId(templateId2);
+                        }
+                        if(newContentMap.get(objAsfCaseRecord.Id).Title.contains('Contract Note') || newContentMap.get(objAsfCaseRecord.Id).Title.contains('Contract')){
+                            email.setTemplateId(templateId3);
+                        }
+                        if(caseRecord.Account.RecordTypeId == personAccRecordType){
+                            email.setTargetObjectId(accountsMap.get(caseRecord.AccountId).PersonContactId); 
+                        }
+                        else{
+                            if(contactRec!=null){ 
+                                email.setTargetObjectId(contactRec.Id);
+                            }
+                        }
+                        
+                        email.setSaveAsActivity(false);
+                        email.setWhatId(caseRecord.Id);
                         
                         // Create the attachment
                         Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
-                        Blob versionData1 = newContentMap.get(asfCaseRec2.Id).VersionData;
-                        attachment.setBody(versionData1);
-                        attachment.setFileName(newContentMap.get(asfCaseRec2.Id).Title);
+                        Blob emailVersionData = newContentMap.get(objAsfCaseRecord.Id).VersionData;
+                        attachment.setBody(emailVersionData);
+                        attachment.setFileName(newContentMap.get(objAsfCaseRecord.Id).Title);
                         attachment.setContentType('application/pdf');
-                        email.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });    
-                    } else {
-                        System.debug('Case record or email address is null for Case ID: ' + asfCaseRec2.Case__c);
+                        email.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });
+                    } 
+                    else {
+                        System.debug('Case record or email address is null for Case ID: ' + objAsfCaseRecord.Case__c);
                     }
-                    ABCL_IntegrationCommonUtility.transferAttachments(asfCaseRec2);
+                    ABCL_IntegrationCommonUtility.transferAttachments(objAsfCaseRecord);
                 }
             }   
-            try{
-                Messaging.sendEmail(new Messaging.SingleEmailMessage[] { email });
-                
+            try{    
+                Messaging.sendEmail(new Messaging.SingleEmailMessage[] { email });                
             }
             catch (Exception e) {
                 // Handle the exception and log the error
                 System.debug('Error sending email: ' + e.getMessage());
-            }
-            
-        }     
-    }
-    
+            }            
+        }    
+    }    
 
 /****************************************************************************************************************
     *@description - Wrapper class to get all the request parameters
@@ -216,10 +216,7 @@ public with sharing class ABML_ReportsIntegration{
         public String FinancialYear;
         public String CommodityMergedContract;
         public String CommodityMergedContractSpecified;
-        //public String souce = ABHFL_Constants.SOA_SOURCE;
-        //public String requestType = ABHFL_Constants.SOA_REQUEST_TYPE;
         public String reportName;
-        //public String documentType = ABHFL_Constants.SOA_DOCUMENT_TYPE;
         
         ReportRequestWrapper(string Clientcode, String StartDate, string StartdateSpecified, String Enddate, String EnddateSpecified,string UserName, String Password, String DataString, String FirmNumber,string FinancialYear,string reportName, String CommodityMergedContract, String CommodityMergedContractSpecified){
             this.Clientcode = Clientcode;
@@ -248,6 +245,16 @@ public with sharing class ABML_ReportsIntegration{
             this.FirmNumber = FirmNumber;
             this.FinancialYear = FinancialYear;
             this.reportName = reportName;
+        }
+    }
+    
+    @AuraEnabled(cacheable=true)
+    public static date getAccountActiveDate(String clientCode){
+        Account activeDate = [Select Id,Client_Code__c, Active_Date__c from Account where Client_Code__c =:clientCode limit 1];
+        if(activeDate.Active_Date__c!=null){
+            return activeDate.Active_Date__c;
+        }else{
+            return null; 
         }
     }
 }

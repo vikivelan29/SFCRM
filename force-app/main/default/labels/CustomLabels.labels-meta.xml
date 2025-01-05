@@ -1188,7 +1188,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUsToHideEbotFeedbackInRecat</shortDescription>
-        <value>ABSLAMC;ABSLIG;Payments;ABHI</value>
+        <value>ABSLAMC;ABSLIG;Payments;ABHI;ABML</value>
     </labels>
     <labels>
         <fullName>Base_URL_for_bitly</fullName>
@@ -1686,5 +1686,19 @@
         <protected>false</protected>
         <shortDescription>ABML E2C</shortDescription>
         <value>bhc.test-v@adityabirlacapital.com:ABML_ack_1733892391736</value>
+    </labels>
+	<labels>
+        <fullName>ABML_ReportMessage2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_ReportMessage2</shortDescription>
+        <value>You have submitted the Request for the Report.</value>
+    </labels>
+    <labels>
+        <fullName>ABML_Report_Message1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABML_Report_Message1</shortDescription>
+        <value>You cannot enter year before the Present Activate date on Account</value>
     </labels>
 </CustomLabels>
