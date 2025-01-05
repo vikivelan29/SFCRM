@@ -5,7 +5,7 @@ import getReports from "@salesforce/apex/ABML_ReportsIntegration.getReports";
 import { getRecord } from 'lightning/uiRecordApi';
 import ERRORYEARMESSAGE from '@salesforce/label/c.ABML_Report_Message1';
 import SUBMITMESSAGE from '@salesforce/label/c.ABML_ReportMessage2';
-//import getAccountActiveDate from "@salesforce/apex/ABML_ReportsIntegration.getAccountActiveDate";
+import getAccountActiveDate from "@salesforce/apex/ABML_ReportsIntegration.getAccountActiveDate";
 
 const FIELDS = [
     'Case.Account.Active_Date__c'
@@ -158,7 +158,7 @@ export default class Abml_Reports extends LightningElement {
 
      }
 
-     /*handleClientCodeChange(event){
+     handleClientCodeChange(event){
         this.clientCode = event.target.value;
         console.log('this.clientCode--:',this.clientCode);
         //fetchActiveDate();
@@ -170,7 +170,7 @@ export default class Abml_Reports extends LightningElement {
         .catch((error) => {
             console.log('the error message is ',error);
         });
-     }*/
+     }
      
      onSubmit(){
         var myDate = new Date(this.startDate);
