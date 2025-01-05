@@ -19,25 +19,15 @@
             required
             onchange={handleChange} ></lightning-combobox>
 
-            <template if:true={changeYear}>
+            <!--<template if:true={changeYear}>-->
             <lightning-combobox
             label="Select Financial Year"
             value={finValue}
             placeholder="Select Financial Year"
-            options={financeYears}
+            options={yrOptions}
             required
             onchange={handleYearChange} ></lightning-combobox>
-            <!--<span>Financial Year Selected:{finValue}</span>--></template>
-
-            <template if:true={showFinYear}>
-            <lightning-input
-            label="Select Financial Year"
-            onclick={changeFinYear}
-            required
-            value={finValue}>
-        </lightning-input>
-        <!--<a onclick={changeFinYear}>Change Financial Year</a>-->
-        </template>
+            <!--<span>Financial Year Selected:{finValue}</span>--><!--</template>-->
             
 
             <!--min={minDate}  min={minEndDate}-->
@@ -56,10 +46,13 @@
                     onchange={endChange}
                 >
                 </lightning-input>
+               
+
                 <div class="slds-grid slds-grid_align-end slds-p-around_medium">
                     <div class="btnSubmit">
                     <lightning-button variant="brand" label="Submit" title="Submit" onclick={onSubmit} ></lightning-button>
                     </div>
+                    
                 </div>
             </div>
             
