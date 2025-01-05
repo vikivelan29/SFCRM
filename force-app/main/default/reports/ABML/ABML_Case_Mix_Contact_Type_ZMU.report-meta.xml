@@ -62,11 +62,11 @@
     <description>A bar chart that shows number of active cases and the contact type (Branch Employee, BSB, Customer, Franchisee, Prospect</description>
     <filter>
         <criteriaItems>
-            <column>Case.Stage__c</column>
+            <column>STATUS</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>,Open</value>
+            <value>New</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
