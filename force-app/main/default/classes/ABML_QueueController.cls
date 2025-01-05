@@ -113,14 +113,14 @@ public without sharing class ABML_QueueController { //Without sharing is added f
         return [SELECT Id, Name, DeveloperName, SobjectType FROM ListView WHERE SobjectType = 'Case' AND Name LIKE '%ABML%'];
     }
     
-    /*@AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=true)
     public static List<Case> getCaseRecords(String listViewId) {
         if (String.isEmpty(listViewId)) {
             return new List<Case>();
         } 
         String query = ABML_Listviewcallout.doCallout(listViewId);
         return Database.query(query);
-    } */
+    } 
     
     @AuraEnabled(cacheable=true)
     public static List<Case> getSearchRecords(String searchText) {
