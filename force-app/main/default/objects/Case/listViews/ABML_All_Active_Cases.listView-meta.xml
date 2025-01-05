@@ -3,6 +3,7 @@
     <fullName>ABML_All_Active_Cases</fullName>
     <booleanFilter>1 AND 2</booleanFilter>
     <columns>CASES.CASE_NUMBER</columns>
+    
     <columns>Client_Code__c</columns>
     <columns>ACCOUNT.NAME</columns>
     <columns>Created_Date__c</columns>
