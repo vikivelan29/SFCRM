@@ -18,7 +18,6 @@ public with sharing class ABFL_CaseIntegrationHelper {
             caseDetails.IsSMT__c = ( String.isNotBlank(unfydResponse.ISSMT) && unfydResponse.ISSMT == 'Yes') ? true : false;
             caseDetails.IsMultipleintent__c = (String.isNotBlank(unfydResponse.ISMULTIPLEINTENT) && unfydResponse.ISMULTIPLEINTENT == 'Yes') ? true : false;
             caseDetails.LOB__c=String.isNotBlank(unfydResponse.LOB)? unfydResponse.LOB : '';
-            caseDetails.IsRegisteredCustomer__c=String.isNotBlank(unfydResponse.ISREGISTEREDCUSTOMER)? unfydResponse.ISREGISTEREDCUSTOMER : '';
             caseDetails.PayTmInteractionId__c=String.isNotBlank(unfydResponse.PAYTMINTERACTIONID)? unfydResponse.PAYTMINTERACTIONID : '';
             caseDetails.Priority__c=String.isNotBlank(unfydResponse.PRIORITY)? unfydResponse.PRIORITY : '';
             caseDetails.LAN__c=String.isNotBlank(unfydResponse.LAN)? unfydResponse.LAN : '';
@@ -656,7 +655,7 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
 *****************************************************************************************************************/
     public static void publishUNFYDEmailEvent(String caseId){
         Map<String, String> fieldsMap = New Map<String, String>();
-        Case caseRecord=[Select Id,CaseNumber,Type_Text__c,Sub_Type_Text__c,Nature__c FROM Case where Id=:caseId LIMIT 1];
+        Case caseRecord=[Select Id,CaseNumber,Type_Text__c,Sub_Type_Text__c,Nature__c,Business_Unit__c FROM Case where Id=:caseId LIMIT 1];
         ABFL_Case_Detail__c caseDetails=[Select Id,Case__c From ABFL_Case_Detail__c where Case__r.Id =:caseRecord.Id LIMIT 1];
         if(caseRecord!= null && caseDetails!=null){
             
@@ -669,7 +668,7 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
             if(Schema.sObjectType.ASF_Case_Integration__c.isCreateable()){
                 insert caseInt;
             }
-            ASF_Case_Integration__c newCaseIntRec = [Select Id, Name from ASF_Case_Integration__c where id=:caseInt.Id Limit 1];
+            ASF_Case_Integration__c newCaseIntRec = [Select Id, Name from ASF_Case_Integration__c where id=:caseInt.Id AND Type__c = 'EMAILRESPONSE' Limit 1];
             fieldsMap.put('Case_Number__c',caseRecord.CaseNumber);
             fieldsMap.put('Case_Integration_ID__c',newCaseIntRec.Name);
             fieldsMap.put('Business_Unit__c',caseRecord.Business_Unit__c);
@@ -689,7 +688,7 @@ ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(recCase,caseCategC
 *****************************************************************************************************************/
     public static void unfydEmailResponseHandler(String caseId, ABFL_UNFYDEmailWrapper unfydResponse){
         Case caseRecord = [Select id, eBOT_Email_Draft_initial__c from case where id = :caseId];
-        caseRecord.eBOT_Email_Draft_initial__c = unfydResponse.emailResponse;
+        caseRecord.eBOT_Email_Draft_initial__c = unfydResponse.response;
         update caseRecord;
     }
 }
