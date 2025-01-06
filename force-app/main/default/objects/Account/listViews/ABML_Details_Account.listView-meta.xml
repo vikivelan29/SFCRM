@@ -3,7 +3,7 @@
     <fullName>ABML_Details_Account</fullName>
     <booleanFilter>(1 OR 3) AND 2</booleanFilter>
     <columns>ACCOUNT.NAME</columns>
-    <columns>ABML_Client_ID__pc</columns>
+    <columns>Client_Code__c</columns>
     <columns>ACCOUNT.PHONE1</columns>
     <columns>ABML_Email__c</columns>
     <columns>ABML_SEBI_No__c</columns>
