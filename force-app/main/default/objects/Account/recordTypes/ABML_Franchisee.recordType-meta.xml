@@ -12,6 +12,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>ABML_Partner_Segmentation__c</picklist>
+        <values>
+            <fullName>Business</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Premium</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>ABML_Status__c</picklist>
         <values>
             <fullName>Active</fullName>
@@ -19,6 +30,14 @@
         </values>
         <values>
             <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
+		 <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+		 <values>
+            <fullName>Dropped</fullName>
             <default>false</default>
         </values>
     </picklistValues>
