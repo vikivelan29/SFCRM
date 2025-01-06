@@ -178,15 +178,15 @@ public without sharing class ASF_CommPETriggerHelper {
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
 	//Added by Shagun
         String emailToBeSentForPayment = Label.Payments_Critical_Alerts_Group;
-        List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');    
-        String ccExternalIdForPayment = Label.Payment_Report_Fraud;
-        List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');                                                                                                                                            
+        List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');
+	String ccExternalIdForPayment = Label.Payment_Report_Fraud;
+        List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
 	List<String> toAddressesForPayments = new List<String>();    
         if(con != null){
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
-            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
-                 if(!toAddressesForCriticalGrp.isEmpty()) { //toAddressesForCriticalGrp
+           if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
                     toAddressesForCriticalGrp.add(con.Email);
         			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
                      msg.setToAddresses(toAddressesForPayments);
@@ -198,7 +198,7 @@ public without sharing class ASF_CommPETriggerHelper {
         else if(prospect != null){
             msg.setTargetObjectId(defaultContactId);
             msg.setTreatTargetObjectAsRecipient(false);	
-            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){      
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){     
                  if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
                     toAddressesForCriticalGrp.add(prospect.Email);
         			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
@@ -588,12 +588,11 @@ public without sharing class ASF_CommPETriggerHelper {
                              setCaseFields(commConfig,channelFieldNamesWA[0]);
                          }
                      }
-                     
                  }
+
         }
         String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,status';
         query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';
-        
         if(setCaseFields !=null && setCaseFields.size()>0){
             List<string> temp = new List<String>();
             temp.addAll(setCaseFields);
@@ -602,8 +601,6 @@ public without sharing class ASF_CommPETriggerHelper {
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :tempCaseIds FOR UPDATE';
         }
-        System.debug('@@@'+query);
-        
         List<Case> cases = (List<case>)Database.query(query);
         mCases = new Map<Id,Case>(cases);
         
