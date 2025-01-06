@@ -5,6 +5,7 @@
     <label>Product Category</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <controllingField>Function__c</controllingField>
@@ -27,21 +28,257 @@
                 <label>Credit Card</label>
             </value>
             <value>
-                <fullName>Loan Against property</fullName>
+                <fullName>Insta PL</fullName>
                 <default>false</default>
-                <label>Loan Against property</label>
+                <label>Insta PL</label>
             </value>
             <value>
-                <fullName>Commercial property</fullName>
+                <fullName>Home Loan</fullName>
                 <default>false</default>
-                <label>Commercial property</label>
+                <label>Home Loan</label>
             </value>
             <value>
-                <fullName>Home improvement/ Home Construction</fullName>
+                <fullName>Lease Rental Discounting</fullName>
                 <default>false</default>
-                <label>Home improvement/ Home Construction</label>
+                <label>Lease Rental Discounting</label>
+            </value>
+            <value>
+                <fullName>Base</fullName>
+                <default>false</default>
+                <label>Base</label>
+            </value>
+            <value>
+                <fullName>Super top</fullName>
+                <default>false</default>
+                <label>Super top</label>
+            </value>
+            <value>
+                <fullName>Pocket Insurance</fullName>
+                <default>false</default>
+                <label>Pocket Insurance</label>
+            </value>
+            <value>
+                <fullName>Travel Insurance</fullName>
+                <default>false</default>
+                <label>Travel Insurance</label>
+            </value>
+            <value>
+                <fullName>Demat</fullName>
+                <default>false</default>
+                <label>Demat</label>
+            </value>
+            <value>
+                <fullName>Stocks SIP</fullName>
+                <default>false</default>
+                <label>Stocks SIP</label>
+            </value>
+            <value>
+                <fullName>Debt</fullName>
+                <default>false</default>
+                <label>Debt</label>
+            </value>
+            <value>
+                <fullName>EQUITY</fullName>
+                <default>false</default>
+                <label>EQUITY</label>
+            </value>
+            <value>
+                <fullName>FOF</fullName>
+                <default>false</default>
+                <label>FOF</label>
+            </value>
+            <value>
+                <fullName>Hybrid</fullName>
+                <default>false</default>
+                <label>Hybrid</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Retirement</fullName>
+                <default>false</default>
+                <label>Retirement</label>
+            </value>
+            <value>
+                <fullName>Solutions</fullName>
+                <default>false</default>
+                <label>Solutions</label>
+            </value>
+            <value>
+                <fullName>Child</fullName>
+                <default>false</default>
+                <label>Child</label>
+            </value>
+            <value>
+                <fullName>Health</fullName>
+                <default>false</default>
+                <label>Health</label>
+            </value>
+            <value>
+                <fullName>Savings</fullName>
+                <default>false</default>
+                <label>Savings</label>
+            </value>
+            <value>
+                <fullName>Term</fullName>
+                <default>false</default>
+                <label>Term</label>
+            </value>
+            <value>
+                <fullName>ULIP</fullName>
+                <default>false</default>
+                <label>ULIP</label>
+            </value>
+            <value>
+                <fullName>Deposits</fullName>
+                <default>false</default>
+                <label>Deposits</label>
+            </value>
+            <value>
+                <fullName>Fixed Deposits</fullName>
+                <default>false</default>
+                <label>Fixed Deposits</label>
+            </value>
+            <value>
+                <fullName>DigiGold</fullName>
+                <default>false</default>
+                <label>DigiGold</label>
+            </value>
+            <value>
+                <fullName>Currency, Card &amp; Wire Transfer</fullName>
+                <default>false</default>
+                <label>Currency, Card &amp; Wire Transfer</label>
+            </value>
+            <value>
+                <fullName>Gold Loan</fullName>
+                <default>false</default>
+                <label>Gold Loan</label>
+            </value>
+            <value>
+                <fullName>Two wheeler</fullName>
+                <default>false</default>
+                <label>Two wheeler</label>
+            </value>
+            <value>
+                <fullName>Four Wheeler</fullName>
+                <default>false</default>
+                <label>Four Wheeler</label>
+            </value>
+            <value>
+                <fullName>NPS</fullName>
+                <default>false</default>
+                <label>NPS</label>
+            </value>
+            <value>
+                <fullName>Tax</fullName>
+                <default>false</default>
+                <label>Tax</label>
+            </value>
+            <value>
+                <fullName>ITR Filing</fullName>
+                <default>false</default>
+                <label>ITR Filing</label>
+            </value>
+            <value>
+                <fullName>ITR</fullName>
+                <default>false</default>
+                <label>ITR</label>
+            </value>
+            <value>
+                <fullName>Credit Score</fullName>
+                <default>false</default>
+                <label>Credit Score</label>
+            </value>
+            <value>
+                <fullName>Spend Manager</fullName>
+                <default>false</default>
+                <label>Spend Manager</label>
+            </value>
+            <value>
+                <fullName>Portfolio Consolidator</fullName>
+                <default>false</default>
+                <label>Portfolio Consolidator</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Child</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Health</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Savings</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>Term</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLI</controllingFieldValue>
+            <valueName>ULIP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Deposits</controllingFieldValue>
+            <valueName>Deposits</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Deposits</controllingFieldValue>
+            <valueName>Fixed Deposits</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DigiGold</controllingFieldValue>
+            <valueName>DigiGold</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Forex</controllingFieldValue>
+            <valueName>Currency, Card &amp; Wire Transfer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Gold Loan</controllingFieldValue>
+            <valueName>Gold Loan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Motor Insurance</controllingFieldValue>
+            <valueName>Two wheeler</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Motor Insurance</controllingFieldValue>
+            <valueName>Four Wheeler</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>NPS</controllingFieldValue>
+            <valueName>NPS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tax</controllingFieldValue>
+            <valueName>Tax</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tax</controllingFieldValue>
+            <valueName>ITR Filing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Tax</controllingFieldValue>
+            <valueName>ITR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>VAS</controllingFieldValue>
+            <valueName>Credit Score</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>VAS</controllingFieldValue>
+            <valueName>Spend Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>VAS</controllingFieldValue>
+            <valueName>Portfolio Consolidator</valueName>
+        </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABFL</controllingFieldValue>
             <valueName>Business Loan</valueName>
@@ -55,16 +292,68 @@
             <valueName>Credit Card</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>ABHFL</controllingFieldValue>
-            <valueName>Loan Against property</valueName>
+            <controllingFieldValue>ABFL</controllingFieldValue>
+            <valueName>Insta PL</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABHFL</controllingFieldValue>
-            <valueName>Commercial property</valueName>
+            <valueName>Home Loan</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>ABHFL</controllingFieldValue>
-            <valueName>Home improvement/ Home Construction</valueName>
+            <valueName>Lease Rental Discounting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABHI</controllingFieldValue>
+            <valueName>Base</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABHI</controllingFieldValue>
+            <valueName>Super top</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABHI</controllingFieldValue>
+            <valueName>Pocket Insurance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABHI</controllingFieldValue>
+            <valueName>Travel Insurance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABML</controllingFieldValue>
+            <valueName>Demat</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABML</controllingFieldValue>
+            <valueName>Stocks SIP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLAMC</controllingFieldValue>
+            <valueName>Debt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLAMC</controllingFieldValue>
+            <valueName>EQUITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLAMC</controllingFieldValue>
+            <valueName>FOF</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLAMC</controllingFieldValue>
+            <valueName>Hybrid</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLAMC</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLAMC</controllingFieldValue>
+            <valueName>Retirement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ABSLAMC</controllingFieldValue>
+            <valueName>Solutions</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
