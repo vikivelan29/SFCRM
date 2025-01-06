@@ -36,6 +36,26 @@
                 <default>false</default>
                 <label>Suspended for Debit</label>
             </value>
+            <value>
+                <fullName>Closed, Cancelled by DP</fullName>
+                <default>false</default>
+                <label>Closed, Cancelled by DP</label>
+            </value>
+            <value>
+                <fullName>Pending for Activation</fullName>
+                <default>false</default>
+                <label>Pending for Activation</label>
+            </value>
+            <value>
+                <fullName>Registered</fullName>
+                <default>false</default>
+                <label>Registered</label>
+            </value>
+            <value>
+                <fullName>To Be Closed</fullName>
+                <default>false</default>
+                <label>To Be Closed</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
