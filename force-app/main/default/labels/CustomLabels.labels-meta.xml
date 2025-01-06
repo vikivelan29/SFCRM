@@ -1843,4 +1843,11 @@
         <shortDescription>ABCD_LitmusAppId</shortDescription>
         <value>ll4w_touchpoint</value>
     </labels>
+    <labels>
+        <fullName>Payment_Report_Fraud</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payment Report Fraud</shortDescription>
+        <value>payments_indi_21,payments_indi_213,payments_indi_193</value>
+    </labels>
 </CustomLabels>
