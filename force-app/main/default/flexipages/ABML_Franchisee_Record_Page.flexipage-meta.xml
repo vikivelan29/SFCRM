@@ -4,16 +4,19 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>actionNames</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsConfiguration</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>enableActionsInNative</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
@@ -50,16 +53,6 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Contact_Type__c</fieldItem>
-                <identifier>RecordABML_Contact_Type__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
                     <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Name</fieldItem>
@@ -82,8 +75,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Activation_Date__c</fieldItem>
-                <identifier>RecordABML_Activation_Date__cField</identifier>
+                <fieldItem>Record.ABML_Partner_Segmentation__c</fieldItem>
+                <identifier>RecordABML_Partner_Segmentation__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -102,8 +95,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Status__c</fieldItem>
-                <identifier>RecordABML_Status__cField</identifier>
+                <fieldItem>Record.ABML_Franchisee_Category__c</fieldItem>
+                <identifier>RecordABML_Franchisee_Category__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -112,28 +105,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Terminal_Code__c</fieldItem>
-                <identifier>RecordABML_Terminal_Code__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Phone</fieldItem>
-                <identifier>RecordPhoneField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Line_of_Business__c</fieldItem>
-                <identifier>RecordLine_of_Business_cField</identifier>
+                <fieldItem>Record.Active_Date__c</fieldItem>
+                <identifier>RecordActive_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -143,27 +116,17 @@
                     <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.ABML_Contact_Category__c</fieldItem>
-                <identifier>RecordContact_Category__cField</identifier>
+                <identifier>RecordABML_Contact_Category_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Region_Name__c</fieldItem>
-                <identifier>RecordABML_Region_Name_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>readonly</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.OwnerId</fieldItem>
-                <identifier>RecordOwnerIdField</identifier>
+                <fieldItem>Record.ABML_Status__c</fieldItem>
+                <identifier>RecordABML_Status__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-83852267-3bd5-4350-9135-f9281866c552</name>
@@ -176,48 +139,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ParentId</fieldItem>
-                <identifier>RecordParentIdField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Franchisee_Code__c</fieldItem>
-                <identifier>RecordABML_Franchisee_Code__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Franchisee_Category__c</fieldItem>
-                <identifier>RecordABML_Franchisee_Category__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Date_of_Closure__c</fieldItem>
-                <identifier>RecordABML_Date_of_Closure__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.ABML_Registered_Segments__c</fieldItem>
                 <identifier>RecordABML_Registered_Segments__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Terminal_Code__c</fieldItem>
+                <identifier>RecordABML_Terminal_Code__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -246,6 +179,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Phone</fieldItem>
+                <identifier>RecordPhoneField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Fax</fieldItem>
                 <identifier>RecordFaxField</identifier>
             </fieldInstance>
@@ -256,28 +199,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Business_Unit__c</fieldItem>
-                <identifier>RecordBusiness_Unit_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Contact_Subcategory__c</fieldItem>
-                <identifier>RecordContact_Subcategory__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Website</fieldItem>
                 <identifier>RecordWebsiteField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Date_of_Closure__c</fieldItem>
+                <identifier>RecordABML_Date_of_Closure__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-3c81af5a-886a-4a6d-9be3-5ce639413876</name>
@@ -376,130 +309,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Regional_Head_Name__c</fieldItem>
-                <identifier>RecordABML_Regional_Head_Name__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Regional_Head_Mobile__c</fieldItem>
-                <identifier>RecordABML_Regional_Head_Mobile__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-46617c0f-cc8c-4a07-901f-180ec447c12f</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Regional_Head_Email__c</fieldItem>
-                <identifier>RecordABML_Regional_Head_Email__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-e468eabd-0efa-4e8d-b685-a357fb1bb105</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-46617c0f-cc8c-4a07-901f-180ec447c12f</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column11</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-e468eabd-0efa-4e8d-b685-a357fb1bb105</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column12</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-538941e9-ecfd-42af-a807-d528236c4461</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Zone_Head_Name__c</fieldItem>
-                <identifier>RecordZone_Head_Name__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Zone_Head_Mobile__c</fieldItem>
-                <identifier>RecordABML_Zone_Head_Mobile__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-5b9262a3-f497-4b9d-a3d8-1023f8a7f925</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ABML_Zone_Head_Email__c</fieldItem>
-                <identifier>RecordABML_Zone_Head_Email__cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-a5f4cc92-4d9c-4b35-abd7-58ded4ba46c2</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-5b9262a3-f497-4b9d-a3d8-1023f8a7f925</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column13</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-a5f4cc92-4d9c-4b35-abd7-58ded4ba46c2</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column14</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-fbf74bf2-4bf7-4806-97df-56e4be845b0b</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.ABML_Cluster_Manager_Name__c</fieldItem>
                 <identifier>RecordABML_Cluster_Manager_Name__cField</identifier>
             </fieldInstance>
@@ -560,13 +369,23 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.CreatedById</fieldItem>
-                <identifier>RecordCreatedByIdField</identifier>
+                <fieldItem>Record.ABML_Region_Name__c</fieldItem>
+                <identifier>RecordABML_Region_Name_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-b1fa991d-a157-4f4e-9586-c526df4ef5ad</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Regional_Head_Name__c</fieldItem>
+                <identifier>RecordABML_Regional_Head_Name__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-46617c0f-cc8c-4a07-901f-180ec447c12f</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -574,13 +393,23 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>readonly</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.LastModifiedById</fieldItem>
-                <identifier>RecordLastModifiedByIdField</identifier>
+                <fieldItem>Record.ABML_Regional_Head_Email__c</fieldItem>
+                <identifier>RecordABML_Regional_Head_Email__cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <name>Facet-3ce49a5a-3952-4e49-b486-5d06d567f401</name>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Regional_Head_Mobile__c</fieldItem>
+                <identifier>RecordABML_Regional_Head_Mobile__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-e468eabd-0efa-4e8d-b685-a357fb1bb105</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -588,23 +417,95 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-b1fa991d-a157-4f4e-9586-c526df4ef5ad</value>
+                    <value>Facet-46617c0f-cc8c-4a07-901f-180ec447c12f</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column6</identifier>
+                <identifier>flexipage_column11</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-3ce49a5a-3952-4e49-b486-5d06d567f401</value>
+                    <value>Facet-e468eabd-0efa-4e8d-b685-a357fb1bb105</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column7</identifier>
+                <identifier>flexipage_column12</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-810d9698-ad64-4a27-9cbb-f7bfaca356ef</name>
+        <name>Facet-538941e9-ecfd-42af-a807-d528236c4461</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Zone_Name__c</fieldItem>
+                <identifier>RecordABML_Zone_Name_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Zone_Head_Name__c</fieldItem>
+                <identifier>RecordZone_Head_Name__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-5b9262a3-f497-4b9d-a3d8-1023f8a7f925</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Zone_Head_Email__c</fieldItem>
+                <identifier>RecordABML_Zone_Head_Email__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ABML_Zone_Head_Mobile__c</fieldItem>
+                <identifier>RecordABML_Zone_Head_Mobile__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-a5f4cc92-4d9c-4b35-abd7-58ded4ba46c2</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-5b9262a3-f497-4b9d-a3d8-1023f8a7f925</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column13</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-a5f4cc92-4d9c-4b35-abd7-58ded4ba46c2</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column14</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-fbf74bf2-4bf7-4806-97df-56e4be845b0b</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -648,6 +549,24 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
+                    <value>Facet-63d91bc2-e7af-492f-8c86-cda53c365af9</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Cluster Manager Detail</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
                     <value>Facet-538941e9-ecfd-42af-a807-d528236c4461</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -678,42 +597,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection7</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-63d91bc2-e7af-492f-8c86-cda53c365af9</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Cluster Manager Detail</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-810d9698-ad64-4a27-9cbb-f7bfaca356ef</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>System Information</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection4</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -843,7 +726,7 @@
                             <value>CONTACT.EMAIL</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CONTACT.PHONE1</value>
+                            <value>Mobile__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -946,59 +829,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>actionNames</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxRecordsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Account.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>Banks__r</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListDisplayType</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListFieldAliases</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>NAME</value>
-                        </valueListItems>
-                    </valueList>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListLabel</name>
-                    <value>Banks</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldAlias</name>
-                    <value>__DEFAULT__</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sortFieldOrder</name>
-                    <value>Default</value>
-                </componentInstanceProperties>
-                <componentName>lst:dynamicRelatedList</componentName>
-                <identifier>lst_dynamicRelatedList4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-055d567d-1dd5-453c-b6b5-e452b5d0f761</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-4e5f6c0b-1535-4dfd-82da-222ee7ceac05</value>
                 </componentInstanceProperties>
@@ -1080,20 +910,6 @@
                 <identifier>flexipage_tab4</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-055d567d-1dd5-453c-b6b5-e452b5d0f761</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab5</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>maintabs</name>
         <type>Facet</type>
@@ -1118,29 +934,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Case.Change_Priority</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Close_the_Case</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.Framework_Snapshot</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.NewChildCase</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Case.SR_Snapshot_Preframework</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>MassChangeOwner</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>NewCase</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>maxRecordsToDisplay</name>
