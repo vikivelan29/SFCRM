@@ -39,6 +39,22 @@ private class ASF_CommPETriggerHandler_Test {
         config.Process__c='Case';
         insert config;
         
+        Lead leaRec= new Lead();
+        leaRec.FirstName = 'John';
+        leaRec.LastName = 'Doe';
+        leaRec.Company = 'Acme Inc.';
+        leaRec.Email = 'john.doe@example.com';
+        leaRec.Phone = '1234567890';
+        insert leaRec;
+
+        // Create a Test ContentVersion
+        ContentVersion testContentVersion = new ContentVersion(
+            Title = 'Test Document',
+            PathOnClient = 'TestDoc.txt',
+            VersionData = Blob.valueOf('This is a test document.')
+        );
+        insert testContentVersion;
+        
         List<Case> cases = new List<Case>();
         
         for(integer i=0;i<1;i++){
@@ -64,6 +80,31 @@ private class ASF_CommPETriggerHandler_Test {
             cs2.Business_Unit__c = 'Payments';
             cases.add(cs2);
         }
+         for(integer i=0;i<1;i++){
+            Case cs4 = new Case();
+            cs4.CCC_External_Id__c = 'payments_indi_193';
+            cs4.AccountId = a1.Id;
+            cs4.Status = 'Resolved';
+            cs4.Stage__c='Resolved'; 
+            cs4.Type_Text__c ='Report Fraud'; 
+            cs4.Sub_Type_Text__c ='Reporting of fraudulent transaction'; 
+            cs4.Business_Unit__c = 'Payments';
+            cs4.Lead__c = leaRec.Id;
+            cases.add(cs4);
+        }
+         for(integer i=0;i<1;i++){
+            Case cs5 = new Case();
+            cs5.CCC_External_Id__c = 'payments_indi_213';
+           // cs5.AccountId = a1.Id;
+            cs5.Status = 'Resolved';
+            cs5.Stage__c='Resolved'; 
+            cs5.Type_Text__c ='Report Fraud'; 
+            cs5.Sub_Type_Text__c ='Reporting of fraudulent transaction'; 
+            cs5.Business_Unit__c = 'Payments';
+            cases.add(cs5);
+        }
+          
+          
         ASF_TriggerSkipperUtility.markTriggerRun('Case');
         insert cases;
         System.assertNotEquals(0, cases.size() , 'case list should not be zero');
@@ -450,4 +491,7 @@ private class ASF_CommPETriggerHandler_Test {
         Test.stopTest();
         
     }
+    
+
+    
 }
