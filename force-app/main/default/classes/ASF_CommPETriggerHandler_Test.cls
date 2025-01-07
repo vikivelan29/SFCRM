@@ -54,6 +54,14 @@ private class ASF_CommPETriggerHandler_Test {
         leaRec.Email = 'john.doe@example.com';
         leaRec.Phone = '1234567890';
         insert leaRec;
+
+        // Create a Test ContentVersion
+        ContentVersion testContentVersion = new ContentVersion(
+            Title = 'Test Document',
+            PathOnClient = 'TestDoc.txt',
+            VersionData = Blob.valueOf('This is a test document.')
+        );
+        insert testContentVersion;
         
         List<Case> cases = new List<Case>();
         
@@ -106,6 +114,7 @@ private class ASF_CommPETriggerHandler_Test {
          for(integer i=0;i<1;i++){
             Case cs5 = new Case();
             cs5.CCC_External_Id__c = 'payments_indi_213';
+           // cs5.AccountId = a1.Id;
             cs5.Status = 'Resolved';
             cs5.Stage__c='Resolved'; 
             cs5.Type_Text__c ='Report Fraud'; 
