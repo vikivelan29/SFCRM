@@ -16,7 +16,6 @@
         </inputParameters>
         <nameSegment>c:asf_navigateToRecord</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <assignments>
@@ -142,73 +141,12 @@
         </rules>
     </decisions>
     <dynamicChoiceSets>
-        <name>ABFL_Product_Category</name>
-        <dataType>String</dataType>
-        <displayField>Product_Category__c</displayField>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Function__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>ABFL</stringValue>
-            </value>
-        </filters>
-        <object>ONEABC_Function_Category_Mapping__mdt</object>
-        <outputAssignments>
-            <assignToReference>leadRecord.Product_Category__c</assignToReference>
-            <field>Product_Category__c</field>
-        </outputAssignments>
-        <valueField>Product_Category__c</valueField>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>ABHFL_Product_Category</name>
-        <dataType>String</dataType>
-        <displayField>Product_Category__c</displayField>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Function__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>ABHFL</stringValue>
-            </value>
-        </filters>
-        <object>ONEABC_Function_Category_Mapping__mdt</object>
-        <outputAssignments>
-            <assignToReference>leadRecord.Product_Category__c</assignToReference>
-            <field>Product_Category__c</field>
-        </outputAssignments>
-        <valueField>Product_Category__c</valueField>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>Function</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>Function__c</picklistField>
-        <picklistObject>Lead</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
         <name>Lead_Source</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
         <picklistField>ONEABC_Lead_Source__c</picklistField>
         <picklistObject>Lead</picklistObject>
-    </dynamicChoiceSets>
-    <dynamicChoiceSets>
-        <name>Product_Category_Filtered</name>
-        <dataType>String</dataType>
-        <displayField>Product_Category__c</displayField>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Function__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Function_pl</elementReference>
-            </value>
-        </filters>
-        <object>ONEABC_Function_Category_Mapping__mdt</object>
-        <valueField>Product_Category__c</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>SalutationChoiceSet</name>
@@ -306,7 +244,7 @@
         <inputAssignments>
             <field>Function__c</field>
             <value>
-                <elementReference>Function_pl</elementReference>
+                <elementReference>Function_PC.topValue</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -336,7 +274,7 @@
         <inputAssignments>
             <field>Product_Category__c</field>
             <value>
-                <elementReference>leadRecord.Product_Category__c</elementReference>
+                <elementReference>Function_PC.middleValue</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -505,51 +443,72 @@
                 <name>Basic_Information_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>Function_pl</name>
-                    <choiceReferences>Function</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Function</fieldText>
-                    <fieldType>DropdownBox</fieldType>
+                    <name>Function_PC</name>
+                    <extensionName>flowruntime:dependentPicklists</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>dependencyWrapperApiName</name>
+                        <value>
+                            <stringValue>Lead</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>topPicklistApiName</name>
+                        <value>
+                            <stringValue>Function__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>middlePicklistApiName</name>
+                        <value>
+                            <stringValue>Product_Category__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>disabled</name>
+                        <value>
+                            <booleanValue>false</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>topLabel</name>
+                        <value>
+                            <stringValue>Function</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>topRequired</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>topValue</name>
+                        <value>
+                            <elementReference>FunctionVal</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>middleLabel</name>
+                        <value>
+                            <stringValue>Product Category</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>middleRequired</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>middleValue</name>
+                        <value>
+                            <elementReference>ProductCatValue</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                </fields>
-                <fields>
-                    <name>Product_Category_ABFL</name>
-                    <choiceReferences>ABFL_Product_Category</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Product Category</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <visibilityRule>
-                        <conditionLogic>or</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Function_pl</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>ABFL</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <name>Product_Category_ABHFL</name>
-                    <choiceReferences>ABHFL_Product_Category</choiceReferences>
-                    <dataType>String</dataType>
-                    <fieldText>Product Category</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Function_pl</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>ABHFL</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <fields>
                     <name>Created_By_ADID</name>
@@ -804,6 +763,13 @@
         </value>
     </variables>
     <variables>
+        <name>FunctionVal</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>leadRecord</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -815,6 +781,13 @@
         <name>policyRecordIds</name>
         <dataType>String</dataType>
         <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ProductCatValue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
