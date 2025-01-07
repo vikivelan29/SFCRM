@@ -53,6 +53,11 @@ private class ASF_CommPETriggerHandler_Test {
         leaRec.Company = 'Acme Inc.';
         leaRec.Email = 'john.doe@example.com';
         leaRec.Phone = '1234567890';
+        leaRec.LeadSource='Branch Ops';
+        leaRec.Sub_Source__c='Walk-in';
+        leaRec.Requested_Loan_Amount__c=1234;
+        leaRec.Preferred_Communication__c='Email';
+        leaRec.ABHFL_Prospect_Type__c='Individual';
         insert leaRec;
         
         List<Case> cases = new List<Case>();
