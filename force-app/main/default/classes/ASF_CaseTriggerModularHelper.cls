@@ -425,7 +425,7 @@ blankSourcePresent = true;
                         {
                             caseRecFromMap.OwnerId = caseRec.OwnerId;
                         }
-                        else if( caseRec.RecordTypeId== interactionRecTypeIdCase && oldMap.get(caseRec.Id).RecordTypeId == interactionRecTypeIdCase && caseRec.Business_Unit__c == 'ABHI' && caseRec.Sent_to_EBOT__c == true){
+                        else if( caseRec.RecordTypeId== frameworkRecordTypeIdCase && oldMap.get(caseRec.Id).RecordTypeId == interactionRecTypeIdCase && caseRec.Business_Unit__c == 'ABHI' && caseRec.Sent_to_EBOT__c == true){
                             caseRecFromMap.OwnerId = caseRec.OwnerId;
                         }
                         caseRecFromMap.Case_Assigned_Team__c = resultWrap.defaultOwnerName != null ? resultWrap.defaultOwnerName : '';
