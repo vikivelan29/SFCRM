@@ -5000,9 +5000,9 @@
         <field>Case.Rejection_Reason_w_o_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
-        <field>Customer_Member_Mapping__c.Member_Client_Code__c</field>
+        <field>Asset.ABHI_PolicyNo_Proposal__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
