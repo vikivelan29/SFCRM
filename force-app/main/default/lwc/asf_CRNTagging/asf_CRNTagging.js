@@ -84,16 +84,17 @@ export default class Asf_CRNTagging extends LightningElement {
     caseBu;
     selectedRecBu = '';
     caseRecType = '';
+    selectedCustomerType = '';
 
     @wire(getRecord, { recordId: loggedInUserId, fields: [UserBusinessUnit ]}) 
     currentUserInfo({error, data}) {
         if (data) {
             this.loggedInUserBusinessUnit = data.fields.Business_Unit__c.value;
-            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE != null? lanLabels[this.loggedInUserBusinessUnit].CUSTOMER_TAGGING_CARD_TITLE : lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
-            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER != null? lanLabels[this.loggedInUserBusinessUnit].PRODUCT_SEARCH_PLACEHOLDER : lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
-            this.selectLan = lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT != null? lanLabels[this.loggedInUserBusinessUnit].SELECT_PRODUCT : lanLabels["DEFAULT"].SELECT_PRODUCT;
-            this.asstCols = lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ASSET_COLUMNS : lanLabels["DEFAULT"].ASSET_COLUMNS;
-            this.accCols = lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS != null? lanLabels[this.loggedInUserBusinessUnit].ACCOUNT_COLUMNS : lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
+            this.cardTitle = lanLabels[this.loggedInUserBusinessUnit]?.CUSTOMER_TAGGING_CARD_TITLE || lanLabels["DEFAULT"].CUSTOMER_TAGGING_CARD_TITLE;
+            this.productSearchPlaceholder = lanLabels[this.loggedInUserBusinessUnit]?.PRODUCT_SEARCH_PLACEHOLDER || lanLabels["DEFAULT"].PRODUCT_SEARCH_PLACEHOLDER;
+            this.selectLan = lanLabels[this.loggedInUserBusinessUnit]?.SELECT_PRODUCT || lanLabels["DEFAULT"].SELECT_PRODUCT;
+            this.asstCols = lanLabels[this.loggedInUserBusinessUnit]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
+            this.accCols = lanLabels[this.loggedInUserBusinessUnit]?.ACCOUNT_COLUMNS || lanLabels["DEFAULT"].ACCOUNT_COLUMNS;
         } else if (error) {
             //this.error = error; 
         }
@@ -133,9 +134,10 @@ export default class Asf_CRNTagging extends LightningElement {
                 console.log('pre selected rows--'+this.preSelectedRows);
                 this.showLANForCustomer = true;
                 this.prestdAcctId = this.accData[0].recordId;
-                this.selectedCustomer = this.prestdAcctId;
+                this.selectedCustomer = this.prestdAcctId; 
                 this.selectedRecBu = this.accData[0].accBu;
                 this.asstCols = lanLabels[this.selectedRecBu]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
+                this.selectedCustomerType = this.accData[0].objectType;
                 //this.getAssetOnLoad(this.accData[0].recordId);
                 console.log('acc data--'+JSON.stringify(this.accData));
             }
@@ -157,7 +159,7 @@ export default class Asf_CRNTagging extends LightningElement {
             this.asstData = data.asstList;
             this.initialRecords = data.asstList;
             this.selectedCustomer = this.prestdAcctId;
-
+            
             let my_ids1 = [];
             if(this.FAId) {
                 my_ids1.push(this.FAId);
@@ -206,6 +208,7 @@ export default class Asf_CRNTagging extends LightningElement {
         this.selectedCustomer = row[0].recordId;
         this.selectedRecBu = row[0].accBu;
         this.asstCols = lanLabels[this.selectedRecBu]?.ASSET_COLUMNS || lanLabels["DEFAULT"].ASSET_COLUMNS;
+        this.selectedCustomerType = row[0].objectType;
         this.showLANForCustomer = false;
         if(row[0].objectType == 'Customer' && this.loggedInUserBusinessUnit != ABML_BU){// Added by EY for ABML business unit
             // SHOW LAN ONLY WHEN OBJECTTYPE EQUALS CUSTOMER.
@@ -273,7 +276,7 @@ export default class Asf_CRNTagging extends LightningElement {
                         this.showError('error', 'Error Occured', ONEABC_Acc_Error_ABCD);
                         return;
                     }
-                    else if(this.caseBu == ONEABC_BU && this.selectedRecBu == ABCD_BU){
+                    else if(this.caseBu == ONEABC_BU && (this.selectedRecBu == ABCD_BU && this.selectedCustomerType != 'Prospect')){
                         this.showError('error', 'Error Occured', ONEABC_Acc_Error_Non_ABCD);
                         return;
                     }

@@ -27,6 +27,8 @@ public without sharing class ASF_CaseTriggerModularHelper {
     }
     public static String relObjName = '';
     public static List<Id> bypassProfileId = new List<Id>();
+    public static Id interactionRecTypeIdCase = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Interaction').getRecordTypeId();
+    public static Id frameworkRecordTypeIdCase = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
     /**
     * @Function - setSkipperFlags
     * @Description - method to be invoked at the beginning and end of the BEFORE triggers
@@ -252,10 +254,13 @@ blankSourcePresent = true;
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
-                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null){
+                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null && caseRec.Business_Unit__c != ABFL_Constants.ABFL && caseRec.Business_Unit__c != ABHFL_Constants.BUSINESS_UNIT_ABHFL){
                     // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
                     String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
                     caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
+                }else if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
+                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
+                
                 }else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';
@@ -418,6 +423,9 @@ blankSourcePresent = true;
                             // VIRENDRA - 6 July 2024 - BYPASS OWNER CHANGE ON CASE RECORDTYPE CHANGE FROM PREFRAMEWORK TO FRAMEWORK.
                             if((caseRec.Preframework_to_Framework_FromUI__c != oldMap.get(caseRec.Id).Preframework_to_Framework_FromUI__c && caseRec.Preframework_to_Framework_FromUI__c))
                         {
+                            caseRecFromMap.OwnerId = caseRec.OwnerId;
+                        }
+                        else if( caseRec.RecordTypeId== interactionRecTypeIdCase && oldMap.get(caseRec.Id).RecordTypeId == interactionRecTypeIdCase && caseRec.Business_Unit__c == 'ABHI' && caseRec.Sent_to_EBOT__c == true){
                             caseRecFromMap.OwnerId = caseRec.OwnerId;
                         }
                         caseRecFromMap.Case_Assigned_Team__c = resultWrap.defaultOwnerName != null ? resultWrap.defaultOwnerName : '';

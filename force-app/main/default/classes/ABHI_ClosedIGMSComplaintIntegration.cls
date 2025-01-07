@@ -254,7 +254,7 @@ public with sharing class ABHI_ClosedIGMSComplaintIntegration implements ASF_Int
         @SuppressWarnings('PMD.ExcessiveParameterList')
         public objReq() {
             this.Complaint_Status_Id = '7';
-            this.Status_Change_Date = ABCL_IntegrationCommonUtility.dateFormat(System.today(), 'dd-MM-YYYY');
+            this.Status_Change_Date = ABHI_IGMSIntegrationHelper.todayString;
             this.Addressed_To_Insurer = ABSLI_Constants.ABSLI_IGMS_ADDRESS_TO_INSURER_Y;
             this.Mode = ABSLI_Constants.ABSLI_IGMS_MODE_UPDATE;
             this.Trans_Login_Id = 'ABHICADMIN1';

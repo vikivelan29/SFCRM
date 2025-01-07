@@ -362,6 +362,11 @@
                 <default>false</default>
                 <label>PolicyBazar</label>
             </value>
+              <value>
+                <fullName>Policy_Bazar</fullName>
+                <default>false</default>
+                <label>Policy_Bazar</label>
+            </value>
             <value>
                 <fullName>Courier</fullName>
                 <default>false</default>

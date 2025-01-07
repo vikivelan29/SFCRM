@@ -3,7 +3,7 @@
 *Description  :  Controller class for asf_NdcIndicator LWC
 *********************************************************/
 
-public without sharing class Asf_NpsIndicatiorController {
+public with sharing class Asf_NpsIndicatiorController {
    
     /****************************************************************************************************************
     * @LOB - ALL
@@ -25,10 +25,14 @@ public without sharing class Asf_NpsIndicatiorController {
     }
     @AuraEnabled
     public static Map<String,String> getNpsScore(string customerId) {
-
+        Account acc=[Select Id, Business_Unit__c FROM Account Where Id=:customerId];
         Map<String,String> mapOfBusinessUnitToNpsScore = new Map<String,String>();
-        List<Survey_Response__c> surveyResp = [SELECT ID,Primary_Question_NPS__c,Business_Unit__c FROM Survey_Response__c WHERE Client_Code__c =: customerId ORDER BY CreatedDate DESC LIMIT 1];
-
+        List<Survey_Response__c> surveyResp;
+        if(acc.Business_Unit__c==ABHFL_Constants.BUSINESS_UNIT_ABHFL){
+            surveyResp = [SELECT ID,Primary_Question_NPS__c,Business_Unit__c,Responded_on__c FROM Survey_Response__c WHERE Client_Code__c =: customerId ORDER BY Responded_on__c DESC LIMIT 1];
+        }else{
+        	surveyResp = [SELECT ID,Primary_Question_NPS__c,Business_Unit__c FROM Survey_Response__c WHERE Client_Code__c =: customerId ORDER BY CreatedDate DESC LIMIT 1];    
+        }
         if(!surveyResp.isEmpty() && surveyResp[0].Primary_Question_NPS__c !=null){
             mapOfBusinessUnitToNpsScore.put(surveyResp[0]?.Business_Unit__c, String.valueOf(surveyResp[0].Primary_Question_NPS__c));
         }

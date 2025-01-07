@@ -128,7 +128,6 @@ export default class ABHI_OmniDocView extends LightningElement {
             await getDataForDatatable({strAssetId: this.recordId, strPolicyNo: this.policyNumber}).then((response)=>{
                 if(response && response.SearchResponse){
                     for (let i = 0; i < response.SearchResponse.length; i++) {
-                        if(this.objectApiName != 'Case') response.SearchResponse[i].policyNumber = this.policyNumber;
                         response.SearchResponse[i].rowUniqueId = Math.random().toString(16).slice(2,13);
                         if(response.SearchResponse[i].Error){
                             if(Array.isArray(response.SearchResponse[i].Error)){
@@ -136,6 +135,36 @@ export default class ABHI_OmniDocView extends LightningElement {
                                     if(response.SearchResponse[i].Error[j].Description != 'SUCCESS'){
                                         this.boolShowNoRec = true;
                                         this.noRecordsAvailable = response.SearchResponse[i].Error[j].Description;
+                                    }
+                                }
+                            }
+                        }
+                        if(response.SearchResponse[i].DataClassParam){
+                            if(Array.isArray(response.SearchResponse[i].DataClassParam)){
+                                for(let k=0; k < response.SearchResponse[i].DataClassParam.length; k++){
+                                    switch(response.SearchResponse[i].DataClassParam[k].DocSearchParamId) {
+                                        case '2':
+                                            response.SearchResponse[i].policyNumber = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '1':
+                                            response.SearchResponse[i].claimNumber = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '17':
+                                            response.SearchResponse[i].caseNumber = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '5':
+                                            response.SearchResponse[i].sourceSystem = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '6':
+                                            response.SearchResponse[i].documentType = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '16':
+                                            response.SearchResponse[i].templateId = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        case '15':
+                                            response.SearchResponse[i].Description = response.SearchResponse[i].DataClassParam[k].Value;
+                                        break;
+                                        default:
                                     }
                                 }
                             }
@@ -166,7 +195,7 @@ export default class ABHI_OmniDocView extends LightningElement {
                 break;
             case 'cmpEmail':
                 if(this.objASFRecord.has(event.detail.row.rowUniqueId)){
-                    this.objCurrentASFRec = this.objASFRecord.get(event.detail.row.rowUniqueId)
+                    this.objCurrentASFRec = this.objASFRecord.get(event.detail.row.rowUniqueId);
                     console.log('currAsfId::',this.objCurrentASFRec);
                     this.showAwaitDoc = true;
                 }else{
