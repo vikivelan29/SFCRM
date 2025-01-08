@@ -559,7 +559,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Closed_Rejected_Resolved</name>
-            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR ((6 AND 7)OR (6 AND 7 AND 23 AND 22)) OR 8 OR (9 AND ((10 AND 19) OR 13 OR 14 OR 15 OR 16 OR 17 OR 18 OR 20 OR 21)) OR (11 AND 12)</conditionLogic>
+            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5) OR ((6 AND 7)OR (6 AND 7 AND 22 AND 23)) OR 8 OR (9 AND ((10 AND 19) OR 13 OR 14 OR 15 OR 16 OR 17 OR 18 OR 20 OR 21)) OR (11 AND 12)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record__Prior</leftValueReference>
                 <operator>IsNull</operator>
@@ -711,14 +711,14 @@
                 <leftValueReference>$Record.Business_Unit__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Payments</stringValue>
+                    <stringValue>Report Fraud</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Type</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Report Fraud</stringValue>
+                    <stringValue>Payments</stringValue>
                 </rightValue>
             </conditions>
             <connector>
