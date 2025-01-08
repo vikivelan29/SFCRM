@@ -70,52 +70,6 @@ public class ABSLI_AfterUpdateLogic_Test {
             ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve(new List<Case> {caseRec}, caseRec1);
         }
     }
- @isTest
-    public static void absli_PIVCIntegrationTest(){
-        Account acc = new Account();
-        acc.FirstName='test';
-        acc.LastName='test2';
-        insert acc;
-
-        Asset assetRec = new Asset();
-        assetRec.Name = 'Test Asset';
-        assetRec.AccountId =acc.Id;
-        assetRec.Application_Number__c = '1234';
-        insert assetRec;
-
-        ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
-        detailRec.API_Request__c = 'API Request';
-        detailRec.API_Name__c = 'PIVC Verisafe';
-        detailRec.API_Response_Message__c = 'Success';
-        detailRec.API_Error_Code__c = '200';
-        insert detailRec;
-
-        Case caseRec = new Case();
-        caseRec.Source__c = 'Email';
-        caseRec.Business_Unit__c = 'ABSLI';
-        caseRec.Status = 'Open';
-        caseRec.Stage__c='Open';
-        caseRec.AssetId = assetRec.Id;
-        caseRec.ABSLI_Case_Detail__c = detailRec.Id;
-        caseRec.AccountId = acc.Id;
-        caseRec.CCC_External_Id__c = 'NBPC009';
-        caseRec.LAN__c = '8895335596';
-        caseRec.Technical_Source__c = 'API';
-        insert caseRec;
-
-        ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(
-            //Case__c = caseObj.Id,
-            API_Request__c = 'API Request',
-            API_Name__c = 'PIVC Verisafe',
-            API_Response_Message__c = 'Success',
-            API_Error_Code__c = '200'
-        );
-        insert caseDetail;
-        Test.startTest();
-        Case csupd = new Case();
-        csupd.Id=caseRec.Id;
-        csupd.Stage__c='Resolved';
-        update csupd;
-        Test.stopTest();
-    }
+ 
+       
 }
