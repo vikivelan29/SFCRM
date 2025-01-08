@@ -1835,7 +1835,7 @@
         <language>en_US</language>	
         <protected>false</protected>	
         <shortDescription>Payments Critical Alerts Group</shortDescription>	
-        <value>shagunsingh223@gmail.com,pavan.jami@in.ey.com,tanmay.s.metkar@in.ey.com</value>	
+        <value>remya.nambiar-v@adityabirlacapital.com,priyanka.shinde1-v@adityabirlacapital.com,Bhageerathi.R@adityabirlacapital.com,Tanmay.Mahale@adityabirlacapital.com,amit.ranjan2-v@adityabirlacapital.com</value>	
     </labels>
     <labels>	
         <fullName>ABSLAMC_DataSyncUser_FederationId</fullName>	
@@ -1879,4 +1879,11 @@
         <shortDescription>ABSLI_PIVC_Integration_CTST</shortDescription>
         <value>NBPC009,NBPC007,NBPC006,NBPC008,NBPC010,RPR001,NBRC004,NBPC012</value>
    </labels>
+    <labels>
+        <fullName>Payment_Report_Fraud</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payment Report Fraud</shortDescription>
+        <value>payments_indi_21,payments_indi_213,payments_indi_193</value>
+    </labels>
 </CustomLabels>

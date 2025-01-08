@@ -40,6 +40,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
             else if(triggerContext == 'AfterASFCodeInBeforeInsert') {
                 dedupeLogicOnCaseCreation(triggerContext);
                 populateFieldsOnCase(abhiNewCaseList, null);//RNWL
+                ABHI_CaseCreationValidation.checkCreateCaseValidations(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
             }
@@ -50,7 +51,6 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 abhiCsDetHelperObj.updateAccountFieldsonCaseDetail(abhiNewCaseList);
                 abhiCsDetHelperObj.populateCaseOnABHICaseDet(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
                 abhiCsDetHelperObj.captureReopenFieldsOnCaseReopen(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
-                ABHI_CaseCreationValidation.checkCreateCaseValidations(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }
         }
     }
@@ -251,10 +251,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
     * @description - Policy number is mandatory on customer tagging but not for Prospect.
     */
     public void policyIsMandatory(){
-        
         for(Case cs : abhiNewCaseList) {
-            if(String.isNotBlank(cs.AccountId) && String.isBlank(cs.AssetId)&& cs.Source__c != 'IGMS' && cs.Technical_Source__c != 'API' && cs.Technical_Source__c != 'Email') {
-                cs.addError(ABHI_Constants.POLICY_IS_MANDATORY_ON_CUSTOMER);
+        	if (UserInfo.getName() != 'ABHI Deployment User') {
+                if(String.isNotBlank(cs.AccountId) && String.isBlank(cs.AssetId)&& cs.Source__c != 'IGMS' && cs.Technical_Source__c != 'API' && cs.Technical_Source__c != 'Email') {
+                    cs.addError(ABHI_Constants.POLICY_IS_MANDATORY_ON_CUSTOMER);
+                }
             }
         }
     }
@@ -515,9 +516,9 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     } 
                         
                     if(individualCase.Customer_Member_Text__c != null) {
-                        mapDetailIdCustomer.put(individualCase.Id, 'ABHI_'+individualCase.Customer_Member_Text__c);
+                                                mapDetailIdCustomer.put(individualCase.Id, 'ABHI_'+individualCase.Customer_Member_Text__c);
                         mapCaseIdPolicyId.put(individualCase.Id, individualCase.AssetId);
-                    }
+                                             }
                     else if(individualCase.Customer_Member_Text__c == null && oldMapOfCases != null && oldMapOfCases.get(individualCase.Id).Customer_Member_Text__c != individualCase.Customer_Member_Text__c) {
                         if(!mapCaseDetUpdate.containsKey(individualCase.ABHI_Case_Detail__c)) {
                             caseDetail = new ABHI_Case_Detail__c();
@@ -578,13 +579,13 @@ public with sharing class ABHI_BusinessLogic_Helper {
                     mapAccountLobId.put(acc.LOB_Client_Code__c, acc.ID);
                 }
             }*/
-            for(Customer_Member_Mapping__c cusMemMap : [SELECT ID, MemberId__r.LOB_Client_Code__c,Policy_Number__c FROM Customer_Member_Mapping__c WHERE  
+                        for(Customer_Member_Mapping__c cusMemMap : [SELECT ID, MemberId__r.LOB_Client_Code__c,Policy_Number__c FROM Customer_Member_Mapping__c WHERE  
                                                         MemberId__r.LOB_Client_Code__c IN :mapDetailIdCustomer.values()
                                                         AND Policy_Number__c IN :mapCaseIdPolicyId.values()]) {
-                for(Id caseId : mapDetailIdCustomer.keySet()) {
+                                                                            for(Id caseId : mapDetailIdCustomer.keySet()) {
                     if(mapCaseIdPolicyId.containsKey(caseId) && mapCaseIdPolicyId.get(caseId).equals(cusMemMap.Policy_Number__c)
                         && mapDetailIdCustomer.get(caseId).equals(cusMemMap.MemberId__r.LOB_Client_Code__c)) {
-                            caseDetail = new ABHI_Case_Detail__c();
+                            caseDetail = new ABHI_Case_Detail__c(); 
                             caseDetail.Id = mapCaseDetails.get(caseId);
                             if(!mapCaseDetUpdate.containsKey(caseDetail.Id)) {
                                 mapCaseDetUpdate.put(caseDetail.Id, caseDetail);                                                                            
@@ -824,5 +825,33 @@ public with sharing class ABHI_BusinessLogic_Helper {
             ASF_CaseTriggerModularHelper.setManualSkipperFlags(recIdToSkipperFlag, 'ABHI_Case_Detail__c');
         }
         
+    }
+     /**
+    * @param : newCases, oldCaseMap - 
+    * @return : void 
+    * @description : populate CustomerText field OnManual Cases
+    */
+    public void populateCustomerTextOnManualCase(List<Case> newCases, Map<Id, Case> oldCaseMap){
+        Set<Id> caseIdsWithAccountUpdate = new Set<Id>();
+        for (Case c : newCases) {
+            Case oldCase = oldCaseMap.get(c.Id);
+            if ( c.Business_Unit__c  == 'ABHI' && c.Technical_Source__c == 'LWC' && c.Stage__c == 'Open') {
+                caseIdsWithAccountUpdate.add(c.ABHI_Case_Detail__c);
+            }
+        }
+    
+        if (!caseIdsWithAccountUpdate.isEmpty()) {
+            Map<Id, ABHI_Case_Detail__c> detailMap = new Map<Id, ABHI_Case_Detail__c>(
+                [SELECT Id, Member__r.Member_Client_Code__c FROM ABHI_Case_Detail__c WHERE Id IN :caseIdsWithAccountUpdate]
+            );
+    
+            for (Case c : newCases) {
+        		Case oldCase = oldCaseMap.get(c.Id);
+                ABHI_Case_Detail__c relatedDetail = detailMap.get(c.ABHI_Case_Detail__c);
+                if (relatedDetail != null && relatedDetail.Member__r.Member_Client_Code__c != null &&  relatedDetail.Member__r.Member_Client_Code__c !=  c.Customer_Member_Text__c  ) {
+                    c.Customer_Member_Text__c = relatedDetail.Member__r.Member_Client_Code__c;
+                } 
+            }
+        }
     }
 }

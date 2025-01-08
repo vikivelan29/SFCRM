@@ -24,7 +24,7 @@
 &quot;Member&quot;: [
 {
 &quot;MemberNo&quot;: &quot;&quot;,
-&quot;MemberCode&quot;: &quot;{Account.Client_Code__c}&quot;,
+&quot;MemberCode&quot;: &quot;{Customer_Member_Text__c}&quot;,
 &quot;Member_FirstName&quot;: &quot;&quot;,
 &quot;Member_LastName&quot;: &quot;&quot;,
 &quot;Member_ContactNumber&quot;: &quot;&quot;,

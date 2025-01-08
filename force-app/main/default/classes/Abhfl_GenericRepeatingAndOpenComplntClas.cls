@@ -144,6 +144,8 @@ public without sharing class Abhfl_GenericRepeatingAndOpenComplntClas {
         public string type;
         @AuraEnabled
         public List < PicklistWrapper > options;
+        @AuraEnabled
+        public Boolean wrapText = true;
     }
     Public class survrespwrapper {
         @AuraEnabled

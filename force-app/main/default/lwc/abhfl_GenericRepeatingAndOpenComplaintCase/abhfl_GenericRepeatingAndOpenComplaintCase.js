@@ -99,21 +99,40 @@ export default class Abhfl_GenericRepeatingAndOpenComplaintCase extends Navigati
         }
 
         if(this.businessUnit && (this.businessUnit !== lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
-            if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined) {
-                this.showCustomerNPSbyNumber =  "❌";
-        }
-            else if(this.showCustomerNPSbyNumber > 0 && this.showCustomerNPSbyNumber <= 3){
-                this.showCustomerNPSbyNumber =  "🙁";
+            if(this.businessUnit == 'ABHFL'){
+                if (this.showCustomerNPSbyNumber == undefined) {
+                    this.showCustomerNPSbyNumber =  "❌";
+                }
+                else if(this.showCustomerNPSbyNumber >= 0 && this.showCustomerNPSbyNumber <= 3){
+                    this.showCustomerNPSbyNumber =  "🙁";
+                }
+                else if(this.showCustomerNPSbyNumber > 3 &&  this.showCustomerNPSbyNumber <= 6){
+                    this.showCustomerNPSbyNumber =  "😐";
+                }
+                else if(this.showCustomerNPSbyNumber > 6 && this.showCustomerNPSbyNumber <= 10){
+                    this.showCustomerNPSbyNumber =  "😁";
+                }
+                else {
+                    this.showCustomerNPSbyNumber = '';
+                }
+            }else{
+                if (this.showCustomerNPSbyNumber == 0 || this.showCustomerNPSbyNumber == undefined) {
+                    this.showCustomerNPSbyNumber =  "❌";
+                }
+                else if(this.showCustomerNPSbyNumber > 0 && this.showCustomerNPSbyNumber <= 3){
+                    this.showCustomerNPSbyNumber =  "🙁";
+                }
+                else if(this.showCustomerNPSbyNumber > 3 &&  this.showCustomerNPSbyNumber <= 6){
+                    this.showCustomerNPSbyNumber =  "😐";
+                }
+                else if(this.showCustomerNPSbyNumber > 6 && this.showCustomerNPSbyNumber <= 10){
+                    this.showCustomerNPSbyNumber =  "😁";
+                }
+                else {
+                    this.showCustomerNPSbyNumber = '';
+                }
             }
-            else if(this.showCustomerNPSbyNumber > 3 &&  this.showCustomerNPSbyNumber <= 6){
-                this.showCustomerNPSbyNumber =  "😐";
-        }
-            else if(this.showCustomerNPSbyNumber > 6 && this.showCustomerNPSbyNumber <= 10){
-                this.showCustomerNPSbyNumber =  "😁";
-            }
-            else {
-                this.showCustomerNPSbyNumber = '';
-            }
+            
         }
         else if(this.businessUnit && (this.businessUnit === lanLabels[this.businessUnit].ABHI_BUSINESS_UNIT)) {
             this.logicToShowEmoji();

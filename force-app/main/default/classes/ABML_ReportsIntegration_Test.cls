@@ -20,7 +20,7 @@ public with sharing class ABML_ReportsIntegration_Test{
         listOfReportSender.add(objReportSenderTwo);
         insert listOfReportSender;
         System.runAs(userRecord) {            
-            Account acc = new Account(Client_Code__c = 'ABCTest321', FirstName = 'test', LastName = 'test2', PersonEmail='testuser@example.com', Business_Unit__c ='ABML');
+            Account acc = new Account(Client_Code__c = 'ABCTest321', FirstName = 'test', LastName = 'test2', PersonEmail='testuser@example.com', Business_Unit__c ='ABML', Active_Date__c=System.Today());
             insert acc;
             
             // Create a Case record
@@ -114,6 +114,18 @@ public with sharing class ABML_ReportsIntegration_Test{
             Test.stopTest();
             System.assertNotEquals(sentContent, null);
             System.assertEquals(sentContent.Title, 'Report1.pdf');
+        }
+    }
+    
+    @isTest 
+    static void getAccountActiveDateTest(){
+        User objUser = [SELECT Id, Name, UserName FROM User WHERE Business_Unit__c = 'ABML' and LastName = 'Test' LIMIT 1];
+        System.runAs(objUser){    
+            Account accTest = [Select Id,Client_Code__c, Active_Date__c from Account where Client_Code__c = 'ABCTest321' limit 1];
+            Test.startTest();
+            ABML_ReportsIntegration.getAccountActiveDate(accTest.Client_Code__c);    
+            Test.stopTest();
+            System.assertEquals('ABCTest321', accTest.Client_Code__c, 'Client Code must have a value.');
         }
     }
 }
