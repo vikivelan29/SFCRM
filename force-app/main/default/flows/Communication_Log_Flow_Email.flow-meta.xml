@@ -711,14 +711,14 @@
                 <leftValueReference>$Record.Business_Unit__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Report Fraud</stringValue>
+                    <stringValue>Payments</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
                 <leftValueReference>$Record.Type</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Payments</stringValue>
+                    <stringValue>Report Fraud</stringValue>
                 </rightValue>
             </conditions>
             <connector>
