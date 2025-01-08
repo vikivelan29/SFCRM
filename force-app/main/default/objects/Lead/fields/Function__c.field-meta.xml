@@ -5,20 +5,21 @@
     <label>Function</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>ABSLI</fullName>
+                <fullName>ABFL</fullName>
                 <default>false</default>
-                <label>ABSLI</label>
+                <label>ABFL</label>
             </value>
             <value>
-                <fullName>AMC</fullName>
+                <fullName>ABHFL</fullName>
                 <default>false</default>
-                <label>AMC</label>
+                <label>ABHFL</label>
             </value>
             <value>
                 <fullName>ABHI</fullName>
@@ -31,29 +32,14 @@
                 <label>ABML</label>
             </value>
             <value>
-                <fullName>ABFL</fullName>
+                <fullName>ABSLAMC</fullName>
                 <default>false</default>
-                <label>ABFL</label>
+                <label>ABSLAMC</label>
             </value>
             <value>
-                <fullName>Motor insurance</fullName>
+                <fullName>ABSLI</fullName>
                 <default>false</default>
-                <label>Motor insurance</label>
-            </value>
-            <value>
-                <fullName>ABHFL</fullName>
-                <default>false</default>
-                <label>ABHFL</label>
-            </value>
-            <value>
-                <fullName>NPS</fullName>
-                <default>false</default>
-                <label>NPS</label>
-            </value>
-            <value>
-                <fullName>Travel insurance</fullName>
-                <default>false</default>
-                <label>Travel insurance</label>
+                <label>ABSLI</label>
             </value>
             <value>
                 <fullName>Deposits</fullName>
@@ -61,9 +47,14 @@
                 <label>Deposits</label>
             </value>
             <value>
-                <fullName>Digi Gold</fullName>
+                <fullName>DigiGold</fullName>
                 <default>false</default>
-                <label>Digi Gold</label>
+                <label>DigiGold</label>
+            </value>
+            <value>
+                <fullName>Forex</fullName>
+                <default>false</default>
+                <label>Forex</label>
             </value>
             <value>
                 <fullName>Gold Loan</fullName>
@@ -71,29 +62,24 @@
                 <label>Gold Loan</label>
             </value>
             <value>
-                <fullName>TAX</fullName>
+                <fullName>Motor Insurance</fullName>
                 <default>false</default>
-                <label>TAX</label>
+                <label>Motor Insurance</label>
             </value>
             <value>
-                <fullName>Pocket Insurance</fullName>
+                <fullName>NPS</fullName>
                 <default>false</default>
-                <label>Pocket Insurance</label>
+                <label>NPS</label>
             </value>
             <value>
-                <fullName>Digi Silver</fullName>
+                <fullName>Tax</fullName>
                 <default>false</default>
-                <label>Digi Silver</label>
+                <label>Tax</label>
             </value>
             <value>
-                <fullName>LAS</fullName>
+                <fullName>VAS</fullName>
                 <default>false</default>
-                <label>LAS</label>
-            </value>
-            <value>
-                <fullName>Fx</fullName>
-                <default>false</default>
-                <label>Fx</label>
+                <label>VAS</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -330,6 +330,16 @@
                 <identifier>RecordSFLMS_Status_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Push_To_LMS_Date__c</fieldItem>
+                <identifier>RecordPush_To_LMS_Date__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-60dd630e-32bb-44b0-93a0-f56307fdc134</name>
         <type>Facet</type>
     </flexiPageRegions>
