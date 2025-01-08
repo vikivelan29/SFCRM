@@ -175,17 +175,16 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                           Boolean isAttachment,
                                                                           Id owdID){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-	msg.setOrgWideEmailAddressId(owdID);
 	//Added by Shagun
         String emailToBeSentForPayment = Label.Payments_Critical_Alerts_Group;
-        List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');
+        List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');                                                                   
+	List<String> toAddressesForPayments = new List<String>();   
 	String ccExternalIdForPayment = Label.Payment_Report_Fraud;
         List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
-	List<String> toAddressesForPayments = new List<String>();    
         if(con != null){
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
-           if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
                  if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
                     toAddressesForCriticalGrp.add(con.Email);
         			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
@@ -198,7 +197,7 @@ public without sharing class ASF_CommPETriggerHelper {
         else if(prospect != null){
             msg.setTargetObjectId(defaultContactId);
             msg.setTreatTargetObjectAsRecipient(false);	
-            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){     
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){      
                  if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
                     toAddressesForCriticalGrp.add(prospect.Email);
         			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
