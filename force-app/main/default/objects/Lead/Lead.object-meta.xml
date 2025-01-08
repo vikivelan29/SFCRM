@@ -262,6 +262,17 @@
         <fields>LEAD.EMAIL</fields>
         <profileName>ABHI Base Profile</profileName>
     </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>FULL_NAME</fields>
+        <fields>LEAD.TITLE</fields>
+        <fields>Business_Unit__c</fields>
+        <fields>LEAD.COMPANY</fields>
+        <fields>LEAD.PHONE</fields>
+        <fields>LEAD.MOBILE_PHONE</fields>
+        <fields>LEAD.EMAIL</fields>
+        <fields>LEAD.STATUS</fields>
+        <profileName>ABCD Base Profile</profileName>
+    </profileSearchLayouts>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>

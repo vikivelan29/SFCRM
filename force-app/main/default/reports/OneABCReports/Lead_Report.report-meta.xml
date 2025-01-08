@@ -37,7 +37,7 @@
         <field>CREATED</field>
     </columns>
     <columns>
-        <field>Lead.Comments__c</field>
+        <field>Lead.Remarks__c</field>
     </columns>
     <filter>
         <criteriaItems>
