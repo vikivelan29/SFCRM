@@ -1,10 +1,8 @@
 @isTest
 public class ABSLI_AfterUpdateLogic_Test {
-    
-    
     private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE name='System Administrator' LIMIT 1];
     private final static Id FRAMEWORKRECORDTYPEID = Schema.sObjectType.Case.getRecordTypeInfosByDeveloperName().get('Framework').getRecordTypeId();
-   /* @TestSetup
+    @TestSetup
     static void makeData(){
         Test.loadData(SLA_Threshold_Warning__c.sObjectType, 'testSLAThreshold');
         ASF_TestDataFactory.createC3IntegrationsAndCase();
@@ -13,7 +11,7 @@ public class ABSLI_AfterUpdateLogic_Test {
         List<ABSLI_Case_Detail__c> caseDetails =new List<ABSLI_Case_Detail__c>();
         for(integer i=0;i<cases.size();i++){
             ABSLI_Case_Detail__c caseExtn = new ABSLI_Case_Detail__c();
-            //caseExtn.Outcome__c = 'Resolved';
+            caseExtn.Outcome__c = 'Resolved';
             caseExtn.Resolution__c='Email sent to Customer';
             caseDetails.add(caseExtn);
         }
@@ -29,9 +27,9 @@ public class ABSLI_AfterUpdateLogic_Test {
     }
     @isTest
     public static void ftrRegionalTest(){
-        
+
         String cccId = [SELECT Id,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c != null].CCC_External_Id__c;
-        
+
         List<Case> cases = [SELECT ID,CCC_External_Id__c,Status,FTR__c,ABSLI_Case_Detail__c,Stage__c FROM Case WHERE RecordTypeId=:FRAMEWORKRECORDTYPEID];
         for(case c : cases){
             c.Business_Unit__c = 'ABSLI';
@@ -39,8 +37,8 @@ public class ABSLI_AfterUpdateLogic_Test {
             c.CCC_External_Id__c = cccId;
         }
         update cases;
-        
-       // List<Case> resultcases = [SELECT ID,Status,ABSLI_Case_Detail__r.Outcome__c FROM Case WHERE RecordTypeId=:FRAMEWORKRECORDTYPEID];
+
+        List<Case> resultcases = [SELECT ID,Status,ABSLI_Case_Detail__r.Outcome__c FROM Case WHERE RecordTypeId=:FRAMEWORKRECORDTYPEID];
         Assert.areEqual (resultcases[0].Status, 'Unresolved','Status should be resolved');
     }
     @isTest
@@ -56,68 +54,22 @@ public class ABSLI_AfterUpdateLogic_Test {
             psa1.AssigneeId = userRecord.Id;
             psa1.PermissionSetId = ps1.Id;
             insert psa1;
-            
+
             PermissionSet ps2 = [SELECT Id FROM PermissionSet WHERE Name = 'Create_Case'];
             PermissionSetAssignment psa2 = new PermissionSetAssignment();
             psa2.AssigneeId = userRecord.Id;
             psa2.PermissionSetId = ps2.Id;
             insert psa2;
-            
+
             String cccId = [SELECT Id,CCC_External_Id__c FROM ASF_Case_Category_Config__c WHERE CCC_External_Id__c != null].CCC_External_Id__c;
-            //Case caseRec = [SELECT Id, Stage__c, Business_Unit__c,IRDAI_Token_Number__c FROM Case WHERE RecordTypeId=:FRAMEWORKRECORDTYPEID LIMIT 1];
+            Case caseRec = [SELECT Id, Stage__c, Business_Unit__c,IRDAI_Token_Number__c FROM Case WHERE RecordTypeId=:FRAMEWORKRECORDTYPEID LIMIT 1];
             caseRec.Stage__c = 'Resolved';
             caseRec.Business_Unit__c = ABSLI_Constants.BUSINESS_UNIT;
             caseRec.CCC_External_Id__c = cccId;
-            //Map<Id, Case> caseRec1 = new Map<Id, Case> ([SELECT Id, Stage__c, Business_Unit__c,IRDAI_Token_Number__c FROM Case WHERE RecordTypeId=:FRAMEWORKRECORDTYPEID and Stage__c != 'Resolved' LIMIT 1]);
+            Map<Id, Case> caseRec1 = new Map<Id, Case> ([SELECT Id, Stage__c, Business_Unit__c,IRDAI_Token_Number__c FROM Case WHERE RecordTypeId=:FRAMEWORKRECORDTYPEID and Stage__c != 'Resolved' LIMIT 1]);
             ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve(new List<Case> {caseRec}, caseRec1);
         }
-    }*/
-    @isTest
-    public static void absli_PIVCIntegrationTest(){
-        Account acc = new Account(); //remove this method
-        acc.FirstName='test';
-        acc.LastName='test2';
-        insert acc;
-        
-        Asset assetRec = new Asset();
-        assetRec.Name = 'Test Asset';
-        assetRec.AccountId =acc.Id;
-        assetRec.Application_Number__c = '1234';
-        insert assetRec;
-        
-        ABSLI_Case_Detail__c detailRec = new ABSLI_Case_Detail__c();
-        detailRec.API_Request__c = 'API Request';
-        detailRec.API_Name__c = 'PIVC Verisafe';
-        detailRec.API_Response_Message__c = 'Success';
-        detailRec.API_Error_Code__c = '200';
-        insert detailRec;
-        
-        Case caseRec = new Case();
-        caseRec.Source__c = 'Email';
-        caseRec.Business_Unit__c = 'ABSLI';
-        caseRec.Status = 'Open';
-        caseRec.Stage__c='Open';
-        caseRec.AssetId = assetRec.Id;
-        caseRec.ABSLI_Case_Detail__c = detailRec.Id;
-        caseRec.AccountId = acc.Id;
-        caseRec.CCC_External_Id__c = 'NBPC009';
-        caseRec.LAN__c = '8895335596';
-        caseRec.Technical_Source__c = 'API';
-        insert caseRec;
-        
-        ABSLI_Case_Detail__c caseDetail = new ABSLI_Case_Detail__c(
-            //Case__c = caseObj.Id,
-            API_Request__c = 'API Request',
-            API_Name__c = 'PIVC Verisafe',
-            API_Response_Message__c = 'Success',
-            API_Error_Code__c = '200'
-        );
-        insert caseDetail;
-        Test.startTest();
-        Case csupd = new Case();
-        csupd.Id=caseRec.Id;
-        csupd.Stage__c='Resolved';
-        update csupd;
-        Test.stopTest();
     }
+ 
+       
 }
