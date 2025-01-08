@@ -69,7 +69,7 @@ public without sharing class ABHFL_CTSTHelper {
     for (Case c: caseList) {
         if (c.Business_Unit__c == 'ABHFL' && c.Recategorisation_Reason__c != oldCaseMap.get(c.Id).Recategorisation_Reason__c && oldCaseMap.get(c.Id).Nature__c == ABHFL_Constants.LowerNature && ABHFL_Constants.HigherNature.contains(c.Nature__c) && oldCaseMap.get(c.Id).RecordTypeId == FrameworkRecType.Id) {
             condsatisfy = false;
-            c.No_Auto_Communication__c = 'Email;SMS';
+            //c.No_Auto_Communication__c = 'Email;SMS'; // commented as a fix for PR970457-2474
             ABHFL_Case_Detail__c csedetail = new ABHFL_Case_Detail__c(Id = c.ABHFL_Case_Detail__c);
             csedetail.Complaint_Overall_SLA__c = oldCaseMap.get(c.Id).Overall_Case_Closure_SLA__c;
             csedetail.Complaint_RCA__c = 'Grievance Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Grievance_Type__c + ';' + 'Complaint Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Complaint_Type__c + ';' + '\n' + 'Correct Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Correct_Type__c + ';' + 'Correct Sub Type :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Correct_Sub_Type__c + ';' + '\n' + 'Short VOC :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Short_VOC__c + ';' + 'Action Taken :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Action_Taken__c + ';' + '\n' + 'Error :' + csedetailmap.get(c.ABHFL_Case_Detail__c).Error__c;
