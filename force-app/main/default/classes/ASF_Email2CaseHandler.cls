@@ -2,8 +2,8 @@
 * @description       : Class is having all the E2C Validation of Email Boxes logic.
 * @author            : virendra
 * @group             : 
-* @last modified on  : 10-10-2024
-* @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+* @last modified on  : 05-14-2024
+* @last modified by  : rsinghnagar@salesforce.com
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   05-14-2024   rsinghnagar@salesforce.com   Initial Version
@@ -50,7 +50,7 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
             for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
                                                                   Business_Unit__c, Email2CaseAddress__c, 
                                                                   Default_Queue_Dev_Name__c, Send_to_EBOT__c,
-                                                                  Case_Business_Unit__c, Case_Origin__c
+                                                                  Case_Business_Unit__c, Case_Origin__c,Case_LOB__c
                                                                   FROM ASF_PriorityEmailAddressesByBU__mdt
                                                                   WHERE Email2CaseAddress__c =: winningEmailAddr])
             {
@@ -71,12 +71,16 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                     if(msg.ParentId.getSObjectType() == Case.sObjectType){
                         if(mWinningEmailDetailMdt.containsKey(msg.Winning_Email__c)){
                             String defaultQueueName = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Default_Queue_Dev_Name__c;
+                            String caseLineOfBusiness = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_LOB__c;
                             if(mCases.containsKey(msg.ParentId)){
                                 Case c = new Case(Id = msg.ParentId);
                                 c.EmailMessageIdentifier__c = msg.MessageIdentifier;
                                 c.Winning_Email__c = msg.Winning_Email__c; // populationg this Id for reporting purpose. US-PR970457-1272
                                 if(mQueueDevNameVsId.containsKey(defaultQueueName)){
                                     c.OwnerId = mQueueDevNameVsId.get(defaultQueueName);
+                                    if(caseLineOfBusiness != null && caseLineOfBusiness != ''){
+                                      c.Line_Of_Business__c = caseLineOfBusiness;  
+                                    }
                                 }
                                 if(!String.isBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c)){
                                     c.Business_Unit__c = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c; 
@@ -140,7 +144,7 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
         Map<Id,AggregateResult> mCaseEmailMessageCount = new Map<Id,AggregateResult>([SELECT ParentId Id, COUNT(ID) countOfRec FROM EmailMessage WHERE ParentId =: allcaseIds
                                                                                       GROUP BY ParentId]);
         
-         Map<Id,EmailRoutingAddress> emailboxlist = new map<Id,EmailRoutingAddress> ([SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: emailroutAddId]);  // VSK
+        Map<Id,EmailRoutingAddress> emailboxlist = new map<Id,EmailRoutingAddress> ([SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: emailroutAddId]);  // VSK
         
         Map<Id,String> emailRoutingAdd = new Map<Id,String>();
         for(EmailMessage msg : newList){
@@ -225,8 +229,8 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                                         
                         string ToAddressExtended = '';
                         if(!tempOldToAddressess.contains(emailRoutingAdd.get(msg.Id)) && !tempOldCcAddressess.contains(emailRoutingAdd.get(msg.Id))){    
-                        	if(msg.ToAddress != null){
-                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.ToAddress;  
+                        	if(msg.CcAddress != null){
+                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.CcAddress;  
                             }else{
                                ToAddressExtended = emailRoutingAdd.get(msg.Id); 
                             }
