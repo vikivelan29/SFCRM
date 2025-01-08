@@ -142,7 +142,7 @@ public with sharing class ABML_ReportsIntegration{
 
         Contact contactRec;
         if(!Test.isRunningtest()){
-          contactRec = [SELECT Id FROM Contact WHERE AccountId=:accountRecords LIMIT 1];  
+        	contactRec = [SELECT Id FROM Contact WHERE AccountId=:accountRecords LIMIT 1];
         }
         
         if(!asfCaseIntList.isEmpty()){
@@ -247,5 +247,14 @@ public with sharing class ABML_ReportsIntegration{
             this.reportName = reportName;
         }
     }
-
+    
+    @AuraEnabled(cacheable=true)
+    public static date getAccountActiveDate(String clientCode){
+        Account activeDate = [Select Id,Client_Code__c, Active_Date__c from Account where Client_Code__c =:clientCode limit 1];
+        if(activeDate.Active_Date__c!=null){
+            return activeDate.Active_Date__c;
+        }else{
+            return null; 
+        }
+    }
 }
