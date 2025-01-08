@@ -376,7 +376,7 @@
                             <value>CONTACT.EMAIL</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Mobile__c</value>
+                            <value>CONTACT.PHONE3</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -448,7 +448,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>sortFieldAlias</name>
