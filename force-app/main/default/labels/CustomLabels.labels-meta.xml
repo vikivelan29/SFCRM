@@ -1701,4 +1701,18 @@
         <shortDescription>ABML_Report_Message1</shortDescription>
         <value>You cannot enter year before the Present Activate date on Account</value>
     </labels>
+     <labels>
+        <fullName>Payment_Report_Fraud</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payment Report Fraud</shortDescription>
+        <value>payments_indi_21,payments_indi_213,payments_indi_193</value>
+    </labels>
+    <labels>	
+        <fullName>Payments_Critical_Alerts_Group</fullName>	
+        <language>en_US</language>	
+        <protected>false</protected>	
+        <shortDescription>Payments Critical Alerts Group</shortDescription>	
+        <value>remya.nambiar-v@adityabirlacapital.com,priyanka.shinde1-v@adityabirlacapital.com,Bhageerathi.R@adityabirlacapital.com,Tanmay.Mahale@adityabirlacapital.com,amit.ranjan2-v@adityabirlacapital.com</value>	
+    </labels>
 </CustomLabels>
