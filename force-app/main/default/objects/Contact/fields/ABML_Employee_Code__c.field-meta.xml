@@ -3,7 +3,7 @@
     <fullName>ABML_Employee_Code__c</fullName>
     <externalId>true</externalId>
     <label>Employee Code</label>
-    <length>50</length>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Text</type>
