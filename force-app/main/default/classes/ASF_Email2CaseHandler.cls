@@ -10,7 +10,7 @@
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
-    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments'};
+    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments','ABSLI','ABSLIG','ABHI'};
         /**
 * @description : Exception
 **/
@@ -50,7 +50,7 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
             for(ASF_PriorityEmailAddressesByBU__mdt winningRec : [SELECT Id, Active__c, Priority_Index__c, 
                                                                   Business_Unit__c, Email2CaseAddress__c, 
                                                                   Default_Queue_Dev_Name__c, Send_to_EBOT__c,
-                                                                  Case_Business_Unit__c, Case_Origin__c
+                                                                  Case_Business_Unit__c, Case_Origin__c,Case_LOB__c
                                                                   FROM ASF_PriorityEmailAddressesByBU__mdt
                                                                   WHERE Email2CaseAddress__c =: winningEmailAddr])
             {
@@ -71,15 +71,20 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                     if(msg.ParentId.getSObjectType() == Case.sObjectType){
                         if(mWinningEmailDetailMdt.containsKey(msg.Winning_Email__c)){
                             String defaultQueueName = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Default_Queue_Dev_Name__c;
+                            String caseLineOfBusiness = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_LOB__c;
                             if(mCases.containsKey(msg.ParentId)){
                                 Case c = new Case(Id = msg.ParentId);
                                 c.EmailMessageIdentifier__c = msg.MessageIdentifier;
                                 c.Winning_Email__c = msg.Winning_Email__c; // populationg this Id for reporting purpose. US-PR970457-1272
                                 if(mQueueDevNameVsId.containsKey(defaultQueueName)){
                                     c.OwnerId = mQueueDevNameVsId.get(defaultQueueName);
+                                    if(caseLineOfBusiness != null && caseLineOfBusiness != ''){
+                                      c.Line_Of_Business__c = caseLineOfBusiness;  
+                                    }
                                 }
                                 if(!String.isBlank(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c)){
                                     c.Business_Unit__c = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Business_Unit__c; 
+                                    c.EmailMessageIdentifier__c = c.Business_Unit__c + '_'+msg.MessageIdentifier;
                                 }
                                 if(mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Origin__c == ABFL_Constants.WMCHATCASEORIGIN){
                                     c.Origin = mWinningEmailDetailMdt.get(msg.Winning_Email__c).Case_Origin__c;
@@ -126,28 +131,29 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
         Set<Id> caseIds = new Set<Id>();
         
         Set<Id> allcaseIds = new Set<Id>();
-        Set<String> emailroutAddId = new Set<String>();     // poc          
+        Set<String> emailroutAddId = new Set<String>();     // VSK
+        String replyEmailBusinessUnit = '';
         
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
                 allcaseIds.add(msg.ParentId);
-                emailroutAddId.add(msg.EmailRoutingAddressId);          // poc          
+                emailroutAddId.add(msg.EmailRoutingAddressId);          // VSK
             }
         }
         
         Map<Id,AggregateResult> mCaseEmailMessageCount = new Map<Id,AggregateResult>([SELECT ParentId Id, COUNT(ID) countOfRec FROM EmailMessage WHERE ParentId =: allcaseIds
                                                                                       GROUP BY ParentId]);
         
-        Map<Id,EmailRoutingAddress> emailboxlist = new map<Id,EmailRoutingAddress> ([SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: emailroutAddId]);  // poc
+         Map<Id,EmailRoutingAddress> emailboxlist = new map<Id,EmailRoutingAddress> ([SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: emailroutAddId]);  // VSK
         
         Map<Id,String> emailRoutingAdd = new Map<Id,String>();
         for(EmailMessage msg : newList){
-            if(emailboxlist.containsKey(msg.EmailRoutingAddressId)){                                            // poc
-                emailRoutingAdd.put(msg.Id,emailboxlist.get(msg.EmailRoutingAddressId).Address);                // poc
+            if(emailboxlist.containsKey(msg.EmailRoutingAddressId)){                                            // VSK
+                emailRoutingAdd.put(msg.Id,emailboxlist.get(msg.EmailRoutingAddressId).Address);                // VSK
             }
         }
-        //String emailRoutingAddress = [SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: msg.EmailRoutingAddressId].Address; 
         
+        List<ASF_PriorityEmailAddressesByBU__mdt> priorityEmailMdt = ASF_PriorityEmailAddressesByBU__mdt.getAll().values();
         
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
@@ -161,6 +167,11 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                         //|| (msg.Headers.contains('In-Reply-To:') && msg.ReplyToEmailMessageId == null)) {
                         if(bReplyOnClosedCase){
                             caseIds.add(msg.ParentId);
+                            // EVALUATE IF THE REPLY COMING ON CASE IS ON SAME BU EMAIL ADDRESS OR OTHERWISE.
+                            String flowToConsider = findRecipientAddressesBusUnit(msg, priorityEmailMdt);
+                            if(flowToConsider != 'AS_IS_FLOW'){
+                                replyEmailBusinessUnit = flowToConsider;
+                            }
                         }
                         else if(mCaseEmailMessageCount.containsKey(msg.ParentId)){
                             Integer iCountOfEmail = Integer.ValueOf(mCaseEmailMessageCount.get(msg.ParentId).get('countOfRec'));
@@ -192,7 +203,6 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
         
         if(mCases.size() > 0) {
             // BELOW LINE OF CODE TO BE EXECUTED ONLY WHEN ATLEAST ONE MSGIDS PRESENT.
-            List<ASF_PriorityEmailAddressesByBU__mdt> priorityEmailMdt = ASF_PriorityEmailAddressesByBU__mdt.getAll().values();
             // CREATE MAP OF BUSINESS UNIT TO METADATA.
             getPriorityAddressesByBusinessUnit(priorityEmailMdt,mBUVsPriorityEmails);
             // CREATE QUEUEDEVNAME SET, IN ORDER TO GET THE QUEUE ID AGAINST QUEUE DEVELOPER NAME.
@@ -205,33 +215,35 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                         integer idx = 0;
                         string priorityEmailAddress = '';
                         boolean bSendToEbot = false;
-                        // vikas starts here
-                        List<String> tempOldToAddressess = new List<String>(); //poc
-                        List<String> tempOldCcAddressess = new List<String>(); //poc
+
+                    // vikas starts here
+                        List<String> tempOldToAddressess = new List<String>(); 
+                        List<String> tempOldCcAddressess = new List<String>(); 
                         //String emailRoutingAddress = [SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: msg.EmailRoutingAddressId].Address; //poc
                         if(msg.ToAddress != null){
-                       		 tempOldToAddressess = msg.ToAddress.deleteWhitespace().split(';'); //poc    
+                       		 tempOldToAddressess = msg.ToAddress.deleteWhitespace().split(';'); 
                         }
                         if (msg.CcAddress != null){
-                           tempOldCcAddressess = msg.CcAddress.deleteWhitespace().split(';'); //poc
+                           tempOldCcAddressess = msg.CcAddress.deleteWhitespace().split(';'); 
                         }
                                         
-                        string ToAddressExtended = ''; //poc
+                        string ToAddressExtended = '';
                         if(!tempOldToAddressess.contains(emailRoutingAdd.get(msg.Id)) && !tempOldCcAddressess.contains(emailRoutingAdd.get(msg.Id))){    
-                        	if(msg.ToAddress != null){
-                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.ToAddress;   // poc
+                        	if(msg.CcAddress != null){
+                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.CcAddress;  
                             }else{
-                               ToAddressExtended = emailRoutingAdd.get(msg.Id); //poc
+                               ToAddressExtended = emailRoutingAdd.get(msg.Id); 
                             }
                         }
                         if(ToAddressExtended != ''){
-                            msg.CcAddress = ToAddressExtended;  //poc    
+                            msg.CcAddress = ToAddressExtended;  
                         } 
                         
                         // vikas ends here
                         
+                        
                         Case c = mCases.get(msg.ParentId);
-                        String caseBusinessUnit = c.Business_Unit__c;
+                        String caseBusinessUnit = (replyEmailBusinessUnit != null && replyEmailBusinessUnit != '') ? replyEmailBusinessUnit : c.Business_Unit__c;
                         if(ABFL_Constants.ABFL_ABWM_BUSINESSUNIT.contains(caseBusinessUnit)){
                             caseBusinessUnit = 'ABFL';
                         }
@@ -242,16 +254,14 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                         }
                         
                         for(ASF_PriorityEmailAddressesByBU__mdt mdt : tempPriorityEmailByBU){
-                            List<String> tempToAddressess = msg.ToAddress.deleteWhitespace().split(';');
-                            List<String> tempCcAddressess = msg.CcAddress.deleteWhitespace().split(';');                            
                             // TO ADDRESS - PRIORITY EMAIL CHECKS.
                             if(msg.ToAddress != null){
-                               // List<String> tempToAddressess = msg.ToAddress.deleteWhitespace().split(';');
+                                List<String> tempToAddressess = msg.ToAddress.deleteWhitespace().split(';');
                                 if(tempToAddressess.contains(mdt.Email2CaseAddress__c)){
                                     if(idx >= (Integer)mdt.Priority_Index__c || (idx == 0 && (Integer)mdt.Priority_Index__c > 0)){
                                         idx = (Integer)mdt.Priority_Index__c;
                                         priorityEmailAddress = mdt.Email2CaseAddress__c;
-                                         if(mdt.Send_to_EBOT__c || mdt.Send_to_UNFYD__c){
+                                        if(mdt.Send_to_EBOT__c || mdt.Send_to_UNFYD__c){
                                             bSendToEbot = true;
                                         }else{
                                             bSendToEbot=false;
@@ -262,12 +272,12 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                             }
                             // CC ADDRESS - PRIORITY EMAIL CHECKS.
                             if(msg.CcAddress != null){
-                                //List<String> tempCcAddressess = msg.CcAddress.deleteWhitespace().split(';');
+                                List<String> tempCcAddressess = msg.CcAddress.deleteWhitespace().split(';');
                                 if(tempCcAddressess.contains(mdt.Email2CaseAddress__c)){
                                     if(idx >= (Integer)mdt.Priority_Index__c || (idx == 0 && (Integer)mdt.Priority_Index__c > 0)){
                                         idx = (Integer)mdt.Priority_Index__c;
                                         priorityEmailAddress = mdt.Email2CaseAddress__c;
-                                         if(mdt.Send_to_EBOT__c || mdt.Send_to_UNFYD__c){
+                                        if(mdt.Send_to_EBOT__c || mdt.Send_to_UNFYD__c){
                                             bSendToEbot = true;
                                         }else{
                                             bSendToEbot=false;
@@ -276,7 +286,6 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                                     }
                                 }
                             }
-                            
                         }
                         if(priorityEmailAddress != null && priorityEmailAddress != ''){
                             msg.Winning_Email__c = priorityEmailAddress;
@@ -286,5 +295,48 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                 }
             }
         }
+    }
+    
+    public static String findRecipientAddressesBusUnit(EmailMessage msg,
+                                                     List<ASF_PriorityEmailAddressesByBU__mdt> priorityEmailMdt)
+    {
+        List<String> allToCcAddresses = new List<String>();
+        
+        if(msg.ToAddress != null || msg.CcAddress !=null){
+            List<String> tempToAddressess = msg.ToAddress != null ? msg.ToAddress.deleteWhitespace().split(';') : new List<String>();
+            List<String> tempCcAddressess = msg.CcAddress != null ? msg.CcAddress.deleteWhitespace().split(';') : new List<String>();
+            if(tempToAddressess.size()>0){
+                allToCcAddresses.addAll(tempToAddressess);
+            }
+            if(tempCcAddressess.size()>0){
+                allToCcAddresses.addAll(tempCcAddressess);
+            }
+        }
+        String firstBU = '';
+        boolean bAllAddressFromSameBU = true;
+        for(ASF_PriorityEmailAddressesByBU__mdt winningRec : priorityEmailMdt)
+        {
+            // CHECK IF To and Cc having Cross LOB Emails.
+            if(allToCcAddresses.contains(winningRec.Email2CaseAddress__c)){
+                if(firstBU == '' && (winningRec.Case_Business_Unit__c != null && winningRec.Case_Business_Unit__c != '')){
+                    firstBU = winningRec.Case_Business_Unit__c;
+                }
+                if(firstBU != null && firstBU != ''){
+                    if(firstBU != winningRec.Case_Business_Unit__c){
+                        // Cross Business Unit Email in To or Cc.
+                        // We cannot solve this email.
+                        bAllAddressFromSameBU = false;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        if(bAllAddressFromSameBU){
+            return firstBU;
+        }
+        return 'AS_IS_FLOW';
+        
+        
     }
 }
