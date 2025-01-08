@@ -686,27 +686,6 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.ABFL_Case_Detail__r.IsRegisteredCustomer__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>No</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>ABCD</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>ONEABC</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>$Record.Business_Unit__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
