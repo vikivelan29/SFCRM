@@ -124,7 +124,7 @@ public with sharing class ABHFL_Constants {
     // Constants for Bitly
     public static String BITLY_SERVICE_NAME = 'ShortUrl';
     public static String BITLTY_INTEGRATION_NAME = 'Bitly_Url';
-    
+
     //Nature
     public static String LowerNature='Complaint';
     public static final List<String> HigherNature = new List<String>{'Request','Query'};
@@ -145,6 +145,8 @@ public with sharing class ABHFL_Constants {
     public static String ESCROW_STATEMENT_EMAIL = 'Query_Case_Closure_1701081397834';
     public static String NOC_REQUIRED_EMAIL = 'Sharing_NOC_copy_with_customer_on_receipt_of_payment_1707970074046';
     public static String ADDRESSCHANGE_REJECTION_EMAIL = 'ABHFL_AddressChange_Status_Email_1727254483228';
+
+
     //Constants for SMS.
     public static String ROI_OFFERSHARED_WITH_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_w_payment_Link_SL';
     public static String ROI_OFFERSHARED_WITHOUT_PAYABLE_CHARGES_SMS = 'ABHFL_ROI_wo_Payment_Link_SL';
@@ -160,10 +162,6 @@ public with sharing class ABHFL_Constants {
     public static String ESCROW_STATEMENT_ID = 'hfl029';
     public static String NOC_REQUIRED_ID = 'hfl050';
     public static final List<String> ALLLANCTSTs = new List<String>{'hfl045','hfl023'};
-
-	//restrict recurssion
-	public static boolean isProcessing = true;
-    
 
     @AuraEnabled(cacheable=true)
     public static ABHFL_Constants getAllConstants() {
