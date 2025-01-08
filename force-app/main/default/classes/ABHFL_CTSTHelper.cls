@@ -222,7 +222,7 @@ public static void updateOwnerToRecatUsr(List < Case > caseList, Map < Id, Case 
             update caseDetailList;
         }
     }
-/PR970457-2623: Changes done by Yogesh
+//PR970457-2623: Changes done by Yogesh
 // Changes related to send email to new email address in EMail ID CTST.
  Public static void sendEmailToUpdatedEmailId(Case caseRec) {
    if (caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && 'hfl023'.equals(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
