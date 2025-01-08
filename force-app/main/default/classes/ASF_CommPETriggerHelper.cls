@@ -175,6 +175,7 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                           Boolean isAttachment,
                                                                           Id owdID){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+	msg.setOrgWideEmailAddressId(owdID);
 	//Added by Shagun
         String emailToBeSentForPayment = Label.Payments_Critical_Alerts_Group;
         List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');                                                                   
