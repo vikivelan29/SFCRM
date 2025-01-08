@@ -222,56 +222,23 @@ public static void updateOwnerToRecatUsr(List < Case > caseList, Map < Id, Case 
             update caseDetailList;
         }
     }
+
+
 //PR970457-2623: Changes done by Yogesh
 // Changes related to send email to new email address in EMail ID CTST. 
- Public static void sendEmailToUpdatedEmailId(Case caseRec) {
-   if (caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && 'hfl023'.equals(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
-     ABHFL_Case_Detail__c detailRec = [Select Id, ALL_LANS__c, New_Email_ID__c from ABHFL_Case_Detail__c where Id =: caseRec.ABHFL_Case_Detail__c].get(0);
-     Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-     string htmlvalues = [Select Id, htmlvalue from EmailTemplate where developername = 'ABHFL_EmailId_RequestClosure_Email_1728370815314'].HtmlValue;
-     EnhancedLetterhead header = [select Id, LetterheadHeader, LetterheadFooter from EnhancedLetterhead where Name = 'ABHFL Letterhead'].get(0);
-     Map < String, String > replacements = new Map < String, String > {
-       '{{{Case.Masked_LAN__c}}}' => caseRec.Masked_LAN__c,
-       '$$ABHFL_Case_Detail__r.ALL_LANS__c$$' => detailRec.ALL_LANS__c,
-       '$$ABHFL_Case_Detail__r.New_Email_ID__c$$' => detailRec.New_Email_ID__c
-     };
-     string newhtmlvalues = htmlvalues;
-     for (String key: replacements.keySet()) {
-       if (!String.isEmpty(replacements.get(key))) {
-         newhtmlvalues = newhtmlvalues.replace(key, replacements.get(key));
-       } else {
-         newhtmlvalues = newhtmlvalues.replace(key, '');
+ public static void sendEmailToUpdatedEmailId(Case caseRec) {
+       if (caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && 'hfl023'.equals(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null) {
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>(); 
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
+        EmailTemplate htmlvalues = [Select Id, htmlvalue,DeveloperName from EmailTemplate where developername = 'ABHFL_EmailId_RequestClosure_Email_1728370815314'].get(0);
+        emailTemplateMap.put(caseRec.Id, htmlvalues.DeveloperName);
+        List<case> caseList = new List<case>();
+        isTransferredMap.put(caseRec.Id,true);
+        caseList.add(caseRec);  
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseList,emailTemplateMap, smsMetadataMap, isTransferredMap);
        }
      }
-     String newhtmlvalues1 = header.LetterheadHeader + '\n ' + newhtmlvalues + ' \n' + header.LetterheadFooter;
-     //mail.setLetterheadId(headerid);
-     mail.setHtmlBody(newhtmlvalues1);
-     Account accountRecord = [SELECT Id, PersonEmail FROM Account WHERE Id =: caseRec.AccountId LIMIT 1];
-     Id rectypeid = [Select Id, RecordTypeId from Account where Id =: caseRec.AccountId].RecordTypeId;
-     Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName =: System.Label.ASF_default_no_reply_email_address limit 1].Id;
-     if (rectypeid != null && rectypeid == Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId()) {
-       mail.setToAddresses(new list < String > {
-         detailRec.New_Email_ID__c,
-         accountRecord.PersonEmail
-       });
-     } else {
-       Contact con = [SELECT Id, Email FROM Contact WHERE AccountId =: caseRec.AccountId].get(0);
-       if (con != null) {
-         mail.setToAddresses(new list < String > {
-           detailRec.New_Email_ID__c,
-           con.Email
-         });
-       }
-     }
-     mail.setWhatId(caseRec.Id);
-     mail.setOrgWideEmailAddressId(orgWideAdressId);
-     Messaging.sendEmailResult[] sendEmailResults = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {
-       mail
-     });
-
-
-   }
- }
     
     public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
         
