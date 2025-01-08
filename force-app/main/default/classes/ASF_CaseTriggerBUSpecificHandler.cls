@@ -19,7 +19,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABFL_CreateCaseProspectHelper.beforeInsertMethod(mapOfBUToCases.get(businessUnit));
                 }
                 else if(businessUnit == 'ABHFL'){
-                    ABHFL_CTSTHelper.skipOpenStageforAPIcases(mapOfBUToCases.get(businessUnit));
+                    ABHFL_CTSTHelper.skipOpenStageforAPIcases(mapOfBUToCases.get(businessUnit));    // Added method for EY_PR970457-2388,EY_PR970457-2288 by Yogesh EY(ABCL)
                 }
                 else if(businessUnit == 'ABSLI'){
                     ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert(mapOfBUToCases.get(businessUnit));

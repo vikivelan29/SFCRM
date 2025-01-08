@@ -272,9 +272,17 @@ public without sharing class ASF_CommPETriggerHelper {
      * @param prospect The lead associated with the email.
      * @return Messaging.SingleEmailMessage The generated email message.
      */
-    private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
+  private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
         Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
-
+        //Mrinal changes for ABHFL content update starts
+        String htmlBody;
+        String abhflTemplateId = System.Label.ABHFL_EmailId_RequestClosure_Template_Id;
+        if(eTempId == abhflTemplateId){
+            Messaging.SingleEmailMessage msgTemp = updateEmailContent(cRec);
+            msg.setToAddresses(msgTemp.getToAddresses());
+            msg.htmlBody = msgTemp.htmlBody;
+        }
+        //Mrinal changes for ABHFL content update ends
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
@@ -873,5 +881,49 @@ public without sharing class ASF_CommPETriggerHelper {
         log.put('Contact_Name__c',contactName);
         log.put('Phone__c', mobNo);
         return log;
+    }
+
+public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        case caseRec2 = [Select ABHFL_Case_Detail__c,Masked_LAN__c from case where id = :caseRec.id];
+        //ContentVersion contentVersion = [SELECT Id, VersionData FROM ContentVersion WHERE ContentDocumentId =: bodyId and islatest = true Limit 1];
+        ABHFL_Case_Detail__c detailRec = [Select Id, ALL_LANS__c, New_Email_ID__c from ABHFL_Case_Detail__c where Id =: caseRec2.ABHFL_Case_Detail__c].get(0);
+     	EmailTemplate htmlvalues = [Select Id, htmlvalue from EmailTemplate where developername = 'ABHFL_EmailId_RequestClosure_Email_1728370815314'].get(0);
+     	EnhancedLetterhead header = [select Id, LetterheadHeader, LetterheadFooter from EnhancedLetterhead where Name = 'ABHFL Letterhead'].get(0);
+     	Map < String, String > replacements = new Map < String, String > {
+       '{{{Case.Masked_LAN__c}}}' => caseRec2.Masked_LAN__c,
+       '$$ABHFL_Case_Detail__r.ALL_LANS__c$$' => detailRec.ALL_LANS__c,
+       '$$ABHFL_Case_Detail__r.New_Email_ID__c$$' => detailRec.New_Email_ID__c
+     	};
+         string newhtmlvalues = htmlvalues.htmlvalue;
+         for (String key: replacements.keySet()) {
+           if (!String.isEmpty(replacements.get(key))) {
+             newhtmlvalues = newhtmlvalues.replace(key, replacements.get(key));
+           } else {
+             newhtmlvalues = newhtmlvalues.replace(key, '');
+           }
+         }
+         String newhtmlvalues1 = header.LetterheadHeader + '\n ' + newhtmlvalues + ' \n' + header.LetterheadFooter;
+        //contentVersion.versionData = Blob.valueOf(newhtmlvalues1);
+        //update contentVersion;
+        mail.setHtmlBody(newhtmlvalues1);
+        Account accountRecord = [SELECT Id, PersonEmail FROM Account WHERE Id =: caseRec.AccountId LIMIT 1];
+        Id rectypeid = [Select Id, RecordTypeId from Account where Id =: caseRec.AccountId].RecordTypeId;
+        Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName =: System.Label.ASF_default_no_reply_email_address limit 1].Id;
+        if (rectypeid != null && rectypeid == Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId()) {
+            mail.setToAddresses(new list < String > {
+             detailRec.New_Email_ID__c,
+             accountRecord.PersonEmail
+            });
+     } else {
+       Contact con = [SELECT Id, Email FROM Contact WHERE AccountId =: caseRec.AccountId].get(0);
+       if (con != null) {
+         mail.setToAddresses(new list < String > {
+           detailRec.New_Email_ID__c,
+           con.Email
+         });
+       }
+     }
+        return mail;
     }
 }
