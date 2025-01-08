@@ -36,9 +36,7 @@ public with sharing class ABSLI_PIVCModernization {
             //caseSendingWrp.responseBody = '{"message": "error", "ErrorCode":"Er0012", "Status":"400"}';
             //caseSendingWrp.responseBody = '{"message": "Success", "Status":"200"}';
             system.debug('check 28 Line '+caseSendingWrp);
-            if (!Test.isRunningTest()) {
                 responseWrapperObj = responseWrapperObj.parse(caseSendingWrp.responseBody);
-            }
             caseDetail.API_Name__c='PIVC Verisafe';
             caseDetail.API_Request__c=payload;
             caseDetail.API_Response_Message__c = '';
