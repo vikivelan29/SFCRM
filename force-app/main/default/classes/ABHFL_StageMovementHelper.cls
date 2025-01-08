@@ -43,6 +43,11 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                 emailTemplateMap.put(caseRec.Id, emailMap.get('Resolved'));
                 isTransferredMap.put(caseRec.Id,true);
             }
+
+            // Writing condition for updating All LAN field on ABHFL case detail
+            // Changes are done by Yogesh [PR970457-2288]  
+            ABHFL_CTSTHelper.updateAllLanFieldOnDetailObj(caseRec);
+            ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRec);
         }
         if(!casesForCreatePELogAndinvokeCommPEevent.isEmpty()){
            	ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(casesForCreatePELogAndinvokeCommPEevent,emailTemplateMap, smsMetadataMap, isTransferredMap);
@@ -60,6 +65,7 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
             retCls.status = ABHFL_Constants.SUCCESS;
             retCls.isCaseUpdated = false;
             returnWrapper.put(caseRec.Id, retCls);
+
             // Writing condition for sending email in case of failure of address change(hfl003)
             // Changes are done by Yogesh [PR970457-2388] 
             if(caseRec.CCC_External_Id__c=='hfl003' && caseRec.ABHFL_Case_Detail__c!=null){
@@ -71,8 +77,6 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                     isTransferredMap.put(caseRec.Id, false);
                 }
             }
-          //ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRec);
-            
         }
 
         if(returnWrapper.keySet().size() > 0){
