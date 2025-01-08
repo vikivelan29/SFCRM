@@ -123,6 +123,10 @@ public with sharing class ABHFL_Constants {
     // Constants for Bitly
     public static String BITLY_SERVICE_NAME = 'ShortUrl';
     public static String BITLTY_INTEGRATION_NAME = 'Bitly_Url';
+    
+    //Nature
+    public static String LowerNature='Complaint';
+    public static final List<String> HigherNature = new List<String>{'Request','Query'};
 
 
     //Constants for Statement Of Account
@@ -154,6 +158,10 @@ public with sharing class ABHFL_Constants {
     public static String NOC_REQUIRED_ID = 'hfl050';
 
 
+    
+
+	//restrict recurssion
+	public static boolean isProcessing = true;
     
 
     @AuraEnabled(cacheable=true)
