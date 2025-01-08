@@ -229,8 +229,8 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                                         
                         string ToAddressExtended = '';
                         if(!tempOldToAddressess.contains(emailRoutingAdd.get(msg.Id)) && !tempOldCcAddressess.contains(emailRoutingAdd.get(msg.Id))){    
-                        	if(msg.ToAddress != null){
-                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.ToAddress;  
+                        	if(msg.CcAddress != null){
+                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.CcAddress;  
                             }else{
                                ToAddressExtended = emailRoutingAdd.get(msg.Id); 
                             }
