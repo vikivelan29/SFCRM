@@ -256,10 +256,11 @@ blankSourcePresent = true;
                     // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
                     String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
                     caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
-                }else if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
+                }
+                else if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
                     caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
-                
-                }else{
+                }
+                else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';
                 }
