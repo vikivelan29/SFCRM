@@ -176,21 +176,50 @@ public without sharing class ASF_CommPETriggerHelper {
                                                                           Boolean isAttachment,
                                                                           Id owdID){
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-		msg.setOrgWideEmailAddressId(owdID);
+	//Added by Shagun
+        String emailToBeSentForPayment = Label.Payments_Critical_Alerts_Group;
+        List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');
+	String ccExternalIdForPayment = Label.Payment_Report_Fraud;
+        List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
+	List<String> toAddressesForPayments = new List<String>();    
         if(con != null){
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
-            msg.setToAddresses(new String[]{con.Email});
+           if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                    toAddressesForCriticalGrp.add(con.Email);
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                     msg.setToAddresses(toAddressesForPayments);
+                 }
+            }else{
+                  msg.setToAddresses(new String[]{con.Email});
+            }
         }
         else if(prospect != null){
             msg.setTargetObjectId(defaultContactId);
             msg.setTreatTargetObjectAsRecipient(false);	
-            msg.setToAddresses(new String[]{prospect.Email});
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){     
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                    toAddressesForCriticalGrp.add(prospect.Email);
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                     msg.setToAddresses(toAddressesForPayments);
+                 }
+            }else{
+                 msg.setToAddresses(new String[]{prospect.Email});
+            }
         }
         else{
             msg.setTargetObjectId(defaultContactId);
             msg.setTreatTargetObjectAsRecipient(false);
-            msg.setToAddresses(new String[]{cRec.SuppliedEmail});
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                    toAddressesForCriticalGrp.add(cRec.SuppliedEmail);
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                    msg.setToAddresses(toAddressesForPayments);
+                 }
+            }else{
+            	msg.setToAddresses(new String[]{cRec.SuppliedEmail});
+            }
         }
         //Start - Calling the function to add files to the email as attachments - Aditya Mehrotra
         if(isAttachment){
@@ -560,14 +589,15 @@ public without sharing class ASF_CommPETriggerHelper {
                          }
                      }
                  }
+
         }
-        String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c';
+        String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,status';
         query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';
         if(setCaseFields !=null && setCaseFields.size()>0){
             List<string> temp = new List<String>();
             temp.addAll(setCaseFields);
             Set<Id> tempCaseIds = caseIds;
-            query = 'SELECT ID,Business_Unit__c,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,'+String.escapeSingleQuotes(String.join(temp, ','));
+            query = 'SELECT ID,Business_Unit__c,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,status,'+String.escapeSingleQuotes(String.join(temp, ','));
             query = query.removeEnd(',');
             query += ' FROM CASE WHERE ID IN :tempCaseIds FOR UPDATE';
         }
