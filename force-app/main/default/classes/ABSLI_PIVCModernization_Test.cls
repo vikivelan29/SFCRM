@@ -39,7 +39,7 @@ public class ABSLI_PIVCModernization_Test {
         
         Case caseRec = new Case();
         caseRec.Source__c = 'Email';
-        //caseRec.Business_Unit__c = 'ABSLI';
+        //caseRec.Business_Unit__c = 'ABSLI'; //added 
         caseRec.Status = 'Open';
         caseRec.AssetId = assetRec.Id;
         caseRec.ABSLI_Case_Detail__c = detailRec.Id;
