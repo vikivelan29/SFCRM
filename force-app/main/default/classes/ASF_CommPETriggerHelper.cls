@@ -275,17 +275,7 @@ public without sharing class ASF_CommPETriggerHelper {
      */
     private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
         Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
-        //Mrinal changes for ABHFL content update starts
-        
-        String htmlBody;
-        String abhflTemplateId = System.Label.ABHFL_EmailId_RequestClosure_Template_Id;
-        if(eTempId == abhflTemplateId){
-            Messaging.SingleEmailMessage msgTemp = updateEmailContent(cRec);
-            msg.setToAddresses(msgTemp.getToAddresses());
-            msg.htmlBody = msgTemp.htmlBody;
-        }
-        //Mrinal changes for ABHFL content update ends
-        
+
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
