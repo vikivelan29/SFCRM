@@ -41,7 +41,7 @@ public with sharing class ABSLI_AfterUpdateLogic {
                 mAbsliSurrenderWithdrawalCases.put(currentCase.Id, currentCase);
             }
             // PR970457-2746 Start 
-            if(listofCTSTforIntegration.contains(currentCase.CCC_External_Id__c) && ((currentCase.Status=='Resolved' && oldCasesMap.get(currentCase.Id).Status !='Resolved') || (currentCase.Status=='Unresolved' && oldCasesMap.get(currentCase.Id).Status!='Unresolved'))){
+            if(listofCTSTforIntegration.contains(currentCase.CCC_External_Id__c) && ((currentCase.Stage__c=='Resolved' && oldCasesMap.get(currentCase.Id).Stage__c !='Resolved') || (currentCase.Stage__c=='Unresolved' && oldCasesMap.get(currentCase.Id).Stage__c!='Unresolved'))){
                 absliPivcCases.add(currentCase.Id);
             }
             // PR970457-2746 End
