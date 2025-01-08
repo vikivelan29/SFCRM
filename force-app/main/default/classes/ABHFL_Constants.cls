@@ -33,7 +33,7 @@ public with sharing class ABHFL_Constants {
     public static final String FAILURE = 'Failure';
     public static final String COMPLETED = 'Completed';
     public static final String RESOLVED = 'Resolved';
-    public static final String REJECTED = 'Rejected';
+    public static final String REJECTED = 'Rejected';   //Added changes
     public static final String QUEUE= 'Queue';
     public static final String BRANCH = 'Branch';
     public static final String CRM = 'CRM';
