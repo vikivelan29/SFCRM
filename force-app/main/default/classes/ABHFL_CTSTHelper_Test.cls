@@ -245,6 +245,8 @@ public class ABHFL_CTSTHelper_Test {
         //System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
+
+
     @isTest
     static void testAssignCaseToAOMROM() {
         Case caseRecord = [Select id,ABHFL_Case_Detail__r.Id,ABHFL_Case_Detail__r.Preferred_Branch__c from Case limit 1];
