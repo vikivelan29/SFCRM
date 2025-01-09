@@ -1,4 +1,3 @@
-
 /**
  * @description       : 
  * @author            : ABHFL Team
@@ -245,8 +244,6 @@ public class ABHFL_CTSTHelper_Test {
         // System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
-
-
     @isTest
     static void testAssignCaseToAOMROM() {
         Case caseRecord = [Select id,ABHFL_Case_Detail__r.Id,ABHFL_Case_Detail__r.Preferred_Branch__c from Case limit 1];
@@ -279,7 +276,7 @@ public class ABHFL_CTSTHelper_Test {
     }
 
 
- @IsTest 
+@IsTest 
     static void testskipOpenStageforAPIcases(){
         Test.startTest();
         Id recordTypeId = [SELECT Id FROM RecordType WHERE SObjectType = 'Case' AND DeveloperName = 'Framework' LIMIT 1].Id;
@@ -437,12 +434,12 @@ public class ABHFL_CTSTHelper_Test {
         abhflCTSTHelperClass.callLitmusApi(caseRecordLst, new Map<Id, Case>());    
     }
     
-    @isTest
+     @isTest
     static void populateFieldsInAfterContextTest() {
         List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c,AccountId
                                     FROM Case];
         Account acc = [Select id from account limit 1][0];
-       
+
         ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
         abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);  
         Test.startTest();
@@ -465,5 +462,5 @@ public class ABHFL_CTSTHelper_Test {
         
         ABHFL_CTSTHelper.createCases('0123', 'LAXXXXXXXX', 'CCC-CC-CCLTD-01', 'Email', 'LWC', caseRecordLst[0].id, recordTypeId);    
     }
-    
+
 }
