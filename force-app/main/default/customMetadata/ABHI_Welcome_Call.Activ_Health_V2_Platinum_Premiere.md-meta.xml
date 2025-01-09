@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Active One VYTL2_1</label>
+    <label>Activ Health V2 Platinum - Premiere</label>
     <protected>false</protected>
     <values>
         <field>CMP_OPD__c</field>
@@ -8,11 +8,11 @@
     </values>
     <values>
         <field>Chronic_care__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Ignore_All_Fields__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>IsChronicFlag__c</field>
@@ -20,14 +20,14 @@
     </values>
     <values>
         <field>Plan_Name__c</field>
-        <value xsi:type="xsd:string">VYTL</value>
+        <value xsi:type="xsd:string">Platinum - Premiere</value>
     </values>
     <values>
         <field>ProductName__c</field>
-        <value xsi:type="xsd:string">Activ One</value>
+        <value xsi:type="xsd:string">Activ Health V2</value>
     </values>
     <values>
         <field>Service_Id__c</field>
-        <value xsi:type="xsd:string">ABHI_DRM_DUMP</value>
+        <value xsi:type="xsd:string">adityabirla_welcome_external_upload</value>
     </values>
 </CustomMetadata>
