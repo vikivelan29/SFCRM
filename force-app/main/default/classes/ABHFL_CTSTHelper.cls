@@ -408,7 +408,9 @@ public static void updateOwnerToRecatUsr(List < Case > caseList, Map < Id, Case 
         	}
     	}
 	}
- 
+
+
+
  //This is changes related to CR[PR970457-2388,PR970457-2288] made by Yogesh
  //skipOpenStageforAPIcases: It will impact cases which created from API for mentioned CTSTs
  //This method applicable to ABHFL BU only. It is used to skip open stage at the time of case creation through API. 
