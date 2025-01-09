@@ -1708,6 +1708,13 @@
         <shortDescription>Payment Report Fraud</shortDescription>
         <value>payments_indi_21,payments_indi_213,payments_indi_193</value>
     </labels>
+    <labels>
+        <fullName>ABHFL_EmailId_RequestClosure_Template_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL EmailId RequestClosure Template Id </shortDescription>
+        <value>00XNy000001SLFUMA4</value>
+    </labels>
     <labels>	
         <fullName>Payments_Critical_Alerts_Group</fullName>	
         <language>en_US</language>	
