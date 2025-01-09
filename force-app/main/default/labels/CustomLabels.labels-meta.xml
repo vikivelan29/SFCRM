@@ -1925,6 +1925,13 @@
         <value>You cannot enter year before the Present Activate date on Account</value>
     </labels>
     <labels>
+        <fullName>ABHFL_EmailId_RequestClosure_Template_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ABHFL EmailId RequestClosure Template Id </shortDescription>
+        <value>00XBi000000bx17MAA</value>
+    </labels>
+    <labels>
         <fullName>ABCD_LitmusAppId</fullName>
         <language>en_US</language>
         <protected>false</protected>
