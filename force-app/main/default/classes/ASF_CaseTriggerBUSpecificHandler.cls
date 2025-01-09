@@ -294,7 +294,8 @@ public class ASF_CaseTriggerBUSpecificHandler {
         }
         
     }
-    
+
+
     /* THIS METHOD IS USED TO SEPERATE OUT THE BUSINESS UNIT RELATED CASES */
     private static Map<String,List<Case>> getBUSpecificCaseRecords(List<Case> newItems){
         Map<String,List<Case>> mapOfBUToCases = new Map<String,List<Case>>();
