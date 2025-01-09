@@ -82,6 +82,7 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                 }
             }
         }
+
          if(!caseRecords.isEmpty()){
              ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(eligibleCaseRecords,emailTemplateMap, 
         smsMetadataMap, isTransferredMap);
