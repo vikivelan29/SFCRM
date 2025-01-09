@@ -884,8 +884,6 @@ public without sharing class ASF_CommPETriggerHelper {
         return log;
     }
 
-//Added changes
-
 public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         case caseRec2 = [Select ABHFL_Case_Detail__c,Masked_LAN__c from case where id = :caseRec.id];
