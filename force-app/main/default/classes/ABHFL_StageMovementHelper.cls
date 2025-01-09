@@ -9,7 +9,6 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
         Map<Id, String> emailTemplateMap = new Map<Id, String>();
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
         Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
-        
         for(Case caseRec : caseRecords){
             cccIds.add(caseRec.CCC_External_Id__c);
         }
@@ -43,6 +42,8 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                 emailTemplateMap.put(caseRec.Id, emailMap.get('Resolved'));
                 isTransferredMap.put(caseRec.Id,true);
             }
+
+
 
             // Writing condition for updating All LAN field on ABHFL case detail
             // Changes are done by Yogesh [PR970457-2288]  
@@ -81,6 +82,11 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                 }
             }
         }
+
+         if(!caseRecords.isEmpty()){
+             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(eligibleCaseRecords,emailTemplateMap, 
+        smsMetadataMap, isTransferredMap);
+         }
 
         if(returnWrapper.keySet().size() > 0){
             ABHFL_CTSTHelper.checkAssetDetailStatus(returnWrapper);
