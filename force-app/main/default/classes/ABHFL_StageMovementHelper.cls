@@ -43,6 +43,8 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                 isTransferredMap.put(caseRec.Id,true);
             }
 
+
+
             // Writing condition for updating All LAN field on ABHFL case detail
             // Changes are done by Yogesh [PR970457-2288]  
             ABHFL_CTSTHelper.updateAllLanFieldOnDetailObj(caseRec);
