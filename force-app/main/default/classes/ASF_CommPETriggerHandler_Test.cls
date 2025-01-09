@@ -55,7 +55,7 @@ private class ASF_CommPETriggerHandler_Test {
         leaRec.Phone = '1234567890';
         leaRec.LeadSource='Branch Ops';
         leaRec.Sub_Source__c='Walk-in';
-        leaRec.Requested_Loan_Amount__c=1234;
+        leaRec.Requested_Loan_Amount__c=50001;
         leaRec.Preferred_Communication__c='Email';
         leaRec.ABHFL_Prospect_Type__c='Individual';
         insert leaRec;
