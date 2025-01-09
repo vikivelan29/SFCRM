@@ -910,6 +910,8 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
      * @param leadId The ID of the lead.
      * @return The populated ASF_Communication_Log__c record.
      */
+
+
     private static ASF_Communication_Log__c createCommunincationLogRecord(ASF_Communication_Log__c log,
                                                                           Id accountId,
                                                                           Id contactId,

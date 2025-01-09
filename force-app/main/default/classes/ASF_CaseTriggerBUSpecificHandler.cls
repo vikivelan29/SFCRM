@@ -284,7 +284,9 @@ public class ASF_CaseTriggerBUSpecificHandler {
         }
         
     }
-    
+
+
+
     public void beforeUpdateInteractionCases(Map<Id,Case> newItems, Map<Id, Case> oldItems){
         
         Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems.values());

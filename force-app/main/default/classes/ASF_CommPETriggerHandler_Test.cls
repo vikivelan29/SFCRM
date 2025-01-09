@@ -325,6 +325,8 @@ private class ASF_CommPETriggerHandler_Test {
         System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch());
         Test.stopTest();
     }
+
+
     @isTest
     private static void commLogProcessingBatch_StringConstructor(){
         List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case];
