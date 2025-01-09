@@ -50,7 +50,7 @@ private class ASF_CommPETriggerHandler_Test {
         Lead leaRec= new Lead();
         leaRec.FirstName = 'John';
         leaRec.LastName = 'Doe';
-        leaRec.Company = 'Acme Inc.';
+        //leaRec.Company = 'Acme Inc.';
         leaRec.Email = 'john.doe@example.com';
         leaRec.Phone = '1234567890';
         leaRec.LeadSource='Branch Ops';
