@@ -50,12 +50,12 @@ private class ASF_CommPETriggerHandler_Test {
         Lead leaRec= new Lead();
         leaRec.FirstName = 'John';
         leaRec.LastName = 'Doe';
-        leaRec.Company = 'Acme Inc.';
+        //leaRec.Company = 'Acme Inc.';
         leaRec.Email = 'john.doe@example.com';
         leaRec.Phone = '1234567890';
         leaRec.LeadSource='Branch Ops';
         leaRec.Sub_Source__c='Walk-in';
-        leaRec.Requested_Loan_Amount__c=1234;
+        leaRec.Requested_Loan_Amount__c=50001;
         leaRec.Preferred_Communication__c='Email';
         leaRec.ABHFL_Prospect_Type__c='Individual';
         insert leaRec;
@@ -456,57 +456,7 @@ private class ASF_CommPETriggerHandler_Test {
         
     }
     
-    @isTest
-    private static void executeAfterInsert_withoutContact(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case];
-        List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        boolean errorCase = false;
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Pending';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Case__c = cList[i].Id;
-            peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
-            peLogger.Is_Attachment__c = true;
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            if(!errorCase){
-                evt.CustomMetadataName__c = 'XXXXXXXX';
-            }
-            else{
-                evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            }
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
-        if(commEvts.size()>0){
-            
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest();
-        
-    }
+   
 @isTest
     private static void executeAfterInsert_errorForContact(){
         List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case where CCC_External_Id__c='payments_indi_21'];
@@ -560,6 +510,73 @@ private class ASF_CommPETriggerHandler_Test {
         Test.stopTest();
         
     } 
+
+@isTest
+    private static void executeAfterInsert_withoutContact(){
+        List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId,OnCreateCloseSR__c FROM Case];
+        List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
+        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
+        Test.startTest();
+        boolean errorCase = false;
+        for(Integer i=0;i<1;i++){
+            PE_Logger__c peLogger = new PE_Logger__c();
+            peLogger.PE_Name__c = 'CommnunicationLog';
+            peLogger.Retry_PE__c = false;
+            peLogger.Status__c = 'Pending';
+            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
+            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
+            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
+            peLogger.RecordID__c = cList[i].Id;
+            peLogger.Case__c = cList[i].Id;
+            peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
+            peLogger.Is_Attachment__c = true;
+            peLoggers.add(peLogger);
+           
+            ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
+            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
+            if(!errorCase){
+                evt.CustomMetadataName__c = 'XXXXXXXX';
+            }
+            else{
+                evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
+            }
+            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
+            evt.RecordID__c = cList[i].Id;
+            commEvts.add(evt);
+        }
+       
+        if(peLoggers.size()>0){
+            insert peLoggers;
+        }
+        for(Integer i=0;i<1;i++){
+            ASF_CommnunicationLog__e evt = commEvts[i];
+            evt.PELoggerId__c = peLoggers[i].id;
+        }
+        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
+        if(commEvts.size()>0){
+           
+            Database.SaveResult[] results = EventBus.publish(commEvts);
+            Test.getEventBus().deliver();
+            System.assertNotEquals(null, results, 'save result should not be null');
+        }
+        //Mrinal change starts
+        ABHFL_Case_Detail__c detailRec = new ABHFL_Case_Detail__c();
+        detailRec.ALL_LANS__c = 'test';
+        detailRec.New_Email_ID__c = 'test@gmail.com';
+        detailRec.case__c = cList[0].id;
+        insert detailRec;
+        cList[0].ABHFL_Case_Detail__c = detailRec.id;
+        update cList[0];
+        EnhancedLetterhead lth = new EnhancedLetterhead();
+        lth.Name = 'ABHFL Letterhead';
+        lth.LetterheadHeader = 'test';
+        lth.LetterheadFooter = 'test';
+        insert lth;
+        ASF_CommPETriggerHelper.updateEmailContent(cList[0]);
+        //Mrinal change ends
+        Test.stopTest();
+    }
+
 @isTest
     private static void executeAfterInsert_errorForProspect(){
         List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId FROM Case where CCC_External_Id__c='payments_indi_193'];
