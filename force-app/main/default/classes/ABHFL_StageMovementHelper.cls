@@ -59,7 +59,10 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
      public static Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> afterStageMovement(List<Case> caseRecords){
 
         Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper> returnWrapper = new Map<Id, ASF_CaseMovementHelper.CaseStageValidationWrapper>();
-
+        List<Case>eligibleCaseRecords=new List<Case>();
+        Map<Id, String> emailTemplateMap = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap = new Map<Id, String>();
+        Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
         for(Case caseRec : caseRecords){
             ASF_CaseMovementHelper.CaseStageValidationWrapper retCls = new ASF_CaseMovementHelper.CaseStageValidationWrapper();
             retCls.status = ABHFL_Constants.SUCCESS;
