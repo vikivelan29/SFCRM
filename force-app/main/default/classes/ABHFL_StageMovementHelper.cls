@@ -9,7 +9,6 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
         Map<Id, String> emailTemplateMap = new Map<Id, String>();
         Map<Id, String> smsMetadataMap = new Map<Id, String>();
         Map<Id, Boolean> isTransferredMap = new Map<Id, Boolean>();
-        
         for(Case caseRec : caseRecords){
             cccIds.add(caseRec.CCC_External_Id__c);
         }
@@ -44,6 +43,8 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                 isTransferredMap.put(caseRec.Id,true);
             }
 
+
+
             // Writing condition for updating All LAN field on ABHFL case detail
             // Changes are done by Yogesh [PR970457-2288]  
             ABHFL_CTSTHelper.updateAllLanFieldOnDetailObj(caseRec);
@@ -68,7 +69,8 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
             retCls.status = ABHFL_Constants.SUCCESS;
             retCls.isCaseUpdated = false;
             returnWrapper.put(caseRec.Id, retCls);
-             // Writing condition for sending email in case of failure of address change(hfl003)
+
+            // Writing condition for sending email in case of failure of address change(hfl003)
             // Changes are done by Yogesh [PR970457-2388] 
             if(caseRec.CCC_External_Id__c=='hfl003' && caseRec.ABHFL_Case_Detail__c!=null){
                 string AddressChangestatus=[Select Id,Address_Change_Status__c from ABHFL_Case_Detail__c where Id=:caseRec.ABHFL_Case_Detail__c].Address_Change_Status__c;
@@ -80,6 +82,11 @@ public with sharing class ABHFL_StageMovementHelper implements ASF_CaseStageClas
                 }
             }
         }
+
+         if(!caseRecords.isEmpty()){
+             ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(eligibleCaseRecords,emailTemplateMap, 
+        smsMetadataMap, isTransferredMap);
+         }
 
         if(returnWrapper.keySet().size() > 0){
             ABHFL_CTSTHelper.checkAssetDetailStatus(returnWrapper);
