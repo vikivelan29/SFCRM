@@ -329,6 +329,27 @@ public class ASF_CaseTriggerModularHelper_Test {
         ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         casesList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-02-STP';
         update casesList;
+        try{
+            casesList[0].business_unit__c = 'ABSLI';
+            update casesList[0];
+        }
+        catch(exception e){
+            
+        }
+        try{
+            
+            casesList[0].business_unit__c = 'ABSLAMC';
+            update casesList[0];
+        }
+        catch(exception e){
+            
+        }
+        try{
+            
+        }
+        catch(Exception e){
+            
+        }
         Test.stopTest();
         
     }
