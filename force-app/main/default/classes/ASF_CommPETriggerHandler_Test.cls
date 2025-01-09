@@ -2,608 +2,930 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 04-24-2024
- * @last modified by  : rsinghnagar@salesforce.com 
+ * @last modified on  : 05-20-2024
+ * @last modified by  : rsinghnagar@salesforce.com
  * Modifications Log
  * Ver   Date         Author                       Modification
- * 1.0   04-24-2024   rsinghnagar@salesforce.com   Initial Version
+ * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
 **/
-@SuppressWarnings('PMD.MethodNamingConventions')
-@isTest
-private class ASF_CommPETriggerHandler_Test {
-        @testSetup
-    private static void testDataSetup(){
-        Account a = new Account();
-        a.Name = 'Test account';
-        a.Client_Code__c = '3r4fwefcw';
-        a.Line_Of_Business__c = 'Payments';
-        a.Business_Unit__c = 'Payments';
-        a.RecordTypeId = Schema.sObjectType.Account.getRecordTypeInfosByDeveloperName().get('Non_Individual').getRecordTypeId();
-        insert a;
-        
-        Account a1 = new Account();
-        a1.Name = 'Test account';
-        a1.Client_Code__c = '3r4fwefcw';
-        a1.Line_Of_Business__c = 'Payments';
-        a1.Business_Unit__c = 'Payments';
-        a1.RecordTypeId = Schema.sObjectType.Account.getRecordTypeInfosByDeveloperName().get('Non_Individual').getRecordTypeId();
-        insert a1;
-        
-        Contact con = new Contact();
-        con.Lastname ='Test con';
-        con.AccountId = a.Id;
-        con.Email = 'test@test.com';
-        con.Phone = '8329673314';
-        con.MobilePhone = '9100091000';
-        insert con;
-        
-        ASF_Case_Category_Config__c config = new ASF_Case_Category_Config__c();
-        config.Send_Closed_stage_communications__c  = true;
-        config.Send_open_stage_communications__c  = true;
-        config.Send_Rejected_stage_communications__c  = true;
-        config.CCC_External_Id__c = '12345';
-        config.Type__c = 'TDS Related';
-        config.Sub_Type__c = 'TDS Related';
-        config.Process__c='Case';
-        insert config;
-        
-        Lead leaRec= new Lead();
-        leaRec.FirstName = 'John';
-        leaRec.LastName = 'Doe';
-        leaRec.Company = 'Acme Inc.';
-        leaRec.Email = 'john.doe@example.com';
-        leaRec.Phone = '1234567890';
-        insert leaRec;
-
-        // Create a Test ContentVersion
-        ContentVersion testContentVersion = new ContentVersion(
-            Title = 'Test Document',
-            PathOnClient = 'TestDoc.txt',
-            VersionData = Blob.valueOf('This is a test document.')
-        );
-        insert testContentVersion;
-        
-        List<Case> cases = new List<Case>();
-        
-        for(integer i=0;i<1;i++){
-            Case cs = new Case();
-            cs.AccountId = a.Id;
-            cs.CCC_External_Id__c = '12345';
-            cs.contactId = con.Id;
-            cs.Status = 'New';
-            cs.Stage__c='New'; 
-            cs.Type_Text__c ='Cancellation of card'; 
-            cs.Sub_Type_Text__c ='Aqua Card Cancel - liquidate TD'; 
-            cs.Business_Unit__c = 'Payments';
-            cases.add(cs);
-        }
-        for(integer i=0;i<1;i++){
-            Case cs2 = new Case();
-            cs2.CCC_External_Id__c = '12345';
-            cs2.AccountId = a.Id;
-            cs2.Status = 'New';
-            cs2.Stage__c='New'; 
-            cs2.Type_Text__c ='Cancellation of card'; 
-            cs2.Sub_Type_Text__c ='Aqua Card Cancel - liquidate TD'; 
-            cs2.Business_Unit__c = 'Payments';
-            cases.add(cs2);
-        }//For Payments
-         for(integer i=0;i<1;i++){
-            Case cs3 = new Case();
-            cs3.CCC_External_Id__c = 'payments_indi_21';
-            cs3.AccountId = a.Id;
-            cs3.Status = 'Resolved';
-            cs3.Stage__c='Resolved'; 
-            cs3.Type_Text__c ='Report Fraud'; 
-            cs3.Sub_Type_Text__c ='Reporting of fraudulent transaction'; 
-            cs3.Business_Unit__c = 'Payments';
-            cases.add(cs3);
-        }
-         for(integer i=0;i<1;i++){
-            Case cs4 = new Case();
-            cs4.CCC_External_Id__c = 'payments_indi_193';
-            cs4.AccountId = a1.Id;
-            cs4.Status = 'Resolved';
-            cs4.Stage__c='Resolved'; 
-            cs4.Type_Text__c ='Report Fraud'; 
-            cs4.Sub_Type_Text__c ='Reporting of fraudulent transaction'; 
-            cs4.Business_Unit__c = 'Payments';
-            cs4.Lead__c = leaRec.Id;
-            cases.add(cs4);
-        }
-         for(integer i=0;i<1;i++){
-            Case cs5 = new Case();
-            cs5.CCC_External_Id__c = 'payments_indi_213';
-           // cs5.AccountId = a1.Id;
-            cs5.Status = 'Resolved';
-            cs5.Stage__c='Resolved'; 
-            cs5.Type_Text__c ='Report Fraud'; 
-            cs5.Sub_Type_Text__c ='Reporting of fraudulent transaction'; 
-            cs5.Business_Unit__c = 'Payments';
-            cases.add(cs5);
-        }
-          
-          
-        ASF_TriggerSkipperUtility.markTriggerRun('Case');
-        insert cases;
-        System.assertNotEquals(0, cases.size() , 'case list should not be zero');
-    }
+@SuppressWarnings('PMD.ClassNamingConventions,PMD.FormalParameterNamingConventions,PMD.ApexSOQLInjection')
+public without sharing class ASF_CommPETriggerHelper {
     
-       
-    @isTest
-    private static void executeAfterInsert_error(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case];
-        List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        boolean errorCase = false;
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Pending';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Case__c = cList[i].Id;
-            peLogger.AccountId__c = cList[i].AccountId;
-            peLogger.ContactId__c = cList[i].ContactId;
-            peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
-            peLogger.Is_Attachment__c = true;
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            if(!errorCase){
-                evt.CustomMetadataName__c = 'XXXXXXXX';
-            }
-            else{
-                evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            }
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
-        if(commEvts.size()>0){
-            
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest();
-        
-    }
-    @isTest
-    private static void executeAfterInsert_completed(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case];
-        List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Pending';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Is_Attachment__c = true;
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-        if(commEvts.size()>0){
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest();
-        
-    }
-    @isTest
-    private static void executeAfterInsert_completed2(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case];
-        List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Completed';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Is_Attachment__c = true;
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        
-        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-        if(commEvts.size()>0){
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest();
-        
-    }
-    @isTest
-    private static void CommLogPERetryBatch(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case];
-        List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = true;
-            peLogger.Status__c = 'Pending';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Retry_Time__c = DateTime.now().addMinutes(-2);
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        if(commEvts.size()>0){
-            Apex_PE_Framework__mdt mdtPEFramework = Apex_PE_Framework__mdt.getInstance('ASF_commLogProcessingBatch'); 
-            //System.schedule('TestCommRetryPublisherJob', '0 30 * * * ?', new CommLogPERetryBatch());
-            System.assertNotEquals(null, mdtPEFramework, 'save result should not be null');
-            Test.getEventBus().deliver();
-        }
-        Test.stopTest();
-    }
-    @isTest
-    private static void commLogProcessingBatch_defaultContructor(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case];
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = true;
-            peLogger.Status__c = 'Processing';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Case__c = cList[i].Id;
-            peLogger.Retry_Time__c = DateTime.now().addMinutes(-2);
-            peLogger.No_Auto_Communication__c = null;
-            peLoggers.add(peLogger);
-        }
-        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch());
-        Test.stopTest();
-    }
-    @isTest
-    private static void commLogProcessingBatch_StringConstructor(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case];
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = true;
-            peLogger.Status__c = 'Processing';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Case__c = cList[i].Id;
-            peLogger.Retry_Time__c = DateTime.now().addMinutes(-2);
-            peLogger.No_Auto_Communication__c = 'Email;SMS';
-            peLoggers.add(peLogger);
-        }
-        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        System.schedule('TEST_WorkOnPELoggerProcessingRecords', '0 0 15,18,22 ? * *', new ASF_commLogProcessingBatch('SELECT ID,RecordID__c,CustomMetadataName__c,Lead__c FROM PE_Logger__c WHERE Status__c=\'Processing\' AND CreatedDate = Today ORDER BY CreatedDate DESC'));
-        Test.stopTest();
-    }
- 	@isTest
-    private static void executeAfterInsert_completed3(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case LIMIT 1];
-        List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Pending';
-            peLogger.Case__c = cList[i].Id;
-            peLogger.Send_To_Specific_Emails__c  = True;
-            peLogger.Specific_To_Address__c  = 'abc.def@gm.com';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-           	peLogger.Email_Template_Name__c = 'SMT_Escalation_Template';
-            peLogger.RecordID__c = cList[i].Id;
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-        if(commEvts.size()>0){
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest();
-        
-    }   
+    public static Set<String> customMetadataName = new Set<String>();
+    public static Map<String,Customer_Notification_Config__mdt> mCommConfigMetaName = new Map<String,Customer_Notification_Config__mdt>();
+    public static Set<String> setTemplates = new Set<String>();
+    public static List<String> channelFieldNamesSMS = new List<String>();
+    public static List<String> channelFieldNamesEmail = new List<String>();
+    public static List<String> channelFieldNamesWA = new List<String>();
+    public static Map<Id,responseWrapper> peLogIdVsSuccessResult = new Map<Id,responseWrapper>();
+    public static List<EmailTemplate> emailTemplates = new List<EmailTemplate>();
+    public static Map<String,Id> templateIDMap = new Map<String,Id>();
+    public static set<String> setCaseFields = new Set<String>();
+    public static Set<Id> caseIds = new Set<Id>();
+    public static Map<String, Schema.SObjectField> casefieldInfo;
+    public static List<ASF_Communication_log__c> logs = new List<ASF_Communication_log__c>();
+    public static Set<Id> caseAccountIds = new Set<Id>();
+    public static Set<Id> caseConIds = new Set<Id>();
+    public static Map<Id,Set<Contact>> mAccountIdContactId = new Map<Id,Set<Contact>>();
+    public static Map<Id,Id> mLogIdVsCaseId = new Map<Id,Id>();
+    public static Id defaultContactId;
+    public static Map<Id,Messaging.SingleEmailMessage> emailLogMap = new Map<Id,Messaging.SingleEmailMessage>();
+    public static Map<Id,Case> mCases = new Map<Id,Case>();
+    public static Map<integer,Id> mIdxVsPELoggerId = new Map<integer,Id>();
+    public static integer iCounter = 0;
+    public static Set<Id> markForDeletion = new Set<Id>();
+    public static Set<Id> caseProspectIds = new Set<Id>();
+    public static Map<Id,Lead> mLeads = new Map<Id,Lead>();
+  
     
-    	@isTest
-    private static void executeAfterInsert_errorForProspect(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId FROM Case where CCC_External_Id__c='payments_indi_193'];
-        Lead leaRecd = [Select id,firstName from Lead where FirstName='John'];
-        List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        boolean errorCase = false;
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Pending';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Case__c = cList[i].Id;
-            peLogger.AccountId__c = cList[i].AccountId;
-            //peLogger.ContactId__c = cList[i].ContactId;
-            peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
-            peLogger.Is_Attachment__c = true;
-            peLogger.Lead__c = leaRecd.id;
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            if(!errorCase){
-                evt.CustomMetadataName__c = 'XXXXXXXX';
-            }
-            else{
-                evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            }
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
-        if(commEvts.size()>0){
-            
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest();
-        
-    }  
     
-	@isTest
-    private static void executeAfterInsert_errorForContact(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case where CCC_External_Id__c='payments_indi_21'];
-        List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        boolean errorCase = false;
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Pending';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Case__c = cList[i].Id;
-            peLogger.AccountId__c = cList[i].AccountId;
-            peLogger.ContactId__c = cList[i].ContactId;
-            peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
-            peLogger.Is_Attachment__c = true;
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            if(!errorCase){
-                evt.CustomMetadataName__c = 'XXXXXXXX';
-            }
-            else{
-                evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            }
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
-        if(commEvts.size()>0){
-            
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest();
-        
-    } 
- 	
- 	@isTest
-    private static void executeAfterInsert_completed4(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c FROM Case LIMIT 1];
-        List<ASF_CommnunicationLog__e> commEvts = new List<ASF_CommnunicationLog__e>();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Pending';
-            peLogger.Case__c = cList[i].Id;
-            peLogger.Send_To_Specific_Emails__c  = True;
-            peLogger.Specific_To_Address__c  = 'abc.def@gm.com';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-           	peLogger.Email_Template_Name__c = 'SMT_Escalation_Template';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.TakeBodyFromContentDoc__c = true;
-            peLoggers.add(peLogger);
-
-            ASF_CommnunicationLog__e evt = new ASF_CommnunicationLog__e();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        System.assertNotEquals(0, peLoggers.size() , 'pelogger list should not be zero');
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-
-        if(commEvts.size()>0){
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest();
-    }
-    
-    @isTest
-    private static void executeAfterInsert_withoutContact(){
-        List<Case> cList = [SELECT ID,CCC_External_Id__c,AccountId,ContactId FROM Case];
-        List<ASF_CommnunicationLog__e > commEvts = new List<ASF_CommnunicationLog__e >();
-        List<PE_Logger__c> peLoggers = new List<PE_Logger__c>();
-        Test.startTest();
-        boolean errorCase = false;
-        for(Integer i=0;i<1;i++){
-            PE_Logger__c peLogger = new PE_Logger__c();
-            peLogger.PE_Name__c = 'CommnunicationLog';
-            peLogger.Retry_PE__c = false;
-            peLogger.Status__c = 'Pending';
-            peLogger.Unique_Id__c ='CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            peLogger.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            peLogger.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            peLogger.RecordID__c = cList[i].Id;
-            peLogger.Case__c = cList[i].Id;
-            peLogger.Email_Template_Name__c = 'PAYMENT_SR_CREATED';
-            peLogger.Is_Attachment__c = true;
-            peLoggers.add(peLogger);
-            
-            ASF_CommnunicationLog__e  evt = new ASF_CommnunicationLog__e ();
-            evt.CCCExternalId__c = cList[i].CCC_External_Id__c;
-            if(!errorCase){
-                evt.CustomMetadataName__c = 'XXXXXXXX';
-            }
-            else{
-                evt.CustomMetadataName__c = 'PAYMENT_SR_CREATED';
-            }
-            evt.Unique_Id__c = 'CommnunicationLog-'+UserInfo.getUserId() + System.currentTimeMillis();
-            evt.RecordID__c = cList[i].Id;
-            commEvts.add(evt);
-        }
-        
-        if(peLoggers.size()>0){
-            insert peLoggers;
-        }
-        for(Integer i=0;i<1;i++){
-            ASF_CommnunicationLog__e evt = commEvts[i];
-            evt.PELoggerId__c = peLoggers[i].id;
-        }
-        System.assertNotEquals(0, commEvts.size(), 'commevt should not be 0');
-        if(commEvts.size()>0){
-            
-            Database.SaveResult[] results = EventBus.publish(commEvts);
-            Test.getEventBus().deliver();
-            System.assertNotEquals(null, results, 'save result should not be null');
-        }
-        Test.stopTest(); 
-    }
+    // VIRENDRA - 12 APRIL 2024 - ADDED FOR INFOSEC AND PRODUCTION REQUIREMENT OF ABHFL.
+    public static Map<String,Set<String>> mBusUnitVsDefaultFromAddress = new Map<String,Set<String>>();
+    public static Map<String,Id> mBusinessUnitVsSpecificOWA = new Map<String,Id>();
+    public static Map<String,String> mBusUnitVsReplyToAddress = new Map<String,String>();
     
 
+
+
+    public static Set<Id> peLogBodyInCV = new Set<Id>();
+  
+    /**
+     * @description Executes the constructor to handle communication log creation based on PE logger records.
+     * @param peLogs List of PE_Logger__c records.
+     * @return Map containing PE logger ID to responseWrapper mapping.
+     */
+    public static Map<Id,responseWrapper> executeContructor(List<PE_Logger__c> peLogs){
+        // 1. Find out Custom Metadata - Done
+        // 2. Find out SMS Template and WhatsApp Template - Done
+        // 3. Query on SMS Template Field and WhatsApp Template Field. - Done
+        // 4. Create Communication Logger Record.
+        // 5. Publish Platform Event for the same.
+        // 6. Send Email from Lightning Email Template - The same can be used for VF Email Template.
+        // 7. Go back and update the PE Logger Record, in case of Success --> Completed, in Case of Error --> Error with Error Message
+        // 8. Set retry flag to true, if the error is because of the resources unavailability like email limit reached, Platform Events Publisher limit reached etc.
+        
+        
+        channelFieldNamesSMS = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.SMS);
+        channelFieldNamesEmail = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.Email);
+        channelFieldNamesWA = ASF_CommPEMergeFieldHandler.getMergefieldNames(ASF_CommPEMergeFieldHandler.Channel.WhatsApp);
+        
+        
+        casefieldInfo = Schema.SObjectType.Case.fields.getMap();
+        
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        for(BUSpecificAutoEmailMapping__mdt buSpecificAutoEmail : [SELECT ID, Business_Unit__c ,Default_Automated_Email_From_Address__c, Reply_To_Address__c  FROM BUSpecificAutoEmailMapping__mdt]){
+            if(!mBusUnitVsDefaultFromAddress.containsKey(buSpecificAutoEmail.Default_Automated_Email_From_Address__c)){
+                mBusUnitVsDefaultFromAddress.put(buSpecificAutoEmail.Default_Automated_Email_From_Address__c, new Set<String>());
+            }
+            mBusUnitVsDefaultFromAddress.get(buSpecificAutoEmail.Default_Automated_Email_From_Address__c).add(buSpecificAutoEmail.Business_Unit__c);
+
+            if(!mBusUnitVsReplyToAddress.containsKey(buSpecificAutoEmail.Business_Unit__c)){
+                mBusUnitVsReplyToAddress.put(buSpecificAutoEmail.Business_Unit__c,buSpecificAutoEmail.Reply_To_Address__c);
+            }
+        }
+        for(OrgWideEmailAddress OWA : [select Id,Address,Purpose from OrgWideEmailAddress WHERE Address=:mBusUnitVsDefaultFromAddress.keySet()]){
+            if(mBusUnitVsDefaultFromAddress.containsKey(OWA.Address)){
+                for(String strBusUnit : mBusUnitVsDefaultFromAddress.get(OWA.Address)){
+                    mBusinessUnitVsSpecificOWA.put(strBusUnit,OWA.Id);
+                }
+            }
+        }
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        
+        /* Account Contact Related Operations */
+        getAccountAndContactIdsAndLeadIds(peLogs);
+        List<contact> contactList = ASF_CommPETriggerQueryHandler.getCustomerContact(caseAccountIds,caseConIds);
+        mLeads = new Map<Id,Lead>(ASF_CommPETriggerQueryHandler.getProspectRecords(caseProspectIds));
+        for(Contact c : contactList){
+            //Build AccountId to Set of ContactId map.
+            if(!mAccountIdContactId.containsKey(c.AccountId)){
+                mAccountIdContactId.put(c.AccountId,new Set<Contact>());
+            }
+            mAccountIdContactId.get(c.AccountId).add(c);
+        }
+        defaultContactId = [select id from contact limit 1].Id;
+        /* Account Contact Related Operations */
+        
+        
+        List<Customer_Notification_Config__mdt> custMetaList = ASF_CommPETriggerQueryHandler.getCustomMetadataList(customMetadataName);
+        
+        for(Customer_Notification_Config__mdt custMeta : custMetaList){
+            if(!mCommConfigMetaName.containsKey(custMeta.developerName)){
+                mCommConfigMetaName.put(custMeta.developerName, custMeta);
+            }
+        }
+        
+        /* SMS And WhatsApp Related Template Information from Custom Metadata Related Operations */
+        for(PE_Logger__c pLog : peLogs){
+            try{
+                String strMetadataName = pLog.CustomMetadataName__c;
+                
+                if(pLog.TakeBodyFromContentDoc__c == true){
+                    peLogBodyInCV.add(pLog.Id);
+                }
+                if(strMetadataName != null){
+                    getTemplateNamesFromConfig(strMetadataName); 
+                }
+                if(pLog.Email_Template_Name__c != null){
+                    setTemplates.add(pLog.Email_Template_Name__c);
+                }
+                
+            }
+            catch(exception e){
+                responseWrapper cls = new responseWrapper(pLog.Id,'Error','No template found in Customer_Notification_Config__mdt');
+                peLogIdVsSuccessResult.put(pLog.Id,cls);
+            }
+        }
+        
+        if(setTemplates.size()>0 && peLogBodyInCV.size() == 0){
+            emailTemplates = ASF_CommPETriggerQueryHandler.getEmailTemplates(setTemplates); 
+            System.debug('emailTemplates --> '+emailTemplates);
+            getEmailTempDevNameVsId();
+        }
+        /* SMS And WhatsApp Related Template Information from Custom Metadata Related Operations */
+        
+        createLogs(peLogs,null);
+        sendEmailCommunication(peLogs);
+        sendCommunications(false,peLogs);
+        updateLog();
+        
+        return peLogIdVsSuccessResult;
+    }
+    /**
+     * @description Updates the communication log records.
+     */
+    public static void updateLog(){
+        List<ASF_Communication_Log__c> updLogs = new List<ASF_Communication_Log__c>();
+        for(ASF_Communication_Log__c log : logs){
+            if(log.Id != null){
+                // Do some data setup here and then update.
+                log.Status__c = 'In Progress';
+                if(log.Whatsappp_Msg_Body__c!=''){
+                log.WhatsApp_Delivery_Status__c = 'In Progress';
+                }
+                updLogs.add(log);
+            }
+        }
+        if(updLogs.size()>0){
+            update updLogs;
+        } 
+    }
     
+    private static Messaging.SingleEmailMessage getMessageCommonVariables(Contact con,
+                                                                          Lead prospect,
+                                                                          Case cRec,
+                                                                          Boolean isAttachment,
+                                                                          Id owdID){
+        Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+	msg.setOrgWideEmailAddressId(owdID);
+	//Added by Shagun
+        String emailToBeSentForPayment = Label.Payments_Critical_Alerts_Group;
+        List<String> toAddressesForCriticalGrp = emailToBeSentForPayment.split(',');
+	String ccExternalIdForPayment = Label.Payment_Report_Fraud;
+        List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
+	List<String> toAddressesForPayments = new List<String>();    
+        if(con != null){
+            msg.setTargetObjectId(con.Id);
+            msg.setTreatTargetObjectAsRecipient(true);	
+           if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                    toAddressesForCriticalGrp.add(con.Email);
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                     msg.setToAddresses(toAddressesForPayments);
+                 }
+            }else{
+                  msg.setToAddresses(new String[]{con.Email});
+            }
+        }
+        else if(prospect != null){
+            msg.setTargetObjectId(defaultContactId);
+            msg.setTreatTargetObjectAsRecipient(false);	
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){     
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                    toAddressesForCriticalGrp.add(prospect.Email);
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                     msg.setToAddresses(toAddressesForPayments);
+                 }
+            }else{
+                 msg.setToAddresses(new String[]{prospect.Email});
+            }
+        }
+        else{
+            msg.setTargetObjectId(defaultContactId);
+            msg.setTreatTargetObjectAsRecipient(false);
+            if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                    toAddressesForCriticalGrp.add(cRec.SuppliedEmail);
+        			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
+                    msg.setToAddresses(toAddressesForPayments);
+                 }
+            }else{
+            	msg.setToAddresses(new String[]{cRec.SuppliedEmail});
+            }
+        }
+        //Start - Calling the function to add files to the email as attachments - Aditya Mehrotra
+        if(isAttachment){
+            List<Messaging.Emailfileattachment> emailFileAttachments = getCaseFilesAsEmailAttachments(cRec.Id);
+            if(emailFileAttachments.size()>0){
+                msg.setFileAttachments(emailFileAttachments);
+            }
+        }
+        
+        /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+        if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
+            OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
+	    msg.setOrgWideEmailAddressId(OWDId);
+        }
+        if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
+            String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
+            msg.setReplyTo(replyAddr);
+        }
+        /******* VIRENDRA - ENDS HERE on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
+                                                                              
+        return msg;
+        
+    }
+    
+    private static Messaging.SingleEmailMessage getMessageGeneratedFromCV(Id bodyId, Contact con, Case cRec, List<Id> contentId, Id owdID, Boolean isAttachment, Lead prospect){
+        ContentVersion contentVersion = [SELECT VersionData FROM ContentVersion WHERE ContentDocumentId =: bodyId and islatest = true Limit 1];
+        String emailBody = contentVersion.versionData.toString();
+	
+        
+        Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
+
+        msg.SetHTMLBody(emailBody);
+        msg.setWhatId(cRec.Id);
+        msg.setSaveAsActivity(true);
+        if(msg.getOrgWideEmailAddressId() == null){
+           msg.setOrgWideEmailAddressId(owdID); 
+        }
+        msg.setEntityAttachments(contentId);        
+        return msg;
+ 
+    }
+    /**
+     * @description Generates a single email message based on provided parameters.
+     * 
+     * @param con The contact associated with the email.
+     * @param cRec The case record associated with the email.
+     * @param eTempId The email template ID.
+     * @param owdID The organization-wide email address ID.
+     * @param isAttachment Indicates if attachments need to be included.
+     * @param prospect The lead associated with the email.
+     * @return Messaging.SingleEmailMessage The generated email message.
+     */
+  private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
+        Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
+        //Mrinal changes for ABHFL content update starts
+        String htmlBody;
+        String abhflTemplateId = System.Label.ABHFL_EmailId_RequestClosure_Template_Id;
+        if(eTempId == abhflTemplateId){
+            Messaging.SingleEmailMessage msgTemp = updateEmailContent(cRec);
+            msg.setToAddresses(msgTemp.getToAddresses());
+            msg.htmlBody = msgTemp.htmlBody;
+        }
+        //Mrinal changes for ABHFL content update ends
+        msg.setTemplateId(eTempId);
+        msg.setWhatId(cRec.Id);
+        msg.setSaveAsActivity(true);
+        if(msg.getOrgWideEmailAddressId() == null){
+           msg.setOrgWideEmailAddressId(owdID); 
+        }        
+        return msg;
+    }
+    /**
+     * @description Function to get all the case files(if present) to attach to the email communication
+     * @createdBy Aditya Mehrotra
+     * @param caseId The ID of the case to retrieve files for.
+     * @return List<Messaging.Emailfileattachment> A list of email file attachments.
+     */
+    private static List<Messaging.Emailfileattachment> getCaseFilesAsEmailAttachments(String caseId){
+        List<Id> contentDocumentIds = new List<Id>();
+        List<Messaging.Emailfileattachment> emailFileAttachments = new List<Messaging.Emailfileattachment>();
+        for(ContentDocumentLink cdLink : [SELECT LinkedEntityId, ContentDocumentId 
+                                          FROM ContentDocumentLink WHERE LinkedEntityId=:caseId])
+        {
+            contentDocumentIds.add(cdLink.ContentDocumentId);
+        }
+        for (ContentVersion cversion : [SELECT title,PathOnClient,FileType,versiondata 
+                                        FROM contentversion 
+                                        WHERE ContentDocumentId IN :contentDocumentIds
+                                        AND isSTP__c = TRUE])
+        {
+            blob fileBody = cversion.versiondata;
+            Messaging.Emailfileattachment efa = new Messaging.Emailfileattachment();
+            efa.setFileName(cversion.title+'.'+cversion.FileType);
+            efa.setBody(fileBody);
+            emailFileAttachments.add(efa); 
+        }        
+        return emailFileAttachments;
+    }
+    /**
+     * @description Sends email communication based on the provided PE Logger records.
+     * @param peLogs A list of PE Logger records.
+     */
+    private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
+        List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
+        //OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE Purpose = 'DefaultNoreply' order by lastmodifiedDate desc  limit 1];
+        OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE DisplayName=:System.Label.ASF_default_no_reply_email_address limit 1];
+        
+        for(PE_Logger__c pLog : peLogs){
+            //Bypass sending Email when user manually blocks it during case creation
+            if(mCases.containsKey(pLog.Case__c) &&
+               (pLog.No_Auto_Communication__c == null || 
+                (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('Email')))){
+                    
+                    Case cRec = mCases.get(pLog.Case__c);
+                    if(templateIDMap.containsKey(pLog.Email_Template_Name__c) && !peLogBodyInCV.contains(pLog.Id)){
+                        if(templateIDMap.get(pLog.Email_Template_Name__c) == null){
+                            continue;
+                        }
+                    }
+                    
+                    if(peLogBodyInCV.contains(pLog.Id)){
+                        // LOGIC TO SEND EMAIL BY READING CONTENTDOCUMENT BODY.
+                        if(pLog.Specific_To_Address__c != null){
+                            List<String> toSpecificAddresses = pLog.Specific_To_Address__c.deleteWhitespace().split(';');
+                            List<String> ccSpecificAddresses = new List<String>();
+                            if(pLog.Specific_Cc_Addresses__c != null){
+                                ccSpecificAddresses = pLog.Specific_Cc_Addresses__c.deleteWhitespace().split(';');
+                            }
+                            List<Id> attachmentIds = String.isNotBlank(pLog.Content_Version_Ids__c)?(List<Id>)pLog.Content_Version_Ids__c.split(','): new List<Id>();
+                            system.debug('attachmentIds---->'+attachmentIds);
+                            Messaging.SingleEmailMessage msg = getMessageGeneratedFromCV(pLog.HTMLBody_Con_Doc_Id__c,null,cRec, attachmentIds, owAddress.Id, pLog.Is_Attachment__c,null);
+                            msg.setToAddresses(toSpecificAddresses);
+                            if(ccSpecificAddresses.size()>0){
+                                msg.setCcAddresses(ccSpecificAddresses);
+                            }
+                            msg.setSubject(pLog.Subject__c);
+                            emails.add(msg); 
+                            mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                            iCounter++;
+                        }
+                    }
+                    
+                    System.debug('pLog.Email_Template_Name__c --> '+pLog.Email_Template_Name__c);
+                    System.debug('pLog.Email_Template_Name__c --> '+templateIDMap.keySet());
+                    if(templateIDMap.containsKey(pLog.Email_Template_Name__c)){
+                        Id emailtempid = templateIDMap.get(pLog.Email_Template_Name__c);
+                        
+                        // VIRENDRA - ADDED ANOTHER LOGIC TO SEND EMAIL TO SPECIFIC EMAIL ADDRESS - 
+                        if(pLog.Send_To_Specific_Emails__c){
+                            if(pLog.Specific_To_Address__c != null){
+                                List<String> toSpecificAddresses = pLog.Specific_To_Address__c.deleteWhitespace().split(';');
+                                List<String> ccSpecificAddresses = new List<String>();
+                                if(pLog.Specific_Cc_Addresses__c  != null){
+                                    ccSpecificAddresses = pLog.Specific_Cc_Addresses__c.deleteWhitespace().split(';');
+                                }
+                                Messaging.SingleEmailMessage msg = getMessageGenerated(null,cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
+                                msg.setToAddresses(toSpecificAddresses);
+                                if(ccSpecificAddresses.size()>0){
+                                    msg.setCcAddresses(ccSpecificAddresses);
+                                }
+                                emails.add(msg); 
+                                mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                                iCounter++;
+                            }
+                        }
+                        
+                        else if(mAccountIdContactId.containsKey(cRec.AccountId)){
+                            
+                            for(Contact con : mAccountIdContactId.get(cRec.AccountId)){
+                                if(con.Email != null){
+                                    //Added another parameter pLog.Is_Attachment__c to check if attachment needs to be sent or not
+                                    Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
+                                    emails.add(msg); 
+                                    mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                                    iCounter++;
+                                }
+                            }
+                        }
+                        else if(mLeads.containsKey(cRec.Lead__c)){
+                            Lead prospect = mLeads.get(cRec.Lead__c);
+                            Messaging.SingleEmailMessage msg = getMessageGenerated(null, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,prospect);                                
+                            emails.add(msg); 
+                            mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                            iCounter++;
+                        }
+                        else{
+                            //Added another parameter pLog.Is_Attachment__c to check if attachment needs to be sent or not
+                            Messaging.SingleEmailMessage msg = getMessageGenerated(null,cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
+                            emails.add(msg); 
+                            mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                            iCounter++;
+                        }
+                    }
+                    
+                }
+        }
+        
+        /// Send email Logic moved to first.
+        if(emails.size()>0){
+            Messaging.SendEmailResult[] msgResults= Messaging.sendEmail(emails,false);
+            List<Messaging.SingleEmailMessage> retryEmailSend = new List<Messaging.SingleEmailMessage>();
+            
+            for(integer i=0;i<msgResults.size();i++){
+                if(!msgResults[i].IsSuccess()){
+                    retryEmailSend.add(emails[i]);
+                }
+            }
+            if(retryEmailSend.size()>0){
+                
+                Messaging.SendEmailResult[] msgRetryResults= Messaging.sendEmail(retryEmailSend,false);
+                
+                for(integer i=0;i<msgRetryResults.size();i++){
+                    if(!msgRetryResults[i].IsSuccess()){
+                        String errMsg = msgRetryResults[i].getErrors().get(0).getMessage();                        
+                    }
+                }
+            }
+            
+            
+            for(integer i=0;i<msgResults.size();i++){
+                if(!msgResults[i].IsSuccess()){
+                    
+                    String errMsg = msgResults[i].getErrors().get(0).getMessage();
+                    if(mIdxVsPELoggerId.containsKey(i)){
+                        responseWrapper cls = new responseWrapper(mIdxVsPELoggerId.get(i) ,'Error','Error Sending Email ' + errMsg);
+                        peLogIdVsSuccessResult.put(mIdxVsPELoggerId.get(i) ,cls);
+                    }
+                }
+                else{
+                    if(mIdxVsPELoggerId.containsKey(i)){
+                        responseWrapper cls = new responseWrapper(mIdxVsPELoggerId.get(i) ,'Success','' );
+                        peLogIdVsSuccessResult.put(mIdxVsPELoggerId.get(i) ,cls);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * @description Sends communications via SMS and WhatsApp based on the provided PE Logger records.
+     * @param skipPE A boolean flag to skip publishing Platform Events.
+     * @param peLogs A list of PE Logger records.
+     */
+    public static void sendCommunications(Boolean skipPE,List<PE_Logger__c> peLogs){
+        List<Outbound_Communication__e> eventList = new List<Outbound_Communication__e>();
+        
+        
+        // For SMS and WhatsApp
+        for(ASF_Communication_Log__c log : logs){
+            if(log.Id != null){
+                if(!String.isEmpty(log.SMS_LT_Name__c) && log.Phone__c != null){
+                    
+                    String smsTemplateId = templateIDMap.get(log.SMS_LT_Name__c);
+                    
+                    if(smsTemplateId == null){
+                        responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c ,'Error','SMS template not found for name ' + log.SMS_LT_Name__c);
+                        peLogIdVsSuccessResult.put(log.PE_Logger_Id__c ,cls);
+                        //throw new commException('SMS template not found for name ' + log.SMS_LT_Name__c);
+                    }
+                    else{
+                        if(log.Contact__c != null){ 
+                            log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Contact__c,log.id, true); 
+                        }
+                        else if(log.Lead__c != null){
+                            log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,log.Lead__c,log.id, true); 
+                        }
+                        else if(log.Send_To_Specific_Mobile__c){
+                            log.SMS_Msg_Body__c = generateMessageBody(smsTemplateId,defaultContactId,log.id, true); 
+                        }
+                        
+                        
+                        responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Success','',log.id,log.SMS_Msg_Body__c);
+                        peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
+                        eventList.add(createOutboundCommunication(log,'SMS'));
+                    }
+                }
+                
+                if(!String.isEmpty(log.WhatsApp_LT_Name__c)){
+                    
+                    String waTemplateId = templateIDMap.get(log.WhatsApp_LT_Name__c);
+                    
+                    if(waTemplateId == null){
+                        responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Error','WhatsApp template not found for name ' + log.WhatsApp_LT_Name__c);
+                        peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
+                    }
+                    else{
+                        log.Whatsappp_Msg_Body__c = generateMessageBody(waTemplateId,log.Contact__c, log.id, true);
+                        responseWrapper cls = new responseWrapper(log.PE_Logger_Id__c,'Success','',log.id,log.Whatsappp_Msg_Body__c);
+                        peLogIdVsSuccessResult.put(log.PE_Logger_Id__c,cls);
+                        Outbound_Communication__e comm = createOutboundCommunication(log,'WhatsApp');
+                        eventList.add(comm);
+                    }
+                }
+            }
+        }
+        
+        if(!skipPE){
+            List<Database.SaveResult> results = EventBus.publish(eventList);
+        }
+    }
+    
+    /**
+     * @description Generates the message body based on the provided email template ID, recipient ID, and related record ID.
+     * @param templateID The ID of the email template.
+     * @param whoID The ID of the recipient.
+     * @param whatID The ID of the related record.
+     * @param isPlainText A boolean value indicating whether to return plain text message or HTML message.
+     * @return The generated message body.
+     */
+    private static String generateMessageBody(String templateID, String whoID, STring whatID, Boolean isPlainText){
+        Messaging.SingleEmailMessage msg = Messaging.renderStoredEmailTemplate(templateID, whoId, whatID, Messaging.AttachmentRetrievalOption.NONE); 
+        String richTextMessage = msg.getHtmlBody(); 
+        return isPlainText ? richTextMessage.StripHtmlTags() : richTextMessage;
+    }
+    /**
+     * @description Creates an Outbound_Communication__e event based on the provided ASF_Communication_Log__c object and message type.
+     * @param log The ASF_Communication_Log__c object containing communication log details.
+     * @param msgType The type of message (e.g., "SMS", "WhatsApp").
+     * @return The created Outbound_Communication__e event.
+     */
+    private static Outbound_Communication__e createOutboundCommunication(ASF_Communication_Log__c log,String msgType){
+        string body = '';
+        if(msgType == 'WhatsApp'){
+            body = log.Whatsappp_Msg_Body__c;
+        } else {
+            body = log.SMS_Msg_Body__c;
+        }
+        Outbound_Communication__e event = new Outbound_Communication__e(LogID__c  =log.id,
+                                                                        Case__c = log.Case__c,
+                                                                        Template_ID__c  = log.External_Template_ID__c ,
+                                                                        Phone__c  =log.Phone__c,
+                                                                        Txt_Msg__c = body,
+                                                                        LOB__c = log.LOB__c,
+                                                                        Department__c = log.Line_of_Business__c,
+                                                                        Type__c = msgType,
+                                                                        SMS_Entity_Id__c = log.SMS_Entity_Id__c,
+                                                                        SMS_Sender_Id__c = log.SMS_Sender_Id__c
+                                                                        );
+        
+        return event;
+    }
+    
+    /**
+     * @description Creates ASF_Communication_Log__c records based on the provided PE_Logger__c records and selected contact.
+     * @param peLogs The list of PE_Logger__c records.
+     * @param selectedCon The selected contact.
+     */
+    private static void createLogs(List<PE_Logger__c> peLogs,Contact selectedCon){
+        List<ASF_Communication_Log__c> masterLogs = new List<ASF_Communication_Log__c>();
+        
+        for(PE_Logger__c pLog : peLogs){
+            //Bypass sending SMS when user manually blocks it during case creation
+            if(pLog.CustomMetadataName__c != null &&
+               (pLog.No_Auto_Communication__c == null || 
+                (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('SMS')))){
+                    if(mCommConfigMetaName.containsKey(pLog.CustomMetadataName__c)){
+                        String strMetadataName = pLog.CustomMetadataName__c;
+                        Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+
+                        // SMS Related
+                        if(commConfig != null && commConfig.SMS_Template_Name__c != null){
+                            setCaseFields(commConfig,channelFieldNamesSMS[0]);
+                        }
+                    }
+                }
+                //Bypass sending WhatsApp when user manually blocks it during case creation
+                if(pLog.CustomMetadataName__c != null &&
+                (pLog.No_Auto_Communication__c == null || 
+                 (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('WhatsApp')))){
+                     if(mCommConfigMetaName.containsKey(pLog.CustomMetadataName__c)){
+                         String strMetadataName = pLog.CustomMetadataName__c;
+                         Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+                         // WhatsApp Related
+                         if(commConfig != null && commConfig.Whatsapp_Template_Name__c !=null){
+                             setCaseFields(commConfig,channelFieldNamesWA[0]);
+                         }
+                     }
+                 }
+
+        }
+        String query = 'SELECT ID,Business_Unit__c,Lead__c,AccountId,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,status';
+        query += ' FROM CASE WHERE ID IN :caseIds FOR UPDATE';
+        if(setCaseFields !=null && setCaseFields.size()>0){
+            List<string> temp = new List<String>();
+            temp.addAll(setCaseFields);
+            Set<Id> tempCaseIds = caseIds;
+            query = 'SELECT ID,Business_Unit__c,AccountId,Lead__c,CCC_External_Id__c ,ContactEmail,contact.Name,ContactMobile,ContactId,SuppliedEmail,origin,lob__c,status,'+String.escapeSingleQuotes(String.join(temp, ','));
+            query = query.removeEnd(',');
+            query += ' FROM CASE WHERE ID IN :tempCaseIds FOR UPDATE';
+        }
+        List<Case> cases = (List<case>)Database.query(query);
+        mCases = new Map<Id,Case>(cases);
+        
+        Map<Id,ASF_Communication_Log__c> mPeLogIdCommunicationLog = new Map<Id,ASF_Communication_Log__c>();
+        for(PE_Logger__c pLog : peLogs){
+            //Bypass sending SMS when user manually blocks it during case creation
+            if(!peLogBodyInCV.contains(pLog.Id) && pLog.CustomMetadataName__c != null &&
+               (pLog.No_Auto_Communication__c == null || 
+                (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('SMS')))){
+                    String strMetadataName = pLog.CustomMetadataName__c;
+                    Case cRec = mCases.get(pLog.Case__c);
+                    ASF_Communication_Log__c masterlog = new ASF_Communication_Log__c();
+                    Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+                    
+                    if(commConfig != null){
+                        /* Populate Merge field for SMS Template */
+                        if(commConfig.SMS_Template_Name__c != null){
+                            if(commConfig.get(channelFieldNamesSMS[3]) != null){
+                                ASF_CommPEMergeFieldHandler.populateMergeFields(channelFieldNamesSMS,commConfig,cRec,masterlog,mPeLogIdCommunicationLog,casefieldInfo,pLog.Id);
+                            }
+                        }    
+                    }   
+                }
+            
+            //Bypass sending WhatsApp when user manually blocks it during case creation
+            if(pLog.CustomMetadataName__c != null &&
+               (pLog.No_Auto_Communication__c == null || 
+                (pLog.No_Auto_Communication__c != null && !pLog.No_Auto_Communication__c.contains('WhatsApp')))){
+                    String strMetadataName = pLog.CustomMetadataName__c;
+                    Case cRec = mCases.get(pLog.Case__c);
+                    ASF_Communication_Log__c masterlog = new ASF_Communication_Log__c();
+                    Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+                    
+                    if(commConfig != null){
+                        /* Populate Merge field for WhatsApp Template */
+                        if(commConfig.Whatsapp_Template_Name__c != null){                            
+                            if(commConfig.get(channelFieldNamesWA[3]) != null){
+                                ASF_CommPEMergeFieldHandler.populateMergeFields(channelFieldNamesWA,commConfig,cRec,masterlog,mPeLogIdCommunicationLog,casefieldInfo,pLog.Id);
+                            }
+                        }
+                    }
+                }
+            
+        }
+        for(PE_Logger__c pLog : peLogs){
+            if(mPeLogIdCommunicationLog.containsKey(pLog.Id) && !peLogBodyInCV.contains(pLog.Id)){
+                ASF_Communication_Log__c cLog = mPeLogIdCommunicationLog.get(pLog.Id);
+                ASF_Communication_Log__c log = cLog.clone(false, true,false, false);
+                Case cRec = mCases.get(pLog.Case__c);
+                
+                if(pLog.Send_To_Specific_Mobile__c){
+                    if(pLog.Specific_To_MobilePhone__c != null){
+                        log = createCommunincationLogRecord(log,null,null,cRec.Id,'Customer',pLog.Specific_To_MobilePhone__c,null);
+                        log.put('PE_Logger_Id__c',pLog.Id);
+                        log.LOB__c = pLog.LOB__c;
+                        log.Line_of_Business__c = cRec.LOB__c;
+                        log.put('Status__c','In Progress');
+                        log.put('Send_To_Specific_Mobile__c',pLog.Send_To_Specific_Mobile__c);
+                        logs.add(log);
+                    }
+                }
+                else if(selectedCon!=null && selectedCon.MobilePhone != null){
+                    log = createCommunincationLogRecord(log,cRec.AccountId,selectedCon.Id,cRec.Id,selectedCon.Name,selectedCon.MobilePhone,null);
+                    log.put('Contact_Email__c', selectedCon.email);
+                    log.put('PE_Logger_Id__c',pLog.Id);
+                    log.LOB__c = pLog.LOB__c;
+                    log.Line_of_Business__c = cRec.LOB__c;
+                    if( selectedCon.MobilePhone != ''){
+                        log.put('Status__c','In Progress');
+                    }
+                    logs.add(log);
+                    
+                }else if(mAccountIdContactId.containsKey(cRec.AccountId)){// preference 3 : else send it to all contacts
+                    
+                    for(Contact con : mAccountIdContactId.get(cRec.AccountId)){
+                        
+                        if(mPeLogIdCommunicationLog.containsKey(pLog.Id) && con.MobilePhone != null){
+                            
+                            log = cLog.clone(false, true,false, false);
+                            log = createCommunincationLogRecord(log,cRec.AccountId,con.Id,cRec.Id,con.Name,con.MobilePhone,null);
+                            
+                            if(con.MobilePhone != null &&  !String.isEmpty(log.SMS_LT_Name__c)){
+                                log.put('Status__c','In Progress');
+                            }
+                            
+                            log.put('Contact_Email__c', con.email);
+                            log.put('PE_Logger_Id__c',pLog.Id);
+                            log.LOB__c = pLog.LOB__c;
+                            log.Line_of_Business__c = cRec.LOB__c;
+                            logs.add(log);
+                        }
+                    }
+                }else if(cRec.Lead__c != null){
+                    log = cLog.clone(false, true,false, false);
+                    lead prospect = mLeads.get(cRec.Lead__c);
+                    if(prospect.MobilePhone != null && prospect.MobilePhone != ''){
+                        log = createCommunincationLogRecord(log,null,null,cRec.Id,prospect.Name,prospect.MobilePhone,prospect.Id);
+                    
+                        if(prospect.MobilePhone != null &&  !String.isEmpty(log.SMS_LT_Name__c)){
+                            log.put('Status__c','In Progress');
+                        }                    
+                        log.put('Contact_Email__c', prospect.email);
+                        log.put('PE_Logger_Id__c',pLog.Id);
+                        log.LOB__c = pLog.LOB__c;
+                        logs.add(log);
+                    // IN case of Prospect Communication...
+                    }
+                    else{
+                        responseWrapper cls = new responseWrapper(pLog.Id,'Error','Lead on Case is without mobile number.');
+                    	peLogIdVsSuccessResult.put(pLog.Id,cls);
+                    }
+                    
+                    
+                }
+                else{
+                    responseWrapper cls = new responseWrapper(pLog.Id,'Error','AccountId is missing on Case');
+                    peLogIdVsSuccessResult.put(pLog.Id,cls);
+                }
+            }
+            
+        }
+        if(logs.size()>0){
+            Database.SaveResult[] results = Database.insert(logs,false);
+            for(integer i =0;i<logs.size();i++){
+                if(results[i].isSuccess()){
+                    responseWrapper cls = new responseWrapper(logs[i].PE_Logger_Id__c ,'Completed','');
+                    peLogIdVsSuccessResult.put(logs[i].PE_Logger_Id__c ,cls);
+                    mLogIdVsCaseId.put(logs[i].Id,logs[i].Case__c);
+                }
+                else{
+                    responseWrapper cls = new responseWrapper(logs[i].PE_Logger_Id__c ,'Error',results[i].getErrors().get(0).getMessage());
+                    peLogIdVsSuccessResult.put(logs[i].PE_Logger_Id__c ,cls);
+                    
+                }
+            }
+        }
+        
+        
+    }
+    /**
+     * @description Retrieves the developer name and ID mapping of email templates and stores them in the templateIDMap.
+     */
+    private static void getEmailTempDevNameVsId(){
+        for(EmailTemplate template : emailTemplates){
+            templateIDMap.put(template.DeveloperName,template.Id);
+        }
+    }
+    /**
+     * @description Retrieves the template names from the provided custom metadata name and adds them to the setTemplates collection. 
+     * @param strMetadataName The name of the custom metadata.
+     */
+    private static void getTemplateNamesFromConfig(String strMetadataName){
+        Customer_Notification_Config__mdt commConfig = mCommConfigMetaName.get(strMetadataName);
+        
+        Object smsTemplateName = commConfig.get(channelFieldNamesSMS[3]); 
+        if(smsTemplateName != null){
+            setTemplates.add(smsTemplateName.tostring());
+        }
+        
+        Object waTemplateName = commConfig.get(channelFieldNamesWA[3]);
+        if(waTemplateName != null){
+            setTemplates.add(waTemplateName.tostring());
+        }
+    }
+    /**
+     * @description Wrapper class to encapsulate response information.
+     */
+    public class responseWrapper{
+        /**
+         * @description The ID associated with the log.
+         */
+        public string logId{get;set;} 
+        /**
+         * @description The status of the response.
+         */
+        public string status{get;set;} 
+        /**
+         * @description The message content of the response.
+         */
+        public string message{get;set;}
+        /**
+         * @description The template content of the response.
+         */
+        public string template{get;set;}
+        /**
+         * @description The ID associated with the communication.
+         */
+        public string communicationId{get;set;}
+        /**
+         * @description Constructs a response wrapper object with the provided parameters.
+         * @param lId The ID associated with the log.
+         * @param st The status of the response.
+         * @param msg The message content of the response.
+         */
+        public responseWrapper(string lId,string st,string msg){
+            this.logId = lId;
+            this.status = st;
+            this.message = msg;
+        }
+        /**
+         * @description Constructs a response wrapper object with the provided parameters.
+         * @param lId The ID associated with the log.
+         * @param st The status of the response.
+         * @param msg The message content of the response.
+         * @param comId The ID associated with the communication.
+         * @param body The template body.
+         */
+        public responseWrapper(string lId,string st,string msg, String comId, String body){
+            this.logId = lId;
+            this.status = st;
+            this.message = msg;
+            this.template = body;
+            this.communicationId = comId;
+        }
+    }
+    /**
+     * @description Populates sets of relevant Ids from PE_Logger__c records.
+     * @param peLogs List of PE_Logger__c records.
+     */
+    private static void getAccountAndContactIdsAndLeadIds(List<PE_Logger__c> peLogs){
+        for(PE_Logger__c pLog : peLogs){
+            customMetadataName.add(pLog.CustomMetadataName__c);
+            caseIds.add(pLog.Case__c);
+            if(pLog.AccountId__c != null){
+                caseAccountIds.add(pLog.AccountId__c);
+            }
+            if(pLog.ContactId__c != null){
+                caseConIds.add(pLog.ContactId__c);
+            }
+            if(pLog.Lead__c != null){
+                caseProspectIds.add(pLog.Lead__c);
+            }
+        }
+    }
+    /**
+     * @description Sets case fields based on the provided Customer_Notification_Config__mdt record and developer name.
+     * @param commConfig The Customer_Notification_Config__mdt record.
+     * @param developerName The developer name of the field.
+     */
+    private static void setCaseFields(Customer_Notification_Config__mdt commConfig, String developerName){
+        String mergeFieldCSV = (String) commConfig.get(developerName);
+        if(mergeFieldCSV !=null && String.IsNotBlank(mergeFieldCSV)){
+            setCaseFields.addAll(mergeFieldCSV.split(','));
+        }
+    }
+
+    /**
+     * @description Creates an ASF_Communication_Log__c record with the provided details.
+     * @param log The ASF_Communication_Log__c record to populate.
+     * @param accountId The ID of the account.
+     * @param contactId The ID of the contact.
+     * @param caseId The ID of the case.
+     * @param contactName The name of the contact.
+     * @param mobNo The mobile number associated with the communication.
+     * @param leadId The ID of the lead.
+     * @return The populated ASF_Communication_Log__c record.
+     */
+    private static ASF_Communication_Log__c createCommunincationLogRecord(ASF_Communication_Log__c log,
+                                                                          Id accountId,
+                                                                          Id contactId,
+                                                                          Id caseId,
+                                                                          String contactName,
+                                                                          String mobNo,
+                                                                          Id leadId)
+    {
+        log.put('Account__c',accountId);
+        log.put('Case__c', caseId);  
+        log.put('Contact__c',contactId);
+        log.put('Lead__c',leadId);
+        log.put('Contact_Name__c',contactName);
+        log.put('Phone__c', mobNo);
+        return log;
+    }
+
+public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        case caseRec2 = [Select ABHFL_Case_Detail__c,Masked_LAN__c from case where id = :caseRec.id];
+        //ContentVersion contentVersion = [SELECT Id, VersionData FROM ContentVersion WHERE ContentDocumentId =: bodyId and islatest = true Limit 1];
+        ABHFL_Case_Detail__c detailRec = [Select Id, ALL_LANS__c, New_Email_ID__c from ABHFL_Case_Detail__c where Id =: caseRec2.ABHFL_Case_Detail__c].get(0);
+     	EmailTemplate htmlvalues = [Select Id, htmlvalue from EmailTemplate where developername = 'ABHFL_EmailId_RequestClosure_Email_1728370815314'].get(0);
+     	EnhancedLetterhead header = [select Id, LetterheadHeader, LetterheadFooter from EnhancedLetterhead where Name = 'ABHFL Letterhead'].get(0);
+     	Map < String, String > replacements = new Map < String, String > {
+       '{{{Case.Masked_LAN__c}}}' => caseRec2.Masked_LAN__c,
+       '$$ABHFL_Case_Detail__r.ALL_LANS__c$$' => detailRec.ALL_LANS__c,
+       '$$ABHFL_Case_Detail__r.New_Email_ID__c$$' => detailRec.New_Email_ID__c
+     	};
+         string newhtmlvalues = htmlvalues.htmlvalue;
+         for (String key: replacements.keySet()) {
+           if (!String.isEmpty(replacements.get(key))) {
+             newhtmlvalues = newhtmlvalues.replace(key, replacements.get(key));
+           } else {
+             newhtmlvalues = newhtmlvalues.replace(key, '');
+           }
+         }
+         String newhtmlvalues1 = header.LetterheadHeader + '\n ' + newhtmlvalues + ' \n' + header.LetterheadFooter;
+        //contentVersion.versionData = Blob.valueOf(newhtmlvalues1);
+        //update contentVersion;
+        mail.setHtmlBody(newhtmlvalues1);
+        Account accountRecord = [SELECT Id, PersonEmail FROM Account WHERE Id =: caseRec.AccountId LIMIT 1];
+        Id rectypeid = [Select Id, RecordTypeId from Account where Id =: caseRec.AccountId].RecordTypeId;
+        Id orgWideAdressId = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName =: System.Label.ASF_default_no_reply_email_address limit 1].Id;
+        if (rectypeid != null && rectypeid == Schema.Sobjecttype.Account.getRecordTypeInfosByDeveloperName().get('Individual').getRecordTypeId()) {
+            mail.setToAddresses(new list < String > {
+             detailRec.New_Email_ID__c,
+             accountRecord.PersonEmail
+            });
+     } else {
+       Contact con = [SELECT Id, Email FROM Contact WHERE AccountId =: caseRec.AccountId].get(0);
+       if (con != null) {
+         mail.setToAddresses(new list < String > {
+           detailRec.New_Email_ID__c,
+           con.Email
+         });
+       }
+     }
+        return mail;
+    }
 }
