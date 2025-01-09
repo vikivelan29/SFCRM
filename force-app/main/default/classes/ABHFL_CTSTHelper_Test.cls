@@ -1,3 +1,4 @@
+
 /**
  * @description       : 
  * @author            : ABHFL Team
@@ -244,6 +245,8 @@ public class ABHFL_CTSTHelper_Test {
         // System.assertEquals(branchRec.Branch_Queue_Id__c, updatedCase.get(caseRecord.Id).OwnerId);
     }
 
+
+
     @isTest
     static void testAssignCaseToAOMROM() {
         Case caseRecord = [Select id,ABHFL_Case_Detail__r.Id,ABHFL_Case_Detail__r.Preferred_Branch__c from Case limit 1];
@@ -290,7 +293,6 @@ public class ABHFL_CTSTHelper_Test {
         testcase.CCC_External_Id__c='hfl003';
         testcase.RecordTypeId=recordTypeId;
         testcase.Business_Unit__c='ABHFL';
-        testcase.Source__c = 'Email';
         insert testcase;
         
         ABHFL_case_Detail__c detailrecord1=new ABHFL_case_Detail__c();
@@ -303,7 +305,6 @@ public class ABHFL_CTSTHelper_Test {
         testcase1.CCC_External_Id__c='hfl045';
         testcase1.RecordTypeId=recordTypeId;
         testcase1.Business_Unit__c='ABHFL';
-        testcase1.Source__c = 'Email';
         insert testcase1;
         
         ABHFL_case_Detail__c detailrecord2=new ABHFL_case_Detail__c();
@@ -316,7 +317,6 @@ public class ABHFL_CTSTHelper_Test {
         testcase2.CCC_External_Id__c='hfl023';
         testcase2.RecordTypeId=recordTypeId;
         testcase2.Business_Unit__c='ABHFL';
-        testcase2.Source__c = 'Email';
         insert testcase2;
         Test.stopTest();
     }
@@ -440,11 +440,11 @@ public class ABHFL_CTSTHelper_Test {
     @isTest
     static void populateFieldsInAfterContextTest() {
         List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c,AccountId
-                           		    FROM Case];
+                                    FROM Case];
         Account acc = [Select id from account limit 1][0];
-        
+       
         ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
-        abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);   
+        abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);  
         Test.startTest();
         caseRecordLst[0].CCC_External_Id__c = 'hfl045';
         caseRecordLst[0].accountId = acc.Id;
