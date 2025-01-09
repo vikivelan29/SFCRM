@@ -439,11 +439,23 @@ public class ABHFL_CTSTHelper_Test {
     
     @isTest
     static void populateFieldsInAfterContextTest() {
-        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c
+        List<Case> caseRecordLst = [SELECT Id,ABHFL_Case_Detail__c,CCC_External_Id__c,Business_Unit__c,Technical_Source__c,AccountId
                            		    FROM Case];
+        Account acc = [Select id from account limit 1][0];
         
         ABHFL_CTSTHelper abhflCTSTHelperClass = new ABHFL_CTSTHelper();
-        abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);    
+        abhflCTSTHelperClass.populateFieldsInAfterContext(caseRecordLst);   
+        Test.startTest();
+        caseRecordLst[0].CCC_External_Id__c = 'hfl045';
+        caseRecordLst[0].accountId = acc.Id;
+        update caseRecordLst[0];
+        //Case cs = [Select id,AccountId,CCC_External_Id__c,ABHFL_Case_Detail__c from case where CCC_External_Id__c ='hfl045'];
+        ABHFL_CTSTHelper.updateAllLanFieldOnDetailObj(caseRecordLst[0]);
+        caseRecordLst[0].CCC_External_Id__c = 'hfl023';
+        caseRecordLst[0].business_unit__c = 'ABHFL';
+        update caseRecordLst[0];
+        ABHFL_CTSTHelper.sendEmailToUpdatedEmailId(caseRecordLst[0]);
+        Test.stopTest();
     }
     
     @isTest
@@ -453,6 +465,5 @@ public class ABHFL_CTSTHelper_Test {
         
         ABHFL_CTSTHelper.createCases('0123', 'LAXXXXXXXX', 'CCC-CC-CCLTD-01', 'Email', 'LWC', caseRecordLst[0].id, recordTypeId);    
     }
-
+    
 }
-
