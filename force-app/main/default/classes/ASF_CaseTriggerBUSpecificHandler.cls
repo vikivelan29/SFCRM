@@ -19,7 +19,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABFL_CreateCaseProspectHelper.beforeInsertMethod(mapOfBUToCases.get(businessUnit));
                 }
                 else if(businessUnit == 'ABHFL'){
-                    ABHFL_CTSTHelper.skipOpenStageforAPIcases(mapOfBUToCases.get(businessUnit));    // Added method for EY_PR970457-2388,EY_PR970457-2288 by Yogesh EY(ABCL)
+                    ABHFL_CTSTHelper.skipOpenStageforAPIcases(mapOfBUToCases.get(businessUnit)); // Added changes for PR970457-2388 and PR970457-2288
                 }
                 else if(businessUnit == 'ABSLI'){
                     ABSLI_BeforeInsertTriggerLogic.executeBeforeASFCodeInBeforeInsert(mapOfBUToCases.get(businessUnit));
@@ -209,8 +209,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }else if(businessUnit == 'ABHI'){
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
-                }
-                else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
+                }else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
                     ABSLAMC_SprinklrHelper.createCaseComments(new Map<Id, Case>(mapOfBUToCases.get(businessUnit)), (Map<Id, Case>)oldItems);
                 }
             }      
@@ -262,7 +261,8 @@ public class ASF_CaseTriggerBUSpecificHandler {
                 else if(businessUnit == 'Wellness'){
                     //PR1030924-219: calculate Billable Time on Case
                     MCRM_CaseHelper.calculateBillableTimeOnCaseClose((Map<Id, Case>)newItems, (Map<Id, Case>)oldItems);
-                }else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
+                }
+                else if(businessUnit == 'ABCD' || businessUnit == 'ONEABC'){
                     ABCD_AfterUpdateLogic.executeAfterInsertLogic((List<Case>)mapOfBUToCases.get(businessUnit),(Map<Id,Case>)oldItems);
                 }
             }
@@ -284,7 +284,9 @@ public class ASF_CaseTriggerBUSpecificHandler {
         }
         
     }
-    
+
+
+
     public void beforeUpdateInteractionCases(Map<Id,Case> newItems, Map<Id, Case> oldItems){
         
         Map<String,List<Case>> mapOfBUToCases = getBUSpecificCaseRecords((List<Case>)newItems.values());
@@ -294,8 +296,7 @@ public class ASF_CaseTriggerBUSpecificHandler {
         }
         
     }
-
-
+    
     /* THIS METHOD IS USED TO SEPERATE OUT THE BUSINESS UNIT RELATED CASES */
     private static Map<String,List<Case>> getBUSpecificCaseRecords(List<Case> newItems){
         Map<String,List<Case>> mapOfBUToCases = new Map<String,List<Case>>();
