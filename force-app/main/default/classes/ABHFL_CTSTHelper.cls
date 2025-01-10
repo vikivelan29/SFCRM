@@ -238,6 +238,19 @@ public static void updateOwnerToRecatUsr(List < Case > caseList, Map < Id, Case 
         caseList.add(caseRec);  
         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseList,emailTemplateMap, smsMetadataMap, isTransferredMap);
        }
+   if(caseRec.Business_Unit__c == ABHFL_Constants.BUSINESS_UNIT_ABHFL && 'hfl045'.equals(caseRec.CCC_External_Id__c) && caseRec.ABHFL_Case_Detail__c != null){
+        Map<Id, String> emailTemplateMap1 = new Map<Id, String>();
+        Map<Id, String> smsMetadataMap1 = new Map<Id, String>(); 
+        Map<Id, Boolean> isTransferredMap1 = new Map<Id, Boolean>();
+        EmailTemplate htmlvalues = [Select Id, htmlvalue,DeveloperName from EmailTemplate where developername = 'Mobile_Number_change_confirmation'].get(0);
+        emailTemplateMap1.put(caseRec.Id, htmlvalues.DeveloperName);
+        List<case> caseList = new List<case>();
+           
+        isTransferredMap1.put(caseRec.Id,true);
+        caseList.add(caseRec);  
+        ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseList,emailTemplateMap1, smsMetadataMap1, isTransferredMap1);
+         }
+
      }
     
     public static void runDuplicateCheck(List<Case> caseList){//AM-ABHFL Case DEDUPE
