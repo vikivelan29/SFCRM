@@ -272,11 +272,11 @@ export default class Asf_CRNTagging extends LightningElement {
                         inpArg['customerBu'] = ABCD_BU;
                     }
                 }else if(this.caseRecType === 'Framework'){
-                    if(this.caseBu == ABCD_BU && this.selectedRecBu != ABCD_BU){
+                    if(this.caseBu === ABCD_BU && this.selectedRecBu != ABCD_BU){
                         this.showError('error', 'Error Occured', ONEABC_Acc_Error_ABCD);
                         return;
                     }
-                    else if(this.caseBu == ONEABC_BU && (this.selectedRecBu == ABCD_BU && this.selectedCustomerType != 'Prospect')){
+                    else if(this.caseBu === ONEABC_BU && this.selectedRecBu != ONEABC_BU && !(this.selectedRecBu === ABCD_BU && this.selectedCustomerType === 'Prospect')){
                         this.showError('error', 'Error Occured', ONEABC_Acc_Error_Non_ABCD);
                         return;
                     }

@@ -277,7 +277,7 @@ public with sharing class ASF_RecategoriseCaseController {
     public static ASF_Case_Category_Config__c fetchCCCDetails(String cccExtId) {
         ASF_Case_Category_Config__c cccRec = [SELECT Id, Only_CRN_Mandatory__c, is_FA_Mandatory__c,
                                               Priority__c, Custom_Segment__c, CCC_External_Id__c,
-                                              Is_Prospect_Related__c
+                                              Is_Prospect_Related__c, Show_On_ONEABC_Customer_Only__c
                                               FROM ASF_Case_Category_Config__c 
                                               WHERE CCC_External_Id__c = :cccExtId LIMIT 1];
         return cccRec;

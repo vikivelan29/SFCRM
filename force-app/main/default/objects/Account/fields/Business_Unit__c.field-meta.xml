@@ -67,7 +67,6 @@
             <value>
                 <fullName>ONEABC</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>ONEABC</label>
             </value>
         </valueSetDefinition>

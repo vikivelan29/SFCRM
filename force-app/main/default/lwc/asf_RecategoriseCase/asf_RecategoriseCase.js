@@ -790,7 +790,9 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             if(this.accountId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == true && configuredCurrentCCC.Is_Prospect_Related__c == false){
                 errorMsg = 'Account is not there. But type sub type is selected which require Customer';
             } 
-            else if(this.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && configuredCurrentCCC.Is_Prospect_Related__c == false){
+            else if(this.assetId == null && configuredCurrentCCC.is_FA_Mandatory__c == true && configuredCurrentCCC.Is_Prospect_Related__c == false 
+                && !(configuredCurrentCCC.Show_On_ONEABC_Customer_Only__c == true && this.accountId != null)
+            ){
                 errorMsg = 'Asset is not there. But type sub type is selected which required Asset';
             }
             /* CHECK IF SELECTED CCC IS PROSPECT RELATED.
@@ -807,7 +809,8 @@ export default class asf_RecategoriseCase extends NavigationMixin(LightningEleme
             errorMsg = 'Neither Account nor Prospect is there. But type sub type is selected which require Customer or Prospect.'
             }
             else if(configuredCurrentCCC.Is_Prospect_Related__c == true && configuredCurrentCCC.is_FA_Mandatory__c == true && this.assetId == null && this.leadId == null
-                && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId != null)){
+                && !(configuredCurrentCCC.Only_CRN_Mandatory__c == true && this.accountId != null)
+                && !(configuredCurrentCCC.Show_On_ONEABC_Customer_Only__c == true && this.accountId != null)){
             errorMsg = 'Neither Asset nor Prospect is there. but type sub type is selected which require Asset or Prospect.'
             }
             else if(configuredCurrentCCC.Is_Prospect_Related__c == true && this.leadId == null && configuredCurrentCCC.Only_CRN_Mandatory__c == false && configuredCurrentCCC.is_FA_Mandatory__c == false){
