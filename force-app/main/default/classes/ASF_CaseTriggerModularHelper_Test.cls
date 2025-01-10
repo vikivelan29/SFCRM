@@ -318,7 +318,7 @@ public class ASF_CaseTriggerModularHelper_Test {
         Test.stopTest();        
     }
 
-    @IsTest
+   @IsTest
     static void test_validateCCCOnUpdate(){
         ASF_TestDataFactory.createCaseCategoryConfig();
         List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsert();
@@ -329,6 +329,27 @@ public class ASF_CaseTriggerModularHelper_Test {
         ASF_TriggerSkipperUtility.resetTriggerRun('Case');
         casesList[0].CCC_External_Id__c = 'CCC-CC-CCLTD-02-STP';
         update casesList;
+        try{
+            casesList[0].business_unit__c = 'ABSLI';
+            update casesList[0];
+        }
+        catch(exception e){
+            
+        }
+        try{
+            
+            casesList[0].business_unit__c = 'ABSLAMC';
+            update casesList[0];
+        }
+        catch(exception e){
+            
+        }
+        try{
+            
+        }
+        catch(Exception e){
+            
+        }
         Test.stopTest();
         
     }
@@ -353,6 +374,105 @@ public class ASF_CaseTriggerModularHelper_Test {
         
     }
     */
+
+ @isTest
+    static void insertABHICaseTest(){
+        //Create Account
+        
+        Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHILL','Test_1');
+        Contact  cont = ASF_TestDataFactory.insertContact('Test 1@', '');
+        //Create BranchMaster
+        Branch_Master__c branchMstr = new Branch_Master__c();
+        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = 'TestBranch123';
+        insert branchMstr;
+        
+        ASF_TestDataFactory.createCaseCategoryConfig();
+        ASF_Case_Category_Config__c ccc = [SELECT id,IGMS_Code__c,CCC_External_Id__c FROM ASF_Case_Category_Config__c LIMIT 1];
+        ccc.IGMS_Code__c = '#N/A';
+        ccc.CCC_External_Id__c = 'PEMT024';
+        ccc.Allowed_Issue_Types__c = 'example1';
+        ccc.Litmus_Trigger__c = TRUE;
+        update ccc;
+        
+        //Create Asset
+        Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
+        astRec.LAN__c = 'Test';
+        astRec.Issue_Date__c = Date.newInstance(2024, 6, 6);
+        update astRec;
+        Asset astRec1 = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
+        astRec1.LAN__c = 'Test1';
+        astRec1.Issue_Date__c = Date.newInstance(2024, 6, 6);
+        update astRec1;
+        
+        //Create Case Extension record
+        ABHI_Case_Detail__c caseDetail = new ABHI_Case_Detail__c();
+        insert caseDetail;
+        Test.startTest();
+        //Case caseRec = ASF_TestDataFactory.createInteractionCaseRecords()[0];
+        Case caseRec = new Case(Status = 'Open', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Open',
+                                SLA_Target_1__c = 'test2@salesforce.com' , CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30 );
+        caseRec.Source__c = 'Email';
+        caseRec.Business_Unit__c = 'ABHI';
+        caseRec.Status = 'Open';
+        caseRec.AssetId = astRec1.Id;
+        caseRec.Stage__c = 'In Progress with SA';
+        caseRec.ABHI_Case_Detail__c = caseDetail.Id;
+        caseRec.AccountId = accRec.Id;
+        caseRec.CCC_External_Id__c = 'PNFT008';
+        caseRec.Client_Code_Text__c = '8895335596';
+        caseRec.Technical_Source__c = 'API';
+        caseRec.Is_STP__c = true;
+        caseRec.IGMS_Complaint_Type_Code__c = '1';
+        insert caseRec;
+        caseRec.IGMS_Complaint_Type_Code__c = '2';
+        update caseRec;
+        Test.stopTest();
+    }
+    @isTest
+    static void insertABHFLCaseTest(){
+        //Create Account
+        Account accRec = ASF_TestDataFactory.insertBusinessAccount('ABHFLLLL','Test_1');
+        Contact  cont = ASF_TestDataFactory.insertContact('Test 1@', '');
+        //Create BranchMaster
+        Branch_Master__c branchMstr = new Branch_Master__c();
+        branchMstr.Branch_Queue_Id__c = [Select Id from Group where Type = 'Queue' LIMIT 1].Id;
+        branchMstr.UniqueKey__c = 'ABHFL_250004_MEEUP21_2/507#MEERUT';
+        insert branchMstr;
+        
+        ASF_TestDataFactory.createCaseCategoryConfig();
+		
+        
+        //Create Asset
+        Asset astRec = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
+        astRec.LAN__c = 'Test';
+        astRec.Branch__c = branchMstr.Id;
+        astRec.Last_Disbursement_Date__c = Date.Today();
+        astRec.Loan_Disbursement_Status__c = 'Complete';
+        update astRec;
+        Asset astRec1 = ASF_TestDataFactory.createAsset(accRec.Id,'Loans');
+        astRec1.LAN__c = 'Test1';
+        astRec1.Branch__c = branchMstr.Id;
+        astRec1.Last_Disbursement_Date__c = Date.Today();
+        astRec1.Loan_Disbursement_Status__c = 'Complete';
+        update astRec1;
+        
+        //Create Case Extension record
+        ABHFL_Case_Detail__c caseDetail = new ABHFL_Case_Detail__c();
+        caseDetail.STP_Request_Type__c = 'Email';
+        caseDetail.Preferred_Branch__c = branchMstr.UniqueKey__c;
+        insert caseDetail;
+        Test.startTest();
+        //Case caseRec = ASF_TestDataFactory.createInteractionCaseRecords()[0];
+        Case caseRec = new Case(Status = 'Open', Origin = 'Email', Subject = 'Test Case Creation', Stage__c = 'Open',
+                                SLA_Target_1__c = 'test2@salesforce.com' , CSAT__c = 20, DB_Hours__c = 5, has_CheckLists__c=TRUE, Reopen_Days__c=30 );
+        caseRec.AssetId = astRec.Id;
+        caseRec.ABHFL_Case_Detail__c = caseDetail.Id;
+        caseRec.Case_Stage_Change_Date__c = date.today();
+        caseRec.business_unit__c = 'ABHFL';
+        insert caseRec;
+        Test.stopTest();
+    }
 
 
 }

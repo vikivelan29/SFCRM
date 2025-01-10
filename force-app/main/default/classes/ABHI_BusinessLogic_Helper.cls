@@ -251,10 +251,11 @@ public with sharing class ABHI_BusinessLogic_Helper {
     * @description - Policy number is mandatory on customer tagging but not for Prospect.
     */
     public void policyIsMandatory(){
-        
         for(Case cs : abhiNewCaseList) {
-            if(String.isNotBlank(cs.AccountId) && String.isBlank(cs.AssetId)&& cs.Source__c != 'IGMS' && cs.Technical_Source__c != 'API' && cs.Technical_Source__c != 'Email') {
-                cs.addError(ABHI_Constants.POLICY_IS_MANDATORY_ON_CUSTOMER);
+        	if (UserInfo.getName() != 'ABHI Deployment User') {
+                if(String.isNotBlank(cs.AccountId) && String.isBlank(cs.AssetId)&& cs.Source__c != 'IGMS' && cs.Technical_Source__c != 'API' && cs.Technical_Source__c != 'Email') {
+                    cs.addError(ABHI_Constants.POLICY_IS_MANDATORY_ON_CUSTOMER);
+                }
             }
         }
     }

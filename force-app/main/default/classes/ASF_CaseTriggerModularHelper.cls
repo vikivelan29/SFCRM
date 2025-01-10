@@ -251,10 +251,13 @@ blankSourcePresent = true;
             system.debug('assetMap--'+assetMap);
             //Populate fields from Asset - beforeinsert only
             if(caseRec.LAN__c == null){
-                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null){
+                if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId) && assetMap.get(caseRec.AssetId).LAN__c !=null  && caseRec.Business_Unit__c != ABFL_Constants.ABFL && caseRec.Business_Unit__c != ABHFL_Constants.BUSINESS_UNIT_ABHFL){
                     // Added by Rajendra to remove lob prefix. This field is used in reporting and bulk export.
                     String prefix = assetMap.get(caseRec.AssetId).LAN__c.substringbefore('_')+'_';// if '_' is not present(for ABFL/ABHFL), then prefix will be <lanvalue>_. It will not be replaced in next statement.
                     caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c.replace(prefix,'');
+                }else if(caseRec.AssetId != null && assetMap.containsKey(caseRec.AssetId)){
+                    caseRec.LAN__c = assetMap.get(caseRec.AssetId).LAN__c;
+                
                 }else{
                     //if Asset is not present
                     caseRec.LAN__c = 'NA';
