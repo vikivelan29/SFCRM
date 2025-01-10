@@ -7,7 +7,7 @@
 *********************************************************/
 public with sharing class ABCL_IntegrationCallout {
     public static string caseId;
-    public static string accountId;
+    public static string accountId;   
 
     /****************************************************************************************************************
     * @LOB - ABHFL

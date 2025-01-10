@@ -67,12 +67,8 @@
             <fullName>ABHFL</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ABWM</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Payments</fullName>
+         <values>
+            <fullName>ABSLAMC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -81,6 +77,14 @@
         </values>
         <values>
             <fullName>ABSLIG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payments</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -127,20 +131,6 @@
         </values>
         <values>
             <fullName>ST</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Customer_Status__c</picklist>
-        <values>
-            <fullName>%2E</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Fraud_Status__c</picklist>
-        <values>
-            <fullName>%2E%2E%2E%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -196,6 +186,13 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Customer_Status__c</picklist>
+        <values>
+            <fullName>%2E</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Customer_Subtype__c</picklist>
         <values>
             <fullName>Interested Party</fullName>
@@ -203,6 +200,13 @@
         </values>
         <values>
             <fullName>Owner</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Fraud_Status__c</picklist>
+        <values>
+            <fullName>%2E%2E%2E%2E</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -352,7 +356,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>ABSLIG</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>ABWM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MF</fullName>
             <default>false</default>
         </values>
         <values>
@@ -360,15 +376,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>PMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payments</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Wealth</fullName>
+            <fullName>RE</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>ABSLIG</fullName>
+            <fullName>Wealth</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -399,21 +419,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Permanent_Addr_Flag__c</picklist>
-        <values>
-            <fullName>OFFICE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PERMANENT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>RESIDENTIAL</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>PAN_Seeding_status__c</picklist>
         <values>
             <fullName>N</fullName>
@@ -425,6 +430,21 @@
         </values>
         <values>
             <fullName>Y</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Permanent_Addr_Flag__c</picklist>
+        <values>
+            <fullName>OFFICE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PERMANENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RESIDENTIAL</fullName>
             <default>false</default>
         </values>
     </picklistValues>

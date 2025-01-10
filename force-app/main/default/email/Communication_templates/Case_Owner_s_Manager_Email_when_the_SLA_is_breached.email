@@ -1,5 +1,5 @@
 TAT Breached !!
-Escalated to <Level > on {!Case.Escalated_Date_Time__c} Please take steps to wrap up this Case as quickly as possible. <br/>
+Please take steps to wrap up this Case as quickly as possible. <br/>
 Case Details<br/>
 =============================================================================<br/>
 Case No.: {!Case.CaseNumber}<br/>

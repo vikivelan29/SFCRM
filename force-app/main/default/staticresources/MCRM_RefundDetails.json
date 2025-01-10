@@ -1,0 +1,16 @@
+{
+    "refundId": 4385,
+    "status": "P",
+    "statusChangeDate": 1616167582941,
+    "lastStage": "Issued",
+    "amount": 295,
+    "contractNo": "10017909",
+    "applicationNo": "9640027127",
+    "companyCode": "CC-ABW",
+    "receiptNo": "R90008457",
+    "movementCode": "320",
+    "transactionType": "R",
+    "refundMethod": "Online Transfer",
+    "StatusCode": 1001,
+    "Message": "Fetch refundDetails Failure"
+}

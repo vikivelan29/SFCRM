@@ -1,0 +1,38 @@
+<messaging:emailTemplate subject="Reminder: Renewal Premium Payment for Policy No. {!relatedTo.Policy_Number__c}" renderUsingSystemContextWithoutSharing="true" recipientType="User" relatedToType="Opportunity">
+   <messaging:htmlEmailBody >
+   <p>
+       <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Header" width="200" height="100" /> <br/><br/><br/>
+          
+         <body style="height: auto; min-height: auto; font-family: Times New Roman;font-size: 10pt;">
+         <strong>Policy No : {!relatedTo.Policy_Number__c} <br/>
+         Plan Name :  {!relatedTo.Plan_Name__c} </strong>
+         <br/><br/> Dear {!relatedTo.Customer_Name__c},
+         <br/><br/> We value your relationship with us and thank you for trusting us with your health insurance needs
+          / allowing us to be a part of your wellness journey.
+
+        <br/><br/> We wish to inform you that your Health Insurance Policy is due for Renewal on {!DAY(relatedTo.Policy_Expiry_Date__c)}/{!CASE(MONTH(relatedTo.Policy_Expiry_Date__c),1,"01/",2,"02/",3,"03/",4,"04/",5,"05/",6,"06/",7,"07/",8,"08/",9,"09/",10,"10/",11,"11/",12,"12/","/")}{!YEAR(relatedTo.Policy_Expiry_Date__c)}.
+         We tried reaching you on your registered mobile number, but we were unable to connect. We 
+         advise you to renew your policy to stay protected from any medical emergencies at all times.<br/><br/>
+        
+         We have shared the details of your existing policy below for your ready reference: <br/><br/>
+
+         <c:RNWL_MemberListVfc oppIdValue="{!relatedTo.Id}" />
+         <br/>
+         Payment Link:
+         <a href="{!relatedTo.Payment_Link__c}"> {!relatedTo.Payment_Link__c}</a> 
+         <br/><br/>
+      
+         In case of any further assistance, please feel free to reach out to us on our toll-free number 
+         1800-270-7000 or email us at care.healthinsurance@adityabirlacapital.com. We advise you to 
+         download the Activ Health App – a one stop solution for all your health needs. You may also use our 
+         self-service options on our WhatsApp number +91 882800035. <br/><br/> 
+         
+         We wish you the best of health at all times! <br/><br/> 
+         Warm Regards,      <br/>
+         Aditya Birla Health Insurance <br/><br/>
+         </body>  
+         <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Footer1" width="800" height="120" /> <br/>
+         <c:RNWL_DocumentImagePreviewVfc strDocDeveloperName="Footer_2" width="800" height="120" />  <br/>
+         </p>
+   </messaging:htmlEmailBody>
+</messaging:emailTemplate>

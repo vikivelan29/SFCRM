@@ -55,19 +55,19 @@ public class ASF_GetCaseRelatedDetails_Test {
         insert caseconfig2;
         
         ASF_Case_Field_Config__c   caseFieldconfig1 =  new ASF_Case_Field_Config__c  (Case_Main_Config__c=ccc.Id,Display_Order__c=1, FieldAPIName__c = 'Payment_mode__c',ObjectAPIName__c = 'PAY_Payment_Detail__c',Default_Value__c = 'Digital',Default_Type__c = 'STRING',
-                                                                              ReadOnly__c = 'Closed',Mandatory__c = 'Closed', Update__c = 'New,Closed,Pending');
+                                                                              ReadOnly__c = 'Closed',Mandatory__c = 'Closed', Update__c = 'New,Closed,Pending', Controlling_Picklist__c = 'Test', Field_Type__c = 'LOV', Searchable_Picklist__c = true);
         insert caseFieldconfig1;
         
         ASF_Case_Field_Config__c   caseFieldconfig2 =  new ASF_Case_Field_Config__c  (Case_Main_Config__c=ccc.Id,Display_Order__c=2, FieldAPIName__c = 'Payment_mode__c',ObjectAPIName__c = 'PAY_Payment_Detail__c',Default_Value__c = 'Asset.Price',Default_Type__c = 'Reference',
-                                                                              ReadOnly__c = 'Closed',Mandatory__c = 'Closed', Controlling_field__c  = 'Mode__c',Controlling_Experssion__c = 'Physical');
+                                                                              ReadOnly__c = 'Closed',Mandatory__c = 'Closed', Controlling_field__c  = 'Mode__c',Controlling_Experssion__c = 'Physical', Controlling_Picklist__c = 'Test', Field_Type__c = 'Multi-Select LOV', Searchable_Picklist__c = true, Multi_Picklist_Max_Allowed_Values__c = 2);
         insert caseFieldconfig2;
         
         ASF_Case_Field_Config__c   caseFieldconfig3 =  new ASF_Case_Field_Config__c  (Case_Main_Config__c=ccc.Id,Display_Order__c=3, FieldAPIName__c = 'Subject',ObjectAPIName__c = 'Case',Default_Value__c = 'case.Account.Home_Branch__c',Default_Type__c = 'Reference',
-                                                                              ReadOnly__c = 'Closed',Mandatory__c = 'Closed', Controlling_field__c  = 'Mode__c',Controlling_Experssion__c = 'Physical');
+                                                                              ReadOnly__c = 'Closed',Mandatory__c = 'Closed', Controlling_field__c  = 'Mode__c',Controlling_Experssion__c = 'Physical', Controlling_Picklist__c = 'Test', Field_Type__c = 'Link', Confirmation_Required__c = True);
         insert caseFieldconfig3;
         
         ASF_Case_Field_Config__c   caseFieldconfig4 =  new ASF_Case_Field_Config__c  (Case_Main_Config__c=ccc.Id,Display_Order__c=1, FieldAPIName__c = 'Payment_mode__c',ObjectAPIName__c = 'PAY_Payment_Detail__c',Default_Value__c = 'Digital',Default_Type__c = 'STRING',
-                                                                              ReadOnly__c = 'Closed',Mandatory__c = 'Closed', Update__c = 'New,Pending');
+                                                                              ReadOnly__c = 'Closed',Mandatory__c = 'Closed', Update__c = 'New,Pending', Controlling_Picklist__c = 'Test', Confirmation_LWC__c = 'test');
         insert caseFieldconfig4;
         
      /*   ASF_Case_Info_Config__c caseInfo1 = new ASF_Case_Info_Config__c(FieldAPIName__c = 'Branch_Master__r.Branch_Code__c',LOB__c = 'All',ObjectAPIName__c = 'Branch_Master__c');
@@ -272,7 +272,7 @@ public class ASF_GetCaseRelatedDetails_Test {
        // ASF_GetCaseRelatedDetails.getInfoFieldsData(caseRecord.Id,'All');
         ASF_GetCaseRelatedDetails.getCaseRelatedObjName(caseRecord.CCC_External_Id__c);
         ASF_GetCaseRelatedDetails.getLatestApprovalRecord(caseRecord.id);
-        ASF_GetCaseRelatedDetails.getRejectionReasons(caseRecord.CCC_External_Id__c);
+        ASF_GetCaseRelatedDetails.getBUReasons(caseRecord.CCC_External_Id__c);
         ASF_GetCaseRelatedDetails.getPickListValuesIntoList();
         ASF_GetCaseRelatedDetails.updateChecklistComment(chk1.Id,'comments');
         ASF_GetCaseRelatedDetails.updateTaskRecordsComment(task1.Id, 'comments');

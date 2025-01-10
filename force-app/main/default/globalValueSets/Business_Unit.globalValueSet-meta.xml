@@ -30,6 +30,26 @@
         <default>false</default>
         <label>ABSLIG</label>
     </customValue>
+    <customValue>
+        <fullName>ABSLAMC</fullName>
+        <default>false</default>
+        <label>ABSLAMC</label>
+    </customValue>
+    <customValue>
+        <fullName>ABHI</fullName>
+        <default>false</default>
+        <label>ABHI</label>
+    </customValue>
+    <customValue>
+        <fullName>Wellness</fullName>
+        <default>false</default>
+        <label>Wellness</label>
+    </customValue>
+    <customValue>
+        <fullName>ABML</fullName>
+        <default>false</default>
+        <label>ABML</label>
+    </customValue>
     <masterLabel>Business Unit</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

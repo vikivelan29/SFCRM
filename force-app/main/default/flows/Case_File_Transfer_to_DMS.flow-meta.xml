@@ -15,13 +15,32 @@
             </value>
         </inputParameters>
         <nameSegment>ABFL_DMSSync_Orchestrator</nameSegment>
+        <offset>0</offset>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Transfer_ABHI_Files_to_OmniDoc</name>
+        <label>Transfer ABHI Files to OmniDoc</label>
+        <locationX>920</locationX>
+        <locationY>537</locationY>
+        <actionName>ABHI_OmniDocUploadController</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>lstCaseIds</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ABHI_OmniDocUploadController</nameSegment>
+        <offset>0</offset>
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>TransferFilesToDMS</name>
         <label>Transfer Files To DMS</label>
-        <locationX>506</locationX>
-        <locationY>384</locationY>
+        <locationX>1181</locationX>
+        <locationY>371</locationY>
         <actionName>ABCL_IntegrationCommonUtility</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -64,9 +83,25 @@
             <connector>
                 <targetReference>Transfer_ABFL_Case_Files_To_DMS</targetReference>
             </connector>
-            <label>Yes</label>
+            <label>is ABFL or ABWM</label>
+        </rules>
+        <rules>
+            <name>isABHI</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Business_Unit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ABHI</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Transfer_ABHI_Files_to_OmniDoc</targetReference>
+            </connector>
+            <label>is ABHI</label>
         </rules>
     </decisions>
+    <description>ABHI case files to OmniDoc changes</description>
     <environments>Default</environments>
     <interviewLabel>Case File Transfer to DMS {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Case File Transfer to DMS</label>
@@ -112,6 +147,20 @@
             <operator>NotEqualTo</operator>
             <value>
                 <stringValue>Payments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>ABSLAMC</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Business_Unit__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Wellness</stringValue>
             </value>
         </filters>
         <object>Case</object>

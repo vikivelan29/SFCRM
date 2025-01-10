@@ -1,0 +1,23 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;"><span style="font-size:10px;"><span style="font-family:Times New Roman,Times New Roman,Times,serif;"><span style="line-height:107%"><span lang="EN-IN">Hi&nbsp;{{{Case.Contact.Name}}},</span><br />
+<br />
+<span lang="EN-IN">Thank you for getting in touch with us.<br />
+<br />
+This is an automated response to your Request for</span></span>{{{Case.Type}}}<span style="line-height:107%"><span lang="EN-IN">. &nbsp;Please note your interaction id is </span></span>{{{Case.CaseNumber}}}<span style="line-height:107%"><span lang="EN-IN"> with respect to trading account no </span></span>{{{Case.AssetId}}}.&nbsp;<span style="line-height:107%"><span lang="EN-IN">The same will be responded on&nbsp;</span></span>{{{ABML_Case_Detail__c.TAT_Deadline__c}}}<span style="line-height:107%"><span lang="EN-IN">.<br />
+<br />
+We request you not to reply on this system generated mail.<br />
+<br />
+Our Business WhatsApp number is +91 88288 00038.<br />
+<br />
+Assuring you of our best services at all times,<br />
+<br />
+<br />
+Best Regards,<br />
+<br />
+Customer Relationship Manager<br />
+Aditya Birla Money Ltd.</span></span></span></span><br />
+&nbsp;</body>
+</html>

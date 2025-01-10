@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
  * @group             : 
- * @last modified on  : 10-09-2024
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @last modified on  : 12-06-2024
+ * @last modified by  : rsinghnagar@salesforce.com
 **/
 @SuppressWarnings('PMD.PropertyNamingConventions,PMD.FormalParameterNamingConventions')
 public without sharing class ASF_GetCaseRelatedDetails {
@@ -115,7 +115,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
                 item.bMultiSelectSearchablePicklist = true;
                 item.maxValuesAllowed = 5;
                 if(config.Multi_Picklist_Max_Allowed_Values__c != 0 && config.Multi_Picklist_Max_Allowed_Values__c != null){
-                 	item.maxValuesAllowed = config.Multi_Picklist_Max_Allowed_Values__c;   
+                    item.maxValuesAllowed = config.Multi_Picklist_Max_Allowed_Values__c;   
                 }
                 
             }
@@ -187,7 +187,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
     @AuraEnabled(cacheable= true)
     public static List<ASF_Case_Stage_Config__c  > getStageConfig(string cccId){
         //Virendra : 6th March 2023: Added additional fields to query - Is_Approval_Stage__c,Manual_Stage__c
-        return [SELECT id,Case_Category_Config__r.Name, Name, Order__c, StageName__c,Is_Approval_Stage__c,Manual_Stage__c,Enable_Reassign_Owner__c FROM ASF_Case_Stage_Config__c  WHERE Case_Category_Config__c  =: cccId ORDER BY Order__c];
+        return [SELECT id,Case_Category_Config__r.Name, Name, Order__c, StageName__c,Is_Approval_Stage__c,Manual_Stage__c,Enable_Reassign_Owner__c,No_Action_stage__c, Save_Data_On_Back__c FROM ASF_Case_Stage_Config__c  WHERE Case_Category_Config__c  =: cccId ORDER BY Order__c];
     }
     
     @AuraEnabled(cacheable=true)
@@ -363,7 +363,7 @@ public without sharing class ASF_GetCaseRelatedDetails {
     public static List<ASF_Checklist__c> getPendingChecklists(string caseId){
 Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
         if(ASF_Constants.BU_SHOWCHECKLISTS_ONREJECTION.contains(caseRec.Business_Unit__c)){
-           	return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c,Status_Picklist_Options__c from ASF_Checklist__c where Case__c  =: caseId]; 
+            return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c,Status_Picklist_Options__c from ASF_Checklist__c where Case__c  =: caseId]; 
         }else{
         return [SELECT id,Label__c,Mandatory__c, Stage_Name__c, Description__c ,Stage_Matched__c, Status__c, Comments__c, Case__c,Status_Picklist_Options__c from ASF_Checklist__c where Case__c  =: caseId AND Status__c != 'Rejected'];
 }
@@ -509,6 +509,8 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
             return null;
         }
     }
+    
+    /*
     @AuraEnabled
     public static List<String> getRejectionReasons(String cccExternalId){
         List<String> reasonValues = new List<String>();
@@ -543,8 +545,39 @@ Case caseRec = [SELECT Id,Business_Unit__c FROM Case WHERE Id =: caseId];
                     }
                 return reasonValues;
     }
-    
-    
-    
-    
+    */
+
+    /**
+    * @description : PR1030924-224: Method created to get resolved & rejected reasons.
+    * @author zahedali.mohammed@salesforce.com | 09-23-2024 
+    * @param String cccExternalId 
+    * @return List<LOB_Rejection_Reason__mdt> 
+    **/
+    @AuraEnabled
+    public static List<LOB_Rejection_Reason__mdt> getBUReasons(String cccExternalId){
+        List<LOB_Rejection_Reason__mdt> reasonValues = new List<LOB_Rejection_Reason__mdt>();
+        List<String> buList = new List<String>();
+        ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
+        if(cccExternalId != ''){
+            ccc = [SELECT Business_Unit__c, CCC_External_Id__c 
+                   FROM ASF_Case_Category_Config__c
+                   WHERE CCC_External_Id__c = :cccExternalId LIMIT 1];
+        }
+        if(String.isNotBlank(ccc.Business_Unit__c) && cccExternalId != ''){
+            String bu = ccc.Business_Unit__c;
+            if(bu.contains(',')){
+                for(String buVal : bu.split(',')){
+                    buList.add('%'+buVal.trim()+'%');
+                }                    
+            }else{
+                buList.add('%'+bu+'%');   
+            }            
+            for(LOB_Rejection_Reason__mdt buReason : [SELECT LOB__c, Reason__c ,Type__c
+                                                      FROM LOB_Rejection_Reason__mdt 
+                                                      WHERE LOB__c LIKE :buList ORDER BY Reason__c]){
+                                                          reasonValues.add(buReason);
+                                                      }
+        }
+        return reasonValues;
+    } 
 }

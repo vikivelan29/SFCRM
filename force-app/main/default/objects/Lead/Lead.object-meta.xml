@@ -254,7 +254,7 @@
     </actionOverrides>
     <compactLayoutAssignment>Leads_Custom_Compact_Layout</compactLayoutAssignment>
     <enableFeeds>true</enableFeeds>
-    <enableHistory>false</enableHistory>
+    <enableHistory>true</enableHistory>
     <externalSharingModel>Private</externalSharingModel>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <searchLayouts>
@@ -264,7 +264,6 @@
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
         <excludedStandardButtons>NewFromDocument</excludedStandardButtons>
         <excludedStandardButtons>New</excludedStandardButtons>
-        <excludedStandardButtons>IntelligenceView</excludedStandardButtons>
         <excludedStandardButtons>Accept</excludedStandardButtons>
         <excludedStandardButtons>ChangeStatus</excludedStandardButtons>
         <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
@@ -278,6 +277,8 @@
         <excludedStandardButtons>SendListEmailAction</excludedStandardButtons>
         <excludedStandardButtons>PrintableListView</excludedStandardButtons>
         <excludedStandardButtons>MassAddToActionableList</excludedStandardButtons>
+        <listViewButtons>Download_CSV_for_Bulk_Update</listViewButtons>
+        <listViewButtons>Upload_CSV_for_Bulk_Update</listViewButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>LEAD.COMPANY</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>FULL_NAME</lookupPhoneDialogsAdditionalFields>

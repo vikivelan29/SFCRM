@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>PreviousPolicyNumber__c</columns>
+    <columns>NameOfInsuredPerson__c</columns>
+    <columns>DateOfFirstEnrollment__c</columns>
+    <columns>Insurer__c</columns>
+    <columns>PolicyYear__c</columns>
+    <columns>Product__c</columns>
+    <columns>TypeOfCover__c</columns>
+    <columns>ExpiringBaseSI__c</columns>
+    <columns>CumulativeBonus__c</columns>
+    <columns>ExpiringWaitingPeriod__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Records</label>
+</ListView>
