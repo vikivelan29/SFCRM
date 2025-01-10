@@ -137,7 +137,7 @@ if(!String.isBlank(allLANAssociated)){
         emailTemplateMap1.put(caseRec.Id, htmlvalues.DeveloperName);
         List<case> caseList = new List<case>();
            
-        isTransferredMap1.put(caseRec.Id,false);
+        isTransferredMap1.put(caseRec.Id,true);
         caseList.add(caseRec);  
         ABCL_IntegrationCommonUtility.createPELogAndinvokeCommPEevent(caseList,emailTemplateMap1, smsMetadataMap1, isTransferredMap1);
          }
