@@ -13,7 +13,8 @@ global without sharing class ASF_UbonaAccountRetrieval{
             Set<Id> accIds = new Set<Id>();
             List<Contact> contacts = new List<Contact>();
             // Joshna - to improve performance of the query, changed the contact query to an SOSL
-            if (lob == 'ABHI') {
+            // ABML - Added ABML Lob Condition to improve performance
+            if (lob == 'ABHI' || lob == 'ABML') {
                 List<List<sObject>> searchResults = [FIND :soslSearchPhone IN PHONE FIELDS RETURNING Contact (ID, AccountId, Name, MobilePhone WHERE Account.Business_Unit__c = :lob)];
                 for (List<sObject> each : searchResults) {
                     contacts.addAll((List<Contact>) each);
