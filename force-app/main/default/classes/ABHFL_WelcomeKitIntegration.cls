@@ -449,7 +449,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
     *********************************************************/
     public class WelcomeKitRequestWrapper{
         public string caseId;
-        public string source;
+        public string souce;
         public string requestType;
         public string lan;
         public string reportName;
@@ -457,7 +457,7 @@ public with sharing class ABHFL_WelcomeKitIntegration implements ASF_Integration
 
         public WelcomeKitRequestWrapper(string caseNumber,string lanNo){
             this.caseId = caseNumber;
-            this.source = ABHFL_Constants.CRM;
+            this.souce = ABHFL_Constants.CRM;
             this.requestType = ABHFL_Constants.EMAIL;
             this.lan = lanNo;
             this.reportName = ABHFL_Constants.WELCOME_KIT;
