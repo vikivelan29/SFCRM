@@ -128,6 +128,8 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     String applicationnumber = '';
                     String caseRemarks = '';
                     String caseOwner = '';
+                    String url1 = caseRecord.ABSLI_Case_Detail__r.Document_Url__c;              //
+                    String url2 = caseRecord.ABSLI_Case_Detail__r.Document_Url_Additional__c;
                     if(String.isNotblank(caseRecord.AssetId)/*caseRecord.AssetId != null && caseRecord.AssetId != ''*/){
                          applicationnumber = String.valueOf(caseRecord.Asset.Application_Number__c);
                     }
@@ -153,7 +155,7 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                                                                                   //caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
                     caseInt.Request__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
                                                                                   applicationnumber, policynumber,
-                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
+                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner,url1,url2));
 
                     caseInt.Response__c = ABSLI_Constants.WAITING_API_RESPONSE;
                     newCaseIntegrations.add(caseInt);
@@ -168,7 +170,7 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
                     //                                                              caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
                     caseIntOut.Request_Payload__c  =  JSON.serialize(new InstaIssuanceRequestWrapper(source,case_no,
                                                                                   applicationnumber, policynumber,
-                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner));
+                                                                                  caseconfigPPCChangeType,caseconfigPPCSubType,caseRemarks,caseOwner,url1,url2));
                     peMap.put(index, caseIntOut);
                     indexToCaseId.put(index, caseRecord.Id);
                     index++;
@@ -245,11 +247,13 @@ public without sharing class ABSLI_InstaIssuanceAPI implements ASF_IntegrationIn
         public InstaIssuanceRequest instaIssuanceReq;
         
         public InstaIssuanceRequestWrapper(String Source, String Casenumber, String Applicationnumber, String PolicyNo,
-                                           String ChangeType, String SubType, String caseRemarks,String caseOwner) {
+                                           String ChangeType, String SubType, String caseRemarks,String caseOwner,String url1,String url2) {
                                                InstaIssuanceRequest req = new InstaIssuanceRequest();
                                                req.Source = Source;
                                                req.CRM_Case_Id = Casenumber;
                                                req.Application_No = Applicationnumber;
+                                               req.URL1 = url1;
+                                               req.URL2 = url2;
                                                if(PolicyNo != null && PolicyNo != ''){
                                                  req.Policy_No = PolicyNo;  
                                                }
