@@ -1,0 +1,173 @@
+<template>
+    <div class="card slds-theme_shade box-borders" style="padding: 0px">
+        <!--Header-->
+        <div style="background-color: #991010; border-radius: 1px; border-top-left-radius: 0.625rem; border-top-right-radius: 0.625rem;"
+            class="slds-p-left_small slds-p-top_small slds-p-bottom_small slds-border_bottom headtext">
+            <lightning-formatted-text style="color: white; font-size:1rem; font-family: Helvetica" value="Quick Action">
+            </lightning-formatted-text>
+        </div>
+        <!--Menu Options-->
+        <div class="slider">
+            <template if:true={showNoQuickActionMessage}>
+                <p style="color:#991010;" class="slds-align--absolute-center slds-p-top_large"><b>Quick Actions are not configured</b></p>
+            </template>
+            <template for:each={quickActions} for:item="action">
+                <div key={action.MasterLabel} class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
+                data-action={action.MasterLabel} style="background-color: #ffffff;" onclick={handleActionsSelect}>
+                <p style="color:#991010;"><lightning-icon icon-name={action.Icon_Name__c} alternative-text={action.MasterLabel} class="slds-m-left_x-small"
+                        size="x-small"></lightning-icon> &nbsp; <b>{action.MasterLabel}</b></p>
+            </div>
+            </template>
+            <!--div class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
+                style="background-color: #ffffff;" onclick={pifaClick}>
+                <p style="color:#991010;"><lightning-icon icon-name="standard:lightning_component"
+                        alternative-text="PIFA" size="x-small"></lightning-icon> &nbsp; <b>PIFA</b></p>
+            </div>
+            <div class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
+                style="background-color: #ffffff;" onclick={sendSMSClick}>
+                <p style="color:#991010;"><lightning-icon icon-name="standard:sms" alternative-text="Send SMS"
+                        size="x-small"></lightning-icon> &nbsp; <b>Send SMS</b></p>
+            </div>
+            <div class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
+                style="background-color: #ffffff;" onclick={oneClickDoc}>
+                <p style="color:#991010;"><lightning-icon icon-name="standard:expense_report_entry"
+                        alternative-text="One Click Docs" size="xx-small"></lightning-icon> &nbsp; <b>One Click Docs</b>
+                </p>
+            </div>
+            <div class="slds-grid slds-box slds-box_x-small slds-grid_align-start slds-gutters slds-p-left_medium slds-m-around_xx-small"
+                style="background-color: #ffffff;" onclick={pddStatusClick}>
+                <p style="color:#991010;"><lightning-icon icon-name="standard:entitlement" alternative-text="PDD Status"
+                        size="x-small"></lightning-icon> &nbsp; <b>PDD Status</b></p>
+            </div-->
+        </div>
+    </div>
+
+    <template if:true={showOneClickDoc}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close" onclick={closeModalPopUp}>
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">ONE Click Docs</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!--MODAL Boday-->
+                    <!--Asset Table-->
+                    <template if:true={showNoLANsError}>
+                        <p style="color:#991010;" class="slds-align--absolute-center"><b>No LANs Present</b></p>
+                    </template>
+                    <template if:true={showLANs}>
+                        <div class="slds-p-around_small" style="max-height: 300px;">
+                            <lightning-datatable 
+                                    key-field="Id" 
+                                    data={relatedLANs} 
+                                    columns={lanColumns}
+                                    onrowselection={handleLANSelect} 
+                                    max-row-selection="1">
+                                </lightning-datatable>
+                        </div>
+                        
+                        <!--Checkboxes for docs-->
+                        <div class="slds-grid slds-wrap slds-gutters slds-p-around_large">
+                            <!--Row 1-->
+                            <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                <div class="slds-grid slds-align_absolute-center">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <p>SOA</p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                        <lightning-input type="checkbox" class="slds-m-right_x-small"
+                                            onchange={handleSOASelect} checked={isSOAChecked}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                <div class="slds-grid slds-align_absolute-center">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <p>Repayment Schedule</p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                        <lightning-input type="checkbox" class="slds-m-right_x-small"
+                                            onchange={handleRepaymentScheSelect} checked={isRCChecked}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                <div class="slds-grid slds-align_absolute-center">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <p>IC</p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                        <lightning-input type="checkbox" class="slds-m-right_x-small"
+                                            onchange={handleICSelect} checked={isICChecked}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Row 2-->
+                            <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                <div class="slds-grid slds-align_absolute-center">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <p>PIC</p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                        <lightning-input type="checkbox" class="slds-m-right_x-small"
+                                            onchange={handlePICSelect} checked={isPICChecked}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                <div class="slds-grid slds-align_absolute-center">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <p>NDC</p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                        <lightning-input type="checkbox" class="slds-m-right_x-small"
+                                            onchange={handleNDCSelect} checked={isNDCChecked}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                <div class="slds-grid slds-align_absolute-center">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <p>Welcome Kit</p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                        <lightning-input type="checkbox" class="slds-m-right_x-small"
+                                            onchange={handleWelcomeKitSelect} checked={isWKChecked}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Row 3-->
+                            <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                <div class="slds-grid slds-align_absolute-center">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <p>List of Documents</p>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                                        <lightning-input type="checkbox" class="slds-m-right_x-small"
+                                            onchange={handleLODSelect} checked={isLODChecked}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!--Submit Button-->
+                        <div class="slds-align--absolute-center slds-p-bottom_medium">
+                            <lightning-button variant="brand" label="Create a Case" title="Create a Case"
+                                onclick={handleCreateCase}>
+                            </lightning-button>
+                        </div>
+                    </template>
+                    
+                </div>
+            </div>
+
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

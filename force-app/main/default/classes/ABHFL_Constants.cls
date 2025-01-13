@@ -24,7 +24,16 @@ public with sharing class ABHFL_Constants {
     //NDC Subtype
     public static final String NDC_CCC_EXTERNALID = 'QLOANDUSNDC';
     //Amortization Subtype External Id
-    public static final String Amort_CCC_EXTERNALID = 'hfl004';   
+    public static final String Amort_CCC_EXTERNALID = 'hfl004';
+    //SOA Subtype
+    public static final String SOA_CCC_EXTERNALID = 'hfl073';
+    //IC & PIC Subtype External Id
+    public static final String IC_PIC_CCC_EXTERNALID = 'hfl078';
+    //Welcome Kit Subtype
+    public static final String WK_CCC_EXTERNALID = 'RSTAWEITHFC';
+    //LOD Subtype External Id
+    public static final String LOD_CCC_EXTERNALID = 'hfl042';
+    
     //Generic Constants
     public static final String SUCCESS = 'Success';
     public static final String ERROR = 'Error';
@@ -33,7 +42,6 @@ public with sharing class ABHFL_Constants {
     public static final String FAILURE = 'Failure';
     public static final String COMPLETED = 'Completed';
     public static final String RESOLVED = 'Resolved';
-    public static final String REJECTED = 'Rejected';   //Added changes
     public static final String QUEUE= 'Queue';
     public static final String BRANCH = 'Branch';
     public static final String CRM = 'CRM';
