@@ -1064,30 +1064,6 @@
                 <label>Pilot-Financial or Medical Opinion</label>
             </value>
             <value>
-                <fullName>Customer unable to deposit maturity  benefit cheque</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Customer unable to deposit maturity  benefit cheque</label>
-            </value>
-            <value>
-                <fullName>Dishonored charges deducted by bank</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Dishonored charges deducted by bank</label>
-            </value>
-            <value>
-                <fullName>Loan Not processed</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Loan Not processed</label>
-            </value>
-            <value>
-                <fullName>Surrender value not process</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Surrender value not process</label>
-            </value>
-            <value>
                 <fullName>Policy Bond</fullName>
                 <default>false</default>
                 <label>Policy Bond</label>
@@ -1196,12 +1172,6 @@
                 <fullName>Branch Co Address</fullName>
                 <default>false</default>
                 <label>Branch Co Address</label>
-            </value>
-            <value>
-                <fullName>Survival benefit not proceed/ Delay</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Survival benefit not proceed/ Delay</label>
             </value>
             <value>
                 <fullName>Refund status</fullName>
@@ -1337,6 +1307,64 @@
                 <fullName>Revival Payment Stop</fullName>
                 <default>false</default>
                 <label>Revival Payment Stop</label>
+            </value>
+            <value>
+                <fullName>Waivered</fullName>
+                <default>false</default>
+                <label>Waivered</label>
+            </value>
+            <value>
+                <fullName>Surrendered</fullName>
+                <default>false</default>
+                <label>Surrendered</label>
+            </value>
+            <value>
+                <fullName>Alternate Test or Medial Waiver</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Alternate Test or Medial Waiver</label>
+            </value>
+            <value>
+                <fullName>Customer unable to deposit maturity  benefit cheque</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Customer unable to deposit maturity  benefit cheque</label>
+            </value>
+            <value>
+                <fullName>Dishonored charges deducted by bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dishonored charges deducted by bank</label>
+            </value>
+            <value>
+                <fullName>Loan Not processed</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Loan Not processed</label>
+            </value>
+            <value>
+                <fullName>Proposer&apos;s signature forged on proposal form,</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Proposer&apos;s signature forged on proposal form,</label>
+            </value>
+            <value>
+                <fullName>Surrender value not process</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Surrender value not process</label>
+            </value>
+            <value>
+                <fullName>Survival benefit not proceed/ Delay</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Survival benefit not proceed/ Delay</label>
+            </value>
+            <value>
+                <fullName>post call- complain</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>post call- complain</label>
             </value>
         </valueSetDefinition>
     </valueSet>
