@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+	
+		<tr>
+			<td align="center" valign="top">
+			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+				
+					<tr>
+						<td align="left" valign="top">
+						<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							
+								<tr>
+									<td bgcolor="#ffffff" valign="top">
+									<table border="0" cellpadding="0" cellspacing="0" width="100%">
+										
+											<tr>
+												<td valign="top"><span style="font-size:14px;"><span style="font-family:Times New Roman,Times New Roman,Times,serif;"><span style="color:#666666;">Hi&nbsp;{{{Case.Customer_name_formula__c}}}</span></span></span><br />
+												&nbsp;</td>
+											</tr>
+											<tr>
+												<td valign="top"><span style="font-size:14px;"><span style="font-family:Times New Roman,Times New Roman,Times,serif;"><span style="color:#666666;">&nbsp;<br />
+												Thank you for getting in touch with us.&nbsp;<br />
+												<br />
+												This is an automated response to your&nbsp;{{{Case.Nature__c}}} for&nbsp;{{{Case.Sub_Type_Text__c}}}.<br />
+												Please note your interaction id is&nbsp;{{{Case.CaseNumber}}} with respect to trading account no:{{{Case.Client_Code__c}}}.<br />
+												Your query has been addressed.</span><br />
+												<br />
+												<br />
+												<span style="color:#353c3f">We request you not to reply on this system generated mail.<br />
+												<br />
+												If you have any further queries, kindly address these at&nbsp;</span><u><span style="color:#0000cc"><a href="mailto:care.stocksandsecurities@adityabirlacapital.com" style="color:blue; text-decoration:underline">care.stocksandsecurities@adityabirlacapital.com</a></span></u><span style="color:#353c3f">&nbsp;or call us on our Toll Free Number&nbsp;1800-270-7000.<br />
+												<br />
+												Our Business WhatsApp number is +91 88288 00038.<br />
+												<br />
+												Assuring you of our best services at all times,<br />
+												<br />
+												<br />
+												Best Regards,<br />
+												<br />
+												Customer Relationship Manager<br />
+												Aditya Birla Money Ltd.</span></span></span><br />
+												<br />
+												&nbsp;</td>
+											</tr>
+										
+									</table>
+									</td>
+								</tr>
+							
+						</table>
+						</td>
+					</tr>
+				
+			</table>
+			</td>
+		</tr>
+	
+</table>
+</body>
+</html>
