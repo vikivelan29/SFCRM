@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Business Unit and related Quick Actions</description>
+    <label>ABCL CX360 Quick Actions</label>
+    <pluralLabel>ABCL CX360 Quick Actions</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
