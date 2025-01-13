@@ -34,10 +34,11 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
             boolean bErrorOccured = false;
             String errorMessage =''; 
             system.debug('subtype---->'+caseRecord.Sub_Type_Text__c); 
+            if ((caseRecord.Technical_Source__c == 'Email' && !String.valueOf(caseRecord.OwnerId).startsWith('00G')) || caseRecord.Technical_Source__c != 'Email') {
                 if(!customMetaMap.isEmpty()){
                     ABHI_Endorsement_API__mdt customMetaRecord = customMetaMap.get(caseRecord.Sub_Type_Text__c);
                        system.debug('customMetaass---->'+ customMetaRecord.Mandatory_Fields__c ); 
-                        if(customMetaRecord !=null && caseRecord.Technical_Source__c == 'LWC' && caseRecord.AssetId != null ) {
+                        if(customMetaRecord !=null && (caseRecord.Technical_Source__c == 'LWC' ||caseRecord.Technical_Source__c == 'Email')&& caseRecord.AssetId != null ) {
                             String strMandatFields = customMetaRecord.Mandatory_Fields__c ; 
                             if(strMandatFields.contains('ABHI_Case_Detail__r.Member__c')){
                                  errorMessage = 'Please update the Member field and other required fields if any and save';   
@@ -74,7 +75,8 @@ public with sharing class ABHI_EndorsementStpApi implements ASF_IntegrationInvoc
                             result.response = 'Evaluation Success';
                         }
                         resultMap.put(caseRecord.Id, result);
-                }
+                	}
+				}
             }
             system.debug('resultMap---->'+resultMap);
             return resultMap;
