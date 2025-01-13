@@ -1338,6 +1338,16 @@
                 <default>false</default>
                 <label>Revival Payment Stop</label>
             </value>
+            <value>
+                <fullName>Waivered</fullName>
+                <default>false</default>
+                <label>Waivered</label>
+            </value>
+            <value>
+                <fullName>Surrendered</fullName>
+                <default>false</default>
+                <label>Surrendered</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
