@@ -40,23 +40,25 @@ public with sharing class ABHI_ReimbursementStpApi implements ASF_IntegrationInv
             String errorMessage = 'Please update the mandatory fields first';
             boolean bErrorOccured = false;
             System.debug('description>>>'+caseRecord.Description);
+            if ((caseRecord.Technical_Source__c == 'Email' && !String.valueOf(caseRecord.OwnerId).startsWith('00G')) || caseRecord.Technical_Source__c != 'Email') {
             // if(caseRecord.ABHI_Case_Detail__r.Patient_Name__c == null || caseRecord.ABHI_Case_Detail__r.Patient_Name__c == '') {
-            if(caseRecord.Technical_Source__c != 'API' && String.isBlank(caseRecord.Description)){
-                bErrorOccured = true;
-            }         
-            if(bErrorOccured){
-                errorMessage = errorMessage.removeEnd(', ');
-                result.response = errorMessage;
+                if(caseRecord.Technical_Source__c != 'API' && String.isBlank(caseRecord.Description)){
+                    bErrorOccured = true;
+                }         
+                if(bErrorOccured){
+                    errorMessage = errorMessage.removeEnd(', ');
+                    result.response = errorMessage;
+                    resultMap.put(caseRecord.Id, result);
+                } 
+                else{
+                    result.status = ABHI_Constants.SUCCESS;
+                    result.response = 'Evaluation Success';
+                }
                 resultMap.put(caseRecord.Id, result);
-            } 
-            else{
-                result.status = ABHI_Constants.SUCCESS;
-                result.response = 'Evaluation Success';
             }
-            resultMap.put(caseRecord.Id, result);
         }
-        system.debug('resultMap---->'+resultMap);
-        return resultMap;
+            system.debug('resultMap---->'+resultMap);
+            return resultMap;
     }
 
     /**
