@@ -1,6 +1,6 @@
 /*********************************************************
 *Class        :  ABCL_cx360Controller
-*Author       :  Nikhil Patewar
+*Author       :  Nikhil Patewar(EY)
 *Description  :  Backend Controller for Customer 360 data and actions
 *********************************************************/
 public with sharing class ABCL_cx360Controller {
