@@ -27,8 +27,10 @@ public with sharing class ABHFL_Constants {
     public static final String Amort_CCC_EXTERNALID = 'hfl004';
     //SOA Subtype
     public static final String SOA_CCC_EXTERNALID = 'hfl073';
-    //IC & PIC Subtype External Id
-    public static final String IC_PIC_CCC_EXTERNALID = 'hfl078';
+    //IC Subtype External Id
+    public static final String IC_CCC_EXTERNALID = 'hfl037';
+    //PIC Subtype External Id
+    public static final String PIC_CCC_EXTERNALID = 'hfl078';
     //Welcome Kit Subtype
     public static final String WK_CCC_EXTERNALID = 'RSTAWEITHFC';
     //LOD Subtype External Id
