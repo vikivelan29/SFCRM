@@ -611,7 +611,7 @@
         <field>ABFL_Location_Master__c.SPOC__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+     <fieldPermissions>
     <editable>true</editable>
         <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
         <readable>true</readable>
