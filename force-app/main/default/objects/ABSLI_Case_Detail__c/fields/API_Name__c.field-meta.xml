@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>API_Name__c</fullName>
-    <description>Field created to stamp API name for PIVC Modernisation.</description>
+    <description>Field created to stamp API name for PIVC Modernisation</description>
     <externalId>false</externalId>
     <label>API Name</label>
     <length>255</length>
