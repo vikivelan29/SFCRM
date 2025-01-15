@@ -17,11 +17,12 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
     
     global Database.QueryLocator start(DataBase.BatchableContext context){         
         String strLob = System.Label.ABML_BU;
-        String caseStatus = 'New';
+        String closeCaseStatus = 'Closed';
+        String resolveCaseStatus = 'Resolved';
         String query = 'SELECT createdBy.Name, Assigned_Team__c, Status, Ageing_Number_Of_Days__c, Source__c,Sub_Source__c, Categorization_Date__c, Stage_SLA_1__c, Type_Text__c, Sub_Type_Text__c, Owner.Name, Account.Name, Subject, CreatedDate, CaseNumber, Client_Code__c, ABML_Case_Detail__c, ';
         query +=  'Description, Account.PersonDepartment, Account.Type, Nature__c, ABML_Case_Detail__r.Name, ABML_Case_Detail__r.TAT_Deadline_Date__c, Pending_Clarification__c, ';
         query += 'Account.Client_Code__c, Account.ABML_Broker_Code__pc, Account.ABML_Agent_Code__pc, Account.ABML_Branch_Code__c, Account.ABML_Franchisee_Code__c, Recategorisation_Date__c,Account.ABML_Contact_Type__c, ';
-        query += 'ABML_Case_Detail__r.TAT_Days__c, ABML_Case_Detail__r.Assigned_User__r.Name , Ageing_Business_Days__c, Overall_Case_Closure_SLA__c FROM Case Where Business_Unit__c =: strLob AND Status =: caseStatus';
+        query += 'ABML_Case_Detail__r.TAT_Days__c, ABML_Case_Detail__r.Assigned_User__r.Name , Ageing_Business_Days__c, Overall_Case_Closure_SLA__c FROM Case Where Business_Unit__c =: strLob AND (Status !=: closeCaseStatus OR Status !=: resolveCaseStatus)';
         return Database.getQueryLocator(query);
     }
     
@@ -98,7 +99,7 @@ global with sharing class ABML_ScheduleReportsBatch implements Schedulable, Data
             }
             
           //missed tat
-            if(objCase.Stage_SLA_1__c < System.Today()){
+            if(objCase.Stage_SLA_1__c < System.Now()){
                 thirdCsvBody += '"' + (objCase.CaseNumber != null ? objCase.CaseNumber : '') + '","' 
                 + (objCase.Account.Client_Code__c != null ? objCase.Account.Client_Code__c : '') + '","'
                 + (objCase.Account.Name != null ? objCase.Account.Name : '') + '","'
