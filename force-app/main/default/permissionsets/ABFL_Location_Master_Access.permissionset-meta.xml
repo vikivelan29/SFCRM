@@ -4948,11 +4948,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Contact.TitleType</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Contact.UniqueKey__c</field>
         <readable>false</readable>
     </fieldPermissions>
