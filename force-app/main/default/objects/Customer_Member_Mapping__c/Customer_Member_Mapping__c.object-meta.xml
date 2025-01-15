@@ -163,15 +163,15 @@
     <pluralLabel>Customer Member Mappings</pluralLabel>
     <profileSearchLayouts>
         <fields>NAME</fields>
-        <fields>Policy_Number_Text__c</fields>
-        <fields>Member_Name__c</fields>
-        <profileName>ABHI Base Profile</profileName>
-    </profileSearchLayouts>
-    <profileSearchLayouts>
-        <fields>NAME</fields>
         <fields>Member_Name__c</fields>
         <fields>Policy_number_Formula__c</fields>
         <profileName>ABHI Partner Base Profile</profileName>
+    </profileSearchLayouts>
+    <profileSearchLayouts>
+        <fields>NAME</fields>
+        <fields>Policy_Number_Text__c</fields>
+        <fields>Member_Name__c</fields>
+        <profileName>ABHI Base Profile</profileName>
     </profileSearchLayouts>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>

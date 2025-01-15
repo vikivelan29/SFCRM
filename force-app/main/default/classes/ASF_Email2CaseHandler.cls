@@ -10,7 +10,7 @@
 **/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts,PMD.ClassNamingConventions')
 public without sharing class ASF_Email2CaseHandler {
-    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments','ABSLI','ABSLIG'};
+    public static final List<String> BU_ALLOWING_BOT_REOPENED_CASE = new List<String>{'ABHFL','Payments','ABSLI','ABSLIG','ABHI'};
         /**
 * @description : Exception
 **/
@@ -137,14 +137,14 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
         for(EmailMessage msg : newList){
             if(msg.Incoming && msg.ParentId.getSObjectType() == Case.sObjectType){
                 allcaseIds.add(msg.ParentId);
-                emailroutAddId.add(msg.EmailRoutingAddressId);          // VSK
+emailroutAddId.add(msg.EmailRoutingAddressId);          // VSK
             }
         }
         
         Map<Id,AggregateResult> mCaseEmailMessageCount = new Map<Id,AggregateResult>([SELECT ParentId Id, COUNT(ID) countOfRec FROM EmailMessage WHERE ParentId =: allcaseIds
                                                                                       GROUP BY ParentId]);
         
-         Map<Id,EmailRoutingAddress> emailboxlist = new map<Id,EmailRoutingAddress> ([SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: emailroutAddId]);  // VSK
+        Map<Id,EmailRoutingAddress> emailboxlist = new map<Id,EmailRoutingAddress> ([SELECT Id, Address FROM EmailRoutingAddress WHERE Id =: emailroutAddId]);  // VSK
         
         Map<Id,String> emailRoutingAdd = new Map<Id,String>();
         for(EmailMessage msg : newList){
@@ -229,8 +229,8 @@ PRIORITY OF EMAIL ADDRESSES FOR SPECIFIC BUSINESS UNIT IS MAPPED IN CUSTOM METAD
                                         
                         string ToAddressExtended = '';
                         if(!tempOldToAddressess.contains(emailRoutingAdd.get(msg.Id)) && !tempOldCcAddressess.contains(emailRoutingAdd.get(msg.Id))){    
-                        	if(msg.ToAddress != null){
-                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.ToAddress;  
+                        	if(msg.CcAddress != null){
+                               ToAddressExtended  = emailRoutingAdd.get(msg.Id) + ';' + msg.CcAddress;  
                             }else{
                                ToAddressExtended = emailRoutingAdd.get(msg.Id); 
                             }

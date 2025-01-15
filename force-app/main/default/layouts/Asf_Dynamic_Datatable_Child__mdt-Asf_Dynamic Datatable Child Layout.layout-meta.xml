@@ -30,6 +30,10 @@
                 <behavior>Edit</behavior>
                 <field>Asf_Dynamic_Datatable_Parent__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Type_Attributes__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
