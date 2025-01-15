@@ -591,10 +591,6 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                    <validationRule>
-                        <errorMessage>&lt;p&gt;First Name cannot have spaces, special characters and number&lt;/p&gt;</errorMessage>
-                        <formulaExpression>REGEX({!First_Name}, &quot;^[a-zA-Z]+$&quot;)</formulaExpression>
-                    </validationRule>
                 </fields>
                 <fields>
                     <name>Last_Name</name>
@@ -606,10 +602,6 @@
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
-                    <validationRule>
-                        <errorMessage>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Last Name cannot have spaces, special characters and number&lt;/span&gt;&lt;/p&gt;</errorMessage>
-                        <formulaExpression>REGEX({!Last_Name}, &quot;^[a-zA-Z]+$&quot;)</formulaExpression>
-                    </validationRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
