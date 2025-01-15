@@ -129,7 +129,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
                 loc.Code__c = 'JOD';
                 loc.Location__c  = 'Jodhpur';
                 loc.SPOC__c = userRecord1.Id;
-                //loc.Alternate_SPOC__c=userRecord1.Id;
+                loc.Alternate_SPOC__c=userRecord1.Id; // added
                 insert loc;
             ABFL_Location_Master__c  loc1 = new ABFL_Location_Master__c();
                 loc1.Code__c = 'JAI';
