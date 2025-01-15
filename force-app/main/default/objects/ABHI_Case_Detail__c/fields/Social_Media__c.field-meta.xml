@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Social_Media__c</fullName>
-    <externalId>false</externalId>
     <label>Social Media</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
@@ -12,9 +11,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>LinkdIn</fullName>
+                <fullName>LinkedIn</fullName>
                 <default>false</default>
-                <label>LinkdIn</label>
+                <label>LinkedIn</label>
             </value>
             <value>
                 <fullName>Facebook</fullName>
@@ -40,6 +39,11 @@
                 <fullName>You Tube</fullName>
                 <default>false</default>
                 <label>You Tube</label>
+            </value>
+            <value>
+                <fullName>X</fullName>
+                <default>false</default>
+                <label>X</label>
             </value>
             <value>
                 <fullName>Others</fullName>
