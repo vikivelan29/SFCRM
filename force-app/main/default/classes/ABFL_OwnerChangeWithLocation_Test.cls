@@ -14,6 +14,8 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             insert slaGroup;
         Group g1 = new Group(Name='OCC-Test-Group', type='Queue');
             insert g1;
+        Group g3 = new Group(Name='ABFL_Mortgage_CSGroup', type='Queue'); 
+        insert g3;
         User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
@@ -30,7 +32,8 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             ASF_Case_Category_Config__c ccc = new ASF_Case_Category_Config__c();
                 ccc.Type__c = 'tes';
                 ccc.First_Stage__c = 'New';
-                ccc.CCC_External_Id__c = '12345';
+                //ccc.CCC_External_Id__c = '12345';
+                ccc.CCC_External_Id__c = 'RFCFCMOR';
                 ccc.Business_Unit__c = 'ABFL';
                 ccc.Sub_Type__c = 'Paytm';
                 ccc.EBOT_Auto_Response__c = True;
@@ -116,7 +119,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
                 insert newCase2;
             Case newCase3 = new Case();
                 newCase3.Subject = 'Test Case Creation';
-                newCase3.CCC_External_Id__c ='IFCL61219'; //ccc.CCC_External_Id__c 'IFCL61219'
+                newCase3.CCC_External_Id__c ='RFCFCMOR'; //ccc.CCC_External_Id__c 'IFCL61219'
                 //newCase2.Business_Unit__c  = 'ABFL';
                 newCase3.LAN__c = 'ABCJAI1234';
                 newCase3.AssetId = assetObj2.Id;
@@ -132,7 +135,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
                 loc1.Code__c = 'JAI';
                 loc1.Location__c  = 'Jaipur';
                 loc1.SPOC__c = userRecord1.Id;
-                loc1.Alternate_SPOC__c=userRecord1.Id;
+                //loc1.Alternate_SPOC__c=userRecord1.Id;
                 insert loc1;
         }
     }
@@ -180,7 +183,14 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             update objCase[0]; 
             ABFL_OwnerChangeWithLocation.updateSpocNotAbflLANAfter(objCase);
            ABFL_OwnerChangeWithLocation.updateSpocAbflLANAfter(objCase);
-             System.assertEquals(1, objCase.size(),'records found');          
+             System.assertEquals(1, objCase.size(),'records found'); 
+        		Case newCase = new Case();
+                newCase.Subject = 'Test Case Creation';
+                newCase.CCC_External_Id__c = 'RFCFCMOR';
+                newCase.Business_Unit__c  = 'ABFL';
+                newCase.LAN__c = 'ABFLJOD';
+                //newCase.OwnerId = queueRecord.Id;
+                insert newCase;
              Test.stopTest();            
          //}
     }
