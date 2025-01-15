@@ -16,7 +16,7 @@ private final static Profile SYSTEMADMIN_PROFILE = [SELECT Id FROM Profile WHERE
             insert g1;
         Group g3 = new Group(Name='ABFL_Mortgage_CSGroup', type='Queue'); 
         insert g3;
-        User userRecord = new User(Alias = 'standt', Email='stanrduserEmails@testorg.com', 
+        User userRecord = new User(Alias = 'standt', Email='stanrduserEmails1@testorg.com', 
                                     EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
                                     LocaleSidKey='en_US', ProfileId = SYSTEMADMIN_PROFILE.Id,
                                     TimeZoneSidKey='America/Los_Angeles', UserName='cdefghijk567@gmail.com',
