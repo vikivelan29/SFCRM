@@ -2843,11 +2843,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.Is_Closure_Accepted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>ABSLI_Case_Detail__c.Is_Complainant_Informed__c</field>
         <readable>true</readable>
     </fieldPermissions>
