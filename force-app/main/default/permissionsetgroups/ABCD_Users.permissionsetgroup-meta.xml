@@ -13,5 +13,6 @@
     <permissionSets>Create_Case</permissionSets>
     <permissionSets>Payment_User_PS</permissionSets>
     <permissionSets>Wellness_CRM_User_PS</permissionSets>
+    <permissionSets>Bypass_Case_Validation</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
