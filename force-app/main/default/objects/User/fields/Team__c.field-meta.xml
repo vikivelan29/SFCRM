@@ -109,11 +109,6 @@
                 <default>false</default>
                 <label>ONEABC</label>
             </value>
-            <value>
-                <fullName>ABSLI_Multiple_Email</fullName>
-                <default>false</default>
-                <label>ABSLI_Multiple_Email</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
