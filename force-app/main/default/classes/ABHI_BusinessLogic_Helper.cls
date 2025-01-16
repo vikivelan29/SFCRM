@@ -43,6 +43,7 @@ public with sharing class ABHI_BusinessLogic_Helper {
                 ABHI_CaseCreationValidation.checkCreateCaseValidations(abhiNewCaseList, mapOfIdToOldCase, triggerContext);
             }else if(triggerContext == 'BeforeASFCodeInBeforeUpdate') {
                 ABHI_CaseStageUpdateHelper.MoveToStageMethod(abhiNewCaseList, oldCaseList);
+                ABHI_BusinessLogic_Helper.abhiActiveOneValidationOnRecat(abhiNewCaseList, mapOfIdToOldCase);
             }
             /*else if(triggerContext == 'AfterASFCodeInAfterInsert') {
                 abhiCsDetHelperObj.updateAccountFieldsonCaseDetail(abhiNewCaseList);
@@ -315,6 +316,54 @@ public with sharing class ABHI_BusinessLogic_Helper {
         return result;
     }
     
+    /**
+     * @description  Calling ABHI specific case validations on Recat
+     */
+    public static void abhiActiveOneValidationOnRecat(List<Case> newCases, Map<Id, Case> oldCases) {
+        List<Case> eligibleCases = new List<Case>();
+    	Set<Id> accountIds = new Set<Id>();
+        Set<Id> assetIds = new Set<Id>();
+        Map<Id, Account> accountMap;
+        Map<Id, Asset> assetMap;
+        for(Case caseRec: newCases) {
+            if((caseRec.AccountId != null && caseRec.AccountId != oldCases.get(caseRec.Id).AccountId) ||
+              	(caseRec.AssetId != null && caseRec.AssetId != oldCases.get(caseRec.Id).AssetId) ||
+                (caseRec.Recategorisation_Date__c != null && caseRec.Recategorisation_Date__c != oldCases.get(caseRec.Id).Recategorisation_Date__c)) {
+                	eligibleCases.add(caseRec);
+                    accountIds.add(caseRec.AccountId);
+                    assetIds.add(caseRec.AssetId);
+            }
+        }
+        if(!eligibleCases.isEmpty()){
+            Map<String,String> issueCodeToErrorMsgMap = new Map<String,String>();
+            Map<String, ABHI_Create_Case_Validations__mdt> metadataRecords = ABHI_Create_Case_Validations__mdt.getAll();
+            
+            if (!metadataRecords.isEmpty()) {
+                //Fetch all metadata values and store it in map
+                for (String key : metadataRecords.keySet()) {
+                    ABHI_Create_Case_Validations__mdt metadataRecord = metadataRecords.get(key);
+                    if(metadataRecord.Validation_Name__c == 'ActiveOne'){
+                        issueCodeToErrorMsgMap.put(metadataRecord.Issue_Code__c, metadataRecord.Error_Message__c);
+                    }
+                }
+            }
+            accountMap = new Map<Id, Account>([select Id,Is_Chronic__c, CMP_OPD__c, Chronic_care__c from account where Id IN: accountIds]);
+            assetMap = new Map<Id, Asset>([select Id, ProductName__c, Plan_Name__c from asset where Id IN: assetIds]);
+            
+            for(Case caseRec : eligibleCases){
+                if(issueCodeToErrorMsgMap.containsKey(caseRec.CCC_External_Id__c) && caseRec.AccountId != null && caseRec.AssetId != null){
+                    if(assetMap.get(caseRec.AssetId).ProductName__c != 'Activ One' && accountMap.get(caseRec.AccountId).Is_Chronic__c == false){
+                        caseRec.addError(issueCodeToErrorMsgMap.get(caseRec.CCC_External_Id__c));  
+                      }
+                      else if((assetMap.get(caseRec.AssetId).ProductName__c == 'Activ One' && !(accountMap.get(caseRec.AccountId).CMP_OPD__c == true && accountMap.get(caseRec.AccountId).Chronic_care__c == true))
+                             && (assetMap.get(caseRec.AssetId).ProductName__c == 'Activ One' && !(assetMap.get(caseRec.AssetId).Plan_Name__c == 'VYTL'))){
+                              caseRec.addError(issueCodeToErrorMsgMap.get(caseRec.CCC_External_Id__c));    
+                      }
+                }
+            }
+        }
+    }
+        
     /**
      * @description  Calling ABHI specific case validations before case creation
      * @param caseRecord - the case that is created from create case page
