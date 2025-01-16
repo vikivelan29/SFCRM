@@ -280,6 +280,7 @@
 		<members>Case.Framework</members>
 		<members>Case.Interaction</members>
 		<members>Lead.Service</members>
+        <members>Lead.Sales</members>
         <name>RecordType</name>
     </types>
 	<types>
