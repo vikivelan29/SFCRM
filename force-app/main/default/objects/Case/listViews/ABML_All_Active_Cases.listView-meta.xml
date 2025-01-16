@@ -49,8 +49,5 @@
         <group>ABML_Surveillance_G</group>
         <group>ABML_Trading_App_G</group>
         <group>ABML_Twitter_G</group>
-        <role>ABML_Director</role>
-        <role>ABML_Manager</role>
-        <role>ABML_Service_Agents</role>
     </sharedTo>
 </ListView>
