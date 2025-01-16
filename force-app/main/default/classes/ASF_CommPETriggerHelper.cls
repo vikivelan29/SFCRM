@@ -2,8 +2,8 @@
  * @description       : 
  * @author            : rsinghnagar@salesforce.com
  * @group             : 
- * @last modified on  : 05-20-2024
- * @last modified by  : rsinghnagar@salesforce.com
+ * @last modified on  : 10-18-2024
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
  * Modifications Log
  * Ver   Date         Author                       Modification
  * 1.0   01-17-2024   rsinghnagar@salesforce.com   Initial Version
@@ -169,6 +169,7 @@ public without sharing class ASF_CommPETriggerHelper {
         } 
     }
     
+    
     private static Messaging.SingleEmailMessage getMessageCommonVariables(Contact con,
                                                                           Lead prospect,
                                                                           Case cRec,
@@ -232,7 +233,7 @@ public without sharing class ASF_CommPETriggerHelper {
         /******* VIRENDRA - ADDED on 12 APRIL 2024 FOR INFOSEC REQUIREMENT *********/
         if(mBusinessUnitVsSpecificOWA.containsKey(cRec.Business_Unit__c)){
             OWDId = mBusinessUnitVsSpecificOWA.get(cRec.Business_Unit__c);
-	    msg.setOrgWideEmailAddressId(OWDId);
+            msg.setOrgWideEmailAddressId(OWDId);
         }
         if(mBusUnitVsReplyToAddress.containsKey(cRec.Business_Unit__c)){
             String replyAddr = mBusUnitVsReplyToAddress.get(cRec.Business_Unit__c);
@@ -272,23 +273,15 @@ public without sharing class ASF_CommPETriggerHelper {
      * @param prospect The lead associated with the email.
      * @return Messaging.SingleEmailMessage The generated email message.
      */
-   private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
+    private static Messaging.SingleEmailMessage getMessageGenerated(Contact con, Case cRec, Id eTempId, Id owdID, Boolean isAttachment, Lead prospect){
         Messaging.SingleEmailMessage msg = getMessageCommonVariables(con,prospect,cRec,isAttachment,owdID);
-        //Mrinal changes for ABHFL content update starts
-        String htmlBody;
-        String abhflTemplateId = System.Label.ABHFL_EmailId_RequestClosure_Template_Id;
-        if(eTempId == abhflTemplateId){
-            Messaging.SingleEmailMessage msgTemp = updateEmailContent(cRec);
-            msg.setToAddresses(msgTemp.getToAddresses());
-            msg.htmlBody = msgTemp.htmlBody;
-        }
-        //Mrinal changes for ABHFL content update ends
+
         msg.setTemplateId(eTempId);
         msg.setWhatId(cRec.Id);
         msg.setSaveAsActivity(true);
         if(msg.getOrgWideEmailAddressId() == null){
-           msg.setOrgWideEmailAddressId(owdID); 
-        }        
+          msg.setOrgWideEmailAddressId(owdID);          
+        }
         return msg;
     }
 
@@ -435,18 +428,19 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
                         else if(mAccountIdContactId.containsKey(cRec.AccountId)){
                             
                             for(Contact con : mAccountIdContactId.get(cRec.AccountId)){
-                                if(con.Email != null){
+                                if(con.Email != null ){
                                     //Added another parameter pLog.Is_Attachment__c to check if attachment needs to be sent or not
                                     Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
                                     emails.add(msg); 
                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
                                     iCounter++;
                                 }
-				if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)&& con.Email == null){
+                                if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)&& con.Email == null){
+                                    system.debug('@@@@In Shagun new Prod Issue FIX');
                                      Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
-                                     emails.add(msg); 
-                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
-                                     iCounter++;
+                                    emails.add(msg); 
+                                    mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                                    iCounter++;
                                 }
                             }
                         }
