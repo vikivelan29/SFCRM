@@ -186,8 +186,13 @@ public without sharing class ASF_CommPETriggerHelper {
             msg.setTargetObjectId(con.Id);
             msg.setTreatTargetObjectAsRecipient(true);	
             if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){
+		if(con.Email==null ||String.isBlank(con.Email)){    
+                     msg.setTargetObjectId(defaultContactId);
+                } 
                  if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
-                    toAddressesForCriticalGrp.add(con.Email);
+		     if(con.Email!=null){
+                         toAddressesForCriticalGrp.add(con.Email);
+                     }
         			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
                      msg.setToAddresses(toAddressesForPayments);
                  }
@@ -199,7 +204,7 @@ public without sharing class ASF_CommPETriggerHelper {
             msg.setTargetObjectId(defaultContactId);
             msg.setTreatTargetObjectAsRecipient(false);	
             if(cRec.business_unit__c=='Payments' && cRec.Status=='Resolved' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)){      
-                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {
+                 if(toAddressesForCriticalGrp != null && !toAddressesForCriticalGrp.isEmpty()) {    
                     toAddressesForCriticalGrp.add(prospect.Email);
         			toAddressesForPayments.addAll(toAddressesForCriticalGrp);
                      msg.setToAddresses(toAddressesForPayments);
