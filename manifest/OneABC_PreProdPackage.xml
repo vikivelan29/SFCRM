@@ -23,7 +23,7 @@
 		<members>ASF_RecategoriseCaseControllerTest</members>
 		<members>ONEABC_Constants</members>
 		<members>ONEABC_CreateCaseWithTypeHelper</members>
-		<members>PAY_CustomerCreationListener</members>
+		<!--<members>PAY_CustomerCreationListener</members>-->
 		<members>ABCD_BeforeUpdateAfterASFTriggerLogic</members>
 		<members>ABCD_BeforeUpdateAfterASF_Test</members>
 		<members>ABCD_CaseDeDupeCheck</members>
@@ -339,7 +339,7 @@
 	<types>
 		<members>ASF_Case_Category_Config__c.ABCD_CCC_Sharing</members>
 		<members>Lead.ABCD_Lead_Sharing_Rule</members>
-		<members>User.ABCD_UserSharing</members>
+		<members>User.ABCD_User_Sharing</members>
 		<members>Survey_Response__c.ABCD_Survey_Response_Sharing</members>
 		<name>SharingCriteriaRule</name>
 	</types>
