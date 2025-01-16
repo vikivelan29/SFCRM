@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ABML_All_Active_Cases</fullName>
-    <booleanFilter>1 AND 2</booleanFilter>
     <columns>CASES.CASE_NUMBER</columns>
     <columns>Client_Code__c</columns>
     <columns>ACCOUNT.NAME</columns>
@@ -18,14 +17,14 @@
     <columns>Source__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>CASES.STATUS</field>
-        <operation>equals</operation>
-        <value>New</value>
-    </filters>
-    <filters>
         <field>Business_Unit__c</field>
         <operation>equals</operation>
         <value>ABML</value>
+    </filters>
+    <filters>
+        <field>CASES.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Closed,Resolved,Closed Duplicate,Unresolved</value>
     </filters>
     <label>ABML All Active Cases</label>
     <sharedTo>
@@ -44,10 +43,14 @@
         <group>ABML_Franchisee_Premium_desk_G</group>
         <group>ABML_Funds_G</group>
         <group>ABML_IT_G</group>
+        <group>ABML_Managers</group>
         <group>ABML_RMS_G</group>
         <group>ABML_Stop_Trade_G</group>
         <group>ABML_Surveillance_G</group>
         <group>ABML_Trading_App_G</group>
         <group>ABML_Twitter_G</group>
+        <role>ABML_Director</role>
+        <role>ABML_Manager</role>
+        <role>ABML_Service_Agents</role>
     </sharedTo>
 </ListView>
