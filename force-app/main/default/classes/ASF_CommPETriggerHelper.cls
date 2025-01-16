@@ -367,6 +367,8 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
      * @param peLogs A list of PE Logger records.
      */
     private static void sendEmailCommunication(List<PE_Logger__c> peLogs){
+        String ccExternalIdForPayment = Label.Payment_Report_Fraud;
+        List<String> ccExternalIdForPaymentGrp = ccExternalIdForPayment.split(',');
         List<Messaging.SingleEmailMessage> emails =  new List<Messaging.SingleEmailMessage>();
         //OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE Purpose = 'DefaultNoreply' order by lastmodifiedDate desc  limit 1];
         OrgWideEmailAddress owAddress = [select Id,Purpose from OrgWideEmailAddress WHERE DisplayName=:System.Label.ASF_default_no_reply_email_address limit 1];
@@ -439,6 +441,12 @@ public static Messaging.SingleEmailMessage updateEmailContent(case caseRec){
                                     emails.add(msg); 
                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
                                     iCounter++;
+                                }
+				if(cRec.Business_Unit__c=='Payments' && ccExternalIdForPaymentGrp.contains(cRec.CCC_External_Id__c)&& con.Email == null){
+                                     Messaging.SingleEmailMessage msg = getMessageGenerated(con, cRec, emailtempid, owAddress.Id, pLog.Is_Attachment__c,null);                                
+                                     emails.add(msg); 
+                                     mIdxVsPELoggerId.put(iCounter,pLog.Id);
+                                     iCounter++;
                                 }
                             }
                         }
