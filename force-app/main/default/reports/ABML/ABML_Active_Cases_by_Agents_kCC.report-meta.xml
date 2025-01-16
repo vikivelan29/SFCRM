@@ -74,8 +74,8 @@
             <column>STATUS</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>New</value>
+            <operator>notEqual</operator>
+            <value>Closed,Resolved,Closed Duplicate,Unresolved</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>
