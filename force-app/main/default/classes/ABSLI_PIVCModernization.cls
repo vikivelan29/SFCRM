@@ -1,5 +1,5 @@
 /*********************************************************
- *Class        :  ABSLI_PIVCModernization class enhancement	 
+ *Class        :  ABSLI_PIVCModernization class 
  *Author       :  
  *Created Date :  
  *Last Modified:  

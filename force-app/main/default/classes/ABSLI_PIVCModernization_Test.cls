@@ -1,4 +1,4 @@
-//ABSLI_PIVCModernization_Test class enhancement
+//ABSLI_PIVCModernization_Test class
 @isTest
 public class ABSLI_PIVCModernization_Test {
     private class ABSLI_MockIntegrationCalloutError implements HttpCalloutMock {
