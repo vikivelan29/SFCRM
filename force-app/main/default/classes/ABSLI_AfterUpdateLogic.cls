@@ -1,5 +1,5 @@
 /**
-* @description       : ABSLI_AfterUpdateLogic class
+* @description       : ABSLI_AfterUpdateLogic class class
 * @author            : Salesforce
 * @group             : 
 * @last modified on  : 08-01-2024
