@@ -454,10 +454,6 @@
             <fullName>Health policy</fullName>
             <default>false</default>
         </values>
-         <values>
-            <fullName>Policy_Bazaar</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>Hoax Calls</fullName>
             <default>false</default>
@@ -1728,10 +1724,6 @@
         </values>
         <values>
             <fullName>No Action Required</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
             <default>false</default>
         </values>
         <values>
