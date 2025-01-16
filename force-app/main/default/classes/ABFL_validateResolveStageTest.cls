@@ -89,5 +89,4 @@ Public class ABFL_validateResolveStageTest {
        String userBU = ABFL_SOQL_Case.getOnwerBU(caseRec.OwnerId);
        System.assertEquals(currentUser.Business_Unit__c,userBU);
    }
-    
 }
