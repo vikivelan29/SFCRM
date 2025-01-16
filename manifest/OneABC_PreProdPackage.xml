@@ -180,8 +180,8 @@
         <name>EmailFolder</name>
     </types>
 	<types>
-        <members>ABCD_Prospect_FieldSet</members>
-        <members>ABCD_Sales_Prospect_FieldSet</members>
+        <members>Lead.ABCD_Prospect_FieldSet</members>
+        <members>Lead.ABCD_Sales_Prospect_FieldSet</members>
         <name>FieldSet</name>
     </types>
 	<types>
