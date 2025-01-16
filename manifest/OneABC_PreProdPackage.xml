@@ -317,7 +317,7 @@
 	</types>
 	<types>
 		<members>Case.ABCD_Framework_Snapshot</members>
-		<members>Case.Forward_Case_to_LOB</members>
+		<!--<members>Case.Forward_Case_to_LOB</members>-->
 		<name>QuickAction</name>
 	</types>
 	<types>
