@@ -83,7 +83,6 @@
 		<members>ABCD_Case_Detail__c.TRAI_Registered__c</members>
 		<members>ASF_Case_Category_Config__c.Applicable_for_OneABC__c</members>
 		<members>ASF_Case_Category_Config__c.Business_Unit__c</members>
-		<members>ASF_Case_Category_Config__c.Business_Unit__c</members>
 		<members>Account.Business_Unit__c</members>
 		<members>Account.Line_of_Business__c</members>
 		<members>Contact.Line_of_Business__c</members>
@@ -100,8 +99,6 @@
 		<members>Lead.SFLMS_Lead_ID__c</members>
 		<members>Lead.SFLMS_Status__c</members>
 		<members>Lead.SFLMS_Status_Change_Date__c</members>
-		<members>PAY_Staging_Customer_to_Account__e.Birthdate__c</members>
-		<members>PAY_Staging_Customer_to_Account__e.Pan_No__c</members>
 		<members>PE_Logger__c.LOB__c</members>
 		<members>STG_Customer__c.Birthdate__c</members>
 		<members>STG_Customer__c.PAN_No__c</members>
@@ -125,6 +122,7 @@
 		<members>ONEABC_Acc_Error_ABCD_Customer</members>
 		<members>ONEABC_Acc_Error_LOB_Customer</members>
 		<members>ONEABC_Acc_Error_Non_ABCD_Customer</members>
+        <members>ABSLAMC_SprinklrUpdateSpecificBUs</members>
 		<members>ABCD_LitmusAppId</members>
 		<name>CustomLabel</name>
 	</types>
@@ -139,6 +137,7 @@
 		<members>Customer_Notification_Config.ABCD_Case_Creation_SMS</members>
 		<members>Customer_Notification_Config.ABCD_Case_Holding_Response_SMS</members>
 		<members>ABFL_Email_Validation_Configuration.ABCD</members>
+        <members>ABFL_Email_Validation_Configuration.ONEABC</members>
 		<members>ABFL_Email_Validation_Configuration.Business_Unit</members>
 		<members>ONEABC_Function_Category_Mapping.ABHFL_Loan_Against_property</members>
 		<members>ONEABC_Function_Category_Mapping.ABHFL_Home_improvement_Home_Constructio</members>
@@ -186,7 +185,7 @@
         <name>FieldSet</name>
     </types>
 	<types>
-		<members>ABCD_Customer_Search</members>
+		<!--members>ABCD_Customer_Search</members>-->
 		<members>OneABC_Account_Record_Page</members>
 		<members>OneABC_Asset_Record_Page</members>
 		<members>OneABC_Case_Framework_Lightning_Page1</members>
@@ -195,9 +194,9 @@
 		<name>FlexiPage</name>
 	</types>
 	<types>
-		<members>ABCD_Comm_Ext_Flow</members>
+		<!--<members>ABCD_Comm_Ext_Flow</members>
 		<members>Communication_Log_Extension_Flow_BU_Specific_Handler</members>
-		<members>Communication_Log_Flow_Email</members>
+		<members>Communication_Log_Flow_Email</members>-->
 		<members>ABCD_Lead_Creation_Flow</members>
 		<members>ABCL_Lead_Creation_Flow</members>
 		<name>Flow</name>
@@ -276,8 +275,8 @@
 		<name>ListView</name>
 	</types>
 	<types>
-        <members>Account.Non_Individual</members>
-		<members>PersonAccount.Individual</members>
+        <!--<members>Account.Non_Individual</members>
+		<members>PersonAccount.Individual</members>-->
 		<members>Case.Framework</members>
 		<members>Case.Interaction</members>
 		<members>Lead.Service</members>
