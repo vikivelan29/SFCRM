@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Description__c</field>
-        <value xsi:type="xsd:string">To Integrate CRM with Verisafe.</value>
+        <value xsi:type="xsd:string">To Integrate CRM with Verisafe</value>
     </values>
     <values>
         <field>EnableMockResponse__c</field>
