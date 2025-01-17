@@ -48,6 +48,7 @@
 		<members>ONEABC_CreateCaseWithTypeHelper_Test</members>
 		<members>ABCL_SurveyResponseHelper</members>
 		<members>Asf_NpsIndicatiorController</members>
+		<members>ABCD_UpdatesForSprinklrTest</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
