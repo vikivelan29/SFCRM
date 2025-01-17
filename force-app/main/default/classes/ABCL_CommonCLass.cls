@@ -38,14 +38,14 @@ public with sharing class ABCL_CommonCLass {
                 if(csRec.Business_Unit__c == 'ABWM'){
                     String bussUnit = 'ABFL'; 
                     if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                    	setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                	} 
+                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                    } 
                 }
                 else{
-                	String bussUnit = csRec.Business_Unit__c; 
-                	if(!setOfCaseBusinessUnit.contains(bussUnit)) {
-                    setOfCaseBusinessUnit.add('%' + bussUnit + '%');
-                	} 
+                    String bussUnit = csRec.Business_Unit__c; 
+                    if(!setOfCaseBusinessUnit.contains(bussUnit)) {
+                        setOfCaseBusinessUnit.add('%' + bussUnit + '%');
+                    } 
                 }
             }
         }
@@ -82,16 +82,22 @@ public with sharing class ABCL_CommonCLass {
 else if(bussHrName.containsIgnoreCase('ABML')) { //Added by EY
                     mapOf_BusinessUnit_To_BusinessHr.put('ABML', bh);
                 }
+                else if(bussHrName.containsIgnoreCase('ABCD')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ABCD', bh);
+                }
+                else if(bussHrName.containsIgnoreCase('ONEABC')) {
+                    mapOf_BusinessUnit_To_BusinessHr.put('ONEABC', bh);
+                }
             }
             
             for(Case csRec : newCaseLst) {  
                 if(String.isNotBlank(csRec.Business_Unit__c)) {
                     String busshrId ='';
                     if(csRec.Business_Unit__c == 'ABWM'){
-                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
+                        busshrId = mapOf_BusinessUnit_To_BusinessHr.get('ABFL') != null ? mapOf_BusinessUnit_To_BusinessHr.get('ABFL').Id : '';
                     }
                     else{
-                    	 busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
+                        busshrId = mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c) != null ? mapOf_BusinessUnit_To_BusinessHr.get(csRec.Business_Unit__c).Id : null;
                     }
                     csRec.BusinessHoursId = busshrId;
                 }
@@ -112,7 +118,7 @@ else if(bussHrName.containsIgnoreCase('ABML')) { //Added by EY
         if(!ASF_BulkCaseProcessorUtility.isBulkProcessing){return;}
         
         List<SObject> recordsToUpdate = new List<SObject>();
-Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();         // added by vikas
+       Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();         // added by vikas
         for(Case caseRec : newItems){
             if(caseRec.Stage__c == 'Resolved' && caseRec.Stage__c != oldMap.get(caseRec.Id).Stage__c){
                 if(caseRec.ABFL_Case_Detail__c != null){
@@ -148,35 +154,35 @@ Map<Id,SObject> recordupdateABFLcaseDetail = new Map<Id,SObject>();         // a
         }
         return result;
     }
-
+    
     /**
-     * @Function - populateCreatedDateRange
-     * @param newItems -  map of Case from trigger.new.
-     * @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
-    **/
+* @Function - populateCreatedDateRange
+* @param newItems -  map of Case from trigger.new.
+* @description - Invoked from BeforeInsert method, this method pre-populates fields on Case.
+**/
     public void populateCreatedDateRange(List<Case> newItems) {
-
+        
         Datetime currentDatetime = System.now();
         Integer currentHour = currentDatetime.hour();
         Integer currentMinute = currentDatetime.minute();
         Integer timeInMinutes =  currentHour*60 + currentMinute;
         String businessUnitCheck = System.label.Business_Unit_Check_For_SLA_Override ?? '';
-
+        
         for(Case caseRec : newItems){
             String caseBusinessUnit = caseRec?.Business_Unit__c ?? '';
-
+            
             if(businessUnitCheck.containsIgnoreCase(caseBusinessUnit)) {
                 caseRec.Created_Date_Range__c = calculateSlaOverwriteIdentifier(timeInMinutes);    
             }
         }
     }
-
+    
     /**
-     * @Function - populateCreatedDateRange
-     * @param calculateMinutes -  Time in minutes.
-     * @return - String
-     * @description - Method to calculate the SLA Overwrite Identifier
-    **/
+* @Function - populateCreatedDateRange
+* @param calculateMinutes -  Time in minutes.
+* @return - String
+* @description - Method to calculate the SLA Overwrite Identifier
+**/
     @SuppressWarnings('PMD.CognitiveComplexity, PMD.CyclomaticComplexity')
     public String calculateSlaOverwriteIdentifier(Integer calculateMinutes) {
         
