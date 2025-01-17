@@ -1,5 +1,5 @@
 /**
-* @description       : 
+* @description       : ABSLI_AfterUpdateLogic class class
 * @author            : Salesforce
 * @group             : 
 * @last modified on  : 08-01-2024
@@ -7,6 +7,7 @@
 * Modifications Log
 * Ver   Date         Author                       Modification
 * 1.0   04-24-2024   Salesforce   Initial Version
+
 **/
 @SuppressWarnings('PMD.MethodNamingConventions, PMD.LocalVariableNamingConventions, PMD.VariableNamingConventions')
 public with sharing class ABSLI_AfterUpdateLogic {

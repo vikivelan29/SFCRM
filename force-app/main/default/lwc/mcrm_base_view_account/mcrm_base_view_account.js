@@ -1,4 +1,4 @@
-// This is the testUtil component
+// This is the util component
 function customerAPIs(apiName, payload) {
 	switch (apiName) {
 		case 'MCRM_Gym_Voucher':

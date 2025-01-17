@@ -9886,6 +9886,16 @@
         <field>ABSLI_Case_Detail__c.API_Error_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Request__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>ABSLI_Case_Detail__c.API_Response_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
      <fieldPermissions>
         <editable>true</editable>
         <field>ABSLI_Case_Detail__c.API_Name__c</field>
@@ -9893,12 +9903,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Request__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ABSLI_Case_Detail__c.API_Response_Message__c</field>
+        <field>ABFL_Location_Master__c.Alternate_SPOC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
