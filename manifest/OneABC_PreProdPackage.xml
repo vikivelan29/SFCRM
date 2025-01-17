@@ -352,5 +352,9 @@
 		<members>ABCD_GetCustomerInfoMockResponse</members>
 		<name>StaticResource</name>
 	</types>-->
+	<types>
+		<members>BusinessHours</members>
+		<name>Settings</name>
+	</types>
 	<version>62.0</version>
 </Package>
