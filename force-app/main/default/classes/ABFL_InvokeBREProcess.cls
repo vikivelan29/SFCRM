@@ -344,7 +344,7 @@ public with sharing class ABFL_InvokeBREProcess implements ASF_IntegrationInvoca
                 caseRecord.OwnerId = us.Id;
                 update caseRecord;*/
                 }
-            	if(caseInteg.Status__c == ABFL_Constants.FAILURE) {
+            	if(caseInteg.Status__c != ABFL_Constants.SUCCESS) {
                     String ownerBU = ABFL_SOQL_Case.getOnwerBU(caseRecord.OwnerId);
                     if(ownerBU == 'ABCD' && ABFL_Constants.STP_FAILURE_ASSIGNMENT_CTST.contains(caseRecord.CCC_External_Id__c) && caseRecord.Created_by_ONEABC__c == TRUE && Schema.sObjectType.Case.isUpdateable()){
                           ASF_Case_Stage_Config__c stageConfig = ABFL_SOQL_Case.getStageConfig(caseRecord.CCC_External_Id__c);
