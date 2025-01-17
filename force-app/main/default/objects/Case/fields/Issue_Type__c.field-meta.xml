@@ -1718,6 +1718,11 @@
                 <default>false</default>
                 <label>Policy related details</label>
             </value>
+             <value>
+                <fullName>Waiver</fullName>
+                <default>false</default>
+                <label>Waiver</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
