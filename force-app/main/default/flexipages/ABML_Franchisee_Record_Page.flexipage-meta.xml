@@ -726,7 +726,7 @@
                             <value>CONTACT.EMAIL</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>Mobile__c</value>
+                            <value>CONTACT.PHONE3</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>

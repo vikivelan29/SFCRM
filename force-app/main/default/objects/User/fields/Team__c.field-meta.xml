@@ -100,6 +100,16 @@
                 <label>ABHI_GRT</label>
             </value>
             <value>
+                <fullName>ABCD</fullName>
+                <default>false</default>
+                <label>ABCD</label>
+            </value>
+            <value>
+                <fullName>ONEABC</fullName>
+                <default>false</default>
+                <label>ONEABC</label>
+            </value>
+            <value>
                 <fullName>ABSLI_Multiple_Email</fullName>
                 <default>false</default>
                 <label>ABSLI_Multiple_Email</label>
