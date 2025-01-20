@@ -70,7 +70,10 @@ public class RNWL_OpportunityTriggerHelper {
         
         //For Calling Source Update
         Set<Id> oppIdSet = new Set<Id>();
-        List<sObject> recordsToUpdate = new List<sObject>();
+        List<Case> caseRecordsToUpdate = new List<Case>();
+        List<Asset> assetRecordsToUpdate = new List<Asset>();
+        List<Account> accountRecordsToUpdate = new List<Account>();
+        Set<Id> recordsAdded = new Set<Id>();
         Set<Id> polIdSet = new Set<Id>();
         
         // FOr PE
@@ -130,26 +133,35 @@ public class RNWL_OpportunityTriggerHelper {
                 
                 if(opp.Calling_Source__c != opp.Policy__r.Calling_Source__c){
                     //Asset update
-                    recordsToUpdate.add(new Asset(Id = opp.Policy__c, Calling_Source__c = opp.Calling_Source__c));
+                    if (!recordsAdded.contains(opp.Policy__c)) {
+                        assetRecordsToUpdate.add(new Asset(Id = opp.Policy__c, Calling_Source__c = opp.Calling_Source__c));
+                    }
+                    recordsAdded.add(opp.Policy__c);
                     //Case Update
                     List<Case> cases = assetIdtoCaseMap.get(opp.Policy__c);
                     if(cases.size() == 0){ Continue; }
                     for(Case cas : assetIdtoCaseMap.get(opp.Policy__c)){
                         if(opp.Calling_Source__c == cas.Calling_Source__c){ Continue; }
-                        recordsToUpdate.add(new Case(Id = cas.Id, Calling_Source__c = opp.Calling_Source__c));
+                        if (!recordsAdded.contains(cas.Id)) {
+                            caseRecordsToUpdate.add(new Case(Id = cas.Id, Calling_Source__c = opp.Calling_Source__c));
+                        }
+                        recordsAdded.add(cas.Id);
                     }
                 }
                 //Account Update
                 if(opp.Calling_Source__c != opp.Account.Calling_Source__c){
-                    recordsToUpdate.add(new Account(Id = opp.AccountId, Calling_Source__c = opp.Calling_Source__c));
+                    if (!recordsAdded.contains(opp.AccountId)) {
+                        accountRecordsToUpdate.add(new Account(Id = opp.AccountId, Calling_Source__c = opp.Calling_Source__c));
+                    }
+                    recordsAdded.add(opp.AccountId);
                 }
             }
-            ASF_TriggerSkipperUtility.markTriggerRun('Case'); 
-            if(recordsToUpdate.size() > 0){
-                update recordsToUpdate;
-            }
+            ASF_TriggerSkipperUtility.markTriggerRun('Case');
+            ABCL_AssetTriggerHandler.TriggerDisabled = true;
+            if(assetRecordsToUpdate.size() > 0) update assetRecordsToUpdate;
+            if(caseRecordsToUpdate.size() > 0) update caseRecordsToUpdate;
+            if(accountRecordsToUpdate.size() > 0) update accountRecordsToUpdate;
         }
-        
     } 
     /****************************************************************************************************************
     * @Function - tagOppOnDisposition
