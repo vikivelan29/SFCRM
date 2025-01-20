@@ -3,9 +3,8 @@
     <fullName>customDisposition__c</fullName>
     <externalId>false</externalId>
     <label>Custom Disposition</label>
-    <length>100</length>
-    <required>false</required>
+    <length>32000</length>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>

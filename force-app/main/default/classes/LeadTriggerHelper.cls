@@ -19,6 +19,7 @@ Description :To resrict the creation of leads of other LOB's
         
         Map<Id,Lead> ABHFLNewLeadMap = new Map<Id,Lead>();
         Map<Id,Lead> absliNewLeadMap = new Map<Id,Lead>();
+		Map<Id,Lead> abcdNewLeadMap = new Map<Id,Lead>();
         for(lead lTest: newLeadMap.values()){
             if(lTest.Business_Unit__c == 'ABHFL'){
                 ABHFLNewLeadMap.put(lTest.Id,lTest);
@@ -26,12 +27,18 @@ Description :To resrict the creation of leads of other LOB's
             else if(lTest.Business_Unit__c == 'ABSLI'){
                 absliNewLeadMap.put(lTest.Id,lTest);
             }
+            else if(lTest.Business_Unit__c == 'ABCD'){
+                abcdNewLeadMap.put(lTest.Id,lTest);
+            }
         }
         if(ABHFLNewLeadMap.keySet().size() > 0) {
             ABHFL_LeadCreationAPI.executeSendLeadToCRM(ABHFLNewLeadMap.keySet());  
         }
         if(absliNewLeadMap.keySet().size()>0){
             ABSLI_LeadHandler.afterInsertLogic(absliNewLeadMap.values());
+        }
+        if(abcdNewLeadMap.keySet().size()>0){
+            ABCD_LeadHandler.afterInsertLogic(abcdNewLeadMap.values());
         }
         //ABHFL_LeadCreationAPI.executeSendLeadToCRM(newLeadMap.keySet());     
     }

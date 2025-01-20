@@ -4,7 +4,6 @@
     <label>Business Unit</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
@@ -59,6 +58,17 @@
                 <fullName>Wellness</fullName>
                 <default>false</default>
                 <label>Wellness</label>
+            </value>
+            <value>
+                <fullName>ABCD</fullName>
+                <default>false</default>
+                <label>ABCD</label>
+            </value>
+            <value>
+                <fullName>ONEABC</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ONEABC</label>
             </value>
         </valueSetDefinition>
     </valueSet>
