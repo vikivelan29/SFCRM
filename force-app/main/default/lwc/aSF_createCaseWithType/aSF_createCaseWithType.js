@@ -23,7 +23,6 @@ import ABHI_BU from '@salesforce/label/c.ABHI_BU';
 import ABSLAMC_BU from '@salesforce/label/c.ABSLAMC_BU';
 import ABCD_BU from '@salesforce/label/c.ABCD_Business_Unit';
 import SUPPRESSCREATECASE_BU from '@salesforce/label/c.SuppressCreateCase_BU'; 
-import SUPPRESSCREATECASE_BU from '@salesforce/label/c.SuppressCreateCase_BU'; 
 import { lanLabels } from 'c/asf_ConstantUtility';
 import { AUTO_COMM_BU_OPT } from 'c/asf_ConstantUtility'; // Rajendra Singh Nagar: PR1030924-209
 
@@ -36,6 +35,7 @@ import ACCOUNTTYPE_FIELD from '@salesforce/schema/Asset.Account.IsPersonAccount'
 //import ASSET_PRODUCT_FIELD from '@salesforce/schema/Case.Asset.Product_Name__c';
 import CASE_ASSET from '@salesforce/schema/Case.AssetId';
 import ACCOUNT_PRIMARY_LOB from '@salesforce/schema/Case.Account.Line_of_Business__c';
+import ACCOUNT_BU from '@salesforce/schema/Case.Account.Business_Unit__c';
 //import ACCOUNT_CLASSIFICATION from '@salesforce/schema/Case.Account.Classification__c';
 import CASE_ASSET_LOB from '@salesforce/schema/Case.Asset.LOB__c';
 import CASE_BU from '@salesforce/schema/Case.Business_Unit__c';
@@ -188,6 +188,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
     strDefaultChannel = '';
     currentObj = CASE_OBJECT.objectApiName;
     caseBu = '';
+    accountBu = '';
     UnresolvedCommentsNotReqBUs = UnresolvedCommentsNotReqBUs;
 
     //ABCD
@@ -277,6 +278,7 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
         SOURCE_FIELD, 
         CASE_CONTACT_FIELD, 
         ACCOUNT_PRIMARY_LOB, 
+        ACCOUNT_BU,
         AMIOwner, 
         AccountId, 
         CASE_ASSET,
@@ -427,12 +429,14 @@ export default class ASF_createCaseWithType extends NavigationMixin(LightningEle
                 this.accountLOB = this.caseRec.fields.Account.value.fields.Line_of_Business__c.value;
                 console.log('lobAcc ',this.caseRec.fields.Account.value.fields.Line_of_Business__c.value);
             }
-        
+            if(this.caseRec.fields.Account.value.fields.Business_Unit__c != null && this.caseRec.fields.Account.value.fields.Business_Unit__c != undefined){
+                this.accountBu = this.caseRec.fields.Account.value.fields.Business_Unit__c.value;
+            }
         }
     const inpArg = new Map();
     inpArg['accountLOB'] = this.accountLOB;
     inpArg['closeCaseWithoutCusButton'] = this.closeCaseWithoutCusButton;
-    inpArg['businessUnit'] = this.caseBu;
+    inpArg['businessUnit'] = this.accountBu;
     let strInpArg = JSON.stringify(inpArg);
         //call Apex method.
         if ((this.withoutAsset == 'false' && assetId != null)
