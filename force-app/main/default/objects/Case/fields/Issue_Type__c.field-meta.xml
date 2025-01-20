@@ -1535,9 +1535,9 @@
                 <label>NACH SKIP Related</label>
             </value>
             <value>
-                <fullName>Draw date changes  related</fullName>
+                <fullName>Draw date changes related</fullName>
                 <default>false</default>
-                <label>Draw date changes  related</label>
+                <label>Draw date changes related</label>
             </value>
             <value>
                 <fullName>NACH Dishonour charges related</fullName>
