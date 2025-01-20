@@ -167,4 +167,18 @@
             <roleAndSubordinates>ABHI_Service_Manager</roleAndSubordinates>
         </sharedFrom>
     </sharingOwnerRules>
+    <sharingCriteriaRules>
+        <fullName>ABCD_User_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>ABCD User Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ABCD_Lead</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Business_Unit__c</field>
+            <operation>equals</operation>
+            <value>ABCD</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>

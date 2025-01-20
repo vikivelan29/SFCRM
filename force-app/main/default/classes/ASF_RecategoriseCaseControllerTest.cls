@@ -63,11 +63,8 @@ public class ASF_RecategoriseCaseControllerTest {
         ast.Approved_Date__c = Date.newInstance(2023, 06, 10);
         ast.Approved_Limit__c = 200;
         ast.Branch_Code__c = 'AST';
-        ast.LAN__c = '123433'; // added new
         insert ast;
         
-        Lead leadobj = new Lead(LastName = 'test lead', firstname = 'first');
-        insert leadobj;
     }
 
     @IsTest
@@ -77,7 +74,7 @@ public class ASF_RecategoriseCaseControllerTest {
         ASF_Case_Category_Config__c config = [Select Id, CCC_External_Id__c from ASF_Case_Category_Config__c LIMIT 1];
         User userObj = [Select Id from User where Email='standarduser@testorg.com' LIMIT 1];
         System.runAs(userObj){
-            ASF_RecategoriseCaseController.getTypeSubTypeDataByCustomerType('CIBIL', '', 'false', 'Individual', config.CCC_External_Id__c, '');
+            ASF_RecategoriseCaseController.getTypeSubTypeDataByCustomerType('CIBIL', '', 'false', 'Individual', config.CCC_External_Id__c, '','');
         }
         Test.stopTest();
     }
@@ -100,13 +97,10 @@ public class ASF_RecategoriseCaseControllerTest {
         ASF_TestDataFactory.createCaseCategoryConfig();
         List<Case> casesList = ASF_TestDataFactory.createCaseRecordsWithoutInsertSTP();
         casesList[0].Technical_Source__c = 'LWC';
-        
         insert casesList;
-        Id accId = [select Id from account].Id; 
-        String assetId = [select id from asset limit 1].id+'';// added newly to increase code coverage
-        String leadId = [select id from lead limit 1].Id;// added newly to inceasecode coverage
+        Id accId = [select Id from account].Id;
         Test.startTest();
-        String jsonString = '{"apiName":"Case","fields":{"CCC_External_Id__c":"CCC-CC-CCLTD-01","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in","Is_send_Bot_Feedback":true,"AccountId":"'+String.valueOf(accId)+'","AssetId":"'+assetId+'","Lead__c":"'+leadId+'" }}';
+        String jsonString = '{"apiName":"Case","fields":{"CCC_External_Id__c":"CCC-CC-CCLTD-01","Nature__c":"Query","Source__c":"Branch","Channel__c":"Walk in","Is_send_Bot_Feedback":true,"AccountId":"'+String.valueOf(accId)+'"}}';
         ASF_RecategoriseCaseController.updateCaseWithNewCCCId(casesList[0].Id, casesList[0].CCC_External_Id__c, jsonString, '');
         Test.stopTest();
         
