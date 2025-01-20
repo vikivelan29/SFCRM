@@ -19,15 +19,15 @@
                 <behavior>Required</behavior>
                 <field>Location__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Alternate_SPOC__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>OwnerId</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Alternate_SPOC__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
