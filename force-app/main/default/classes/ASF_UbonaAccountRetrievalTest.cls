@@ -56,6 +56,7 @@ public class ASF_UbonaAccountRetrievalTest {
         String str_Accounts_2 = ASF_UbonaAccountRetrieval.getAccount('91234567890', 'ABHFL', null); 
         List<Account> accounts2 = (List<Account>)JSON.deserialize(str_Accounts_2, List<Account>.Class) ;
         System.assertEquals('Test FName Test LName',accounts2[0].Name, 'Success');
+        String str_Accounts_3 = ASF_UbonaAccountRetrieval.getAccount('91234567890', 'ABHI', null); 
     }
     
 }
