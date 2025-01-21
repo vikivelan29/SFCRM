@@ -118,7 +118,6 @@
 		<members>ABCD_Complaint_Creation_Email_ID</members>
 		<members>ABCD_Complaint_Creation_Email_Template</members>
 		<members>ABCD_ONEABC_BU</members>
-		<members>ABSLI_BITLY_LOB_VAL</members>
 		<members>ASF_SprinklrUpdateBUs</members>
 		<members>ONEABC_Acc_Error_ABCD_Customer</members>
 		<members>ONEABC_Acc_Error_LOB_Customer</members>
@@ -352,9 +351,5 @@
 		<members>ABCD_GetCustomerInfoMockResponse</members>
 		<name>StaticResource</name>
 	</types>-->
-	<types>
-		<members>BusinessHours</members>
-		<name>Settings</name>
-	</types>
 	<version>62.0</version>
 </Package>
