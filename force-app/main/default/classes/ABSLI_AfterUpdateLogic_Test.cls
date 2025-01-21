@@ -71,4 +71,6 @@ public class ABSLI_AfterUpdateLogic_Test {
             ABSLI_AfterUpdateLogic.changeOwnerOnAutoResolve(new List<Case> {caseRec}, caseRec1);
         }
     }
+ 
+       
 }
