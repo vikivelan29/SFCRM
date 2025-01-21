@@ -7,6 +7,7 @@
  *********************************************************/
 
 public with sharing class ABSLI_PIVCModernization {
+    /*
     public static string sendcase(Id caseId) {
         system.debug('Inside Send Case method'+caseId);
         String integrationName = ABCL_Integrations__mdt.getInstance('ABSLI_PIVC_Integration').DeveloperName; 
@@ -115,4 +116,5 @@ public with sharing class ABSLI_PIVCModernization {
         
         
     }
+	*/
 }

@@ -1,6 +1,7 @@
 //ABSLI_PIVCModernization_Test class 
 @isTest
 public class ABSLI_PIVCModernization_Test {
+    /*
     private class ABSLI_MockIntegrationCalloutError implements HttpCalloutMock {
         public HttpResponse respond(HttpRequest req) {
             HttpResponse res = new HttpResponse();
@@ -128,4 +129,5 @@ public class ABSLI_PIVCModernization_Test {
         ABSLI_PIVCModernization.sendcase(caseRec.Id);
         Test.stopTest();
     }    
+	*/
 }
