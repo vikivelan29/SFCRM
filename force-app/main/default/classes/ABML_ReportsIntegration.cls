@@ -5,6 +5,7 @@
 *@Created Date :  25-October-2024
 *@Last Modified:  25-November-2024
 *@description  :  Class for ABML SOA,SOT and Contract Note Report Integration
+//Added by ABML EY Team
 *********************************************************/
 @SuppressWarnings('PMD.CognitiveComplexity,PMD.CyclomaticComplexity,PMD.AvoidDeeplyNestedIfStmts')
 public with sharing class ABML_ReportsIntegration{
@@ -250,8 +251,12 @@ public with sharing class ABML_ReportsIntegration{
     
     @AuraEnabled(cacheable=true)
     public static date getAccountActiveDate(String clientCode){
-        Account activeDate = [Select Id,Client_Code__c, Active_Date__c from Account where Client_Code__c =:clientCode limit 1];
+        system.debug('clientCode is ::: '+clientCode);
+        Account activeDate = [Select Id,Client_Code__c, Active_Date__c from Account where Client_Code__c =:clientCode 
+                              And Business_Unit__c ='ABML' limit 1];
+        system.debug('activeDate 1 is ::: '+activeDate);
         if(activeDate.Active_Date__c!=null){
+            system.debug('activeDate 2 is ::: '+activeDate.Active_Date__c);
             return activeDate.Active_Date__c;
         }else{
             return null; 
