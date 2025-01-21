@@ -12,7 +12,7 @@
     <columns>Type_Text__c</columns>
     <columns>Sub_Type_Text__c</columns>
     <columns>CASES.STATUS</columns>
-    <columns>Overall_Case_Closure_SLA__c</columns>
+    <columns>Stage_SLA_1__c</columns>
     <columns>Assigned_Team__c</columns>
     <columns>Source__c</columns>
     <filterScope>Everything</filterScope>
@@ -49,5 +49,8 @@
         <group>ABML_Surveillance_G</group>
         <group>ABML_Trading_App_G</group>
         <group>ABML_Twitter_G</group>
+        <role>ABML_Director</role>
+        <role>ABML_Manager</role>
+        <role>ABML_Service_Agents</role>
     </sharedTo>
 </ListView>
